@@ -1,15 +1,18 @@
-// latest articles about Nuxt will be listed
+list of best articles by any tag that exist on DEV
 <template>
   <div class="page-wrapper"></div>
 </template>
 
-<script></script>
+<script>
+export default {
+  components: {},
+};
+</script>
 
 <style lang="scss" scoped>
 .page-wrapper {
   max-width: $screen-xl;
   margin: auto;
   padding: 1rem;
-  min-height: 100vh;
 }
 </style>

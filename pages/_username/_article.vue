@@ -1,15 +1,16 @@
-// latest articles about Nuxt will be listed
+// this is where article, author profile and comments will be rendered
 <template>
   <div class="page-wrapper"></div>
 </template>
 
-<script></script>
+<script>
+export default {};
+</script>
 
 <style lang="scss" scoped>
 .page-wrapper {
   max-width: $screen-xl;
   margin: auto;
   padding: 1rem;
-  min-height: 100vh;
 }
 </style>

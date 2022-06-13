@@ -1,4 +1,4 @@
-// latest articles about Nuxt will be listed
+// most popular articles for last year period.
 <template>
   <div class="page-wrapper"></div>
 </template>
