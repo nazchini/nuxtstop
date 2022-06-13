@@ -1,0 +1,311 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Laravel CI/CD Pipeline w/ Lasso and GitHub Actions</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Laravel CI/CD Pipeline w/ Lasso and GitHub Actions</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/laravel" class="tag" data-v-70afb46a>
+          #laravel
+        </a><a href="/nuxtstop/t/ci" class="tag" data-v-70afb46a>
+          #ci
+        </a><a href="/nuxtstop/t/cd" class="tag" data-v-70afb46a>
+          #cd
+        </a><a href="/nuxtstop/t/github" class="tag" data-v-70afb46a>
+          #github
+        </a></div> <!----> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            6
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Nov 15 '21</time></div></header> <div class="content" data-v-70afb46a><blockquote>
+<p>Last updated: November, 15th, 2021</p>
+</blockquote>
+
+<p>TL;DR: <a href="https://github.com/alexjustesen/lasso-ci-cd">Example Repository</a></p>
+
+<p>This guide will walk you though how I use GitHub Actions to create a CI/CD pipeline for <a href="https://laravel.com/">Laravel</a> applications. We'll use <a href="https://getlasso.dev/">Lasso</a> from Sam Carré to compile Webpack assets and upload them to a S3 storage provider and then trigger a deployment using the workflow.</p>
+
+<blockquote>
+<p>Warning: This article is very much a work-in-progress and in need of polishing my brain dump.</p>
+</blockquote>
+
+<h2>
+  <a name="getting-started" href="#getting-started">
+  </a>
+  Getting Started
+</h2>
+
+<h3>
+  <a name="what-is-cicd" href="#what-is-cicd">
+  </a>
+  What is CI/CD?
+</h3>
+
+<p>"CI/CD" is Continuous (Integeration or Iteration) / Continuous (Development, Delivery or Deployment) is a process of developing, testing and deploying your code. You'll also likely see this referred to as an "Agile Development Cycle".</p>
+
+<p>I recently answered a <a href="https://www.reddit.com/r/laravel/comments/j9fsa4/how_to_manage_and_maintain_laravel_application/g8kzlv1?utm_source=share&utm_medium=web2x&context=3">Reddit</a> thread which sparked this whole thing. If you're still unsure what CI/CD is I suggest doing some <a href="https://googlethatforyou.com/?q=what%20is%20ci%2Fcid">Googling</a>.</p>
+
+<h3>
+  <a name="assumptions" href="#assumptions">
+  </a>
+  Assumptions
+</h3>
+
+<p>Let's all get on the same page so we don't make a 🍑 out of you and me.</p>
+
+<ul>
+<li>You're using GitHub as your source code management (SCM) platform and/or want to use GitHub Actions.</li>
+<li>You're using Laravel and that you're familiar with Laravel's file system and in specific using the S3 driver.</li>
+<li>You compile your assets using Laravel Mix and they get published into the default /public directory.</li>
+</ul>
+
+<h3>
+  <a name="branching" href="#branching">
+  </a>
+  Branching
+</h3>
+
+<p>For this example we're going to use a pretty simple main, develop and feature branching model. Develop will be our default branch where all code is based from and main will be our production code.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--_iDVrHmh--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://wac-cdn.atlassian.com/dam/jcr:a9cea7b7-23c3-41a7-a4e0-affa053d9ea7/04%2520%281%29.svg%3FcdnVersion%3D1315" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--_iDVrHmh--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://wac-cdn.atlassian.com/dam/jcr:a9cea7b7-23c3-41a7-a4e0-affa053d9ea7/04%2520%281%29.svg%3FcdnVersion%3D1315" alt="Gitflow workflow" loading="lazy" width="800" height="514"></a></p>
+
+<blockquote>
+<p>Source: <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow</a></p>
+</blockquote>
+
+<h3>
+  <a name="process" href="#process">
+  </a>
+  Process
+</h3>
+
+<p>We're going to go into some detail but the overall summary of the CI/CD pipeline looks like this.</p>
+
+<ol>
+<li>Create a new branch off <code>develop</code> to do your work in.</li>
+<li>Create a pull request (PR) to bring those changes into the <code>develop</code> branch.</li>
+<li>On the creation of the PR into our <code>develop</code> branch run our builds and tests.</li>
+<li>When merged into <code>develop</code> run a workflow to compile and upload the assets to an S3 bucket using Lasso and deploy the code.</li>
+<li>Once you have enough code in <code>develop</code> for a release, open a PR into the <code>main</code> branch and we'll repeat steps 3 and 4 for production.</li>
+</ol>
+
+<h2>
+  <a name="configuring" href="#configuring">
+  </a>
+  Configuring
+</h2>
+
+<h3>
+  <a name="installing-dependencies" href="#installing-dependencies">
+  </a>
+  Installing Dependencies
+</h3>
+
+<p>First we need to require a couple of composer packages.</p>
+
+<ul>
+<li>Require Amazon S3 <code>composer require league/flysystem-aws-s3-v3 ~1.0</code>.</li>
+<li>Require Lasso <code>composer require sammyjo20/lasso</code>.</li>
+</ul>
+
+<h3>
+  <a name="configuring-laravel" href="#configuring-laravel">
+  </a>
+  Configuring Laravel
+</h3>
+
+<p>Next we need to update Laravel's .env file with additional S3 driver options and the Lasso environment. <a href="https://github.com/alexjustesen/lasso-ci-cd/blob/develop/.env.example">Example .env file</a></p>
+
+<ul>
+<li>Add <code>AWS_ENDPOINT=</code> <code>after AWS_BUCKET</code>.</li>
+<li>Add <code>LASSO_ENV=</code> after <code>APP_</code> variables.</li>
+</ul>
+
+<h3>
+  <a name="configuring-lasso" href="#configuring-lasso">
+  </a>
+  Configuring Lasso
+</h3>
+
+<p>Next let's get Lasso configured, for a full explaination of the settings go to the Lasso <a href="https://github.com/Sammyjo20/Lasso#configuration">readme</a>.</p>
+
+<ol>
+<li>Publish Lasso's config file <code>php artisan vendor:publish --tag=lasso-config</code>.</li>
+<li>In <code>config/lasso.php</code> change <code>'disk' => 'assets'</code> to <code>'disk' => 's3'</code> to use the S3 drivers.</li>
+<li>Optional, change <code>upload_to</code> if you plan on using the same bucket for multiple sites. You'll notice in this repository I've set it to <code>lasso_ci_cd/lasso</code>.</li>
+</ol>
+
+<h3>
+  <a name="configure-gitignore" href="#configure-gitignore">
+  </a>
+  Configure .gitignore
+</h3>
+
+<p>Since the whole point of this is to automate our deployments and no longer commit our assets to GitHub we need to update our .gitignore file as well.</p>
+
+<ul>
+<li>Add Lasso's temp directory <code>.lasso</code>.</li>
+<li>Add our public asset directories and any additional directories and files.
+
+<ul>
+<li>/public/css/*</li>
+<li>/public/img/*</li>
+<li>/public/js/*</li>
+<li>/public/favicon.ico</li>
+<li>/public/mix-manifest.json</li>
+</ul>
+
+
+</li>
+</ul>
+
+<h2>
+  <a name="github-actions" href="#github-actions">
+  </a>
+  GitHub Actions
+</h2>
+
+<p>To get us started we're going to create and run two workflows, one to do our testing (CI) and one to do our deploying (CD).</p>
+
+<h3>
+  <a name="continuous-improvement-workflow-test" href="#continuous-improvement-workflow-test">
+  </a>
+  Continuous Improvement Workflow (Test)
+</h3>
+
+<p>The goal of this workflow is to run our build and tests when a PR is opened and when any changes are made to code where a PR is already open.</p>
+
+<h4>
+  <a name="workflow-additions" href="#workflow-additions">
+  </a>
+  Workflow Additions
+</h4>
+
+<p>We're only going to add one section here to make sure our NPM dependencies install and package correctly. After the <code>Copy .env</code> step add the <code>Install npm dependencies and package</code> step to your workflow.</p>
+
+<blockquote>
+<p>This workflow can be found here: <a href="https://github.com/alexjustesen/lasso-ci-cd/blob/develop/.github/workflows/test.yml">test.yml</a></p>
+</blockquote>
+
+<h3>
+  <a name="continuous-deployment-workflow-deploy" href="#continuous-deployment-workflow-deploy">
+  </a>
+  Continuous Deployment Workflow (Deploy)
+</h3>
+
+<p>The goal of this workflow is to run when a PR is merged into develop or mail, run our tests, compile and upload assets with Lasso and finally deploy the code.</p>
+
+<blockquote>
+<p>This workflow can be found here: <a href="https://github.com/alexjustesen/lasso-ci-cd/blob/develop/.github/workflows/deploy.yml">deploy.yml</a></p>
+</blockquote>
+
+<h4>
+  <a name="using-secrets" href="#using-secrets">
+  </a>
+  Using Secrets
+</h4>
+
+<blockquote>
+<p>Important: Never hard code passwords or tokens into your code, use secrets.</p>
+</blockquote>
+
+<p>Before we can use secrets in our workflow we need to create them in the repository. Go to Settings -> Secrets in your repository and add the following variables.</p>
+
+<div class="table-wrapper-paragraph"><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AWS_ACCESS_KEY_ID</td>
+<td>The public key to your account or API user.</td>
+</tr>
+<tr>
+<td>AWS_SECRET_ACCESS_KEY</td>
+<td>The secret key to your account or API user.</td>
+</tr>
+<tr>
+<td>AWS_DEFAULT_REGION</td>
+<td>The default region where you bucket resides.</td>
+</tr>
+<tr>
+<td>AWS_BUCKET</td>
+<td>The bucket's name.</td>
+</tr>
+<tr>
+<td>AWS_ENDPOINT</td>
+<td>The endpoint should be a fully qualified domain name including the protocol (https://).</td>
+</tr>
+</tbody>
+</table></div>
+
+<blockquote>
+<p>Note: You can use any s3 compliant API service, I use Backblaze's B2 service because it's cheaper than AWS.</p>
+</blockquote>
+
+<p>In addition to the changes we made to test our NPM dependencies we'll add additional steps to complete the process.</p>
+
+<p>We're going to add a new step to compile and upload our assets to our S3 bucket and we'll call it <code>Publish assets with Lasso</code>. </p>
+
+<h2>
+  <a name="deployment" href="#deployment">
+  </a>
+  Deployment
+</h2>
+
+<p>Lastly you need to add <code>php artisan lasso:pull</code> to your deployment script, I suggest doing this prior to clearing or filling any caches.</p>
+
+<p>Almost forgot, don't forget to update your S3 variables in your <code>.env</code> file.</p>
+
+<p>Well, that's pretty much it. At this point you should be up and running, should you have an issues getting this setup comment below or reach out on <a href="https://twitter.com/alexjustesen">Twitter</a>.</p>
+
+<h3>
+  <a name="bonus" href="#bonus">
+  </a>
+  Bonus
+</h3>
+
+<p>I use <a href="https://ploi.io/register?referrer=Q6l9H3OiyYW58yEcwjy8">Ploi.io</a> (referral link) and Forge to host my Laravel applications.</p>
+
+<p>The steps called <code>Trigger develop deployment</code> and <code>Trigger production deployment</code> in <code>deploy.yml</code> deploy to different environments based on branch name.</p>
+
+<div class="table-wrapper-paragraph"><table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Branch / Environment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DEVELOP_WEBHOOK</td>
+<td>develop/develop</td>
+</tr>
+<tr>
+<td>PROD_WEBHOOK</td>
+<td>main/production</td>
+</tr>
+</tbody>
+</table></div>
+
+<p>This pattern allows me to deploy code from my <code>develop</code> branch to my preview environment and code from my <code>main</code> branch to my production environment.</p>
+
+<h2>
+  <a name="disclaimer" href="#disclaimer">
+  </a>
+  Disclaimer
+</h2>
+
+<p>Testing and deployment pipelines have many forms, each is specific to the needs of the project and <strong>should evolve over time</strong>. This is just one way of doing it, find the process that works for you. </p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/alexjustesen/laravel-cicd-pipeline-w-lasso-and-github-actions-53gm" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(e,o,n,t,a){return t.type_of="article",t.id=899041,t.title="Laravel CI/CD Pipeline w/ Lasso and GitHub Actions",t.description="Last updated: November, 15th, 2021   TL;DR: Example Repository  This guide will walk you though how...",t.readable_publish_date="Nov 15 '21",t.slug="laravel-cicd-pipeline-w-lasso-and-github-actions-53gm",t.path="/alexjustesen/laravel-cicd-pipeline-w-lasso-and-github-actions-53gm",t.url=a,t.comments_count=0,t.public_reactions_count=6,t.collection_id=e,t.published_timestamp=o,t.positive_reactions_count=6,t.cover_image=e,t.social_image="https://dev.to/social_previews/article/899041.png",t.canonical_url=a,t.created_at=o,t.edited_at="2021-11-15T17:51:56Z",t.crossposted_at=e,t.published_at=o,t.last_comment_at=o,t.reading_time_minutes=5,t.tag_list="laravel, ci, cd, github",t.tags=["laravel","ci","cd","github"],t.body_html='<blockquote>\n<p>Last updated: November, 15th, 2021</p>\n</blockquote>\n\n<p>TL;DR: <a href="https://github.com/alexjustesen/lasso-ci-cd">Example Repository</a></p>\n\n<p>This guide will walk you though how I use GitHub Actions to create a CI/CD pipeline for <a href="https://laravel.com/">Laravel</a> applications. We\'ll use <a href="https://getlasso.dev/">Lasso</a> from Sam Carré to compile Webpack assets and upload them to a S3 storage provider and then trigger a deployment using the workflow.</p>\n\n<blockquote>\n<p>Warning: This article is very much a work-in-progress and in need of polishing my brain dump.</p>\n</blockquote>\n\n<h2>\n  <a name="getting-started" href="#getting-started">\n  </a>\n  Getting Started\n</h2>\n\n<h3>\n  <a name="what-is-cicd" href="#what-is-cicd">\n  </a>\n  What is CI/CD?\n</h3>\n\n<p>"CI/CD" is Continuous (Integeration or Iteration) / Continuous (Development, Delivery or Deployment) is a process of developing, testing and deploying your code. You\'ll also likely see this referred to as an "Agile Development Cycle".</p>\n\n<p>I recently answered a <a href="https://www.reddit.com/r/laravel/comments/j9fsa4/how_to_manage_and_maintain_laravel_application/g8kzlv1?utm_source=share&amp;utm_medium=web2x&amp;context=3">Reddit</a> thread which sparked this whole thing. If you\'re still unsure what CI/CD is I suggest doing some <a href="https://googlethatforyou.com/?q=what%20is%20ci%2Fcid">Googling</a>.</p>\n\n<h3>\n  <a name="assumptions" href="#assumptions">\n  </a>\n  Assumptions\n</h3>\n\n<p>Let\'s all get on the same page so we don\'t make a 🍑 out of you and me.</p>\n\n<ul>\n<li>You\'re using GitHub as your source code management (SCM) platform and/or want to use GitHub Actions.</li>\n<li>You\'re using Laravel and that you\'re familiar with Laravel\'s file system and in specific using the S3 driver.</li>\n<li>You compile your assets using Laravel Mix and they get published into the default /public directory.</li>\n</ul>\n\n<h3>\n  <a name="branching" href="#branching">\n  </a>\n  Branching\n</h3>\n\n<p>For this example we\'re going to use a pretty simple main, develop and feature branching model. Develop will be our default branch where all code is based from and main will be our production code.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--_iDVrHmh--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://wac-cdn.atlassian.com/dam/jcr:a9cea7b7-23c3-41a7-a4e0-affa053d9ea7/04%2520%281%29.svg%3FcdnVersion%3D1315" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--_iDVrHmh--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://wac-cdn.atlassian.com/dam/jcr:a9cea7b7-23c3-41a7-a4e0-affa053d9ea7/04%2520%281%29.svg%3FcdnVersion%3D1315" alt="Gitflow workflow" loading="lazy" width="800" height="514"></a></p>\n\n<blockquote>\n<p>Source: <a href="https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow">https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow</a></p>\n</blockquote>\n\n<h3>\n  <a name="process" href="#process">\n  </a>\n  Process\n</h3>\n\n<p>We\'re going to go into some detail but the overall summary of the CI/CD pipeline looks like this.</p>\n\n<ol>\n<li>Create a new branch off <code>develop</code> to do your work in.</li>\n<li>Create a pull request (PR) to bring those changes into the <code>develop</code> branch.</li>\n<li>On the creation of the PR into our <code>develop</code> branch run our builds and tests.</li>\n<li>When merged into <code>develop</code> run a workflow to compile and upload the assets to an S3 bucket using Lasso and deploy the code.</li>\n<li>Once you have enough code in <code>develop</code> for a release, open a PR into the <code>main</code> branch and we\'ll repeat steps 3 and 4 for production.</li>\n</ol>\n\n<h2>\n  <a name="configuring" href="#configuring">\n  </a>\n  Configuring\n</h2>\n\n<h3>\n  <a name="installing-dependencies" href="#installing-dependencies">\n  </a>\n  Installing Dependencies\n</h3>\n\n<p>First we need to require a couple of composer packages.</p>\n\n<ul>\n<li>Require Amazon S3 <code>composer require league/flysystem-aws-s3-v3 ~1.0</code>.</li>\n<li>Require Lasso <code>composer require sammyjo20/lasso</code>.</li>\n</ul>\n\n<h3>\n  <a name="configuring-laravel" href="#configuring-laravel">\n  </a>\n  Configuring Laravel\n</h3>\n\n<p>Next we need to update Laravel\'s .env file with additional S3 driver options and the Lasso environment. <a href="https://github.com/alexjustesen/lasso-ci-cd/blob/develop/.env.example">Example .env file</a></p>\n\n<ul>\n<li>Add <code>AWS_ENDPOINT=</code> <code>after AWS_BUCKET</code>.</li>\n<li>Add <code>LASSO_ENV=</code> after <code>APP_</code> variables.</li>\n</ul>\n\n<h3>\n  <a name="configuring-lasso" href="#configuring-lasso">\n  </a>\n  Configuring Lasso\n</h3>\n\n<p>Next let\'s get Lasso configured, for a full explaination of the settings go to the Lasso <a href="https://github.com/Sammyjo20/Lasso#configuration">readme</a>.</p>\n\n<ol>\n<li>Publish Lasso\'s config file <code>php artisan vendor:publish --tag=lasso-config</code>.</li>\n<li>In <code>config/lasso.php</code> change <code>\'disk\' =&gt; \'assets\'</code> to <code>\'disk\' =&gt; \'s3\'</code> to use the S3 drivers.</li>\n<li>Optional, change <code>upload_to</code> if you plan on using the same bucket for multiple sites. You\'ll notice in this repository I\'ve set it to <code>lasso_ci_cd/lasso</code>.</li>\n</ol>\n\n<h3>\n  <a name="configure-gitignore" href="#configure-gitignore">\n  </a>\n  Configure .gitignore\n</h3>\n\n<p>Since the whole point of this is to automate our deployments and no longer commit our assets to GitHub we need to update our .gitignore file as well.</p>\n\n<ul>\n<li>Add Lasso\'s temp directory <code>.lasso</code>.</li>\n<li>Add our public asset directories and any additional directories and files.\n\n<ul>\n<li>/public/css/*</li>\n<li>/public/img/*</li>\n<li>/public/js/*</li>\n<li>/public/favicon.ico</li>\n<li>/public/mix-manifest.json</li>\n</ul>\n\n\n</li>\n</ul>\n\n<h2>\n  <a name="github-actions" href="#github-actions">\n  </a>\n  GitHub Actions\n</h2>\n\n<p>To get us started we\'re going to create and run two workflows, one to do our testing (CI) and one to do our deploying (CD).</p>\n\n<h3>\n  <a name="continuous-improvement-workflow-test" href="#continuous-improvement-workflow-test">\n  </a>\n  Continuous Improvement Workflow (Test)\n</h3>\n\n<p>The goal of this workflow is to run our build and tests when a PR is opened and when any changes are made to code where a PR is already open.</p>\n\n<h4>\n  <a name="workflow-additions" href="#workflow-additions">\n  </a>\n  Workflow Additions\n</h4>\n\n<p>We\'re only going to add one section here to make sure our NPM dependencies install and package correctly. After the <code>Copy .env</code> step add the <code>Install npm dependencies and package</code> step to your workflow.</p>\n\n<blockquote>\n<p>This workflow can be found here: <a href="https://github.com/alexjustesen/lasso-ci-cd/blob/develop/.github/workflows/test.yml">test.yml</a></p>\n</blockquote>\n\n<h3>\n  <a name="continuous-deployment-workflow-deploy" href="#continuous-deployment-workflow-deploy">\n  </a>\n  Continuous Deployment Workflow (Deploy)\n</h3>\n\n<p>The goal of this workflow is to run when a PR is merged into develop or mail, run our tests, compile and upload assets with Lasso and finally deploy the code.</p>\n\n<blockquote>\n<p>This workflow can be found here: <a href="https://github.com/alexjustesen/lasso-ci-cd/blob/develop/.github/workflows/deploy.yml">deploy.yml</a></p>\n</blockquote>\n\n<h4>\n  <a name="using-secrets" href="#using-secrets">\n  </a>\n  Using Secrets\n</h4>\n\n<blockquote>\n<p>Important: Never hard code passwords or tokens into your code, use secrets.</p>\n</blockquote>\n\n<p>Before we can use secrets in our workflow we need to create them in the repository. Go to Settings -&gt; Secrets in your repository and add the following variables.</p>\n\n<div class="table-wrapper-paragraph"><table>\n<thead>\n<tr>\n<th>Name</th>\n<th>Value</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>AWS_ACCESS_KEY_ID</td>\n<td>The public key to your account or API user.</td>\n</tr>\n<tr>\n<td>AWS_SECRET_ACCESS_KEY</td>\n<td>The secret key to your account or API user.</td>\n</tr>\n<tr>\n<td>AWS_DEFAULT_REGION</td>\n<td>The default region where you bucket resides.</td>\n</tr>\n<tr>\n<td>AWS_BUCKET</td>\n<td>The bucket\'s name.</td>\n</tr>\n<tr>\n<td>AWS_ENDPOINT</td>\n<td>The endpoint should be a fully qualified domain name including the protocol (https://).</td>\n</tr>\n</tbody>\n</table></div>\n\n<blockquote>\n<p>Note: You can use any s3 compliant API service, I use Backblaze\'s B2 service because it\'s cheaper than AWS.</p>\n</blockquote>\n\n<p>In addition to the changes we made to test our NPM dependencies we\'ll add additional steps to complete the process.</p>\n\n<p>We\'re going to add a new step to compile and upload our assets to our S3 bucket and we\'ll call it <code>Publish assets with Lasso</code>. </p>\n\n<h2>\n  <a name="deployment" href="#deployment">\n  </a>\n  Deployment\n</h2>\n\n<p>Lastly you need to add <code>php artisan lasso:pull</code> to your deployment script, I suggest doing this prior to clearing or filling any caches.</p>\n\n<p>Almost forgot, don\'t forget to update your S3 variables in your <code>.env</code> file.</p>\n\n<p>Well, that\'s pretty much it. At this point you should be up and running, should you have an issues getting this setup comment below or reach out on <a href="https://twitter.com/alexjustesen">Twitter</a>.</p>\n\n<h3>\n  <a name="bonus" href="#bonus">\n  </a>\n  Bonus\n</h3>\n\n<p>I use <a href="https://ploi.io/register?referrer=Q6l9H3OiyYW58yEcwjy8">Ploi.io</a> (referral link) and Forge to host my Laravel applications.</p>\n\n<p>The steps called <code>Trigger develop deployment</code> and <code>Trigger production deployment</code> in <code>deploy.yml</code> deploy to different environments based on branch name.</p>\n\n<div class="table-wrapper-paragraph"><table>\n<thead>\n<tr>\n<th>Name</th>\n<th>Branch / Environment</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>DEVELOP_WEBHOOK</td>\n<td>develop/develop</td>\n</tr>\n<tr>\n<td>PROD_WEBHOOK</td>\n<td>main/production</td>\n</tr>\n</tbody>\n</table></div>\n\n<p>This pattern allows me to deploy code from my <code>develop</code> branch to my preview environment and code from my <code>main</code> branch to my production environment.</p>\n\n<h2>\n  <a name="disclaimer" href="#disclaimer">\n  </a>\n  Disclaimer\n</h2>\n\n<p>Testing and deployment pipelines have many forms, each is specific to the needs of the project and <strong>should evolve over time</strong>. This is just one way of doing it, find the process that works for you. </p>\n\n',t.body_markdown="> Last updated: November, 15th, 2021\n\nTL;DR: [Example Repository](https://github.com/alexjustesen/lasso-ci-cd)\n\nThis guide will walk you though how I use GitHub Actions to create a CI/CD pipeline for [Laravel](https://laravel.com/) applications. We'll use [Lasso](https://getlasso.dev/) from Sam Carré to compile Webpack assets and upload them to a S3 storage provider and then trigger a deployment using the workflow.\n\n> Warning: This article is very much a work-in-progress and in need of polishing my brain dump.\n\n## Getting Started\n\n### What is CI/CD?\n\"CI/CD\" is Continuous (Integeration or Iteration) / Continuous (Development, Delivery or Deployment) is a process of developing, testing and deploying your code. You'll also likely see this referred to as an \"Agile Development Cycle\".\n\nI recently answered a [Reddit](https://www.reddit.com/r/laravel/comments/j9fsa4/how_to_manage_and_maintain_laravel_application/g8kzlv1?utm_source=share&utm_medium=web2x&context=3) thread which sparked this whole thing. If you're still unsure what CI/CD is I suggest doing some [Googling](https://googlethatforyou.com/?q=what%20is%20ci%2Fcid).\n\n### Assumptions\nLet's all get on the same page so we don't make a 🍑 out of you and me.\n\n- You're using GitHub as your source code management (SCM) platform and/or want to use GitHub Actions.\n- You're using Laravel and that you're familiar with Laravel's file system and in specific using the S3 driver.\n- You compile your assets using Laravel Mix and they get published into the default /public directory.\n\n### Branching\nFor this example we're going to use a pretty simple main, develop and feature branching model. Develop will be our default branch where all code is based from and main will be our production code.\n\n![Gitflow workflow](https://wac-cdn.atlassian.com/dam/jcr:a9cea7b7-23c3-41a7-a4e0-affa053d9ea7/04%20(1).svg?cdnVersion=1315)\n> Source: [https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)\n\n### Process\nWe're going to go into some detail but the overall summary of the CI/CD pipeline looks like this.\n\n1. Create a new branch off `develop` to do your work in.\n2. Create a pull request (PR) to bring those changes into the `develop` branch.\n3. On the creation of the PR into our `develop` branch run our builds and tests.\n4. When merged into `develop` run a workflow to compile and upload the assets to an S3 bucket using Lasso and deploy the code.\n5. Once you have enough code in `develop` for a release, open a PR into the `main` branch and we'll repeat steps 3 and 4 for production.\n\n## Configuring\n\n### Installing Dependencies\nFirst we need to require a couple of composer packages.\n\n- Require Amazon S3 `composer require league/flysystem-aws-s3-v3 ~1.0`.\n- Require Lasso `composer require sammyjo20/lasso`.\n\n### Configuring Laravel\nNext we need to update Laravel's .env file with additional S3 driver options and the Lasso environment. [Example .env file](https://github.com/alexjustesen/lasso-ci-cd/blob/develop/.env.example)\n\n- Add `AWS_ENDPOINT=` `after AWS_BUCKET`.\n- Add `LASSO_ENV=` after `APP_` variables.\n\n### Configuring Lasso\nNext let's get Lasso configured, for a full explaination of the settings go to the Lasso [readme](https://github.com/Sammyjo20/Lasso#configuration).\n\n1. Publish Lasso's config file `php artisan vendor:publish --tag=lasso-config`.\n2. In `config/lasso.php` change `'disk' => 'assets'` to `'disk' => 's3'` to use the S3 drivers.\n3. Optional, change `upload_to` if you plan on using the same bucket for multiple sites. You'll notice in this repository I've set it to `lasso_ci_cd/lasso`.\n\n### Configure .gitignore\nSince the whole point of this is to automate our deployments and no longer commit our assets to GitHub we need to update our .gitignore file as well.\n\n- Add Lasso's temp directory `.lasso`.\n- Add our public asset directories and any additional directories and files.\n    - /public/css/*\n    - /public/img/*\n    - /public/js/*\n    - /public/favicon.ico\n    - /public/mix-manifest.json\n\n## GitHub Actions\n\nTo get us started we're going to create and run two workflows, one to do our testing (CI) and one to do our deploying (CD).\n\n### Continuous Improvement Workflow (Test)\n\nThe goal of this workflow is to run our build and tests when a PR is opened and when any changes are made to code where a PR is already open.\n\n#### Workflow Additions\n\nWe're only going to add one section here to make sure our NPM dependencies install and package correctly. After the `Copy .env` step add the `Install npm dependencies and package` step to your workflow.\n\n> This workflow can be found here: [test.yml](https://github.com/alexjustesen/lasso-ci-cd/blob/develop/.github/workflows/test.yml)\n\n### Continuous Deployment Workflow (Deploy)\n\nThe goal of this workflow is to run when a PR is merged into develop or mail, run our tests, compile and upload assets with Lasso and finally deploy the code.\n\n> This workflow can be found here: [deploy.yml](https://github.com/alexjustesen/lasso-ci-cd/blob/develop/.github/workflows/deploy.yml)\n\n#### Using Secrets\n\n> Important: Never hard code passwords or tokens into your code, use secrets.\n\nBefore we can use secrets in our workflow we need to create them in the repository. Go to Settings -> Secrets in your repository and add the following variables.\n\n| Name | Value |\n| --- | --- |\n| AWS_ACCESS_KEY_ID | The public key to your account or API user. |\n| AWS_SECRET_ACCESS_KEY | The secret key to your account or API user. |\n| AWS_DEFAULT_REGION | The default region where you bucket resides. |\n| AWS_BUCKET | The bucket's name. |\n| AWS_ENDPOINT | The endpoint should be a fully qualified domain name including the protocol (https://). |\n\n> Note: You can use any s3 compliant API service, I use Backblaze's B2 service because it's cheaper than AWS.\n\nIn addition to the changes we made to test our NPM dependencies we'll add additional steps to complete the process.\n\nWe're going to add a new step to compile and upload our assets to our S3 bucket and we'll call it `Publish assets with Lasso`. \n\n## Deployment\n\nLastly you need to add `php artisan lasso:pull` to your deployment script, I suggest doing this prior to clearing or filling any caches.\n\nAlmost forgot, don't forget to update your S3 variables in your `.env` file.\n\nWell, that's pretty much it. At this point you should be up and running, should you have an issues getting this setup comment below or reach out on [Twitter](https://twitter.com/alexjustesen).\n\n### Bonus\n\nI use [Ploi.io](https://ploi.io/register?referrer=Q6l9H3OiyYW58yEcwjy8) (referral link) and Forge to host my Laravel applications.\n\nThe steps called `Trigger develop deployment` and `Trigger production deployment` in `deploy.yml` deploy to different environments based on branch name.\n\n| Name | Branch / Environment |\n| --- | --- |\n| DEVELOP_WEBHOOK | develop/develop |\n| PROD_WEBHOOK | main/production |\n\nThis pattern allows me to deploy code from my `develop` branch to my preview environment and code from my `main` branch to my production environment.\n\n## Disclaimer\nTesting and deployment pipelines have many forms, each is specific to the needs of the project and **should evolve over time**. This is just one way of doing it, find the process that works for you. ",t.user={name:"Alex Justesen",username:n,twitter_username:n,github_username:n,website_url:"https://alexjustesen.com",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--Rjg0T0BP--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/753841/471f9713-a5a7-48ca-bae4-3eb152874617.jpeg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--YbEoU2ZY--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/753841/471f9713-a5a7-48ca-bae4-3eb152874617.jpeg"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:t}},error:e,state:{currentArticle:t},serverRendered:!0,routePath:"/alexjustesen/899041",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:e}}}}(null,"2021-11-15T17:50:00Z","alexjustesen",{},"https://dev.to/alexjustesen/laravel-cicd-pipeline-w-lasso-and-github-actions-53gm")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

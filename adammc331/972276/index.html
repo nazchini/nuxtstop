@@ -1,0 +1,622 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>The Imposter's Guide To Dependency Injection</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>The Imposter's Guide To Dependency Injection</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/android" class="tag" data-v-70afb46a>
+          #android
+        </a><a href="/nuxtstop/t/dependencyinjection" class="tag" data-v-70afb46a>
+          #dependencyinjection
+        </a><a href="/nuxtstop/t/kotlin" class="tag" data-v-70afb46a>
+          #kotlin
+        </a></div> <!----> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            67
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Jan 30</time></div></header> <div class="content" data-v-70afb46a><p>Dependency Injection is one of the hottest topics in Android and software development in general. It's also a topic that can provide a lot of anxiety and create imposter syndrome for developers. </p>
+
+<p>In this post, we'll take incremental steps toward understanding DI, why we need it, and how to implement it inside our applications.</p>
+
+
+<hr>
+
+<p>If interested, you can find this content in video form on YouTube:</p>
+
+<p><iframe width="710" height="399" src="https://www.youtube.com/embed/Nr_njiLsjcM" allowfullscreen loading="lazy">
+</iframe>
+</p>
+
+<p>It's also been published on <a href="https://androidessence.com/the-imposter-guide-to-dependency-injection">Android Essence</a>. </p>
+
+
+<hr>
+
+<h1>
+  <a name="code-without-dependency-injection" href="#code-without-dependency-injection">
+  </a>
+  Code Without Dependency Injection
+</h1>
+
+<p>To start, let's review problems we might face if we write code without dependency injection. Consider the following code, where we have a ProfileViewModel class, and we want to track an event every time the user views a profile. This way we can see how common the screen is compared to others.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">ProfileViewModel</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="k">fun</span> <span class="nf">onProfileLoaded</span><span class="p">()</span> <span class="p">{</span>
+        <span class="nc">Firebase</span><span class="p">.</span><span class="n">analytics</span><span class="p">.</span><span class="nf">logEvent</span><span class="p">(</span><span class="s">"viewed_profile"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This code doesn't look like it causes any problems at first glance. In fact, if you look at the documentation for Firebase Analytics and similar tools, it will suggest writing code like this. So don't be ashamed if your codebase looks something like this. For code like this, there are two specific problems I'd lke to highlight: </p>
+
+<ol>
+<li>Our code relies so heavily on Firebase Analytics, that if we wanted to change to another vendor we'd have to update every ViewModel in the application. </li>
+<li>We will have difficulty writing tests for this piece of code. </li>
+</ol>
+
+<h1>
+  <a name="testing-difficulties" href="#testing-difficulties">
+  </a>
+  Testing Difficulties
+</h1>
+
+<p>A good unit test to write for this piece of code is one that verifies when <code>onProfileLoaded</code> is called, that we also track the correct analytics event. If we start writing this test, though, we'll recognize a problem very quickly. How can we verify a call was made to Firebase?<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">ProfileViewModelTest</span> <span class="p">{</span>
+
+    <span class="nd">@Test</span>
+    <span class="k">fun</span> <span class="nf">verifyEventTracked</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">val</span> <span class="py">viewModel</span> <span class="p">=</span> <span class="nc">ProfileViewModel</span><span class="p">()</span>
+        <span class="n">viewModel</span><span class="p">.</span><span class="nf">onProfileLoaded</span><span class="p">()</span>
+
+        <span class="c1">// No Ability To Verify Event Tracked</span>
+    <span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Not only that, this particular test will just crash. We'll get a RuntimeException that our main looper is not mocked, because of some work that's happening inside the Firebase Analytics library:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>Caused by: java.lang.RuntimeException: Method getMainLooper in android.os.Looper not mocked.
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h1>
+  <a name="dependency-injection" href="#dependency-injection">
+  </a>
+  Dependency Injection
+</h1>
+
+<p>Our code has a <em>dependency</em> on Firebase Analytics. We can help solve this testing problem by <em>injecting</em> it to the constructor:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">ProfileViewModel</span><span class="p">(</span>
+    <span class="k">private</span> <span class="kd">val</span> <span class="py">analytics</span><span class="p">:</span> <span class="nc">FirebaseAnalytics</span> <span class="p">=</span> <span class="nc">Firebase</span><span class="p">.</span><span class="n">analytics</span><span class="p">,</span>
+<span class="p">)</span> <span class="p">{</span>
+
+    <span class="k">fun</span> <span class="nf">onProfileLoaded</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">analytics</span><span class="p">.</span><span class="nf">logEvent</span><span class="p">(</span><span class="s">"viewed_profile"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This approach is often referred to as "Constructor Injection", where dependencies are supplied via the constructor of a class. This is the core concept of dependency injection. Kelly Shuster summed it up well in her Tweet:</p>
+
+
+<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/kellyshuster/status/1020363593060093952">
+
+  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/kellyshuster/status/1020363593060093952">
+    <div class="ltag__twitter-tweet__header">
+      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--zKldisnZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/1000138534097829888/MoUbKXfh_normal.jpg" alt="Kelly Shuster 🇺🇲 💙 profile image" loading="lazy">
+      <div class="ltag__twitter-tweet__full-name">
+        Kelly Shuster 🇺🇲 💙
+      </div>
+      <div class="ltag__twitter-tweet__username">
+        @kellyshuster
+      </div>
+      <div class="ltag__twitter-tweet__twitter-logo">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">
+      </div>
+    </div>
+    <div class="ltag__twitter-tweet__body">
+      Ok internet I've got a question for you: why is it called Dependency Injection and not just passing stuff in? 🤔 <a href="https://twitter.com/hashtag/AndroidDev">#AndroidDev</a>
+    </div>
+    <div class="ltag__twitter-tweet__date">
+      17:43 PM - 20 Jul 2018
+    </div>
+
+
+    <div class="ltag__twitter-tweet__actions">
+      <a href="https://twitter.com/intent/tweet?in_reply_to=1020363593060093952" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/retweet?tweet_id=1020363593060093952" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/like?tweet_id=1020363593060093952" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">
+      </a>
+    </div>
+  </div>
+</blockquote>
+
+
+<p>DI has a complicated name for a concept that can be reduced down to "passing stuff in." </p>
+
+<h1>
+  <a name="updating-our-test" href="#updating-our-test">
+  </a>
+  Updating Our Test
+</h1>
+
+<p>Now that we have a way to supply our dependency, we can update our test accordingly to provide a fake implementation of Firebase Analytics, that we can then use to verify the proper event was tracked:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">ProfileViewModelTest</span> <span class="p">{</span>
+
+    <span class="nd">@Test</span>
+    <span class="k">fun</span> <span class="nf">verifyEventTracked</span><span class="p">()</span> <span class="p">{</span>
+        <span class="kd">val</span> <span class="py">mockAnalytics</span> <span class="p">=</span> <span class="nc">FakeFirebaseAnalytics</span><span class="p">()</span>
+        <span class="kd">val</span> <span class="py">viewModel</span> <span class="p">=</span> <span class="nc">ProfileViewModel</span><span class="p">(</span><span class="n">mockAnalytics</span><span class="p">)</span>
+        <span class="n">viewModel</span><span class="p">.</span><span class="nf">onProfileLoaded</span><span class="p">()</span>
+
+        <span class="n">mockAnalytics</span><span class="p">.</span><span class="nf">verifyEventLogged</span><span class="p">(</span><span class="s">"viewed_profile"</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>However, when we do something like this we should be considering the other problem discussed earlier. Despite injecting this dependency, we still have a strong reliance on Firebase Analytics. We should avoid this, so we can support the ability to provide a different analytics service in the future.</p>
+
+<h1>
+  <a name="wrapping-dependencies" href="#wrapping-dependencies">
+  </a>
+  Wrapping Dependencies
+</h1>
+
+<p>We could create our own interface that defines an AnalyticsTracker, and a Firebase implementation of it. In the future, we can create other implementations for other services.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">interface</span> <span class="nc">AnalyticsTracker</span> <span class="p">{</span>
+    <span class="k">fun</span> <span class="nf">trackEvent</span><span class="p">(</span><span class="n">eventName</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="kd">class</span> <span class="nc">FirebaseAnalyticsTracker</span> <span class="p">:</span> <span class="nc">AnalyticsTracker</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">trackEvent</span><span class="p">(</span><span class="n">eventName</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nc">Firebase</span><span class="p">.</span><span class="n">analytics</span><span class="p">.</span><span class="nf">logEvent</span><span class="p">(</span><span class="n">eventName</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now we can have our ViewModel depend on this interface instead:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">ProfileViewModel</span><span class="p">(</span>
+    <span class="k">private</span> <span class="kd">val</span> <span class="py">analytics</span><span class="p">:</span> <span class="nc">AnalyticsTracker</span> <span class="p">=</span> <span class="nc">FirebaseAnalyticsTracker</span><span class="p">(),</span>
+<span class="p">)</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Up until this point in the blog post, you've gained an understanding of the core concept of dependency injection, why we need it, and how to implement it for a given class. Having said that, let's address a new question:</p>
+
+<blockquote>
+<p>Why does dependency injection seem so much more complicated than passing stuff in?</p>
+</blockquote>
+
+<p>There are a few advanced topics of dependency injection, starting with the idea of sharing dependencies. We can continue with our analytics tracking example. Analytics are everywhere, so we want to be able to provide one instance of an analytics tracker to be used by each screen. We also want to create a setup so that we can make one change to have every screen updated accordingly. </p>
+
+<h1>
+  <a name="dependency-injection-recipe" href="#dependency-injection-recipe">
+  </a>
+  Dependency Injection Recipe
+</h1>
+
+<p>To achieve this goal, we can follow three steps.</p>
+
+<ol>
+<li>Create a container to hold the dependencies used in our application.</li>
+<li>Modify our <code>Application</code> class to be the host of those dependencies.</li>
+<li>Update our individual screens to request those dependencies. </li>
+</ol>
+
+<p>To implement the first step, we can create a class called <code>AppDependencies</code>. Notice how our analytics tracker is typed to the interface from earlier, but will return a Firebase implementation:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">AppDependencies</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="py">analyticsTracker</span><span class="p">:</span> <span class="nc">AnalyticsTracker</span>
+        <span class="k">get</span><span class="p">()</span> <span class="p">=</span> <span class="nc">FirebaseAnalyticsTracker</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Next, we can create a reference to this dependency container inside our <code>Application</code> class:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">MyApp</span> <span class="p">:</span> <span class="nc">Application</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">val</span> <span class="py">appDependencies</span> <span class="p">=</span> <span class="nc">AppDependencies</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Lastly, we can get a reference to our Application Context from within an Activity or Fragment to request the dependencies:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">ProfileActivity</span> <span class="p">:</span> <span class="nc">Activity</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span> <span class="nc">Bundle</span><span class="p">?)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="p">.</span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>
+
+        <span class="kd">val</span> <span class="py">appDependencies</span> <span class="p">=</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">application</span> <span class="k">as</span> <span class="nc">MyApp</span><span class="p">).</span><span class="n">appDependencies</span>
+        <span class="kd">val</span> <span class="py">analyticsTracker</span> <span class="p">=</span> <span class="n">appDependencies</span><span class="p">.</span><span class="n">analyticsTracker</span>
+        <span class="kd">val</span> <span class="py">profileViewModel</span> <span class="p">=</span> <span class="nc">ProfileViewModel</span><span class="p">(</span><span class="n">analyticsTracker</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You can learn more about manual dependency injection from <a href="https://developer.android.com/training/dependency-injection/manual">this Android guide</a>.</p>
+
+<h1>
+  <a name="dependency-injection-libraries" href="#dependency-injection-libraries">
+  </a>
+  Dependency Injection Libraries
+</h1>
+
+<p>Every few months a flamewar emerges on Android Twitter about which dependency injection library people should use. This only contributes to the confusion and anxiety people face when discussing dependency injection, which is why discussing them has been saved for the end of this post. DI libraries exist to help reduce some of the boilerplate code of a manual approach, but they actually follow the same recipe: create a group of dependencies, store them in your Application class, create a mechanism for requesting those dependencies. </p>
+
+<p>Let's look briefly at two dependency injection libraries and how they achieve this. </p>
+
+<h2>
+  <a name="hilt" href="#hilt">
+  </a>
+  Hilt
+</h2>
+
+<p><a href="https://developer.android.com/training/dependency-injection/hilt-android">Hilt</a> is the official recommendation from Google for a dependency injection library. It manages dependencies through annotation processing. I recommend viewing the official docs to learn more, but let's review how Hilt uses our DI recipe. </p>
+
+<p>First, we can create a <code>Module</code> in Hilt that defines a group of dependencies. Here is an example module - don't be scared about all the annotations. The key point here is that we have a way to create an instance of <code>AnalyticsTracker</code> of type <code>FirebaseAnalyticsTracker</code>:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="nd">@Module</span>
+<span class="nd">@InstallIn</span><span class="p">(</span><span class="nc">ActivityComponent</span><span class="o">::</span><span class="k">class</span><span class="p">)</span>
+<span class="k">abstract</span> <span class="kd">class</span> <span class="nc">AnalyticsModule</span> <span class="p">{</span>
+
+  <span class="nd">@Binds</span>
+  <span class="k">abstract</span> <span class="k">fun</span> <span class="nf">bindAnalyticsTracker</span><span class="p">(</span>
+    <span class="n">analyticsTracker</span><span class="p">:</span> <span class="nc">FirebaseAnalyticsTracker</span>
+  <span class="p">):</span> <span class="nc">AnalyticsTracker</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Next, we can setup our Application class. Hilt makes this incredibly easy, we just need to use the <code>@HiltAndroidApp</code> annotation:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="nd">@HiltAndroidApp</span>
+<span class="kd">class</span> <span class="nc">MyApp</span> <span class="p">:</span> <span class="nc">Application</span><span class="p">()</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Last, we need a mechanism for requesting dependencies. With Hilt, we just use the <code>@Inject</code> annotation:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="nd">@AndroidEntryPoint</span>
+<span class="kd">class</span> <span class="nc">ProfileActivity</span> <span class="p">:</span> <span class="nc">Activity</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="nd">@Inject</span> 
+    <span class="k">lateinit</span> <span class="kd">var</span> <span class="py">analytics</span><span class="p">:</span> <span class="nc">AnalyticsTracker</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="koin" href="#koin">
+  </a>
+  Koin
+</h2>
+
+<p>Another common DI library is <a href="https://insert-koin.io/docs/quickstart/android/">Koin</a>. While the syntax and technical implementations are different, we once again see the same recipe used.</p>
+
+<p>Create a collection of dependencies:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">analyticsModule</span> <span class="p">=</span> <span class="nf">module</span> <span class="p">{</span>
+    <span class="n">single</span><span class="p">&lt;</span><span class="nc">AnalyticsTracker</span><span class="p">></span> <span class="p">{</span>
+        <span class="nc">FirebaseAnalyticsTracker</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Store them in your Application class:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">MyApp</span> <span class="p">:</span> <span class="nc">Application</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">onCreate</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="p">.</span><span class="nf">onCreate</span><span class="p">()</span>
+
+        <span class="nf">startKoin</span> <span class="p">{</span>
+            <span class="nf">modules</span><span class="p">(</span><span class="n">analyticsModule</span><span class="p">)</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Request them in your Activity:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">ProfileActivity</span> <span class="p">:</span> <span class="nc">Activity</span><span class="p">()</span> <span class="p">{</span>
+
+    <span class="kd">val</span> <span class="py">analytics</span><span class="p">:</span> <span class="nc">AnalyticsTracker</span> <span class="k">by</span> <span class="nf">inject</span><span class="p">()</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We're not going to dive into the nuanced differences between Hilt and Koin today. Instead, I just wanted to provide an overview of the libraries and show that they follow the same steps as writing our own manual dependency injection. </p>
+
+<h1>
+  <a name="recap" href="#recap">
+  </a>
+  Recap
+</h1>
+
+<p>The dependency injection library you choose (or don't) matters so much less than why we need dependency injection in the first place. In this post, we reviewed how dependency injection enables better testing in our codebase, the ability to swap out dependencies for any reason in the future, and provides us with a centralized location to manage all of our applications dependencies. </p>
+
+<p>Did this help ease some of your anxiety around this complicated topic? Let me know in the comments, as well as any other imposter-syndrome-inducing topics we should look at in the future. </p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/adammc331/the-imposters-guide-to-dependency-injection-1eak" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(n,e,s,a,t){return s.type_of="article",s.id=972276,s.title="The Imposter's Guide To Dependency Injection",s.description="An incremental guide to dependency injection and why it's so important. ",s.readable_publish_date="Jan 30",s.slug="the-imposters-guide-to-dependency-injection-1eak",s.path="/adammc331/the-imposters-guide-to-dependency-injection-1eak",s.url=a,s.comments_count=0,s.public_reactions_count=67,s.collection_id=n,s.published_timestamp=e,s.positive_reactions_count=67,s.cover_image=n,s.social_image="https://dev.to/social_previews/article/972276.png",s.canonical_url=a,s.created_at="2022-01-29T23:06:52Z",s.edited_at="2022-01-31T16:57:11Z",s.crossposted_at=n,s.published_at=e,s.last_comment_at=e,s.reading_time_minutes=6,s.tag_list="android, dependencyinjection, kotlin",s.tags=["android","dependencyinjection","kotlin"],s.body_html='<p>Dependency Injection is one of the hottest topics in Android and software development in general. It\'s also a topic that can provide a lot of anxiety and create imposter syndrome for developers. </p>\n\n<p>In this post, we\'ll take incremental steps toward understanding DI, why we need it, and how to implement it inside our applications.</p>\n\n\n<hr>\n\n<p>If interested, you can find this content in video form on YouTube:</p>\n\n<p><iframe width="710" height="399" src="https://www.youtube.com/embed/Nr_njiLsjcM" allowfullscreen loading="lazy">\n</iframe>\n</p>\n\n<p>It\'s also been published on <a href="https://androidessence.com/the-imposter-guide-to-dependency-injection">Android Essence</a>. </p>\n\n\n<hr>\n\n<h1>\n  <a name="code-without-dependency-injection" href="#code-without-dependency-injection">\n  </a>\n  Code Without Dependency Injection\n</h1>\n\n<p>To start, let\'s review problems we might face if we write code without dependency injection. Consider the following code, where we have a ProfileViewModel class, and we want to track an event every time the user views a profile. This way we can see how common the screen is compared to others.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">ProfileViewModel</span><span class="p">()</span> <span class="p">{</span>\n\n    <span class="k">fun</span> <span class="nf">onProfileLoaded</span><span class="p">()</span> <span class="p">{</span>\n        <span class="nc">Firebase</span><span class="p">.</span><span class="n">analytics</span><span class="p">.</span><span class="nf">logEvent</span><span class="p">(</span><span class="s">"viewed_profile"</span><span class="p">)</span>\n    <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This code doesn\'t look like it causes any problems at first glance. In fact, if you look at the documentation for Firebase Analytics and similar tools, it will suggest writing code like this. So don\'t be ashamed if your codebase looks something like this. For code like this, there are two specific problems I\'d lke to highlight: </p>\n\n<ol>\n<li>Our code relies so heavily on Firebase Analytics, that if we wanted to change to another vendor we\'d have to update every ViewModel in the application. </li>\n<li>We will have difficulty writing tests for this piece of code. </li>\n</ol>\n\n<h1>\n  <a name="testing-difficulties" href="#testing-difficulties">\n  </a>\n  Testing Difficulties\n</h1>\n\n<p>A good unit test to write for this piece of code is one that verifies when <code>onProfileLoaded</code> is called, that we also track the correct analytics event. If we start writing this test, though, we\'ll recognize a problem very quickly. How can we verify a call was made to Firebase?<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">ProfileViewModelTest</span> <span class="p">{</span>\n\n    <span class="nd">@Test</span>\n    <span class="k">fun</span> <span class="nf">verifyEventTracked</span><span class="p">()</span> <span class="p">{</span>\n        <span class="kd">val</span> <span class="py">viewModel</span> <span class="p">=</span> <span class="nc">ProfileViewModel</span><span class="p">()</span>\n        <span class="n">viewModel</span><span class="p">.</span><span class="nf">onProfileLoaded</span><span class="p">()</span>\n\n        <span class="c1">// No Ability To Verify Event Tracked</span>\n    <span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Not only that, this particular test will just crash. We\'ll get a RuntimeException that our main looper is not mocked, because of some work that\'s happening inside the Firebase Analytics library:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>Caused by: java.lang.RuntimeException: Method getMainLooper in android.os.Looper not mocked.\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h1>\n  <a name="dependency-injection" href="#dependency-injection">\n  </a>\n  Dependency Injection\n</h1>\n\n<p>Our code has a <em>dependency</em> on Firebase Analytics. We can help solve this testing problem by <em>injecting</em> it to the constructor:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">ProfileViewModel</span><span class="p">(</span>\n    <span class="k">private</span> <span class="kd">val</span> <span class="py">analytics</span><span class="p">:</span> <span class="nc">FirebaseAnalytics</span> <span class="p">=</span> <span class="nc">Firebase</span><span class="p">.</span><span class="n">analytics</span><span class="p">,</span>\n<span class="p">)</span> <span class="p">{</span>\n\n    <span class="k">fun</span> <span class="nf">onProfileLoaded</span><span class="p">()</span> <span class="p">{</span>\n        <span class="n">analytics</span><span class="p">.</span><span class="nf">logEvent</span><span class="p">(</span><span class="s">"viewed_profile"</span><span class="p">)</span>\n    <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This approach is often referred to as "Constructor Injection", where dependencies are supplied via the constructor of a class. This is the core concept of dependency injection. Kelly Shuster summed it up well in her Tweet:</p>\n\n\n<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/kellyshuster/status/1020363593060093952">\n\n  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/kellyshuster/status/1020363593060093952">\n    <div class="ltag__twitter-tweet__header">\n      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--zKldisnZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/1000138534097829888/MoUbKXfh_normal.jpg" alt="Kelly Shuster 🇺🇲 💙 profile image" loading="lazy">\n      <div class="ltag__twitter-tweet__full-name">\n        Kelly Shuster 🇺🇲 💙\n      </div>\n      <div class="ltag__twitter-tweet__username">\n        @kellyshuster\n      </div>\n      <div class="ltag__twitter-tweet__twitter-logo">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">\n      </div>\n    </div>\n    <div class="ltag__twitter-tweet__body">\n      Ok internet I\'ve got a question for you: why is it called Dependency Injection and not just passing stuff in? 🤔 <a href="https://twitter.com/hashtag/AndroidDev">#AndroidDev</a>\n    </div>\n    <div class="ltag__twitter-tweet__date">\n      17:43 PM - 20 Jul 2018\n    </div>\n\n\n    <div class="ltag__twitter-tweet__actions">\n      <a href="https://twitter.com/intent/tweet?in_reply_to=1020363593060093952" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/retweet?tweet_id=1020363593060093952" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/like?tweet_id=1020363593060093952" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">\n      </a>\n    </div>\n  </div>\n</blockquote>\n\n\n<p>DI has a complicated name for a concept that can be reduced down to "passing stuff in." </p>\n\n<h1>\n  <a name="updating-our-test" href="#updating-our-test">\n  </a>\n  Updating Our Test\n</h1>\n\n<p>Now that we have a way to supply our dependency, we can update our test accordingly to provide a fake implementation of Firebase Analytics, that we can then use to verify the proper event was tracked:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">ProfileViewModelTest</span> <span class="p">{</span>\n\n    <span class="nd">@Test</span>\n    <span class="k">fun</span> <span class="nf">verifyEventTracked</span><span class="p">()</span> <span class="p">{</span>\n        <span class="kd">val</span> <span class="py">mockAnalytics</span> <span class="p">=</span> <span class="nc">FakeFirebaseAnalytics</span><span class="p">()</span>\n        <span class="kd">val</span> <span class="py">viewModel</span> <span class="p">=</span> <span class="nc">ProfileViewModel</span><span class="p">(</span><span class="n">mockAnalytics</span><span class="p">)</span>\n        <span class="n">viewModel</span><span class="p">.</span><span class="nf">onProfileLoaded</span><span class="p">()</span>\n\n        <span class="n">mockAnalytics</span><span class="p">.</span><span class="nf">verifyEventLogged</span><span class="p">(</span><span class="s">"viewed_profile"</span><span class="p">)</span>\n    <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>However, when we do something like this we should be considering the other problem discussed earlier. Despite injecting this dependency, we still have a strong reliance on Firebase Analytics. We should avoid this, so we can support the ability to provide a different analytics service in the future.</p>\n\n<h1>\n  <a name="wrapping-dependencies" href="#wrapping-dependencies">\n  </a>\n  Wrapping Dependencies\n</h1>\n\n<p>We could create our own interface that defines an AnalyticsTracker, and a Firebase implementation of it. In the future, we can create other implementations for other services.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">interface</span> <span class="nc">AnalyticsTracker</span> <span class="p">{</span>\n    <span class="k">fun</span> <span class="nf">trackEvent</span><span class="p">(</span><span class="n">eventName</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span>\n<span class="p">}</span>\n\n<span class="kd">class</span> <span class="nc">FirebaseAnalyticsTracker</span> <span class="p">:</span> <span class="nc">AnalyticsTracker</span> <span class="p">{</span>\n    <span class="k">override</span> <span class="k">fun</span> <span class="nf">trackEvent</span><span class="p">(</span><span class="n">eventName</span><span class="p">:</span> <span class="nc">String</span><span class="p">)</span> <span class="p">{</span>\n        <span class="nc">Firebase</span><span class="p">.</span><span class="n">analytics</span><span class="p">.</span><span class="nf">logEvent</span><span class="p">(</span><span class="n">eventName</span><span class="p">)</span>\n    <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now we can have our ViewModel depend on this interface instead:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">ProfileViewModel</span><span class="p">(</span>\n    <span class="k">private</span> <span class="kd">val</span> <span class="py">analytics</span><span class="p">:</span> <span class="nc">AnalyticsTracker</span> <span class="p">=</span> <span class="nc">FirebaseAnalyticsTracker</span><span class="p">(),</span>\n<span class="p">)</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Up until this point in the blog post, you\'ve gained an understanding of the core concept of dependency injection, why we need it, and how to implement it for a given class. Having said that, let\'s address a new question:</p>\n\n<blockquote>\n<p>Why does dependency injection seem so much more complicated than passing stuff in?</p>\n</blockquote>\n\n<p>There are a few advanced topics of dependency injection, starting with the idea of sharing dependencies. We can continue with our analytics tracking example. Analytics are everywhere, so we want to be able to provide one instance of an analytics tracker to be used by each screen. We also want to create a setup so that we can make one change to have every screen updated accordingly. </p>\n\n<h1>\n  <a name="dependency-injection-recipe" href="#dependency-injection-recipe">\n  </a>\n  Dependency Injection Recipe\n</h1>\n\n<p>To achieve this goal, we can follow three steps.</p>\n\n<ol>\n<li>Create a container to hold the dependencies used in our application.</li>\n<li>Modify our <code>Application</code> class to be the host of those dependencies.</li>\n<li>Update our individual screens to request those dependencies. </li>\n</ol>\n\n<p>To implement the first step, we can create a class called <code>AppDependencies</code>. Notice how our analytics tracker is typed to the interface from earlier, but will return a Firebase implementation:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">AppDependencies</span> <span class="p">{</span>\n    <span class="kd">val</span> <span class="py">analyticsTracker</span><span class="p">:</span> <span class="nc">AnalyticsTracker</span>\n        <span class="k">get</span><span class="p">()</span> <span class="p">=</span> <span class="nc">FirebaseAnalyticsTracker</span><span class="p">()</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Next, we can create a reference to this dependency container inside our <code>Application</code> class:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">MyApp</span> <span class="p">:</span> <span class="nc">Application</span><span class="p">()</span> <span class="p">{</span>\n    <span class="kd">val</span> <span class="py">appDependencies</span> <span class="p">=</span> <span class="nc">AppDependencies</span><span class="p">()</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Lastly, we can get a reference to our Application Context from within an Activity or Fragment to request the dependencies:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">ProfileActivity</span> <span class="p">:</span> <span class="nc">Activity</span><span class="p">()</span> <span class="p">{</span>\n\n    <span class="k">override</span> <span class="k">fun</span> <span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">:</span> <span class="nc">Bundle</span><span class="p">?)</span> <span class="p">{</span>\n        <span class="k">super</span><span class="p">.</span><span class="nf">onCreate</span><span class="p">(</span><span class="n">savedInstanceState</span><span class="p">)</span>\n\n        <span class="kd">val</span> <span class="py">appDependencies</span> <span class="p">=</span> <span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="n">application</span> <span class="k">as</span> <span class="nc">MyApp</span><span class="p">).</span><span class="n">appDependencies</span>\n        <span class="kd">val</span> <span class="py">analyticsTracker</span> <span class="p">=</span> <span class="n">appDependencies</span><span class="p">.</span><span class="n">analyticsTracker</span>\n        <span class="kd">val</span> <span class="py">profileViewModel</span> <span class="p">=</span> <span class="nc">ProfileViewModel</span><span class="p">(</span><span class="n">analyticsTracker</span><span class="p">)</span>\n    <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You can learn more about manual dependency injection from <a href="https://developer.android.com/training/dependency-injection/manual">this Android guide</a>.</p>\n\n<h1>\n  <a name="dependency-injection-libraries" href="#dependency-injection-libraries">\n  </a>\n  Dependency Injection Libraries\n</h1>\n\n<p>Every few months a flamewar emerges on Android Twitter about which dependency injection library people should use. This only contributes to the confusion and anxiety people face when discussing dependency injection, which is why discussing them has been saved for the end of this post. DI libraries exist to help reduce some of the boilerplate code of a manual approach, but they actually follow the same recipe: create a group of dependencies, store them in your Application class, create a mechanism for requesting those dependencies. </p>\n\n<p>Let\'s look briefly at two dependency injection libraries and how they achieve this. </p>\n\n<h2>\n  <a name="hilt" href="#hilt">\n  </a>\n  Hilt\n</h2>\n\n<p><a href="https://developer.android.com/training/dependency-injection/hilt-android">Hilt</a> is the official recommendation from Google for a dependency injection library. It manages dependencies through annotation processing. I recommend viewing the official docs to learn more, but let\'s review how Hilt uses our DI recipe. </p>\n\n<p>First, we can create a <code>Module</code> in Hilt that defines a group of dependencies. Here is an example module - don\'t be scared about all the annotations. The key point here is that we have a way to create an instance of <code>AnalyticsTracker</code> of type <code>FirebaseAnalyticsTracker</code>:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="nd">@Module</span>\n<span class="nd">@InstallIn</span><span class="p">(</span><span class="nc">ActivityComponent</span><span class="o">::</span><span class="k">class</span><span class="p">)</span>\n<span class="k">abstract</span> <span class="kd">class</span> <span class="nc">AnalyticsModule</span> <span class="p">{</span>\n\n  <span class="nd">@Binds</span>\n  <span class="k">abstract</span> <span class="k">fun</span> <span class="nf">bindAnalyticsTracker</span><span class="p">(</span>\n    <span class="n">analyticsTracker</span><span class="p">:</span> <span class="nc">FirebaseAnalyticsTracker</span>\n  <span class="p">):</span> <span class="nc">AnalyticsTracker</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Next, we can setup our Application class. Hilt makes this incredibly easy, we just need to use the <code>@HiltAndroidApp</code> annotation:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="nd">@HiltAndroidApp</span>\n<span class="kd">class</span> <span class="nc">MyApp</span> <span class="p">:</span> <span class="nc">Application</span><span class="p">()</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Last, we need a mechanism for requesting dependencies. With Hilt, we just use the <code>@Inject</code> annotation:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="nd">@AndroidEntryPoint</span>\n<span class="kd">class</span> <span class="nc">ProfileActivity</span> <span class="p">:</span> <span class="nc">Activity</span><span class="p">()</span> <span class="p">{</span>\n\n    <span class="nd">@Inject</span> \n    <span class="k">lateinit</span> <span class="kd">var</span> <span class="py">analytics</span><span class="p">:</span> <span class="nc">AnalyticsTracker</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="koin" href="#koin">\n  </a>\n  Koin\n</h2>\n\n<p>Another common DI library is <a href="https://insert-koin.io/docs/quickstart/android/">Koin</a>. While the syntax and technical implementations are different, we once again see the same recipe used.</p>\n\n<p>Create a collection of dependencies:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">analyticsModule</span> <span class="p">=</span> <span class="nf">module</span> <span class="p">{</span>\n    <span class="n">single</span><span class="p">&lt;</span><span class="nc">AnalyticsTracker</span><span class="p">&gt;</span> <span class="p">{</span>\n        <span class="nc">FirebaseAnalyticsTracker</span><span class="p">()</span>\n    <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Store them in your Application class:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">MyApp</span> <span class="p">:</span> <span class="nc">Application</span><span class="p">()</span> <span class="p">{</span>\n    <span class="k">override</span> <span class="k">fun</span> <span class="nf">onCreate</span><span class="p">()</span> <span class="p">{</span>\n        <span class="k">super</span><span class="p">.</span><span class="nf">onCreate</span><span class="p">()</span>\n\n        <span class="nf">startKoin</span> <span class="p">{</span>\n            <span class="nf">modules</span><span class="p">(</span><span class="n">analyticsModule</span><span class="p">)</span>\n        <span class="p">}</span>\n    <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Request them in your Activity:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">class</span> <span class="nc">ProfileActivity</span> <span class="p">:</span> <span class="nc">Activity</span><span class="p">()</span> <span class="p">{</span>\n\n    <span class="kd">val</span> <span class="py">analytics</span><span class="p">:</span> <span class="nc">AnalyticsTracker</span> <span class="k">by</span> <span class="nf">inject</span><span class="p">()</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>We\'re not going to dive into the nuanced differences between Hilt and Koin today. Instead, I just wanted to provide an overview of the libraries and show that they follow the same steps as writing our own manual dependency injection. </p>\n\n<h1>\n  <a name="recap" href="#recap">\n  </a>\n  Recap\n</h1>\n\n<p>The dependency injection library you choose (or don\'t) matters so much less than why we need dependency injection in the first place. In this post, we reviewed how dependency injection enables better testing in our codebase, the ability to swap out dependencies for any reason in the future, and provides us with a centralized location to manage all of our applications dependencies. </p>\n\n<p>Did this help ease some of your anxiety around this complicated topic? Let me know in the comments, as well as any other imposter-syndrome-inducing topics we should look at in the future. </p>\n\n',s.body_markdown="---\ntitle: The Imposter's Guide To Dependency Injection\npublished: true\ndescription: An incremental guide to dependency injection and why it's so important. \ntags: Android, DependencyInjection, Kotlin\n//cover_image: https://direct_url_to_image.jpg\n---\n\nDependency Injection is one of the hottest topics in Android and software development in general. It's also a topic that can provide a lot of anxiety and create imposter syndrome for developers. \n\nIn this post, we'll take incremental steps toward understanding DI, why we need it, and how to implement it inside our applications.\n\n---\n\nIf interested, you can find this content in video form on YouTube:\n\n{% youtube Nr_njiLsjcM %}\n\nIt's also been published on [Android Essence](https://androidessence.com/the-imposter-guide-to-dependency-injection). \n\n---\n\n# Code Without Dependency Injection\n\nTo start, let's review problems we might face if we write code without dependency injection. Consider the following code, where we have a ProfileViewModel class, and we want to track an event every time the user views a profile. This way we can see how common the screen is compared to others. \n\n```kotlin\nclass ProfileViewModel() {\n\n\tfun onProfileLoaded() {\n\t\tFirebase.analytics.logEvent(\"viewed_profile\")\n\t}\n}\n```\n\nThis code doesn't look like it causes any problems at first glance. In fact, if you look at the documentation for Firebase Analytics and similar tools, it will suggest writing code like this. So don't be ashamed if your codebase looks something like this. For code like this, there are two specific problems I'd lke to highlight: \n\n1. Our code relies so heavily on Firebase Analytics, that if we wanted to change to another vendor we'd have to update every ViewModel in the application. \n2. We will have difficulty writing tests for this piece of code. \n\n# Testing Difficulties\n\nA good unit test to write for this piece of code is one that verifies when `onProfileLoaded` is called, that we also track the correct analytics event. If we start writing this test, though, we'll recognize a problem very quickly. How can we verify a call was made to Firebase? \n\n```kotlin\nclass ProfileViewModelTest {\n\n    @Test\n    fun verifyEventTracked() {\n        val viewModel = ProfileViewModel()\n        viewModel.onProfileLoaded()\n\n        // No Ability To Verify Event Tracked\n    }\n```\n\nNot only that, this particular test will just crash. We'll get a RuntimeException that our main looper is not mocked, because of some work that's happening inside the Firebase Analytics library:\n\n```\nCaused by: java.lang.RuntimeException: Method getMainLooper in android.os.Looper not mocked.\n```\n\n# Dependency Injection\n\nOur code has a _dependency_ on Firebase Analytics. We can help solve this testing problem by _injecting_ it to the constructor:\n\n```kotlin\nclass ProfileViewModel(\n    private val analytics: FirebaseAnalytics = Firebase.analytics,\n) {\n\n    fun onProfileLoaded() {\n        analytics.logEvent(\"viewed_profile\")\n    }\n}\n```\n\nThis approach is often referred to as \"Constructor Injection\", where dependencies are supplied via the constructor of a class. This is the core concept of dependency injection. Kelly Shuster summed it up well in her Tweet:\n\n{% twitter 1020363593060093952 %}\n\nDI has a complicated name for a concept that can be reduced down to \"passing stuff in.\" \n\n# Updating Our Test\n\nNow that we have a way to supply our dependency, we can update our test accordingly to provide a fake implementation of Firebase Analytics, that we can then use to verify the proper event was tracked:\n\n```kotlin\nclass ProfileViewModelTest {\n\n    @Test\n    fun verifyEventTracked() {\n        val mockAnalytics = FakeFirebaseAnalytics()\n        val viewModel = ProfileViewModel(mockAnalytics)\n        viewModel.onProfileLoaded()\n\n        mockAnalytics.verifyEventLogged(\"viewed_profile\")\n    }\n}\n```\n\nHowever, when we do something like this we should be considering the other problem discussed earlier. Despite injecting this dependency, we still have a strong reliance on Firebase Analytics. We should avoid this, so we can support the ability to provide a different analytics service in the future.\n\n# Wrapping Dependencies\n\nWe could create our own interface that defines an AnalyticsTracker, and a Firebase implementation of it. In the future, we can create other implementations for other services.\n\n```kotlin\ninterface AnalyticsTracker {\n    fun trackEvent(eventName: String)\n}\n\nclass FirebaseAnalyticsTracker : AnalyticsTracker {\n    override fun trackEvent(eventName: String) {\n        Firebase.analytics.logEvent(eventName)\n    }\n}\n```\n\nNow we can have our ViewModel depend on this interface instead:\n\n```kotlin\nclass ProfileViewModel(\n    private val analytics: AnalyticsTracker = FirebaseAnalyticsTracker(),\n)\n```\n\nUp until this point in the blog post, you've gained an understanding of the core concept of dependency injection, why we need it, and how to implement it for a given class. Having said that, let's address a new question:\n\n> Why does dependency injection seem so much more complicated than passing stuff in?\n\nThere are a few advanced topics of dependency injection, starting with the idea of sharing dependencies. We can continue with our analytics tracking example. Analytics are everywhere, so we want to be able to provide one instance of an analytics tracker to be used by each screen. We also want to create a setup so that we can make one change to have every screen updated accordingly. \n\n# Dependency Injection Recipe\n\nTo achieve this goal, we can follow three steps.\n\n1. Create a container to hold the dependencies used in our application.\n2. Modify our `Application` class to be the host of those dependencies.\n3. Update our individual screens to request those dependencies. \n\nTo implement the first step, we can create a class called `AppDependencies`. Notice how our analytics tracker is typed to the interface from earlier, but will return a Firebase implementation:\n\n```kotlin\nclass AppDependencies {\n    val analyticsTracker: AnalyticsTracker\n        get() = FirebaseAnalyticsTracker()\n}\n```\n\nNext, we can create a reference to this dependency container inside our `Application` class:\n\n```kotlin\nclass MyApp : Application() {\n    val appDependencies = AppDependencies()\n}\n```\n\nLastly, we can get a reference to our Application Context from within an Activity or Fragment to request the dependencies:\n\n```kotlin\nclass ProfileActivity : Activity() {\n\n    override fun onCreate(savedInstanceState: Bundle?) {\n        super.onCreate(savedInstanceState)\n\n        val appDependencies = (this.application as MyApp).appDependencies\n        val analyticsTracker = appDependencies.analyticsTracker\n        val profileViewModel = ProfileViewModel(analyticsTracker)\n    }\n}\n```\n\nYou can learn more about manual dependency injection from [this Android guide](https://developer.android.com/training/dependency-injection/manual).\n\n# Dependency Injection Libraries\n\nEvery few months a flamewar emerges on Android Twitter about which dependency injection library people should use. This only contributes to the confusion and anxiety people face when discussing dependency injection, which is why discussing them has been saved for the end of this post. DI libraries exist to help reduce some of the boilerplate code of a manual approach, but they actually follow the same recipe: create a group of dependencies, store them in your Application class, create a mechanism for requesting those dependencies. \n\nLet's look briefly at two dependency injection libraries and how they achieve this. \n\n## Hilt\n\n[Hilt](https://developer.android.com/training/dependency-injection/hilt-android) is the official recommendation from Google for a dependency injection library. It manages dependencies through annotation processing. I recommend viewing the official docs to learn more, but let's review how Hilt uses our DI recipe. \n\nFirst, we can create a `Module` in Hilt that defines a group of dependencies. Here is an example module - don't be scared about all the annotations. The key point here is that we have a way to create an instance of `AnalyticsTracker` of type `FirebaseAnalyticsTracker`:\n\n```kotlin\n@Module\n@InstallIn(ActivityComponent::class)\nabstract class AnalyticsModule {\n\n  @Binds\n  abstract fun bindAnalyticsTracker(\n    analyticsTracker: FirebaseAnalyticsTracker\n  ): AnalyticsTracker\n}\n```\n\nNext, we can setup our Application class. Hilt makes this incredibly easy, we just need to use the `@HiltAndroidApp` annotation:\n\n```kotlin\n@HiltAndroidApp\nclass MyApp : Application()\n```\n\nLast, we need a mechanism for requesting dependencies. With Hilt, we just use the `@Inject` annotation:\n\n```kotlin\n@AndroidEntryPoint\nclass ProfileActivity : Activity() {\n\n    @Inject \n    lateinit var analytics: AnalyticsTracker\n}\n```\n\n## Koin\n\nAnother common DI library is [Koin](https://insert-koin.io/docs/quickstart/android/). While the syntax and technical implementations are different, we once again see the same recipe used.\n\nCreate a collection of dependencies:\n\n```kotlin\nval analyticsModule = module {\n    single<AnalyticsTracker> {\n        FirebaseAnalyticsTracker()\n    }\n}\n```\n\nStore them in your Application class: \n\n```kotlin\nclass MyApp : Application() {\n    override fun onCreate() {\n        super.onCreate()\n\n        startKoin {\n            modules(analyticsModule)\n        }\n    }\n}\n```\n\nRequest them in your Activity:\n\n```kotlin\nclass ProfileActivity : Activity() {\n\n    val analytics: AnalyticsTracker by inject()\n}\n```\n\nWe're not going to dive into the nuanced differences between Hilt and Koin today. Instead, I just wanted to provide an overview of the libraries and show that they follow the same steps as writing our own manual dependency injection. \n\n# Recap\n\nThe dependency injection library you choose (or don't) matters so much less than why we need dependency injection in the first place. In this post, we reviewed how dependency injection enables better testing in our codebase, the ability to swap out dependencies for any reason in the future, and provides us with a centralized location to manage all of our applications dependencies. \n\nDid this help ease some of your anxiety around this complicated topic? Let me know in the comments, as well as any other imposter-syndrome-inducing topics we should look at in the future. \n\n\n",s.user={name:"Adam McNeilly",username:"adammc331",twitter_username:t,github_username:t,website_url:"http://adammcneilly.com",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--jqY4B8FN--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/16549/b4e4a187-7767-4a25-83fb-d30c3e821bf5.jpg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--6uevLDAA--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/16549/b4e4a187-7767-4a25-83fb-d30c3e821bf5.jpg"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:s}},error:n,state:{currentArticle:s},serverRendered:!0,routePath:"/adammc331/972276",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:n}}}}(null,"2022-01-30T01:50:44Z",{},"https://dev.to/adammc331/the-imposters-guide-to-dependency-injection-1eak","AdamMc331")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

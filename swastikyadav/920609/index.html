@@ -1,0 +1,832 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Sass: The CSS preprocessor handbook and how does it work?</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Sass: The CSS preprocessor handbook and how does it work?</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/css" class="tag" data-v-70afb46a>
+          #css
+        </a><a href="/nuxtstop/t/sass" class="tag" data-v-70afb46a>
+          #sass
+        </a><a href="/nuxtstop/t/tutorial" class="tag" data-v-70afb46a>
+          #tutorial
+        </a><a href="/nuxtstop/t/beginners" class="tag" data-v-70afb46a>
+          #beginners
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--im1vMypj--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/sg5cf89xf7ddtxa50ak5.jpeg" alt="Sass: The CSS preprocessor handbook and how does it work?" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            7
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Dec 8 '21</time></div></header> <div class="content" data-v-70afb46a><p>Hello Developers,</p>
+
+<p>So, today let's dive deep into the world of CSS preprocessor Sass. We will learn what is Sass, how to use it, and how does it work?</p>
+
+<h2>
+  <a name="what-is-sass" href="#what-is-sass">
+  </a>
+  What is Sass?
+</h2>
+
+<p>Sass stands for <strong>syntactically awesome style sheets</strong>. Sass is a CSS preprocessor, an extension of CSS that adds power and elegance to the basic CSS.</p>
+
+<p>Regular CSS gets very messy very quickly, That's why we use Sass, it provides us really handy features to make our CSS code reusable and logical.</p>
+
+<h2>
+  <a name="how-does-sass-work" href="#how-does-sass-work">
+  </a>
+  How does Sass work?
+</h2>
+
+<p>Instead of writing regular CSS code in a <code>.css</code> file extension, we write sass code in a <code>.scss</code> file extension.</p>
+
+<p>Then we run a compiler and that compiler converts the sass code into regular CSS code. We need to process our sass code first and that's why it is called <strong>CSS preprocessor</strong>.</p>
+
+
+<hr>
+
+<blockquote>
+<p>Before we begin.</p>
+
+<p>I run a weekly <a href="https://www.getrevue.co/profile/8020lessons">Newsletter</a> where I share epic content on web-dev and programming. Subscribe to build your skillset and become a better developer in 10 minutes a week.</p>
+</blockquote>
+
+
+<hr>
+
+<h2>
+  <a name="how-to-install-and-compile-sass-locally" href="#how-to-install-and-compile-sass-locally">
+  </a>
+  How to install and compile Sass locally?
+</h2>
+
+<p>Before actually exploring the main Sass features let's see how to install and compile Sass locally.</p>
+
+<p>Step 1: First of all we need to initiate the package.json file. So for that go to your project directory and run <code>npm init</code> or <code>yarn init</code>. Depending on what you use npm or yarn.</p>
+
+<p>This will create a file <code>package.json</code> which looks something like this.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="p">{</span>
+  <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">project name</span><span class="dl">"</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">description</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">project description</span><span class="dl">"</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">main</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">index.js</span><span class="dl">"</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">scripts</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="p">...</span>
+  <span class="p">}</span>
+  <span class="dl">"</span><span class="s2">author</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Your name</span><span class="dl">"</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Step 2: Next let's install the Sass compiler in our project. Run <code>npm install node-sass</code> or <code>yarn add node-sass</code> in the command line.</p>
+
+<p>Now our package.json file should show node-sass as a dependency.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="p">{</span>
+  <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">project name</span><span class="dl">"</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">description</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">project description</span><span class="dl">"</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">main</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">index.js</span><span class="dl">"</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">scripts</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="p">...</span>
+  <span class="p">}</span>
+  <span class="dl">"</span><span class="s2">author</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Your name</span><span class="dl">"</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">dependencies</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">node-sass</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">^4.5.3</span><span class="dl">"</span>
+  <span class="p">}</span> 
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Step 3: Let's write a script in package.json that will compile the CSS code from sass code.</p>
+
+<p>Here is the ex folder structure.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>app
+└── index.html
+└── css folder
+    └── style.css
+└── sass folder
+    └── style.scss
+└── package.json
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The script starts with the package name (node-sass) followed by the sass file path (sass/style.scss) followed by the final CSS file path (css/style.css).<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="p">{</span>
+  <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">project name</span><span class="dl">"</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">description</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">project description</span><span class="dl">"</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">main</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">index.js</span><span class="dl">"</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">scripts</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">compile:sass</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">node-sass sass/style.scss css/style.css -w</span><span class="dl">"</span>
+  <span class="p">}</span>
+  <span class="dl">"</span><span class="s2">author</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Your name</span><span class="dl">"</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">dependencies</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">node-sass</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">^4.5.3</span><span class="dl">"</span>
+  <span class="p">}</span> 
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Step 4: And the last step is to run the script. Run <code>npm run compile:sass</code> or <code>yarn run compile:sass</code>.</p>
+
+<p>That's it, we are ready to start writing sass code. </p>
+
+<h2>
+  <a name="main-features-of-sass" href="#main-features-of-sass">
+  </a>
+  Main features of Sass
+</h2>
+
+<p>Here are the main features of Sass, let's cover these features one by one in this post.</p>
+
+<ul>
+<li>Variables: For reusable values such as color, font-size, and spacing.</li>
+<li>Nesting: To nest selectors inside of one another, allowing us to write less code.</li>
+<li>Partials and Imports: To write CSS in different files and importing them all in single file.</li>
+<li>Mixins: TO write reusable CSS code.</li>
+<li>Extends: To make different selectors inherit declarations that are common to all of them.</li>
+</ul>
+
+<h2>
+  <a name="variables" href="#variables">
+  </a>
+  Variables
+</h2>
+
+<p>A variable is used so that we can use that same value everywhere in our code, for example brand color.</p>
+
+<p><code>style.scss</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight scss"><code><span class="nv">$color-primary</span><span class="p">:</span> <span class="mh">#F56B27</span><span class="p">;</span>
+<span class="nv">$light-color</span><span class="p">:</span> <span class="mh">#fff</span><span class="p">;</span>
+
+<span class="nc">.navigation</span> <span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="nv">$color-primary</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.nav-link</span> <span class="p">{</span>
+  <span class="nl">color</span><span class="p">:</span> <span class="nv">$light-color</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>And if we ever need to change the brand color, we do it just at one place in the variable.</p>
+
+<h2>
+  <a name="nesting-selectors" href="#nesting-selectors">
+  </a>
+  Nesting selectors
+</h2>
+
+<p>Let's say we have the following navigation markup.</p>
+
+<p><code>index.html</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight html"><code><span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">"navigation"</span><span class="nt">></span>
+  <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"nav-list"</span><span class="nt">></span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-list-item"</span><span class="nt">>&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">></span>Home<span class="nt">&lt;/a>&lt;/li></span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-list-item"</span><span class="nt">>&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">></span>About Us<span class="nt">&lt;/a>&lt;/li></span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-list-item"</span><span class="nt">>&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">></span>Contact Us<span class="nt">&lt;/a>&lt;/li></span>
+  <span class="nt">&lt;/ul></span>
+<span class="nt">&lt;/nav></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>If we need to style the <code>&lt;li></code> which is nested inside <code>&lt;ul></code> which is again nested inside <code>&lt;nav></code>. In regular CSS it will be done the following way.</p>
+
+<p><code>style.css</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight css"><code><span class="o">//</span> <span class="nt">Styling</span> <span class="nt">nav</span>
+<span class="nc">.navigation</span> <span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#F56B27</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">//</span> <span class="nt">Styling</span> <span class="nt">ul</span> <span class="nt">which</span> <span class="nt">is</span> <span class="nt">nested</span> <span class="nt">inside</span> <span class="nt">nav</span>
+<span class="nc">.navigation</span> <span class="nc">.nav-list</span> <span class="p">{</span>
+  <span class="nl">list-style</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>
+  <span class="nl">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>
+  <span class="nl">justify-content</span><span class="p">:</span> <span class="n">space-between</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">//</span> <span class="nt">Styling</span> <span class="nt">li</span> <span class="nt">which</span> <span class="nt">is</span> <span class="nt">nested</span> <span class="nt">inside</span> <span class="nt">ul</span>
+<span class="nc">.navigation</span> <span class="nc">.nav-list</span> <span class="nc">.nav-list-item</span> <span class="nt">a</span> <span class="p">{</span>
+  <span class="nl">color</span><span class="p">:</span> <span class="m">#fff</span><span class="p">;</span>
+  <span class="nl">font-size</span><span class="p">:</span> <span class="m">15px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="o">//</span> <span class="nt">Change</span> <span class="nt">li</span> <span class="nt">color</span> <span class="nt">to</span> <span class="nt">blue</span> <span class="nt">on</span> <span class="nt">hover</span>
+<span class="nc">.navigation</span> <span class="nc">.nav-list</span> <span class="nc">.nav-list-item</span><span class="nd">:hover</span> <span class="p">{</span>
+  <span class="nl">color</span><span class="p">:</span> <span class="m">#00f</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now, let's do the same styling, but this time with Sass.</p>
+
+<p><code>style.scss</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight scss"><code><span class="nv">$brand-color</span><span class="p">:</span> <span class="mh">#F56B27</span><span class="p">;</span>
+<span class="nv">$light-color</span><span class="p">:</span> <span class="mh">#fff</span><span class="p">;</span>
+<span class="nv">$hover-link-color</span><span class="p">:</span> <span class="mh">#00f</span><span class="p">;</span>
+<span class="nv">$link-font-size</span><span class="p">:</span> <span class="m">15px</span><span class="p">;</span>
+
+<span class="nc">.navigation</span> <span class="p">{</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="nv">$brand-color</span><span class="p">;</span>
+
+  <span class="nc">.nav-list</span> <span class="p">{</span>
+    <span class="nl">list-style</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>
+    <span class="nl">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>
+    <span class="nl">justify-content</span><span class="p">:</span> <span class="n">space-between</span><span class="p">;</span>
+
+    <span class="nc">.nav-list-item</span> <span class="nt">a</span> <span class="p">{</span>
+      <span class="nl">color</span><span class="p">:</span> <span class="nv">$light-color</span><span class="p">;</span>
+      <span class="nl">font-size</span><span class="p">:</span> <span class="nv">$link-font-size</span><span class="p">;</span>
+
+      <span class="k">&</span><span class="nd">:hover</span> <span class="p">{</span>
+        <span class="nl">color</span><span class="p">:</span> <span class="nv">$hover-link-color</span><span class="p">;</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We can literally nest selectors the way it is nested in HTML. Now, isn't it cool?</p>
+
+<blockquote>
+<p>Note: In the above snippet we nested 3 levels deep. And to maintain readability we shouldn't go deeper than this.</p>
+</blockquote>
+
+<h2>
+  <a name="mixins" href="#mixins">
+  </a>
+  Mixins
+</h2>
+
+<p>Mixins are used to write reusable parts of CSS code. For example let's say we have a footer with 3 links, which needs to be aligned horizontally.</p>
+
+<p>So, we will use flex for that. But notice in the last example also we used flex to align navigation links horizontally.</p>
+
+<p><code>index.html</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight html"><code><span class="nt">&lt;nav></span>
+  ...
+<span class="nt">&lt;/nav></span>
+
+<span class="nt">&lt;footer></span>
+  <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"footer-nav-list"</span><span class="nt">></span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"footer-list-item"</span><span class="nt">>&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">></span>More info<span class="nt">&lt;/a>&lt;/li></span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"footer-list-item"</span><span class="nt">>&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">></span>Careers<span class="nt">&lt;/a>&lt;/li></span>
+    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"footer-list-item"</span><span class="nt">>&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">></span>Team<span class="nt">&lt;/a>&lt;/li></span>
+  <span class="nt">&lt;/ul></span>
+<span class="nt">&lt;/footer></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>So, the following code will repeat for both navigation and footer.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight css"><code><span class="nc">.nav-list</span> <span class="p">{</span>
+  <span class="nl">list-style</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>
+  <span class="nl">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>
+  <span class="nl">justify-content</span><span class="p">:</span> <span class="n">space-between</span><span class="p">;</span>
+
+  <span class="err">...</span>
+<span class="p">}</span>
+
+<span class="nc">.footer-nav-list</span> <span class="p">{</span>
+  <span class="nl">list-style</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>
+  <span class="nl">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>
+  <span class="nl">justify-content</span><span class="p">:</span> <span class="n">space-between</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Instead of having to write the same code twice, let's write mixins to have a reusable block of code.</p>
+
+<p><code>style.scss</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight scss"><code><span class="nc">...</span>
+
+<span class="o">//</span> <span class="nt">This</span> <span class="nt">is</span> <span class="nt">the</span> <span class="nt">reusable</span> <span class="nt">block</span> <span class="nt">of</span> <span class="nt">code</span>
+<span class="o">@</span><span class="nt">mixin</span> <span class="nt">flex-between</span> <span class="p">{</span>
+  <span class="nl">list-style</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>
+  <span class="nl">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>
+  <span class="nl">justify-content</span><span class="p">:</span> <span class="n">space-between</span><span class="p">;</span>
+<span class="p">}</span> 
+
+<span class="nc">.navigation</span> <span class="p">{</span>
+  <span class="nc">...</span>
+
+  <span class="nc">.nav-list</span> <span class="p">{</span>
+    <span class="k">@include</span> <span class="nd">flex-between</span><span class="p">;</span> <span class="c1">// used mixin here</span>
+
+    <span class="nc">...</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nt">footer</span> <span class="p">{</span>
+  <span class="nc">.footer-nav-list</span> <span class="p">{</span>
+    <span class="k">@include</span> <span class="nd">flex-between</span><span class="p">;</span> <span class="c1">// used mixin here</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>In the above snippet, we used the <code>flex-between</code> mixin twice, without having to write the whole code twice. We just executed the DRY (Do Not Repeat Yourself) principle.</p>
+
+<h2>
+  <a name="extends" href="#extends">
+  </a>
+  Extends
+</h2>
+
+<p>Usecase of Extends is very similar to that of mixins but fundamentally they are different. The diff becomes clear in the final compiled CSS file.</p>
+
+<p>After compilation:</p>
+
+<ul>
+<li>The code in mixin is pasted where ever we include it.</li>
+<li>Whereas in extends it is the other way around. The selector is pasted where the code is defined.</li>
+</ul>
+
+<p>Let me explain this with an example.</p>
+
+<p>Let's say we have two different buttons with similar styles.</p>
+
+<p><code>index.html</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight html"><code><span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">"navigation"</span><span class="nt">></span>
+  <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"signup-btn"</span><span class="nt">></span>Sing Up<span class="nt">&lt;/button></span>
+  <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"login-btn"</span><span class="nt">></span>Login In<span class="nt">&lt;/button></span>
+<span class="nt">&lt;/nav></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>First let's use mixins for similar styling.<br>
+<code>style.scss</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight scss"><code><span class="k">@mixin</span> <span class="nf">button-style</span> <span class="p">{</span>
+  <span class="nl">padding</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>
+  <span class="nl">display</span><span class="p">:</span> <span class="n">inline-block</span><span class="p">;</span>
+  <span class="nl">text-align</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.signup-btn</span> <span class="p">{</span>
+ <span class="k">@include</span> <span class="nd">button-style</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.login-btn</span> <span class="p">{</span>
+  <span class="k">@include</span> <span class="nd">button-style</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Here is the result of final compiled CSS.</p>
+
+<p>compiled <code>style.css</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight css"><code><span class="nc">.signup-btn</span> <span class="p">{</span>
+  <span class="nl">padding</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>
+  <span class="nl">display</span><span class="p">:</span> <span class="n">inline-block</span><span class="p">;</span>
+  <span class="nl">text-align</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.login-btn</span> <span class="p">{</span>
+  <span class="nl">padding</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>
+  <span class="nl">display</span><span class="p">:</span> <span class="n">inline-block</span><span class="p">;</span>
+  <span class="nl">text-align</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now let's use <strong>extends</strong> to make the code reusable. And you will see the difference in the compiled CSS file.</p>
+
+<p><code>style.scss</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight scss"><code><span class="c1">// extends starts with %</span>
+<span class="nv">%button-style</span> <span class="p">{</span>
+  <span class="nl">padding</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>
+  <span class="nl">display</span><span class="p">:</span> <span class="n">inline-block</span><span class="p">;</span>
+  <span class="nl">text-align</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.signup-btn</span> <span class="p">{</span>
+ <span class="k">@extend</span> <span class="nv">%button-style</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.login-btn</span> <span class="p">{</span>
+  <span class="k">@extend</span> <span class="nv">%button-style</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Here is the compiled CSS file when we used extends.</p>
+
+<p>compiled <code>style.css</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight css"><code><span class="nc">.signup-btn</span><span class="o">,</span>
+<span class="nc">.login-btn</span> <span class="p">{</span>
+  <span class="nl">padding</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>
+  <span class="nl">display</span><span class="p">:</span> <span class="n">inline-block</span><span class="p">;</span>
+  <span class="nl">text-align</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Look at the compiled CSS version of both (mixin and extend) and the fundamental difference will become clear to you.</p>
+
+<h2>
+  <a name="partials-and-imports" href="#partials-and-imports">
+  </a>
+  Partials and imports
+</h2>
+
+<p>We can also separate sass files as per the specific UI needs using partials and imports.</p>
+
+<p>Let's say our app has two sections a header and a footer. We can have 3 sass files.</p>
+
+<ul>
+<li>One sass file for header.</li>
+<li>Second sass file for footer.</li>
+<li>And third main sass file will import both header and footer.</li>
+</ul>
+
+<p>Here header and footer are partial sass files. The partial file name begins with an underscore (_).</p>
+
+<p><code>sass/_header.scss</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight scss"><code><span class="nc">.header</span> <span class="p">{</span><span class="nc">...</span><span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><code>sass/_footer.scss</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight scss"><code><span class="nc">.footer</span> <span class="p">{</span><span class="nc">...</span><span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><code>sass/style.scss</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight scss"><code><span class="k">@import</span> <span class="s2">"header"</span><span class="p">;</span>
+<span class="k">@import</span> <span class="s2">"footer"</span><span class="p">;</span>
+
+<span class="nc">...</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Final folder structure<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>app
+└── index.html
+└── css folder
+    └── style.css
+└── sass folder
+    └── style.scss
+    └── _header.scss
+    └── _footer.scss
+└── package.json
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+<hr>
+
+<p>That's it for this post. I hope all this will be useful and you learned something new.</p>
+
+<p>I run a weekly <a href="https://www.getrevue.co/profile/8020lessons">Newsletter</a> where I share epic content on web-dev and programming. Subscribe to build your skillset and become a better developer in 10 minutes a week.</p>
+
+<p>Thank You!</p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/swastikyadav/sass-the-css-preprocessor-handbook-and-how-does-it-work-58dn" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(s,n,a,e){return a.type_of="article",a.id=920609,a.title="Sass: The CSS preprocessor handbook and how does it work?",a.description="Hello Developers,  So, today let's dive deep into the world of CSS preprocessor Sass. We will learn...",a.readable_publish_date="Dec 8 '21",a.slug="sass-the-css-preprocessor-handbook-and-how-does-it-work-58dn",a.path="/swastikyadav/sass-the-css-preprocessor-handbook-and-how-does-it-work-58dn",a.url=e,a.comments_count=0,a.public_reactions_count=7,a.collection_id=s,a.published_timestamp=n,a.positive_reactions_count=7,a.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--im1vMypj--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/sg5cf89xf7ddtxa50ak5.jpeg",a.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--J-vOJ-ua--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/sg5cf89xf7ddtxa50ak5.jpeg",a.canonical_url=e,a.created_at=n,a.edited_at="2021-12-08T09:15:50Z",a.crossposted_at=s,a.published_at=n,a.last_comment_at=n,a.reading_time_minutes=6,a.tag_list="css, sass, tutorial, beginners",a.tags=["css","sass","tutorial","beginners"],a.body_html='<p>Hello Developers,</p>\n\n<p>So, today let\'s dive deep into the world of CSS preprocessor Sass. We will learn what is Sass, how to use it, and how does it work?</p>\n\n<h2>\n  <a name="what-is-sass" href="#what-is-sass">\n  </a>\n  What is Sass?\n</h2>\n\n<p>Sass stands for <strong>syntactically awesome style sheets</strong>. Sass is a CSS preprocessor, an extension of CSS that adds power and elegance to the basic CSS.</p>\n\n<p>Regular CSS gets very messy very quickly, That\'s why we use Sass, it provides us really handy features to make our CSS code reusable and logical.</p>\n\n<h2>\n  <a name="how-does-sass-work" href="#how-does-sass-work">\n  </a>\n  How does Sass work?\n</h2>\n\n<p>Instead of writing regular CSS code in a <code>.css</code> file extension, we write sass code in a <code>.scss</code> file extension.</p>\n\n<p>Then we run a compiler and that compiler converts the sass code into regular CSS code. We need to process our sass code first and that\'s why it is called <strong>CSS preprocessor</strong>.</p>\n\n\n<hr>\n\n<blockquote>\n<p>Before we begin.</p>\n\n<p>I run a weekly <a href="https://www.getrevue.co/profile/8020lessons">Newsletter</a> where I share epic content on web-dev and programming. Subscribe to build your skillset and become a better developer in 10 minutes a week.</p>\n</blockquote>\n\n\n<hr>\n\n<h2>\n  <a name="how-to-install-and-compile-sass-locally" href="#how-to-install-and-compile-sass-locally">\n  </a>\n  How to install and compile Sass locally?\n</h2>\n\n<p>Before actually exploring the main Sass features let\'s see how to install and compile Sass locally.</p>\n\n<p>Step 1: First of all we need to initiate the package.json file. So for that go to your project directory and run <code>npm init</code> or <code>yarn init</code>. Depending on what you use npm or yarn.</p>\n\n<p>This will create a file <code>package.json</code> which looks something like this.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="p">{</span>\n  <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">project name</span><span class="dl">"</span><span class="p">,</span>\n  <span class="dl">"</span><span class="s2">description</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">project description</span><span class="dl">"</span><span class="p">,</span>\n  <span class="dl">"</span><span class="s2">main</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">index.js</span><span class="dl">"</span><span class="p">,</span>\n  <span class="dl">"</span><span class="s2">scripts</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>\n    <span class="p">...</span>\n  <span class="p">}</span>\n  <span class="dl">"</span><span class="s2">author</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Your name</span><span class="dl">"</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Step 2: Next let\'s install the Sass compiler in our project. Run <code>npm install node-sass</code> or <code>yarn add node-sass</code> in the command line.</p>\n\n<p>Now our package.json file should show node-sass as a dependency.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="p">{</span>\n  <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">project name</span><span class="dl">"</span><span class="p">,</span>\n  <span class="dl">"</span><span class="s2">description</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">project description</span><span class="dl">"</span><span class="p">,</span>\n  <span class="dl">"</span><span class="s2">main</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">index.js</span><span class="dl">"</span><span class="p">,</span>\n  <span class="dl">"</span><span class="s2">scripts</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>\n    <span class="p">...</span>\n  <span class="p">}</span>\n  <span class="dl">"</span><span class="s2">author</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Your name</span><span class="dl">"</span><span class="p">,</span>\n  <span class="dl">"</span><span class="s2">dependencies</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>\n    <span class="dl">"</span><span class="s2">node-sass</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">^4.5.3</span><span class="dl">"</span>\n  <span class="p">}</span> \n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Step 3: Let\'s write a script in package.json that will compile the CSS code from sass code.</p>\n\n<p>Here is the ex folder structure.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>app\n└── index.html\n└── css folder\n    └── style.css\n└── sass folder\n    └── style.scss\n└── package.json\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The script starts with the package name (node-sass) followed by the sass file path (sass/style.scss) followed by the final CSS file path (css/style.css).<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="p">{</span>\n  <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">project name</span><span class="dl">"</span><span class="p">,</span>\n  <span class="dl">"</span><span class="s2">description</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">project description</span><span class="dl">"</span><span class="p">,</span>\n  <span class="dl">"</span><span class="s2">main</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">index.js</span><span class="dl">"</span><span class="p">,</span>\n  <span class="dl">"</span><span class="s2">scripts</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>\n    <span class="dl">"</span><span class="s2">compile:sass</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">node-sass sass/style.scss css/style.css -w</span><span class="dl">"</span>\n  <span class="p">}</span>\n  <span class="dl">"</span><span class="s2">author</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Your name</span><span class="dl">"</span><span class="p">,</span>\n  <span class="dl">"</span><span class="s2">dependencies</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>\n    <span class="dl">"</span><span class="s2">node-sass</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">^4.5.3</span><span class="dl">"</span>\n  <span class="p">}</span> \n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Step 4: And the last step is to run the script. Run <code>npm run compile:sass</code> or <code>yarn run compile:sass</code>.</p>\n\n<p>That\'s it, we are ready to start writing sass code. </p>\n\n<h2>\n  <a name="main-features-of-sass" href="#main-features-of-sass">\n  </a>\n  Main features of Sass\n</h2>\n\n<p>Here are the main features of Sass, let\'s cover these features one by one in this post.</p>\n\n<ul>\n<li>Variables: For reusable values such as color, font-size, and spacing.</li>\n<li>Nesting: To nest selectors inside of one another, allowing us to write less code.</li>\n<li>Partials and Imports: To write CSS in different files and importing them all in single file.</li>\n<li>Mixins: TO write reusable CSS code.</li>\n<li>Extends: To make different selectors inherit declarations that are common to all of them.</li>\n</ul>\n\n<h2>\n  <a name="variables" href="#variables">\n  </a>\n  Variables\n</h2>\n\n<p>A variable is used so that we can use that same value everywhere in our code, for example brand color.</p>\n\n<p><code>style.scss</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight scss"><code><span class="nv">$color-primary</span><span class="p">:</span> <span class="mh">#F56B27</span><span class="p">;</span>\n<span class="nv">$light-color</span><span class="p">:</span> <span class="mh">#fff</span><span class="p">;</span>\n\n<span class="nc">.navigation</span> <span class="p">{</span>\n  <span class="nl">background-color</span><span class="p">:</span> <span class="nv">$color-primary</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="nc">.nav-link</span> <span class="p">{</span>\n  <span class="nl">color</span><span class="p">:</span> <span class="nv">$light-color</span><span class="p">;</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>And if we ever need to change the brand color, we do it just at one place in the variable.</p>\n\n<h2>\n  <a name="nesting-selectors" href="#nesting-selectors">\n  </a>\n  Nesting selectors\n</h2>\n\n<p>Let\'s say we have the following navigation markup.</p>\n\n<p><code>index.html</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight html"><code><span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">"navigation"</span><span class="nt">&gt;</span>\n  <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"nav-list"</span><span class="nt">&gt;</span>\n    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-list-item"</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Home<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>\n    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-list-item"</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>About Us<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>\n    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"nav-list-item"</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Contact Us<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>\n  <span class="nt">&lt;/ul&gt;</span>\n<span class="nt">&lt;/nav&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>If we need to style the <code>&lt;li&gt;</code> which is nested inside <code>&lt;ul&gt;</code> which is again nested inside <code>&lt;nav&gt;</code>. In regular CSS it will be done the following way.</p>\n\n<p><code>style.css</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight css"><code><span class="o">//</span> <span class="nt">Styling</span> <span class="nt">nav</span>\n<span class="nc">.navigation</span> <span class="p">{</span>\n  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#F56B27</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="o">//</span> <span class="nt">Styling</span> <span class="nt">ul</span> <span class="nt">which</span> <span class="nt">is</span> <span class="nt">nested</span> <span class="nt">inside</span> <span class="nt">nav</span>\n<span class="nc">.navigation</span> <span class="nc">.nav-list</span> <span class="p">{</span>\n  <span class="nl">list-style</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>\n  <span class="nl">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>\n  <span class="nl">justify-content</span><span class="p">:</span> <span class="n">space-between</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="o">//</span> <span class="nt">Styling</span> <span class="nt">li</span> <span class="nt">which</span> <span class="nt">is</span> <span class="nt">nested</span> <span class="nt">inside</span> <span class="nt">ul</span>\n<span class="nc">.navigation</span> <span class="nc">.nav-list</span> <span class="nc">.nav-list-item</span> <span class="nt">a</span> <span class="p">{</span>\n  <span class="nl">color</span><span class="p">:</span> <span class="m">#fff</span><span class="p">;</span>\n  <span class="nl">font-size</span><span class="p">:</span> <span class="m">15px</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="o">//</span> <span class="nt">Change</span> <span class="nt">li</span> <span class="nt">color</span> <span class="nt">to</span> <span class="nt">blue</span> <span class="nt">on</span> <span class="nt">hover</span>\n<span class="nc">.navigation</span> <span class="nc">.nav-list</span> <span class="nc">.nav-list-item</span><span class="nd">:hover</span> <span class="p">{</span>\n  <span class="nl">color</span><span class="p">:</span> <span class="m">#00f</span><span class="p">;</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now, let\'s do the same styling, but this time with Sass.</p>\n\n<p><code>style.scss</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight scss"><code><span class="nv">$brand-color</span><span class="p">:</span> <span class="mh">#F56B27</span><span class="p">;</span>\n<span class="nv">$light-color</span><span class="p">:</span> <span class="mh">#fff</span><span class="p">;</span>\n<span class="nv">$hover-link-color</span><span class="p">:</span> <span class="mh">#00f</span><span class="p">;</span>\n<span class="nv">$link-font-size</span><span class="p">:</span> <span class="m">15px</span><span class="p">;</span>\n\n<span class="nc">.navigation</span> <span class="p">{</span>\n  <span class="nl">background-color</span><span class="p">:</span> <span class="nv">$brand-color</span><span class="p">;</span>\n\n  <span class="nc">.nav-list</span> <span class="p">{</span>\n    <span class="nl">list-style</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>\n    <span class="nl">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>\n    <span class="nl">justify-content</span><span class="p">:</span> <span class="n">space-between</span><span class="p">;</span>\n\n    <span class="nc">.nav-list-item</span> <span class="nt">a</span> <span class="p">{</span>\n      <span class="nl">color</span><span class="p">:</span> <span class="nv">$light-color</span><span class="p">;</span>\n      <span class="nl">font-size</span><span class="p">:</span> <span class="nv">$link-font-size</span><span class="p">;</span>\n\n      <span class="k">&amp;</span><span class="nd">:hover</span> <span class="p">{</span>\n        <span class="nl">color</span><span class="p">:</span> <span class="nv">$hover-link-color</span><span class="p">;</span>\n      <span class="p">}</span>\n    <span class="p">}</span>\n  <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>We can literally nest selectors the way it is nested in HTML. Now, isn\'t it cool?</p>\n\n<blockquote>\n<p>Note: In the above snippet we nested 3 levels deep. And to maintain readability we shouldn\'t go deeper than this.</p>\n</blockquote>\n\n<h2>\n  <a name="mixins" href="#mixins">\n  </a>\n  Mixins\n</h2>\n\n<p>Mixins are used to write reusable parts of CSS code. For example let\'s say we have a footer with 3 links, which needs to be aligned horizontally.</p>\n\n<p>So, we will use flex for that. But notice in the last example also we used flex to align navigation links horizontally.</p>\n\n<p><code>index.html</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight html"><code><span class="nt">&lt;nav&gt;</span>\n  ...\n<span class="nt">&lt;/nav&gt;</span>\n\n<span class="nt">&lt;footer&gt;</span>\n  <span class="nt">&lt;ul</span> <span class="na">class=</span><span class="s">"footer-nav-list"</span><span class="nt">&gt;</span>\n    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"footer-list-item"</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>More info<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>\n    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"footer-list-item"</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Careers<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>\n    <span class="nt">&lt;li</span> <span class="na">class=</span><span class="s">"footer-list-item"</span><span class="nt">&gt;&lt;a</span> <span class="na">href=</span><span class="s">"#"</span><span class="nt">&gt;</span>Team<span class="nt">&lt;/a&gt;&lt;/li&gt;</span>\n  <span class="nt">&lt;/ul&gt;</span>\n<span class="nt">&lt;/footer&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>So, the following code will repeat for both navigation and footer.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight css"><code><span class="nc">.nav-list</span> <span class="p">{</span>\n  <span class="nl">list-style</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>\n  <span class="nl">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>\n  <span class="nl">justify-content</span><span class="p">:</span> <span class="n">space-between</span><span class="p">;</span>\n\n  <span class="err">...</span>\n<span class="p">}</span>\n\n<span class="nc">.footer-nav-list</span> <span class="p">{</span>\n  <span class="nl">list-style</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>\n  <span class="nl">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>\n  <span class="nl">justify-content</span><span class="p">:</span> <span class="n">space-between</span><span class="p">;</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Instead of having to write the same code twice, let\'s write mixins to have a reusable block of code.</p>\n\n<p><code>style.scss</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight scss"><code><span class="nc">...</span>\n\n<span class="o">//</span> <span class="nt">This</span> <span class="nt">is</span> <span class="nt">the</span> <span class="nt">reusable</span> <span class="nt">block</span> <span class="nt">of</span> <span class="nt">code</span>\n<span class="o">@</span><span class="nt">mixin</span> <span class="nt">flex-between</span> <span class="p">{</span>\n  <span class="nl">list-style</span><span class="p">:</span> <span class="nb">none</span><span class="p">;</span>\n  <span class="nl">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>\n  <span class="nl">justify-content</span><span class="p">:</span> <span class="n">space-between</span><span class="p">;</span>\n<span class="p">}</span> \n\n<span class="nc">.navigation</span> <span class="p">{</span>\n  <span class="nc">...</span>\n\n  <span class="nc">.nav-list</span> <span class="p">{</span>\n    <span class="k">@include</span> <span class="nd">flex-between</span><span class="p">;</span> <span class="c1">// used mixin here</span>\n\n    <span class="nc">...</span>\n  <span class="p">}</span>\n<span class="p">}</span>\n\n<span class="nt">footer</span> <span class="p">{</span>\n  <span class="nc">.footer-nav-list</span> <span class="p">{</span>\n    <span class="k">@include</span> <span class="nd">flex-between</span><span class="p">;</span> <span class="c1">// used mixin here</span>\n  <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>In the above snippet, we used the <code>flex-between</code> mixin twice, without having to write the whole code twice. We just executed the DRY (Do Not Repeat Yourself) principle.</p>\n\n<h2>\n  <a name="extends" href="#extends">\n  </a>\n  Extends\n</h2>\n\n<p>Usecase of Extends is very similar to that of mixins but fundamentally they are different. The diff becomes clear in the final compiled CSS file.</p>\n\n<p>After compilation:</p>\n\n<ul>\n<li>The code in mixin is pasted where ever we include it.</li>\n<li>Whereas in extends it is the other way around. The selector is pasted where the code is defined.</li>\n</ul>\n\n<p>Let me explain this with an example.</p>\n\n<p>Let\'s say we have two different buttons with similar styles.</p>\n\n<p><code>index.html</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight html"><code><span class="nt">&lt;nav</span> <span class="na">class=</span><span class="s">"navigation"</span><span class="nt">&gt;</span>\n  <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"signup-btn"</span><span class="nt">&gt;</span>Sing Up<span class="nt">&lt;/button&gt;</span>\n  <span class="nt">&lt;button</span> <span class="na">class=</span><span class="s">"login-btn"</span><span class="nt">&gt;</span>Login In<span class="nt">&lt;/button&gt;</span>\n<span class="nt">&lt;/nav&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>First let\'s use mixins for similar styling.<br>\n<code>style.scss</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight scss"><code><span class="k">@mixin</span> <span class="nf">button-style</span> <span class="p">{</span>\n  <span class="nl">padding</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>\n  <span class="nl">display</span><span class="p">:</span> <span class="n">inline-block</span><span class="p">;</span>\n  <span class="nl">text-align</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>\n  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="nc">.signup-btn</span> <span class="p">{</span>\n <span class="k">@include</span> <span class="nd">button-style</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="nc">.login-btn</span> <span class="p">{</span>\n  <span class="k">@include</span> <span class="nd">button-style</span><span class="p">;</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Here is the result of final compiled CSS.</p>\n\n<p>compiled <code>style.css</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight css"><code><span class="nc">.signup-btn</span> <span class="p">{</span>\n  <span class="nl">padding</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>\n  <span class="nl">display</span><span class="p">:</span> <span class="n">inline-block</span><span class="p">;</span>\n  <span class="nl">text-align</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>\n  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="nc">.login-btn</span> <span class="p">{</span>\n  <span class="nl">padding</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>\n  <span class="nl">display</span><span class="p">:</span> <span class="n">inline-block</span><span class="p">;</span>\n  <span class="nl">text-align</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>\n  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now let\'s use <strong>extends</strong> to make the code reusable. And you will see the difference in the compiled CSS file.</p>\n\n<p><code>style.scss</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight scss"><code><span class="c1">// extends starts with %</span>\n<span class="nv">%button-style</span> <span class="p">{</span>\n  <span class="nl">padding</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>\n  <span class="nl">display</span><span class="p">:</span> <span class="n">inline-block</span><span class="p">;</span>\n  <span class="nl">text-align</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>\n  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="nc">.signup-btn</span> <span class="p">{</span>\n <span class="k">@extend</span> <span class="nv">%button-style</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="nc">.login-btn</span> <span class="p">{</span>\n  <span class="k">@extend</span> <span class="nv">%button-style</span><span class="p">;</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Here is the compiled CSS file when we used extends.</p>\n\n<p>compiled <code>style.css</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight css"><code><span class="nc">.signup-btn</span><span class="o">,</span>\n<span class="nc">.login-btn</span> <span class="p">{</span>\n  <span class="nl">padding</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>\n  <span class="nl">display</span><span class="p">:</span> <span class="n">inline-block</span><span class="p">;</span>\n  <span class="nl">text-align</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>\n  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">100px</span><span class="p">;</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Look at the compiled CSS version of both (mixin and extend) and the fundamental difference will become clear to you.</p>\n\n<h2>\n  <a name="partials-and-imports" href="#partials-and-imports">\n  </a>\n  Partials and imports\n</h2>\n\n<p>We can also separate sass files as per the specific UI needs using partials and imports.</p>\n\n<p>Let\'s say our app has two sections a header and a footer. We can have 3 sass files.</p>\n\n<ul>\n<li>One sass file for header.</li>\n<li>Second sass file for footer.</li>\n<li>And third main sass file will import both header and footer.</li>\n</ul>\n\n<p>Here header and footer are partial sass files. The partial file name begins with an underscore (_).</p>\n\n<p><code>sass/_header.scss</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight scss"><code><span class="nc">.header</span> <span class="p">{</span><span class="nc">...</span><span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><code>sass/_footer.scss</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight scss"><code><span class="nc">.footer</span> <span class="p">{</span><span class="nc">...</span><span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><code>sass/style.scss</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight scss"><code><span class="k">@import</span> <span class="s2">"header"</span><span class="p">;</span>\n<span class="k">@import</span> <span class="s2">"footer"</span><span class="p">;</span>\n\n<span class="nc">...</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Final folder structure<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>app\n└── index.html\n└── css folder\n    └── style.css\n└── sass folder\n    └── style.scss\n    └── _header.scss\n    └── _footer.scss\n└── package.json\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n<hr>\n\n<p>That\'s it for this post. I hope all this will be useful and you learned something new.</p>\n\n<p>I run a weekly <a href="https://www.getrevue.co/profile/8020lessons">Newsletter</a> where I share epic content on web-dev and programming. Subscribe to build your skillset and become a better developer in 10 minutes a week.</p>\n\n<p>Thank You!</p>\n\n',a.body_markdown='Hello Developers,\n\nSo, today let\'s dive deep into the world of CSS preprocessor Sass. We will learn what is Sass, how to use it, and how does it work?\n\n## What is Sass?\nSass stands for **syntactically awesome style sheets**. Sass is a CSS preprocessor, an extension of CSS that adds power and elegance to the basic CSS.\n\nRegular CSS gets very messy very quickly, That\'s why we use Sass, it provides us really handy features to make our CSS code reusable and logical.\n\n## How does Sass work?\nInstead of writing regular CSS code in a `.css` file extension, we write sass code in a `.scss` file extension.\n\nThen we run a compiler and that compiler converts the sass code into regular CSS code. We need to process our sass code first and that\'s why it is called **CSS preprocessor**.\n\n---------------\n\n> Before we begin.\n\n> I run a weekly [Newsletter](https://www.getrevue.co/profile/8020lessons) where I share epic content on web-dev and programming. Subscribe to build your skillset and become a better developer in 10 minutes a week.\n\n---------------\n\n## How to install and compile Sass locally?\nBefore actually exploring the main Sass features let\'s see how to install and compile Sass locally.\n\nStep 1: First of all we need to initiate the package.json file. So for that go to your project directory and run `npm init` or `yarn init`. Depending on what you use npm or yarn.\n\nThis will create a file `package.json` which looks something like this.\n\n```js\n{\n  "name": "project name",\n  "description": "project description",\n  "main": "index.js",\n  "scripts": {\n    ...\n  }\n  "author": "Your name"\n}\n```\n\nStep 2: Next let\'s install the Sass compiler in our project. Run `npm install node-sass` or `yarn add node-sass` in the command line.\n\nNow our package.json file should show node-sass as a dependency.\n\n```js\n{\n  "name": "project name",\n  "description": "project description",\n  "main": "index.js",\n  "scripts": {\n    ...\n  }\n  "author": "Your name",\n  "dependencies": {\n    "node-sass": "^4.5.3"\n  } \n}\n```\n\nStep 3: Let\'s write a script in package.json that will compile the CSS code from sass code.\n\nHere is the ex folder structure.\n\n```\napp\n└── index.html\n└── css folder\n    └── style.css\n└── sass folder\n    └── style.scss\n└── package.json\n```\n\nThe script starts with the package name (node-sass) followed by the sass file path (sass/style.scss) followed by the final CSS file path (css/style.css).\n\n```js\n{\n  "name": "project name",\n  "description": "project description",\n  "main": "index.js",\n  "scripts": {\n    "compile:sass": "node-sass sass/style.scss css/style.css -w"\n  }\n  "author": "Your name",\n  "dependencies": {\n    "node-sass": "^4.5.3"\n  } \n}\n```\n\nStep 4: And the last step is to run the script. Run `npm run compile:sass` or `yarn run compile:sass`.\n\nThat\'s it, we are ready to start writing sass code. \n\n## Main features of Sass\nHere are the main features of Sass, let\'s cover these features one by one in this post.\n\n- Variables: For reusable values such as color, font-size, and spacing.\n- Nesting: To nest selectors inside of one another, allowing us to write less code.\n- Partials and Imports: To write CSS in different files and importing them all in single file.\n- Mixins: TO write reusable CSS code.\n- Extends: To make different selectors inherit declarations that are common to all of them.\n\n## Variables\nA variable is used so that we can use that same value everywhere in our code, for example brand color.\n\n`style.scss`\n```scss\n$color-primary: #F56B27;\n$light-color: #fff;\n\n.navigation {\n  background-color: $color-primary;\n}\n\n.nav-link {\n  color: $light-color;\n}\n```\n\nAnd if we ever need to change the brand color, we do it just at one place in the variable.\n\n## Nesting selectors\nLet\'s say we have the following navigation markup.\n\n`index.html`\n```html\n<nav class="navigation">\n  <ul class="nav-list">\n    <li class="nav-list-item"><a href="#">Home</a></li>\n    <li class="nav-list-item"><a href="#">About Us</a></li>\n    <li class="nav-list-item"><a href="#">Contact Us</a></li>\n  </ul>\n</nav>\n```\n\nIf we need to style the `<li>` which is nested inside `<ul>` which is again nested inside `<nav>`. In regular CSS it will be done the following way.\n\n`style.css`\n```css\n// Styling nav\n.navigation {\n  background-color: #F56B27;\n}\n\n// Styling ul which is nested inside nav\n.navigation .nav-list {\n  list-style: none;\n  display: flex;\n  justify-content: space-between;\n}\n\n// Styling li which is nested inside ul\n.navigation .nav-list .nav-list-item a {\n  color: #fff;\n  font-size: 15px;\n}\n\n// Change li color to blue on hover\n.navigation .nav-list .nav-list-item:hover {\n  color: #00f;\n}\n```\n\nNow, let\'s do the same styling, but this time with Sass.\n\n`style.scss`\n```scss\n$brand-color: #F56B27;\n$light-color: #fff;\n$hover-link-color: #00f;\n$link-font-size: 15px;\n\n.navigation {\n  background-color: $brand-color;\n\n  .nav-list {\n    list-style: none;\n    display: flex;\n    justify-content: space-between;\n\n    .nav-list-item a {\n      color: $light-color;\n      font-size: $link-font-size;\n\n      &:hover {\n        color: $hover-link-color;\n      }\n    }\n  }\n}\n```\n\nWe can literally nest selectors the way it is nested in HTML. Now, isn\'t it cool?\n\n> Note: In the above snippet we nested 3 levels deep. And to maintain readability we shouldn\'t go deeper than this.\n\n## Mixins\nMixins are used to write reusable parts of CSS code. For example let\'s say we have a footer with 3 links, which needs to be aligned horizontally.\n\nSo, we will use flex for that. But notice in the last example also we used flex to align navigation links horizontally.\n\n`index.html`\n```html\n<nav>\n  ...\n</nav>\n\n<footer>\n  <ul class="footer-nav-list">\n    <li class="footer-list-item"><a href="#">More info</a></li>\n    <li class="footer-list-item"><a href="#">Careers</a></li>\n    <li class="footer-list-item"><a href="#">Team</a></li>\n  </ul>\n</footer>\n```\n\nSo, the following code will repeat for both navigation and footer.\n\n```css\n.nav-list {\n  list-style: none;\n  display: flex;\n  justify-content: space-between;\n\n  ...\n}\n\n.footer-nav-list {\n  list-style: none;\n  display: flex;\n  justify-content: space-between;\n}\n```\n\nInstead of having to write the same code twice, let\'s write mixins to have a reusable block of code.\n\n`style.scss`\n```scss\n...\n\n// This is the reusable block of code\n@mixin flex-between {\n  list-style: none;\n  display: flex;\n  justify-content: space-between;\n} \n\n.navigation {\n  ...\n\n  .nav-list {\n    @include flex-between; // used mixin here\n\n    ...\n  }\n}\n\nfooter {\n  .footer-nav-list {\n    @include flex-between; // used mixin here\n  }\n}\n```\n\nIn the above snippet, we used the `flex-between` mixin twice, without having to write the whole code twice. We just executed the DRY (Do Not Repeat Yourself) principle.\n\n## Extends\nUsecase of Extends is very similar to that of mixins but fundamentally they are different. The diff becomes clear in the final compiled CSS file.\n\nAfter compilation:\n- The code in mixin is pasted where ever we include it.\n- Whereas in extends it is the other way around. The selector is pasted where the code is defined.\n\nLet me explain this with an example.\n\nLet\'s say we have two different buttons with similar styles.\n\n`index.html`\n```html\n<nav class="navigation">\n  <button class="signup-btn">Sing Up</button>\n  <button class="login-btn">Login In</button>\n</nav>\n```\n\nFirst let\'s use mixins for similar styling.\n`style.scss`\n```scss\n@mixin button-style {\n  padding: 10px;\n  display: inline-block;\n  text-align: center;\n  border-radius: 100px;\n}\n\n.signup-btn {\n @include button-style;\n}\n\n.login-btn {\n  @include button-style;\n}\n```\n\nHere is the result of final compiled CSS.\n\ncompiled `style.css`\n```css\n.signup-btn {\n  padding: 10px;\n  display: inline-block;\n  text-align: center;\n  border-radius: 100px;\n}\n\n.login-btn {\n  padding: 10px;\n  display: inline-block;\n  text-align: center;\n  border-radius: 100px;\n}\n```\n\nNow let\'s use **extends** to make the code reusable. And you will see the difference in the compiled CSS file.\n\n`style.scss`\n```scss\n// extends starts with %\n%button-style {\n  padding: 10px;\n  display: inline-block;\n  text-align: center;\n  border-radius: 100px;\n}\n\n.signup-btn {\n @extend %button-style;\n}\n\n.login-btn {\n  @extend %button-style;\n}\n```\nHere is the compiled CSS file when we used extends.\n\ncompiled `style.css`\n```css\n.signup-btn,\n.login-btn {\n  padding: 10px;\n  display: inline-block;\n  text-align: center;\n  border-radius: 100px;\n}\n```\n\nLook at the compiled CSS version of both (mixin and extend) and the fundamental difference will become clear to you.\n\n## Partials and imports\nWe can also separate sass files as per the specific UI needs using partials and imports.\n\nLet\'s say our app has two sections a header and a footer. We can have 3 sass files.\n\n- One sass file for header.\n- Second sass file for footer.\n- And third main sass file will import both header and footer.\n\nHere header and footer are partial sass files. The partial file name begins with an underscore (_).\n\n`sass/_header.scss`\n```scss\n.header {...}\n```\n\n`sass/_footer.scss`\n```scss\n.footer {...}\n```\n\n`sass/style.scss`\n```scss\n@import "header";\n@import "footer";\n\n...\n```\n\nFinal folder structure\n```\napp\n└── index.html\n└── css folder\n    └── style.css\n└── sass folder\n    └── style.scss\n    └── _header.scss\n    └── _footer.scss\n└── package.json\n```\n\n------------------------------------------------------------\n\nThat\'s it for this post. I hope all this will be useful and you learned something new.\n\nI run a weekly [Newsletter](https://www.getrevue.co/profile/8020lessons) where I share epic content on web-dev and programming. Subscribe to build your skillset and become a better developer in 10 minutes a week.\n\nThank You!',a.user={name:"Swastik Yadav",username:"swastikyadav",twitter_username:s,github_username:"Swastikyadav",website_url:"https://www.youtube.com/channel/UC2GDrkykj0XzW_o1XkB8D4g",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--LVz0tQWM--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/624038/c7ac4cfb-caca-4091-8a5e-188f02c286a7.jpeg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--tzhMBDyf--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/624038/c7ac4cfb-caca-4091-8a5e-188f02c286a7.jpeg"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:a}},error:s,state:{currentArticle:a},serverRendered:!0,routePath:"/swastikyadav/920609",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:s}}}}(null,"2021-12-08T09:11:52Z",{},"https://dev.to/swastikyadav/sass-the-css-preprocessor-handbook-and-how-does-it-work-58dn")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

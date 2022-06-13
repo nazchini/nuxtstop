@@ -1,0 +1,622 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Leveraging Cache in Nuxt.js</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Leveraging Cache in Nuxt.js</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/vue" class="tag" data-v-70afb46a>
+          #vue
+        </a><a href="/nuxtstop/t/nuxt" class="tag" data-v-70afb46a>
+          #nuxt
+        </a><a href="/nuxtstop/t/cache" class="tag" data-v-70afb46a>
+          #cache
+        </a><a href="/nuxtstop/t/performance" class="tag" data-v-70afb46a>
+          #performance
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ESvFICW2--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4a9kxjw1wnlt3t4wdl5g.png" alt="Leveraging Cache in Nuxt.js" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            108
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            3
+          </span></div> <time data-v-70afb46a>Dec 20 '21</time></div></header> <div class="content" data-v-70afb46a><h1>
+  <a name="leveraging-cache-in-nuxtjs" href="#leveraging-cache-in-nuxtjs">
+  </a>
+  Leveraging Cache in Nuxt.js
+</h1>
+
+<p>I first got into the topic of Cache when I was implementing a TV Set-Top Box software using Vue.js. I suppose that when creating a Vue.js library Evan You never expected a frontend JavaScript framework to be used in Televison Software :D . Ok, back to the topic. So, back then, everyone was talking about Cache. "Cache this, cache that, but make sure to cache it as it contains sensitive data". Since then, I have been working with several cache implementations so now I decided to dig into the topic a bit more and present to you in a clean and interesting form.</p>
+
+<p>Implementing Cache strategy and policy can help improve performance of your website. If you are interested in this topic you can check my other articles:</p>
+
+<ul>
+<li><a href="https://dev.to/baroshem/continuous-performance-checks-in-nuxt-js-with-lighthouse-ci-and-github-actions-2lj9">Continuous performance checks in Nuxt.js with Lighthouse CI and Github Actions</a></li>
+<li><a href="https://dev.to/baroshem/performance-checklist-for-vue-and-nuxt-cog">Performance checklist for Vue and Nuxt</a></li>
+</ul>
+
+<p>If you are already know the concept of cache you can go to <a href="##Nuxt">Nuxt Section</a></p>
+
+<h2>
+  <a name="what-is-a-web-cache" href="#what-is-a-web-cache">
+  </a>
+  What is a Web Cache?
+</h2>
+
+<p>As Wikipedia states:</p>
+
+<p><code>A Web cache (or HTTP cache) is a system for optimizing the World Wide Web. It is implemented both client-side and server-side. The caching of images and other files can result in less overall delay when browsing the Web.</code></p>
+
+<p>So in other words, Cache is a system used for decreasing the time necessary to view the page (load all necessary static assets, content requests, and so on).</p>
+
+<p>We can define two main types of cache; <code>forward</code> and <code>reverse</code>.</p>
+
+<ul>
+<li>
+<strong>Forward</strong> - A forward cache is a cache outside the web server's network, e.g. in the client's web browser. A network-aware forward cache only caches heavily accessed items. A proxy server sitting between the client and web server can evaluate HTTP headers and choose whether to store web content.</li>
+<li>
+<strong>Reverse</strong> - Sits in front of one or more web servers, accelerating requests from the Internet and reducing peak server load. This is usually a content delivery network (CDN) that retains copies of web content at various points throughout a network.</li>
+</ul>
+
+<p><em>A CDN allows for the quick transfer of assets needed for loading Internet content including HTML pages, javascript files, stylesheets, images, and videos.</em></p>
+
+<h2>
+  <a name="how-does-the-cache-work" href="#how-does-the-cache-work">
+  </a>
+  How does the cache work?
+</h2>
+
+<p>Imagine following request being sent from the frontend to your backend in a form of a method.</p>
+
+<p><code>getDataFromDatabase()</code> -> takes X miliseconds to get the data and return it to the frontend.</p>
+
+<p>If you have several users using your website (and believe me, you do) your server would most probably fail to deliver the data to users after certain amount of requests.</p>
+
+<p>And what if we could somehow store the response in another tool so that instead of running the same method and requesting data from database over and over again, we could just return the result that was returned by a previous request? Wouldn't that be awesome?</p>
+
+<p>Let's take a look at following pseudocode:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">if</span> <span class="nx">request</span> <span class="k">in</span> <span class="nx">cache</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">cache</span><span class="p">[</span><span class="nx">request</span><span class="p">]</span>  <span class="c1">// This is called a cache hit</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="nx">req</span> <span class="o">=</span> <span class="nx">getDataFromDatabase</span><span class="p">()</span>  <span class="c1">//</span>
+  <span class="nx">cache</span><span class="p">[</span><span class="nx">request</span><span class="p">]</span> <span class="o">=</span> <span class="nx">req</span>        <span class="c1">// This is called a cache miss</span>
+  <span class="k">return</span> <span class="nx">req</span>                  <span class="c1">//</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This is how cache actually works. If a certain request is in cache, it will return response from cache instead of requesting data from the server (and database).</p>
+
+<h2>
+  <a name="when-to-use-cache" href="#when-to-use-cache">
+  </a>
+  When to use cache?
+</h2>
+
+<p>Cache is a powerful mechanism and can greatly improve the performance of our page, but should be used with caution.</p>
+
+<p>We should use cache if:</p>
+
+<ol>
+<li>The computation of our requests is quite slow</li>
+<li>The computation will run several times in a row</li>
+<li>When the output is the same for a particular input</li>
+<li>Hosting provides charges for DB Access.</li>
+</ol>
+
+<p>*Remember to not use cache for requests/routes/assets that are meant for the certain user. If you use cache for i.e. <code>/get-user-data</code> endpoint you may end up serving users different user data. Ouch!</p>
+
+<h2>
+  <a name="types-of-cache" href="#types-of-cache">
+  </a>
+  Types of cache
+</h2>
+
+<p>We can define three major types of cache; <code>browser</code>, <code>server</code>, and <code>proxy</code>.</p>
+
+<h3>
+  <a name="server" href="#server">
+  </a>
+  Server
+</h3>
+
+<p>In this case, caching mechanism is situated on the server in a form of an application, tool, or a software. The popular types of server caching software can be:</p>
+
+<ul>
+<li><a href="https://redis.io/">Redis</a></li>
+<li><a href="https://memcached.org/">Memcached</a></li>
+</ul>
+
+<h3>
+  <a name="browser" href="#browser">
+  </a>
+  Browser
+</h3>
+
+<p>In this case, caching mechanism is situated in the browser and is mainly used for caching resources like images, styles, assets, etc.</p>
+
+<h3>
+  <a name="proxy" href="#proxy">
+  </a>
+  Proxy
+</h3>
+
+<p>In this case, caching mechanism is situated in the proxy server or reverse proxy server like <a href="https://www.nginx.com/">Nginx</a>, <a href="https://www.apache.org/">Apache</a>, or <a href="https://varnish-cache.org/">Varnish</a>, and most probably it is a part of ISP (Internet Service Provider).</p>
+
+<h2>
+  <a name="benefits-of-using-cache" href="#benefits-of-using-cache">
+  </a>
+  Benefits of using Cache
+</h2>
+
+<p>Cache is a powerful mechanism that if used well can greatly increase a performance of our website by:</p>
+
+<ul>
+<li>Reducing latency</li>
+<li>Cutting down the server bandtwidth</li>
+<li>Reducing load on the server</li>
+</ul>
+
+<h2>
+  <a name="http-headers" href="#http-headers">
+  </a>
+  HTTP Headers
+</h2>
+
+<p>Each response from the server will return the data and certain headers. In these headers there will be instructions for our browser on how to handle cache to store certain requests in the browser cache. There are two main cache headers that we should focus on to get a better understanding on how they work; <code>expires</code> and <code>cache-control</code></p>
+
+<h3>
+  <a name="expires" href="#expires">
+  </a>
+  Expires
+</h3>
+
+<p>The Expires HTTP header contains the date/time after which the response is considered expired.</p>
+
+<p>Invalid expiration dates with value 0 represent a date in the past and mean that the resource is already expired.</p>
+
+<p>Note: If there is a Cache-Control header with the max-age or s-maxage directive in the response, the Expires header is ignored.</p>
+
+<p><code>Expires: Wed, 21 Oct 2015 07:28:00 GMT</code></p>
+
+<h3>
+  <a name="cachecontrol" href="#cachecontrol">
+  </a>
+  Cache-Control
+</h3>
+
+<p>The Cache-Control HTTP header holds directives (instructions) for caching in both requests and responses. If a given directive is in a request, it does not mean this directive is in the response.</p>
+
+<ul>
+<li>
+<code>Private</code> - only cached in the client</li>
+<li>
+<code>Public</code> - can be also cached in the proxies</li>
+<li>
+<code>no-store</code> - content won't be cached</li>
+<li>
+<code>no-cache</code> - content can be cached but require validation from the server</li>
+<li>
+<code>max-age</code> - tells the browser to keep cache for a certain number of seconds</li>
+</ul>
+
+<p>For more directives visit <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control#directives">Developer Mozilla</a>.</p>
+
+<h3>
+  <a name="cache-validation" href="#cache-validation">
+  </a>
+  Cache Validation
+</h3>
+
+<p>To check the validation, server might send one or more validation headers in the response which are used by the client to make a conditional request to the server.</p>
+
+<p>For that two elements are used; <code>Etag</code> and '':</p>
+
+<h4>
+  <a name="etag" href="#etag">
+  </a>
+  ETag
+</h4>
+
+<p>It is a shortcut for entity tag and a unique identifier, sent from the server, associated to the resource. Client then makes request to the server with that ETag to check if the content has been changed.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>Cache-Control: max-age=600 Public
+ETag: "123dadwad3211wda"
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Client will keep using this image from the cache for 600 seconds. After this time, client will make a call to the server with <code>If-None-Match</code> header and it will send as a value a previously mentioned ETag. The server will then the ETag with new content. If it does not mach, server will respond with the new ETag and the new resource which will be used to replace current image.</p>
+
+<p>If it does mach the existing image, the server will respond with the status code <code>304 Not Modified</code> and the client will renew the cache for another 600 seconds.</p>
+
+<p>There are two types of ETags:</p>
+
+<ul>
+<li>Strong - <code>ETag: "123dadwad3211wda"</code> - Two resources are exactly the same.</li>
+<li>Weak - <code>ETag: W/"123dadwad3211wda"</code> - Two resources can be considered the same.</li>
+</ul>
+
+<h4>
+  <a name="lastmodified" href="#lastmodified">
+  </a>
+  Last-Modified
+</h4>
+
+<p>Indicates the date and time when the content was last modified. When the content gets stale, it will make the conditional request with the last modifed date using the If-Modified-Since header which will then be used by the server to either return <code>304 Not Modified</code> or to return a new response.</p>
+
+<p>Server<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>Last-Modified: Mon, 24 Mar 2021 11:15:30 GMT
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Client<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>If-Modified-Since: Mon, 24 Mar 2021 11:15:30 GMT
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h4>
+  <a name="qampa" href="#qampa">
+  </a>
+  Q&A
+</h4>
+
+<p>Q: What if both headers are present in the response?<br>
+A: Both params ETag and If-None-Match and Last-Modified and If-Modified-Since are being sent and the server checks both values to either return 304 Not Modified or to return a new content.</p>
+
+<p>Q: What if none validation headersare present in the response?<br>
+A: There will be no calls to validate and refresh the existing cache. Fresh content will be requested as soon as the content gets stale.</p>
+<h3>
+  <a name="caching-strategy" href="#caching-strategy">
+  </a>
+  Caching Strategy
+</h3>
+
+<p>There is no global answer to that as it varies on many factors but normally we can define two major cache categories:</p>
+
+<ol>
+<li>Light Caching - i.e. HTML. It is cached but client needs to validate with the server before using it. By using it we are making sure that the client always gets the latest HTML whenever we have it available on the server but if HTML files have not been updated, it can avoid downloading and serve the one that is cached in the browser.
+</li>
+</ol>
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>Cache-Control: Private, no-cache
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<ol>
+<li>Agressive Caching - i.e. CSS, JavaScript, Images. By using following example we are caching these files in the public caches for a long time.
+</li>
+</ol>
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>Cache-Control: Public, max-age<span class="o">=</span>23412213
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+<h2>
+  <a name="nuxtjs" href="#nuxtjs">
+  </a>
+  Nuxt.js
+</h2>
+
+<p>You can use built in keep-alive cache mechanism provided by Vue.js and adapted by Nuxt to cache inactive component instances without destroying them.</p>
+
+<p><a href="https://nuxtjs.org/docs/features/nuxt-components/#keep-alive">https://nuxtjs.org/docs/features/nuxt-components/#keep-alive</a></p>
+<h3>
+  <a name="browser-cache-middleware" href="#browser-cache-middleware">
+  </a>
+  Browser Cache Middleware
+</h3>
+
+<p>By using following helper function as Nuxt middleware you can set <code>Cache-Control</code> headers for your pages and cache the content accordingly.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="c1">// helpers/cacheControl.js</span>
+
+<span class="kd">const</span> <span class="nx">cacheControl</span> <span class="o">=</span> <span class="p">(</span><span class="nx">values</span><span class="p">)</span> <span class="o">=></span> <span class="p">({</span> <span class="nx">res</span> <span class="p">})</span> <span class="o">=></span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">process</span><span class="p">.</span><span class="nx">server</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>
+
+  <span class="kd">const</span> <span class="nx">cacheControlValue</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">entries</span><span class="p">(</span><span class="nx">values</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">map</span><span class="p">(([</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">])</span> <span class="o">=></span> <span class="s2">`</span><span class="p">${</span><span class="nx">key</span><span class="p">}</span><span class="s2">=</span><span class="p">${</span><span class="nx">value</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span>
+    <span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="dl">'</span><span class="s1">,</span><span class="dl">'</span><span class="p">);</span>
+
+  <span class="nx">res</span><span class="p">.</span><span class="nx">setHeader</span><span class="p">(</span><span class="dl">'</span><span class="s1">Cache-Control</span><span class="dl">'</span><span class="p">,</span> <span class="nx">cacheControlValue</span><span class="p">);</span>
+<span class="p">};</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">cacheControl</span><span class="p">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Then, use this helper as a middleware in one of your pages like this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="c1">// Home.vue</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="p">{</span>
+  <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Home</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">middleware</span><span class="p">:</span> <span class="nx">cacheControl</span><span class="p">({</span>
+    <span class="dl">'</span><span class="s1">max-age</span><span class="dl">'</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
+    <span class="dl">'</span><span class="s1">stale-when-revalidate</span><span class="dl">'</span><span class="p">:</span> <span class="mi">5</span>
+  <span class="p">}),</span>
+  <span class="p">...</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="ssr-cache" href="#ssr-cache">
+  </a>
+  SSR Cache
+</h3>
+
+<p><a href="https://www.npmjs.com/package/nuxt-ssr-cache">nuxt-ssr-cache package</a></p>
+
+<p>Cache middleware for nuxt's SSR rendering. It supports various cache providers like Redis, memcached, and more.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code>  <span class="nx">cache</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nl">useHostPrefix</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nx">pages</span><span class="p">:</span> <span class="p">[</span>
+      <span class="dl">'</span><span class="s1">/page1</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">/page2</span><span class="dl">'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="nx">store</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nl">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">memory</span><span class="dl">'</span><span class="p">,</span>
+      <span class="nx">max</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+      <span class="nx">ttl</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><a href="https://www.npmjs.com/package/nuxt-perfect-cache">nuxt-perfect-cache</a></p>
+
+<p>Cache middleware based on Redis that is:</p>
+
+<ul>
+<li>easy to use</li>
+<li>cache whole page in the redis</li>
+<li>separate expire time for each page</li>
+<li>api request cache</li>
+</ul>
+
+<p>And has many configuration options for you to try out.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="p">[</span>
+  <span class="dl">'</span><span class="s1">nuxt-perfect-cache</span><span class="dl">'</span><span class="p">,</span>
+  <span class="p">{</span>
+    <span class="na">disable</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="na">appendHost</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">ignoreConnectionErrors</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span> <span class="c1">//it's better to be true in production</span>
+    <span class="na">prefix</span><span class="p">:</span> <span class="dl">'</span><span class="s1">r-</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">url</span><span class="p">:</span> <span class="dl">'</span><span class="s1">redis://127.0.0.1:6379</span><span class="dl">'</span><span class="p">,</span>
+    <span class="nx">getCacheData</span><span class="p">(</span><span class="nx">route</span><span class="p">,</span> <span class="nx">context</span><span class="p">)</span> <span class="p">{</span>          
+      <span class="k">if</span> <span class="p">(</span><span class="nx">route</span> <span class="o">!==</span> <span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="kc">false</span>
+      <span class="p">}</span>
+      <span class="k">return</span> <span class="p">{</span>
+        <span class="na">key</span><span class="p">:</span> <span class="dl">'</span><span class="s1">my-home-page</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">expire</span><span class="p">:</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span>
+      <span class="p">}</span> <span class="c1">// 1 hour</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="component-cache" href="#component-cache">
+  </a>
+  Component Cache
+</h3>
+
+<p><a href="https://github.com/nuxt-community/component-cache-module">component-cache</a></p>
+
+<p>A Nuxt.js wrapper for <a href="https://ssr.vuejs.org/guide/caching.html#component-level-caching">component-level-caching</a><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="p">{</span>
+  <span class="nl">modules</span><span class="p">:</span> <span class="p">[</span>
+    <span class="c1">// Simple usage</span>
+    <span class="dl">'</span><span class="s1">@nuxtjs/component-cache</span><span class="dl">'</span><span class="p">,</span>
+
+    <span class="c1">// With options</span>
+    <span class="p">[</span><span class="dl">'</span><span class="s1">@nuxtjs/component-cache</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span> <span class="na">maxAge</span><span class="p">:</span> <span class="mi">1000</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="p">}],</span>
+  <span class="p">]</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="summary" href="#summary">
+  </a>
+  Summary
+</h2>
+
+<p>Well done! Now, you should be more aware of the concept of Caching and how to leverage its potential to the full extend.</p>
+
+<h2>
+  <a name="bonus-links" href="#bonus-links">
+  </a>
+  Bonus Links
+</h2>
+
+<ul>
+<li><a href="https://www.youtube.com/watch?v=n__c7xY1ZcI">https://www.youtube.com/watch?v=n__c7xY1ZcI</a></li>
+<li><a href="https://www.youtube.com/watch?v=HiBDZgTNpXY">https://www.youtube.com/watch?v=HiBDZgTNpXY</a></li>
+<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control">https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control</a></li>
+<li><a href="https://vueschool.io/articles/vuejs-tutorials/vue-js-performance-mastering-cache/">https://vueschool.io/articles/vuejs-tutorials/vue-js-performance-mastering-cache/</a></li>
+<li><a href="https://medium.com/@oahehc/whats-the-best-way-to-set-the-cache-control-header-4fdae94da054">https://medium.com/@oahehc/whats-the-best-way-to-set-the-cache-control-header-4fdae94da054</a></li>
+</ul>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/jacobandrewsky/leveraging-cache-in-vuejs-and-nuxtjs-4b26" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(e,n,a,s,t){return n.type_of="article",n.id=880849,n.title="Leveraging Cache in Nuxt.js",n.description="Leveraging Cache in Nuxt.js   I first got into the topic of Cache when I was implementing a...",n.readable_publish_date="Dec 20 '21",n.slug="leveraging-cache-in-vuejs-and-nuxtjs-4b26",n.path="/jacobandrewsky/leveraging-cache-in-vuejs-and-nuxtjs-4b26",n.url=a,n.comments_count=3,n.public_reactions_count=108,n.collection_id=14657,n.published_timestamp=s,n.positive_reactions_count=108,n.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--ESvFICW2--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4a9kxjw1wnlt3t4wdl5g.png",n.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--ta6FWU79--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4a9kxjw1wnlt3t4wdl5g.png",n.canonical_url=a,n.created_at="2021-10-29T09:49:19Z",n.edited_at="2021-12-20T08:59:06Z",n.crossposted_at=e,n.published_at=s,n.last_comment_at="2022-03-16T08:09:06Z",n.reading_time_minutes=8,n.tag_list="vue, nuxt, cache, performance",n.tags=["vue","nuxt","cache","performance"],n.body_html='<h1>\n  <a name="leveraging-cache-in-nuxtjs" href="#leveraging-cache-in-nuxtjs">\n  </a>\n  Leveraging Cache in Nuxt.js\n</h1>\n\n<p>I first got into the topic of Cache when I was implementing a TV Set-Top Box software using Vue.js. I suppose that when creating a Vue.js library Evan You never expected a frontend JavaScript framework to be used in Televison Software :D . Ok, back to the topic. So, back then, everyone was talking about Cache. "Cache this, cache that, but make sure to cache it as it contains sensitive data". Since then, I have been working with several cache implementations so now I decided to dig into the topic a bit more and present to you in a clean and interesting form.</p>\n\n<p>Implementing Cache strategy and policy can help improve performance of your website. If you are interested in this topic you can check my other articles:</p>\n\n<ul>\n<li><a href="https://dev.to/baroshem/continuous-performance-checks-in-nuxt-js-with-lighthouse-ci-and-github-actions-2lj9">Continuous performance checks in Nuxt.js with Lighthouse CI and Github Actions</a></li>\n<li><a href="https://dev.to/baroshem/performance-checklist-for-vue-and-nuxt-cog">Performance checklist for Vue and Nuxt</a></li>\n</ul>\n\n<p>If you are already know the concept of cache you can go to <a href="##Nuxt">Nuxt Section</a></p>\n\n<h2>\n  <a name="what-is-a-web-cache" href="#what-is-a-web-cache">\n  </a>\n  What is a Web Cache?\n</h2>\n\n<p>As Wikipedia states:</p>\n\n<p><code>A Web cache (or HTTP cache) is a system for optimizing the World Wide Web. It is implemented both client-side and server-side. The caching of images and other files can result in less overall delay when browsing the Web.</code></p>\n\n<p>So in other words, Cache is a system used for decreasing the time necessary to view the page (load all necessary static assets, content requests, and so on).</p>\n\n<p>We can define two main types of cache; <code>forward</code> and <code>reverse</code>.</p>\n\n<ul>\n<li>\n<strong>Forward</strong> - A forward cache is a cache outside the web server\'s network, e.g. in the client\'s web browser. A network-aware forward cache only caches heavily accessed items. A proxy server sitting between the client and web server can evaluate HTTP headers and choose whether to store web content.</li>\n<li>\n<strong>Reverse</strong> - Sits in front of one or more web servers, accelerating requests from the Internet and reducing peak server load. This is usually a content delivery network (CDN) that retains copies of web content at various points throughout a network.</li>\n</ul>\n\n<p><em>A CDN allows for the quick transfer of assets needed for loading Internet content including HTML pages, javascript files, stylesheets, images, and videos.</em></p>\n\n<h2>\n  <a name="how-does-the-cache-work" href="#how-does-the-cache-work">\n  </a>\n  How does the cache work?\n</h2>\n\n<p>Imagine following request being sent from the frontend to your backend in a form of a method.</p>\n\n<p><code>getDataFromDatabase()</code> -&gt; takes X miliseconds to get the data and return it to the frontend.</p>\n\n<p>If you have several users using your website (and believe me, you do) your server would most probably fail to deliver the data to users after certain amount of requests.</p>\n\n<p>And what if we could somehow store the response in another tool so that instead of running the same method and requesting data from database over and over again, we could just return the result that was returned by a previous request? Wouldn\'t that be awesome?</p>\n\n<p>Let\'s take a look at following pseudocode:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">if</span> <span class="nx">request</span> <span class="k">in</span> <span class="nx">cache</span> <span class="p">{</span>\n  <span class="k">return</span> <span class="nx">cache</span><span class="p">[</span><span class="nx">request</span><span class="p">]</span>  <span class="c1">// This is called a cache hit</span>\n<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>\n  <span class="nx">req</span> <span class="o">=</span> <span class="nx">getDataFromDatabase</span><span class="p">()</span>  <span class="c1">//</span>\n  <span class="nx">cache</span><span class="p">[</span><span class="nx">request</span><span class="p">]</span> <span class="o">=</span> <span class="nx">req</span>        <span class="c1">// This is called a cache miss</span>\n  <span class="k">return</span> <span class="nx">req</span>                  <span class="c1">//</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This is how cache actually works. If a certain request is in cache, it will return response from cache instead of requesting data from the server (and database).</p>\n\n<h2>\n  <a name="when-to-use-cache" href="#when-to-use-cache">\n  </a>\n  When to use cache?\n</h2>\n\n<p>Cache is a powerful mechanism and can greatly improve the performance of our page, but should be used with caution.</p>\n\n<p>We should use cache if:</p>\n\n<ol>\n<li>The computation of our requests is quite slow</li>\n<li>The computation will run several times in a row</li>\n<li>When the output is the same for a particular input</li>\n<li>Hosting provides charges for DB Access.</li>\n</ol>\n\n<p>*Remember to not use cache for requests/routes/assets that are meant for the certain user. If you use cache for i.e. <code>/get-user-data</code> endpoint you may end up serving users different user data. Ouch!</p>\n\n<h2>\n  <a name="types-of-cache" href="#types-of-cache">\n  </a>\n  Types of cache\n</h2>\n\n<p>We can define three major types of cache; <code>browser</code>, <code>server</code>, and <code>proxy</code>.</p>\n\n<h3>\n  <a name="server" href="#server">\n  </a>\n  Server\n</h3>\n\n<p>In this case, caching mechanism is situated on the server in a form of an application, tool, or a software. The popular types of server caching software can be:</p>\n\n<ul>\n<li><a href="https://redis.io/">Redis</a></li>\n<li><a href="https://memcached.org/">Memcached</a></li>\n</ul>\n\n<h3>\n  <a name="browser" href="#browser">\n  </a>\n  Browser\n</h3>\n\n<p>In this case, caching mechanism is situated in the browser and is mainly used for caching resources like images, styles, assets, etc.</p>\n\n<h3>\n  <a name="proxy" href="#proxy">\n  </a>\n  Proxy\n</h3>\n\n<p>In this case, caching mechanism is situated in the proxy server or reverse proxy server like <a href="https://www.nginx.com/">Nginx</a>, <a href="https://www.apache.org/">Apache</a>, or <a href="https://varnish-cache.org/">Varnish</a>, and most probably it is a part of ISP (Internet Service Provider).</p>\n\n<h2>\n  <a name="benefits-of-using-cache" href="#benefits-of-using-cache">\n  </a>\n  Benefits of using Cache\n</h2>\n\n<p>Cache is a powerful mechanism that if used well can greatly increase a performance of our website by:</p>\n\n<ul>\n<li>Reducing latency</li>\n<li>Cutting down the server bandtwidth</li>\n<li>Reducing load on the server</li>\n</ul>\n\n<h2>\n  <a name="http-headers" href="#http-headers">\n  </a>\n  HTTP Headers\n</h2>\n\n<p>Each response from the server will return the data and certain headers. In these headers there will be instructions for our browser on how to handle cache to store certain requests in the browser cache. There are two main cache headers that we should focus on to get a better understanding on how they work; <code>expires</code> and <code>cache-control</code></p>\n\n<h3>\n  <a name="expires" href="#expires">\n  </a>\n  Expires\n</h3>\n\n<p>The Expires HTTP header contains the date/time after which the response is considered expired.</p>\n\n<p>Invalid expiration dates with value 0 represent a date in the past and mean that the resource is already expired.</p>\n\n<p>Note: If there is a Cache-Control header with the max-age or s-maxage directive in the response, the Expires header is ignored.</p>\n\n<p><code>Expires: Wed, 21 Oct 2015 07:28:00 GMT</code></p>\n\n<h3>\n  <a name="cachecontrol" href="#cachecontrol">\n  </a>\n  Cache-Control\n</h3>\n\n<p>The Cache-Control HTTP header holds directives (instructions) for caching in both requests and responses. If a given directive is in a request, it does not mean this directive is in the response.</p>\n\n<ul>\n<li>\n<code>Private</code> - only cached in the client</li>\n<li>\n<code>Public</code> - can be also cached in the proxies</li>\n<li>\n<code>no-store</code> - content won\'t be cached</li>\n<li>\n<code>no-cache</code> - content can be cached but require validation from the server</li>\n<li>\n<code>max-age</code> - tells the browser to keep cache for a certain number of seconds</li>\n</ul>\n\n<p>For more directives visit <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control#directives">Developer Mozilla</a>.</p>\n\n<h3>\n  <a name="cache-validation" href="#cache-validation">\n  </a>\n  Cache Validation\n</h3>\n\n<p>To check the validation, server might send one or more validation headers in the response which are used by the client to make a conditional request to the server.</p>\n\n<p>For that two elements are used; <code>Etag</code> and \'\':</p>\n\n<h4>\n  <a name="etag" href="#etag">\n  </a>\n  ETag\n</h4>\n\n<p>It is a shortcut for entity tag and a unique identifier, sent from the server, associated to the resource. Client then makes request to the server with that ETag to check if the content has been changed.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>Cache-Control: max-age=600 Public\nETag: "123dadwad3211wda"\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Client will keep using this image from the cache for 600 seconds. After this time, client will make a call to the server with <code>If-None-Match</code> header and it will send as a value a previously mentioned ETag. The server will then the ETag with new content. If it does not mach, server will respond with the new ETag and the new resource which will be used to replace current image.</p>\n\n<p>If it does mach the existing image, the server will respond with the status code <code>304 Not Modified</code> and the client will renew the cache for another 600 seconds.</p>\n\n<p>There are two types of ETags:</p>\n\n<ul>\n<li>Strong - <code>ETag: "123dadwad3211wda"</code> - Two resources are exactly the same.</li>\n<li>Weak - <code>ETag: W/"123dadwad3211wda"</code> - Two resources can be considered the same.</li>\n</ul>\n\n<h4>\n  <a name="lastmodified" href="#lastmodified">\n  </a>\n  Last-Modified\n</h4>\n\n<p>Indicates the date and time when the content was last modified. When the content gets stale, it will make the conditional request with the last modifed date using the If-Modified-Since header which will then be used by the server to either return <code>304 Not Modified</code> or to return a new response.</p>\n\n<p>Server<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>Last-Modified: Mon, 24 Mar 2021 11:15:30 GMT\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Client<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>If-Modified-Since: Mon, 24 Mar 2021 11:15:30 GMT\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h4>\n  <a name="qampa" href="#qampa">\n  </a>\n  Q&amp;A\n</h4>\n\n<p>Q: What if both headers are present in the response?<br>\nA: Both params ETag and If-None-Match and Last-Modified and If-Modified-Since are being sent and the server checks both values to either return 304 Not Modified or to return a new content.</p>\n\n<p>Q: What if none validation headersare present in the response?<br>\nA: There will be no calls to validate and refresh the existing cache. Fresh content will be requested as soon as the content gets stale.</p>\n<h3>\n  <a name="caching-strategy" href="#caching-strategy">\n  </a>\n  Caching Strategy\n</h3>\n\n<p>There is no global answer to that as it varies on many factors but normally we can define two major cache categories:</p>\n\n<ol>\n<li>Light Caching - i.e. HTML. It is cached but client needs to validate with the server before using it. By using it we are making sure that the client always gets the latest HTML whenever we have it available on the server but if HTML files have not been updated, it can avoid downloading and serve the one that is cached in the browser.\n</li>\n</ol>\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>Cache-Control: Private, no-cache\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<ol>\n<li>Agressive Caching - i.e. CSS, JavaScript, Images. By using following example we are caching these files in the public caches for a long time.\n</li>\n</ol>\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>Cache-Control: Public, max-age<span class="o">=</span>23412213\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n<h2>\n  <a name="nuxtjs" href="#nuxtjs">\n  </a>\n  Nuxt.js\n</h2>\n\n<p>You can use built in keep-alive cache mechanism provided by Vue.js and adapted by Nuxt to cache inactive component instances without destroying them.</p>\n\n<p><a href="https://nuxtjs.org/docs/features/nuxt-components/#keep-alive">https://nuxtjs.org/docs/features/nuxt-components/#keep-alive</a></p>\n<h3>\n  <a name="browser-cache-middleware" href="#browser-cache-middleware">\n  </a>\n  Browser Cache Middleware\n</h3>\n\n<p>By using following helper function as Nuxt middleware you can set <code>Cache-Control</code> headers for your pages and cache the content accordingly.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="c1">// helpers/cacheControl.js</span>\n\n<span class="kd">const</span> <span class="nx">cacheControl</span> <span class="o">=</span> <span class="p">(</span><span class="nx">values</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">({</span> <span class="nx">res</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">{</span>\n  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">process</span><span class="p">.</span><span class="nx">server</span><span class="p">)</span> <span class="k">return</span><span class="p">;</span>\n\n  <span class="kd">const</span> <span class="nx">cacheControlValue</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">entries</span><span class="p">(</span><span class="nx">values</span><span class="p">)</span>\n    <span class="p">.</span><span class="nx">map</span><span class="p">(([</span><span class="nx">key</span><span class="p">,</span> <span class="nx">value</span><span class="p">])</span> <span class="o">=&gt;</span> <span class="s2">`</span><span class="p">${</span><span class="nx">key</span><span class="p">}</span><span class="s2">=</span><span class="p">${</span><span class="nx">value</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span>\n    <span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="dl">\'</span><span class="s1">,</span><span class="dl">\'</span><span class="p">);</span>\n\n  <span class="nx">res</span><span class="p">.</span><span class="nx">setHeader</span><span class="p">(</span><span class="dl">\'</span><span class="s1">Cache-Control</span><span class="dl">\'</span><span class="p">,</span> <span class="nx">cacheControlValue</span><span class="p">);</span>\n<span class="p">};</span>\n\n<span class="k">export</span> <span class="k">default</span> <span class="nx">cacheControl</span><span class="p">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Then, use this helper as a middleware in one of your pages like this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="c1">// Home.vue</span>\n\n<span class="k">export</span> <span class="k">default</span> <span class="p">{</span>\n  <span class="na">name</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">Home</span><span class="dl">\'</span><span class="p">,</span>\n  <span class="na">middleware</span><span class="p">:</span> <span class="nx">cacheControl</span><span class="p">({</span>\n    <span class="dl">\'</span><span class="s1">max-age</span><span class="dl">\'</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>\n    <span class="dl">\'</span><span class="s1">stale-when-revalidate</span><span class="dl">\'</span><span class="p">:</span> <span class="mi">5</span>\n  <span class="p">}),</span>\n  <span class="p">...</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="ssr-cache" href="#ssr-cache">\n  </a>\n  SSR Cache\n</h3>\n\n<p><a href="https://www.npmjs.com/package/nuxt-ssr-cache">nuxt-ssr-cache package</a></p>\n\n<p>Cache middleware for nuxt\'s SSR rendering. It supports various cache providers like Redis, memcached, and more.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code>  <span class="nx">cache</span><span class="p">:</span> <span class="p">{</span>\n    <span class="nl">useHostPrefix</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>\n    <span class="nx">pages</span><span class="p">:</span> <span class="p">[</span>\n      <span class="dl">\'</span><span class="s1">/page1</span><span class="dl">\'</span><span class="p">,</span>\n      <span class="dl">\'</span><span class="s1">/page2</span><span class="dl">\'</span><span class="p">,</span>\n    <span class="p">],</span>\n    <span class="nx">store</span><span class="p">:</span> <span class="p">{</span>\n      <span class="nl">type</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">memory</span><span class="dl">\'</span><span class="p">,</span>\n      <span class="nx">max</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>\n      <span class="nx">ttl</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>\n    <span class="p">},</span>\n  <span class="p">},</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><a href="https://www.npmjs.com/package/nuxt-perfect-cache">nuxt-perfect-cache</a></p>\n\n<p>Cache middleware based on Redis that is:</p>\n\n<ul>\n<li>easy to use</li>\n<li>cache whole page in the redis</li>\n<li>separate expire time for each page</li>\n<li>api request cache</li>\n</ul>\n\n<p>And has many configuration options for you to try out.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="p">[</span>\n  <span class="dl">\'</span><span class="s1">nuxt-perfect-cache</span><span class="dl">\'</span><span class="p">,</span>\n  <span class="p">{</span>\n    <span class="na">disable</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>\n    <span class="na">appendHost</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>\n    <span class="na">ignoreConnectionErrors</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span> <span class="c1">//it\'s better to be true in production</span>\n    <span class="na">prefix</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">r-</span><span class="dl">\'</span><span class="p">,</span>\n    <span class="na">url</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">redis://127.0.0.1:6379</span><span class="dl">\'</span><span class="p">,</span>\n    <span class="nx">getCacheData</span><span class="p">(</span><span class="nx">route</span><span class="p">,</span> <span class="nx">context</span><span class="p">)</span> <span class="p">{</span>          \n      <span class="k">if</span> <span class="p">(</span><span class="nx">route</span> <span class="o">!==</span> <span class="dl">\'</span><span class="s1">/</span><span class="dl">\'</span><span class="p">)</span> <span class="p">{</span>\n        <span class="k">return</span> <span class="kc">false</span>\n      <span class="p">}</span>\n      <span class="k">return</span> <span class="p">{</span>\n        <span class="na">key</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">my-home-page</span><span class="dl">\'</span><span class="p">,</span>\n        <span class="na">expire</span><span class="p">:</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span>\n      <span class="p">}</span> <span class="c1">// 1 hour</span>\n    <span class="p">}</span>\n  <span class="p">}</span>\n<span class="p">]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="component-cache" href="#component-cache">\n  </a>\n  Component Cache\n</h3>\n\n<p><a href="https://github.com/nuxt-community/component-cache-module">component-cache</a></p>\n\n<p>A Nuxt.js wrapper for <a href="https://ssr.vuejs.org/guide/caching.html#component-level-caching">component-level-caching</a><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="p">{</span>\n  <span class="nl">modules</span><span class="p">:</span> <span class="p">[</span>\n    <span class="c1">// Simple usage</span>\n    <span class="dl">\'</span><span class="s1">@nuxtjs/component-cache</span><span class="dl">\'</span><span class="p">,</span>\n\n    <span class="c1">// With options</span>\n    <span class="p">[</span><span class="dl">\'</span><span class="s1">@nuxtjs/component-cache</span><span class="dl">\'</span><span class="p">,</span> <span class="p">{</span> <span class="na">maxAge</span><span class="p">:</span> <span class="mi">1000</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="p">}],</span>\n  <span class="p">]</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="summary" href="#summary">\n  </a>\n  Summary\n</h2>\n\n<p>Well done! Now, you should be more aware of the concept of Caching and how to leverage its potential to the full extend.</p>\n\n<h2>\n  <a name="bonus-links" href="#bonus-links">\n  </a>\n  Bonus Links\n</h2>\n\n<ul>\n<li><a href="https://www.youtube.com/watch?v=n__c7xY1ZcI">https://www.youtube.com/watch?v=n__c7xY1ZcI</a></li>\n<li><a href="https://www.youtube.com/watch?v=HiBDZgTNpXY">https://www.youtube.com/watch?v=HiBDZgTNpXY</a></li>\n<li><a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control">https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control</a></li>\n<li><a href="https://vueschool.io/articles/vuejs-tutorials/vue-js-performance-mastering-cache/">https://vueschool.io/articles/vuejs-tutorials/vue-js-performance-mastering-cache/</a></li>\n<li><a href="https://medium.com/@oahehc/whats-the-best-way-to-set-the-cache-control-header-4fdae94da054">https://medium.com/@oahehc/whats-the-best-way-to-set-the-cache-control-header-4fdae94da054</a></li>\n</ul>\n\n',n.body_markdown="# Leveraging Cache in Nuxt.js\n\nI first got into the topic of Cache when I was implementing a TV Set-Top Box software using Vue.js. I suppose that when creating a Vue.js library Evan You never expected a frontend JavaScript framework to be used in Televison Software :D . Ok, back to the topic. So, back then, everyone was talking about Cache. \"Cache this, cache that, but make sure to cache it as it contains sensitive data\". Since then, I have been working with several cache implementations so now I decided to dig into the topic a bit more and present to you in a clean and interesting form.\n\nImplementing Cache strategy and policy can help improve performance of your website. If you are interested in this topic you can check my other articles:\n\n* [Continuous performance checks in Nuxt.js with Lighthouse CI and Github Actions](https://dev.to/baroshem/continuous-performance-checks-in-nuxt-js-with-lighthouse-ci-and-github-actions-2lj9)\n* [Performance checklist for Vue and Nuxt](https://dev.to/baroshem/performance-checklist-for-vue-and-nuxt-cog)\n\nIf you are already know the concept of cache you can go to [Nuxt Section](##Nuxt)\n\n## What is a Web Cache?\n\nAs Wikipedia states:\n\n`A Web cache (or HTTP cache) is a system for optimizing the World Wide Web. It is implemented both client-side and server-side. The caching of images and other files can result in less overall delay when browsing the Web.`\n\nSo in other words, Cache is a system used for decreasing the time necessary to view the page (load all necessary static assets, content requests, and so on).\n\nWe can define two main types of cache; `forward` and `reverse`.\n\n* **Forward** - A forward cache is a cache outside the web server's network, e.g. in the client's web browser. A network-aware forward cache only caches heavily accessed items. A proxy server sitting between the client and web server can evaluate HTTP headers and choose whether to store web content.\n* **Reverse** - Sits in front of one or more web servers, accelerating requests from the Internet and reducing peak server load. This is usually a content delivery network (CDN) that retains copies of web content at various points throughout a network.\n\n*A CDN allows for the quick transfer of assets needed for loading Internet content including HTML pages, javascript files, stylesheets, images, and videos.*\n\n## How does the cache work?\n\nImagine following request being sent from the frontend to your backend in a form of a method.\n\n`getDataFromDatabase()` -> takes X miliseconds to get the data and return it to the frontend.\n\nIf you have several users using your website (and believe me, you do) your server would most probably fail to deliver the data to users after certain amount of requests.\n\nAnd what if we could somehow store the response in another tool so that instead of running the same method and requesting data from database over and over again, we could just return the result that was returned by a previous request? Wouldn't that be awesome?\n\nLet's take a look at following pseudocode:\n\n```js\nif request in cache {\n  return cache[request]  // This is called a cache hit\n} else {\n  req = getDataFromDatabase()  //\n  cache[request] = req        // This is called a cache miss\n  return req                  //\n}\n```\n\nThis is how cache actually works. If a certain request is in cache, it will return response from cache instead of requesting data from the server (and database).\n\n## When to use cache?\n\nCache is a powerful mechanism and can greatly improve the performance of our page, but should be used with caution.\n\nWe should use cache if:\n\n1. The computation of our requests is quite slow\n2. The computation will run several times in a row\n3. When the output is the same for a particular input\n4. Hosting provides charges for DB Access.\n\n*Remember to not use cache for requests/routes/assets that are meant for the certain user. If you use cache for i.e. `/get-user-data` endpoint you may end up serving users different user data. Ouch!\n\n## Types of cache\n\nWe can define three major types of cache; `browser`, `server`, and `proxy`.\n\n### Server\n\nIn this case, caching mechanism is situated on the server in a form of an application, tool, or a software. The popular types of server caching software can be:\n\n* [Redis](https://redis.io/)\n* [Memcached](https://memcached.org/)\n\n### Browser\n\nIn this case, caching mechanism is situated in the browser and is mainly used for caching resources like images, styles, assets, etc.\n\n### Proxy\n\nIn this case, caching mechanism is situated in the proxy server or reverse proxy server like [Nginx](https://www.nginx.com/), [Apache](https://www.apache.org/), or [Varnish](https://varnish-cache.org/), and most probably it is a part of ISP (Internet Service Provider).\n\n## Benefits of using Cache\n\nCache is a powerful mechanism that if used well can greatly increase a performance of our website by:\n\n* Reducing latency\n* Cutting down the server bandtwidth\n* Reducing load on the server\n\n## HTTP Headers\n\nEach response from the server will return the data and certain headers. In these headers there will be instructions for our browser on how to handle cache to store certain requests in the browser cache. There are two main cache headers that we should focus on to get a better understanding on how they work; `expires` and `cache-control`\n\n### Expires\n\nThe Expires HTTP header contains the date/time after which the response is considered expired.\n\nInvalid expiration dates with value 0 represent a date in the past and mean that the resource is already expired.\n\nNote: If there is a Cache-Control header with the max-age or s-maxage directive in the response, the Expires header is ignored.\n\n`Expires: Wed, 21 Oct 2015 07:28:00 GMT`\n\n### Cache-Control\n\nThe Cache-Control HTTP header holds directives (instructions) for caching in both requests and responses. If a given directive is in a request, it does not mean this directive is in the response.\n\n* `Private` - only cached in the client\n* `Public` - can be also cached in the proxies\n* `no-store` - content won't be cached\n* `no-cache` - content can be cached but require validation from the server\n* `max-age` - tells the browser to keep cache for a certain number of seconds\n\nFor more directives visit [Developer Mozilla](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control#directives).\n\n### Cache Validation\n\nTo check the validation, server might send one or more validation headers in the response which are used by the client to make a conditional request to the server.\n\nFor that two elements are used; `Etag` and '':\n\n#### ETag\n\nIt is a shortcut for entity tag and a unique identifier, sent from the server, associated to the resource. Client then makes request to the server with that ETag to check if the content has been changed.\n\n```\nCache-Control: max-age=600 Public\nETag: \"123dadwad3211wda\"\n```\n\nClient will keep using this image from the cache for 600 seconds. After this time, client will make a call to the server with `If-None-Match` header and it will send as a value a previously mentioned ETag. The server will then the ETag with new content. If it does not mach, server will respond with the new ETag and the new resource which will be used to replace current image.\n\nIf it does mach the existing image, the server will respond with the status code `304 Not Modified` and the client will renew the cache for another 600 seconds.\n\nThere are two types of ETags:\n\n* Strong - `ETag: \"123dadwad3211wda\"` - Two resources are exactly the same.\n* Weak - `ETag: W/\"123dadwad3211wda\"` - Two resources can be considered the same.\n\n#### Last-Modified\n\nIndicates the date and time when the content was last modified. When the content gets stale, it will make the conditional request with the last modifed date using the If-Modified-Since header which will then be used by the server to either return `304 Not Modified` or to return a new response.\n\nServer\n\n```bash\nLast-Modified: Mon, 24 Mar 2021 11:15:30 GMT\n```\n\nClient\n\n```bash\nIf-Modified-Since: Mon, 24 Mar 2021 11:15:30 GMT\n```\n\n#### Q&A\n\nQ: What if both headers are present in the response?\nA: Both params ETag and If-None-Match and Last-Modified and If-Modified-Since are being sent and the server checks both values to either return 304 Not Modified or to return a new content.\n\nQ: What if none validation headersare present in the response?\nA: There will be no calls to validate and refresh the existing cache. Fresh content will be requested as soon as the content gets stale.\n\n### Caching Strategy\n\nThere is no global answer to that as it varies on many factors but normally we can define two major cache categories:\n\n1. Light Caching - i.e. HTML. It is cached but client needs to validate with the server before using it. By using it we are making sure that the client always gets the latest HTML whenever we have it available on the server but if HTML files have not been updated, it can avoid downloading and serve the one that is cached in the browser.\n\n```bash\nCache-Control: Private, no-cache\n```\n\n2. Agressive Caching - i.e. CSS, JavaScript, Images. By using following example we are caching these files in the public caches for a long time.\n\n```bash\nCache-Control: Public, max-age=23412213\n```\n\n## Nuxt.js\n\nYou can use built in keep-alive cache mechanism provided by Vue.js and adapted by Nuxt to cache inactive component instances without destroying them.\n\n<https://nuxtjs.org/docs/features/nuxt-components/#keep-alive>\n\n### Browser Cache Middleware\n\nBy using following helper function as Nuxt middleware you can set `Cache-Control` headers for your pages and cache the content accordingly.\n\n```js\n// helpers/cacheControl.js\n\nconst cacheControl = (values) => ({ res }) => {\n  if (!process.server) return;\n\n  const cacheControlValue = Object.entries(values)\n    .map(([key, value]) => `${key}=${value}`)\n    .join(',');\n\n  res.setHeader('Cache-Control', cacheControlValue);\n};\n\nexport default cacheControl;\n```\n\nThen, use this helper as a middleware in one of your pages like this:\n\n```js\n// Home.vue\n\nexport default {\n  name: 'Home',\n  middleware: cacheControl({\n    'max-age': 60,\n    'stale-when-revalidate': 5\n  }),\n  ...\n}\n```\n\n### SSR Cache\n\n[nuxt-ssr-cache package](https://www.npmjs.com/package/nuxt-ssr-cache)\n\nCache middleware for nuxt's SSR rendering. It supports various cache providers like Redis, memcached, and more.\n\n```js\n  cache: {\n    useHostPrefix: false,\n    pages: [\n      '/page1',\n      '/page2',\n    ],\n    store: {\n      type: 'memory',\n      max: 100,\n      ttl: 60,\n    },\n  },\n```\n\n[nuxt-perfect-cache](https://www.npmjs.com/package/nuxt-perfect-cache)\n\nCache middleware based on Redis that is:\n* easy to use\n* cache whole page in the redis\n* separate expire time for each page\n* api request cache\n\nAnd has many configuration options for you to try out.\n\n```js\n[\n  'nuxt-perfect-cache',\n  {\n    disable: false,\n    appendHost: true,\n    ignoreConnectionErrors:false, //it's better to be true in production\n    prefix: 'r-',\n    url: 'redis://127.0.0.1:6379',\n    getCacheData(route, context) {          \n      if (route !== '/') {\n        return false\n      }\n      return {\n        key: 'my-home-page',\n        expire: 60 * 60\n      } // 1 hour\n    }\n  }\n]\n```\n\n### Component Cache\n\n[component-cache](https://github.com/nuxt-community/component-cache-module)\n\nA Nuxt.js wrapper for [component-level-caching](https://ssr.vuejs.org/guide/caching.html#component-level-caching)\n\n```js\n{\n  modules: [\n    // Simple usage\n    '@nuxtjs/component-cache',\n    \n    // With options\n    ['@nuxtjs/component-cache', { maxAge: 1000 * 60 * 60 }],\n  ]\n}\n```\n\n## Summary\n\nWell done! Now, you should be more aware of the concept of Caching and how to leverage its potential to the full extend.\n\n## Bonus Links\n\n* <https://www.youtube.com/watch?v=n__c7xY1ZcI>\n* <https://www.youtube.com/watch?v=HiBDZgTNpXY>\n* <https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control>\n* <https://vueschool.io/articles/vuejs-tutorials/vue-js-performance-mastering-cache/>\n* <https://medium.com/@oahehc/whats-the-best-way-to-set-the-cache-control-header-4fdae94da054>",n.user={name:"Jakub Andrzejewski",username:t,twitter_username:t,github_username:"Baroshem",website_url:"https://pl.linkedin.com/in/jakub-andrzejewski",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--8p-Vfa2M--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/652576/5285632c-5819-4874-adf9-6d3730420830.jpeg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--a7o_PXrk--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/652576/5285632c-5819-4874-adf9-6d3730420830.jpeg"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:n}},error:e,state:{currentArticle:n},serverRendered:!0,routePath:"/jacobandrewsky/880849",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:e}}}}(null,{},"https://dev.to/jacobandrewsky/leveraging-cache-in-vuejs-and-nuxtjs-4b26","2021-12-20T08:54:00Z","jacobandrewsky")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

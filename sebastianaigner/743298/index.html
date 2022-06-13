@@ -1,0 +1,880 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Exploring Kotlin Lists in 2021</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Exploring Kotlin Lists in 2021</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/kotlin" class="tag" data-v-70afb46a>
+          #kotlin
+        </a><a href="/nuxtstop/t/programming" class="tag" data-v-70afb46a>
+          #programming
+        </a><a href="/nuxtstop/t/android" class="tag" data-v-70afb46a>
+          #android
+        </a><a href="/nuxtstop/t/productivity" class="tag" data-v-70afb46a>
+          #productivity
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--dZ_NgJZ6--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gvw7ksfqlrv2ba8wg11f.jpeg" alt="Exploring Kotlin Lists in 2021" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            46
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            2
+          </span></div> <time data-v-70afb46a>Jul 8 '21</time></div></header> <div class="content" data-v-70afb46a><p>This blog post accompanies a video from our <strong>YouTube series</strong> which you can find on our <a href="https://kotl.in/video">Kotlin YouTube channel</a>, or <strong>watch here</strong> directly!</p>
+
+<p><iframe width="710" height="399" src="https://www.youtube.com/embed/CDWy16UDeLQ" allowfullscreen loading="lazy">
+</iframe>
+</p>
+
+<p><strong>Today, we're talking all about lists!</strong> Lists are the most popular collection type in Kotlin for a good reason, and we’ll find out why together.</p>
+
+<h2>
+  <a name="lists" href="#lists">
+  </a>
+  Lists
+</h2>
+
+<h3>
+  <a name="whats-a-list" href="#whats-a-list">
+  </a>
+  What’s a list?
+</h3>
+
+<p>If you've written Kotlin code before, you've definitely seen a list – they're collections of ordered elements, where each element is accessible via an index. As such, they're one of the basic building blocks for a lot of Kotlin code.</p>
+
+<h3>
+  <a name="creating-lists" href="#creating-lists">
+  </a>
+  Creating lists
+</h3>
+
+<p>If you’re creating lists on your own, you’re most likely using the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/list-of.html"><code>listOf</code></a> function, which takes a variable number of arguments, and those become the elements of your list. Even in this blog post series, we've created a list like that about a hundred times:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="nf">listOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="c1">// [1, 2, 3, 4, 5]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>A little lesser known is the ability to create lists via the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list.html"><code>List</code></a> constructor function. Here, we pass two parameters – the <code>size</code> of the list, and an <code>init</code> function that creates each of the elements in our list. That function we pass gets the element index as its parameter, which we can use to adjust the item content:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="nc">List</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="p">{</span> <span class="n">idx</span> <span class="p">-></span> <span class="s">"No. $idx"</span> <span class="p">}</span>
+<span class="c1">// [No. 0, No. 1, No. 2, No. 3, No. 4]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Of course, lists can come from other places as well: types like collections, iterables, and others often feature a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-list.html"><code>toList</code></a> method.</p>
+
+<p>For example, in the case of a string, we get a list of its characters:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="s">"word-salad"</span><span class="p">.</span><span class="nf">toList</span><span class="p">()</span>
+<span class="c1">// [w, o, r, d, -, s, a, l, a, d]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Given a map of placements and the associated medals, we can call <code>toList</code> on that to get a list of key-value pairs:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="nf">mapOf</span><span class="p">(</span>
+    <span class="mi">1</span> <span class="n">to</span> <span class="s">"Gold"</span><span class="p">,</span>
+    <span class="mi">2</span> <span class="n">to</span> <span class="s">"Silver"</span><span class="p">,</span>
+    <span class="mi">3</span> <span class="n">to</span> <span class="s">"Bronze"</span>
+<span class="p">).</span><span class="nf">toList</span><span class="p">()</span>
+<span class="c1">// [(1, Gold), (2, Silver), (3, Bronze)]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Sequences, ranges, and progressions behave similarly. They materialize their values, and put them in a list when calling <code>toList</code>. As an example, we can consider a random sequence of numbers, or the inclusive integer range from zero to ten:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="nf">generateSequence</span> <span class="p">{</span>
+    <span class="nc">Random</span><span class="p">.</span><span class="nf">nextInt</span><span class="p">(</span><span class="mi">100</span><span class="p">).</span><span class="nf">takeIf</span> <span class="p">{</span> <span class="n">it</span> <span class="p">></span> <span class="mi">30</span> <span class="p">}</span>
+<span class="p">}.</span><span class="nf">toList</span><span class="p">()</span>
+<span class="c1">// [73, 77, 69, 79, 71, 64]</span>
+
+<span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">10</span><span class="p">).</span><span class="nf">toList</span><span class="p">()</span>
+<span class="c1">// [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>An extra case worth mentioning is calling <code>toList</code> on something that already is a list. This creates brand-new copy of the original list. We can see this in the following example, where we create a mutable list with a few numbers. By calling <code>toList</code>, we obtain a new working copy:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">list</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="kd">val</span> <span class="py">otherList</span> <span class="p">=</span> <span class="n">list</span><span class="p">.</span><span class="nf">toList</span><span class="p">()</span>
+
+<span class="n">list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">=</span> <span class="mi">5</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
+<span class="c1">// [5, 2, 3]</span>
+
+<span class="nf">println</span><span class="p">(</span><span class="n">otherList</span><span class="p">)</span>
+<span class="c1">// [1, 2, 3]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>As we can see, when the original list is changed, the working copy we just created does not contain any of the changes applied to the original collection.</p>
+
+<h3>
+  <a name="accessing-list-items" href="#accessing-list-items">
+  </a>
+  Accessing list items
+</h3>
+
+<p>To get items out of our lists, we have multiple options. The most basic way of doing so is using the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/get.html"><code>get</code></a> function, together with an index:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">myList</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"🍔"</span><span class="p">,</span> <span class="s">"🌭"</span><span class="p">,</span> <span class="s">"🍕"</span><span class="p">)</span>
+<span class="n">myList</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">// 🌭</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>But if you ever type out <code>.get</code> manually, you’ll see that IntelliJ IDEA already gives you the helpful hint to use some much more popular syntactic sugar for it – the indexed access operator, denoted by the brackets with an index:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="n">myList</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1">// 🌭</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>There are also some additional flavors of the <code>get</code> function which we can explore. Two of those that come to mind are <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/get-or-else.html"><code>getOrElse</code></a> and <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/get-or-null.html"><code>getOrNull</code></a>. They help us handle cases where we might be accessing an index that falls out of bounds (which can either be a negative index, or an index that’s larger than the last index in our collection.)</p>
+
+<p>Using the default indexed access causes an <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-index-out-of-bounds-exception/">exception</a> when provided a parameter that's out of bounds:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="n">myList</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="c1">// Index 3 out of bounds for length 3</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We can use <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/get-or-null.html"><code>getOrNull</code></a> to short-circuit our return value to <code>null</code>. Alternatively, we can use <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/get-or-else.html"><code>getOrElse</code></a> to compute a default value to be used instead. The default value is computed based on a passed lambda, which also receives the index:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">myList</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"🍔"</span><span class="p">,</span> <span class="s">"🌭"</span><span class="p">,</span> <span class="s">"🍕"</span><span class="p">)</span>
+<span class="n">myList</span><span class="p">.</span><span class="nf">getOrNull</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="c1">// null</span>
+
+<span class="n">myList</span><span class="p">.</span><span class="nf">getOrElse</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nf">println</span><span class="p">(</span><span class="s">"There's no index $it!"</span><span class="p">)</span>
+    <span class="s">"😔"</span>
+<span class="p">}</span>
+<span class="c1">// There's no index 3!</span>
+<span class="c1">// 😔</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>These special functions are only necessary to work with indexes that might fall out of bounds, though. <a href="https://kotlinlang.org/docs/null-safety.html">Nullability</a>, for example, is handled the same way as you would in any other situation in Kotlin: using the power of the Elvis operator, smart-casts and friends.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">listOfNullableItems</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="kd">val</span> <span class="py">x</span><span class="p">:</span> <span class="nc">Int</span> <span class="p">=</span> <span class="n">listOfNullableItems</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">?:</span> <span class="mi">0</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="slicing" href="#slicing">
+  </a>
+  Slicing
+</h3>
+
+<p>Of course, we can go beyond getting individual items out of our list. Because a list is a collection like any other, we have access to the same <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/take.html"><code>take</code></a> and <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/drop.html"><code>drop</code></a> functions that were introduced in the <em><a href="https://dev.to/kotlin/diving-into-kotlin-collections-587o">Diving into Kotlin collections</a></em> post.</p>
+
+<p>But lists have a special way of retrieving multiple items - the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/slice.html"><code>slice</code></a> function!</p>
+
+<p>When we give this function a bunch of indexes, it returns the elements at those places in our collection. In this example, we’re passing a list with index <code>0, 2, 4</code>, and get those items from our list of letters:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">myList</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"a"</span><span class="p">,</span> <span class="s">"b"</span><span class="p">,</span> <span class="s">"c"</span><span class="p">,</span> <span class="s">"d"</span><span class="p">,</span> <span class="s">"e"</span><span class="p">)</span>
+<span class="n">myList</span><span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="nf">listOf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="c1">// [a, c, e]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Instead of writing out all the indices by hand, we could also use <code>IntRange</code>s or progressions to specify the indexes. For example, we could request “all items from 0 through 3”, or specify a custom step-size of 2. We could even pull out some items in reverse order, if we create a progression that uses <code>downTo</code>:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="n">myList</span><span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">3</span><span class="p">)</span>
+<span class="c1">// [a, b, c, d]</span>
+
+<span class="n">myList</span><span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="n">myList</span><span class="p">.</span><span class="n">lastIndex</span> <span class="n">step</span> <span class="mi">2</span><span class="p">)</span>
+<span class="c1">// [a, c, e]</span>
+
+<span class="n">myList</span><span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="mi">2</span> <span class="n">downTo</span> <span class="mi">0</span><span class="p">)</span>
+<span class="c1">// [c, b, a]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>As you may suspect, this <em>list</em> of list features is not quite exhaustive – as always, there’s some more to explore even on this subject. But let’s put that on the back burner for a bit, and move on to a special kind of list – it's time to talk about <em>mutable lists</em>!</p>
+
+<h2>
+  <a name="mutable-lists" href="#mutable-lists">
+  </a>
+  Mutable Lists
+</h2>
+
+<p>What's so special about mutable lists? Well, you can <em>mutate</em> them! That, of course, doesn’t mean that these lists will turn into zombies (🧟‍♂️), but that you can change their content. If we consult an excerpt of a class hierarchy, we can see that <code>MutableList</code> specializes <code>List</code>, meaning everything we’ve learned about lists so far also works for their mutable counterpart, plus some extra functionality.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--nARaIzkC--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nrg0js7pl6435klg2gm0.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--nARaIzkC--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nrg0js7pl6435klg2gm0.png" alt="list-specialization" loading="lazy"></a> </p>
+
+<p>It's precisely that extra functionality that we’re interested in right now!</p>
+
+<h3>
+  <a name="creating-mutable-lists" href="#creating-mutable-lists">
+  </a>
+  Creating mutable lists
+</h3>
+
+<p>Once again, mutable lists are commonly created via the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/mutable-list-of.html"><code>mutableListOf</code></a> function, with a bunch of values as arguments. And, wherever you were able to find a <code>toList</code> method, as discussed previously, you’ll probably also find a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-mutable-list.html"><code>toMutableList</code></a>. That also includes other lists and mutable lists – where you’ll get a fresh copy when calling <code>toMutableList</code>:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="nf">mutableListOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="c1">// [1, 2, 3]</span>
+
+<span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">10</span><span class="p">).</span><span class="nf">toMutableList</span><span class="p">()</span>
+<span class="c1">// [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</span>
+
+<span class="nf">listOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">).</span><span class="nf">toMutableList</span><span class="p">()</span>
+<span class="c1">// [1, 2, 3]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="add-remove-update" href="#add-remove-update">
+  </a>
+  Add / Remove / Update
+</h3>
+
+<p>Let's move on to the core of this subject – the ability to change content. That starts with adding something to the collection. If we want to add an extra number to the end of our mutable list we can do so via the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/add.html"><code>add</code></a> function, or by using the <code>+=</code> operator shorthand, both of which append an item to the end of the list.</p>
+
+<p>If we know <em>where</em> in the collection we want our item to go, the <code>add</code> function also accepts an index, which inserts the new element at that position and moves the surrounding elements to accommodate it. In the same way, we can also add a whole other collection to our mutable list:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">m</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">m</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">m</span> <span class="p">+=</span> <span class="mi">4</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="c1">// [1, 2, 3, 4, 4]</span>
+
+<span class="n">m</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="c1">// [1, 2, 10, 3, 4, 4]</span>
+
+<span class="n">m</span> <span class="p">+=</span> <span class="nf">listOf</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="c1">// [1, 2, 10, 3, 4, 4, 5, 6, 7]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We’re of course not constrained to just adding elements to our list – we can also remove them. If we know what element we want to get rid of, we can do that via the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/remove.html"><code>remove</code></a> function or the <code>-=</code> operator shorthand, which removes from our collection <em>a single instance</em> of the element we provide. In this example, after calling -= and <code>remove</code>, we got rid of two of the 3s in our original collection – because each invocation removed one of them.</p>
+
+<p>Alternatively, we can also pass the <code>-=</code> operator a collection of elements. In this case, the operator acts as a shorthand for the <code>removeAll</code> function. Here, it looks at every element in the collection we pass, and <em>removes all instances of them</em> in our original, mutable collection. (This is an important distinction to make!) So, by passing 1 and 4 as a collection, we remove <em>all instances</em> of those numbers from our mutable list, and we’re left with only 2 and 3 at the end.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">m</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">m</span> <span class="p">-=</span> <span class="mi">3</span>
+<span class="n">m</span><span class="p">.</span><span class="nf">remove</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="c1">// [1, 2, 3, 4, 4, 4]</span>
+
+<span class="n">m</span> <span class="p">-=</span> <span class="nf">listOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="c1">// [2, 3]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>If we know the index where we want to kick an item out, we use the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/remove-at.html"><code>removeAt</code></a> function instead. For example, we could remove the second element in our list, which resides at index 1.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">m</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">m</span><span class="p">.</span><span class="nf">removeAt</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="c1">// [1, 3, 3, 3]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>To update an item, we most commonly use the <a href="https://kotlinlang.org/docs/operator-overloading.html#indexed-access-operator"><em>indexed access operator</em></a> – so the brackets – together with an assignment. That one calls the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/set.html"><code>set</code></a> function with that index and element under the hood, and switches out the item at the specified index – in this case, trading a "b" for an "a".<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">m</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="s">"a"</span><span class="p">,</span> <span class="s">"b"</span><span class="p">,</span> <span class="s">"c"</span><span class="p">,</span> <span class="s">"d"</span><span class="p">,</span> <span class="s">"e"</span><span class="p">)</span>
+<span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="s">"a"</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="c1">// [a, a, c, d, e]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="fill-and-clear" href="#fill-and-clear">
+  </a>
+  Fill and Clear
+</h3>
+
+<p>In certain situations, we might want to turn all elements of our list into the same element – like zeroing out a buffer before reusing it. This is something we can do using the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/fill.html"><code>fill</code></a> function, which replaces each element with the same value we specify. If we look at a list of fruits, for example, and suddenly realize that all of them are really just sugar, we use fill to replace them with candy (🍬). While that metaphor may not be <em>entirely scientifically accurate</em>, it's tasty nonetheless!</p>
+
+<p>And when we want to wipe our collection clean, the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/clear.html"><code>clear</code></a> function can help with removing all elements from a collection – in our case, getting rid of all the candy:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">fruits</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="s">"🍉"</span><span class="p">,</span> <span class="s">"🍊"</span><span class="p">,</span> <span class="s">"🥝"</span><span class="p">)</span>
+<span class="c1">// wait, it's all sugar?</span>
+<span class="n">fruits</span><span class="p">.</span><span class="nf">fill</span><span class="p">(</span><span class="s">"🍬"</span><span class="p">)</span>
+
+<span class="nf">println</span><span class="p">(</span><span class="n">fruits</span><span class="p">)</span>
+<span class="c1">// [🍬, 🍬, 🍬]</span>
+
+<span class="c1">// ... nom nom</span>
+<span class="n">fruits</span><span class="p">.</span><span class="nf">clear</span><span class="p">()</span>
+
+<span class="nf">println</span><span class="p">(</span><span class="n">fruits</span><span class="p">)</span>
+<span class="c1">// []</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Perhaps unsurprisingly, mutable lists grow and shrink automatically to accommodate all your items, so you can have an arbitrary number of elements in your collection. This might be obvious, but it’s so darn convenient, so I figured I’d mention it. The things we take for granted!</p>
+
+<h3>
+  <a name="inplace-modifications" href="#inplace-modifications">
+  </a>
+  In-place modifications
+</h3>
+
+<p>Thinking back to some of the previous entries of this series, we’ve seen a number of neat functions which we wouldn’t want to miss for mutable collections either – things like <code>sorted</code>, <code>shuffled</code>, and <code>reversed</code>. However, those don’t modify the original collection.</p>
+
+<p>Luckily for us, these functions also have a mutable counterpart. So, when we want to sort, shuffle, or reverse a mutable list in place – instead of creating a new, separate copy with the effects applied – we use the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sort.html"><code>sort()</code></a> instead of <code>sorted()</code>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/shuffle.html"><code>shuffle()</code></a> instead of <code>shuffled()</code>, and <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reverse.html"><code>reverse()</code></a> instead of <code>reversed()</code> functions:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">list</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+<span class="n">list</span><span class="p">.</span><span class="nf">shuffled</span><span class="p">()</span>
+<span class="n">list</span><span class="p">.</span><span class="nf">sorted</span><span class="p">()</span>
+<span class="n">list</span><span class="p">.</span><span class="nf">reversed</span><span class="p">()</span>
+
+<span class="nf">println</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>
+<span class="c1">// [3, 1, 4, 1, 5, 9]</span>
+
+<span class="kd">val</span> <span class="py">m</span> <span class="p">=</span> <span class="n">list</span><span class="p">.</span><span class="nf">toMutableList</span><span class="p">()</span>
+<span class="n">m</span><span class="p">.</span><span class="nf">shuffle</span><span class="p">()</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="c1">// [5, 1, 1, 3, 4, 9]</span>
+
+<span class="n">m</span><span class="p">.</span><span class="nf">sort</span><span class="p">()</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="c1">// [1, 1, 3, 4, 5, 9]</span>
+
+<span class="n">m</span><span class="p">.</span><span class="nf">reverse</span><span class="p">()</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+<span class="c1">// [9, 5, 4, 3, 1, 1]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Mutable lists also offer the possibility to remove or keep <em>all</em> elements that fulfill a certain predicate. The <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/remove-all.html"><code>removeAll</code></a> function can remove all elements that match the predicate we specify. Let’s say we’re not a fan of small numbers in our collection, and only want to keep numbers that are 5 or above – <code>removeAll</code> helps us do exactly that.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">numbers</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>
+<span class="n">numbers</span><span class="p">.</span><span class="nf">removeAll</span> <span class="p">{</span> <span class="n">it</span> <span class="p">&lt;</span> <span class="mi">5</span> <span class="p">}</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
+<span class="c1">// [5, 9]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/retain-all.html"><code>retainAll</code></a> function is the opposite, and only keeps those elements in the mutable list that match. If we want to retain every character in our collection that is a letter, we do that with the <code>retainAll</code> function:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">letters</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="sc">'a'</span><span class="p">,</span> <span class="sc">'b'</span><span class="p">,</span> <span class="sc">'3'</span><span class="p">,</span> <span class="sc">'d'</span><span class="p">,</span> <span class="sc">'5'</span><span class="p">)</span>
+<span class="n">letters</span><span class="p">.</span><span class="nf">retainAll</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="nf">isLetter</span><span class="p">()</span> <span class="p">}</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">letters</span><span class="p">)</span>
+<span class="c1">// [a, b, d]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This might feel a bit familiar to you, and rightfully so, because these are essentially the mutating equivalents of the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter.html"><code>filter</code></a> and <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter-not.html"><code>filterNot</code></a> functions.</p>
+
+<h3>
+  <a name="views-on-lists" href="#views-on-lists">
+  </a>
+  Views on Lists
+</h3>
+
+<p>The last topic on today’s agenda is views on lists. That name already hints at what they allow us to do – they allow us to look at the elements in our list from a different perspective – let’s see what that means.</p>
+
+<p>Let’s assume we have a collection of fruits. To create a view, we can use the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/sub-list.html"><code>subList</code></a> function, which takes a beginning and end index, which determines which elements should be “visible” in the view. By having a look at an example sublist, we can see that it contains the elements from our original collections based on the indices we specify (with the upper bound being exclusive):<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">fruits</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="s">"🍉"</span><span class="p">,</span> <span class="s">"🍊"</span><span class="p">,</span> <span class="s">"🥝"</span><span class="p">,</span> <span class="s">"🍏"</span><span class="p">)</span>
+<span class="kd">val</span> <span class="py">sub</span> <span class="p">=</span> <span class="n">fruits</span><span class="p">.</span><span class="nf">subList</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span>
+<span class="c1">// [🍊, 🥝, 🍏]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Because this is only a <em>view</em>, and not a copy of our original collection, changes are automatically visible. That means if we change the orange to a banana in the underlying <code>fruits</code> list, then our sublist will reflect that change:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="n">fruits</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="s">"🍌"</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span>
+<span class="c1">// [🍌, 🥝, 🍏]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>What may be even more interesting is that this sublist is in itself mutable, as well! If we change the green apple in our sublist to a pineapple, and have a look at our original fruits collection again, we see that the change is visible from here as well:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="n">sub</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">=</span> <span class="s">"🍍"</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">fruits</span><span class="p">)</span>
+<span class="c1">// [🍉, 🍌, 🥝, 🍍]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Or, we can use the fill function which we’ve learned about earlier to turn an interval inside of our fruit-list back into candy, again:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="n">sub</span><span class="p">.</span><span class="nf">fill</span><span class="p">(</span><span class="s">"🍬"</span><span class="p">)</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">fruits</span><span class="p">)</span>
+<span class="c1">// [🍉, 🍬, 🍬, 🍬]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>To reiterate; all of that works because these aren’t two different collections – there is only one collection, and  <code>subList</code> has just given us a different perspective on that list!</p>
+
+<p><strong>An important note on the topic of sublists:</strong> They are only well-defined as long as the underlying, original list is <em>not structurally changed</em>. Changes affecting the size of the list, for example, automatically cause any views that were previously returned by invoking <code>subList</code> to have undefined behavior.</p>
+
+<p>For a common case, which is looking at a list backwards, the Kotlin standard library also comes with the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/as-reversed.html"><code>asReversed</code></a> function. It provides a backwards view of the underlying list. Once again, changes made in the view are visible in the original collection, and vice versa. As you can see in the following example, turning the orange into a banana in our original list also changes what we see in the reversed view. Altering it back to a pineapple via our reversed view also alters our original mutable list:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">fruits</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="s">"🍉"</span><span class="p">,</span> <span class="s">"🍊"</span><span class="p">,</span> <span class="s">"🥝"</span><span class="p">,</span> <span class="s">"🍏"</span><span class="p">)</span>
+<span class="kd">val</span> <span class="py">stiurf</span> <span class="p">=</span> <span class="n">fruits</span><span class="p">.</span><span class="nf">asReversed</span><span class="p">()</span>
+
+<span class="nf">println</span><span class="p">(</span><span class="n">stiurf</span><span class="p">)</span>
+<span class="c1">// [🍏, 🥝, 🍊, 🍉]</span>
+
+<span class="n">fruits</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="s">"🍌"</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">stiurf</span><span class="p">)</span>
+<span class="c1">// [🍏, 🥝, 🍌, 🍉]</span>
+
+<span class="n">stiurf</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">=</span> <span class="s">"🍍"</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">fruits</span><span class="p">)</span>
+<span class="c1">// [🍉, 🍍, 🥝, 🍏]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>These types of “views” are actually available for non-mutable lists, as well, and allow you to pass around different sub-selections of your collections without having to create new copies every time – however, this seemed like a topic that would be nicer to illustrate with the mutable variant, to drive the point home that there really is only one underlying collection.</p>
+
+<h2>
+  <a name="outro" href="#outro">
+  </a>
+  Outro
+</h2>
+
+<p>With that, we have reached the end of today’s expedition! I hope some of the stuff you’ve seen today is helping you strengthen your understanding of Kotlin lists. When you’re  writing Kotlin code the next time, see if you can apply some of the stuff we’ve talked about today – whether it’s slicing a collection, using sub-lists, or handling out-of-bounds situations for lists elegantly with the <code>getOrNull</code> and <code>getOrElse</code> functions.</p>
+
+<p>If you’ve learned something new, and want to see more like this, make sure to <a href="https://dev.to/kotlin">follow us here on dev.to</a>, and check out some of the interesting content we publish on <a href="http://kotl.in/video">our official YouTube channel</a>, as well!</p>
+
+<p>Now, it’s time for all of you to go and explore some more Kotlin! Take care, and see you in the next one!</p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/sebastianaigner/exploring-kotlin-lists-in-2021-2gi" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(s,n,a,t,e){return a.type_of="article",a.id=743298,a.title="Exploring Kotlin Lists in 2021",a.description="Lists are the most popular collection type in the Kotlin standard library, and for a good reason! Learn all about them, and bring your Kotlin skills to the next level!",a.readable_publish_date="Jul 8 '21",a.slug="exploring-kotlin-lists-in-2021-2gi",a.path="/kotlin/exploring-kotlin-lists-in-2021-2gi",a.url=t,a.comments_count=2,a.public_reactions_count=46,a.collection_id=10997,a.published_timestamp=e,a.positive_reactions_count=46,a.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--dZ_NgJZ6--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gvw7ksfqlrv2ba8wg11f.jpeg",a.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--kGWBsdHy--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gvw7ksfqlrv2ba8wg11f.jpeg",a.canonical_url=t,a.created_at="2021-06-29T21:26:11Z",a.edited_at=s,a.crossposted_at=s,a.published_at=e,a.last_comment_at="2021-07-19T15:47:35Z",a.reading_time_minutes=12,a.tag_list="kotlin, programming, android, productivity",a.tags=[n,"programming","android","productivity"],a.body_html='<p>This blog post accompanies a video from our <strong>YouTube series</strong> which you can find on our <a href="https://kotl.in/video">Kotlin YouTube channel</a>, or <strong>watch here</strong> directly!</p>\n\n<p><iframe width="710" height="399" src="https://www.youtube.com/embed/CDWy16UDeLQ" allowfullscreen loading="lazy">\n</iframe>\n</p>\n\n<p><strong>Today, we\'re talking all about lists!</strong> Lists are the most popular collection type in Kotlin for a good reason, and we’ll find out why together.</p>\n\n<h2>\n  <a name="lists" href="#lists">\n  </a>\n  Lists\n</h2>\n\n<h3>\n  <a name="whats-a-list" href="#whats-a-list">\n  </a>\n  What’s a list?\n</h3>\n\n<p>If you\'ve written Kotlin code before, you\'ve definitely seen a list – they\'re collections of ordered elements, where each element is accessible via an index. As such, they\'re one of the basic building blocks for a lot of Kotlin code.</p>\n\n<h3>\n  <a name="creating-lists" href="#creating-lists">\n  </a>\n  Creating lists\n</h3>\n\n<p>If you’re creating lists on your own, you’re most likely using the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/list-of.html"><code>listOf</code></a> function, which takes a variable number of arguments, and those become the elements of your list. Even in this blog post series, we\'ve created a list like that about a hundred times:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="nf">listOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>\n<span class="c1">// [1, 2, 3, 4, 5]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>A little lesser known is the ability to create lists via the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list.html"><code>List</code></a> constructor function. Here, we pass two parameters – the <code>size</code> of the list, and an <code>init</code> function that creates each of the elements in our list. That function we pass gets the element index as its parameter, which we can use to adjust the item content:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="nc">List</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span> <span class="p">{</span> <span class="n">idx</span> <span class="p">-&gt;</span> <span class="s">"No. $idx"</span> <span class="p">}</span>\n<span class="c1">// [No. 0, No. 1, No. 2, No. 3, No. 4]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Of course, lists can come from other places as well: types like collections, iterables, and others often feature a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-list.html"><code>toList</code></a> method.</p>\n\n<p>For example, in the case of a string, we get a list of its characters:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="s">"word-salad"</span><span class="p">.</span><span class="nf">toList</span><span class="p">()</span>\n<span class="c1">// [w, o, r, d, -, s, a, l, a, d]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Given a map of placements and the associated medals, we can call <code>toList</code> on that to get a list of key-value pairs:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="nf">mapOf</span><span class="p">(</span>\n    <span class="mi">1</span> <span class="n">to</span> <span class="s">"Gold"</span><span class="p">,</span>\n    <span class="mi">2</span> <span class="n">to</span> <span class="s">"Silver"</span><span class="p">,</span>\n    <span class="mi">3</span> <span class="n">to</span> <span class="s">"Bronze"</span>\n<span class="p">).</span><span class="nf">toList</span><span class="p">()</span>\n<span class="c1">// [(1, Gold), (2, Silver), (3, Bronze)]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Sequences, ranges, and progressions behave similarly. They materialize their values, and put them in a list when calling <code>toList</code>. As an example, we can consider a random sequence of numbers, or the inclusive integer range from zero to ten:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="nf">generateSequence</span> <span class="p">{</span>\n    <span class="nc">Random</span><span class="p">.</span><span class="nf">nextInt</span><span class="p">(</span><span class="mi">100</span><span class="p">).</span><span class="nf">takeIf</span> <span class="p">{</span> <span class="n">it</span> <span class="p">&gt;</span> <span class="mi">30</span> <span class="p">}</span>\n<span class="p">}.</span><span class="nf">toList</span><span class="p">()</span>\n<span class="c1">// [73, 77, 69, 79, 71, 64]</span>\n\n<span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">10</span><span class="p">).</span><span class="nf">toList</span><span class="p">()</span>\n<span class="c1">// [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>An extra case worth mentioning is calling <code>toList</code> on something that already is a list. This creates brand-new copy of the original list. We can see this in the following example, where we create a mutable list with a few numbers. By calling <code>toList</code>, we obtain a new working copy:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">list</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>\n<span class="kd">val</span> <span class="py">otherList</span> <span class="p">=</span> <span class="n">list</span><span class="p">.</span><span class="nf">toList</span><span class="p">()</span>\n\n<span class="n">list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">=</span> <span class="mi">5</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>\n<span class="c1">// [5, 2, 3]</span>\n\n<span class="nf">println</span><span class="p">(</span><span class="n">otherList</span><span class="p">)</span>\n<span class="c1">// [1, 2, 3]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>As we can see, when the original list is changed, the working copy we just created does not contain any of the changes applied to the original collection.</p>\n\n<h3>\n  <a name="accessing-list-items" href="#accessing-list-items">\n  </a>\n  Accessing list items\n</h3>\n\n<p>To get items out of our lists, we have multiple options. The most basic way of doing so is using the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/get.html"><code>get</code></a> function, together with an index:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">myList</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"🍔"</span><span class="p">,</span> <span class="s">"🌭"</span><span class="p">,</span> <span class="s">"🍕"</span><span class="p">)</span>\n<span class="n">myList</span><span class="p">.</span><span class="k">get</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1">// 🌭</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>But if you ever type out <code>.get</code> manually, you’ll see that IntelliJ IDEA already gives you the helpful hint to use some much more popular syntactic sugar for it – the indexed access operator, denoted by the brackets with an index:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="n">myList</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="c1">// 🌭</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>There are also some additional flavors of the <code>get</code> function which we can explore. Two of those that come to mind are <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/get-or-else.html"><code>getOrElse</code></a> and <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/get-or-null.html"><code>getOrNull</code></a>. They help us handle cases where we might be accessing an index that falls out of bounds (which can either be a negative index, or an index that’s larger than the last index in our collection.)</p>\n\n<p>Using the default indexed access causes an <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-index-out-of-bounds-exception/">exception</a> when provided a parameter that\'s out of bounds:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="n">myList</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>\n<span class="c1">// Index 3 out of bounds for length 3</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>We can use <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/get-or-null.html"><code>getOrNull</code></a> to short-circuit our return value to <code>null</code>. Alternatively, we can use <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/get-or-else.html"><code>getOrElse</code></a> to compute a default value to be used instead. The default value is computed based on a passed lambda, which also receives the index:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">myList</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"🍔"</span><span class="p">,</span> <span class="s">"🌭"</span><span class="p">,</span> <span class="s">"🍕"</span><span class="p">)</span>\n<span class="n">myList</span><span class="p">.</span><span class="nf">getOrNull</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>\n<span class="c1">// null</span>\n\n<span class="n">myList</span><span class="p">.</span><span class="nf">getOrElse</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span>\n    <span class="nf">println</span><span class="p">(</span><span class="s">"There\'s no index $it!"</span><span class="p">)</span>\n    <span class="s">"😔"</span>\n<span class="p">}</span>\n<span class="c1">// There\'s no index 3!</span>\n<span class="c1">// 😔</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>These special functions are only necessary to work with indexes that might fall out of bounds, though. <a href="https://kotlinlang.org/docs/null-safety.html">Nullability</a>, for example, is handled the same way as you would in any other situation in Kotlin: using the power of the Elvis operator, smart-casts and friends.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">listOfNullableItems</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="k">null</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>\n<span class="kd">val</span> <span class="py">x</span><span class="p">:</span> <span class="nc">Int</span> <span class="p">=</span> <span class="n">listOfNullableItems</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">?:</span> <span class="mi">0</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="slicing" href="#slicing">\n  </a>\n  Slicing\n</h3>\n\n<p>Of course, we can go beyond getting individual items out of our list. Because a list is a collection like any other, we have access to the same <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/take.html"><code>take</code></a> and <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/drop.html"><code>drop</code></a> functions that were introduced in the <em><a href="https://dev.to/kotlin/diving-into-kotlin-collections-587o">Diving into Kotlin collections</a></em> post.</p>\n\n<p>But lists have a special way of retrieving multiple items - the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/slice.html"><code>slice</code></a> function!</p>\n\n<p>When we give this function a bunch of indexes, it returns the elements at those places in our collection. In this example, we’re passing a list with index <code>0, 2, 4</code>, and get those items from our list of letters:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">myList</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"a"</span><span class="p">,</span> <span class="s">"b"</span><span class="p">,</span> <span class="s">"c"</span><span class="p">,</span> <span class="s">"d"</span><span class="p">,</span> <span class="s">"e"</span><span class="p">)</span>\n<span class="n">myList</span><span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="nf">listOf</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>\n<span class="c1">// [a, c, e]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Instead of writing out all the indices by hand, we could also use <code>IntRange</code>s or progressions to specify the indexes. For example, we could request “all items from 0 through 3”, or specify a custom step-size of 2. We could even pull out some items in reverse order, if we create a progression that uses <code>downTo</code>:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="n">myList</span><span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">3</span><span class="p">)</span>\n<span class="c1">// [a, b, c, d]</span>\n\n<span class="n">myList</span><span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="n">myList</span><span class="p">.</span><span class="n">lastIndex</span> <span class="n">step</span> <span class="mi">2</span><span class="p">)</span>\n<span class="c1">// [a, c, e]</span>\n\n<span class="n">myList</span><span class="p">.</span><span class="nf">slice</span><span class="p">(</span><span class="mi">2</span> <span class="n">downTo</span> <span class="mi">0</span><span class="p">)</span>\n<span class="c1">// [c, b, a]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>As you may suspect, this <em>list</em> of list features is not quite exhaustive – as always, there’s some more to explore even on this subject. But let’s put that on the back burner for a bit, and move on to a special kind of list – it\'s time to talk about <em>mutable lists</em>!</p>\n\n<h2>\n  <a name="mutable-lists" href="#mutable-lists">\n  </a>\n  Mutable Lists\n</h2>\n\n<p>What\'s so special about mutable lists? Well, you can <em>mutate</em> them! That, of course, doesn’t mean that these lists will turn into zombies (🧟‍♂️), but that you can change their content. If we consult an excerpt of a class hierarchy, we can see that <code>MutableList</code> specializes <code>List</code>, meaning everything we’ve learned about lists so far also works for their mutable counterpart, plus some extra functionality.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--nARaIzkC--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nrg0js7pl6435klg2gm0.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--nARaIzkC--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nrg0js7pl6435klg2gm0.png" alt="list-specialization" loading="lazy"></a> </p>\n\n<p>It\'s precisely that extra functionality that we’re interested in right now!</p>\n\n<h3>\n  <a name="creating-mutable-lists" href="#creating-mutable-lists">\n  </a>\n  Creating mutable lists\n</h3>\n\n<p>Once again, mutable lists are commonly created via the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/mutable-list-of.html"><code>mutableListOf</code></a> function, with a bunch of values as arguments. And, wherever you were able to find a <code>toList</code> method, as discussed previously, you’ll probably also find a <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-mutable-list.html"><code>toMutableList</code></a>. That also includes other lists and mutable lists – where you’ll get a fresh copy when calling <code>toMutableList</code>:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="nf">mutableListOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>\n<span class="c1">// [1, 2, 3]</span>\n\n<span class="p">(</span><span class="mi">0</span><span class="o">..</span><span class="mi">10</span><span class="p">).</span><span class="nf">toMutableList</span><span class="p">()</span>\n<span class="c1">// [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</span>\n\n<span class="nf">listOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">).</span><span class="nf">toMutableList</span><span class="p">()</span>\n<span class="c1">// [1, 2, 3]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="add-remove-update" href="#add-remove-update">\n  </a>\n  Add / Remove / Update\n</h3>\n\n<p>Let\'s move on to the core of this subject – the ability to change content. That starts with adding something to the collection. If we want to add an extra number to the end of our mutable list we can do so via the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/add.html"><code>add</code></a> function, or by using the <code>+=</code> operator shorthand, both of which append an item to the end of the list.</p>\n\n<p>If we know <em>where</em> in the collection we want our item to go, the <code>add</code> function also accepts an index, which inserts the new element at that position and moves the surrounding elements to accommodate it. In the same way, we can also add a whole other collection to our mutable list:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">m</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>\n<span class="n">m</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>\n<span class="n">m</span> <span class="p">+=</span> <span class="mi">4</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>\n<span class="c1">// [1, 2, 3, 4, 4]</span>\n\n<span class="n">m</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>\n<span class="c1">// [1, 2, 10, 3, 4, 4]</span>\n\n<span class="n">m</span> <span class="p">+=</span> <span class="nf">listOf</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>\n<span class="c1">// [1, 2, 10, 3, 4, 4, 5, 6, 7]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>We’re of course not constrained to just adding elements to our list – we can also remove them. If we know what element we want to get rid of, we can do that via the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/remove.html"><code>remove</code></a> function or the <code>-=</code> operator shorthand, which removes from our collection <em>a single instance</em> of the element we provide. In this example, after calling -= and <code>remove</code>, we got rid of two of the 3s in our original collection – because each invocation removed one of them.</p>\n\n<p>Alternatively, we can also pass the <code>-=</code> operator a collection of elements. In this case, the operator acts as a shorthand for the <code>removeAll</code> function. Here, it looks at every element in the collection we pass, and <em>removes all instances of them</em> in our original, mutable collection. (This is an important distinction to make!) So, by passing 1 and 4 as a collection, we remove <em>all instances</em> of those numbers from our mutable list, and we’re left with only 2 and 3 at the end.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">m</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>\n<span class="n">m</span> <span class="p">-=</span> <span class="mi">3</span>\n<span class="n">m</span><span class="p">.</span><span class="nf">remove</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>\n<span class="c1">// [1, 2, 3, 4, 4, 4]</span>\n\n<span class="n">m</span> <span class="p">-=</span> <span class="nf">listOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>\n<span class="c1">// [2, 3]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>If we know the index where we want to kick an item out, we use the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/remove-at.html"><code>removeAt</code></a> function instead. For example, we could remove the second element in our list, which resides at index 1.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">m</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>\n<span class="n">m</span><span class="p">.</span><span class="nf">removeAt</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>\n<span class="c1">// [1, 3, 3, 3]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>To update an item, we most commonly use the <a href="https://kotlinlang.org/docs/operator-overloading.html#indexed-access-operator"><em>indexed access operator</em></a> – so the brackets – together with an assignment. That one calls the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/set.html"><code>set</code></a> function with that index and element under the hood, and switches out the item at the specified index – in this case, trading a "b" for an "a".<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">m</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="s">"a"</span><span class="p">,</span> <span class="s">"b"</span><span class="p">,</span> <span class="s">"c"</span><span class="p">,</span> <span class="s">"d"</span><span class="p">,</span> <span class="s">"e"</span><span class="p">)</span>\n<span class="n">m</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="s">"a"</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>\n<span class="c1">// [a, a, c, d, e]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="fill-and-clear" href="#fill-and-clear">\n  </a>\n  Fill and Clear\n</h3>\n\n<p>In certain situations, we might want to turn all elements of our list into the same element – like zeroing out a buffer before reusing it. This is something we can do using the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/fill.html"><code>fill</code></a> function, which replaces each element with the same value we specify. If we look at a list of fruits, for example, and suddenly realize that all of them are really just sugar, we use fill to replace them with candy (🍬). While that metaphor may not be <em>entirely scientifically accurate</em>, it\'s tasty nonetheless!</p>\n\n<p>And when we want to wipe our collection clean, the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/clear.html"><code>clear</code></a> function can help with removing all elements from a collection – in our case, getting rid of all the candy:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">fruits</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="s">"🍉"</span><span class="p">,</span> <span class="s">"🍊"</span><span class="p">,</span> <span class="s">"🥝"</span><span class="p">)</span>\n<span class="c1">// wait, it\'s all sugar?</span>\n<span class="n">fruits</span><span class="p">.</span><span class="nf">fill</span><span class="p">(</span><span class="s">"🍬"</span><span class="p">)</span>\n\n<span class="nf">println</span><span class="p">(</span><span class="n">fruits</span><span class="p">)</span>\n<span class="c1">// [🍬, 🍬, 🍬]</span>\n\n<span class="c1">// ... nom nom</span>\n<span class="n">fruits</span><span class="p">.</span><span class="nf">clear</span><span class="p">()</span>\n\n<span class="nf">println</span><span class="p">(</span><span class="n">fruits</span><span class="p">)</span>\n<span class="c1">// []</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Perhaps unsurprisingly, mutable lists grow and shrink automatically to accommodate all your items, so you can have an arbitrary number of elements in your collection. This might be obvious, but it’s so darn convenient, so I figured I’d mention it. The things we take for granted!</p>\n\n<h3>\n  <a name="inplace-modifications" href="#inplace-modifications">\n  </a>\n  In-place modifications\n</h3>\n\n<p>Thinking back to some of the previous entries of this series, we’ve seen a number of neat functions which we wouldn’t want to miss for mutable collections either – things like <code>sorted</code>, <code>shuffled</code>, and <code>reversed</code>. However, those don’t modify the original collection.</p>\n\n<p>Luckily for us, these functions also have a mutable counterpart. So, when we want to sort, shuffle, or reverse a mutable list in place – instead of creating a new, separate copy with the effects applied – we use the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sort.html"><code>sort()</code></a> instead of <code>sorted()</code>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/shuffle.html"><code>shuffle()</code></a> instead of <code>shuffled()</code>, and <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reverse.html"><code>reverse()</code></a> instead of <code>reversed()</code> functions:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">list</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>\n<span class="n">list</span><span class="p">.</span><span class="nf">shuffled</span><span class="p">()</span>\n<span class="n">list</span><span class="p">.</span><span class="nf">sorted</span><span class="p">()</span>\n<span class="n">list</span><span class="p">.</span><span class="nf">reversed</span><span class="p">()</span>\n\n<span class="nf">println</span><span class="p">(</span><span class="n">list</span><span class="p">)</span>\n<span class="c1">// [3, 1, 4, 1, 5, 9]</span>\n\n<span class="kd">val</span> <span class="py">m</span> <span class="p">=</span> <span class="n">list</span><span class="p">.</span><span class="nf">toMutableList</span><span class="p">()</span>\n<span class="n">m</span><span class="p">.</span><span class="nf">shuffle</span><span class="p">()</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>\n<span class="c1">// [5, 1, 1, 3, 4, 9]</span>\n\n<span class="n">m</span><span class="p">.</span><span class="nf">sort</span><span class="p">()</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>\n<span class="c1">// [1, 1, 3, 4, 5, 9]</span>\n\n<span class="n">m</span><span class="p">.</span><span class="nf">reverse</span><span class="p">()</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>\n<span class="c1">// [9, 5, 4, 3, 1, 1]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Mutable lists also offer the possibility to remove or keep <em>all</em> elements that fulfill a certain predicate. The <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/remove-all.html"><code>removeAll</code></a> function can remove all elements that match the predicate we specify. Let’s say we’re not a fan of small numbers in our collection, and only want to keep numbers that are 5 or above – <code>removeAll</code> helps us do exactly that.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">numbers</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">)</span>\n<span class="n">numbers</span><span class="p">.</span><span class="nf">removeAll</span> <span class="p">{</span> <span class="n">it</span> <span class="p">&lt;</span> <span class="mi">5</span> <span class="p">}</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>\n<span class="c1">// [5, 9]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/retain-all.html"><code>retainAll</code></a> function is the opposite, and only keeps those elements in the mutable list that match. If we want to retain every character in our collection that is a letter, we do that with the <code>retainAll</code> function:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">letters</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="sc">\'a\'</span><span class="p">,</span> <span class="sc">\'b\'</span><span class="p">,</span> <span class="sc">\'3\'</span><span class="p">,</span> <span class="sc">\'d\'</span><span class="p">,</span> <span class="sc">\'5\'</span><span class="p">)</span>\n<span class="n">letters</span><span class="p">.</span><span class="nf">retainAll</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="nf">isLetter</span><span class="p">()</span> <span class="p">}</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">letters</span><span class="p">)</span>\n<span class="c1">// [a, b, d]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This might feel a bit familiar to you, and rightfully so, because these are essentially the mutating equivalents of the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter.html"><code>filter</code></a> and <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter-not.html"><code>filterNot</code></a> functions.</p>\n\n<h3>\n  <a name="views-on-lists" href="#views-on-lists">\n  </a>\n  Views on Lists\n</h3>\n\n<p>The last topic on today’s agenda is views on lists. That name already hints at what they allow us to do – they allow us to look at the elements in our list from a different perspective – let’s see what that means.</p>\n\n<p>Let’s assume we have a collection of fruits. To create a view, we can use the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/sub-list.html"><code>subList</code></a> function, which takes a beginning and end index, which determines which elements should be “visible” in the view. By having a look at an example sublist, we can see that it contains the elements from our original collections based on the indices we specify (with the upper bound being exclusive):<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">fruits</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="s">"🍉"</span><span class="p">,</span> <span class="s">"🍊"</span><span class="p">,</span> <span class="s">"🥝"</span><span class="p">,</span> <span class="s">"🍏"</span><span class="p">)</span>\n<span class="kd">val</span> <span class="py">sub</span> <span class="p">=</span> <span class="n">fruits</span><span class="p">.</span><span class="nf">subList</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span>\n<span class="c1">// [🍊, 🥝, 🍏]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Because this is only a <em>view</em>, and not a copy of our original collection, changes are automatically visible. That means if we change the orange to a banana in the underlying <code>fruits</code> list, then our sublist will reflect that change:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="n">fruits</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="s">"🍌"</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">sub</span><span class="p">)</span>\n<span class="c1">// [🍌, 🥝, 🍏]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>What may be even more interesting is that this sublist is in itself mutable, as well! If we change the green apple in our sublist to a pineapple, and have a look at our original fruits collection again, we see that the change is visible from here as well:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="n">sub</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">=</span> <span class="s">"🍍"</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">fruits</span><span class="p">)</span>\n<span class="c1">// [🍉, 🍌, 🥝, 🍍]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Or, we can use the fill function which we’ve learned about earlier to turn an interval inside of our fruit-list back into candy, again:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="n">sub</span><span class="p">.</span><span class="nf">fill</span><span class="p">(</span><span class="s">"🍬"</span><span class="p">)</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">fruits</span><span class="p">)</span>\n<span class="c1">// [🍉, 🍬, 🍬, 🍬]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>To reiterate; all of that works because these aren’t two different collections – there is only one collection, and  <code>subList</code> has just given us a different perspective on that list!</p>\n\n<p><strong>An important note on the topic of sublists:</strong> They are only well-defined as long as the underlying, original list is <em>not structurally changed</em>. Changes affecting the size of the list, for example, automatically cause any views that were previously returned by invoking <code>subList</code> to have undefined behavior.</p>\n\n<p>For a common case, which is looking at a list backwards, the Kotlin standard library also comes with the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/as-reversed.html"><code>asReversed</code></a> function. It provides a backwards view of the underlying list. Once again, changes made in the view are visible in the original collection, and vice versa. As you can see in the following example, turning the orange into a banana in our original list also changes what we see in the reversed view. Altering it back to a pineapple via our reversed view also alters our original mutable list:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">fruits</span> <span class="p">=</span> <span class="nf">mutableListOf</span><span class="p">(</span><span class="s">"🍉"</span><span class="p">,</span> <span class="s">"🍊"</span><span class="p">,</span> <span class="s">"🥝"</span><span class="p">,</span> <span class="s">"🍏"</span><span class="p">)</span>\n<span class="kd">val</span> <span class="py">stiurf</span> <span class="p">=</span> <span class="n">fruits</span><span class="p">.</span><span class="nf">asReversed</span><span class="p">()</span>\n\n<span class="nf">println</span><span class="p">(</span><span class="n">stiurf</span><span class="p">)</span>\n<span class="c1">// [🍏, 🥝, 🍊, 🍉]</span>\n\n<span class="n">fruits</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="p">=</span> <span class="s">"🍌"</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">stiurf</span><span class="p">)</span>\n<span class="c1">// [🍏, 🥝, 🍌, 🍉]</span>\n\n<span class="n">stiurf</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="p">=</span> <span class="s">"🍍"</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">fruits</span><span class="p">)</span>\n<span class="c1">// [🍉, 🍍, 🥝, 🍏]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>These types of “views” are actually available for non-mutable lists, as well, and allow you to pass around different sub-selections of your collections without having to create new copies every time – however, this seemed like a topic that would be nicer to illustrate with the mutable variant, to drive the point home that there really is only one underlying collection.</p>\n\n<h2>\n  <a name="outro" href="#outro">\n  </a>\n  Outro\n</h2>\n\n<p>With that, we have reached the end of today’s expedition! I hope some of the stuff you’ve seen today is helping you strengthen your understanding of Kotlin lists. When you’re  writing Kotlin code the next time, see if you can apply some of the stuff we’ve talked about today – whether it’s slicing a collection, using sub-lists, or handling out-of-bounds situations for lists elegantly with the <code>getOrNull</code> and <code>getOrElse</code> functions.</p>\n\n<p>If you’ve learned something new, and want to see more like this, make sure to <a href="https://dev.to/kotlin">follow us here on dev.to</a>, and check out some of the interesting content we publish on <a href="http://kotl.in/video">our official YouTube channel</a>, as well!</p>\n\n<p>Now, it’s time for all of you to go and explore some more Kotlin! Take care, and see you in the next one!</p>\n\n',a.body_markdown='---\ntitle: Exploring Kotlin Lists in 2021\npublished: true\ndescription: Lists are the most popular collection type in the Kotlin standard library, and for a good reason! Learn all about them, and bring your Kotlin skills to the next level!\ncover_image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/gvw7ksfqlrv2ba8wg11f.jpeg\nseries: Kotlin Standard Library Safari\ntags: kotlin, programming, android, productivity\n---\n\nThis blog post accompanies a video from our **YouTube series** which you can find on our [Kotlin YouTube channel](https://kotl.in/video), or **watch here** directly!\n\n{% youtube CDWy16UDeLQ %}\n\n**Today, we\'re talking all about lists!** Lists are the most popular collection type in Kotlin for a good reason, and we’ll find out why together.\n\n## Lists\n\n### What’s a list?\n\nIf you\'ve written Kotlin code before, you\'ve definitely seen a list – they\'re collections of ordered elements, where each element is accessible via an index. As such, they\'re one of the basic building blocks for a lot of Kotlin code.\n\n\n### Creating lists\n\nIf you’re creating lists on your own, you’re most likely using the [`listOf`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/list-of.html) function, which takes a variable number of arguments, and those become the elements of your list. Even in this blog post series, we\'ve created a list like that about a hundred times:\n\n```kotlin\nlistOf(1, 2, 3, 4, 5)\n// [1, 2, 3, 4, 5]\n```\n\nA little lesser known is the ability to create lists via the [`List`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list.html) constructor function. Here, we pass two parameters – the `size` of the list, and an `init` function that creates each of the elements in our list. That function we pass gets the element index as its parameter, which we can use to adjust the item content:\n\n```kotlin\nList(5) { idx -> "No. $idx" }\n// [No. 0, No. 1, No. 2, No. 3, No. 4]\n```\n\nOf course, lists can come from other places as well: types like collections, iterables, and others often feature a [`toList`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-list.html) method.\n\nFor example, in the case of a string, we get a list of its characters:\n\n```kotlin\n"word-salad".toList()\n// [w, o, r, d, -, s, a, l, a, d]\n```\n\nGiven a map of placements and the associated medals, we can call `toList` on that to get a list of key-value pairs:\n\n```kotlin\nmapOf(\n    1 to "Gold",\n    2 to "Silver",\n    3 to "Bronze"\n).toList()\n// [(1, Gold), (2, Silver), (3, Bronze)]\n```\n\nSequences, ranges, and progressions behave similarly. They materialize their values, and put them in a list when calling `toList`. As an example, we can consider a random sequence of numbers, or the inclusive integer range from zero to ten:\n\n```kotlin\ngenerateSequence {\n    Random.nextInt(100).takeIf { it > 30 }\n}.toList()\n// [73, 77, 69, 79, 71, 64]\n\n(0..10).toList()\n// [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n```\n\nAn extra case worth mentioning is calling `toList` on something that already is a list. This creates brand-new copy of the original list. We can see this in the following example, where we create a mutable list with a few numbers. By calling `toList`, we obtain a new working copy:\n\n```kotlin\nval list = mutableListOf(1, 2, 3)\nval otherList = list.toList()\n\nlist[0] = 5\nprintln(list)\n// [5, 2, 3]\n\nprintln(otherList)\n// [1, 2, 3]\n```\n\nAs we can see, when the original list is changed, the working copy we just created does not contain any of the changes applied to the original collection.\n\n### Accessing list items\n\nTo get items out of our lists, we have multiple options. The most basic way of doing so is using the [`get`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/get.html) function, together with an index:\n\n\n```kotlin\nval myList = listOf("🍔", "🌭", "🍕")\nmyList.get(1) // 🌭\n```\n\nBut if you ever type out `.get` manually, you’ll see that IntelliJ IDEA already gives you the helpful hint to use some much more popular syntactic sugar for it – the indexed access operator, denoted by the brackets with an index:\n\n```kotlin\nmyList[1] // 🌭\n```\n\nThere are also some additional flavors of the `get` function which we can explore. Two of those that come to mind are [`getOrElse`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/get-or-else.html) and [`getOrNull`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/get-or-null.html). They help us handle cases where we might be accessing an index that falls out of bounds (which can either be a negative index, or an index that’s larger than the last index in our collection.)\n\nUsing the default indexed access causes an [exception](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin/-index-out-of-bounds-exception/) when provided a parameter that\'s out of bounds:\n\n\n```kotlin\nmyList[3]\n// Index 3 out of bounds for length 3\n```\n\nWe can use [`getOrNull`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/get-or-null.html) to short-circuit our return value to `null`. Alternatively, we can use [`getOrElse`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/get-or-else.html) to compute a default value to be used instead. The default value is computed based on a passed lambda, which also receives the index:\n\n```kotlin\nval myList = listOf("🍔", "🌭", "🍕")\nmyList.getOrNull(3)\n// null\n\nmyList.getOrElse(3) {\n    println("There\'s no index $it!")\n    "😔"\n}\n// There\'s no index 3!\n// 😔\n```\n\nThese special functions are only necessary to work with indexes that might fall out of bounds, though. [Nullability](https://kotlinlang.org/docs/null-safety.html), for example, is handled the same way as you would in any other situation in Kotlin: using the power of the Elvis operator, smart-casts and friends.\n\n```kotlin\nval listOfNullableItems = listOf(1, 2, null, 4)\nval x: Int = listOfNullableItems[0] ?: 0\n```\n\n### Slicing\n\nOf course, we can go beyond getting individual items out of our list. Because a list is a collection like any other, we have access to the same [`take`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/take.html) and [`drop`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/drop.html) functions that were introduced in the _[Diving into Kotlin collections](https://dev.to/kotlin/diving-into-kotlin-collections-587o)_ post.\n\nBut lists have a special way of retrieving multiple items - the [`slice`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/slice.html) function!\n\nWhen we give this function a bunch of indexes, it returns the elements at those places in our collection. In this example, we’re passing a list with index `0, 2, 4`, and get those items from our list of letters:\n\n```kotlin\nval myList = listOf("a", "b", "c", "d", "e")\nmyList.slice(listOf(0, 2, 4))\n// [a, c, e]\n```\n\nInstead of writing out all the indices by hand, we could also use `IntRange`s or progressions to specify the indexes. For example, we could request “all items from 0 through 3”, or specify a custom step-size of 2. We could even pull out some items in reverse order, if we create a progression that uses `downTo`:\n\n```kotlin\nmyList.slice(0..3)\n// [a, b, c, d]\n\nmyList.slice(0..myList.lastIndex step 2)\n// [a, c, e]\n\nmyList.slice(2 downTo 0)\n// [c, b, a]\n```\n\nAs you may suspect, this _list_ of list features is not quite exhaustive – as always, there’s some more to explore even on this subject. But let’s put that on the back burner for a bit, and move on to a special kind of list – it\'s time to talk about _mutable lists_!\n\n## Mutable Lists\n\nWhat\'s so special about mutable lists? Well, you can _mutate_ them! That, of course, doesn’t mean that these lists will turn into zombies (🧟‍♂️), but that you can change their content. If we consult an excerpt of a class hierarchy, we can see that `MutableList` specializes `List`, meaning everything we’ve learned about lists so far also works for their mutable counterpart, plus some extra functionality.\n\n![list-specialization](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nrg0js7pl6435klg2gm0.png) \n\nIt\'s precisely that extra functionality that we’re interested in right now!\n\n### Creating mutable lists\n\nOnce again, mutable lists are commonly created via the [`mutableListOf`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/mutable-list-of.html) function, with a bunch of values as arguments. And, wherever you were able to find a `toList` method, as discussed previously, you’ll probably also find a [`toMutableList`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/to-mutable-list.html). That also includes other lists and mutable lists – where you’ll get a fresh copy when calling `toMutableList`:\n\n```kotlin\nmutableListOf(1, 2, 3)\n// [1, 2, 3]\n\n(0..10).toMutableList()\n// [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n \nlistOf(1, 2, 3).toMutableList()\n// [1, 2, 3]\n```\n\n### Add / Remove / Update\n\nLet\'s move on to the core of this subject – the ability to change content. That starts with adding something to the collection. If we want to add an extra number to the end of our mutable list we can do so via the [`add`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/add.html) function, or by using the `+=` operator shorthand, both of which append an item to the end of the list.\n\nIf we know _where_ in the collection we want our item to go, the `add` function also accepts an index, which inserts the new element at that position and moves the surrounding elements to accommodate it. In the same way, we can also add a whole other collection to our mutable list:\n\n\n```kotlin\nval m = mutableListOf(1, 2, 3)\nm.add(4)\nm += 4\nprintln(m)\n// [1, 2, 3, 4, 4]\n\nm.add(2, 10)\nprintln(m)\n// [1, 2, 10, 3, 4, 4]\n\nm += listOf(5, 6, 7)\nprintln(m)\n// [1, 2, 10, 3, 4, 4, 5, 6, 7]\n```\n\n\nWe’re of course not constrained to just adding elements to our list – we can also remove them. If we know what element we want to get rid of, we can do that via the [`remove`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/remove.html) function or the `-=` operator shorthand, which removes from our collection _a single instance_ of the element we provide. In this example, after calling -= and `remove`, we got rid of two of the 3s in our original collection – because each invocation removed one of them.\n\nAlternatively, we can also pass the `-=` operator a collection of elements. In this case, the operator acts as a shorthand for the `removeAll` function. Here, it looks at every element in the collection we pass, and _removes all instances of them_ in our original, mutable collection. (This is an important distinction to make!) So, by passing 1 and 4 as a collection, we remove _all instances_ of those numbers from our mutable list, and we’re left with only 2 and 3 at the end.\n\n\n```kotlin\nval m = mutableListOf(1, 2, 3, 3, 3, 4, 4, 4)\nm -= 3\nm.remove(3)\nprintln(m)\n// [1, 2, 3, 4, 4, 4]\n\nm -= listOf(1, 4)\nprintln(m)\n// [2, 3]\n```\n\nIf we know the index where we want to kick an item out, we use the [`removeAt`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/remove-at.html) function instead. For example, we could remove the second element in our list, which resides at index 1.\n\n```kotlin\nval m = mutableListOf(1, 2, 3, 3, 3)\nm.removeAt(1)\nprintln(m)\n// [1, 3, 3, 3]\n```\n\nTo update an item, we most commonly use the [_indexed access operator_](https://kotlinlang.org/docs/operator-overloading.html#indexed-access-operator) – so the brackets – together with an assignment. That one calls the [`set`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/set.html) function with that index and element under the hood, and switches out the item at the specified index – in this case, trading a "b" for an "a".\n\n```kotlin\nval m = mutableListOf("a", "b", "c", "d", "e")\nm[1] = "a"\nprintln(m)\n// [a, a, c, d, e]\n```\n\n### Fill and Clear\n\nIn certain situations, we might want to turn all elements of our list into the same element – like zeroing out a buffer before reusing it. This is something we can do using the [`fill`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/fill.html) function, which replaces each element with the same value we specify. If we look at a list of fruits, for example, and suddenly realize that all of them are really just sugar, we use fill to replace them with candy (🍬). While that metaphor may not be _entirely scientifically accurate_, it\'s tasty nonetheless!\n\nAnd when we want to wipe our collection clean, the [`clear`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-mutable-list/clear.html) function can help with removing all elements from a collection – in our case, getting rid of all the candy:\n\n```kotlin\nval fruits = mutableListOf("🍉", "🍊", "🥝")\n// wait, it\'s all sugar?\nfruits.fill("🍬")\n\nprintln(fruits)\n// [🍬, 🍬, 🍬]\n\n// ... nom nom\nfruits.clear()\n\nprintln(fruits)\n// []\n```\n\nPerhaps unsurprisingly, mutable lists grow and shrink automatically to accommodate all your items, so you can have an arbitrary number of elements in your collection. This might be obvious, but it’s so darn convenient, so I figured I’d mention it. The things we take for granted!\n\n### In-place modifications\n\nThinking back to some of the previous entries of this series, we’ve seen a number of neat functions which we wouldn’t want to miss for mutable collections either – things like `sorted`, `shuffled`, and `reversed`. However, those don’t modify the original collection.\n\nLuckily for us, these functions also have a mutable counterpart. So, when we want to sort, shuffle, or reverse a mutable list in place – instead of creating a new, separate copy with the effects applied – we use the [`sort()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/sort.html) instead of `sorted()`, [`shuffle()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/shuffle.html) instead of `shuffled()`, and [`reverse()`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reverse.html) instead of `reversed()` functions:\n\n```kotlin\nval list = listOf(3, 1, 4, 1, 5, 9)\nlist.shuffled()\nlist.sorted()\nlist.reversed()\n\nprintln(list)\n// [3, 1, 4, 1, 5, 9]\n\nval m = list.toMutableList()\nm.shuffle()\nprintln(m)\n// [5, 1, 1, 3, 4, 9]\n\nm.sort()\nprintln(m)\n// [1, 1, 3, 4, 5, 9]\n\nm.reverse()\nprintln(m)\n// [9, 5, 4, 3, 1, 1]\n```\n\nMutable lists also offer the possibility to remove or keep _all_ elements that fulfill a certain predicate. The [`removeAll`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/remove-all.html) function can remove all elements that match the predicate we specify. Let’s say we’re not a fan of small numbers in our collection, and only want to keep numbers that are 5 or above – `removeAll` helps us do exactly that.\n\n```kotlin\nval numbers = mutableListOf(3, 1, 4, 1, 5, 9)\nnumbers.removeAll { it < 5 }\nprintln(numbers)\n// [5, 9]\n```\n\nThe [`retainAll`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/retain-all.html) function is the opposite, and only keeps those elements in the mutable list that match. If we want to retain every character in our collection that is a letter, we do that with the `retainAll` function:\n\n```kotlin\nval letters = mutableListOf(\'a\', \'b\', \'3\', \'d\', \'5\')\nletters.retainAll { it.isLetter() }\nprintln(letters)\n// [a, b, d]\n```\n\nThis might feel a bit familiar to you, and rightfully so, because these are essentially the mutating equivalents of the [`filter`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter.html) and [`filterNot`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/filter-not.html) functions.\n\n### Views on Lists\n\nThe last topic on today’s agenda is views on lists. That name already hints at what they allow us to do – they allow us to look at the elements in our list from a different perspective – let’s see what that means.\n\nLet’s assume we have a collection of fruits. To create a view, we can use the [`subList`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/-list/sub-list.html) function, which takes a beginning and end index, which determines which elements should be “visible” in the view. By having a look at an example sublist, we can see that it contains the elements from our original collections based on the indices we specify (with the upper bound being exclusive):\n\n```kotlin\nval fruits = mutableListOf("🍉", "🍊", "🥝", "🍏")\nval sub = fruits.subList(1, 4)\nprintln(sub)\n// [🍊, 🥝, 🍏]\n```\n\n\nBecause this is only a _view_, and not a copy of our original collection, changes are automatically visible. That means if we change the orange to a banana in the underlying `fruits` list, then our sublist will reflect that change:\n\n```kotlin\nfruits[1] = "🍌"\nprintln(sub)\n// [🍌, 🥝, 🍏]\n```\n\nWhat may be even more interesting is that this sublist is in itself mutable, as well! If we change the green apple in our sublist to a pineapple, and have a look at our original fruits collection again, we see that the change is visible from here as well:\n\n```kotlin\nsub[2] = "🍍"\nprintln(fruits)\n// [🍉, 🍌, 🥝, 🍍]\n```\n\nOr, we can use the fill function which we’ve learned about earlier to turn an interval inside of our fruit-list back into candy, again:\n\n```kotlin\nsub.fill("🍬")\nprintln(fruits)\n// [🍉, 🍬, 🍬, 🍬]\n```\n\nTo reiterate; all of that works because these aren’t two different collections – there is only one collection, and  `subList` has just given us a different perspective on that list!\n\n**An important note on the topic of sublists:** They are only well-defined as long as the underlying, original list is _not structurally changed_. Changes affecting the size of the list, for example, automatically cause any views that were previously returned by invoking `subList` to have undefined behavior.\n\nFor a common case, which is looking at a list backwards, the Kotlin standard library also comes with the [`asReversed`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/as-reversed.html) function. It provides a backwards view of the underlying list. Once again, changes made in the view are visible in the original collection, and vice versa. As you can see in the following example, turning the orange into a banana in our original list also changes what we see in the reversed view. Altering it back to a pineapple via our reversed view also alters our original mutable list:\n\n```kotlin\nval fruits = mutableListOf("🍉", "🍊", "🥝", "🍏")\nval stiurf = fruits.asReversed()\n\nprintln(stiurf)\n// [🍏, 🥝, 🍊, 🍉]\n\nfruits[1] = "🍌"\nprintln(stiurf)\n// [🍏, 🥝, 🍌, 🍉]\n\nstiurf[2] = "🍍"\nprintln(fruits)\n// [🍉, 🍍, 🥝, 🍏]\n```\n\nThese types of “views” are actually available for non-mutable lists, as well, and allow you to pass around different sub-selections of your collections without having to create new copies every time – however, this seemed like a topic that would be nicer to illustrate with the mutable variant, to drive the point home that there really is only one underlying collection.\n\n## Outro\n\nWith that, we have reached the end of today’s expedition! I hope some of the stuff you’ve seen today is helping you strengthen your understanding of Kotlin lists. When you’re  writing Kotlin code the next time, see if you can apply some of the stuff we’ve talked about today – whether it’s slicing a collection, using sub-lists, or handling out-of-bounds situations for lists elegantly with the `getOrNull` and `getOrElse` functions.\n\nIf you’ve learned something new, and want to see more like this, make sure to [follow us here on dev.to](https://dev.to/kotlin), and check out some of the interesting content we publish on [our official YouTube channel](http://kotl.in/video), as well!\n\nNow, it’s time for all of you to go and explore some more Kotlin! Take care, and see you in the next one!',a.user={name:"Sebastian Aigner",username:"sebastianaigner",twitter_username:s,github_username:"SebastianAigner",website_url:s,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--YLRiYsK3--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/26006/58280da5-1e32-4986-be77-79297aaf1175.jpg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--t5nj9WhA--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/26006/58280da5-1e32-4986-be77-79297aaf1175.jpg"},a.organization={name:"Kotlin",username:n,slug:n,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--RelZBNTQ--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/2485/80d41bc3-7f05-444c-a32e-ceb190e486b1.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--9JRO94jQ--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/2485/80d41bc3-7f05-444c-a32e-ceb190e486b1.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:a}},error:s,state:{currentArticle:a},serverRendered:!0,routePath:"/sebastianaigner/743298",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:s}}}}(null,"kotlin",{},"https://dev.to/kotlin/exploring-kotlin-lists-in-2021-2gi","2021-07-08T14:46:58Z")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

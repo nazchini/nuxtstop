@@ -1,0 +1,590 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Bypass AWS_ENDPOINT to interact with any S3 compatible service from CockroachDB</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Bypass AWS_ENDPOINT to interact with any S3 compatible service from CockroachDB</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/cockroachdb" class="tag" data-v-70afb46a>
+          #cockroachdb
+        </a><a href="/nuxtstop/t/minio" class="tag" data-v-70afb46a>
+          #minio
+        </a><a href="/nuxtstop/t/s3" class="tag" data-v-70afb46a>
+          #s3
+        </a><a href="/nuxtstop/t/tutorial" class="tag" data-v-70afb46a>
+          #tutorial
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--PinSmDwf--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ld470o9yys77jfikvivd.png" alt="Bypass AWS_ENDPOINT to interact with any S3 compatible service from CockroachDB" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            6
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Oct 12 '21</time></div></header> <div class="content" data-v-70afb46a><p>In this blog I will demonstrate how you can trick an application or service, in our case CockroachDB, into thinking it's communicating with AWS S3 when in fact another service lays behind the scenes.</p>
+
+<p>CockroachDB is perfectly capable to interact with any S3 compatible services. Following the instructions of the AWS SDK, you can add parameter <code>AWS_ENDPOINT</code> to your URI to tell CockroachDB what server to hit instead of the default AWS servers. This is clearly documented <a href="https://www.cockroachlabs.com/docs/v21.1/use-cloud-storage-for-bulk-operations#url-format">here</a>.</p>
+
+<p>However, this blog comes as a follow up from a customer interaction where their requirement was to NOT use <code>AWS_ENDPOINT</code> in their URI, yet still using their own private S3 compatible service.</p>
+
+<h2>
+  <a name="setup" href="#setup">
+  </a>
+  Setup
+</h2>
+
+<p>Create a t2.micro or similar instance on your favorite cloud provider.<br>
+For this exercise, the instance has the below details:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>OS         : Ubuntu 20.04 LTS
+Public IP  : 54.83.105.95
+Private IP : 10.10.81.189
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="install-and-configure-minio" href="#install-and-configure-minio">
+  </a>
+  Install and Configure MinIO
+</h3>
+
+<p><a href="https://min.io/">MinIO</a> is a S3 compatible service and it is my favorite choice for when I want to play locally with the S3 API. We will therefore use the MinIO Server as our custom endpoint instead of AWS S3.</p>
+
+<p>Below the steps to run MinIO, also available in the <a href="https://docs.min.io/docs/how-to-secure-access-to-minio-server-with-tls.html">official docs</a>.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="c"># download the binary</span>
+wget https://dl.min.io/server/minio/release/linux-amd64/minio
+<span class="nb">chmod</span> +x minio
+./minio server data
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>At this point MinIO is running in insecure mode.<br>
+It will also have created the configuration folders at <code>${HOME}/.minio/certs</code>.<br>
+Stop the server with <code>Ctrl+C</code>, then configure secure access with TLS.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="c"># allow minio to start on port 443</span>
+<span class="nb">sudo </span>setcap <span class="nv">cap_net_bind_service</span><span class="o">=</span>+ep minio
+
+<span class="c"># create the private key</span>
+<span class="nb">cd</span> .minio/certs
+openssl genrsa <span class="nt">-out</span> private.key 2048
+<span class="nb">chmod </span>400 private.key
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Create a file named <code>openssl.conf</code> with the content below. Check the <code>alt_names</code> section carefully: in this context, <code>fabio</code> is the name of the s3 bucket.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>[req]
+distinguished_name = req_distinguished_name
+x509_extensions = v3_req
+prompt = no
+
+[req_distinguished_name]
+C = US
+ST = VA
+L = Somewhere
+O = MyOrg
+OU = MyOU
+CN = MyServerName
+
+[v3_req]
+subjectAltName = @alt_names
+
+[alt_names]
+IP.1 = 127.0.0.1
+IP.2 = 54.83.105.95
+IP.3 = 10.10.81.189
+DNS.1 = localhost
+DNS.2 = s3.amazonaws.com
+DNS.3 = fabio.s3.amazonaws.com
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Create the public cert<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>openssl req <span class="nt">-new</span> <span class="nt">-x509</span> <span class="nt">-nodes</span> <span class="nt">-days</span> 730 <span class="nt">-key</span> private.key <span class="nt">-out</span> public.crt <span class="nt">-config</span> openssl.conf
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Setup MinIO Server to use Virtual Hosted-Style, as per <a href="https://stackoverflow.com/questions/59693471/how-to-setup-minio-server-to-use-virtual-hosted-style">here</a>.<br>
+This is required to match AWS S3 style.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">export </span><span class="nv">MINIO_DOMAIN</span><span class="o">=</span>s3.amazonaws.com
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Finally, start the MinIO Server<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>~/minio server <span class="nt">--console-address</span> <span class="s2">":9001"</span> <span class="nt">--address</span> <span class="s2">":443"</span> ~/data
+
+API: https://10.10.82.1  https://127.0.0.1     
+RootUser: minioadmin 
+RootPass: minioadmin 
+
+Console: https://10.10.82.1:9001 https://127.0.0.1:9001   
+RootUser: minioadmin 
+RootPass: minioadmin 
+
+Command-line: https://docs.min.io/docs/minio-client-quickstart-guide
+   <span class="nv">$ </span>mc <span class="nb">alias set </span>myminio https://10.10.82.1 minioadmin minioadmin
+
+Documentation: https://docs.min.io
+WARNING: Detected default credentials <span class="s1">'minioadmin:minioadmin'</span>, we recommend that you change these values with <span class="s1">'MINIO_ROOT_USER'</span> and <span class="s1">'MINIO_ROOT_PASSWORD'</span> environment variables
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Point your browser at <a href="https://54.83.105.95:9001">https://54.83.105.95:9001</a> to access the <strong>MinIO Console</strong>. As the self-signed certificate is invalid, the browser might not allow you to continue. In Brave Browser, and other Chrome based browsers, type <code>thisisunsafe</code> anywhere on the screen (not on the address toolbar) to continue and disregard the warning.</p>
+
+<p>Login with <code>minioadmin/minioadmin</code>, which are the default login details. Once logged in, you'll see the Dashboard page, below</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--pgPL9Als--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lmyb3jlvo1v5lnyhdpt8.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--pgPL9Als--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lmyb3jlvo1v5lnyhdpt8.png" alt="minio-dashboard" loading="lazy"></a></p>
+
+<p>Using the menu on the left, create a <strong>bucket</strong> called <code>fabio</code>.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--DiyeKazp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/elk69mt78pwswek6zmqm.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--DiyeKazp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/elk69mt78pwswek6zmqm.png" alt="bucket" loading="lazy"></a></p>
+
+<p>Then create a <strong>User</strong> <code>fabio</code> with any password you want. Make sure assign the <code>consoleAdmin</code>, <code>readwrite</code> and <code>diagnostic</code> policies to the user, so you don't run into any permission issue. Later on, you can refine these permissions.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--5Dsbt-1o--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nf56coo5c77nx846vuw6.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--5Dsbt-1o--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nf56coo5c77nx846vuw6.png" alt="Alt Text" loading="lazy"></a></p>
+
+<p>Then, click on the user you just created and create a <strong>Service Account</strong>, and make sure you save the keys. In my example, the keys are:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>Access Key: I6SX7TO71RZY79FXDK1T
+Secret Key: 7TxSqDyrvOXCV+EWkRvZKSOXETriFik5LKNWmkQm
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--vGgxBqNZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7x1377lj2x79z0q6xe5l.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--vGgxBqNZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7x1377lj2x79z0q6xe5l.png" alt="Alt Text" loading="lazy"></a></p>
+
+<p>Finally, go to <strong>Settings</strong> and change the region to <code>us-east-1</code>.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--nALqsTh4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jo5kfnggwrb94el9d1r4.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--nALqsTh4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jo5kfnggwrb94el9d1r4.png" alt="Alt Text" loading="lazy"></a></p>
+
+<p>This will prompt you to RESTART the server. Do so by stopping the server, and restarting it.</p>
+
+<p>Perfect, you're all set! MinIO Server is up and running in secure mode, and you've a service account to interact with it.</p>
+
+<p>Next, we configure the OS.</p>
+
+<h2>
+  <a name="linux-os-configuration" href="#linux-os-configuration">
+  </a>
+  Linux OS configuration
+</h2>
+
+<p>For CockroachDB to trust the certificate, we must add it to the system cert pool. We also need to redirect the traffic aimed at AWS servers to MinIO's.</p>
+
+<h3>
+  <a name="allow-selfsigned-certs" href="#allow-selfsigned-certs">
+  </a>
+  Allow self-signed certs
+</h3>
+
+<p>In Ubuntu, this is how you go about, as per <a href="https://askubuntu.com/questions/73287/how-do-i-install-a-root-certificate">here</a><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">sudo mkdir</span> /usr/local/share/ca-certificates/extra
+<span class="nb">sudo cp</span> ~/.minio/certs/public.crt /usr/local/share/ca-certificates/extra/
+<span class="nb">sudo </span>update-ca-certificates
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="routing" href="#routing">
+  </a>
+  Routing
+</h3>
+
+<p>Edit file <code>/etc/hosts</code> and add these entries to route all traffic directed to Amazon AWS servers to the MinIO Server instead.<br>
+Again, <code>fabio</code> is the name of the bucket.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>54.83.105.95 s3.amazonaws.com
+54.83.105.95 s3.us-east-1.amazonaws.com
+54.83.105.95 fabio.s3.amazonaws.com 
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Good, we're all set from OS point of view. Next, we test with CockroachDB.</p>
+
+<h2>
+  <a name="cockroachdb" href="#cockroachdb">
+  </a>
+  CockroachDB
+</h2>
+
+<p>Install and start CockroachDB. We will use the single-node feature as we're only trying to prove it works from a functionality perspective.</p>
+
+<p>As always, the offical installation docs are <a href="https://www.cockroachlabs.com/docs/stable/install-cockroachdb-linux">here</a>.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>curl https://binaries.cockroachdb.com/cockroach-v21.1.10.linux-amd64.tgz | <span class="nb">tar</span> <span class="nt">-xz</span> <span class="o">&&</span> <span class="nb">sudo cp</span> <span class="nt">-i</span> cockroach-v21.1.10.linux-amd64/cockroach /usr/local/bin/
+cockroach start-single-node <span class="nt">--insecure</span> <span class="nt">--background</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Connect to the SQL prompt as root:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>cockroach sql <span class="nt">--insecure</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Create a user - doesn't have to be an admin -, then logout and log back in as that user<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight sql"><code><span class="k">CREATE</span> <span class="k">USER</span> <span class="n">fabio</span> <span class="k">WITH</span> <span class="k">CREATEDB</span><span class="p">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>cockroach sql <span class="nt">--insecure</span> <span class="nt">-u</span> fabio
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>As user <code>fabio</code>, create a simple test table and export it. Make sure you update the keys with your values!<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight sql"><code><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">fabio</span><span class="p">;</span>
+<span class="n">USE</span> <span class="n">fabio</span><span class="p">;</span>
+
+<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">test</span> <span class="k">AS</span> 
+  <span class="k">SELECT</span> <span class="n">a</span> 
+  <span class="k">FROM</span> <span class="n">generate_series</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span> <span class="k">AS</span> <span class="n">a</span><span class="p">;</span>
+
+<span class="c1">-- notice that we don't use AWS_ENDPOINT in the URI</span>
+<span class="n">EXPORT</span> <span class="k">INTO</span> <span class="n">CSV</span>     
+  <span class="s1">'s3://fabio?AWS_ACCESS_KEY_ID=I6SX7TO71RZY79FXDK1T&AWS_SECRET_ACCESS_KEY=7TxSqDyrvOXCV+EWkRvZKSOXETriFik5LKNWmkQm'</span>
+  <span class="k">FROM</span> <span class="k">TABLE</span> <span class="n">test</span><span class="p">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>                              filename                             | rows | bytes
+-------------------------------------------------------------------+------+--------
+  export16ad4c7f75f4fe180000000000000001-n701156393427501057.0.csv |  100 |   292
+(1 row)
+
+Time: 38ms total (execution 38ms / network 0ms)
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>As <code>root</code>, take a full cluster backup<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight sql"><code><span class="n">BACKUP</span> <span class="k">INTO</span>
+  <span class="s1">'s3://fabio?AWS_ACCESS_KEY_ID=I6SX7TO71RZY79FXDK1T&AWS_SECRET_ACCESS_KEY=7TxSqDyrvOXCV+EWkRvZKSOXETriFik5LKNWmkQm'</span><span class="p">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>        job_id       |  status   | fraction_completed | rows | index_entries | bytes
+---------------------+-----------+--------------------+------+---------------+--------
+  701160820164395009 | succeeded |                  1 |  126 |            14 |  5920
+(1 row)
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Refresh the MinIO Console to see your files</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--8aOrBsC---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/26avfbkd9i6dygx45t0b.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--8aOrBsC---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/26avfbkd9i6dygx45t0b.png" alt="Alt Text" loading="lazy"></a></p>
+
+<p>Awesome! The CockroachDB end-user has no clue that the engine behind the scenes is MinIO instead of AWS, and CockroachDB is happy to IMPORT, EXPORT, BACKUP and RESTORE from S3, be it AWS' or Minio's.</p>
+
+<h2>
+  <a name="reference" href="#reference">
+  </a>
+  Reference
+</h2>
+
+<ul>
+<li><a href="https://min.io/">MinIO</a></li>
+<li><a href="https://www.cockroachlabs.com/product/">CockroachDB</a></li>
+</ul>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/fabiog1901/bypass-awsendpoint-to-interact-with-any-s3-compatible-service-from-cockroachdb-43em" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(n,e,s,t,a,i){return s.type_of="article",s.id=861081,s.title="Bypass AWS_ENDPOINT to interact with any S3 compatible service from CockroachDB",s.description="In this blog I will demonstrate how you can trick an application or service, in our case CockroachDB,...",s.readable_publish_date="Oct 12 '21",s.slug="bypass-awsendpoint-to-interact-with-any-s3-compatible-service-from-cockroachdb-43em",s.path="/cockroachlabs/bypass-awsendpoint-to-interact-with-any-s3-compatible-service-from-cockroachdb-43em",s.url=t,s.comments_count=0,s.public_reactions_count=6,s.collection_id=n,s.published_timestamp=e,s.positive_reactions_count=6,s.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--PinSmDwf--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ld470o9yys77jfikvivd.png",s.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--a0kMz_D5--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ld470o9yys77jfikvivd.png",s.canonical_url=t,s.created_at="2021-10-12T14:42:41Z",s.edited_at="2021-10-12T17:58:41Z",s.crossposted_at=n,s.published_at=e,s.last_comment_at=e,s.reading_time_minutes=5,s.tag_list="cockroachdb, minio, s3, tutorial",s.tags=["cockroachdb","minio","s3","tutorial"],s.body_html='<p>In this blog I will demonstrate how you can trick an application or service, in our case CockroachDB, into thinking it\'s communicating with AWS S3 when in fact another service lays behind the scenes.</p>\n\n<p>CockroachDB is perfectly capable to interact with any S3 compatible services. Following the instructions of the AWS SDK, you can add parameter <code>AWS_ENDPOINT</code> to your URI to tell CockroachDB what server to hit instead of the default AWS servers. This is clearly documented <a href="https://www.cockroachlabs.com/docs/v21.1/use-cloud-storage-for-bulk-operations#url-format">here</a>.</p>\n\n<p>However, this blog comes as a follow up from a customer interaction where their requirement was to NOT use <code>AWS_ENDPOINT</code> in their URI, yet still using their own private S3 compatible service.</p>\n\n<h2>\n  <a name="setup" href="#setup">\n  </a>\n  Setup\n</h2>\n\n<p>Create a t2.micro or similar instance on your favorite cloud provider.<br>\nFor this exercise, the instance has the below details:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>OS         : Ubuntu 20.04 LTS\nPublic IP  : 54.83.105.95\nPrivate IP : 10.10.81.189\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="install-and-configure-minio" href="#install-and-configure-minio">\n  </a>\n  Install and Configure MinIO\n</h3>\n\n<p><a href="https://min.io/">MinIO</a> is a S3 compatible service and it is my favorite choice for when I want to play locally with the S3 API. We will therefore use the MinIO Server as our custom endpoint instead of AWS S3.</p>\n\n<p>Below the steps to run MinIO, also available in the <a href="https://docs.min.io/docs/how-to-secure-access-to-minio-server-with-tls.html">official docs</a>.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="c"># download the binary</span>\nwget https://dl.min.io/server/minio/release/linux-amd64/minio\n<span class="nb">chmod</span> +x minio\n./minio server data\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>At this point MinIO is running in insecure mode.<br>\nIt will also have created the configuration folders at <code>${HOME}/.minio/certs</code>.<br>\nStop the server with <code>Ctrl+C</code>, then configure secure access with TLS.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="c"># allow minio to start on port 443</span>\n<span class="nb">sudo </span>setcap <span class="nv">cap_net_bind_service</span><span class="o">=</span>+ep minio\n\n<span class="c"># create the private key</span>\n<span class="nb">cd</span> .minio/certs\nopenssl genrsa <span class="nt">-out</span> private.key 2048\n<span class="nb">chmod </span>400 private.key\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Create a file named <code>openssl.conf</code> with the content below. Check the <code>alt_names</code> section carefully: in this context, <code>fabio</code> is the name of the s3 bucket.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>[req]\ndistinguished_name = req_distinguished_name\nx509_extensions = v3_req\nprompt = no\n\n[req_distinguished_name]\nC = US\nST = VA\nL = Somewhere\nO = MyOrg\nOU = MyOU\nCN = MyServerName\n\n[v3_req]\nsubjectAltName = @alt_names\n\n[alt_names]\nIP.1 = 127.0.0.1\nIP.2 = 54.83.105.95\nIP.3 = 10.10.81.189\nDNS.1 = localhost\nDNS.2 = s3.amazonaws.com\nDNS.3 = fabio.s3.amazonaws.com\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Create the public cert<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>openssl req <span class="nt">-new</span> <span class="nt">-x509</span> <span class="nt">-nodes</span> <span class="nt">-days</span> 730 <span class="nt">-key</span> private.key <span class="nt">-out</span> public.crt <span class="nt">-config</span> openssl.conf\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Setup MinIO Server to use Virtual Hosted-Style, as per <a href="https://stackoverflow.com/questions/59693471/how-to-setup-minio-server-to-use-virtual-hosted-style">here</a>.<br>\nThis is required to match AWS S3 style.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">export </span><span class="nv">MINIO_DOMAIN</span><span class="o">=</span>s3.amazonaws.com\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Finally, start the MinIO Server<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>~/minio server <span class="nt">--console-address</span> <span class="s2">":9001"</span> <span class="nt">--address</span> <span class="s2">":443"</span> ~/data\n\nAPI: https://10.10.82.1  https://127.0.0.1     \nRootUser: minioadmin \nRootPass: minioadmin \n\nConsole: https://10.10.82.1:9001 https://127.0.0.1:9001   \nRootUser: minioadmin \nRootPass: minioadmin \n\nCommand-line: https://docs.min.io/docs/minio-client-quickstart-guide\n   <span class="nv">$ </span>mc <span class="nb">alias set </span>myminio https://10.10.82.1 minioadmin minioadmin\n\nDocumentation: https://docs.min.io\nWARNING: Detected default credentials <span class="s1">\'minioadmin:minioadmin\'</span>, we recommend that you change these values with <span class="s1">\'MINIO_ROOT_USER\'</span> and <span class="s1">\'MINIO_ROOT_PASSWORD\'</span> environment variables\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Point your browser at <a href="https://54.83.105.95:9001">https://54.83.105.95:9001</a> to access the <strong>MinIO Console</strong>. As the self-signed certificate is invalid, the browser might not allow you to continue. In Brave Browser, and other Chrome based browsers, type <code>thisisunsafe</code> anywhere on the screen (not on the address toolbar) to continue and disregard the warning.</p>\n\n<p>Login with <code>minioadmin/minioadmin</code>, which are the default login details. Once logged in, you\'ll see the Dashboard page, below</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--pgPL9Als--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lmyb3jlvo1v5lnyhdpt8.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--pgPL9Als--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lmyb3jlvo1v5lnyhdpt8.png" alt="minio-dashboard" loading="lazy"></a></p>\n\n<p>Using the menu on the left, create a <strong>bucket</strong> called <code>fabio</code>.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--DiyeKazp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/elk69mt78pwswek6zmqm.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--DiyeKazp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/elk69mt78pwswek6zmqm.png" alt="bucket" loading="lazy"></a></p>\n\n<p>Then create a <strong>User</strong> <code>fabio</code> with any password you want. Make sure assign the <code>consoleAdmin</code>, <code>readwrite</code> and <code>diagnostic</code> policies to the user, so you don\'t run into any permission issue. Later on, you can refine these permissions.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--5Dsbt-1o--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nf56coo5c77nx846vuw6.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--5Dsbt-1o--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nf56coo5c77nx846vuw6.png" alt="Alt Text" loading="lazy"></a></p>\n\n<p>Then, click on the user you just created and create a <strong>Service Account</strong>, and make sure you save the keys. In my example, the keys are:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>Access Key: I6SX7TO71RZY79FXDK1T\nSecret Key: 7TxSqDyrvOXCV+EWkRvZKSOXETriFik5LKNWmkQm\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--vGgxBqNZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7x1377lj2x79z0q6xe5l.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--vGgxBqNZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7x1377lj2x79z0q6xe5l.png" alt="Alt Text" loading="lazy"></a></p>\n\n<p>Finally, go to <strong>Settings</strong> and change the region to <code>us-east-1</code>.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--nALqsTh4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jo5kfnggwrb94el9d1r4.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--nALqsTh4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jo5kfnggwrb94el9d1r4.png" alt="Alt Text" loading="lazy"></a></p>\n\n<p>This will prompt you to RESTART the server. Do so by stopping the server, and restarting it.</p>\n\n<p>Perfect, you\'re all set! MinIO Server is up and running in secure mode, and you\'ve a service account to interact with it.</p>\n\n<p>Next, we configure the OS.</p>\n\n<h2>\n  <a name="linux-os-configuration" href="#linux-os-configuration">\n  </a>\n  Linux OS configuration\n</h2>\n\n<p>For CockroachDB to trust the certificate, we must add it to the system cert pool. We also need to redirect the traffic aimed at AWS servers to MinIO\'s.</p>\n\n<h3>\n  <a name="allow-selfsigned-certs" href="#allow-selfsigned-certs">\n  </a>\n  Allow self-signed certs\n</h3>\n\n<p>In Ubuntu, this is how you go about, as per <a href="https://askubuntu.com/questions/73287/how-do-i-install-a-root-certificate">here</a><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">sudo mkdir</span> /usr/local/share/ca-certificates/extra\n<span class="nb">sudo cp</span> ~/.minio/certs/public.crt /usr/local/share/ca-certificates/extra/\n<span class="nb">sudo </span>update-ca-certificates\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="routing" href="#routing">\n  </a>\n  Routing\n</h3>\n\n<p>Edit file <code>/etc/hosts</code> and add these entries to route all traffic directed to Amazon AWS servers to the MinIO Server instead.<br>\nAgain, <code>fabio</code> is the name of the bucket.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>54.83.105.95 s3.amazonaws.com\n54.83.105.95 s3.us-east-1.amazonaws.com\n54.83.105.95 fabio.s3.amazonaws.com \n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Good, we\'re all set from OS point of view. Next, we test with CockroachDB.</p>\n\n<h2>\n  <a name="cockroachdb" href="#cockroachdb">\n  </a>\n  CockroachDB\n</h2>\n\n<p>Install and start CockroachDB. We will use the single-node feature as we\'re only trying to prove it works from a functionality perspective.</p>\n\n<p>As always, the offical installation docs are <a href="https://www.cockroachlabs.com/docs/stable/install-cockroachdb-linux">here</a>.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>curl https://binaries.cockroachdb.com/cockroach-v21.1.10.linux-amd64.tgz | <span class="nb">tar</span> <span class="nt">-xz</span> <span class="o">&amp;&amp;</span> <span class="nb">sudo cp</span> <span class="nt">-i</span> cockroach-v21.1.10.linux-amd64/cockroach /usr/local/bin/\ncockroach start-single-node <span class="nt">--insecure</span> <span class="nt">--background</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Connect to the SQL prompt as root:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>cockroach sql <span class="nt">--insecure</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Create a user - doesn\'t have to be an admin -, then logout and log back in as that user<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight sql"><code><span class="k">CREATE</span> <span class="k">USER</span> <span class="n">fabio</span> <span class="k">WITH</span> <span class="k">CREATEDB</span><span class="p">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>cockroach sql <span class="nt">--insecure</span> <span class="nt">-u</span> fabio\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>As user <code>fabio</code>, create a simple test table and export it. Make sure you update the keys with your values!<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight sql"><code><span class="k">CREATE</span> <span class="k">DATABASE</span> <span class="n">fabio</span><span class="p">;</span>\n<span class="n">USE</span> <span class="n">fabio</span><span class="p">;</span>\n\n<span class="k">CREATE</span> <span class="k">TABLE</span> <span class="n">test</span> <span class="k">AS</span> \n  <span class="k">SELECT</span> <span class="n">a</span> \n  <span class="k">FROM</span> <span class="n">generate_series</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">100</span><span class="p">)</span> <span class="k">AS</span> <span class="n">a</span><span class="p">;</span>\n\n<span class="c1">-- notice that we don\'t use AWS_ENDPOINT in the URI</span>\n<span class="n">EXPORT</span> <span class="k">INTO</span> <span class="n">CSV</span>     \n  <span class="s1">\'s3://fabio?AWS_ACCESS_KEY_ID=I6SX7TO71RZY79FXDK1T&amp;AWS_SECRET_ACCESS_KEY=7TxSqDyrvOXCV+EWkRvZKSOXETriFik5LKNWmkQm\'</span>\n  <span class="k">FROM</span> <span class="k">TABLE</span> <span class="n">test</span><span class="p">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>                              filename                             | rows | bytes\n-------------------------------------------------------------------+------+--------\n  export16ad4c7f75f4fe180000000000000001-n701156393427501057.0.csv |  100 |   292\n(1 row)\n\nTime: 38ms total (execution 38ms / network 0ms)\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>As <code>root</code>, take a full cluster backup<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight sql"><code><span class="n">BACKUP</span> <span class="k">INTO</span>\n  <span class="s1">\'s3://fabio?AWS_ACCESS_KEY_ID=I6SX7TO71RZY79FXDK1T&amp;AWS_SECRET_ACCESS_KEY=7TxSqDyrvOXCV+EWkRvZKSOXETriFik5LKNWmkQm\'</span><span class="p">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>        job_id       |  status   | fraction_completed | rows | index_entries | bytes\n---------------------+-----------+--------------------+------+---------------+--------\n  701160820164395009 | succeeded |                  1 |  126 |            14 |  5920\n(1 row)\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Refresh the MinIO Console to see your files</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--8aOrBsC---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/26avfbkd9i6dygx45t0b.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--8aOrBsC---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/26avfbkd9i6dygx45t0b.png" alt="Alt Text" loading="lazy"></a></p>\n\n<p>Awesome! The CockroachDB end-user has no clue that the engine behind the scenes is MinIO instead of AWS, and CockroachDB is happy to IMPORT, EXPORT, BACKUP and RESTORE from S3, be it AWS\' or Minio\'s.</p>\n\n<h2>\n  <a name="reference" href="#reference">\n  </a>\n  Reference\n</h2>\n\n<ul>\n<li><a href="https://min.io/">MinIO</a></li>\n<li><a href="https://www.cockroachlabs.com/product/">CockroachDB</a></li>\n</ul>\n\n',s.body_markdown="In this blog I will demonstrate how you can trick an application or service, in our case CockroachDB, into thinking it's communicating with AWS S3 when in fact another service lays behind the scenes.\n\nCockroachDB is perfectly capable to interact with any S3 compatible services. Following the instructions of the AWS SDK, you can add parameter `AWS_ENDPOINT` to your URI to tell CockroachDB what server to hit instead of the default AWS servers. This is clearly documented [here](https://www.cockroachlabs.com/docs/v21.1/use-cloud-storage-for-bulk-operations#url-format).\n\nHowever, this blog comes as a follow up from a customer interaction where their requirement was to NOT use `AWS_ENDPOINT` in their URI, yet still using their own private S3 compatible service.\n\n## Setup\n\nCreate a t2.micro or similar instance on your favorite cloud provider.\nFor this exercise, the instance has the below details:\n\n```text\nOS         : Ubuntu 20.04 LTS\nPublic IP  : 54.83.105.95\nPrivate IP : 10.10.81.189\n```\n\n### Install and Configure MinIO\n\n[MinIO](https://min.io/) is a S3 compatible service and it is my favorite choice for when I want to play locally with the S3 API. We will therefore use the MinIO Server as our custom endpoint instead of AWS S3.\n\nBelow the steps to run MinIO, also available in the [official docs](https://docs.min.io/docs/how-to-secure-access-to-minio-server-with-tls.html).\n\n```bash\n# download the binary\nwget https://dl.min.io/server/minio/release/linux-amd64/minio\nchmod +x minio\n./minio server data\n```\n\nAt this point MinIO is running in insecure mode.\nIt will also have created the configuration folders at `${HOME}/.minio/certs`.\nStop the server with `Ctrl+C`, then configure secure access with TLS.\n\n```bash\n# allow minio to start on port 443\nsudo setcap cap_net_bind_service=+ep minio\n\n# create the private key\ncd .minio/certs\nopenssl genrsa -out private.key 2048\nchmod 400 private.key\n```\n\nCreate a file named `openssl.conf` with the content below. Check the `alt_names` section carefully: in this context, `fabio` is the name of the s3 bucket.\n\n```text\n[req]\ndistinguished_name = req_distinguished_name\nx509_extensions = v3_req\nprompt = no\n\n[req_distinguished_name]\nC = US\nST = VA\nL = Somewhere\nO = MyOrg\nOU = MyOU\nCN = MyServerName\n\n[v3_req]\nsubjectAltName = @alt_names\n\n[alt_names]\nIP.1 = 127.0.0.1\nIP.2 = 54.83.105.95\nIP.3 = 10.10.81.189\nDNS.1 = localhost\nDNS.2 = s3.amazonaws.com\nDNS.3 = fabio.s3.amazonaws.com\n```\n\nCreate the public cert\n\n```bash\nopenssl req -new -x509 -nodes -days 730 -key private.key -out public.crt -config openssl.conf\n```\n\nSetup MinIO Server to use Virtual Hosted-Style, as per [here](https://stackoverflow.com/questions/59693471/how-to-setup-minio-server-to-use-virtual-hosted-style).\nThis is required to match AWS S3 style.\n\n```bash\nexport MINIO_DOMAIN=s3.amazonaws.com\n```\n\nFinally, start the MinIO Server\n\n```bash\n$ ~/minio server --console-address \":9001\" --address \":443\" ~/data\n\nAPI: https://10.10.82.1  https://127.0.0.1     \nRootUser: minioadmin \nRootPass: minioadmin \n\nConsole: https://10.10.82.1:9001 https://127.0.0.1:9001   \nRootUser: minioadmin \nRootPass: minioadmin \n\nCommand-line: https://docs.min.io/docs/minio-client-quickstart-guide\n   $ mc alias set myminio https://10.10.82.1 minioadmin minioadmin\n\nDocumentation: https://docs.min.io\nWARNING: Detected default credentials 'minioadmin:minioadmin', we recommend that you change these values with 'MINIO_ROOT_USER' and 'MINIO_ROOT_PASSWORD' environment variables\n```\n\nPoint your browser at <https://54.83.105.95:9001> to access the **MinIO Console**. As the self-signed certificate is invalid, the browser might not allow you to continue. In Brave Browser, and other Chrome based browsers, type `thisisunsafe` anywhere on the screen (not on the address toolbar) to continue and disregard the warning.\n\nLogin with `minioadmin/minioadmin`, which are the default login details. Once logged in, you'll see the Dashboard page, below\n\n![minio-dashboard](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lmyb3jlvo1v5lnyhdpt8.png)\n\nUsing the menu on the left, create a **bucket** called `fabio`.\n\n![bucket](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/elk69mt78pwswek6zmqm.png)\n\nThen create a **User** `fabio` with any password you want. Make sure assign the `consoleAdmin`, `readwrite` and `diagnostic` policies to the user, so you don't run into any permission issue. Later on, you can refine these permissions.\n\n![Alt Text](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nf56coo5c77nx846vuw6.png)\n\nThen, click on the user you just created and create a **Service Account**, and make sure you save the keys. In my example, the keys are:\n\n```text\nAccess Key: I6SX7TO71RZY79FXDK1T\nSecret Key: 7TxSqDyrvOXCV+EWkRvZKSOXETriFik5LKNWmkQm\n```\n\n![Alt Text](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7x1377lj2x79z0q6xe5l.png)\n\nFinally, go to **Settings** and change the region to `us-east-1`.\n\n![Alt Text](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/jo5kfnggwrb94el9d1r4.png)\n\nThis will prompt you to RESTART the server. Do so by stopping the server, and restarting it.\n\nPerfect, you're all set! MinIO Server is up and running in secure mode, and you've a service account to interact with it.\n\nNext, we configure the OS.\n\n## Linux OS configuration\n\nFor CockroachDB to trust the certificate, we must add it to the system cert pool. We also need to redirect the traffic aimed at AWS servers to MinIO's.\n\n### Allow self-signed certs\n\nIn Ubuntu, this is how you go about, as per [here](https://askubuntu.com/questions/73287/how-do-i-install-a-root-certificate)\n\n```bash\nsudo mkdir /usr/local/share/ca-certificates/extra\nsudo cp ~/.minio/certs/public.crt /usr/local/share/ca-certificates/extra/\nsudo update-ca-certificates\n```\n\n### Routing\n\nEdit file `/etc/hosts` and add these entries to route all traffic directed to Amazon AWS servers to the MinIO Server instead.\nAgain, `fabio` is the name of the bucket.\n\n```text\n54.83.105.95 s3.amazonaws.com\n54.83.105.95 s3.us-east-1.amazonaws.com\n54.83.105.95 fabio.s3.amazonaws.com \n```\n\nGood, we're all set from OS point of view. Next, we test with CockroachDB.\n\n## CockroachDB\n\nInstall and start CockroachDB. We will use the single-node feature as we're only trying to prove it works from a functionality perspective.\n\nAs always, the offical installation docs are [here](https://www.cockroachlabs.com/docs/stable/install-cockroachdb-linux).\n\n```bash\ncurl https://binaries.cockroachdb.com/cockroach-v21.1.10.linux-amd64.tgz | tar -xz && sudo cp -i cockroach-v21.1.10.linux-amd64/cockroach /usr/local/bin/\ncockroach start-single-node --insecure --background\n```\n\nConnect to the SQL prompt as root:\n\n```bash\ncockroach sql --insecure\n```\n\nCreate a user - doesn't have to be an admin -, then logout and log back in as that user\n\n```sql\nCREATE USER fabio WITH CREATEDB;\n```\n\n```bash\ncockroach sql --insecure -u fabio\n```\n\nAs user `fabio`, create a simple test table and export it. Make sure you update the keys with your values!\n\n```sql\nCREATE DATABASE fabio;\nUSE fabio;\n\nCREATE TABLE test AS \n  SELECT a \n  FROM generate_series(1,100) AS a;\n\n-- notice that we don't use AWS_ENDPOINT in the URI\nEXPORT INTO CSV     \n  's3://fabio?AWS_ACCESS_KEY_ID=I6SX7TO71RZY79FXDK1T&AWS_SECRET_ACCESS_KEY=7TxSqDyrvOXCV+EWkRvZKSOXETriFik5LKNWmkQm'\n  FROM TABLE test;\n```\n\n```text\n                              filename                             | rows | bytes\n-------------------------------------------------------------------+------+--------\n  export16ad4c7f75f4fe180000000000000001-n701156393427501057.0.csv |  100 |   292\n(1 row)\n\nTime: 38ms total (execution 38ms / network 0ms)\n```\n\nAs `root`, take a full cluster backup\n\n```sql\nBACKUP INTO\n  's3://fabio?AWS_ACCESS_KEY_ID=I6SX7TO71RZY79FXDK1T&AWS_SECRET_ACCESS_KEY=7TxSqDyrvOXCV+EWkRvZKSOXETriFik5LKNWmkQm';\n```\n\n```text\n        job_id       |  status   | fraction_completed | rows | index_entries | bytes\n---------------------+-----------+--------------------+------+---------------+--------\n  701160820164395009 | succeeded |                  1 |  126 |            14 |  5920\n(1 row)\n```\n\nRefresh the MinIO Console to see your files\n\n![Alt Text](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/26avfbkd9i6dygx45t0b.png)\n\nAwesome! The CockroachDB end-user has no clue that the engine behind the scenes is MinIO instead of AWS, and CockroachDB is happy to IMPORT, EXPORT, BACKUP and RESTORE from S3, be it AWS' or Minio's.\n\n## Reference\n\n- [MinIO](https://min.io/)\n- [CockroachDB](https://www.cockroachlabs.com/product/)\n",s.user={name:"Fabio Ghirardello",username:a,twitter_username:n,github_username:a,website_url:n,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--bS67cj-j--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/469108/a6ea006d-39ce-42b8-bada-fd550237fbfe.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--XO0IboBf--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/469108/a6ea006d-39ce-42b8-bada-fd550237fbfe.png"},s.organization={name:"Cockroach Labs",username:i,slug:i,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--nd3oCfw_--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/3006/8597bfeb-4701-43f9-8452-1a2b158cba75.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--4u-NOJiz--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/3006/8597bfeb-4701-43f9-8452-1a2b158cba75.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:s}},error:n,state:{currentArticle:s},serverRendered:!0,routePath:"/fabiog1901/861081",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:n}}}}(null,"2021-10-12T17:29:14Z",{},"https://dev.to/cockroachlabs/bypass-awsendpoint-to-interact-with-any-s3-compatible-service-from-cockroachdb-43em","fabiog1901","cockroachlabs")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

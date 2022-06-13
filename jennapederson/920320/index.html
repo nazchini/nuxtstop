@@ -1,0 +1,1008 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Using CloudFormation to Automate Build, Test, and Deploy with CodePipeline</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Using CloudFormation to Automate Build, Test, and Deploy with CodePipeline</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/aws" class="tag" data-v-70afb46a>
+          #aws
+        </a><a href="/nuxtstop/t/cloudformation" class="tag" data-v-70afb46a>
+          #cloudformation
+        </a><a href="/nuxtstop/t/codepipeline" class="tag" data-v-70afb46a>
+          #codepipeline
+        </a><a href="/nuxtstop/t/devops" class="tag" data-v-70afb46a>
+          #devops
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ZKcFyw8---/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7kl91zm2bxw5y0owb03j.png" alt="Using CloudFormation to Automate Build, Test, and Deploy with CodePipeline" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            17
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Dec 8 '21</time></div></header> <div class="content" data-v-70afb46a><p>In <a href="https://jennapederson.com/blog/2021/6/21/provisioning-an-ec2-instance-with-cloudformation-part-1/">part 1</a>, we automated the provisioning of an Amazon EC2 instance using AWS CloudFormation. In <a href="https://jennapederson.com/blog/2021/6/28/provisioning-an-rds-database-with-cloudformation-part-2/">part 2</a>, we added an Amazon RDS Postgresql database to the CloudFormation template from <a href="https://jennapederson.com/blog/2021/6/21/provisioning-an-ec2-instance-with-cloudformation-part-1/">part 1</a> so both the EC2 instance and the database can be provisioned together as a set of resources. Today in part 3, we will introduce a continuous integration/continuous deployment (CI/CD) pipeline to automate the build, test, and deploy phases of your release process. To do this, we’ll use AWS CodeDeploy and CodePipeline.</p>
+
+<p>As a reminder, here's what we've covered and where we're going:</p>
+
+<ul>
+<li>automate the provisioning of your EC2 instance using CloudFormation (<a href="https://jennapederson.com/blog/2021/6/21/provisioning-an-ec2-instance-with-cloudformation-part-1/">part 1</a>),</li>
+<li>add an RDS Postgresql database to your stack with CloudFormation (<a href="https://jennapederson.com/blog/2021/6/28/provisioning-an-rds-database-with-cloudformation-part-2/">part 2</a>), and</li>
+<li>create a CodePipeline with CloudFormation (this post, part 3).</li>
+</ul>
+
+<h2>
+  <a name="prerequisites" href="#prerequisites">
+  </a>
+  Prerequisites
+</h2>
+
+<p>To work through the examples in this post, you’ll need:</p>
+
+<ul>
+<li>an AWS account (you can create your account <a href="https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/">here</a> if you don’t already have one),</li>
+<li>the AWS CLI installed (you can find instructions for installing the AWS CLI <a href="https://aws.amazon.com/cli/">here</a>), and</li>
+<li>a key-pair to use for SSH (you can create a key-pair following <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair">these instructions</a>).</li>
+</ul>
+
+<p>Unfamiliar with CloudFormation or feeling a little rusty? Check out <a href="https://jennapederson.com/blog/2021/6/21/provisioning-an-ec2-instance-with-cloudformation-part-1/">part 1</a> or my <a href="https://jennapederson.com/blog/2021/5/10/introduction-to-aws-cloudformation/">Intro to CloudFormation post</a> before getting started.</p>
+
+<p>Just want the code? Grab it <a href="https://github.com/jennapederson/cloudformation-examples">here</a> and then check out the buildspec, appspec, and scripts <a href="https://github.com/jennapederson/hello-express">here</a>.</p>
+
+<h2>
+  <a name="prepare-ec2-instance" href="#prepare-ec2-instance">
+  </a>
+  Prepare EC2 Instance
+</h2>
+
+<p>First, we’ll need to prepare the EC2 instance so that we can deploy our app to it. We’ll create an EC2 instance role and a CodeDeploy trust role, install the CodeDeploy agent, and tag the instance or instance we want to deploy to.</p>
+
+<h3>
+  <a name="1-create-ec2-instance-role" href="#1-create-ec2-instance-role">
+  </a>
+  1. Create EC2 Instance Role
+</h3>
+
+<p>In the CloudFormation template that creates your EC2 instance, create the following new resources, <code>InstanceRole</code>, <code>InstanceRolePolicies</code>, and <code>InstanceRoleInstanceProfile</code>:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">InstanceRole</span><span class="pi">:</span>
+  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::IAM::Role</span>
+  <span class="na">Properties</span><span class="pi">:</span>
+    <span class="na">AssumeRolePolicyDocument</span><span class="pi">:</span>
+      <span class="na">Statement</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>
+          <span class="na">Principal</span><span class="pi">:</span>
+            <span class="na">Service</span><span class="pi">:</span>
+              <span class="pi">-</span> <span class="s">ec2.amazonaws.com</span>
+          <span class="na">Action</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">sts:AssumeRole</span>
+    <span class="na">Path</span><span class="pi">:</span> <span class="s">/</span>
+
+<span class="na">InstanceRolePolicies</span><span class="pi">:</span>
+  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::IAM::Policy</span>
+  <span class="na">Properties</span><span class="pi">:</span>
+    <span class="na">PolicyName</span><span class="pi">:</span> <span class="s">InstanceRole</span>
+    <span class="na">PolicyDocument</span><span class="pi">:</span>
+      <span class="na">Statement</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>
+          <span class="na">Action</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">autoscaling:Describe*</span>
+            <span class="pi">-</span> <span class="s">cloudformation:Describe*</span>
+            <span class="pi">-</span> <span class="s">cloudformation:GetTemplate</span>
+            <span class="pi">-</span> <span class="s">s3:Get*</span>
+          <span class="na">Resource</span><span class="pi">:</span> <span class="s1">'</span><span class="s">*'</span>
+    <span class="na">Roles</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="kt">!Ref</span> <span class="s1">'</span><span class="s">InstanceRole'</span>
+
+<span class="na">InstanceRoleInstanceProfile</span><span class="pi">:</span>
+  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::IAM::InstanceProfile</span>
+  <span class="na">Properties</span><span class="pi">:</span>
+    <span class="na">Path</span><span class="pi">:</span> <span class="s">/</span>
+    <span class="na">Roles</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="kt">!Ref</span> <span class="s1">'</span><span class="s">InstanceRole'</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>These resources create an instance profile to pass an IAM role to an EC2 instance. This allows the EC2 instance to do things like get the CodeDeploy agent from S3.</p>
+
+<p>Next, we’ll add the <code>IamInstanceProfile</code> property to the EC2 instance:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">WebAppInstance</span><span class="pi">:</span>
+  <span class="na">Properties</span><span class="pi">:</span>
+    <span class="s">...</span>
+    <span class="s">IamInstanceProfile</span><span class="err">:</span> <span class="kt">!Ref</span> <span class="s1">'</span><span class="s">InstanceRoleInstanceProfile'</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="2-install-codedeploy-agent" href="#2-install-codedeploy-agent">
+  </a>
+  2. Install CodeDeploy Agent
+</h3>
+
+<p>The CodeDeploy agent will be installed on each EC2 instance you want to deploy your app to and helps CodeDeploy communicate with your EC2 instance for deployments. First, you’ll include metadata in the <code>AWS::CloudFormation::Init</code> key, which will be used by the <code>cfn-init</code> helper script.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">WebAppInstance</span><span class="pi">:</span>
+  <span class="s">...</span>
+  <span class="s">Metadata</span><span class="err">:</span>
+    <span class="s">AWS::CloudFormation::Init:</span>
+      <span class="s">services</span><span class="err">:</span>
+        <span class="na">sysvint</span><span class="pi">:</span>
+          <span class="na">codedeploy-agent</span><span class="pi">:</span>
+            <span class="na">enabled</span><span class="pi">:</span> <span class="s1">'</span><span class="s">true'</span>
+            <span class="na">ensureRunning</span><span class="pi">:</span> <span class="s1">'</span><span class="s">true'</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Then, we’ll add the <code>UserData</code> key, which allows us to pass user data to the EC2 instance to perform automated configuration tasks and run scripts after the instance starts up.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">WebAppInstance</span><span class="pi">:</span>
+    <span class="na">Properties</span><span class="pi">:</span>
+        <span class="s">...</span>
+        <span class="s">UserData</span><span class="err">:</span> <span class="kt">!Base64</span>
+          <span class="s">Fn::Join:</span>
+            <span class="s">- ''</span>
+            <span class="s">- - "#!/bin/bash -ex\n"</span>
+              <span class="s">- "yum update -y aws-cfn-bootstrap\n"</span>
+              <span class="s">- "yum install -y aws-cli\n"</span>
+              <span class="s">- "yum install -y ruby\n"</span>
+              <span class="s">- "iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000\n"</span>
+              <span class="s">- "echo 'iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000' >> /etc/rc.local\n"</span>
+              <span class="s">- "# Helper function.\n"</span>
+              <span class="s">- "function error_exit\n"</span>
+              <span class="s">- "{\n"</span>
+              <span class="s">- '  /opt/aws/bin/cfn-signal -e 1 -r "$1" '''</span>
+              <span class="s">- !Ref 'WaitHandle'</span>
+              <span class="s">- "'\n"</span>
+              <span class="s">- "  exit 1\n"</span>
+              <span class="s">- "}\n"</span>
+              <span class="s">- "# Install the AWS CodeDeploy Agent.\n"</span>
+              <span class="s">- "cd /home/ec2-user/\n"</span>
+              <span class="s">- "aws s3 cp 's3://aws-codedeploy-us-east-1/latest/codedeploy-agent.noarch.rpm'\</span>
+                <span class="s">\ . || error_exit 'Failed to download AWS CodeDeploy Agent.'\n"</span>
+              <span class="s">- "yum -y install codedeploy-agent.noarch.rpm || error_exit 'Failed to\</span>
+                <span class="s">\ install AWS CodeDeploy Agent.' \n"</span>
+              <span class="s">- '/opt/aws/bin/cfn-init -s '</span>
+              <span class="s">- !Ref 'AWS::StackId'</span>
+              <span class="s">- ' -r WebAppInstance --region '</span>
+              <span class="s">- !Ref 'AWS::Region'</span>
+              <span class="s">- " || error_exit 'Failed to run cfn-init.'\n"</span>
+              <span class="s">- "# All is well, so signal success.\n"</span>
+              <span class="s">- /opt/aws/bin/cfn-signal -e 0 -r "AWS CodeDeploy Agent setup complete."</span>
+                <span class="s">'</span>
+              <span class="s">- !Ref 'WaitHandle'</span>
+              <span class="s">- "'\n"</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This installs a few helper packages like the <code>aws-cli</code> and <code>aws-cfn-bootstrap</code>, and then installs the CodeDeploy agent (by copying it from S3). The <code>cfn-init</code> script grabs the metadata we added earlier and ensures those services are enabled and running. The <code>cfn-signal</code> helper script signals to CloudFormation that the instance had been successfully created or updated.</p>
+
+<p>Finally, add the following two resources that are used in the <code>UserData</code> we just added so that CloudFormation waits until the <code>UserData</code> scripts are finished running.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">WaitHandle</span><span class="pi">:</span>
+  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::CloudFormation::WaitConditionHandle</span>
+<span class="na">WaitCondition</span><span class="pi">:</span>
+  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::CloudFormation::WaitCondition</span>
+  <span class="na">Properties</span><span class="pi">:</span>
+    <span class="na">Handle</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s1">'</span><span class="s">WaitHandle'</span>
+    <span class="na">Timeout</span><span class="pi">:</span> <span class="s1">'</span><span class="s">900'</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="3-tag-the-instances" href="#3-tag-the-instances">
+  </a>
+  3. Tag the Instances
+</h3>
+
+<p>Next, we need to tag the EC2 instances. CodeDeploy will use these tags to identify which instances to deploy to.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">WebAppInstance</span><span class="pi">:</span>
+  <span class="na">Properties</span><span class="pi">:</span>
+    <span class="s">...</span>
+    <span class="s">Tags</span><span class="err">:</span>
+      <span class="pi">-</span> <span class="na">Key</span><span class="pi">:</span> <span class="s1">'</span><span class="s">CodeDeployTag'</span>
+        <span class="na">Value</span><span class="pi">:</span> <span class="s1">'</span><span class="s">CodeDeployDemo'</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="4-create-codedeploy-trust-role" href="#4-create-codedeploy-trust-role">
+  </a>
+  4. Create CodeDeploy Trust Role
+</h3>
+
+<p>We also need to add a CodeDeploy trust role so that CodeDeploy has access to work with the EC2 instance. Add the following two resources:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">CodeDeployTrustRole</span><span class="pi">:</span>
+  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::IAM::Role</span>
+  <span class="na">Properties</span><span class="pi">:</span>
+    <span class="na">AssumeRolePolicyDocument</span><span class="pi">:</span>
+      <span class="na">Statement</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">Sid</span><span class="pi">:</span> <span class="s1">'</span><span class="s">1'</span>
+          <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>
+          <span class="na">Principal</span><span class="pi">:</span>
+            <span class="na">Service</span><span class="pi">:</span>
+              <span class="pi">-</span> <span class="s">codedeploy.us-east-1.amazonaws.com</span>
+              <span class="pi">-</span> <span class="s">codedeploy.us-west-2.amazonaws.com</span>
+          <span class="na">Action</span><span class="pi">:</span> <span class="s">sts:AssumeRole</span>
+    <span class="na">Path</span><span class="pi">:</span> <span class="s">/</span>
+<span class="na">CodeDeployRolePolicies</span><span class="pi">:</span>
+  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::IAM::Policy</span>
+  <span class="na">Properties</span><span class="pi">:</span>
+    <span class="na">PolicyName</span><span class="pi">:</span> <span class="s">CodeDeployPolicy</span>
+    <span class="na">PolicyDocument</span><span class="pi">:</span>
+      <span class="na">Statement</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>
+          <span class="na">Resource</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s1">'</span><span class="s">*'</span>
+          <span class="na">Action</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">ec2:Describe*</span>
+        <span class="pi">-</span> <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>
+          <span class="na">Resource</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s1">'</span><span class="s">*'</span>
+          <span class="na">Action</span><span class="pi">:</span>
+            <span class="pi">-</span> <span class="s">autoscaling:CompleteLifecycleAction</span>
+            <span class="pi">-</span> <span class="s">autoscaling:DeleteLifecycleHook</span>
+            <span class="pi">-</span> <span class="s">autoscaling:DescribeLifecycleHooks</span>
+            <span class="pi">-</span> <span class="s">autoscaling:DescribeAutoScalingGroups</span>
+            <span class="pi">-</span> <span class="s">autoscaling:PutLifecycleHook</span>
+            <span class="pi">-</span> <span class="s">autoscaling:RecordLifecycleActionHeartbeat</span>
+    <span class="na">Roles</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="kt">!Ref</span> <span class="s1">'</span><span class="s">CodeDeployTrustRole'</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This trust role will be used in the next section when we configure the CodePipeline. We’ll pass the ARN of this trust role to that CloudFormation template, so let’s add this as an <code>Output</code>:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">Outputs</span><span class="pi">:</span>
+  <span class="s">...</span>
+  <span class="s">CodeDeployTrustRoleARN</span><span class="err">:</span>
+    <span class="na">Value</span><span class="pi">:</span> <span class="kt">!GetAtt</span> <span class="s1">'</span><span class="s">CodeDeployTrustRole.Arn'</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="5-create-the-stack" href="#5-create-the-stack">
+  </a>
+  5. Create the stack
+</h3>
+
+<p>And finally, we’ll need to create the stack:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>aws cloudformation create-stack <span class="nt">--stack-name</span> CloudFormationEc2Example <span class="nt">--template-body</span> file://07_ec2_codedeploy.yaml <span class="se">\</span>
+<span class="nt">--parameters</span> <span class="nv">ParameterKey</span><span class="o">=</span>AvailabilityZone,ParameterValue<span class="o">=</span>us-east-1a <span class="se">\</span>
+<span class="nv">ParameterKey</span><span class="o">=</span>EnvironmentType,ParameterValue<span class="o">=</span>dev <span class="se">\</span>
+<span class="nv">ParameterKey</span><span class="o">=</span>KeyPairName,ParameterValue<span class="o">=</span>jenna <span class="se">\</span>
+<span class="nv">ParameterKey</span><span class="o">=</span>DBPassword,ParameterValue<span class="o">=</span>Abcd1234 <span class="se">\</span>
+<span class="nt">--capabilities</span> CAPABILITY_IAM
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Or, if you’re updating the stack you created in <a href="https://jennapederson.com/blog/2021/6/28/provisioning-an-rds-database-with-cloudformation-part-2/">part 2</a>, you can use the <code>update-stack</code> command instead.</p>
+
+<p>Once we’ve created the EC2 instance set up for CodeDeploy, we’ll be ready to create the CodePipeline pipeline.</p>
+
+<p>To view the full version of this template, check it out <a href="https://github.com/jennapederson/cloudformation-examples/blob/main/07_ec2_codedeploy.yaml">here</a>.</p>
+
+<h2>
+  <a name="create-codepipeline-pipeline" href="#create-codepipeline-pipeline">
+  </a>
+  Create CodePipeline pipeline
+</h2>
+
+<p>The pipeline we are building will have three stages:</p>
+
+<ul>
+<li><p>A Source stage to pull our code from the GitHub repository. The Source stage will use a CodeStarConnection and an S3 bucket.</p></li>
+<li><p>A Build stage to build the source code into an artifact. The Build stage will use a CodeBuild Project and the same S3 bucket.</p></li>
+<li><p>A Deploy stage to deploy the artifact to the EC2 instance. The Deploy stage will use a CodeDeploy Application and a CodeDeploy DeploymentGroup.</p></li>
+</ul>
+
+<p>First, we’ll need an app to deploy.</p>
+
+<h3>
+  <a name="1-prepare-the-app-to-deploy" href="#1-prepare-the-app-to-deploy">
+  </a>
+  1. Prepare the App to Deploy
+</h3>
+
+<p>You can fork the <a href="https://github.com/jennapederson/hello-express">hello-express</a> repo into your own github account. This is a simple Node/Express web app. For the purposes of this demo, the most interesting parts are the <code>buildspec.yml</code> and <code>appspec.yml</code> files, and scripts in the <code>bin</code> directory:</p>
+
+<ul>
+<li>The <a href="https://github.com/jennapederson/hello-express/blob/main/buildspec.yml">buildspec.yml</a> file is a specification file that contains build commands and configuration that are used to build a CodeBuild project.</li>
+<li>The <a href="https://github.com/jennapederson/hello-express/blob/main/appspec.yml">appspec.yml</a> file is a specification file that defines a series of lifecycle hooks for a CodeDeploy deployment.</li>
+<li>The <a href="https://github.com/jennapederson/hello-express/tree/main/bin">bin</a> directory contains the <code>www</code> start script for the app, and the scripts for each of the lifecycle hooks. You can read more about the lifecycle hooks <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html">here</a>.</li>
+</ul>
+
+<h3>
+  <a name="2-add-parameters" href="#2-add-parameters">
+  </a>
+  2. Add Parameters
+</h3>
+
+<p>Then, we’ll need the following input Parameters for our template:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">Parameters</span><span class="pi">:</span>
+  <span class="na">GitHubRepo</span><span class="pi">:</span>
+    <span class="na">Type</span><span class="pi">:</span> <span class="s">String</span>
+
+  <span class="na">GitHubBranch</span><span class="pi">:</span>
+    <span class="na">Type</span><span class="pi">:</span> <span class="s">String</span>
+    <span class="na">Default</span><span class="pi">:</span> <span class="s">main</span>
+
+  <span class="na">GitHubUser</span><span class="pi">:</span>
+    <span class="na">Type</span><span class="pi">:</span> <span class="s">String</span>
+
+  <span class="na">CodeDeployServiceRole</span><span class="pi">:</span>
+    <span class="na">Type</span><span class="pi">:</span> <span class="s">String</span>
+    <span class="na">Description</span><span class="pi">:</span> <span class="s">A service role ARN granting CodeDeploy permission to make calls to EC2 instances with CodeDeploy agent installed.</span>
+
+  <span class="na">TagKey</span><span class="pi">:</span>
+    <span class="na">Description</span><span class="pi">:</span> <span class="s">The EC2 tag key that identifies this as a target for deployments.</span>
+    <span class="na">Type</span><span class="pi">:</span> <span class="s">String</span>
+    <span class="na">Default</span><span class="pi">:</span> <span class="s">CodeDeployTag</span>
+    <span class="na">AllowedPattern</span><span class="pi">:</span> <span class="s1">'</span><span class="s">[\x20-\x7E]*'</span>
+    <span class="na">ConstraintDescription</span><span class="pi">:</span> <span class="s">Can contain only ASCII characters.</span>
+  <span class="na">TagValue</span><span class="pi">:</span>
+    <span class="na">Description</span><span class="pi">:</span> <span class="s">The EC2 tag value that identifies this as a target for deployments.</span>
+    <span class="na">Type</span><span class="pi">:</span> <span class="s">String</span>
+    <span class="na">Default</span><span class="pi">:</span> <span class="s">CodeDeployDemo</span>
+    <span class="na">AllowedPattern</span><span class="pi">:</span> <span class="s1">'</span><span class="s">[\x20-\x7E]*'</span>
+    <span class="na">ConstraintDescription</span><span class="pi">:</span> <span class="s">Can contain only ASCII characters.</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="3-create-service-roles" href="#3-create-service-roles">
+  </a>
+  3. Create Service Roles
+</h3>
+
+<p>In order for CodeBuild to access S3 to put the built artifact into the bucket, we'll need to create a service role, <code>CodeBuildServiceRole</code>. We’ll need a second service role, <code>CodePipelineServiceRole</code>, which allows CodePipeline to get the source code from the GitHub connection, to start builds, to get the artifact from the bucket, and to create and deploy the app. Add these two IAM resources:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">CodeBuildServiceRole</span><span class="pi">:</span>
+    <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::IAM::Role</span>
+    <span class="na">Properties</span><span class="pi">:</span>
+      <span class="na">Path</span><span class="pi">:</span> <span class="s">/</span>
+      <span class="na">AssumeRolePolicyDocument</span><span class="pi">:</span>
+        <span class="na">Version</span><span class="pi">:</span> <span class="s">2012-10-17</span>
+        <span class="na">Statement</span><span class="pi">:</span>
+          <span class="pi">-</span> <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>
+            <span class="na">Principal</span><span class="pi">:</span>
+              <span class="na">Service</span><span class="pi">:</span> <span class="s">codebuild.amazonaws.com</span>
+            <span class="na">Action</span><span class="pi">:</span> <span class="s">sts:AssumeRole</span>
+      <span class="na">Policies</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">PolicyName</span><span class="pi">:</span> <span class="s2">"</span><span class="s">logs"</span>
+          <span class="na">PolicyDocument</span><span class="pi">:</span>
+            <span class="na">Version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">2012-10-17"</span>
+            <span class="na">Statement</span><span class="pi">:</span>
+                <span class="pi">-</span>
+                  <span class="na">Effect</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Allow"</span>
+                  <span class="na">Action</span><span class="pi">:</span>
+                      <span class="pi">-</span> <span class="s">logs:CreateLogGroup</span>
+                      <span class="pi">-</span> <span class="s">logs:CreateLogStream</span>
+                      <span class="pi">-</span> <span class="s">logs:PutLogEvents</span>
+                      <span class="pi">-</span> <span class="s">ecr:GetAuthorizationToken</span>
+                      <span class="pi">-</span> <span class="s">ssm:GetParameters</span>
+                  <span class="na">Resource</span><span class="pi">:</span> <span class="s2">"</span><span class="s">*"</span>
+        <span class="pi">-</span> <span class="na">PolicyName</span><span class="pi">:</span> <span class="s2">"</span><span class="s">S3"</span>
+          <span class="na">PolicyDocument</span><span class="pi">:</span>
+            <span class="na">Version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">2012-10-17"</span>
+            <span class="na">Statement</span><span class="pi">:</span>
+                <span class="pi">-</span>
+                  <span class="na">Effect</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Allow"</span>
+                  <span class="na">Action</span><span class="pi">:</span>
+                      <span class="pi">-</span> <span class="s">s3:GetObject</span>
+                      <span class="pi">-</span> <span class="s">s3:PutObject</span>
+                      <span class="pi">-</span> <span class="s">s3:GetObjectVersion</span>
+                  <span class="na">Resource</span><span class="pi">:</span> <span class="kt">!Sub</span> <span class="s">arn:aws:s3:::${ArtifactBucket}/*</span>
+
+  <span class="na">CodePipelineServiceRole</span><span class="pi">:</span>
+    <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::IAM::Role</span>
+    <span class="na">Properties</span><span class="pi">:</span>
+      <span class="na">Path</span><span class="pi">:</span> <span class="s">/</span>
+      <span class="na">AssumeRolePolicyDocument</span><span class="pi">:</span>
+        <span class="na">Version</span><span class="pi">:</span> <span class="s">2012-10-17</span>
+        <span class="na">Statement</span><span class="pi">:</span>
+          <span class="pi">-</span> <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>
+            <span class="na">Principal</span><span class="pi">:</span>
+              <span class="na">Service</span><span class="pi">:</span> <span class="s">codepipeline.amazonaws.com</span>
+            <span class="na">Action</span><span class="pi">:</span> <span class="s">sts:AssumeRole</span>
+      <span class="na">Policies</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">PolicyName</span><span class="pi">:</span> <span class="s">root</span>
+          <span class="na">PolicyDocument</span><span class="pi">:</span>
+            <span class="na">Version</span><span class="pi">:</span> <span class="s">2012-10-17</span>
+            <span class="na">Statement</span><span class="pi">:</span>
+              <span class="pi">-</span> <span class="na">Resource</span><span class="pi">:</span>
+                  <span class="pi">-</span> <span class="kt">!Sub</span> <span class="s">arn:aws:s3:::${ArtifactBucket}/*</span>
+                  <span class="pi">-</span> <span class="kt">!Sub</span> <span class="s">arn:aws:s3:::${ArtifactBucket}</span>
+                <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>
+                <span class="na">Action</span><span class="pi">:</span>
+                  <span class="pi">-</span> <span class="s">s3:*</span>
+              <span class="pi">-</span> <span class="na">Resource</span><span class="pi">:</span> <span class="s2">"</span><span class="s">*"</span>
+                <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>
+                <span class="na">Action</span><span class="pi">:</span>
+                  <span class="pi">-</span> <span class="s">codebuild:StartBuild</span>
+                  <span class="pi">-</span> <span class="s">codebuild:BatchGetBuilds</span>
+                  <span class="pi">-</span> <span class="s">iam:PassRole</span>
+              <span class="pi">-</span> <span class="na">Resource</span><span class="pi">:</span>
+                  <span class="pi">-</span> <span class="kt">!Ref</span> <span class="s">CodeStarConnection</span>
+                <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>
+                <span class="na">Action</span><span class="pi">:</span>
+                  <span class="pi">-</span> <span class="s">codestar-connections:UseConnection</span>
+              <span class="pi">-</span> <span class="na">Resource</span><span class="pi">:</span> <span class="s2">"</span><span class="s">*"</span>
+                <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>
+                <span class="na">Action</span><span class="pi">:</span>
+                  <span class="pi">-</span> <span class="s">codedeploy:CreateDeployment</span>
+                  <span class="pi">-</span> <span class="s">codedeploy:CreateDeploymentGroup</span>
+                  <span class="pi">-</span> <span class="s">codedeploy:GetApplication</span>
+                  <span class="pi">-</span> <span class="s">codedeploy:GetApplicationRevision</span>
+                  <span class="pi">-</span> <span class="s">codedeploy:GetDeployment</span>
+                  <span class="pi">-</span> <span class="s">codedeploy:GetDeploymentConfig</span>
+                  <span class="pi">-</span> <span class="s">codedeploy:RegisterApplicationRevision</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="4-create-the-source-stage" href="#4-create-the-source-stage">
+  </a>
+  4. Create the Source Stage
+</h3>
+
+<p>For the Source stage, we’ll create a CodeStar Connection and an S3 Bucket.</p>
+
+<p><strong>1. Create a CodeStarConnection</strong><br><br>
+When we set up the pipeline, we’ll have a Source stage the pulls our source code from GitHub. To do this, we’ll need to create a CodeStarConnection for GitHub. This will give our pipeline access to a GitHub repository. We’ll use CloudFormation to create this by adding the resource to our template, but there will be a manual step to change the connection from Pending to Available after the first time we apply the template.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">CodeStarConnection</span><span class="pi">:</span>
+    <span class="na">Type</span><span class="pi">:</span> <span class="s1">'</span><span class="s">AWS::CodeStarConnections::Connection'</span>
+    <span class="na">Properties</span><span class="pi">:</span>
+      <span class="na">ConnectionName</span><span class="pi">:</span> <span class="s">CfnExamplesGitHubConnection</span>
+      <span class="na">ProviderType</span><span class="pi">:</span> <span class="s">GitHub</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><strong>2. Create S3 Bucket to Hold Artifacts</strong><br><br>
+We’ll need a place to store the build artifacts so we’ll create an S3 bucket. Add the following S3 resource to your template:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">ArtifactBucket</span><span class="pi">:</span>
+    <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::S3::Bucket</span>
+    <span class="na">DeletionPolicy</span><span class="pi">:</span> <span class="s">Delete</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><strong>3. Create the Stage</strong><br><br>
+Then we’ll create the first stage of the pipeline.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">Pipeline</span><span class="pi">:</span>
+  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::CodePipeline::Pipeline</span>
+  <span class="na">Properties</span><span class="pi">:</span>
+    <span class="na">RoleArn</span><span class="pi">:</span> <span class="kt">!GetAtt</span> <span class="s">CodePipelineServiceRole.Arn</span>
+    <span class="na">ArtifactStore</span><span class="pi">:</span>
+      <span class="na">Type</span><span class="pi">:</span> <span class="s">S3</span>
+      <span class="na">Location</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s">ArtifactBucket</span>
+    <span class="na">Stages</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">Source</span>
+        <span class="na">Actions</span><span class="pi">:</span>
+          <span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">App</span>
+            <span class="na">ActionTypeId</span><span class="pi">:</span>
+              <span class="na">Category</span><span class="pi">:</span> <span class="s">Source</span>
+              <span class="na">Owner</span><span class="pi">:</span> <span class="s">AWS</span>
+              <span class="na">Version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">1'</span>
+              <span class="na">Provider</span><span class="pi">:</span> <span class="s">CodeStarSourceConnection</span>
+            <span class="na">Configuration</span><span class="pi">:</span>
+              <span class="na">ConnectionArn</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s">CodeStarConnection</span>
+              <span class="na">BranchName</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s">GitHubBranch</span>
+              <span class="na">FullRepositoryId</span><span class="pi">:</span> <span class="kt">!Sub</span> <span class="s">${GitHubUser}/${GitHubRepo}</span>
+            <span class="na">OutputArtifacts</span><span class="pi">:</span>
+              <span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">AppArtifact</span>
+            <span class="na">RunOrder</span><span class="pi">:</span> <span class="m">1</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Using the CodeStarSourceConnection resource we created above, this will configure it to use the branch, GitHub user, and repository name based on the input parameters.</p>
+
+<h3>
+  <a name="5-create-build-stage" href="#5-create-build-stage">
+  </a>
+  5. Create Build Stage
+</h3>
+
+<p>For the Build stage, we’ll create a CodeBuild Project that indicates what kind of environment to build the code in. Here, we’re using a Docker Linux container. We’ll also set the service role to the service role we created earlier.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">CodeBuildProject</span><span class="pi">:</span>
+  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::CodeBuild::Project</span>
+  <span class="na">Properties</span><span class="pi">:</span>
+    <span class="na">Artifacts</span><span class="pi">:</span>
+      <span class="na">Type</span><span class="pi">:</span> <span class="s">CODEPIPELINE</span>
+    <span class="na">Source</span><span class="pi">:</span>
+      <span class="na">Type</span><span class="pi">:</span> <span class="s">CODEPIPELINE</span>
+      <span class="na">BuildSpec</span><span class="pi">:</span> <span class="s">buildspec.yml</span>
+    <span class="na">Environment</span><span class="pi">:</span>
+      <span class="na">ComputeType</span><span class="pi">:</span> <span class="s">BUILD_GENERAL1_SMALL</span>
+      <span class="na">Image</span><span class="pi">:</span> <span class="s">aws/codebuild/docker:17.09.0</span>
+      <span class="na">Type</span><span class="pi">:</span> <span class="s">LINUX_CONTAINER</span>
+    <span class="na">Name</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s">AWS::StackName</span>
+    <span class="na">ServiceRole</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s">CodeBuildServiceRole</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Then we need to add the Build stage to the pipeline we started in the last step.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">Build</span>
+  <span class="na">Actions</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">Build</span>
+      <span class="na">ActionTypeId</span><span class="pi">:</span>
+        <span class="na">Category</span><span class="pi">:</span> <span class="s">Build</span>
+        <span class="na">Owner</span><span class="pi">:</span> <span class="s">AWS</span>
+        <span class="na">Version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">1'</span>
+        <span class="na">Provider</span><span class="pi">:</span> <span class="s">CodeBuild</span>
+      <span class="na">Configuration</span><span class="pi">:</span>
+        <span class="na">ProjectName</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s">CodeBuildProject</span>
+      <span class="na">InputArtifacts</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">AppArtifact</span>
+      <span class="na">OutputArtifacts</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">BuildOutput</span>
+      <span class="na">RunOrder</span><span class="pi">:</span> <span class="m">1</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This will also use the same S3 bucket from a the previous step to store the build output.</p>
+
+<h3>
+  <a name="6-create-deploy-stage" href="#6-create-deploy-stage">
+  </a>
+  6. Create Deploy Stage
+</h3>
+
+<p>In the last stage, Deploy, we’ll need a CodeDeploy Application and a CodeDeploy DeploymentGroup.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">CodeDeployApplication</span><span class="pi">:</span>
+  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::CodeDeploy::Application</span>
+
+<span class="na">CodeDeployGroup</span><span class="pi">:</span>
+  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::CodeDeploy::DeploymentGroup</span>
+  <span class="na">Properties</span><span class="pi">:</span>
+    <span class="na">ApplicationName</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s">CodeDeployApplication</span>
+    <span class="na">Ec2TagFilters</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">Key</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s1">'</span><span class="s">TagKey'</span>
+        <span class="na">Value</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s1">'</span><span class="s">TagValue'</span>
+        <span class="na">Type</span><span class="pi">:</span> <span class="s">KEY_AND_VALUE</span>
+    <span class="na">ServiceRoleArn</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s1">'</span><span class="s">CodeDeployServiceRole'</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The DeploymentGroup uses the <code>EC2TagFilters</code> to specify which group of EC2 instances to deploy to. When we setup the EC2 instance above, we tagged it with a tag/value that is used here. We also set the service role to the one we created earlier.</p>
+
+<p>Then we add the final stage to the pipeline.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">Deploy</span>
+  <span class="na">Actions</span><span class="pi">:</span>
+    <span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">Deploy</span>
+      <span class="na">ActionTypeId</span><span class="pi">:</span>
+        <span class="na">Category</span><span class="pi">:</span> <span class="s">Deploy</span>
+        <span class="na">Owner</span><span class="pi">:</span> <span class="s">AWS</span>
+        <span class="na">Version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">1'</span>
+        <span class="na">Provider</span><span class="pi">:</span> <span class="s">CodeDeploy</span>
+      <span class="na">Configuration</span><span class="pi">:</span>
+        <span class="na">ApplicationName</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s">CodeDeployApplication</span>
+        <span class="na">DeploymentGroupName</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s">CodeDeployGroup</span>
+      <span class="na">InputArtifacts</span><span class="pi">:</span>
+        <span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">BuildOutput</span>
+      <span class="na">RunOrder</span><span class="pi">:</span> <span class="m">1</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="7-add-outputs" href="#7-add-outputs">
+  </a>
+  7. Add Outputs
+</h3>
+
+<p>Last, we need to add an Output to our template to give us the fully URL to view our pipeline in the AWS Console.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">Outputs</span><span class="pi">:</span>
+  <span class="na">PipelineUrl</span><span class="pi">:</span>
+    <span class="na">Value</span><span class="pi">:</span> <span class="kt">!Sub</span> <span class="s">https://console.aws.amazon.com/codepipeline/home?region=${AWS::Region}#/view/${Pipeline}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>To view the full version of this template, check it out <a href="https://github.com/jennapederson/cloudformation-examples/blob/main/08_pipeline.yaml">here</a>.</p>
+
+<h3>
+  <a name="8-create-the-stack" href="#8-create-the-stack">
+  </a>
+  8. Create the Stack
+</h3>
+
+<p>Now that we have the pipeline template created, we can create the stack. We’ll need to copy CodeDeployTrustRoleARN Output from previous EC2 stack, which you can grab from the Outputs tab in the AWS Console.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Zh5kZfEP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/goxguzvkj0mz2fgzamba.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Zh5kZfEP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/goxguzvkj0mz2fgzamba.png" alt="CloudFormation Stack Outputs tab in the AWS Console" loading="lazy" width="880" height="462"></a></p>
+
+<p>Then, run <code>create-stack</code> at the command line, replacing <code>CODE_DEPLOY_SERVICE_ROLE_ARN</code> below with the ARN you just copied.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>aws cloudformation create-stack <span class="nt">--stack-name</span> CloudFormationPipelineExample <span class="nt">--template-body</span> file://08_pipeline.yaml <span class="se">\</span>
+<span class="nt">--parameters</span> <span class="nv">ParameterKey</span><span class="o">=</span>GitHubRepo,ParameterValue<span class="o">=</span>hello-express <span class="se">\</span>
+<span class="nv">ParameterKey</span><span class="o">=</span>GitHubUser,ParameterValue<span class="o">=</span>jennapederson <span class="se">\</span>
+<span class="nv">ParameterKey</span><span class="o">=</span>CodeDeployServiceRole,ParameterValue<span class="o">=</span>CODE_DEPLOY_SERVICE_ROLE_ARN <span class="se">\</span>
+<span class="nt">--capabilities</span> CAPABILITY_IAM
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Because this template creates IAM roles, we also need to tell CloudFormation that this capability (creating IAM resources) is allowed to be used by specifying the <code>--capabilities</code> option.</p>
+
+<h3>
+  <a name="9-make-codestarconnection-available" href="#9-make-codestarconnection-available">
+  </a>
+  9. Make CodeStarConnection Available
+</h3>
+
+<p>Once the stack is created successfully, you'll need to change the CodeStarConnection from Pending to Available. To do this, head over to the AWS Console and find your newly created stack. On the Outputs tab, click the link to go to your new pipeline.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--EqKIlAX5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nchd3p4dasrjsqq778n2.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--EqKIlAX5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nchd3p4dasrjsqq778n2.png" alt="CloudFormation Stack Outputs tab in the AWS Console" loading="lazy" width="880" height="363"></a></p>
+
+<p>In the left-hand menu under Settings, click Connections. Select the new connection and click the "Update pending connection" button.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--YvcMpCWM--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/iqj016wdj0k36bu1awll.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--YvcMpCWM--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/iqj016wdj0k36bu1awll.png" alt="CodeStar Connection Settings" loading="lazy" width="880" height="217"></a></p>
+
+<p>You'll need to give GitHub access to your account and the repository before the connection will become available. You can read more about that <a href="https://docs.aws.amazon.com/dtconsole/latest/userguide/connections-create-github.html">here</a> in the section "To create a connection to GitHub."</p>
+
+<h3>
+  <a name="10-retry-the-source-stage" href="#10-retry-the-source-stage">
+  </a>
+  10. Retry the Source Stage
+</h3>
+
+<p>Now that your CodeStarConnection is Available, head back to your pipeline and note that the Source stage has failed because of the Pending CodeStarConnection.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--HlI_EcJs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vu54emdkrihxmh3o0lx0.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--HlI_EcJs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vu54emdkrihxmh3o0lx0.png" alt="CodePipeline pipeline showing a Source stage failure" loading="lazy" width="880" height="534"></a></p>
+
+<p>Click the "Retry" button next to the Source stage to restart it.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--BFr4CN4w--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/tqhcbqf5y4kp86udz153.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--BFr4CN4w--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/tqhcbqf5y4kp86udz153.png" alt="CodePipeline pipeline showing the Retry button for the failed Source stage" loading="lazy" width="880" height="523"></a></p>
+
+<p>Your pipeline will restart by pulling the source code from GitHub, build the app, and then deploy the artifact to your EC2 instance! When complete, you can grab the <code>WebServerPublicDNS</code> URL from your EC2 stack and open it in a browser:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--j21YmDmu--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/fg50e0pwq5jjgxu1b3b1.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--j21YmDmu--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/fg50e0pwq5jjgxu1b3b1.png" alt="CloudFormation Stack Outputs tab in the AWS Console" loading="lazy" width="880" height="471"></a></p>
+
+<p>And you will see Hello, Express show in your browser!</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--GjYOVmWl--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xjek6fszct6gwp18snce.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--GjYOVmWl--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xjek6fszct6gwp18snce.png" alt="The Express app running in the browser" loading="lazy" width="877" height="319"></a></p>
+
+<h2>
+  <a name="what-you-learned" href="#what-you-learned">
+  </a>
+  What you learned
+</h2>
+
+<p>In this post, we enhanced the CloudFormation template from <a href="https://jennapederson.com/blog/2021/6/28/provisioning-an-rds-database-with-cloudformation-part-2/">part 2</a> to install CodeDeploy agent and tag the EC2 instances you want to deploy to. Then we created a new template that sets up a Source, Build, and Deploy stage for a CodePipeline complete with a CodeStarConnection, CodeBuild project, and a CodeDeploy application. Now you have a pipeline that will pull source code, build your app, and deploy it to EC2 when there are changes to a specific branch in a GitHub repository.</p>
+
+<p>You can grab the final CloudFormation template we created <a href="https://github.com/jennapederson/cloudformation-examples">here</a>.</p>
+
+<p><em>Like what you read? Follow me here on <a href="https://dev.to/jennapederson">Dev.to</a> or on <a href="https://twitter.com/jennapederson">Twitter</a> to stay updated!</em></p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/jennapederson/using-cloudformation-to-automate-build-test-and-deploy-with-codepipeline-l71" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(s,n,a,e,t){return t.type_of="article",t.id=920320,t.title="Using CloudFormation to Automate Build, Test, and Deploy with CodePipeline",t.description="We introduce a continuous integration/continuous deployment (CI/CD) pipeline to automate the build, test, and deploy phases of your release process with CloudFormation, CodeBuild, CodeDeploy, and CodePipeline.",t.readable_publish_date="Dec 8 '21",t.slug="using-cloudformation-to-automate-build-test-and-deploy-with-codepipeline-l71",t.path="/aws/using-cloudformation-to-automate-build-test-and-deploy-with-codepipeline-l71",t.url="https://dev.to/aws/using-cloudformation-to-automate-build-test-and-deploy-with-codepipeline-l71",t.comments_count=0,t.public_reactions_count=17,t.collection_id=13415,t.published_timestamp=n,t.positive_reactions_count=17,t.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--ZKcFyw8---/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7kl91zm2bxw5y0owb03j.png",t.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--s3wXfTlA--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7kl91zm2bxw5y0owb03j.png",t.canonical_url="https://jennapederson.com/blog/2021/11/26/using-cloudformation-to-automate-build-test-deploy-with-codepipeline-part-3/",t.created_at="2021-12-07T23:24:09Z",t.edited_at=s,t.crossposted_at=s,t.published_at=n,t.last_comment_at=n,t.reading_time_minutes=11,t.tag_list="aws, cloudformation, codepipeline, devops",t.tags=[a,"cloudformation","codepipeline","devops"],t.body_html='<p>In <a href="https://jennapederson.com/blog/2021/6/21/provisioning-an-ec2-instance-with-cloudformation-part-1/">part 1</a>, we automated the provisioning of an Amazon EC2 instance using AWS CloudFormation. In <a href="https://jennapederson.com/blog/2021/6/28/provisioning-an-rds-database-with-cloudformation-part-2/">part 2</a>, we added an Amazon RDS Postgresql database to the CloudFormation template from <a href="https://jennapederson.com/blog/2021/6/21/provisioning-an-ec2-instance-with-cloudformation-part-1/">part 1</a> so both the EC2 instance and the database can be provisioned together as a set of resources. Today in part 3, we will introduce a continuous integration/continuous deployment (CI/CD) pipeline to automate the build, test, and deploy phases of your release process. To do this, we’ll use AWS CodeDeploy and CodePipeline.</p>\n\n<p>As a reminder, here\'s what we\'ve covered and where we\'re going:</p>\n\n<ul>\n<li>automate the provisioning of your EC2 instance using CloudFormation (<a href="https://jennapederson.com/blog/2021/6/21/provisioning-an-ec2-instance-with-cloudformation-part-1/">part 1</a>),</li>\n<li>add an RDS Postgresql database to your stack with CloudFormation (<a href="https://jennapederson.com/blog/2021/6/28/provisioning-an-rds-database-with-cloudformation-part-2/">part 2</a>), and</li>\n<li>create a CodePipeline with CloudFormation (this post, part 3).</li>\n</ul>\n\n<h2>\n  <a name="prerequisites" href="#prerequisites">\n  </a>\n  Prerequisites\n</h2>\n\n<p>To work through the examples in this post, you’ll need:</p>\n\n<ul>\n<li>an AWS account (you can create your account <a href="https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/">here</a> if you don’t already have one),</li>\n<li>the AWS CLI installed (you can find instructions for installing the AWS CLI <a href="https://aws.amazon.com/cli/">here</a>), and</li>\n<li>a key-pair to use for SSH (you can create a key-pair following <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair">these instructions</a>).</li>\n</ul>\n\n<p>Unfamiliar with CloudFormation or feeling a little rusty? Check out <a href="https://jennapederson.com/blog/2021/6/21/provisioning-an-ec2-instance-with-cloudformation-part-1/">part 1</a> or my <a href="https://jennapederson.com/blog/2021/5/10/introduction-to-aws-cloudformation/">Intro to CloudFormation post</a> before getting started.</p>\n\n<p>Just want the code? Grab it <a href="https://github.com/jennapederson/cloudformation-examples">here</a> and then check out the buildspec, appspec, and scripts <a href="https://github.com/jennapederson/hello-express">here</a>.</p>\n\n<h2>\n  <a name="prepare-ec2-instance" href="#prepare-ec2-instance">\n  </a>\n  Prepare EC2 Instance\n</h2>\n\n<p>First, we’ll need to prepare the EC2 instance so that we can deploy our app to it. We’ll create an EC2 instance role and a CodeDeploy trust role, install the CodeDeploy agent, and tag the instance or instance we want to deploy to.</p>\n\n<h3>\n  <a name="1-create-ec2-instance-role" href="#1-create-ec2-instance-role">\n  </a>\n  1. Create EC2 Instance Role\n</h3>\n\n<p>In the CloudFormation template that creates your EC2 instance, create the following new resources, <code>InstanceRole</code>, <code>InstanceRolePolicies</code>, and <code>InstanceRoleInstanceProfile</code>:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">InstanceRole</span><span class="pi">:</span>\n  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::IAM::Role</span>\n  <span class="na">Properties</span><span class="pi">:</span>\n    <span class="na">AssumeRolePolicyDocument</span><span class="pi">:</span>\n      <span class="na">Statement</span><span class="pi">:</span>\n        <span class="pi">-</span> <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>\n          <span class="na">Principal</span><span class="pi">:</span>\n            <span class="na">Service</span><span class="pi">:</span>\n              <span class="pi">-</span> <span class="s">ec2.amazonaws.com</span>\n          <span class="na">Action</span><span class="pi">:</span>\n            <span class="pi">-</span> <span class="s">sts:AssumeRole</span>\n    <span class="na">Path</span><span class="pi">:</span> <span class="s">/</span>\n\n<span class="na">InstanceRolePolicies</span><span class="pi">:</span>\n  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::IAM::Policy</span>\n  <span class="na">Properties</span><span class="pi">:</span>\n    <span class="na">PolicyName</span><span class="pi">:</span> <span class="s">InstanceRole</span>\n    <span class="na">PolicyDocument</span><span class="pi">:</span>\n      <span class="na">Statement</span><span class="pi">:</span>\n        <span class="pi">-</span> <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>\n          <span class="na">Action</span><span class="pi">:</span>\n            <span class="pi">-</span> <span class="s">autoscaling:Describe*</span>\n            <span class="pi">-</span> <span class="s">cloudformation:Describe*</span>\n            <span class="pi">-</span> <span class="s">cloudformation:GetTemplate</span>\n            <span class="pi">-</span> <span class="s">s3:Get*</span>\n          <span class="na">Resource</span><span class="pi">:</span> <span class="s1">\'</span><span class="s">*\'</span>\n    <span class="na">Roles</span><span class="pi">:</span>\n      <span class="pi">-</span> <span class="kt">!Ref</span> <span class="s1">\'</span><span class="s">InstanceRole\'</span>\n\n<span class="na">InstanceRoleInstanceProfile</span><span class="pi">:</span>\n  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::IAM::InstanceProfile</span>\n  <span class="na">Properties</span><span class="pi">:</span>\n    <span class="na">Path</span><span class="pi">:</span> <span class="s">/</span>\n    <span class="na">Roles</span><span class="pi">:</span>\n      <span class="pi">-</span> <span class="kt">!Ref</span> <span class="s1">\'</span><span class="s">InstanceRole\'</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>These resources create an instance profile to pass an IAM role to an EC2 instance. This allows the EC2 instance to do things like get the CodeDeploy agent from S3.</p>\n\n<p>Next, we’ll add the <code>IamInstanceProfile</code> property to the EC2 instance:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">WebAppInstance</span><span class="pi">:</span>\n  <span class="na">Properties</span><span class="pi">:</span>\n    <span class="s">...</span>\n    <span class="s">IamInstanceProfile</span><span class="err">:</span> <span class="kt">!Ref</span> <span class="s1">\'</span><span class="s">InstanceRoleInstanceProfile\'</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="2-install-codedeploy-agent" href="#2-install-codedeploy-agent">\n  </a>\n  2. Install CodeDeploy Agent\n</h3>\n\n<p>The CodeDeploy agent will be installed on each EC2 instance you want to deploy your app to and helps CodeDeploy communicate with your EC2 instance for deployments. First, you’ll include metadata in the <code>AWS::CloudFormation::Init</code> key, which will be used by the <code>cfn-init</code> helper script.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">WebAppInstance</span><span class="pi">:</span>\n  <span class="s">...</span>\n  <span class="s">Metadata</span><span class="err">:</span>\n    <span class="s">AWS::CloudFormation::Init:</span>\n      <span class="s">services</span><span class="err">:</span>\n        <span class="na">sysvint</span><span class="pi">:</span>\n          <span class="na">codedeploy-agent</span><span class="pi">:</span>\n            <span class="na">enabled</span><span class="pi">:</span> <span class="s1">\'</span><span class="s">true\'</span>\n            <span class="na">ensureRunning</span><span class="pi">:</span> <span class="s1">\'</span><span class="s">true\'</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Then, we’ll add the <code>UserData</code> key, which allows us to pass user data to the EC2 instance to perform automated configuration tasks and run scripts after the instance starts up.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">WebAppInstance</span><span class="pi">:</span>\n    <span class="na">Properties</span><span class="pi">:</span>\n        <span class="s">...</span>\n        <span class="s">UserData</span><span class="err">:</span> <span class="kt">!Base64</span>\n          <span class="s">Fn::Join:</span>\n            <span class="s">- \'\'</span>\n            <span class="s">- - "#!/bin/bash -ex\\n"</span>\n              <span class="s">- "yum update -y aws-cfn-bootstrap\\n"</span>\n              <span class="s">- "yum install -y aws-cli\\n"</span>\n              <span class="s">- "yum install -y ruby\\n"</span>\n              <span class="s">- "iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000\\n"</span>\n              <span class="s">- "echo \'iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000\' &gt;&gt; /etc/rc.local\\n"</span>\n              <span class="s">- "# Helper function.\\n"</span>\n              <span class="s">- "function error_exit\\n"</span>\n              <span class="s">- "{\\n"</span>\n              <span class="s">- \'  /opt/aws/bin/cfn-signal -e 1 -r "$1" \'\'\'</span>\n              <span class="s">- !Ref \'WaitHandle\'</span>\n              <span class="s">- "\'\\n"</span>\n              <span class="s">- "  exit 1\\n"</span>\n              <span class="s">- "}\\n"</span>\n              <span class="s">- "# Install the AWS CodeDeploy Agent.\\n"</span>\n              <span class="s">- "cd /home/ec2-user/\\n"</span>\n              <span class="s">- "aws s3 cp \'s3://aws-codedeploy-us-east-1/latest/codedeploy-agent.noarch.rpm\'\\</span>\n                <span class="s">\\ . || error_exit \'Failed to download AWS CodeDeploy Agent.\'\\n"</span>\n              <span class="s">- "yum -y install codedeploy-agent.noarch.rpm || error_exit \'Failed to\\</span>\n                <span class="s">\\ install AWS CodeDeploy Agent.\' \\n"</span>\n              <span class="s">- \'/opt/aws/bin/cfn-init -s \'</span>\n              <span class="s">- !Ref \'AWS::StackId\'</span>\n              <span class="s">- \' -r WebAppInstance --region \'</span>\n              <span class="s">- !Ref \'AWS::Region\'</span>\n              <span class="s">- " || error_exit \'Failed to run cfn-init.\'\\n"</span>\n              <span class="s">- "# All is well, so signal success.\\n"</span>\n              <span class="s">- /opt/aws/bin/cfn-signal -e 0 -r "AWS CodeDeploy Agent setup complete."</span>\n                <span class="s">\'</span>\n              <span class="s">- !Ref \'WaitHandle\'</span>\n              <span class="s">- "\'\\n"</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This installs a few helper packages like the <code>aws-cli</code> and <code>aws-cfn-bootstrap</code>, and then installs the CodeDeploy agent (by copying it from S3). The <code>cfn-init</code> script grabs the metadata we added earlier and ensures those services are enabled and running. The <code>cfn-signal</code> helper script signals to CloudFormation that the instance had been successfully created or updated.</p>\n\n<p>Finally, add the following two resources that are used in the <code>UserData</code> we just added so that CloudFormation waits until the <code>UserData</code> scripts are finished running.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">WaitHandle</span><span class="pi">:</span>\n  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::CloudFormation::WaitConditionHandle</span>\n<span class="na">WaitCondition</span><span class="pi">:</span>\n  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::CloudFormation::WaitCondition</span>\n  <span class="na">Properties</span><span class="pi">:</span>\n    <span class="na">Handle</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s1">\'</span><span class="s">WaitHandle\'</span>\n    <span class="na">Timeout</span><span class="pi">:</span> <span class="s1">\'</span><span class="s">900\'</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="3-tag-the-instances" href="#3-tag-the-instances">\n  </a>\n  3. Tag the Instances\n</h3>\n\n<p>Next, we need to tag the EC2 instances. CodeDeploy will use these tags to identify which instances to deploy to.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">WebAppInstance</span><span class="pi">:</span>\n  <span class="na">Properties</span><span class="pi">:</span>\n    <span class="s">...</span>\n    <span class="s">Tags</span><span class="err">:</span>\n      <span class="pi">-</span> <span class="na">Key</span><span class="pi">:</span> <span class="s1">\'</span><span class="s">CodeDeployTag\'</span>\n        <span class="na">Value</span><span class="pi">:</span> <span class="s1">\'</span><span class="s">CodeDeployDemo\'</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="4-create-codedeploy-trust-role" href="#4-create-codedeploy-trust-role">\n  </a>\n  4. Create CodeDeploy Trust Role\n</h3>\n\n<p>We also need to add a CodeDeploy trust role so that CodeDeploy has access to work with the EC2 instance. Add the following two resources:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">CodeDeployTrustRole</span><span class="pi">:</span>\n  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::IAM::Role</span>\n  <span class="na">Properties</span><span class="pi">:</span>\n    <span class="na">AssumeRolePolicyDocument</span><span class="pi">:</span>\n      <span class="na">Statement</span><span class="pi">:</span>\n        <span class="pi">-</span> <span class="na">Sid</span><span class="pi">:</span> <span class="s1">\'</span><span class="s">1\'</span>\n          <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>\n          <span class="na">Principal</span><span class="pi">:</span>\n            <span class="na">Service</span><span class="pi">:</span>\n              <span class="pi">-</span> <span class="s">codedeploy.us-east-1.amazonaws.com</span>\n              <span class="pi">-</span> <span class="s">codedeploy.us-west-2.amazonaws.com</span>\n          <span class="na">Action</span><span class="pi">:</span> <span class="s">sts:AssumeRole</span>\n    <span class="na">Path</span><span class="pi">:</span> <span class="s">/</span>\n<span class="na">CodeDeployRolePolicies</span><span class="pi">:</span>\n  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::IAM::Policy</span>\n  <span class="na">Properties</span><span class="pi">:</span>\n    <span class="na">PolicyName</span><span class="pi">:</span> <span class="s">CodeDeployPolicy</span>\n    <span class="na">PolicyDocument</span><span class="pi">:</span>\n      <span class="na">Statement</span><span class="pi">:</span>\n        <span class="pi">-</span> <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>\n          <span class="na">Resource</span><span class="pi">:</span>\n            <span class="pi">-</span> <span class="s1">\'</span><span class="s">*\'</span>\n          <span class="na">Action</span><span class="pi">:</span>\n            <span class="pi">-</span> <span class="s">ec2:Describe*</span>\n        <span class="pi">-</span> <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>\n          <span class="na">Resource</span><span class="pi">:</span>\n            <span class="pi">-</span> <span class="s1">\'</span><span class="s">*\'</span>\n          <span class="na">Action</span><span class="pi">:</span>\n            <span class="pi">-</span> <span class="s">autoscaling:CompleteLifecycleAction</span>\n            <span class="pi">-</span> <span class="s">autoscaling:DeleteLifecycleHook</span>\n            <span class="pi">-</span> <span class="s">autoscaling:DescribeLifecycleHooks</span>\n            <span class="pi">-</span> <span class="s">autoscaling:DescribeAutoScalingGroups</span>\n            <span class="pi">-</span> <span class="s">autoscaling:PutLifecycleHook</span>\n            <span class="pi">-</span> <span class="s">autoscaling:RecordLifecycleActionHeartbeat</span>\n    <span class="na">Roles</span><span class="pi">:</span>\n      <span class="pi">-</span> <span class="kt">!Ref</span> <span class="s1">\'</span><span class="s">CodeDeployTrustRole\'</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This trust role will be used in the next section when we configure the CodePipeline. We’ll pass the ARN of this trust role to that CloudFormation template, so let’s add this as an <code>Output</code>:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">Outputs</span><span class="pi">:</span>\n  <span class="s">...</span>\n  <span class="s">CodeDeployTrustRoleARN</span><span class="err">:</span>\n    <span class="na">Value</span><span class="pi">:</span> <span class="kt">!GetAtt</span> <span class="s1">\'</span><span class="s">CodeDeployTrustRole.Arn\'</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="5-create-the-stack" href="#5-create-the-stack">\n  </a>\n  5. Create the stack\n</h3>\n\n<p>And finally, we’ll need to create the stack:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>aws cloudformation create-stack <span class="nt">--stack-name</span> CloudFormationEc2Example <span class="nt">--template-body</span> file://07_ec2_codedeploy.yaml <span class="se">\\</span>\n<span class="nt">--parameters</span> <span class="nv">ParameterKey</span><span class="o">=</span>AvailabilityZone,ParameterValue<span class="o">=</span>us-east-1a <span class="se">\\</span>\n<span class="nv">ParameterKey</span><span class="o">=</span>EnvironmentType,ParameterValue<span class="o">=</span>dev <span class="se">\\</span>\n<span class="nv">ParameterKey</span><span class="o">=</span>KeyPairName,ParameterValue<span class="o">=</span>jenna <span class="se">\\</span>\n<span class="nv">ParameterKey</span><span class="o">=</span>DBPassword,ParameterValue<span class="o">=</span>Abcd1234 <span class="se">\\</span>\n<span class="nt">--capabilities</span> CAPABILITY_IAM\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Or, if you’re updating the stack you created in <a href="https://jennapederson.com/blog/2021/6/28/provisioning-an-rds-database-with-cloudformation-part-2/">part 2</a>, you can use the <code>update-stack</code> command instead.</p>\n\n<p>Once we’ve created the EC2 instance set up for CodeDeploy, we’ll be ready to create the CodePipeline pipeline.</p>\n\n<p>To view the full version of this template, check it out <a href="https://github.com/jennapederson/cloudformation-examples/blob/main/07_ec2_codedeploy.yaml">here</a>.</p>\n\n<h2>\n  <a name="create-codepipeline-pipeline" href="#create-codepipeline-pipeline">\n  </a>\n  Create CodePipeline pipeline\n</h2>\n\n<p>The pipeline we are building will have three stages:</p>\n\n<ul>\n<li><p>A Source stage to pull our code from the GitHub repository. The Source stage will use a CodeStarConnection and an S3 bucket.</p></li>\n<li><p>A Build stage to build the source code into an artifact. The Build stage will use a CodeBuild Project and the same S3 bucket.</p></li>\n<li><p>A Deploy stage to deploy the artifact to the EC2 instance. The Deploy stage will use a CodeDeploy Application and a CodeDeploy DeploymentGroup.</p></li>\n</ul>\n\n<p>First, we’ll need an app to deploy.</p>\n\n<h3>\n  <a name="1-prepare-the-app-to-deploy" href="#1-prepare-the-app-to-deploy">\n  </a>\n  1. Prepare the App to Deploy\n</h3>\n\n<p>You can fork the <a href="https://github.com/jennapederson/hello-express">hello-express</a> repo into your own github account. This is a simple Node/Express web app. For the purposes of this demo, the most interesting parts are the <code>buildspec.yml</code> and <code>appspec.yml</code> files, and scripts in the <code>bin</code> directory:</p>\n\n<ul>\n<li>The <a href="https://github.com/jennapederson/hello-express/blob/main/buildspec.yml">buildspec.yml</a> file is a specification file that contains build commands and configuration that are used to build a CodeBuild project.</li>\n<li>The <a href="https://github.com/jennapederson/hello-express/blob/main/appspec.yml">appspec.yml</a> file is a specification file that defines a series of lifecycle hooks for a CodeDeploy deployment.</li>\n<li>The <a href="https://github.com/jennapederson/hello-express/tree/main/bin">bin</a> directory contains the <code>www</code> start script for the app, and the scripts for each of the lifecycle hooks. You can read more about the lifecycle hooks <a href="https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html">here</a>.</li>\n</ul>\n\n<h3>\n  <a name="2-add-parameters" href="#2-add-parameters">\n  </a>\n  2. Add Parameters\n</h3>\n\n<p>Then, we’ll need the following input Parameters for our template:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">Parameters</span><span class="pi">:</span>\n  <span class="na">GitHubRepo</span><span class="pi">:</span>\n    <span class="na">Type</span><span class="pi">:</span> <span class="s">String</span>\n\n  <span class="na">GitHubBranch</span><span class="pi">:</span>\n    <span class="na">Type</span><span class="pi">:</span> <span class="s">String</span>\n    <span class="na">Default</span><span class="pi">:</span> <span class="s">main</span>\n\n  <span class="na">GitHubUser</span><span class="pi">:</span>\n    <span class="na">Type</span><span class="pi">:</span> <span class="s">String</span>\n\n  <span class="na">CodeDeployServiceRole</span><span class="pi">:</span>\n    <span class="na">Type</span><span class="pi">:</span> <span class="s">String</span>\n    <span class="na">Description</span><span class="pi">:</span> <span class="s">A service role ARN granting CodeDeploy permission to make calls to EC2 instances with CodeDeploy agent installed.</span>\n\n  <span class="na">TagKey</span><span class="pi">:</span>\n    <span class="na">Description</span><span class="pi">:</span> <span class="s">The EC2 tag key that identifies this as a target for deployments.</span>\n    <span class="na">Type</span><span class="pi">:</span> <span class="s">String</span>\n    <span class="na">Default</span><span class="pi">:</span> <span class="s">CodeDeployTag</span>\n    <span class="na">AllowedPattern</span><span class="pi">:</span> <span class="s1">\'</span><span class="s">[\\x20-\\x7E]*\'</span>\n    <span class="na">ConstraintDescription</span><span class="pi">:</span> <span class="s">Can contain only ASCII characters.</span>\n  <span class="na">TagValue</span><span class="pi">:</span>\n    <span class="na">Description</span><span class="pi">:</span> <span class="s">The EC2 tag value that identifies this as a target for deployments.</span>\n    <span class="na">Type</span><span class="pi">:</span> <span class="s">String</span>\n    <span class="na">Default</span><span class="pi">:</span> <span class="s">CodeDeployDemo</span>\n    <span class="na">AllowedPattern</span><span class="pi">:</span> <span class="s1">\'</span><span class="s">[\\x20-\\x7E]*\'</span>\n    <span class="na">ConstraintDescription</span><span class="pi">:</span> <span class="s">Can contain only ASCII characters.</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="3-create-service-roles" href="#3-create-service-roles">\n  </a>\n  3. Create Service Roles\n</h3>\n\n<p>In order for CodeBuild to access S3 to put the built artifact into the bucket, we\'ll need to create a service role, <code>CodeBuildServiceRole</code>. We’ll need a second service role, <code>CodePipelineServiceRole</code>, which allows CodePipeline to get the source code from the GitHub connection, to start builds, to get the artifact from the bucket, and to create and deploy the app. Add these two IAM resources:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">CodeBuildServiceRole</span><span class="pi">:</span>\n    <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::IAM::Role</span>\n    <span class="na">Properties</span><span class="pi">:</span>\n      <span class="na">Path</span><span class="pi">:</span> <span class="s">/</span>\n      <span class="na">AssumeRolePolicyDocument</span><span class="pi">:</span>\n        <span class="na">Version</span><span class="pi">:</span> <span class="s">2012-10-17</span>\n        <span class="na">Statement</span><span class="pi">:</span>\n          <span class="pi">-</span> <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>\n            <span class="na">Principal</span><span class="pi">:</span>\n              <span class="na">Service</span><span class="pi">:</span> <span class="s">codebuild.amazonaws.com</span>\n            <span class="na">Action</span><span class="pi">:</span> <span class="s">sts:AssumeRole</span>\n      <span class="na">Policies</span><span class="pi">:</span>\n        <span class="pi">-</span> <span class="na">PolicyName</span><span class="pi">:</span> <span class="s2">"</span><span class="s">logs"</span>\n          <span class="na">PolicyDocument</span><span class="pi">:</span>\n            <span class="na">Version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">2012-10-17"</span>\n            <span class="na">Statement</span><span class="pi">:</span>\n                <span class="pi">-</span>\n                  <span class="na">Effect</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Allow"</span>\n                  <span class="na">Action</span><span class="pi">:</span>\n                      <span class="pi">-</span> <span class="s">logs:CreateLogGroup</span>\n                      <span class="pi">-</span> <span class="s">logs:CreateLogStream</span>\n                      <span class="pi">-</span> <span class="s">logs:PutLogEvents</span>\n                      <span class="pi">-</span> <span class="s">ecr:GetAuthorizationToken</span>\n                      <span class="pi">-</span> <span class="s">ssm:GetParameters</span>\n                  <span class="na">Resource</span><span class="pi">:</span> <span class="s2">"</span><span class="s">*"</span>\n        <span class="pi">-</span> <span class="na">PolicyName</span><span class="pi">:</span> <span class="s2">"</span><span class="s">S3"</span>\n          <span class="na">PolicyDocument</span><span class="pi">:</span>\n            <span class="na">Version</span><span class="pi">:</span> <span class="s2">"</span><span class="s">2012-10-17"</span>\n            <span class="na">Statement</span><span class="pi">:</span>\n                <span class="pi">-</span>\n                  <span class="na">Effect</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Allow"</span>\n                  <span class="na">Action</span><span class="pi">:</span>\n                      <span class="pi">-</span> <span class="s">s3:GetObject</span>\n                      <span class="pi">-</span> <span class="s">s3:PutObject</span>\n                      <span class="pi">-</span> <span class="s">s3:GetObjectVersion</span>\n                  <span class="na">Resource</span><span class="pi">:</span> <span class="kt">!Sub</span> <span class="s">arn:aws:s3:::${ArtifactBucket}/*</span>\n\n  <span class="na">CodePipelineServiceRole</span><span class="pi">:</span>\n    <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::IAM::Role</span>\n    <span class="na">Properties</span><span class="pi">:</span>\n      <span class="na">Path</span><span class="pi">:</span> <span class="s">/</span>\n      <span class="na">AssumeRolePolicyDocument</span><span class="pi">:</span>\n        <span class="na">Version</span><span class="pi">:</span> <span class="s">2012-10-17</span>\n        <span class="na">Statement</span><span class="pi">:</span>\n          <span class="pi">-</span> <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>\n            <span class="na">Principal</span><span class="pi">:</span>\n              <span class="na">Service</span><span class="pi">:</span> <span class="s">codepipeline.amazonaws.com</span>\n            <span class="na">Action</span><span class="pi">:</span> <span class="s">sts:AssumeRole</span>\n      <span class="na">Policies</span><span class="pi">:</span>\n        <span class="pi">-</span> <span class="na">PolicyName</span><span class="pi">:</span> <span class="s">root</span>\n          <span class="na">PolicyDocument</span><span class="pi">:</span>\n            <span class="na">Version</span><span class="pi">:</span> <span class="s">2012-10-17</span>\n            <span class="na">Statement</span><span class="pi">:</span>\n              <span class="pi">-</span> <span class="na">Resource</span><span class="pi">:</span>\n                  <span class="pi">-</span> <span class="kt">!Sub</span> <span class="s">arn:aws:s3:::${ArtifactBucket}/*</span>\n                  <span class="pi">-</span> <span class="kt">!Sub</span> <span class="s">arn:aws:s3:::${ArtifactBucket}</span>\n                <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>\n                <span class="na">Action</span><span class="pi">:</span>\n                  <span class="pi">-</span> <span class="s">s3:*</span>\n              <span class="pi">-</span> <span class="na">Resource</span><span class="pi">:</span> <span class="s2">"</span><span class="s">*"</span>\n                <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>\n                <span class="na">Action</span><span class="pi">:</span>\n                  <span class="pi">-</span> <span class="s">codebuild:StartBuild</span>\n                  <span class="pi">-</span> <span class="s">codebuild:BatchGetBuilds</span>\n                  <span class="pi">-</span> <span class="s">iam:PassRole</span>\n              <span class="pi">-</span> <span class="na">Resource</span><span class="pi">:</span>\n                  <span class="pi">-</span> <span class="kt">!Ref</span> <span class="s">CodeStarConnection</span>\n                <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>\n                <span class="na">Action</span><span class="pi">:</span>\n                  <span class="pi">-</span> <span class="s">codestar-connections:UseConnection</span>\n              <span class="pi">-</span> <span class="na">Resource</span><span class="pi">:</span> <span class="s2">"</span><span class="s">*"</span>\n                <span class="na">Effect</span><span class="pi">:</span> <span class="s">Allow</span>\n                <span class="na">Action</span><span class="pi">:</span>\n                  <span class="pi">-</span> <span class="s">codedeploy:CreateDeployment</span>\n                  <span class="pi">-</span> <span class="s">codedeploy:CreateDeploymentGroup</span>\n                  <span class="pi">-</span> <span class="s">codedeploy:GetApplication</span>\n                  <span class="pi">-</span> <span class="s">codedeploy:GetApplicationRevision</span>\n                  <span class="pi">-</span> <span class="s">codedeploy:GetDeployment</span>\n                  <span class="pi">-</span> <span class="s">codedeploy:GetDeploymentConfig</span>\n                  <span class="pi">-</span> <span class="s">codedeploy:RegisterApplicationRevision</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="4-create-the-source-stage" href="#4-create-the-source-stage">\n  </a>\n  4. Create the Source Stage\n</h3>\n\n<p>For the Source stage, we’ll create a CodeStar Connection and an S3 Bucket.</p>\n\n<p><strong>1. Create a CodeStarConnection</strong><br><br>\nWhen we set up the pipeline, we’ll have a Source stage the pulls our source code from GitHub. To do this, we’ll need to create a CodeStarConnection for GitHub. This will give our pipeline access to a GitHub repository. We’ll use CloudFormation to create this by adding the resource to our template, but there will be a manual step to change the connection from Pending to Available after the first time we apply the template.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">CodeStarConnection</span><span class="pi">:</span>\n    <span class="na">Type</span><span class="pi">:</span> <span class="s1">\'</span><span class="s">AWS::CodeStarConnections::Connection\'</span>\n    <span class="na">Properties</span><span class="pi">:</span>\n      <span class="na">ConnectionName</span><span class="pi">:</span> <span class="s">CfnExamplesGitHubConnection</span>\n      <span class="na">ProviderType</span><span class="pi">:</span> <span class="s">GitHub</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><strong>2. Create S3 Bucket to Hold Artifacts</strong><br><br>\nWe’ll need a place to store the build artifacts so we’ll create an S3 bucket. Add the following S3 resource to your template:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">ArtifactBucket</span><span class="pi">:</span>\n    <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::S3::Bucket</span>\n    <span class="na">DeletionPolicy</span><span class="pi">:</span> <span class="s">Delete</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><strong>3. Create the Stage</strong><br><br>\nThen we’ll create the first stage of the pipeline.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">Pipeline</span><span class="pi">:</span>\n  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::CodePipeline::Pipeline</span>\n  <span class="na">Properties</span><span class="pi">:</span>\n    <span class="na">RoleArn</span><span class="pi">:</span> <span class="kt">!GetAtt</span> <span class="s">CodePipelineServiceRole.Arn</span>\n    <span class="na">ArtifactStore</span><span class="pi">:</span>\n      <span class="na">Type</span><span class="pi">:</span> <span class="s">S3</span>\n      <span class="na">Location</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s">ArtifactBucket</span>\n    <span class="na">Stages</span><span class="pi">:</span>\n      <span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">Source</span>\n        <span class="na">Actions</span><span class="pi">:</span>\n          <span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">App</span>\n            <span class="na">ActionTypeId</span><span class="pi">:</span>\n              <span class="na">Category</span><span class="pi">:</span> <span class="s">Source</span>\n              <span class="na">Owner</span><span class="pi">:</span> <span class="s">AWS</span>\n              <span class="na">Version</span><span class="pi">:</span> <span class="s1">\'</span><span class="s">1\'</span>\n              <span class="na">Provider</span><span class="pi">:</span> <span class="s">CodeStarSourceConnection</span>\n            <span class="na">Configuration</span><span class="pi">:</span>\n              <span class="na">ConnectionArn</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s">CodeStarConnection</span>\n              <span class="na">BranchName</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s">GitHubBranch</span>\n              <span class="na">FullRepositoryId</span><span class="pi">:</span> <span class="kt">!Sub</span> <span class="s">${GitHubUser}/${GitHubRepo}</span>\n            <span class="na">OutputArtifacts</span><span class="pi">:</span>\n              <span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">AppArtifact</span>\n            <span class="na">RunOrder</span><span class="pi">:</span> <span class="m">1</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Using the CodeStarSourceConnection resource we created above, this will configure it to use the branch, GitHub user, and repository name based on the input parameters.</p>\n\n<h3>\n  <a name="5-create-build-stage" href="#5-create-build-stage">\n  </a>\n  5. Create Build Stage\n</h3>\n\n<p>For the Build stage, we’ll create a CodeBuild Project that indicates what kind of environment to build the code in. Here, we’re using a Docker Linux container. We’ll also set the service role to the service role we created earlier.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">CodeBuildProject</span><span class="pi">:</span>\n  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::CodeBuild::Project</span>\n  <span class="na">Properties</span><span class="pi">:</span>\n    <span class="na">Artifacts</span><span class="pi">:</span>\n      <span class="na">Type</span><span class="pi">:</span> <span class="s">CODEPIPELINE</span>\n    <span class="na">Source</span><span class="pi">:</span>\n      <span class="na">Type</span><span class="pi">:</span> <span class="s">CODEPIPELINE</span>\n      <span class="na">BuildSpec</span><span class="pi">:</span> <span class="s">buildspec.yml</span>\n    <span class="na">Environment</span><span class="pi">:</span>\n      <span class="na">ComputeType</span><span class="pi">:</span> <span class="s">BUILD_GENERAL1_SMALL</span>\n      <span class="na">Image</span><span class="pi">:</span> <span class="s">aws/codebuild/docker:17.09.0</span>\n      <span class="na">Type</span><span class="pi">:</span> <span class="s">LINUX_CONTAINER</span>\n    <span class="na">Name</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s">AWS::StackName</span>\n    <span class="na">ServiceRole</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s">CodeBuildServiceRole</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Then we need to add the Build stage to the pipeline we started in the last step.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">Build</span>\n  <span class="na">Actions</span><span class="pi">:</span>\n    <span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">Build</span>\n      <span class="na">ActionTypeId</span><span class="pi">:</span>\n        <span class="na">Category</span><span class="pi">:</span> <span class="s">Build</span>\n        <span class="na">Owner</span><span class="pi">:</span> <span class="s">AWS</span>\n        <span class="na">Version</span><span class="pi">:</span> <span class="s1">\'</span><span class="s">1\'</span>\n        <span class="na">Provider</span><span class="pi">:</span> <span class="s">CodeBuild</span>\n      <span class="na">Configuration</span><span class="pi">:</span>\n        <span class="na">ProjectName</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s">CodeBuildProject</span>\n      <span class="na">InputArtifacts</span><span class="pi">:</span>\n        <span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">AppArtifact</span>\n      <span class="na">OutputArtifacts</span><span class="pi">:</span>\n        <span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">BuildOutput</span>\n      <span class="na">RunOrder</span><span class="pi">:</span> <span class="m">1</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This will also use the same S3 bucket from a the previous step to store the build output.</p>\n\n<h3>\n  <a name="6-create-deploy-stage" href="#6-create-deploy-stage">\n  </a>\n  6. Create Deploy Stage\n</h3>\n\n<p>In the last stage, Deploy, we’ll need a CodeDeploy Application and a CodeDeploy DeploymentGroup.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">CodeDeployApplication</span><span class="pi">:</span>\n  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::CodeDeploy::Application</span>\n\n<span class="na">CodeDeployGroup</span><span class="pi">:</span>\n  <span class="na">Type</span><span class="pi">:</span> <span class="s">AWS::CodeDeploy::DeploymentGroup</span>\n  <span class="na">Properties</span><span class="pi">:</span>\n    <span class="na">ApplicationName</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s">CodeDeployApplication</span>\n    <span class="na">Ec2TagFilters</span><span class="pi">:</span>\n      <span class="pi">-</span> <span class="na">Key</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s1">\'</span><span class="s">TagKey\'</span>\n        <span class="na">Value</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s1">\'</span><span class="s">TagValue\'</span>\n        <span class="na">Type</span><span class="pi">:</span> <span class="s">KEY_AND_VALUE</span>\n    <span class="na">ServiceRoleArn</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s1">\'</span><span class="s">CodeDeployServiceRole\'</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The DeploymentGroup uses the <code>EC2TagFilters</code> to specify which group of EC2 instances to deploy to. When we setup the EC2 instance above, we tagged it with a tag/value that is used here. We also set the service role to the one we created earlier.</p>\n\n<p>Then we add the final stage to the pipeline.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">Deploy</span>\n  <span class="na">Actions</span><span class="pi">:</span>\n    <span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">Deploy</span>\n      <span class="na">ActionTypeId</span><span class="pi">:</span>\n        <span class="na">Category</span><span class="pi">:</span> <span class="s">Deploy</span>\n        <span class="na">Owner</span><span class="pi">:</span> <span class="s">AWS</span>\n        <span class="na">Version</span><span class="pi">:</span> <span class="s1">\'</span><span class="s">1\'</span>\n        <span class="na">Provider</span><span class="pi">:</span> <span class="s">CodeDeploy</span>\n      <span class="na">Configuration</span><span class="pi">:</span>\n        <span class="na">ApplicationName</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s">CodeDeployApplication</span>\n        <span class="na">DeploymentGroupName</span><span class="pi">:</span> <span class="kt">!Ref</span> <span class="s">CodeDeployGroup</span>\n      <span class="na">InputArtifacts</span><span class="pi">:</span>\n        <span class="pi">-</span> <span class="na">Name</span><span class="pi">:</span> <span class="s">BuildOutput</span>\n      <span class="na">RunOrder</span><span class="pi">:</span> <span class="m">1</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="7-add-outputs" href="#7-add-outputs">\n  </a>\n  7. Add Outputs\n</h3>\n\n<p>Last, we need to add an Output to our template to give us the fully URL to view our pipeline in the AWS Console.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">Outputs</span><span class="pi">:</span>\n  <span class="na">PipelineUrl</span><span class="pi">:</span>\n    <span class="na">Value</span><span class="pi">:</span> <span class="kt">!Sub</span> <span class="s">https://console.aws.amazon.com/codepipeline/home?region=${AWS::Region}#/view/${Pipeline}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>To view the full version of this template, check it out <a href="https://github.com/jennapederson/cloudformation-examples/blob/main/08_pipeline.yaml">here</a>.</p>\n\n<h3>\n  <a name="8-create-the-stack" href="#8-create-the-stack">\n  </a>\n  8. Create the Stack\n</h3>\n\n<p>Now that we have the pipeline template created, we can create the stack. We’ll need to copy CodeDeployTrustRoleARN Output from previous EC2 stack, which you can grab from the Outputs tab in the AWS Console.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Zh5kZfEP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/goxguzvkj0mz2fgzamba.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Zh5kZfEP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/goxguzvkj0mz2fgzamba.png" alt="CloudFormation Stack Outputs tab in the AWS Console" loading="lazy" width="880" height="462"></a></p>\n\n<p>Then, run <code>create-stack</code> at the command line, replacing <code>CODE_DEPLOY_SERVICE_ROLE_ARN</code> below with the ARN you just copied.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>aws cloudformation create-stack <span class="nt">--stack-name</span> CloudFormationPipelineExample <span class="nt">--template-body</span> file://08_pipeline.yaml <span class="se">\\</span>\n<span class="nt">--parameters</span> <span class="nv">ParameterKey</span><span class="o">=</span>GitHubRepo,ParameterValue<span class="o">=</span>hello-express <span class="se">\\</span>\n<span class="nv">ParameterKey</span><span class="o">=</span>GitHubUser,ParameterValue<span class="o">=</span>jennapederson <span class="se">\\</span>\n<span class="nv">ParameterKey</span><span class="o">=</span>CodeDeployServiceRole,ParameterValue<span class="o">=</span>CODE_DEPLOY_SERVICE_ROLE_ARN <span class="se">\\</span>\n<span class="nt">--capabilities</span> CAPABILITY_IAM\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Because this template creates IAM roles, we also need to tell CloudFormation that this capability (creating IAM resources) is allowed to be used by specifying the <code>--capabilities</code> option.</p>\n\n<h3>\n  <a name="9-make-codestarconnection-available" href="#9-make-codestarconnection-available">\n  </a>\n  9. Make CodeStarConnection Available\n</h3>\n\n<p>Once the stack is created successfully, you\'ll need to change the CodeStarConnection from Pending to Available. To do this, head over to the AWS Console and find your newly created stack. On the Outputs tab, click the link to go to your new pipeline.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--EqKIlAX5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nchd3p4dasrjsqq778n2.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--EqKIlAX5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nchd3p4dasrjsqq778n2.png" alt="CloudFormation Stack Outputs tab in the AWS Console" loading="lazy" width="880" height="363"></a></p>\n\n<p>In the left-hand menu under Settings, click Connections. Select the new connection and click the "Update pending connection" button.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--YvcMpCWM--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/iqj016wdj0k36bu1awll.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--YvcMpCWM--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/iqj016wdj0k36bu1awll.png" alt="CodeStar Connection Settings" loading="lazy" width="880" height="217"></a></p>\n\n<p>You\'ll need to give GitHub access to your account and the repository before the connection will become available. You can read more about that <a href="https://docs.aws.amazon.com/dtconsole/latest/userguide/connections-create-github.html">here</a> in the section "To create a connection to GitHub."</p>\n\n<h3>\n  <a name="10-retry-the-source-stage" href="#10-retry-the-source-stage">\n  </a>\n  10. Retry the Source Stage\n</h3>\n\n<p>Now that your CodeStarConnection is Available, head back to your pipeline and note that the Source stage has failed because of the Pending CodeStarConnection.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--HlI_EcJs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vu54emdkrihxmh3o0lx0.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--HlI_EcJs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vu54emdkrihxmh3o0lx0.png" alt="CodePipeline pipeline showing a Source stage failure" loading="lazy" width="880" height="534"></a></p>\n\n<p>Click the "Retry" button next to the Source stage to restart it.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--BFr4CN4w--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/tqhcbqf5y4kp86udz153.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--BFr4CN4w--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/tqhcbqf5y4kp86udz153.png" alt="CodePipeline pipeline showing the Retry button for the failed Source stage" loading="lazy" width="880" height="523"></a></p>\n\n<p>Your pipeline will restart by pulling the source code from GitHub, build the app, and then deploy the artifact to your EC2 instance! When complete, you can grab the <code>WebServerPublicDNS</code> URL from your EC2 stack and open it in a browser:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--j21YmDmu--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/fg50e0pwq5jjgxu1b3b1.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--j21YmDmu--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/fg50e0pwq5jjgxu1b3b1.png" alt="CloudFormation Stack Outputs tab in the AWS Console" loading="lazy" width="880" height="471"></a></p>\n\n<p>And you will see Hello, Express show in your browser!</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--GjYOVmWl--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xjek6fszct6gwp18snce.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--GjYOVmWl--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xjek6fszct6gwp18snce.png" alt="The Express app running in the browser" loading="lazy" width="877" height="319"></a></p>\n\n<h2>\n  <a name="what-you-learned" href="#what-you-learned">\n  </a>\n  What you learned\n</h2>\n\n<p>In this post, we enhanced the CloudFormation template from <a href="https://jennapederson.com/blog/2021/6/28/provisioning-an-rds-database-with-cloudformation-part-2/">part 2</a> to install CodeDeploy agent and tag the EC2 instances you want to deploy to. Then we created a new template that sets up a Source, Build, and Deploy stage for a CodePipeline complete with a CodeStarConnection, CodeBuild project, and a CodeDeploy application. Now you have a pipeline that will pull source code, build your app, and deploy it to EC2 when there are changes to a specific branch in a GitHub repository.</p>\n\n<p>You can grab the final CloudFormation template we created <a href="https://github.com/jennapederson/cloudformation-examples">here</a>.</p>\n\n<p><em>Like what you read? Follow me here on <a href="https://dev.to/jennapederson">Dev.to</a> or on <a href="https://twitter.com/jennapederson">Twitter</a> to stay updated!</em></p>\n\n',t.body_markdown="---\ntitle: Using CloudFormation to Automate Build, Test, and Deploy with CodePipeline\npublished: true\ndescription: We introduce a continuous integration/continuous deployment (CI/CD) pipeline to automate the build, test, and deploy phases of your release process with CloudFormation, CodeBuild, CodeDeploy, and CodePipeline.\ntags: [\"aws\", \"cloudformation\", \"codepipeline\", \"devops\"]\ncover_image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7kl91zm2bxw5y0owb03j.png\ncanonical_url: https://jennapederson.com/blog/2021/11/26/using-cloudformation-to-automate-build-test-deploy-with-codepipeline-part-3/\nseries: Managing Your Web App with Infrastructure as Code\n---\n\nIn [part 1](https://jennapederson.com/blog/2021/6/21/provisioning-an-ec2-instance-with-cloudformation-part-1/), we automated the provisioning of an Amazon EC2 instance using AWS CloudFormation. In [part 2](https://jennapederson.com/blog/2021/6/28/provisioning-an-rds-database-with-cloudformation-part-2/), we added an Amazon RDS Postgresql database to the CloudFormation template from [part 1](https://jennapederson.com/blog/2021/6/21/provisioning-an-ec2-instance-with-cloudformation-part-1/) so both the EC2 instance and the database can be provisioned together as a set of resources. Today in part 3, we will introduce a continuous integration/continuous deployment (CI/CD) pipeline to automate the build, test, and deploy phases of your release process. To do this, we’ll use AWS CodeDeploy and CodePipeline.\n\nAs a reminder, here's what we've covered and where we're going:\n\n- automate the provisioning of your EC2 instance using CloudFormation ([part 1](https://jennapederson.com/blog/2021/6/21/provisioning-an-ec2-instance-with-cloudformation-part-1/)),\n- add an RDS Postgresql database to your stack with CloudFormation ([part 2](https://jennapederson.com/blog/2021/6/28/provisioning-an-rds-database-with-cloudformation-part-2/)), and\n- create a CodePipeline with CloudFormation (this post, part 3).\n\n## Prerequisites\n\nTo work through the examples in this post, you’ll need:\n\n- an AWS account (you can create your account [here](https://aws.amazon.com/premiumsupport/knowledge-center/create-and-activate-aws-account/) if you don’t already have one),\n- the AWS CLI installed (you can find instructions for installing the AWS CLI [here](https://aws.amazon.com/cli/)), and\n- a key-pair to use for SSH (you can create a key-pair following [these instructions](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html#having-ec2-create-your-key-pair)).\n\nUnfamiliar with CloudFormation or feeling a little rusty? Check out [part 1](https://jennapederson.com/blog/2021/6/21/provisioning-an-ec2-instance-with-cloudformation-part-1/) or my [Intro to CloudFormation post](https://jennapederson.com/blog/2021/5/10/introduction-to-aws-cloudformation/) before getting started.\n\nJust want the code? Grab it [here](https://github.com/jennapederson/cloudformation-examples) and then check out the buildspec, appspec, and scripts [here](https://github.com/jennapederson/hello-express).\n\n## Prepare EC2 Instance\n\nFirst, we’ll need to prepare the EC2 instance so that we can deploy our app to it. We’ll create an EC2 instance role and a CodeDeploy trust role, install the CodeDeploy agent, and tag the instance or instance we want to deploy to.\n\n### 1. Create EC2 Instance Role\n\nIn the CloudFormation template that creates your EC2 instance, create the following new resources, `InstanceRole`, `InstanceRolePolicies`, and `InstanceRoleInstanceProfile`:\n\n```yaml\nInstanceRole:\n  Type: AWS::IAM::Role\n  Properties:\n    AssumeRolePolicyDocument:\n      Statement:\n        - Effect: Allow\n          Principal:\n            Service:\n              - ec2.amazonaws.com\n          Action:\n            - sts:AssumeRole\n    Path: /\n\nInstanceRolePolicies:\n  Type: AWS::IAM::Policy\n  Properties:\n    PolicyName: InstanceRole\n    PolicyDocument:\n      Statement:\n        - Effect: Allow\n          Action:\n            - autoscaling:Describe*\n            - cloudformation:Describe*\n            - cloudformation:GetTemplate\n            - s3:Get*\n          Resource: '*'\n    Roles:\n      - !Ref 'InstanceRole'\n\nInstanceRoleInstanceProfile:\n  Type: AWS::IAM::InstanceProfile\n  Properties:\n    Path: /\n    Roles:\n      - !Ref 'InstanceRole'\n```\n\nThese resources create an instance profile to pass an IAM role to an EC2 instance. This allows the EC2 instance to do things like get the CodeDeploy agent from S3.\n\nNext, we’ll add the `IamInstanceProfile` property to the EC2 instance:\n\n```yaml\nWebAppInstance:\n  Properties:\n    ...\n    IamInstanceProfile: !Ref 'InstanceRoleInstanceProfile'\n```\n\n### 2. Install CodeDeploy Agent\n\nThe CodeDeploy agent will be installed on each EC2 instance you want to deploy your app to and helps CodeDeploy communicate with your EC2 instance for deployments. First, you’ll include metadata in the `AWS::CloudFormation::Init` key, which will be used by the `cfn-init` helper script.\n\n```yaml\nWebAppInstance:\n  ...\n  Metadata:\n    AWS::CloudFormation::Init:\n      services:\n        sysvint:\n          codedeploy-agent:\n            enabled: 'true'\n            ensureRunning: 'true'\n```\n\nThen, we’ll add the `UserData` key, which allows us to pass user data to the EC2 instance to perform automated configuration tasks and run scripts after the instance starts up.\n\n```yaml\nWebAppInstance:\n\tProperties:\n\t\t...\n\t\tUserData: !Base64\n\t\t  Fn::Join:\n\t\t    - ''\n\t\t    - - \"#!/bin/bash -ex\\n\"\n\t\t      - \"yum update -y aws-cfn-bootstrap\\n\"\n\t\t      - \"yum install -y aws-cli\\n\"\n\t\t      - \"yum install -y ruby\\n\"\n\t\t      - \"iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000\\n\"\n\t\t      - \"echo 'iptables -t nat -A PREROUTING -i eth0 -p tcp --dport 80 -j REDIRECT --to-port 3000' >> /etc/rc.local\\n\"\n\t\t      - \"# Helper function.\\n\"\n\t\t      - \"function error_exit\\n\"\n\t\t      - \"{\\n\"\n\t\t      - '  /opt/aws/bin/cfn-signal -e 1 -r \"$1\" '''\n\t\t      - !Ref 'WaitHandle'\n\t\t      - \"'\\n\"\n\t\t      - \"  exit 1\\n\"\n\t\t      - \"}\\n\"\n\t\t      - \"# Install the AWS CodeDeploy Agent.\\n\"\n\t\t      - \"cd /home/ec2-user/\\n\"\n\t\t      - \"aws s3 cp 's3://aws-codedeploy-us-east-1/latest/codedeploy-agent.noarch.rpm'\\\n\t\t        \\ . || error_exit 'Failed to download AWS CodeDeploy Agent.'\\n\"\n\t\t      - \"yum -y install codedeploy-agent.noarch.rpm || error_exit 'Failed to\\\n\t\t        \\ install AWS CodeDeploy Agent.' \\n\"\n\t\t      - '/opt/aws/bin/cfn-init -s '\n\t\t      - !Ref 'AWS::StackId'\n\t\t      - ' -r WebAppInstance --region '\n\t\t      - !Ref 'AWS::Region'\n\t\t      - \" || error_exit 'Failed to run cfn-init.'\\n\"\n\t\t      - \"# All is well, so signal success.\\n\"\n\t\t      - /opt/aws/bin/cfn-signal -e 0 -r \"AWS CodeDeploy Agent setup complete.\"\n\t\t        '\n\t\t      - !Ref 'WaitHandle'\n\t\t      - \"'\\n\"\n```\n\nThis installs a few helper packages like the `aws-cli` and `aws-cfn-bootstrap`, and then installs the CodeDeploy agent (by copying it from S3). The `cfn-init` script grabs the metadata we added earlier and ensures those services are enabled and running. The `cfn-signal` helper script signals to CloudFormation that the instance had been successfully created or updated.\n\nFinally, add the following two resources that are used in the `UserData` we just added so that CloudFormation waits until the `UserData` scripts are finished running.\n\n```yaml\nWaitHandle:\n  Type: AWS::CloudFormation::WaitConditionHandle\nWaitCondition:\n  Type: AWS::CloudFormation::WaitCondition\n  Properties:\n    Handle: !Ref 'WaitHandle'\n    Timeout: '900'\n```\n\n### 3. Tag the Instances\n\nNext, we need to tag the EC2 instances. CodeDeploy will use these tags to identify which instances to deploy to.\n\n```yaml\nWebAppInstance:\n  Properties:\n    ...\n    Tags:\n      - Key: 'CodeDeployTag'\n        Value: 'CodeDeployDemo'\n```\n\n### 4. Create CodeDeploy Trust Role\n\nWe also need to add a CodeDeploy trust role so that CodeDeploy has access to work with the EC2 instance. Add the following two resources:\n\n```yaml\nCodeDeployTrustRole:\n  Type: AWS::IAM::Role\n  Properties:\n    AssumeRolePolicyDocument:\n      Statement:\n        - Sid: '1'\n          Effect: Allow\n          Principal:\n            Service:\n              - codedeploy.us-east-1.amazonaws.com\n              - codedeploy.us-west-2.amazonaws.com\n          Action: sts:AssumeRole\n    Path: /\nCodeDeployRolePolicies:\n  Type: AWS::IAM::Policy\n  Properties:\n    PolicyName: CodeDeployPolicy\n    PolicyDocument:\n      Statement:\n        - Effect: Allow\n          Resource:\n            - '*'\n          Action:\n            - ec2:Describe*\n        - Effect: Allow\n          Resource:\n            - '*'\n          Action:\n            - autoscaling:CompleteLifecycleAction\n            - autoscaling:DeleteLifecycleHook\n            - autoscaling:DescribeLifecycleHooks\n            - autoscaling:DescribeAutoScalingGroups\n            - autoscaling:PutLifecycleHook\n            - autoscaling:RecordLifecycleActionHeartbeat\n    Roles:\n      - !Ref 'CodeDeployTrustRole'\n```\n\nThis trust role will be used in the next section when we configure the CodePipeline. We’ll pass the ARN of this trust role to that CloudFormation template, so let’s add this as an `Output`:\n\n```yaml\nOutputs:\n  ...\n  CodeDeployTrustRoleARN:\n    Value: !GetAtt 'CodeDeployTrustRole.Arn'\n```\n\n### 5. Create the stack\n\nAnd finally, we’ll need to create the stack:\n\n```bash\naws cloudformation create-stack --stack-name CloudFormationEc2Example --template-body file://07_ec2_codedeploy.yaml \\\n--parameters ParameterKey=AvailabilityZone,ParameterValue=us-east-1a \\\nParameterKey=EnvironmentType,ParameterValue=dev \\\nParameterKey=KeyPairName,ParameterValue=jenna \\\nParameterKey=DBPassword,ParameterValue=Abcd1234 \\\n--capabilities CAPABILITY_IAM\n```\n\nOr, if you’re updating the stack you created in [part 2](https://jennapederson.com/blog/2021/6/28/provisioning-an-rds-database-with-cloudformation-part-2/), you can use the `update-stack` command instead.\n\nOnce we’ve created the EC2 instance set up for CodeDeploy, we’ll be ready to create the CodePipeline pipeline.\n\nTo view the full version of this template, check it out [here](https://github.com/jennapederson/cloudformation-examples/blob/main/07_ec2_codedeploy.yaml).\n\n## Create CodePipeline pipeline\n\nThe pipeline we are building will have three stages:\n\n- A Source stage to pull our code from the GitHub repository. The Source stage will use a CodeStarConnection and an S3 bucket.\n\n- A Build stage to build the source code into an artifact. The Build stage will use a CodeBuild Project and the same S3 bucket.\n\n- A Deploy stage to deploy the artifact to the EC2 instance. The Deploy stage will use a CodeDeploy Application and a CodeDeploy DeploymentGroup.\n\nFirst, we’ll need an app to deploy.\n\n### 1. Prepare the App to Deploy\n\nYou can fork the [hello-express](https://github.com/jennapederson/hello-express) repo into your own github account. This is a simple Node/Express web app. For the purposes of this demo, the most interesting parts are the `buildspec.yml` and `appspec.yml` files, and scripts in the `bin` directory:\n\n- The [buildspec.yml](https://github.com/jennapederson/hello-express/blob/main/buildspec.yml) file is a specification file that contains build commands and configuration that are used to build a CodeBuild project.\n- The [appspec.yml](https://github.com/jennapederson/hello-express/blob/main/appspec.yml) file is a specification file that defines a series of lifecycle hooks for a CodeDeploy deployment.\n- The [bin](https://github.com/jennapederson/hello-express/tree/main/bin) directory contains the `www` start script for the app, and the scripts for each of the lifecycle hooks. You can read more about the lifecycle hooks [here](https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html).\n\n### 2. Add Parameters\n\nThen, we’ll need the following input Parameters for our template:\n\n```yaml\nParameters:\n  GitHubRepo:\n    Type: String\n\n  GitHubBranch:\n    Type: String\n    Default: main\n\n  GitHubUser:\n    Type: String\n\n  CodeDeployServiceRole:\n    Type: String\n    Description: A service role ARN granting CodeDeploy permission to make calls to EC2 instances with CodeDeploy agent installed.\n\n  TagKey:\n    Description: The EC2 tag key that identifies this as a target for deployments.\n    Type: String\n    Default: CodeDeployTag\n    AllowedPattern: '[\\x20-\\x7E]*'\n    ConstraintDescription: Can contain only ASCII characters.\n  TagValue:\n    Description: The EC2 tag value that identifies this as a target for deployments.\n    Type: String\n    Default: CodeDeployDemo\n    AllowedPattern: '[\\x20-\\x7E]*'\n    ConstraintDescription: Can contain only ASCII characters.\n```\n\n### 3. Create Service Roles\n\nIn order for CodeBuild to access S3 to put the built artifact into the bucket, we'll need to create a service role, `CodeBuildServiceRole`. We’ll need a second service role, `CodePipelineServiceRole`, which allows CodePipeline to get the source code from the GitHub connection, to start builds, to get the artifact from the bucket, and to create and deploy the app. Add these two IAM resources:\n\n```yaml\nCodeBuildServiceRole:\n    Type: AWS::IAM::Role\n    Properties:\n      Path: /\n      AssumeRolePolicyDocument:\n        Version: 2012-10-17\n        Statement:\n          - Effect: Allow\n            Principal:\n              Service: codebuild.amazonaws.com\n            Action: sts:AssumeRole\n      Policies:\n        - PolicyName: \"logs\"\n          PolicyDocument:\n            Version: \"2012-10-17\"\n            Statement:\n                -\n                  Effect: \"Allow\"\n                  Action:\n                      - logs:CreateLogGroup\n                      - logs:CreateLogStream\n                      - logs:PutLogEvents\n                      - ecr:GetAuthorizationToken\n                      - ssm:GetParameters\n                  Resource: \"*\"\n        - PolicyName: \"S3\"\n          PolicyDocument:\n            Version: \"2012-10-17\"\n            Statement:\n                -\n                  Effect: \"Allow\"\n                  Action:\n                      - s3:GetObject\n                      - s3:PutObject\n                      - s3:GetObjectVersion\n                  Resource: !Sub arn:aws:s3:::${ArtifactBucket}/*\n\n  CodePipelineServiceRole:\n    Type: AWS::IAM::Role\n    Properties:\n      Path: /\n      AssumeRolePolicyDocument:\n        Version: 2012-10-17\n        Statement:\n          - Effect: Allow\n            Principal:\n              Service: codepipeline.amazonaws.com\n            Action: sts:AssumeRole\n      Policies:\n        - PolicyName: root\n          PolicyDocument:\n            Version: 2012-10-17\n            Statement:\n              - Resource:\n                  - !Sub arn:aws:s3:::${ArtifactBucket}/*\n                  - !Sub arn:aws:s3:::${ArtifactBucket}\n                Effect: Allow\n                Action:\n                  - s3:*\n              - Resource: \"*\"\n                Effect: Allow\n                Action:\n                  - codebuild:StartBuild\n                  - codebuild:BatchGetBuilds\n                  - iam:PassRole\n              - Resource:\n                  - !Ref CodeStarConnection\n                Effect: Allow\n                Action:\n                  - codestar-connections:UseConnection\n              - Resource: \"*\"\n                Effect: Allow\n                Action:\n                  - codedeploy:CreateDeployment\n                  - codedeploy:CreateDeploymentGroup\n                  - codedeploy:GetApplication\n                  - codedeploy:GetApplicationRevision\n                  - codedeploy:GetDeployment\n                  - codedeploy:GetDeploymentConfig\n                  - codedeploy:RegisterApplicationRevision\n```\n\n### 4. Create the Source Stage\n\nFor the Source stage, we’ll create a CodeStar Connection and an S3 Bucket.\n\n**1. Create a CodeStarConnection**  \nWhen we set up the pipeline, we’ll have a Source stage the pulls our source code from GitHub. To do this, we’ll need to create a CodeStarConnection for GitHub. This will give our pipeline access to a GitHub repository. We’ll use CloudFormation to create this by adding the resource to our template, but there will be a manual step to change the connection from Pending to Available after the first time we apply the template.\n\n```yaml\nCodeStarConnection:\n    Type: 'AWS::CodeStarConnections::Connection'\n    Properties:\n      ConnectionName: CfnExamplesGitHubConnection\n      ProviderType: GitHub\n```\n\n**2. Create S3 Bucket to Hold Artifacts**  \nWe’ll need a place to store the build artifacts so we’ll create an S3 bucket. Add the following S3 resource to your template:\n\n```yaml\nArtifactBucket:\n    Type: AWS::S3::Bucket\n    DeletionPolicy: Delete\n```\n\n**3. Create the Stage**  \nThen we’ll create the first stage of the pipeline.\n\n```yaml\nPipeline:\n  Type: AWS::CodePipeline::Pipeline\n  Properties:\n    RoleArn: !GetAtt CodePipelineServiceRole.Arn\n    ArtifactStore:\n      Type: S3\n      Location: !Ref ArtifactBucket\n    Stages:\n      - Name: Source\n        Actions:\n          - Name: App\n            ActionTypeId:\n              Category: Source\n              Owner: AWS\n              Version: '1'\n              Provider: CodeStarSourceConnection\n            Configuration:\n              ConnectionArn: !Ref CodeStarConnection\n              BranchName: !Ref GitHubBranch\n              FullRepositoryId: !Sub ${GitHubUser}/${GitHubRepo}\n            OutputArtifacts:\n              - Name: AppArtifact\n            RunOrder: 1\n```\n\nUsing the CodeStarSourceConnection resource we created above, this will configure it to use the branch, GitHub user, and repository name based on the input parameters.\n\n### 5. Create Build Stage\n\nFor the Build stage, we’ll create a CodeBuild Project that indicates what kind of environment to build the code in. Here, we’re using a Docker Linux container. We’ll also set the service role to the service role we created earlier.\n\n```yaml\nCodeBuildProject:\n  Type: AWS::CodeBuild::Project\n  Properties:\n    Artifacts:\n      Type: CODEPIPELINE\n    Source:\n      Type: CODEPIPELINE\n      BuildSpec: buildspec.yml\n    Environment:\n      ComputeType: BUILD_GENERAL1_SMALL\n      Image: aws/codebuild/docker:17.09.0\n      Type: LINUX_CONTAINER\n    Name: !Ref AWS::StackName\n    ServiceRole: !Ref CodeBuildServiceRole\n```\n\nThen we need to add the Build stage to the pipeline we started in the last step.\n\n```yaml\n- Name: Build\n  Actions:\n    - Name: Build\n      ActionTypeId:\n        Category: Build\n        Owner: AWS\n        Version: '1'\n        Provider: CodeBuild\n      Configuration:\n        ProjectName: !Ref CodeBuildProject\n      InputArtifacts:\n        - Name: AppArtifact\n      OutputArtifacts:\n        - Name: BuildOutput\n      RunOrder: 1\n```\n\nThis will also use the same S3 bucket from a the previous step to store the build output.\n\n### 6. Create Deploy Stage\n\nIn the last stage, Deploy, we’ll need a CodeDeploy Application and a CodeDeploy DeploymentGroup.\n\n```yaml\nCodeDeployApplication:\n  Type: AWS::CodeDeploy::Application\n\nCodeDeployGroup:\n  Type: AWS::CodeDeploy::DeploymentGroup\n  Properties:\n    ApplicationName: !Ref CodeDeployApplication\n    Ec2TagFilters:\n      - Key: !Ref 'TagKey'\n        Value: !Ref 'TagValue'\n        Type: KEY_AND_VALUE\n    ServiceRoleArn: !Ref 'CodeDeployServiceRole'\n```\n\nThe DeploymentGroup uses the `EC2TagFilters` to specify which group of EC2 instances to deploy to. When we setup the EC2 instance above, we tagged it with a tag/value that is used here. We also set the service role to the one we created earlier.\n\nThen we add the final stage to the pipeline.\n\n```yaml\n- Name: Deploy\n  Actions:\n    - Name: Deploy\n      ActionTypeId:\n        Category: Deploy\n        Owner: AWS\n        Version: '1'\n        Provider: CodeDeploy\n      Configuration:\n        ApplicationName: !Ref CodeDeployApplication\n        DeploymentGroupName: !Ref CodeDeployGroup\n      InputArtifacts:\n        - Name: BuildOutput\n      RunOrder: 1\n```\n\n### 7. Add Outputs\n\nLast, we need to add an Output to our template to give us the fully URL to view our pipeline in the AWS Console.\n\n```yaml\nOutputs:\n  PipelineUrl:\n    Value: !Sub https://console.aws.amazon.com/codepipeline/home?region=${AWS::Region}#/view/${Pipeline}\n```\n\nTo view the full version of this template, check it out [here](https://github.com/jennapederson/cloudformation-examples/blob/main/08_pipeline.yaml).\n\n### 8. Create the Stack\n\nNow that we have the pipeline template created, we can create the stack. We’ll need to copy CodeDeployTrustRoleARN Output from previous EC2 stack, which you can grab from the Outputs tab in the AWS Console.\n\n![CloudFormation Stack Outputs tab in the AWS Console](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/goxguzvkj0mz2fgzamba.png)\n\nThen, run `create-stack` at the command line, replacing `CODE_DEPLOY_SERVICE_ROLE_ARN` below with the ARN you just copied.\n\n```bash\naws cloudformation create-stack --stack-name CloudFormationPipelineExample --template-body file://08_pipeline.yaml \\\n--parameters ParameterKey=GitHubRepo,ParameterValue=hello-express \\\nParameterKey=GitHubUser,ParameterValue=jennapederson \\\nParameterKey=CodeDeployServiceRole,ParameterValue=CODE_DEPLOY_SERVICE_ROLE_ARN \\\n--capabilities CAPABILITY_IAM\n```\n\nBecause this template creates IAM roles, we also need to tell CloudFormation that this capability (creating IAM resources) is allowed to be used by specifying the `--capabilities` option.\n\n### 9. Make CodeStarConnection Available\n\nOnce the stack is created successfully, you'll need to change the CodeStarConnection from Pending to Available. To do this, head over to the AWS Console and find your newly created stack. On the Outputs tab, click the link to go to your new pipeline.\n\n![CloudFormation Stack Outputs tab in the AWS Console](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nchd3p4dasrjsqq778n2.png)\n\nIn the left-hand menu under Settings, click Connections. Select the new connection and click the \"Update pending connection\" button.\n\n![CodeStar Connection Settings](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/iqj016wdj0k36bu1awll.png)\n\nYou'll need to give GitHub access to your account and the repository before the connection will become available. You can read more about that [here](https://docs.aws.amazon.com/dtconsole/latest/userguide/connections-create-github.html) in the section \"To create a connection to GitHub.\"\n\n### 10. Retry the Source Stage\n\nNow that your CodeStarConnection is Available, head back to your pipeline and note that the Source stage has failed because of the Pending CodeStarConnection.\n\n![CodePipeline pipeline showing a Source stage failure](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vu54emdkrihxmh3o0lx0.png)\n\nClick the \"Retry\" button next to the Source stage to restart it.\n\n![CodePipeline pipeline showing the Retry button for the failed Source stage](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/tqhcbqf5y4kp86udz153.png)\n\nYour pipeline will restart by pulling the source code from GitHub, build the app, and then deploy the artifact to your EC2 instance! When complete, you can grab the `WebServerPublicDNS` URL from your EC2 stack and open it in a browser:\n\n![CloudFormation Stack Outputs tab in the AWS Console](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/fg50e0pwq5jjgxu1b3b1.png)\n\nAnd you will see Hello, Express show in your browser!\n\n![The Express app running in the browser](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xjek6fszct6gwp18snce.png)\n\n## What you learned\n\nIn this post, we enhanced the CloudFormation template from [part 2](https://jennapederson.com/blog/2021/6/28/provisioning-an-rds-database-with-cloudformation-part-2/) to install CodeDeploy agent and tag the EC2 instances you want to deploy to. Then we created a new template that sets up a Source, Build, and Deploy stage for a CodePipeline complete with a CodeStarConnection, CodeBuild project, and a CodeDeploy application. Now you have a pipeline that will pull source code, build your app, and deploy it to EC2 when there are changes to a specific branch in a GitHub repository.\n\nYou can grab the final CloudFormation template we created [here](https://github.com/jennapederson/cloudformation-examples).\n\n*Like what you read? Follow me here on [Dev.to](https://dev.to/jennapederson) or on [Twitter](https://twitter.com/jennapederson) to stay updated!*",t.user={name:"Jenna Pederson",username:e,twitter_username:e,github_username:e,website_url:"https://www.jennapederson.com",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--FufPkAaA--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/174967/f8b4dfd6-8406-4d5e-afd9-0ab6ea2630fe.jpg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--rDCM8NLO--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/174967/f8b4dfd6-8406-4d5e-afd9-0ab6ea2630fe.jpg"},t.organization={name:"AWS",username:a,slug:a,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--UquCDfhv--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/1726/f2ea4274-e9a6-499e-8f82-d94f5d83b85d.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--hM6H-Uxw--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/1726/f2ea4274-e9a6-499e-8f82-d94f5d83b85d.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:t}},error:s,state:{currentArticle:t},serverRendered:!0,routePath:"/jennapederson/920320",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:s}}}}(null,"2021-12-08T15:54:51Z","aws","jennapederson",{})</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

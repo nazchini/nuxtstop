@@ -1,0 +1,809 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>How to Write a C++ Library</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>How to Write a C++ Library</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/c" class="tag" data-v-70afb46a>
+          #c
+        </a><a href="/nuxtstop/t/cpp" class="tag" data-v-70afb46a>
+          #cpp
+        </a><a href="/nuxtstop/t/opensource" class="tag" data-v-70afb46a>
+          #opensource
+        </a><a href="/nuxtstop/t/tutorial" class="tag" data-v-70afb46a>
+          #tutorial
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--kLDQQNF9--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/zkfbflcbonve3sfu08vm.jpg" alt="How to Write a C++ Library" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            31
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            8
+          </span></div> <time data-v-70afb46a>Feb 22</time></div></header> <div class="content" data-v-70afb46a><p>Prerequisite: One must be familiar with coding in <code>C++</code>. </p>
+
+<p>I coded my first <code>C++</code> libraries 5 years back, I had just started college, and wanted to do something solid!, One fine evening, I was looking back at that code, It was so, poorly written, So I started fixing it. I googled <code>C++</code> Convention, After many search results, I found out there are no good resources out there. So I took upon myself, To Write One!</p>
+
+<p>These are coding practices one may follow to write readable good code.</p>
+
+
+<hr>
+
+<h3>
+  <a name="file-types" href="#file-types">
+  </a>
+  File Types:
+</h3>
+
+<p>Any programing file, in the end, is nothing but a text file with a fancy extension. In the Book of Genesis, the mentioned naming style is:</p>
+
+<ul>
+<li>
+<code>.c</code> for <code>C</code>
+</li>
+<li>
+<code>.cpp</code> for <code>C++</code>
+</li>
+<li>
+<code>.h</code> for headers (independent of <code>C</code> or <code>C++</code>)</li>
+</ul>
+
+<p>But due to the opensource nature of GNU, A bunch of different assembler and compilers were made which came with their own extensions variations, such as, <code>.cc</code>, <code>.C</code>, <code>.cxx</code>, <code>.c++</code> and <code>.hh</code>, <code>.H</code>, <code>.hxx</code>, <code>.hpp</code>, <code>.h++</code>.</p>
+
+<p>TBH, Just chose one set of extensions, after all, even <code>.txt</code> can be compiled.</p>
+
+<p>I use, (Since Most IDE recognize them):</p>
+
+<ul>
+<li>
+<code>.c</code> for <code>C</code>
+</li>
+<li>
+<code>.cpp</code> for <code>C++</code>
+</li>
+<li>
+<code>.h</code> for <code>C</code> headers</li>
+<li>
+<code>.hpp</code> for <code>C++</code> headers</li>
+</ul>
+
+
+<hr>
+
+<h3>
+  <a name="-raw-makefile-endraw-" href="#-raw-makefile-endraw-">
+  </a>
+  <code>makefile</code>:
+</h3>
+
+<p>A <code>makefile</code> is a special file, containing shell commands, that you create and name <code>makefile</code> (no extensions)</p>
+
+<p>It is executed using the <code>make</code> command. My Typical makefile looks like this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="c"># Variables</span>
+<span class="nv">CXX</span><span class="o">=</span>g++
+<span class="nv">CXXFLAGS</span><span class="o">=</span><span class="nt">-std</span><span class="o">=</span>c++11 <span class="nt">-w</span>
+
+<span class="c"># &lt;command> : &lt;dependencies></span>
+
+<span class="c"># would have worked with main.cpp as well, added rest of</span>
+<span class="c"># dependencies to add a check before compiler returns an error.</span>
+build: main.cpp local_header.hpp includes/external_lib.hpp 
+    @echo <span class="s2">"</span><span class="se">\n\n</span><span class="s2">main.cpp: Building..."</span>
+    <span class="si">$(</span>CXX<span class="si">)</span> <span class="si">$(</span>CXXFLAGS<span class="si">)</span> <span class="nt">-o</span> main.out main.cpp
+
+run: main.out
+    @echo <span class="s2">"</span><span class="se">\n\n</span><span class="s2">main.cpp: Executing..."</span>
+    ./main.out
+
+clean: main.out
+    @echo <span class="s2">"</span><span class="se">\n\n</span><span class="s2">main.cpp: Cleaning..."</span>
+    <span class="nb">rm </span>main.out
+
+<span class="c"># test command is for show, I have probably never used it 😅😂 </span>
+<span class="nb">test</span>: test.cpp
+    @echo <span class="s2">"</span><span class="se">\n\n</span><span class="s2">test.cpp: Building..."</span>
+    <span class="si">$(</span>CXX<span class="si">)</span> <span class="si">$(</span>CXXFLAGS<span class="si">)</span> <span class="nt">-o</span> test.out test.cpp
+    @echo <span class="s2">"</span><span class="se">\n\n</span><span class="s2">test.cpp: Executing..."</span>
+    ./test.out
+    @echo <span class="s2">"</span><span class="se">\n\n</span><span class="s2">test.cpp: Cleaning..."</span>
+    <span class="nb">rm</span> ./test.out
+
+all: build run clean
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span><span class="c"># To build, run and clean the main.cpp</span>
+<span class="nv">$ </span>make all
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><a class="mentioned-user" href="https://dev.to/pauljlucas">@pauljlucas</a> suggested:</p>
+
+<blockquote>
+<p>You really should use something like <a href="https://www.gnu.org/software/automake/">GNU Automake</a> or <a href="https://cmake.org/">CMake</a> instead of hand-written makefiles. </p>
+</blockquote>
+
+<p>These tools may add overhead of other files, but these files are informative files. Use these tools, if they benefit your project.</p>
+
+<p>NOTE: use <code>-MMD</code> flag to get a <code>.d</code> file, containing all dependencies.</p>
+
+
+<hr>
+
+<h3>
+  <a name="preprocessors" href="#preprocessors">
+  </a>
+  PreProcessors:
+</h3>
+
+<p>The preprocessors are the directives, which instruct the compiler to preprocess the information before starting compilation. All preprocessors start with <code>#</code>, For example: <code>#include&lt;iosteam></code></p>
+
+<p>These are the coding practices, I use:</p>
+
+<ul>
+<li><p>Double Quotes (<code>"..."</code>) for including local headers, This rule increases readability of Code</p></li>
+<li>
+<p>3 Levels of includes (I picked this habit while working in python) with line-space between them.</p>
+
+<ul>
+<li>First, for core <code>g++</code> system files.</li>
+<li>Second, for externally added libraries.</li>
+<li>Third, for locally created files.</li>
+</ul>
+
+
+</li>
+</ul>
+
+<p><a class="mentioned-user" href="https://dev.to/pauljlucas">@pauljlucas</a> suggested:</p>
+
+<blockquote>
+<p>You should include local headers first — <em>then</em> system headers. The reason is to guarantee that all local headers are self-sufficient</p>
+</blockquote>
+
+<p>By "self-sufficient", Xe means, local headers are not depending on System or External libraries of this file.<br>
+This although is a good way of checking, I believe this "check" is not something headers/compilers should do, well at least not at the file level.<br>
+In an ideal world, Each header would have its own test files to resolve this, until then, going against the natural order might not be that bad.</p>
+
+<ul>
+<li>
+<p><code>#pragma one</code> for <strong>header files</strong></p>
+
+<ul>
+<li>What <code>#include</code> does is that it adds the mentioned file at the top of the code (you can check it by using <code>--save-temp</code> flag during compiling) So, If a header file is called again somewhere else, The Whole Code will be compiled again. Since Header files don't typically initiate a variable. It is Advised to compile it once for performance enhancement.</li>
+<li>One can use <code>#indef ... #include ... #endif</code>, but it is tedious, so<code>#pragma once</code> reduces possibilities for bugs due to manual mishandling.</li>
+</ul>
+</li>
+<li>
+<p>DO NOT USE <code>using namespace ...</code> in <strong>header file</strong></p>
+
+<ul>
+<li>It may lead to a re-declaration error.</li>
+<li>It may populate the header file with its function</li>
+</ul>
+</li>
+</ul>
+
+<p>SO, According to the above rules, A good <strong>header</strong> would be.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight cpp"><code><span class="cp">#pragma once // 2 line-space afterwards
+</span>
+
+<span class="cp">#include</span><span class="cpf">&lt;system_file_1></span><span class="cp">
+#include</span><span class="cpf">&lt;system_file_2></span><span class="c1"> // 1 line-space afterwards</span><span class="cp">
+</span>
+<span class="cp">#include</span><span class="cpf">&lt;external_lib1_1></span><span class="c1"> // 1 line-space afterwards</span><span class="cp">
+#include</span><span class="cpf">&lt;external_lib2_2></span><span class="c1"> // club external libs together</span><span class="cp">
+#include</span><span class="cpf">&lt;external_lib2_3></span><span class="c1"> // 1 line-space afterwards</span><span class="cp">
+</span>
+<span class="cp">#include</span> <span class="cpf">"local_file"</span><span class="c1"> // 2 line-space afterwards</span><span class="cp">
+</span>
+
+<span class="c1">// using namespace ... DO NOT USE IN HEADERS</span>
+
+<span class="k">namespace</span> <span class="n">ra</span> <span class="p">{</span>
+<span class="p">...</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+<hr>
+
+<h3>
+  <a name="nomenclature" href="#nomenclature">
+  </a>
+  Nomenclature:
+</h3>
+
+<h4>
+  <a name="file-raw-namespace-endraw-raw-class-endraw-raw-function-endraw-" href="#file-raw-namespace-endraw-raw-class-endraw-raw-function-endraw-">
+  </a>
+  File | <code>namespace</code> | <code>Class</code> | <code>function</code>:
+</h4>
+
+<ul>
+<li>Nothing is fixed, one may use <code>camelCase</code>, <code>PascalCase</code> or
+<code>snake_case</code>.</li>
+<li>I personally find <code>snake_case</code> to be more readable.</li>
+</ul>
+
+<h4>
+  <a name="-raw-template-endraw-parameter" href="#-raw-template-endraw-parameter">
+  </a>
+  <code>Template</code> Parameter:
+</h4>
+
+<ul>
+<li>same as above, no rules.</li>
+<li>I prefer <code>PascalCase</code> here.</li>
+</ul>
+
+<h4>
+  <a name="constants-macros" href="#constants-macros">
+  </a>
+  Constants | Macros:
+</h4>
+
+<ul>
+<li>
+<code>UPPER_SNAKE_CASE</code> is preferred everywhere.</li>
+</ul>
+
+<h4>
+  <a name="variables" href="#variables">
+  </a>
+  Variables:
+</h4>
+
+<ul>
+<li>Before IDE(s) were a thing, People just couldn't hover over variables to get info. So some old libraries use the following conventions:
+
+<ul>
+<li>
+<code>m_&lt;any case></code> for private members:</li>
+<li>
+<code>t_&lt;any case></code> for function parameters</li>
+</ul>
+
+
+</li>
+<li>I personally, discard this rule.</li>
+</ul>
+
+<h4>
+  <a name="taboo-of-naming" href="#taboo-of-naming">
+  </a>
+  Taboo of Naming:
+</h4>
+
+<p>Check this <a href="https://stackoverflow.com/questions/228783/what-are-the-rules-about-using-an-underscore-in-a-c-identifier">link</a></p>
+
+
+<hr>
+
+<h3>
+  <a name="comments" href="#comments">
+  </a>
+  Comments:
+</h3>
+
+<p>C++ allows for 2 types of comments:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight cpp"><code><span class="c1">// This is single line Comment</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight cpp"><code><span class="cm">/*
+...
+This is Multi-Line Comment
+...
+*/</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Generally speaking, single-line comments provide more control over the appearance and are <em>considered</em> better.</p>
+
+<p>As a python developer, I wholeheartedly disagree, This is how I prefer my code!<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight cpp"><code>
+<span class="k">class</span> <span class="nc">custom_class</span> <span class="p">{</span>
+    <span class="cm">/*
+        A definition of what does this class represent
+        - Preferred Usage:
+            ...
+    */</span>
+    <span class="nl">private:</span>
+        <span class="c1">// How this variable affects / Where this may be used</span>
+        <span class="kt">float</span> <span class="n">variable</span> <span class="p">{</span><span class="mf">3.14</span><span class="p">};</span>
+
+        <span class="c1">// What does this function do</span>
+        <span class="kt">void</span> <span class="n">function</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="n">custom_class</span><span class="o">::</span><span class="n">function</span><span class="p">(){</span>
+    <span class="cm">/*
+        A definition of what does this function do
+        - Input: ...
+        - Output: ...
+    */</span>
+<span class="p">}</span>
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+<hr>
+
+<h3>
+  <a name="custom-exceptions" href="#custom-exceptions">
+  </a>
+  Custom Exceptions:
+</h3>
+
+<p>Custom exceptions provide you the flexibility to add attributes and methods that are not part of a standard programming language. These are most helpful in Debugging when code is unable to compile.</p>
+
+<p>Below is My Favorite Exception:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight cpp"><code><span class="c1">// Code</span>
+
+<span class="k">namespace</span> <span class="n">ra</span>
+<span class="p">{</span>
+    <span class="k">class</span> <span class="nc">external_exception</span> <span class="o">:</span> <span class="k">public</span> <span class="n">std</span><span class="o">::</span><span class="n">logic_error</span>
+    <span class="p">{</span>
+    <span class="nl">public:</span>
+        <span class="n">external_exception</span><span class="p">(</span>
+            <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">function</span> <span class="o">=</span> <span class="n">__builtin_FUNCTION</span><span class="p">()</span>
+        <span class="p">)</span> <span class="o">:</span> <span class="n">std</span><span class="o">::</span><span class="n">logic_error</span><span class="p">(</span><span class="s">"`"</span> <span class="o">+</span> <span class="n">function</span> <span class="o">+</span> <span class="s">"` called for external exception!"</span><span class="p">){};</span>
+    <span class="p">};</span>
+<span class="p">}</span>
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight cpp"><code><span class="c1">// Usage</span>
+
+<span class="kt">void</span> <span class="nf">main</span> <span class="p">(){</span> <span class="k">throw</span> <span class="n">ra</span><span class="o">::</span><span class="n">external_exception</span><span class="p">();</span> <span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="c"># Output</span>
+
+terminate called after throwing an instance of <span class="s1">'ra::external_exception'</span>
+  what<span class="o">()</span>:  <span class="sb">`</span>main<span class="sb">`</span> called <span class="k">for </span>external exception!
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Let me explain, In argument of constructor of exception it says:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight cpp"><code><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">function</span> <span class="o">=</span> <span class="n">__builtin_FUNCTION</span><span class="p">()</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><code>__builtin_FUNCTION()</code> return the source location, when called.</p>
+
+<p>Since called in Argument, whenever it is initiated that is the source location, Essentially Making it a traceable Exception</p>
+
+<p>Here We have inherited from <code>logic_error</code>, but other exceptions/errors could be found <a href="https://en.cppreference.com/w/cpp/header/stdexcept">here</a></p>
+
+<p>NOTE: In C++ Exceptions and Errors are the same, but in theory, Exceptions are something that could be handled, whereas errors should not be as they break the system.</p>
+
+
+<hr>
+
+<h3>
+  <a name="modularity" href="#modularity">
+  </a>
+  Modularity
+</h3>
+
+<p>A Modular design is shown to improve the design process by allowing better re-usability, relatively low maintenance, workload handling, and easier debugging processes. Modularity in <code>C++</code> can be achieved by the following </p>
+
+<h4>
+  <a name="template" href="#template">
+  </a>
+  Template
+</h4>
+
+<p>As defined <a href="https://www.javatpoint.com/cpp-templates">here</a> :  A C++ template is a powerful feature added to C++. It allows you to define the generic classes and generic functions and thus provides support for generic programming. Generic programming is a technique where generic types are used as parameters in algorithms so that they can work for a variety of data types</p>
+
+<p>Templates can be represented in two ways:</p>
+
+<ul>
+<li>
+<a href="https://en.cppreference.com/w/cpp/language/function_template">Function templates</a>
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight cpp"><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">TemplateKlass</span><span class="p">></span>
+<span class="n">TemplateKlass</span> <span class="nf">get_maximum</span><span class="p">(</span><span class="n">TemplateKlass</span> <span class="n">x</span><span class="p">,</span> <span class="n">TemplateKlass</span> <span class="n">y</span><span class="p">){</span>
+   <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">></span> <span class="n">y</span><span class="p">)</span><span class="o">?</span> <span class="n">x</span><span class="o">:</span> <span class="n">y</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<ul>
+<li>
+<a href="https://en.cppreference.com/w/cpp/language/templates">Class templates</a>
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight cpp"><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">TemplateKlass</span><span class="p">></span>
+<span class="k">class</span> <span class="nc">custom_class</span> <span class="p">{</span>
+<span class="nl">private:</span>
+    <span class="n">TemplateKlass</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>
+<span class="nl">public:</span>
+    <span class="n">custom_class</span><span class="p">(</span><span class="n">TemplateKlass</span><span class="p">,</span> <span class="n">TemplateKlass</span><span class="p">);</span>
+<span class="p">};</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>I am will not into details, As there are far better resources</p>
+
+<h4>
+  <a name="function-as-argument" href="#function-as-argument">
+  </a>
+  Function as Argument:
+</h4>
+
+<p>We can pass a function in the argument of another function, Well Actually A function pointer is passed to be exact. This comes in handy in the situation, where you have multiple services for the same request, for example, <strong>Hashing</strong>, you can use so many third-party algorithms for hashing.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight cpp"><code><span class="kt">bool</span> <span class="nf">verify_hash</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="p">(</span><span class="o">*</span><span class="n">hash_func</span><span class="p">)(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">)){</span>
+    <span class="cm">/*
+        This will take in any function with
+        input and output as a string 
+    */</span>
+    <span class="k">return</span> <span class="n">hashed_output</span> <span class="o">==</span> <span class="n">hash_func</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h4>
+  <a name="inheritance" href="#inheritance">
+  </a>
+  Inheritance
+</h4>
+
+<p>I picked up this in my <code>Unity3D</code> days, In <code>Unity3D</code> Almost everything is inherited and then used.</p>
+
+<p>The plan is simple, Create a class with a bunch of public members all throwing error.</p>
+
+<p>And Then Everyone would have to Inherit that class and override it.</p>
+
+<p>For Example<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight cpp"><code><span class="k">class</span> <span class="nc">base_class</span><span class="p">{</span>
+    <span class="cm">/*
+        Everyone will inherit from this class
+    */</span>
+<span class="nl">public:</span>
+    <span class="n">base_class</span><span class="p">(){}</span>
+    <span class="n">base_class</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="p">{</span><span class="k">throw</span> <span class="n">not_implemented_exception</span><span class="p">();}</span>
+
+    <span class="k">virtual</span> <span class="k">operator</span> <span class="n">string</span><span class="p">()</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+    <span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span> <span class="n">base_class</span> <span class="o">&</span><span class="n">other</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">throw</span> <span class="n">not_implemented_exception</span><span class="p">();</span> <span class="p">}</span>
+
+    <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">TemplateKlass</span><span class="p">></span>
+    <span class="kt">void</span> <span class="n">some_func</span><span class="p">(</span><span class="n">TemplateKlass</span> <span class="n">temp</span><span class="p">)</span> <span class="p">{</span><span class="k">throw</span> <span class="n">not_implemented_exception</span><span class="p">();}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight cpp"><code><span class="k">class</span> <span class="nc">extended_class</span> <span class="o">:</span> <span class="k">public</span> <span class="n">base_class</span><span class="p">{</span>
+    <span class="cm">/*
+        This is how Inheritance would work
+    */</span>
+<span class="nl">private:</span>
+    <span class="kt">float</span> <span class="n">m_temp</span><span class="p">;</span>
+<span class="nl">public:</span>
+    <span class="n">extended_class</span><span class="p">(){}</span>
+    <span class="n">extended_class</span><span class="p">(</span><span class="kt">float</span> <span class="n">t_temp</span><span class="p">)</span> <span class="o">:</span> <span class="n">m_temp</span><span class="p">(</span><span class="n">t_temp</span><span class="p">)</span>
+
+    <span class="k">operator</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">()</span> <span class="p">{</span><span class="k">return</span> <span class="n">to_string</span><span class="p">(</span><span class="n">t_temp</span><span class="p">);}</span>
+
+    <span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span> <span class="n">extended_class</span> <span class="o">&</span><span class="n">other</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="n">m_temp</span> <span class="o">&lt;</span> <span class="n">other</span><span class="p">.</span><span class="n">m_temp</span> <span class="p">}</span>
+
+    <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">TemplateKlass</span><span class="p">></span>
+    <span class="kt">void</span> <span class="n">some_func</span><span class="p">(</span><span class="n">TemplateKlass</span> <span class="n">temp</span><span class="p">)</span> <span class="p">{...}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+<hr>
+
+<h3>
+  <a name="bonus-icon-pack" href="#bonus-icon-pack">
+  </a>
+  Bonus: Icon Pack!
+</h3>
+
+<p>Yeah... I created my own icons too...</p>
+
+<div class="table-wrapper-paragraph"><table>
+<thead>
+<tr>
+<th>GNU Extension</th>
+<th>Preview</th>
+<th>Download</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>.c</td>
+<td><a href="https://ra101.github.io/namespace-ra/assets/c.png">c.png</a></td>
+<td><a href="https://ra101.github.io/namespace-ra/assets/c.ico">c.ico</a></td>
+</tr>
+<tr>
+<td>.cpp</td>
+<td><a href="https://ra101.github.io/namespace-ra/assets/cpp.png">cpp.png</a></td>
+<td><a href="https://ra101.github.io/namespace-ra/assets/cpp.ico">cpp.ico</a></td>
+</tr>
+<tr>
+<td>.cs</td>
+<td><a href="https://ra101.github.io/namespace-ra/assets/cs.png">cs.png</a></td>
+<td><a href="https://ra101.github.io/namespace-ra/assets/cs.ico">cs.ico</a></td>
+</tr>
+<tr>
+<td>.h / .hpp</td>
+<td><a href="https://ra101.github.io/namespace-ra/assets/h.png">h.png</a></td>
+<td><a href="https://ra101.github.io/namespace-ra/assets/h.ico">h.ico</a></td>
+</tr>
+</tbody>
+</table></div>
+
+
+<hr>
+
+<p>If you think I have missed something or you have other coding style or some advice, do let me know, I might append to this post. Make it one central point of all information.</p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/ra101/namespace-ra-how-to-write-c-library-4a4c" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(n,s,a,e){return s.type_of="article",s.id=997824,s.title="How to Write a C++ Library",s.description="Prerequisite: One must be familiar with coding in C++.   I coded my first C++ libraries 5 years back,...",s.readable_publish_date="Feb 22",s.slug="namespace-ra-how-to-write-c-library-4a4c",s.path="/ra101/namespace-ra-how-to-write-c-library-4a4c",s.url="https://dev.to/ra101/namespace-ra-how-to-write-c-library-4a4c",s.comments_count=8,s.public_reactions_count=31,s.collection_id=15046,s.published_timestamp=a,s.positive_reactions_count=31,s.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--kLDQQNF9--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/zkfbflcbonve3sfu08vm.jpg",s.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--kCOYtg7X--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/zkfbflcbonve3sfu08vm.jpg",s.canonical_url="https://ra101.hashnode.dev/namespace-ra",s.created_at="2022-02-22T19:08:59Z",s.edited_at="2022-02-27T09:56:35Z",s.crossposted_at=n,s.published_at=a,s.last_comment_at="2022-02-24T17:24:29Z",s.reading_time_minutes=7,s.tag_list="c, cpp, opensource, tutorial",s.tags=["c","cpp","opensource","tutorial"],s.body_html='<p>Prerequisite: One must be familiar with coding in <code>C++</code>. </p>\n\n<p>I coded my first <code>C++</code> libraries 5 years back, I had just started college, and wanted to do something solid!, One fine evening, I was looking back at that code, It was so, poorly written, So I started fixing it. I googled <code>C++</code> Convention, After many search results, I found out there are no good resources out there. So I took upon myself, To Write One!</p>\n\n<p>These are coding practices one may follow to write readable good code.</p>\n\n\n<hr>\n\n<h3>\n  <a name="file-types" href="#file-types">\n  </a>\n  File Types:\n</h3>\n\n<p>Any programing file, in the end, is nothing but a text file with a fancy extension. In the Book of Genesis, the mentioned naming style is:</p>\n\n<ul>\n<li>\n<code>.c</code> for <code>C</code>\n</li>\n<li>\n<code>.cpp</code> for <code>C++</code>\n</li>\n<li>\n<code>.h</code> for headers (independent of <code>C</code> or <code>C++</code>)</li>\n</ul>\n\n<p>But due to the opensource nature of GNU, A bunch of different assembler and compilers were made which came with their own extensions variations, such as, <code>.cc</code>, <code>.C</code>, <code>.cxx</code>, <code>.c++</code> and <code>.hh</code>, <code>.H</code>, <code>.hxx</code>, <code>.hpp</code>, <code>.h++</code>.</p>\n\n<p>TBH, Just chose one set of extensions, after all, even <code>.txt</code> can be compiled.</p>\n\n<p>I use, (Since Most IDE recognize them):</p>\n\n<ul>\n<li>\n<code>.c</code> for <code>C</code>\n</li>\n<li>\n<code>.cpp</code> for <code>C++</code>\n</li>\n<li>\n<code>.h</code> for <code>C</code> headers</li>\n<li>\n<code>.hpp</code> for <code>C++</code> headers</li>\n</ul>\n\n\n<hr>\n\n<h3>\n  <a name="-raw-makefile-endraw-" href="#-raw-makefile-endraw-">\n  </a>\n  <code>makefile</code>:\n</h3>\n\n<p>A <code>makefile</code> is a special file, containing shell commands, that you create and name <code>makefile</code> (no extensions)</p>\n\n<p>It is executed using the <code>make</code> command. My Typical makefile looks like this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="c"># Variables</span>\n<span class="nv">CXX</span><span class="o">=</span>g++\n<span class="nv">CXXFLAGS</span><span class="o">=</span><span class="nt">-std</span><span class="o">=</span>c++11 <span class="nt">-w</span>\n\n<span class="c"># &lt;command&gt; : &lt;dependencies&gt;</span>\n\n<span class="c"># would have worked with main.cpp as well, added rest of</span>\n<span class="c"># dependencies to add a check before compiler returns an error.</span>\nbuild: main.cpp local_header.hpp includes/external_lib.hpp \n    @echo <span class="s2">"</span><span class="se">\\n\\n</span><span class="s2">main.cpp: Building..."</span>\n    <span class="si">$(</span>CXX<span class="si">)</span> <span class="si">$(</span>CXXFLAGS<span class="si">)</span> <span class="nt">-o</span> main.out main.cpp\n\nrun: main.out\n    @echo <span class="s2">"</span><span class="se">\\n\\n</span><span class="s2">main.cpp: Executing..."</span>\n    ./main.out\n\nclean: main.out\n    @echo <span class="s2">"</span><span class="se">\\n\\n</span><span class="s2">main.cpp: Cleaning..."</span>\n    <span class="nb">rm </span>main.out\n\n<span class="c"># test command is for show, I have probably never used it 😅😂 </span>\n<span class="nb">test</span>: test.cpp\n    @echo <span class="s2">"</span><span class="se">\\n\\n</span><span class="s2">test.cpp: Building..."</span>\n    <span class="si">$(</span>CXX<span class="si">)</span> <span class="si">$(</span>CXXFLAGS<span class="si">)</span> <span class="nt">-o</span> test.out test.cpp\n    @echo <span class="s2">"</span><span class="se">\\n\\n</span><span class="s2">test.cpp: Executing..."</span>\n    ./test.out\n    @echo <span class="s2">"</span><span class="se">\\n\\n</span><span class="s2">test.cpp: Cleaning..."</span>\n    <span class="nb">rm</span> ./test.out\n\nall: build run clean\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span><span class="c"># To build, run and clean the main.cpp</span>\n<span class="nv">$ </span>make all\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><a class="mentioned-user" href="https://dev.to/pauljlucas">@pauljlucas</a> suggested:</p>\n\n<blockquote>\n<p>You really should use something like <a href="https://www.gnu.org/software/automake/">GNU Automake</a> or <a href="https://cmake.org/">CMake</a> instead of hand-written makefiles. </p>\n</blockquote>\n\n<p>These tools may add overhead of other files, but these files are informative files. Use these tools, if they benefit your project.</p>\n\n<p>NOTE: use <code>-MMD</code> flag to get a <code>.d</code> file, containing all dependencies.</p>\n\n\n<hr>\n\n<h3>\n  <a name="preprocessors" href="#preprocessors">\n  </a>\n  PreProcessors:\n</h3>\n\n<p>The preprocessors are the directives, which instruct the compiler to preprocess the information before starting compilation. All preprocessors start with <code>#</code>, For example: <code>#include&lt;iosteam&gt;</code></p>\n\n<p>These are the coding practices, I use:</p>\n\n<ul>\n<li><p>Double Quotes (<code>"..."</code>) for including local headers, This rule increases readability of Code</p></li>\n<li>\n<p>3 Levels of includes (I picked this habit while working in python) with line-space between them.</p>\n\n<ul>\n<li>First, for core <code>g++</code> system files.</li>\n<li>Second, for externally added libraries.</li>\n<li>Third, for locally created files.</li>\n</ul>\n\n\n</li>\n</ul>\n\n<p><a class="mentioned-user" href="https://dev.to/pauljlucas">@pauljlucas</a> suggested:</p>\n\n<blockquote>\n<p>You should include local headers first — <em>then</em> system headers. The reason is to guarantee that all local headers are self-sufficient</p>\n</blockquote>\n\n<p>By "self-sufficient", Xe means, local headers are not depending on System or External libraries of this file.<br>\nThis although is a good way of checking, I believe this "check" is not something headers/compilers should do, well at least not at the file level.<br>\nIn an ideal world, Each header would have its own test files to resolve this, until then, going against the natural order might not be that bad.</p>\n\n<ul>\n<li>\n<p><code>#pragma one</code> for <strong>header files</strong></p>\n\n<ul>\n<li>What <code>#include</code> does is that it adds the mentioned file at the top of the code (you can check it by using <code>--save-temp</code> flag during compiling) So, If a header file is called again somewhere else, The Whole Code will be compiled again. Since Header files don\'t typically initiate a variable. It is Advised to compile it once for performance enhancement.</li>\n<li>One can use <code>#indef ... #include ... #endif</code>, but it is tedious, so<code>#pragma once</code> reduces possibilities for bugs due to manual mishandling.</li>\n</ul>\n</li>\n<li>\n<p>DO NOT USE <code>using namespace ...</code> in <strong>header file</strong></p>\n\n<ul>\n<li>It may lead to a re-declaration error.</li>\n<li>It may populate the header file with its function</li>\n</ul>\n</li>\n</ul>\n\n<p>SO, According to the above rules, A good <strong>header</strong> would be.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight cpp"><code><span class="cp">#pragma once // 2 line-space afterwards\n</span>\n\n<span class="cp">#include</span><span class="cpf">&lt;system_file_1&gt;</span><span class="cp">\n#include</span><span class="cpf">&lt;system_file_2&gt;</span><span class="c1"> // 1 line-space afterwards</span><span class="cp">\n</span>\n<span class="cp">#include</span><span class="cpf">&lt;external_lib1_1&gt;</span><span class="c1"> // 1 line-space afterwards</span><span class="cp">\n#include</span><span class="cpf">&lt;external_lib2_2&gt;</span><span class="c1"> // club external libs together</span><span class="cp">\n#include</span><span class="cpf">&lt;external_lib2_3&gt;</span><span class="c1"> // 1 line-space afterwards</span><span class="cp">\n</span>\n<span class="cp">#include</span> <span class="cpf">"local_file"</span><span class="c1"> // 2 line-space afterwards</span><span class="cp">\n</span>\n\n<span class="c1">// using namespace ... DO NOT USE IN HEADERS</span>\n\n<span class="k">namespace</span> <span class="n">ra</span> <span class="p">{</span>\n<span class="p">...</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n<hr>\n\n<h3>\n  <a name="nomenclature" href="#nomenclature">\n  </a>\n  Nomenclature:\n</h3>\n\n<h4>\n  <a name="file-raw-namespace-endraw-raw-class-endraw-raw-function-endraw-" href="#file-raw-namespace-endraw-raw-class-endraw-raw-function-endraw-">\n  </a>\n  File | <code>namespace</code> | <code>Class</code> | <code>function</code>:\n</h4>\n\n<ul>\n<li>Nothing is fixed, one may use <code>camelCase</code>, <code>PascalCase</code> or\n<code>snake_case</code>.</li>\n<li>I personally find <code>snake_case</code> to be more readable.</li>\n</ul>\n\n<h4>\n  <a name="-raw-template-endraw-parameter" href="#-raw-template-endraw-parameter">\n  </a>\n  <code>Template</code> Parameter:\n</h4>\n\n<ul>\n<li>same as above, no rules.</li>\n<li>I prefer <code>PascalCase</code> here.</li>\n</ul>\n\n<h4>\n  <a name="constants-macros" href="#constants-macros">\n  </a>\n  Constants | Macros:\n</h4>\n\n<ul>\n<li>\n<code>UPPER_SNAKE_CASE</code> is preferred everywhere.</li>\n</ul>\n\n<h4>\n  <a name="variables" href="#variables">\n  </a>\n  Variables:\n</h4>\n\n<ul>\n<li>Before IDE(s) were a thing, People just couldn\'t hover over variables to get info. So some old libraries use the following conventions:\n\n<ul>\n<li>\n<code>m_&lt;any case&gt;</code> for private members:</li>\n<li>\n<code>t_&lt;any case&gt;</code> for function parameters</li>\n</ul>\n\n\n</li>\n<li>I personally, discard this rule.</li>\n</ul>\n\n<h4>\n  <a name="taboo-of-naming" href="#taboo-of-naming">\n  </a>\n  Taboo of Naming:\n</h4>\n\n<p>Check this <a href="https://stackoverflow.com/questions/228783/what-are-the-rules-about-using-an-underscore-in-a-c-identifier">link</a></p>\n\n\n<hr>\n\n<h3>\n  <a name="comments" href="#comments">\n  </a>\n  Comments:\n</h3>\n\n<p>C++ allows for 2 types of comments:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight cpp"><code><span class="c1">// This is single line Comment</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight cpp"><code><span class="cm">/*\n...\nThis is Multi-Line Comment\n...\n*/</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Generally speaking, single-line comments provide more control over the appearance and are <em>considered</em> better.</p>\n\n<p>As a python developer, I wholeheartedly disagree, This is how I prefer my code!<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight cpp"><code>\n<span class="k">class</span> <span class="nc">custom_class</span> <span class="p">{</span>\n    <span class="cm">/*\n        A definition of what does this class represent\n        - Preferred Usage:\n            ...\n    */</span>\n    <span class="nl">private:</span>\n        <span class="c1">// How this variable affects / Where this may be used</span>\n        <span class="kt">float</span> <span class="n">variable</span> <span class="p">{</span><span class="mf">3.14</span><span class="p">};</span>\n\n        <span class="c1">// What does this function do</span>\n        <span class="kt">void</span> <span class="n">function</span><span class="p">();</span>\n<span class="p">}</span>\n\n<span class="kt">void</span> <span class="n">custom_class</span><span class="o">::</span><span class="n">function</span><span class="p">(){</span>\n    <span class="cm">/*\n        A definition of what does this function do\n        - Input: ...\n        - Output: ...\n    */</span>\n<span class="p">}</span>\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n<hr>\n\n<h3>\n  <a name="custom-exceptions" href="#custom-exceptions">\n  </a>\n  Custom Exceptions:\n</h3>\n\n<p>Custom exceptions provide you the flexibility to add attributes and methods that are not part of a standard programming language. These are most helpful in Debugging when code is unable to compile.</p>\n\n<p>Below is My Favorite Exception:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight cpp"><code><span class="c1">// Code</span>\n\n<span class="k">namespace</span> <span class="n">ra</span>\n<span class="p">{</span>\n    <span class="k">class</span> <span class="nc">external_exception</span> <span class="o">:</span> <span class="k">public</span> <span class="n">std</span><span class="o">::</span><span class="n">logic_error</span>\n    <span class="p">{</span>\n    <span class="nl">public:</span>\n        <span class="n">external_exception</span><span class="p">(</span>\n            <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">function</span> <span class="o">=</span> <span class="n">__builtin_FUNCTION</span><span class="p">()</span>\n        <span class="p">)</span> <span class="o">:</span> <span class="n">std</span><span class="o">::</span><span class="n">logic_error</span><span class="p">(</span><span class="s">"`"</span> <span class="o">+</span> <span class="n">function</span> <span class="o">+</span> <span class="s">"` called for external exception!"</span><span class="p">){};</span>\n    <span class="p">};</span>\n<span class="p">}</span>\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight cpp"><code><span class="c1">// Usage</span>\n\n<span class="kt">void</span> <span class="nf">main</span> <span class="p">(){</span> <span class="k">throw</span> <span class="n">ra</span><span class="o">::</span><span class="n">external_exception</span><span class="p">();</span> <span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="c"># Output</span>\n\nterminate called after throwing an instance of <span class="s1">\'ra::external_exception\'</span>\n  what<span class="o">()</span>:  <span class="sb">`</span>main<span class="sb">`</span> called <span class="k">for </span>external exception!\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Let me explain, In argument of constructor of exception it says:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight cpp"><code><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">function</span> <span class="o">=</span> <span class="n">__builtin_FUNCTION</span><span class="p">()</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><code>__builtin_FUNCTION()</code> return the source location, when called.</p>\n\n<p>Since called in Argument, whenever it is initiated that is the source location, Essentially Making it a traceable Exception</p>\n\n<p>Here We have inherited from <code>logic_error</code>, but other exceptions/errors could be found <a href="https://en.cppreference.com/w/cpp/header/stdexcept">here</a></p>\n\n<p>NOTE: In C++ Exceptions and Errors are the same, but in theory, Exceptions are something that could be handled, whereas errors should not be as they break the system.</p>\n\n\n<hr>\n\n<h3>\n  <a name="modularity" href="#modularity">\n  </a>\n  Modularity\n</h3>\n\n<p>A Modular design is shown to improve the design process by allowing better re-usability, relatively low maintenance, workload handling, and easier debugging processes. Modularity in <code>C++</code> can be achieved by the following </p>\n\n<h4>\n  <a name="template" href="#template">\n  </a>\n  Template\n</h4>\n\n<p>As defined <a href="https://www.javatpoint.com/cpp-templates">here</a> :  A C++ template is a powerful feature added to C++. It allows you to define the generic classes and generic functions and thus provides support for generic programming. Generic programming is a technique where generic types are used as parameters in algorithms so that they can work for a variety of data types</p>\n\n<p>Templates can be represented in two ways:</p>\n\n<ul>\n<li>\n<a href="https://en.cppreference.com/w/cpp/language/function_template">Function templates</a>\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight cpp"><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">TemplateKlass</span><span class="p">&gt;</span>\n<span class="n">TemplateKlass</span> <span class="nf">get_maximum</span><span class="p">(</span><span class="n">TemplateKlass</span> <span class="n">x</span><span class="p">,</span> <span class="n">TemplateKlass</span> <span class="n">y</span><span class="p">){</span>\n   <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">&gt;</span> <span class="n">y</span><span class="p">)</span><span class="o">?</span> <span class="n">x</span><span class="o">:</span> <span class="n">y</span><span class="p">;</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<ul>\n<li>\n<a href="https://en.cppreference.com/w/cpp/language/templates">Class templates</a>\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight cpp"><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">TemplateKlass</span><span class="p">&gt;</span>\n<span class="k">class</span> <span class="nc">custom_class</span> <span class="p">{</span>\n<span class="nl">private:</span>\n    <span class="n">TemplateKlass</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">;</span>\n<span class="nl">public:</span>\n    <span class="n">custom_class</span><span class="p">(</span><span class="n">TemplateKlass</span><span class="p">,</span> <span class="n">TemplateKlass</span><span class="p">);</span>\n<span class="p">};</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>I am will not into details, As there are far better resources</p>\n\n<h4>\n  <a name="function-as-argument" href="#function-as-argument">\n  </a>\n  Function as Argument:\n</h4>\n\n<p>We can pass a function in the argument of another function, Well Actually A function pointer is passed to be exact. This comes in handy in the situation, where you have multiple services for the same request, for example, <strong>Hashing</strong>, you can use so many third-party algorithms for hashing.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight cpp"><code><span class="kt">bool</span> <span class="nf">verify_hash</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="p">(</span><span class="o">*</span><span class="n">hash_func</span><span class="p">)(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">)){</span>\n    <span class="cm">/*\n        This will take in any function with\n        input and output as a string \n    */</span>\n    <span class="k">return</span> <span class="n">hashed_output</span> <span class="o">==</span> <span class="n">hash_func</span><span class="p">(</span><span class="n">input</span><span class="p">)</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h4>\n  <a name="inheritance" href="#inheritance">\n  </a>\n  Inheritance\n</h4>\n\n<p>I picked up this in my <code>Unity3D</code> days, In <code>Unity3D</code> Almost everything is inherited and then used.</p>\n\n<p>The plan is simple, Create a class with a bunch of public members all throwing error.</p>\n\n<p>And Then Everyone would have to Inherit that class and override it.</p>\n\n<p>For Example<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight cpp"><code><span class="k">class</span> <span class="nc">base_class</span><span class="p">{</span>\n    <span class="cm">/*\n        Everyone will inherit from this class\n    */</span>\n<span class="nl">public:</span>\n    <span class="n">base_class</span><span class="p">(){}</span>\n    <span class="n">base_class</span><span class="p">(</span><span class="kt">float</span><span class="p">)</span> <span class="p">{</span><span class="k">throw</span> <span class="n">not_implemented_exception</span><span class="p">();}</span>\n\n    <span class="k">virtual</span> <span class="k">operator</span> <span class="n">string</span><span class="p">()</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>\n\n    <span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span> <span class="n">base_class</span> <span class="o">&amp;</span><span class="n">other</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="k">throw</span> <span class="n">not_implemented_exception</span><span class="p">();</span> <span class="p">}</span>\n\n    <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">TemplateKlass</span><span class="p">&gt;</span>\n    <span class="kt">void</span> <span class="n">some_func</span><span class="p">(</span><span class="n">TemplateKlass</span> <span class="n">temp</span><span class="p">)</span> <span class="p">{</span><span class="k">throw</span> <span class="n">not_implemented_exception</span><span class="p">();}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight cpp"><code><span class="k">class</span> <span class="nc">extended_class</span> <span class="o">:</span> <span class="k">public</span> <span class="n">base_class</span><span class="p">{</span>\n    <span class="cm">/*\n        This is how Inheritance would work\n    */</span>\n<span class="nl">private:</span>\n    <span class="kt">float</span> <span class="n">m_temp</span><span class="p">;</span>\n<span class="nl">public:</span>\n    <span class="n">extended_class</span><span class="p">(){}</span>\n    <span class="n">extended_class</span><span class="p">(</span><span class="kt">float</span> <span class="n">t_temp</span><span class="p">)</span> <span class="o">:</span> <span class="n">m_temp</span><span class="p">(</span><span class="n">t_temp</span><span class="p">)</span>\n\n    <span class="k">operator</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">()</span> <span class="p">{</span><span class="k">return</span> <span class="n">to_string</span><span class="p">(</span><span class="n">t_temp</span><span class="p">);}</span>\n\n    <span class="kt">bool</span> <span class="k">operator</span><span class="o">&lt;</span><span class="p">(</span><span class="k">const</span> <span class="n">extended_class</span> <span class="o">&amp;</span><span class="n">other</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="n">m_temp</span> <span class="o">&lt;</span> <span class="n">other</span><span class="p">.</span><span class="n">m_temp</span> <span class="p">}</span>\n\n    <span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">TemplateKlass</span><span class="p">&gt;</span>\n    <span class="kt">void</span> <span class="n">some_func</span><span class="p">(</span><span class="n">TemplateKlass</span> <span class="n">temp</span><span class="p">)</span> <span class="p">{...}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n<hr>\n\n<h3>\n  <a name="bonus-icon-pack" href="#bonus-icon-pack">\n  </a>\n  Bonus: Icon Pack!\n</h3>\n\n<p>Yeah... I created my own icons too...</p>\n\n<div class="table-wrapper-paragraph"><table>\n<thead>\n<tr>\n<th>GNU Extension</th>\n<th>Preview</th>\n<th>Download</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>.c</td>\n<td><a href="https://ra101.github.io/namespace-ra/assets/c.png">c.png</a></td>\n<td><a href="https://ra101.github.io/namespace-ra/assets/c.ico">c.ico</a></td>\n</tr>\n<tr>\n<td>.cpp</td>\n<td><a href="https://ra101.github.io/namespace-ra/assets/cpp.png">cpp.png</a></td>\n<td><a href="https://ra101.github.io/namespace-ra/assets/cpp.ico">cpp.ico</a></td>\n</tr>\n<tr>\n<td>.cs</td>\n<td><a href="https://ra101.github.io/namespace-ra/assets/cs.png">cs.png</a></td>\n<td><a href="https://ra101.github.io/namespace-ra/assets/cs.ico">cs.ico</a></td>\n</tr>\n<tr>\n<td>.h / .hpp</td>\n<td><a href="https://ra101.github.io/namespace-ra/assets/h.png">h.png</a></td>\n<td><a href="https://ra101.github.io/namespace-ra/assets/h.ico">h.ico</a></td>\n</tr>\n</tbody>\n</table></div>\n\n\n<hr>\n\n<p>If you think I have missed something or you have other coding style or some advice, do let me know, I might append to this post. Make it one central point of all information.</p>\n\n',s.body_markdown='Prerequisite: One must be familiar with coding in `C++`. \n\nI coded my first `C++` libraries 5 years back, I had just started college, and wanted to do something solid!, One fine evening, I was looking back at that code, It was so, poorly written, So I started fixing it. I googled `C++` Convention, After many search results, I found out there are no good resources out there. So I took upon myself, To Write One!\n\nThese are coding practices one may follow to write readable good code.\n\n---\n\n### File Types:\nAny programing file, in the end, is nothing but a text file with a fancy extension. In the Book of Genesis, the mentioned naming style is:\n- `.c` for `C`\n- `.cpp` for `C++`\n- `.h` for headers (independent of `C` or `C++`)\n\nBut due to the opensource nature of GNU, A bunch of different assembler and compilers were made which came with their own extensions variations, such as, `.cc`, `.C`, `.cxx`, `.c++` and `.hh`, `.H`, `.hxx`, `.hpp`, `.h++`.\n\nTBH, Just chose one set of extensions, after all, even `.txt` can be compiled.\n\nI use, (Since Most IDE recognize them):\n- `.c` for `C`\n- `.cpp` for `C++`\n- `.h` for `C` headers\n- `.hpp` for `C++` headers\n\n---\n\n### `makefile`:\nA `makefile` is a special file, containing shell commands, that you create and name `makefile` (no extensions)\n\nIt is executed using the `make` command. My Typical makefile looks like this: \n\n```bash\n# Variables\nCXX=g++\nCXXFLAGS=-std=c++11 -w\n\n# <command> : <dependencies>\n\n# would have worked with main.cpp as well, added rest of\n# dependencies to add a check before compiler returns an error.\nbuild: main.cpp local_header.hpp includes/external_lib.hpp \n\t@echo "\\n\\nmain.cpp: Building..."\n\t$(CXX) $(CXXFLAGS) -o main.out main.cpp\n\nrun: main.out\n\t@echo "\\n\\nmain.cpp: Executing..."\n\t./main.out\n\nclean: main.out\n\t@echo "\\n\\nmain.cpp: Cleaning..."\n\trm main.out\n\n# test command is for show, I have probably never used it 😅😂 \ntest: test.cpp\n\t@echo "\\n\\ntest.cpp: Building..."\n\t$(CXX) $(CXXFLAGS) -o test.out test.cpp\n\t@echo "\\n\\ntest.cpp: Executing..."\n\t./test.out\n\t@echo "\\n\\ntest.cpp: Cleaning..."\n\trm ./test.out\n\nall: build run clean\n```\n\n```bash\n$ # To build, run and clean the main.cpp\n$ make all\n```\n\n@pauljlucas suggested:\n> You really should use something like [GNU Automake](https://www.gnu.org/software/automake/) or [CMake](https://cmake.org/) instead of hand-written makefiles. \n\nThese tools may add overhead of other files, but these files are informative files. Use these tools, if they benefit your project.\n\nNOTE: use `-MMD` flag to get a `.d` file, containing all dependencies.\n\n---\n\n### PreProcessors:\n\nThe preprocessors are the directives, which instruct the compiler to preprocess the information before starting compilation. All preprocessors start with `#`, For example: `#include<iosteam>`\n\nThese are the coding practices, I use:\n\n- Double Quotes (`"..."`) for including local headers, This rule increases readability of Code\n\n- 3 Levels of includes (I picked this habit while working in python) with line-space between them.\n   - First, for core `g++` system files.\n   - Second, for externally added libraries.\n   - Third, for locally created files.\n\n@pauljlucas suggested:\n> You should include local headers first — _then_ system headers. The reason is to guarantee that all local headers are self-sufficient\n\nBy "self-sufficient", Xe means, local headers are not depending on System or External libraries of this file.\nThis although is a good way of checking, I believe this "check" is not something headers/compilers should do, well at least not at the file level.\nIn an ideal world, Each header would have its own test files to resolve this, until then, going against the natural order might not be that bad.\n\n- `#pragma one` for **header files**\n  - What `#include` does is that it adds the mentioned file at the top of the code (you can check it by using `--save-temp` flag during compiling) So, If a header file is called again somewhere else, The Whole Code will be compiled again. Since Header files don\'t typically initiate a variable. It is Advised to compile it once for performance enhancement.\n - One can use `#indef ... #include ... #endif`, but it is tedious, so`#pragma once` reduces possibilities for bugs due to manual mishandling.\n\n- DO NOT USE `using namespace ...` in **header file**\n  - It may lead to a re-declaration error.\n  - It may populate the header file with its function\n\n\nSO, According to the above rules, A good **header** would be.\n\n```C++\n#pragma once // 2 line-space afterwards\n\n\n#include<system_file_1>\n#include<system_file_2> // 1 line-space afterwards\n\n#include<external_lib1_1> // 1 line-space afterwards\n#include<external_lib2_2> // club external libs together\n#include<external_lib2_3> // 1 line-space afterwards\n\n#include "local_file" // 2 line-space afterwards\n\n\n// using namespace ... DO NOT USE IN HEADERS\n\nnamespace ra {\n...\n}\n```\n\n---\n\n### Nomenclature:\n\n#### File | `namespace` | `Class` | `function`:\n- Nothing is fixed, one may use `camelCase`, `PascalCase` or\n `snake_case`.\n- I personally find `snake_case` to be more readable.\n\n#### `Template` Parameter:\n - same as above, no rules.\n - I prefer `PascalCase` here.\n\n#### Constants | Macros:\n - `UPPER_SNAKE_CASE` is preferred everywhere.\n\n#### Variables:\n- Before IDE(s) were a thing, People just couldn\'t hover over variables to get info. So some old libraries use the following conventions:\n   - `m_<any case>` for private members:\n   - `t_<any case>` for function parameters\n- I personally, discard this rule.\n\n\n#### Taboo of Naming:\nCheck this [link](https://stackoverflow.com/questions/228783/what-are-the-rules-about-using-an-underscore-in-a-c-identifier)\n\n---\n\n### Comments:\n\nC++ allows for 2 types of comments:\n\n```C++\n// This is single line Comment\n```\n\n```C++\n/*\n...\nThis is Multi-Line Comment\n...\n*/\n``` \n\nGenerally speaking, single-line comments provide more control over the appearance and are _considered_ better.\n\nAs a python developer, I wholeheartedly disagree, This is how I prefer my code!\n\n```C++\n\nclass custom_class {\n    /*\n        A definition of what does this class represent\n        - Preferred Usage:\n            ...\n    */\n    private:\n        // How this variable affects / Where this may be used\n        float variable {3.14};\n\n        // What does this function do\n        void function();\n}\n\nvoid custom_class::function(){\n    /*\n        A definition of what does this function do\n        - Input: ...\n        - Output: ...\n    */\n}\n\n```\n\n---\n\n### Custom Exceptions:\n\nCustom exceptions provide you the flexibility to add attributes and methods that are not part of a standard programming language. These are most helpful in Debugging when code is unable to compile.\n\nBelow is My Favorite Exception:\n\n```C++\n// Code\n\nnamespace ra\n{\n    class external_exception : public std::logic_error\n    {\n    public:\n        external_exception(\n            std::string function = __builtin_FUNCTION()\n        ) : std::logic_error("`" + function + "` called for external exception!"){};\n    };\n}\n\n```\n\n```C++\n// Usage\n\nvoid main (){ throw ra::external_exception(); }\n```\n\n```bash\n# Output\n\nterminate called after throwing an instance of \'ra::external_exception\'\n  what():  `main` called for external exception!\n```\n\n\nLet me explain, In argument of constructor of exception it says:\n```C++\nstd::string function = __builtin_FUNCTION()\n```\n\n`__builtin_FUNCTION()` return the source location, when called.\n\nSince called in Argument, whenever it is initiated that is the source location, Essentially Making it a traceable Exception\n\n\nHere We have inherited from `logic_error`, but other exceptions/errors could be found [here](https://en.cppreference.com/w/cpp/header/stdexcept)\n\nNOTE: In C++ Exceptions and Errors are the same, but in theory, Exceptions are something that could be handled, whereas errors should not be as they break the system.\n\n\n---\n\n\n\n### Modularity\n\nA Modular design is shown to improve the design process by allowing better re-usability, relatively low maintenance, workload handling, and easier debugging processes. Modularity in `C++` can be achieved by the following \n\n#### Template\n\nAs defined [here](https://www.javatpoint.com/cpp-templates) :  A C++ template is a powerful feature added to C++. It allows you to define the generic classes and generic functions and thus provides support for generic programming. Generic programming is a technique where generic types are used as parameters in algorithms so that they can work for a variety of data types\n\nTemplates can be represented in two ways:\n - [Function templates](https://en.cppreference.com/w/cpp/language/function_template)\n\n```C++\ntemplate <typename TemplateKlass>\nTemplateKlass get_maximum(TemplateKlass x, TemplateKlass y){\n   return (x > y)? x: y;\n}\n```\n\n - [Class templates](https://en.cppreference.com/w/cpp/language/templates)\n```C++\ntemplate <typename TemplateKlass>\nclass custom_class {\nprivate:\n    TemplateKlass x, y;\npublic:\n    custom_class(TemplateKlass, TemplateKlass);\n};\n```\n\n\nI am will not into details, As there are far better resources\n\n\n#### Function as Argument:\nWe can pass a function in the argument of another function, Well Actually A function pointer is passed to be exact. This comes in handy in the situation, where you have multiple services for the same request, for example, **Hashing**, you can use so many third-party algorithms for hashing.\n\n```C++\nbool verify_hash(std::string (*hash_func)(std::string)){\n    /*\n        This will take in any function with\n        input and output as a string \n    */\n    return hashed_output == hash_func(input)\n}\n```\n\n\n#### Inheritance\n\nI picked up this in my `Unity3D` days, In `Unity3D` Almost everything is inherited and then used.\n\nThe plan is simple, Create a class with a bunch of public members all throwing error.\n\nAnd Then Everyone would have to Inherit that class and override it.\n\nFor Example\n\n```C++\nclass base_class{\n    /*\n        Everyone will inherit from this class\n    */\npublic:\n    base_class(){}\n    base_class(float) {throw not_implemented_exception();}\n    \n    virtual operator string() const = 0;\n    \n    bool operator<(const base_class &other) const { throw not_implemented_exception(); }\n\n    template <typename TemplateKlass>\n    void some_func(TemplateKlass temp) {throw not_implemented_exception();}\n}\n```\n\n\n```C++\nclass extended_class : public base_class{\n    /*\n        This is how Inheritance would work\n    */\nprivate:\n    float m_temp;\npublic:\n    extended_class(){}\n    extended_class(float t_temp) : m_temp(t_temp)\n\n    operator std::string() {return to_string(t_temp);}\n\n    bool operator<(const extended_class &other) const { m_temp < other.m_temp }\n\n    template <typename TemplateKlass>\n    void some_func(TemplateKlass temp) {...}\n}\n```\n---\n\n### Bonus: Icon Pack!\n\nYeah... I created my own icons too...\n\n| GNU Extension |                Preview                |          Download           |\n| ------------ | ----------------------------------- | ------------------------- |\n| .c            |   [c.png](https://ra101.github.io/namespace-ra/assets/c.png)|   [c.ico](https://ra101.github.io/namespace-ra/assets/c.ico)   |\n| .cpp          |  [cpp.png](https://ra101.github.io/namespace-ra/assets/cpp.png)| [cpp.ico](https://ra101.github.io/namespace-ra/assets/cpp.ico) |\n| .cs           |  [cs.png](https://ra101.github.io/namespace-ra/assets/cs.png)|  [cs.ico](https://ra101.github.io/namespace-ra/assets/cs.ico)  |\n| .h / .hpp     |   [h.png](https://ra101.github.io/namespace-ra/assets/h.png)|   [h.ico](https://ra101.github.io/namespace-ra/assets/h.ico)   |\n\n\n\n---\n\nIf you think I have missed something or you have other coding style or some advice, do let me know, I might append to this post. Make it one central point of all information.',s.user={name:"Parth Agarwal",username:e,twitter_username:"agarwalparth101",github_username:e,website_url:"https://ra101.dev",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--kIp4idAm--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/471869/8c348996-72a9-461b-95d4-3b599df6284f.jpg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--VXxQX4Nh--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/471869/8c348996-72a9-461b-95d4-3b599df6284f.jpg"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:s}},error:n,state:{currentArticle:s},serverRendered:!0,routePath:"/ra101/997824",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:n}}}}(null,{},"2022-02-22T21:24:08Z","ra101")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,1053 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Performance checklist for Vue and Nuxt</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Performance checklist for Vue and Nuxt</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/vue" class="tag" data-v-70afb46a>
+          #vue
+        </a><a href="/nuxtstop/t/nuxt" class="tag" data-v-70afb46a>
+          #nuxt
+        </a><a href="/nuxtstop/t/performance" class="tag" data-v-70afb46a>
+          #performance
+        </a><a href="/nuxtstop/t/javascript" class="tag" data-v-70afb46a>
+          #javascript
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--MAph0WEs--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ldtcf7wz0ycy4iy66xlz.png" alt="Performance checklist for Vue and Nuxt" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            120
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            2
+          </span></div> <time data-v-70afb46a>Oct 11 '21</time></div></header> <div class="content" data-v-70afb46a><p>Improving performance of web applications will always be sexy. We want the page to load faster, smoother, and without too many layout shifts (Core Web Vitals, I am looking at you 😉). If you search in Google for terms like <code>vue/nuxt performance</code> you will get a bunch of documentation and articles you can use to improve performance of your page. In this article I wanted to summarize all this knowledge into one single source of truth (with respect to article authors).</p>
+
+<p>This summary document is based on the following articles:</p>
+
+<ul>
+<li>
+<a href="https://www.dawntraoz.com/blog/my-web-performance-journey-with-nuxt-storyblok-netlify/">My web performance journey with Nuxt, Storyblok & Netlify</a> by <a class="mentioned-user" href="https://dev.to/dawntraoz">@dawntraoz</a>
+</li>
+<li>
+<a href="https://medium.com/dana-engineering/how-we-achieve-90-lighthouse-performance-score-and-fully-offline-mode-for-dana-home-shopping-580b1b540c4d">How We Achieve 90+ Lighthouse Performance Score and Fully Offline Mode for DANA Home Shopping</a> by <a class="mentioned-user" href="https://dev.to/jefrydco">@jefrydco</a>
+</li>
+<li>
+<a href="https://medium.com/weekly-webtips/web-vitals-google-search-the-state-vue-nuxt-performance-optimization-in-july-2020-71441eefc51">Web Vitals, Google Search, the State Vue & Nuxt performance optimization in July 2020</a> by Johannes Lauter</li>
+<li>
+<a href="https://vueschool.io/articles/series/vue-js-performance/">Vue.js Performance</a> by <a class="mentioned-user" href="https://dev.to/filrakowski">@filrakowski</a>
+</li>
+</ul>
+
+<p>and my own knowledge that I gathered throughout the years.</p>
+
+<p>Make sure to visit these articles and give a solid like to all of them and their authors 😊</p>
+
+<p>You can also check out other article I have written recently about continuously measuring the performance of Nuxt.js applications using Lighthouse CI and Github Actions <a href="https://dev.to/baroshem/continuous-performance-checks-in-nuxt-js-with-lighthouse-ci-and-github-actions-2lj9">here</a></p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--3kcy-dSb--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_880/https://media.giphy.com/media/3oz8xtBx06mcZWoNJm/giphy.gif%3Fcid%3Decf05e479t6z12wqipcr8vuqu4d0krvoymdaln178l8hfea2%26rid%3Dgiphy.gif%26ct%3Dg" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--3kcy-dSb--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_880/https://media.giphy.com/media/3oz8xtBx06mcZWoNJm/giphy.gif%3Fcid%3Decf05e479t6z12wqipcr8vuqu4d0krvoymdaln178l8hfea2%26rid%3Dgiphy.gif%26ct%3Dg" loading="lazy" width="418" height="315" data-animated="true"></a></p>
+
+<p>Just please remember that improving performance is not an issue that you can just sit once and fix. It is a continuous process and the topic of performance should be addressed regularly so that new features of your website (for sure needed) won't break the performance.</p>
+
+<h2>
+  <a name="preload-key-requests-preconnect-to-required-origins" href="#preload-key-requests-preconnect-to-required-origins">
+  </a>
+  Preload key requests / Preconnect to required origins
+</h2>
+
+<p>Declare preload links in your HTML to instruct the browser to download key resources as soon as possible.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight html"><code><span class="nt">&lt;head></span>
+  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"preload"</span> <span class="na">href=</span><span class="s">"critical.css"</span> <span class="na">as=</span><span class="s">"style"</span><span class="nt">></span>
+  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"preload"</span> <span class="na">href=</span><span class="s">"critical.js"</span> <span class="na">as=</span><span class="s">"script"</span><span class="nt">></span>
+<span class="nt">&lt;/head></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Consider adding preconnect or dns-prefetch resource hints to establish early connections to important third-party origins.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight html"><code><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"preconnect"</span> <span class="na">href=</span><span class="s">"https://example.com"</span><span class="nt">></span>
+<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"dns-prefetch"</span> <span class="na">href=</span><span class="s">"https://example.com"</span><span class="nt">></span>.
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>dns-prefetch works exactly the same as preconnect but has wider browser support.</p>
+
+<h2>
+  <a name="reduce-thirdparty-usage" href="#reduce-thirdparty-usage">
+  </a>
+  Reduce third-party usage
+</h2>
+
+<p>Third-party code can significantly impact load performance. You can however modify the way you are using this third party library by:</p>
+
+<ul>
+<li>Loading the script using the async or defer attribute to avoid blocking document parsing.</li>
+<li>Self-hosting the script if the third-party server is slow.</li>
+<li>Removing the script if it doesn't add clear value to your site.</li>
+<li>Use link rel=preconnect or link rel=dns-prefetch to perform a DNS lookup for domains hosting third-party scripts.</li>
+</ul>
+
+<h2>
+  <a name="eliminate-render-blocking-resources" href="#eliminate-render-blocking-resources">
+  </a>
+  Eliminate render blocking resources
+</h2>
+
+<p>Resources are blocking the first paint of your page. Consider delivering critical JS/CSS inline and deferring all non-critical JS/styles. You can reduce the size of your pages by only shipping the code and styles that you need.</p>
+
+<p>Once you've identified critical code, move that code from the render-blocking URL to an inline script tag in your HTML page.</p>
+
+<p>Inline critical styles required for the first paint inside a style block at the head of the HTML page and load the rest of the styles asynchronously using the preload link.</p>
+
+<p>You can read more about this <a href="https://sia.codes/posts/render-blocking-resources/#how-do-i-test-my-website-for-render-blocking-resources%3F">here</a></p>
+
+<h2>
+  <a name="minifyremove-unnecessary-css-and-js" href="#minifyremove-unnecessary-css-and-js">
+  </a>
+  Minify/Remove unnecessary CSS and JS
+</h2>
+
+<p>When you are building a big application, you will get to a place where your project may have much more code that it actually needs and uses.</p>
+
+<p>Use tools like <a href="https://web.dev/minify-css/#css-minification-with-webpack">CSS Minification</a> or <a href="https://github.com/terser/terser">Terser JS Plugin</a>. In Nuxt, Terser is included by default.</p>
+
+<p>To eliminate unused css use a tool like <a href="https://purgecss.com/">PurgeCSS</a>.</p>
+
+<p>To eliminate unnecessary JavaScript you can use Terser mentioned previously or utilize <a href="https://webpack.js.org/guides/tree-shaking/">Tree Shaking</a> to allow Dead Code Elimination. You can also use <a href="https://developer.mozilla.org/en-US/docs/Glossary/Code_splitting">Code Splitting</a> which will split code into bundles that can be loaded on demand.</p>
+
+<p>Nuxt provides code-splitting out of the box.</p>
+
+<h3>
+  <a name="scan-modules-for-duplicates" href="#scan-modules-for-duplicates">
+  </a>
+  Scan modules for duplicates
+</h3>
+
+<p>Remove large, duplicate JavaScript modules from bundles to reduce final bundle size.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--N3S9m_j8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/m8jgv7d98jpb0cwdz2gt.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--N3S9m_j8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/m8jgv7d98jpb0cwdz2gt.png" alt="image" loading="lazy" width="880" height="446"></a></p>
+
+<p>Use <a href="https://www.npmjs.com/package/webpack-bundle-analyzer">Webpack Bundle Analyzer</a> or <code>--analyze</code> flag in Nuxt.js</p>
+
+<h2>
+  <a name="reduce-execution-time" href="#reduce-execution-time">
+  </a>
+  Reduce execution time
+</h2>
+
+<p>The combination of code splitting, minification and compression, removal of unused code and caching techniques will greatly improve execution time.</p>
+
+<p>Consider reducing the time spent parsing, compiling and executing JS. You may find delivering smaller JS payloads helps with this.<br>
+The idea is to optimize both our JS and CSS code, minimizing it and removing unused code, as well as the third-party libraries we are using.</p>
+
+<p>Keep the server response time for the main document short because all other requests depend on it.</p>
+
+<p>You can read more about this <a href="https://gtmetrix.com/reduce-javascript-execution-time.html">here</a></p>
+<h2>
+  <a name="image-handling" href="#image-handling">
+  </a>
+  Image handling
+</h2>
+<h3>
+  <a name="properly-size-images" href="#properly-size-images">
+  </a>
+  Properly size images
+</h3>
+
+<p>Serve images that are appropriately-sized to save cellular data and improve load time.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight html"><code><span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"cat-large.jpg"</span> <span class="na">srcset=</span><span class="s">"cat-small.jpg 480w, cat-large.jpg 1080w"</span> <span class="na">sizes=</span><span class="s">"50vw"</span><span class="nt">></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You can read more about this <a href="https://web.dev/uses-responsive-images/?utm_source=lighthouse&utm_medium=cli">here</a></p>
+
+<h3>
+  <a name="efficiently-encode-images" href="#efficiently-encode-images">
+  </a>
+  Efficiently encode images
+</h3>
+
+<p>Optimized images load faster and consume less cellular data.<br>
+Using your image CDN service or the compression of your image should be enough.</p>
+
+<p>You can read more about this <a href="https://web.dev/uses-optimized-images/">here</a></p>
+<h3>
+  <a name="serve-images-in-nextgen-formats" href="#serve-images-in-nextgen-formats">
+  </a>
+  Serve images in next-gen formats
+</h3>
+
+<p>Image formats like WebP or Avif often provide better compression than PNG or JPEG, which means faster downloads and less data consumption.</p>
+
+<p>You can read more about this <a href="https://web.dev/uses-webp-images/">here</a></p>
+<h3>
+  <a name="image-elements-have-explicit-width-and-height" href="#image-elements-have-explicit-width-and-height">
+  </a>
+  Image elements have explicit width and height
+</h3>
+
+<p>Set an explicit width and height on image elements to reduce layout shifts and improve CLS.</p>
+
+<p>You can read more about this <a href="https://gtmetrix.com/use-explicit-width-and-height-on-image-elements.html">here</a></p>
+<h3>
+  <a name="preload-largest-contentful-paint-lcp" href="#preload-largest-contentful-paint-lcp">
+  </a>
+  Preload largest contentful paint (LCP)
+</h3>
+
+<p>Preload the image used by the LCP element in order to improve your LCP time.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight html"><code><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"preload"</span> <span class="na">href=</span><span class="s">"/path/to/image.jpg"</span> <span class="na">as=</span><span class="s">"image"</span><span class="nt">></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">head</span><span class="p">()</span> <span class="p">{</span>
+ <span class="k">return</span> <span class="p">{</span>
+    <span class="na">link</span><span class="p">:</span> <span class="p">[</span>
+      <span class="p">{</span>
+        <span class="na">rel</span><span class="p">:</span> <span class="dl">'</span><span class="s1">preload</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">as</span><span class="p">:</span> <span class="dl">'</span><span class="s1">image</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">href</span><span class="p">:</span> <span class="dl">'</span><span class="s1">path/to/lcp/image</span><span class="dl">'</span><span class="p">,</span>
+      <span class="p">},</span>
+    <span class="p">],</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You can read more about this <a href="https://gtmetrix.com/preload-largest-contentful-paint-image.html#:~:text=Preloading%20the%20Largest%20Contentful%20Paint,sooner%2C%20enhancing%20their%20user%20experience.">here</a></p>
+
+<h2>
+  <a name="fonts" href="#fonts">
+  </a>
+  Fonts
+</h2>
+
+<h3>
+  <a name="all-text-remains-visible-during-webfont-loads" href="#all-text-remains-visible-during-webfont-loads">
+  </a>
+  All text remains visible during webfont loads
+</h3>
+
+<p>Leverage the font-display CSS feature to ensure text is user-visible while webfonts are loading.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight css"><code><span class="k">@font-face</span> <span class="p">{</span>
+  <span class="nl">font-family</span><span class="p">:</span> <span class="s2">'Arial'</span><span class="p">;</span>
+  <span class="py">font-display</span><span class="p">:</span> <span class="n">swap</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The font-display API specifies how a font is displayed. swap tells the browser that text using the font should be displayed immediately using a system font. Once the custom font is ready, it replaces the system font.</p>
+
+<p>For Google fonts, for example, is as simple as adding the &display=swap parameter to the end to the Google Fonts URL:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight html"><code><span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">"https://fonts.googleapis.com/css?family=Roboto:400,700&**display=swap**"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span><span class="nt">></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You can read more about this <a href="https://web.dev/font-display/">here</a></p>
+
+<h2>
+  <a name="what-to-avoid" href="#what-to-avoid">
+  </a>
+  What to avoid?
+</h2>
+
+<h3>
+  <a name="large-layout-shifts" href="#large-layout-shifts">
+  </a>
+  Large layout shifts
+</h3>
+
+<p>Cumulative Layout Shift (CLS) is a Core Web Vitals metric calculated by summing all layout shifts that aren’t caused by user interaction.</p>
+
+<h3>
+  <a name="avoid-an-excessive-dom-size" href="#avoid-an-excessive-dom-size">
+  </a>
+  Avoid an excessive DOM size
+</h3>
+
+<p>A large DOM will increase memory usage, cause longer style calculations, and produce costly layout reflows.</p>
+
+<h3>
+  <a name="multiple-page-redirects" href="#multiple-page-redirects">
+  </a>
+  Multiple page redirects
+</h3>
+
+<p>Redirects introduce additional delays before the page can be loaded.</p>
+
+<h3>
+  <a name="serving-legacy-javascript-to-modern-browsers" href="#serving-legacy-javascript-to-modern-browsers">
+  </a>
+  Serving legacy JavaScript to modern browsers
+</h3>
+
+<p>Polyfills and transforms enable legacy browsers to use new JavaScript features. However, many aren't necessary for modern browsers.</p>
+
+<p>In Nuxt we have --modern with some options in the build command.</p>
+
+<h3>
+  <a name="enormous-network-payloads" href="#enormous-network-payloads">
+  </a>
+  Enormous network payloads
+</h3>
+
+<p>Large network payloads cost users real money and are highly correlated with long load times.</p>
+
+<ul>
+<li>Defer requests until they're needed. Nuxt is taking care of it.</li>
+<li>Optimize requests to be as small as possible, minimizing and compressing, try to use WebP for the images when it's possible. An image CDN will be always there to keep our performance up!</li>
+<li>Cache requests so the page doesn't re-download the resources on repeat visits.</li>
+</ul>
+
+<h3>
+  <a name="documentwrite" href="#documentwrite">
+  </a>
+  Document.write()
+</h3>
+
+<p>For users on slow connections, external scripts dynamically injected via document.write() can delay page load by tens of seconds.</p>
+
+<h3>
+  <a name="noncompositioned-animations" href="#noncompositioned-animations">
+  </a>
+  Non-compositioned animations
+</h3>
+
+<p>Animations which are not composited can be heavy and increase CLS. Use <code>translate</code> and <code>scale</code> CSS properties instead.</p>
+
+<h2>
+  <a name="framework-improvements" href="#framework-improvements">
+  </a>
+  Framework improvements
+</h2>
+
+<p>We went through things that you can do with your HTML, CSS, and JavaScript. Now, let's tackle the framework layer to see what we can do to improve performance of our website.</p>
+
+<h3>
+  <a name="asynchronous-components" href="#asynchronous-components">
+  </a>
+  Asynchronous Components
+</h3>
+
+<p>Asynchronous Components allow you to only load Components when a specific condition is matched.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight vue"><code><span class="nt">&lt;</span><span class="k">template</span><span class="nt">></span>
+  <span class="nt">&lt;header></span>
+    <span class="nt">&lt;Search</span> <span class="na">v-if=</span><span class="s">"searchActive"</span> <span class="nt">/></span>
+    <span class="nt">&lt;button</span> <span class="err">@</span><span class="na">click=</span><span class="s">"searchActive = !searchActive"</span><span class="nt">></span>
+      🔍   
+    <span class="nt">&lt;/button></span>
+  <span class="nt">&lt;/header></span>
+<span class="nt">&lt;/</span><span class="k">template</span><span class="nt">></span>
+<span class="nt">&lt;</span><span class="k">script</span><span class="nt">></span>
+<span class="k">export</span> <span class="k">default</span> <span class="p">{</span>
+  <span class="na">components</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Search</span><span class="p">:</span> <span class="p">()</span> <span class="o">=></span> <span class="k">import</span><span class="p">(</span><span class="dl">'</span><span class="s1">~/components/search.vue</span><span class="dl">'</span><span class="p">)</span>
+  <span class="p">},</span>
+  <span class="nx">data</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="na">searchActive</span><span class="p">:</span> <span class="kc">false</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+<span class="nt">&lt;/</span><span class="k">script</span><span class="nt">></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="route-based-code-splitting" href="#route-based-code-splitting">
+  </a>
+  Route based code splitting
+</h3>
+
+<p>Only the code from route that is currently visited by the user will be downloaded.</p>
+
+<p>So instead:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="c1">// router.js</span>
+<span class="k">import</span> <span class="nx">Home</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Home.vue</span><span class="dl">'</span>
+<span class="k">import</span> <span class="nx">About</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./About.vue</span><span class="dl">'</span>
+
+<span class="kd">const</span> <span class="nx">routes</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span> <span class="na">path</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">,</span> <span class="na">component</span><span class="p">:</span> <span class="nx">Home</span> <span class="p">}</span>
+  <span class="p">{</span> <span class="na">path</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/about</span><span class="dl">'</span><span class="p">,</span> <span class="na">component</span><span class="p">:</span> <span class="nx">About</span> <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We could write this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="c1">// router.js </span>
+<span class="kd">const</span> <span class="nx">routes</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span> <span class="na">path</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">,</span> <span class="na">component</span><span class="p">:</span> <span class="p">()</span> <span class="o">=></span> <span class="k">import</span><span class="p">(</span><span class="dl">'</span><span class="s1">./Home.vue</span><span class="dl">'</span><span class="p">)</span> <span class="p">}</span>
+  <span class="p">{</span> <span class="na">path</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/about</span><span class="dl">'</span><span class="p">,</span> <span class="na">component</span><span class="p">:</span> <span class="p">()</span> <span class="o">=></span> <span class="k">import</span><span class="p">(</span><span class="dl">'</span><span class="s1">./About.vue</span><span class="dl">'</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>If you’re using Nuxt this is out of the box. Nuxt’s default directory-based routing system is code-splitting every route by default.</p>
+
+<h3>
+  <a name="use-reactivity-when-it-is-actually-needed" href="#use-reactivity-when-it-is-actually-needed">
+  </a>
+  Use reactivity when it is actually needed
+</h3>
+
+<p>Overloading your page with too many reactive properties will make your page slower (especially using Vue 2). Make sure to use them only when needed and other static values that won't be changed over time, store them in constant variables.</p>
+
+<p>So instead:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">export</span> <span class="k">default</span> <span class="p">{</span>
+  <span class="nx">data</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="na">milisecondsInAnHour</span><span class="p">:</span> <span class="mi">3600000</span><span class="p">,</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+  <span class="na">computed</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nx">getMilisecondsInAnHour</span><span class="p">()</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">milisecondsInAnHour</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Write something like this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="kd">const</span> <span class="nx">MILISECONDS_IN_AN_HOUR</span> <span class="o">=</span> <span class="mi">3600000</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="p">{</span>
+<span class="na">computed</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nx">getMilisecondsInAnHour</span><span class="p">()</span> <span class="p">{</span>
+       <span class="k">return</span> <span class="nx">MILISECONDS_IN_AN_HOUR</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="eliminate-memory-leaks" href="#eliminate-memory-leaks">
+  </a>
+  Eliminate memory leaks
+</h3>
+
+<p>The easiest example of a memory leak is registering an event listener and not properly unregistering it.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">export</span> <span class="k">default</span> <span class="p">{</span>
+  <span class="nx">created</span><span class="p">()</span> <span class="p">{</span>
+     <span class="nx">target</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">listener</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>To avoid that, make sure to include removeEventListener on destroy lifecycle hook.</p>
+
+<h3>
+  <a name="optimize-third-party-packages" href="#optimize-third-party-packages">
+  </a>
+  Optimize third party packages
+</h3>
+
+<p>Many popular third party packages provide lighter versions that you can check using <a href="https://bundlephobia.com/">https://bundlephobia.com/</a>. Bundlephobia helps you find the performance impact of npm packages. Find the size of any javascript package and its effect on your frontend bundle.</p>
+
+<p>Make sure to use libraries that support tree shaking to only load code that will be used in the final configuration.</p>
+
+<p>Some libraries like lodash support importing direct files instead of the whole library. So instead writing this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">isNull</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">lodash</span><span class="dl">'</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We can use this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">import</span> <span class="nx">isNull</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">lodash/isNull`
+</span></code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="nuxt-use-plugins-only-if-they-are-used-appwide" href="#nuxt-use-plugins-only-if-they-are-used-appwide">
+  </a>
+  [Nuxt] Use plugins only if they are used app-wide
+</h3>
+
+<p>Plugins are a great way to provide application wide logic, but that also means that they are loaded application wide. If it turns out to be a piece of logic you’ll only need in certain conditions or certain pages consider loading it via dynamic import at these places.</p>
+
+<h3>
+  <a name="infrastructure-use-a-content-delivery-network-cdn" href="#infrastructure-use-a-content-delivery-network-cdn">
+  </a>
+  [Infrastructure] Use a Content Delivery Network (CDN)
+</h3>
+
+<p>A CDN allows for the quick transfer of assets needed for loading Internet content including HTML pages, javascript files, stylesheets, images, and videos.<br>
+The <code>build.publicPath</code> option allows you to configure a CDN for all assets.</p>
+<h2>
+  <a name="useful-vue-amp-nuxt-packages" href="#useful-vue-amp-nuxt-packages">
+  </a>
+  Useful Vue & Nuxt Packages
+</h2>
+
+<p>In terms of improving performance of your website there are several packages available you can use.</p>
+<h3>
+  <a name="implement-progressive-web-app" href="#implement-progressive-web-app">
+  </a>
+  Implement Progressive Web App
+</h3>
+
+<p><a href="https://pwa.nuxtjs.org/">@nuxjs/pwa package</a></p>
+
+<p>PWA will cache all of the resources needed to load our app. Not only the static files like JS and CSS, but it also caches the images. Even the API response is cached as well.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">pwa</span><span class="p">:</span> <span class="p">{</span>
+  <span class="nl">manifest</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">My Awesome App</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">lang</span><span class="p">:</span> <span class="dl">'</span><span class="s1">fa</span><span class="dl">'</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="preconnect-fonts" href="#preconnect-fonts">
+  </a>
+  Preconnect fonts
+</h3>
+
+<p><a href="https://google-fonts.nuxtjs.org/">@nuxtjs/google-fonts package</a></p>
+
+<p>If you are using Google Fonts like Roboto, Raleway, etc, you can use this package to not block the page from rendering.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">googleFonts</span><span class="p">:</span> <span class="p">{</span>
+  <span class="nl">families</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">Roboto</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+    <span class="na">Raleway</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">wght</span><span class="p">:</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">400</span><span class="p">],</span>
+      <span class="na">ital</span><span class="p">:</span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>
+    <span class="p">},</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="use-optimized-images" href="#use-optimized-images">
+  </a>
+  Use Optimized Images
+</h3>
+
+<p><a href="https://image.nuxtjs.org/">@nuxtjs/image package</a></p>
+
+<p>Make sure all images have right sizes and/or use external Digital Asset Management like Cloudinary to optimize images on the fly.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code>  <span class="nx">image</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nl">cloudinary</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">baseURL</span><span class="p">:</span> <span class="dl">'</span><span class="s1">https://res.cloudinary.com/&lt;your-cloud-name>/image/upload/</span><span class="dl">'</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="purge-unnecessary-css" href="#purge-unnecessary-css">
+  </a>
+  Purge Unnecessary CSS
+</h3>
+
+<p><a href="https://purgecss.com/guides/nuxt.html#nuxt-js-plugin">nuxt-purgecss package</a></p>
+
+<p>PurgeCSS analyzes your content and your CSS files. Then it matches the selectors used in your files with the one in your content files. It removes unused selectors from your CSS, resulting in smaller CSS files.</p>
+
+<h3>
+  <a name="lazy-hydration" href="#lazy-hydration">
+  </a>
+  Lazy Hydration
+</h3>
+
+<p><a href="https://github.com/maoberlehner/vue-lazy-hydration">vue-lazy-hydration package</a></p>
+
+<p>The idea of lazy hydration is to be able to control what components are hydrated (with JavaScript), when and under what conditions.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight html"><code><span class="nt">&lt;LazyHydrate</span> <span class="na">when-visible</span><span class="nt">></span>
+  <span class="nt">&lt;AdSlider/></span>
+<span class="nt">&lt;/LazyHydrate></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="image-lazy-loading" href="#image-lazy-loading">
+  </a>
+  Image Lazy Loading
+</h3>
+
+<p><a href="https://www.npmjs.com/package/vue-lazyload">vue-lazyload package</a></p>
+
+<p>The idea of lazy loading images is to delay sending requests for images to the point the image appears in the viewport. So basically, if you have an image in the footer, the request for it will be done when user scrolls down to it.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight html"><code><span class="nt">&lt;img</span> <span class="na">v-lazy=</span><span class="s">"img.src"</span><span class="nt">></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="infinite-loading" href="#infinite-loading">
+  </a>
+  Infinite Loading
+</h3>
+
+<p><a href="https://peachscript.github.io/vue-infinite-loading">vue-infinite-loading package</a></p>
+
+<p>The idea of the infinite load is as the user scrolling through the page goes on, we load the next paginated data.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight vue"><code><span class="nt">&lt;</span><span class="k">template</span><span class="nt">></span>
+  <span class="nt">&lt;infinite-loading>&lt;/infinite-loading></span>
+<span class="nt">&lt;/</span><span class="k">template</span><span class="nt">></span>
+
+<span class="nt">&lt;</span><span class="k">script</span><span class="nt">></span>
+<span class="k">import</span> <span class="nx">InfiniteLoading</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vue-infinite-loading</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="p">{</span>
+  <span class="na">components</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nx">InfiniteLoading</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">};</span>
+<span class="nt">&lt;/</span><span class="k">script</span><span class="nt">></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="use-compression-brotli" href="#use-compression-brotli">
+  </a>
+  Use Compression (Brotli)
+</h3>
+
+<p><a href="https://www.npmjs.com/package/nuxt-compress">nuxt-compress package</a></p>
+
+<p>Adding Brotli compression will reduce the overall file size of your application by a relevant margin, Alexander Lichter wrote a <a href="https://blog.lichter.io/posts/nuxtjs-on-brotli/">great article</a> about how to add it.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">modules</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">[</span><span class="dl">'</span><span class="s1">nuxt-compress</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+      <span class="na">brotli</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">threshold</span><span class="p">:</span> <span class="mi">8192</span><span class="p">,</span>
+      <span class="p">},</span>
+    <span class="p">}],</span>
+  <span class="p">],</span>
+<span class="p">};</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="caching" href="#caching">
+  </a>
+  Caching
+</h3>
+
+<p><a href="https://www.npmjs.com/package/nuxt-ssr-cache">nuxt-ssr-cache package</a></p>
+
+<p>Cache is a hardware or software component that stores data so that future requests for that data can be served faster.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code>  <span class="nx">cache</span><span class="p">:</span> <span class="p">{</span>
+    <span class="nl">useHostPrefix</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="nx">pages</span><span class="p">:</span> <span class="p">[</span>
+      <span class="dl">'</span><span class="s1">/page1</span><span class="dl">'</span><span class="p">,</span>
+      <span class="dl">'</span><span class="s1">/page2</span><span class="dl">'</span><span class="p">,</span>
+    <span class="p">],</span>
+    <span class="nx">store</span><span class="p">:</span> <span class="p">{</span>
+      <span class="nl">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">memory</span><span class="dl">'</span><span class="p">,</span>
+      <span class="nx">max</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+      <span class="nx">ttl</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="bonus" href="#bonus">
+  </a>
+  Bonus
+</h3>
+
+<ul>
+<li>Make sure to include <code>min-height</code> for all your main pages. We encountered this problem in Vue Storefront, that we were fetching the data from an Ecommerce platform and because of that it took some time for the content to arrive and it was causing layout shifts (which resulted in worse Lighthouse results that were relatively easy to fix).</li>
+<li>Make sure to scan your components for unnecessary imports. When developing a huge application, it is common to refactor your pages so that you are constantly adding or removing components. It is really easy to lose track of used and unused components/helpers/etc.</li>
+<li>Check your build configuration in <code>nuxt.config.js</code>. To decrease the final bundle you can add <code>extractCSS: true</code> to your <code>build</code> object. In our case it resulted in decreasing the final bundle by about 60 KB (20% of overall size).</li>
+</ul>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/jacobandrewsky/performance-checklist-for-vue-and-nuxt-cog" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(n,s,a,e){return s.type_of="article",s.id=857448,s.title="Performance checklist for Vue and Nuxt",s.description="Improving performance of web applications will always be sexy. We want the page to load faster,...",s.readable_publish_date="Oct 11 '21",s.slug="performance-checklist-for-vue-and-nuxt-cog",s.path="/jacobandrewsky/performance-checklist-for-vue-and-nuxt-cog",s.url="https://dev.to/jacobandrewsky/performance-checklist-for-vue-and-nuxt-cog",s.comments_count=2,s.public_reactions_count=120,s.collection_id=14657,s.published_timestamp=a,s.positive_reactions_count=120,s.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--MAph0WEs--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ldtcf7wz0ycy4iy66xlz.png",s.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--hmIuqt3C--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ldtcf7wz0ycy4iy66xlz.png",s.canonical_url="https://blog.vuestorefront.io/performance-checklist-for-vue-and-nuxt/",s.created_at="2021-10-09T12:33:03Z",s.edited_at=n,s.crossposted_at=n,s.published_at=a,s.last_comment_at="2022-04-24T05:29:59Z",s.reading_time_minutes=10,s.tag_list="vue, nuxt, performance, javascript",s.tags=["vue","nuxt","performance","javascript"],s.body_html='<p>Improving performance of web applications will always be sexy. We want the page to load faster, smoother, and without too many layout shifts (Core Web Vitals, I am looking at you 😉). If you search in Google for terms like <code>vue/nuxt performance</code> you will get a bunch of documentation and articles you can use to improve performance of your page. In this article I wanted to summarize all this knowledge into one single source of truth (with respect to article authors).</p>\n\n<p>This summary document is based on the following articles:</p>\n\n<ul>\n<li>\n<a href="https://www.dawntraoz.com/blog/my-web-performance-journey-with-nuxt-storyblok-netlify/">My web performance journey with Nuxt, Storyblok &amp; Netlify</a> by <a class="mentioned-user" href="https://dev.to/dawntraoz">@dawntraoz</a>\n</li>\n<li>\n<a href="https://medium.com/dana-engineering/how-we-achieve-90-lighthouse-performance-score-and-fully-offline-mode-for-dana-home-shopping-580b1b540c4d">How We Achieve 90+ Lighthouse Performance Score and Fully Offline Mode for DANA Home Shopping</a> by <a class="mentioned-user" href="https://dev.to/jefrydco">@jefrydco</a>\n</li>\n<li>\n<a href="https://medium.com/weekly-webtips/web-vitals-google-search-the-state-vue-nuxt-performance-optimization-in-july-2020-71441eefc51">Web Vitals, Google Search, the State Vue &amp; Nuxt performance optimization in July 2020</a> by Johannes Lauter</li>\n<li>\n<a href="https://vueschool.io/articles/series/vue-js-performance/">Vue.js Performance</a> by <a class="mentioned-user" href="https://dev.to/filrakowski">@filrakowski</a>\n</li>\n</ul>\n\n<p>and my own knowledge that I gathered throughout the years.</p>\n\n<p>Make sure to visit these articles and give a solid like to all of them and their authors 😊</p>\n\n<p>You can also check out other article I have written recently about continuously measuring the performance of Nuxt.js applications using Lighthouse CI and Github Actions <a href="https://dev.to/baroshem/continuous-performance-checks-in-nuxt-js-with-lighthouse-ci-and-github-actions-2lj9">here</a></p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--3kcy-dSb--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_880/https://media.giphy.com/media/3oz8xtBx06mcZWoNJm/giphy.gif%3Fcid%3Decf05e479t6z12wqipcr8vuqu4d0krvoymdaln178l8hfea2%26rid%3Dgiphy.gif%26ct%3Dg" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--3kcy-dSb--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_880/https://media.giphy.com/media/3oz8xtBx06mcZWoNJm/giphy.gif%3Fcid%3Decf05e479t6z12wqipcr8vuqu4d0krvoymdaln178l8hfea2%26rid%3Dgiphy.gif%26ct%3Dg" loading="lazy" width="418" height="315" data-animated="true"></a></p>\n\n<p>Just please remember that improving performance is not an issue that you can just sit once and fix. It is a continuous process and the topic of performance should be addressed regularly so that new features of your website (for sure needed) won\'t break the performance.</p>\n\n<h2>\n  <a name="preload-key-requests-preconnect-to-required-origins" href="#preload-key-requests-preconnect-to-required-origins">\n  </a>\n  Preload key requests / Preconnect to required origins\n</h2>\n\n<p>Declare preload links in your HTML to instruct the browser to download key resources as soon as possible.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight html"><code><span class="nt">&lt;head&gt;</span>\n  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"preload"</span> <span class="na">href=</span><span class="s">"critical.css"</span> <span class="na">as=</span><span class="s">"style"</span><span class="nt">&gt;</span>\n  <span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"preload"</span> <span class="na">href=</span><span class="s">"critical.js"</span> <span class="na">as=</span><span class="s">"script"</span><span class="nt">&gt;</span>\n<span class="nt">&lt;/head&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Consider adding preconnect or dns-prefetch resource hints to establish early connections to important third-party origins.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight html"><code><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"preconnect"</span> <span class="na">href=</span><span class="s">"https://example.com"</span><span class="nt">&gt;</span>\n<span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"dns-prefetch"</span> <span class="na">href=</span><span class="s">"https://example.com"</span><span class="nt">&gt;</span>.\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>dns-prefetch works exactly the same as preconnect but has wider browser support.</p>\n\n<h2>\n  <a name="reduce-thirdparty-usage" href="#reduce-thirdparty-usage">\n  </a>\n  Reduce third-party usage\n</h2>\n\n<p>Third-party code can significantly impact load performance. You can however modify the way you are using this third party library by:</p>\n\n<ul>\n<li>Loading the script using the async or defer attribute to avoid blocking document parsing.</li>\n<li>Self-hosting the script if the third-party server is slow.</li>\n<li>Removing the script if it doesn\'t add clear value to your site.</li>\n<li>Use link rel=preconnect or link rel=dns-prefetch to perform a DNS lookup for domains hosting third-party scripts.</li>\n</ul>\n\n<h2>\n  <a name="eliminate-render-blocking-resources" href="#eliminate-render-blocking-resources">\n  </a>\n  Eliminate render blocking resources\n</h2>\n\n<p>Resources are blocking the first paint of your page. Consider delivering critical JS/CSS inline and deferring all non-critical JS/styles. You can reduce the size of your pages by only shipping the code and styles that you need.</p>\n\n<p>Once you\'ve identified critical code, move that code from the render-blocking URL to an inline script tag in your HTML page.</p>\n\n<p>Inline critical styles required for the first paint inside a style block at the head of the HTML page and load the rest of the styles asynchronously using the preload link.</p>\n\n<p>You can read more about this <a href="https://sia.codes/posts/render-blocking-resources/#how-do-i-test-my-website-for-render-blocking-resources%3F">here</a></p>\n\n<h2>\n  <a name="minifyremove-unnecessary-css-and-js" href="#minifyremove-unnecessary-css-and-js">\n  </a>\n  Minify/Remove unnecessary CSS and JS\n</h2>\n\n<p>When you are building a big application, you will get to a place where your project may have much more code that it actually needs and uses.</p>\n\n<p>Use tools like <a href="https://web.dev/minify-css/#css-minification-with-webpack">CSS Minification</a> or <a href="https://github.com/terser/terser">Terser JS Plugin</a>. In Nuxt, Terser is included by default.</p>\n\n<p>To eliminate unused css use a tool like <a href="https://purgecss.com/">PurgeCSS</a>.</p>\n\n<p>To eliminate unnecessary JavaScript you can use Terser mentioned previously or utilize <a href="https://webpack.js.org/guides/tree-shaking/">Tree Shaking</a> to allow Dead Code Elimination. You can also use <a href="https://developer.mozilla.org/en-US/docs/Glossary/Code_splitting">Code Splitting</a> which will split code into bundles that can be loaded on demand.</p>\n\n<p>Nuxt provides code-splitting out of the box.</p>\n\n<h3>\n  <a name="scan-modules-for-duplicates" href="#scan-modules-for-duplicates">\n  </a>\n  Scan modules for duplicates\n</h3>\n\n<p>Remove large, duplicate JavaScript modules from bundles to reduce final bundle size.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--N3S9m_j8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/m8jgv7d98jpb0cwdz2gt.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--N3S9m_j8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/m8jgv7d98jpb0cwdz2gt.png" alt="image" loading="lazy" width="880" height="446"></a></p>\n\n<p>Use <a href="https://www.npmjs.com/package/webpack-bundle-analyzer">Webpack Bundle Analyzer</a> or <code>--analyze</code> flag in Nuxt.js</p>\n\n<h2>\n  <a name="reduce-execution-time" href="#reduce-execution-time">\n  </a>\n  Reduce execution time\n</h2>\n\n<p>The combination of code splitting, minification and compression, removal of unused code and caching techniques will greatly improve execution time.</p>\n\n<p>Consider reducing the time spent parsing, compiling and executing JS. You may find delivering smaller JS payloads helps with this.<br>\nThe idea is to optimize both our JS and CSS code, minimizing it and removing unused code, as well as the third-party libraries we are using.</p>\n\n<p>Keep the server response time for the main document short because all other requests depend on it.</p>\n\n<p>You can read more about this <a href="https://gtmetrix.com/reduce-javascript-execution-time.html">here</a></p>\n<h2>\n  <a name="image-handling" href="#image-handling">\n  </a>\n  Image handling\n</h2>\n<h3>\n  <a name="properly-size-images" href="#properly-size-images">\n  </a>\n  Properly size images\n</h3>\n\n<p>Serve images that are appropriately-sized to save cellular data and improve load time.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight html"><code><span class="nt">&lt;img</span> <span class="na">src=</span><span class="s">"cat-large.jpg"</span> <span class="na">srcset=</span><span class="s">"cat-small.jpg 480w, cat-large.jpg 1080w"</span> <span class="na">sizes=</span><span class="s">"50vw"</span><span class="nt">&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You can read more about this <a href="https://web.dev/uses-responsive-images/?utm_source=lighthouse&amp;utm_medium=cli">here</a></p>\n\n<h3>\n  <a name="efficiently-encode-images" href="#efficiently-encode-images">\n  </a>\n  Efficiently encode images\n</h3>\n\n<p>Optimized images load faster and consume less cellular data.<br>\nUsing your image CDN service or the compression of your image should be enough.</p>\n\n<p>You can read more about this <a href="https://web.dev/uses-optimized-images/">here</a></p>\n<h3>\n  <a name="serve-images-in-nextgen-formats" href="#serve-images-in-nextgen-formats">\n  </a>\n  Serve images in next-gen formats\n</h3>\n\n<p>Image formats like WebP or Avif often provide better compression than PNG or JPEG, which means faster downloads and less data consumption.</p>\n\n<p>You can read more about this <a href="https://web.dev/uses-webp-images/">here</a></p>\n<h3>\n  <a name="image-elements-have-explicit-width-and-height" href="#image-elements-have-explicit-width-and-height">\n  </a>\n  Image elements have explicit width and height\n</h3>\n\n<p>Set an explicit width and height on image elements to reduce layout shifts and improve CLS.</p>\n\n<p>You can read more about this <a href="https://gtmetrix.com/use-explicit-width-and-height-on-image-elements.html">here</a></p>\n<h3>\n  <a name="preload-largest-contentful-paint-lcp" href="#preload-largest-contentful-paint-lcp">\n  </a>\n  Preload largest contentful paint (LCP)\n</h3>\n\n<p>Preload the image used by the LCP element in order to improve your LCP time.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight html"><code><span class="nt">&lt;link</span> <span class="na">rel=</span><span class="s">"preload"</span> <span class="na">href=</span><span class="s">"/path/to/image.jpg"</span> <span class="na">as=</span><span class="s">"image"</span><span class="nt">&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">head</span><span class="p">()</span> <span class="p">{</span>\n <span class="k">return</span> <span class="p">{</span>\n    <span class="na">link</span><span class="p">:</span> <span class="p">[</span>\n      <span class="p">{</span>\n        <span class="na">rel</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">preload</span><span class="dl">\'</span><span class="p">,</span>\n        <span class="na">as</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">image</span><span class="dl">\'</span><span class="p">,</span>\n        <span class="na">href</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">path/to/lcp/image</span><span class="dl">\'</span><span class="p">,</span>\n      <span class="p">},</span>\n    <span class="p">],</span>\n  <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You can read more about this <a href="https://gtmetrix.com/preload-largest-contentful-paint-image.html#:~:text=Preloading%20the%20Largest%20Contentful%20Paint,sooner%2C%20enhancing%20their%20user%20experience.">here</a></p>\n\n<h2>\n  <a name="fonts" href="#fonts">\n  </a>\n  Fonts\n</h2>\n\n<h3>\n  <a name="all-text-remains-visible-during-webfont-loads" href="#all-text-remains-visible-during-webfont-loads">\n  </a>\n  All text remains visible during webfont loads\n</h3>\n\n<p>Leverage the font-display CSS feature to ensure text is user-visible while webfonts are loading.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight css"><code><span class="k">@font-face</span> <span class="p">{</span>\n  <span class="nl">font-family</span><span class="p">:</span> <span class="s2">\'Arial\'</span><span class="p">;</span>\n  <span class="py">font-display</span><span class="p">:</span> <span class="n">swap</span><span class="p">;</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The font-display API specifies how a font is displayed. swap tells the browser that text using the font should be displayed immediately using a system font. Once the custom font is ready, it replaces the system font.</p>\n\n<p>For Google fonts, for example, is as simple as adding the &amp;display=swap parameter to the end to the Google Fonts URL:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight html"><code><span class="nt">&lt;link</span> <span class="na">href=</span><span class="s">"https://fonts.googleapis.com/css?family=Roboto:400,700&amp;**display=swap**"</span> <span class="na">rel=</span><span class="s">"stylesheet"</span><span class="nt">&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You can read more about this <a href="https://web.dev/font-display/">here</a></p>\n\n<h2>\n  <a name="what-to-avoid" href="#what-to-avoid">\n  </a>\n  What to avoid?\n</h2>\n\n<h3>\n  <a name="large-layout-shifts" href="#large-layout-shifts">\n  </a>\n  Large layout shifts\n</h3>\n\n<p>Cumulative Layout Shift (CLS) is a Core Web Vitals metric calculated by summing all layout shifts that aren’t caused by user interaction.</p>\n\n<h3>\n  <a name="avoid-an-excessive-dom-size" href="#avoid-an-excessive-dom-size">\n  </a>\n  Avoid an excessive DOM size\n</h3>\n\n<p>A large DOM will increase memory usage, cause longer style calculations, and produce costly layout reflows.</p>\n\n<h3>\n  <a name="multiple-page-redirects" href="#multiple-page-redirects">\n  </a>\n  Multiple page redirects\n</h3>\n\n<p>Redirects introduce additional delays before the page can be loaded.</p>\n\n<h3>\n  <a name="serving-legacy-javascript-to-modern-browsers" href="#serving-legacy-javascript-to-modern-browsers">\n  </a>\n  Serving legacy JavaScript to modern browsers\n</h3>\n\n<p>Polyfills and transforms enable legacy browsers to use new JavaScript features. However, many aren\'t necessary for modern browsers.</p>\n\n<p>In Nuxt we have --modern with some options in the build command.</p>\n\n<h3>\n  <a name="enormous-network-payloads" href="#enormous-network-payloads">\n  </a>\n  Enormous network payloads\n</h3>\n\n<p>Large network payloads cost users real money and are highly correlated with long load times.</p>\n\n<ul>\n<li>Defer requests until they\'re needed. Nuxt is taking care of it.</li>\n<li>Optimize requests to be as small as possible, minimizing and compressing, try to use WebP for the images when it\'s possible. An image CDN will be always there to keep our performance up!</li>\n<li>Cache requests so the page doesn\'t re-download the resources on repeat visits.</li>\n</ul>\n\n<h3>\n  <a name="documentwrite" href="#documentwrite">\n  </a>\n  Document.write()\n</h3>\n\n<p>For users on slow connections, external scripts dynamically injected via document.write() can delay page load by tens of seconds.</p>\n\n<h3>\n  <a name="noncompositioned-animations" href="#noncompositioned-animations">\n  </a>\n  Non-compositioned animations\n</h3>\n\n<p>Animations which are not composited can be heavy and increase CLS. Use <code>translate</code> and <code>scale</code> CSS properties instead.</p>\n\n<h2>\n  <a name="framework-improvements" href="#framework-improvements">\n  </a>\n  Framework improvements\n</h2>\n\n<p>We went through things that you can do with your HTML, CSS, and JavaScript. Now, let\'s tackle the framework layer to see what we can do to improve performance of our website.</p>\n\n<h3>\n  <a name="asynchronous-components" href="#asynchronous-components">\n  </a>\n  Asynchronous Components\n</h3>\n\n<p>Asynchronous Components allow you to only load Components when a specific condition is matched.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight vue"><code><span class="nt">&lt;</span><span class="k">template</span><span class="nt">&gt;</span>\n  <span class="nt">&lt;header&gt;</span>\n    <span class="nt">&lt;Search</span> <span class="na">v-if=</span><span class="s">"searchActive"</span> <span class="nt">/&gt;</span>\n    <span class="nt">&lt;button</span> <span class="err">@</span><span class="na">click=</span><span class="s">"searchActive = !searchActive"</span><span class="nt">&gt;</span>\n      🔍   \n    <span class="nt">&lt;/button&gt;</span>\n  <span class="nt">&lt;/header&gt;</span>\n<span class="nt">&lt;/</span><span class="k">template</span><span class="nt">&gt;</span>\n<span class="nt">&lt;</span><span class="k">script</span><span class="nt">&gt;</span>\n<span class="k">export</span> <span class="k">default</span> <span class="p">{</span>\n  <span class="na">components</span><span class="p">:</span> <span class="p">{</span>\n    <span class="na">Search</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">import</span><span class="p">(</span><span class="dl">\'</span><span class="s1">~/components/search.vue</span><span class="dl">\'</span><span class="p">)</span>\n  <span class="p">},</span>\n  <span class="nx">data</span><span class="p">()</span> <span class="p">{</span>\n    <span class="k">return</span> <span class="p">{</span>\n      <span class="na">searchActive</span><span class="p">:</span> <span class="kc">false</span>\n    <span class="p">}</span>\n  <span class="p">}</span>\n<span class="p">}</span>\n<span class="nt">&lt;/</span><span class="k">script</span><span class="nt">&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="route-based-code-splitting" href="#route-based-code-splitting">\n  </a>\n  Route based code splitting\n</h3>\n\n<p>Only the code from route that is currently visited by the user will be downloaded.</p>\n\n<p>So instead:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="c1">// router.js</span>\n<span class="k">import</span> <span class="nx">Home</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">./Home.vue</span><span class="dl">\'</span>\n<span class="k">import</span> <span class="nx">About</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">./About.vue</span><span class="dl">\'</span>\n\n<span class="kd">const</span> <span class="nx">routes</span> <span class="o">=</span> <span class="p">[</span>\n  <span class="p">{</span> <span class="na">path</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">/</span><span class="dl">\'</span><span class="p">,</span> <span class="na">component</span><span class="p">:</span> <span class="nx">Home</span> <span class="p">}</span>\n  <span class="p">{</span> <span class="na">path</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">/about</span><span class="dl">\'</span><span class="p">,</span> <span class="na">component</span><span class="p">:</span> <span class="nx">About</span> <span class="p">}</span>\n<span class="p">]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>We could write this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="c1">// router.js </span>\n<span class="kd">const</span> <span class="nx">routes</span> <span class="o">=</span> <span class="p">[</span>\n  <span class="p">{</span> <span class="na">path</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">/</span><span class="dl">\'</span><span class="p">,</span> <span class="na">component</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">import</span><span class="p">(</span><span class="dl">\'</span><span class="s1">./Home.vue</span><span class="dl">\'</span><span class="p">)</span> <span class="p">}</span>\n  <span class="p">{</span> <span class="na">path</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">/about</span><span class="dl">\'</span><span class="p">,</span> <span class="na">component</span><span class="p">:</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="k">import</span><span class="p">(</span><span class="dl">\'</span><span class="s1">./About.vue</span><span class="dl">\'</span><span class="p">)</span> <span class="p">}</span>\n<span class="p">]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>If you’re using Nuxt this is out of the box. Nuxt’s default directory-based routing system is code-splitting every route by default.</p>\n\n<h3>\n  <a name="use-reactivity-when-it-is-actually-needed" href="#use-reactivity-when-it-is-actually-needed">\n  </a>\n  Use reactivity when it is actually needed\n</h3>\n\n<p>Overloading your page with too many reactive properties will make your page slower (especially using Vue 2). Make sure to use them only when needed and other static values that won\'t be changed over time, store them in constant variables.</p>\n\n<p>So instead:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">export</span> <span class="k">default</span> <span class="p">{</span>\n  <span class="nx">data</span><span class="p">()</span> <span class="p">{</span>\n    <span class="k">return</span> <span class="p">{</span>\n      <span class="na">milisecondsInAnHour</span><span class="p">:</span> <span class="mi">3600000</span><span class="p">,</span>\n    <span class="p">}</span>\n  <span class="p">},</span>\n  <span class="na">computed</span><span class="p">:</span> <span class="p">{</span>\n    <span class="nx">getMilisecondsInAnHour</span><span class="p">()</span> <span class="p">{</span>\n       <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">milisecondsInAnHour</span>\n    <span class="p">}</span>\n  <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Write something like this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="kd">const</span> <span class="nx">MILISECONDS_IN_AN_HOUR</span> <span class="o">=</span> <span class="mi">3600000</span><span class="p">;</span>\n\n<span class="k">export</span> <span class="k">default</span> <span class="p">{</span>\n<span class="na">computed</span><span class="p">:</span> <span class="p">{</span>\n    <span class="nx">getMilisecondsInAnHour</span><span class="p">()</span> <span class="p">{</span>\n       <span class="k">return</span> <span class="nx">MILISECONDS_IN_AN_HOUR</span>\n    <span class="p">}</span>\n  <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="eliminate-memory-leaks" href="#eliminate-memory-leaks">\n  </a>\n  Eliminate memory leaks\n</h3>\n\n<p>The easiest example of a memory leak is registering an event listener and not properly unregistering it.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">export</span> <span class="k">default</span> <span class="p">{</span>\n  <span class="nx">created</span><span class="p">()</span> <span class="p">{</span>\n     <span class="nx">target</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="nx">type</span><span class="p">,</span> <span class="nx">listener</span><span class="p">);</span>\n  <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>To avoid that, make sure to include removeEventListener on destroy lifecycle hook.</p>\n\n<h3>\n  <a name="optimize-third-party-packages" href="#optimize-third-party-packages">\n  </a>\n  Optimize third party packages\n</h3>\n\n<p>Many popular third party packages provide lighter versions that you can check using <a href="https://bundlephobia.com/">https://bundlephobia.com/</a>. Bundlephobia helps you find the performance impact of npm packages. Find the size of any javascript package and its effect on your frontend bundle.</p>\n\n<p>Make sure to use libraries that support tree shaking to only load code that will be used in the final configuration.</p>\n\n<p>Some libraries like lodash support importing direct files instead of the whole library. So instead writing this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">isNull</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">lodash</span><span class="dl">\'</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>We can use this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">import</span> <span class="nx">isNull</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">lodash/isNull`\n</span></code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="nuxt-use-plugins-only-if-they-are-used-appwide" href="#nuxt-use-plugins-only-if-they-are-used-appwide">\n  </a>\n  [Nuxt] Use plugins only if they are used app-wide\n</h3>\n\n<p>Plugins are a great way to provide application wide logic, but that also means that they are loaded application wide. If it turns out to be a piece of logic you’ll only need in certain conditions or certain pages consider loading it via dynamic import at these places.</p>\n\n<h3>\n  <a name="infrastructure-use-a-content-delivery-network-cdn" href="#infrastructure-use-a-content-delivery-network-cdn">\n  </a>\n  [Infrastructure] Use a Content Delivery Network (CDN)\n</h3>\n\n<p>A CDN allows for the quick transfer of assets needed for loading Internet content including HTML pages, javascript files, stylesheets, images, and videos.<br>\nThe <code>build.publicPath</code> option allows you to configure a CDN for all assets.</p>\n<h2>\n  <a name="useful-vue-amp-nuxt-packages" href="#useful-vue-amp-nuxt-packages">\n  </a>\n  Useful Vue &amp; Nuxt Packages\n</h2>\n\n<p>In terms of improving performance of your website there are several packages available you can use.</p>\n<h3>\n  <a name="implement-progressive-web-app" href="#implement-progressive-web-app">\n  </a>\n  Implement Progressive Web App\n</h3>\n\n<p><a href="https://pwa.nuxtjs.org/">@nuxjs/pwa package</a></p>\n\n<p>PWA will cache all of the resources needed to load our app. Not only the static files like JS and CSS, but it also caches the images. Even the API response is cached as well.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">pwa</span><span class="p">:</span> <span class="p">{</span>\n  <span class="nl">manifest</span><span class="p">:</span> <span class="p">{</span>\n    <span class="na">name</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">My Awesome App</span><span class="dl">\'</span><span class="p">,</span>\n    <span class="na">lang</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">fa</span><span class="dl">\'</span><span class="p">,</span>\n  <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="preconnect-fonts" href="#preconnect-fonts">\n  </a>\n  Preconnect fonts\n</h3>\n\n<p><a href="https://google-fonts.nuxtjs.org/">@nuxtjs/google-fonts package</a></p>\n\n<p>If you are using Google Fonts like Roboto, Raleway, etc, you can use this package to not block the page from rendering.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">googleFonts</span><span class="p">:</span> <span class="p">{</span>\n  <span class="nl">families</span><span class="p">:</span> <span class="p">{</span>\n    <span class="na">Roboto</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>\n    <span class="na">Raleway</span><span class="p">:</span> <span class="p">{</span>\n      <span class="na">wght</span><span class="p">:</span> <span class="p">[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">400</span><span class="p">],</span>\n      <span class="na">ital</span><span class="p">:</span> <span class="p">[</span><span class="mi">100</span><span class="p">]</span>\n    <span class="p">},</span>\n  <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="use-optimized-images" href="#use-optimized-images">\n  </a>\n  Use Optimized Images\n</h3>\n\n<p><a href="https://image.nuxtjs.org/">@nuxtjs/image package</a></p>\n\n<p>Make sure all images have right sizes and/or use external Digital Asset Management like Cloudinary to optimize images on the fly.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code>  <span class="nx">image</span><span class="p">:</span> <span class="p">{</span>\n    <span class="nl">cloudinary</span><span class="p">:</span> <span class="p">{</span>\n      <span class="na">baseURL</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">https://res.cloudinary.com/&lt;your-cloud-name&gt;/image/upload/</span><span class="dl">\'</span>\n    <span class="p">}</span>\n  <span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="purge-unnecessary-css" href="#purge-unnecessary-css">\n  </a>\n  Purge Unnecessary CSS\n</h3>\n\n<p><a href="https://purgecss.com/guides/nuxt.html#nuxt-js-plugin">nuxt-purgecss package</a></p>\n\n<p>PurgeCSS analyzes your content and your CSS files. Then it matches the selectors used in your files with the one in your content files. It removes unused selectors from your CSS, resulting in smaller CSS files.</p>\n\n<h3>\n  <a name="lazy-hydration" href="#lazy-hydration">\n  </a>\n  Lazy Hydration\n</h3>\n\n<p><a href="https://github.com/maoberlehner/vue-lazy-hydration">vue-lazy-hydration package</a></p>\n\n<p>The idea of lazy hydration is to be able to control what components are hydrated (with JavaScript), when and under what conditions.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight html"><code><span class="nt">&lt;LazyHydrate</span> <span class="na">when-visible</span><span class="nt">&gt;</span>\n  <span class="nt">&lt;AdSlider/&gt;</span>\n<span class="nt">&lt;/LazyHydrate&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="image-lazy-loading" href="#image-lazy-loading">\n  </a>\n  Image Lazy Loading\n</h3>\n\n<p><a href="https://www.npmjs.com/package/vue-lazyload">vue-lazyload package</a></p>\n\n<p>The idea of lazy loading images is to delay sending requests for images to the point the image appears in the viewport. So basically, if you have an image in the footer, the request for it will be done when user scrolls down to it.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight html"><code><span class="nt">&lt;img</span> <span class="na">v-lazy=</span><span class="s">"img.src"</span><span class="nt">&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="infinite-loading" href="#infinite-loading">\n  </a>\n  Infinite Loading\n</h3>\n\n<p><a href="https://peachscript.github.io/vue-infinite-loading">vue-infinite-loading package</a></p>\n\n<p>The idea of the infinite load is as the user scrolling through the page goes on, we load the next paginated data.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight vue"><code><span class="nt">&lt;</span><span class="k">template</span><span class="nt">&gt;</span>\n  <span class="nt">&lt;infinite-loading&gt;&lt;/infinite-loading&gt;</span>\n<span class="nt">&lt;/</span><span class="k">template</span><span class="nt">&gt;</span>\n\n<span class="nt">&lt;</span><span class="k">script</span><span class="nt">&gt;</span>\n<span class="k">import</span> <span class="nx">InfiniteLoading</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">vue-infinite-loading</span><span class="dl">\'</span><span class="p">;</span>\n\n<span class="k">export</span> <span class="k">default</span> <span class="p">{</span>\n  <span class="na">components</span><span class="p">:</span> <span class="p">{</span>\n    <span class="nx">InfiniteLoading</span><span class="p">,</span>\n  <span class="p">},</span>\n<span class="p">};</span>\n<span class="nt">&lt;/</span><span class="k">script</span><span class="nt">&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="use-compression-brotli" href="#use-compression-brotli">\n  </a>\n  Use Compression (Brotli)\n</h3>\n\n<p><a href="https://www.npmjs.com/package/nuxt-compress">nuxt-compress package</a></p>\n\n<p>Adding Brotli compression will reduce the overall file size of your application by a relevant margin, Alexander Lichter wrote a <a href="https://blog.lichter.io/posts/nuxtjs-on-brotli/">great article</a> about how to add it.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>\n  <span class="na">modules</span><span class="p">:</span> <span class="p">[</span>\n    <span class="p">[</span><span class="dl">\'</span><span class="s1">nuxt-compress</span><span class="dl">\'</span><span class="p">,</span> <span class="p">{</span>\n      <span class="na">brotli</span><span class="p">:</span> <span class="p">{</span>\n        <span class="na">threshold</span><span class="p">:</span> <span class="mi">8192</span><span class="p">,</span>\n      <span class="p">},</span>\n    <span class="p">}],</span>\n  <span class="p">],</span>\n<span class="p">};</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="caching" href="#caching">\n  </a>\n  Caching\n</h3>\n\n<p><a href="https://www.npmjs.com/package/nuxt-ssr-cache">nuxt-ssr-cache package</a></p>\n\n<p>Cache is a hardware or software component that stores data so that future requests for that data can be served faster.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code>  <span class="nx">cache</span><span class="p">:</span> <span class="p">{</span>\n    <span class="nl">useHostPrefix</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>\n    <span class="nx">pages</span><span class="p">:</span> <span class="p">[</span>\n      <span class="dl">\'</span><span class="s1">/page1</span><span class="dl">\'</span><span class="p">,</span>\n      <span class="dl">\'</span><span class="s1">/page2</span><span class="dl">\'</span><span class="p">,</span>\n    <span class="p">],</span>\n    <span class="nx">store</span><span class="p">:</span> <span class="p">{</span>\n      <span class="nl">type</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">memory</span><span class="dl">\'</span><span class="p">,</span>\n      <span class="nx">max</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>\n      <span class="nx">ttl</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>\n    <span class="p">},</span>\n  <span class="p">},</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="bonus" href="#bonus">\n  </a>\n  Bonus\n</h3>\n\n<ul>\n<li>Make sure to include <code>min-height</code> for all your main pages. We encountered this problem in Vue Storefront, that we were fetching the data from an Ecommerce platform and because of that it took some time for the content to arrive and it was causing layout shifts (which resulted in worse Lighthouse results that were relatively easy to fix).</li>\n<li>Make sure to scan your components for unnecessary imports. When developing a huge application, it is common to refactor your pages so that you are constantly adding or removing components. It is really easy to lose track of used and unused components/helpers/etc.</li>\n<li>Check your build configuration in <code>nuxt.config.js</code>. To decrease the final bundle you can add <code>extractCSS: true</code> to your <code>build</code> object. In our case it resulted in decreasing the final bundle by about 60 KB (20% of overall size).</li>\n</ul>\n\n',s.body_markdown="Improving performance of web applications will always be sexy. We want the page to load faster, smoother, and without too many layout shifts (Core Web Vitals, I am looking at you 😉). If you search in Google for terms like `vue/nuxt performance` you will get a bunch of documentation and articles you can use to improve performance of your page. In this article I wanted to summarize all this knowledge into one single source of truth (with respect to article authors).\n\nThis summary document is based on the following articles:\n\n* [My web performance journey with Nuxt, Storyblok & Netlify](https://www.dawntraoz.com/blog/my-web-performance-journey-with-nuxt-storyblok-netlify/) by @dawntraoz\n* [How We Achieve 90+ Lighthouse Performance Score and Fully Offline Mode for DANA Home Shopping](https://medium.com/dana-engineering/how-we-achieve-90-lighthouse-performance-score-and-fully-offline-mode-for-dana-home-shopping-580b1b540c4d) by @jefrydco\n* [Web Vitals, Google Search, the State Vue & Nuxt performance optimization in July 2020](https://medium.com/weekly-webtips/web-vitals-google-search-the-state-vue-nuxt-performance-optimization-in-july-2020-71441eefc51) by Johannes Lauter\n* [Vue.js Performance](https://vueschool.io/articles/series/vue-js-performance/) by @filrakowski\n\nand my own knowledge that I gathered throughout the years.\n\nMake sure to visit these articles and give a solid like to all of them and their authors 😊\n\nYou can also check out other article I have written recently about continuously measuring the performance of Nuxt.js applications using Lighthouse CI and Github Actions [here](https://dev.to/baroshem/continuous-performance-checks-in-nuxt-js-with-lighthouse-ci-and-github-actions-2lj9)\n\n<img width=\"100%\" style=\"width:100%\" src=\"https://media.giphy.com/media/3oz8xtBx06mcZWoNJm/giphy.gif?cid=ecf05e479t6z12wqipcr8vuqu4d0krvoymdaln178l8hfea2&rid=giphy.gif&ct=g\">\n\nJust please remember that improving performance is not an issue that you can just sit once and fix. It is a continuous process and the topic of performance should be addressed regularly so that new features of your website (for sure needed) won't break the performance.\n\n## Preload key requests / Preconnect to required origins\n\nDeclare preload links in your HTML to instruct the browser to download key resources as soon as possible.\n\n```html\n<head>\n  <link rel=\"preload\" href=\"critical.css\" as=\"style\">\n  <link rel=\"preload\" href=\"critical.js\" as=\"script\">\n</head>\n```\n\nConsider adding preconnect or dns-prefetch resource hints to establish early connections to important third-party origins.\n\n```html\n<link rel=\"preconnect\" href=\"https://example.com\">\n<link rel=\"dns-prefetch\" href=\"https://example.com\">.\n```\n\ndns-prefetch works exactly the same as preconnect but has wider browser support.\n\n## Reduce third-party usage\n\nThird-party code can significantly impact load performance. You can however modify the way you are using this third party library by:\n\n* Loading the script using the async or defer attribute to avoid blocking document parsing.\n* Self-hosting the script if the third-party server is slow.\n* Removing the script if it doesn't add clear value to your site.\n* Use link rel=preconnect or link rel=dns-prefetch to perform a DNS lookup for domains hosting third-party scripts.\n\n## Eliminate render blocking resources\n\nResources are blocking the first paint of your page. Consider delivering critical JS/CSS inline and deferring all non-critical JS/styles. You can reduce the size of your pages by only shipping the code and styles that you need.\n\nOnce you've identified critical code, move that code from the render-blocking URL to an inline script tag in your HTML page.\n\nInline critical styles required for the first paint inside a style block at the head of the HTML page and load the rest of the styles asynchronously using the preload link.\n\nYou can read more about this [here](https://sia.codes/posts/render-blocking-resources/#how-do-i-test-my-website-for-render-blocking-resources%3F)\n\n## Minify/Remove unnecessary CSS and JS\n\nWhen you are building a big application, you will get to a place where your project may have much more code that it actually needs and uses.\n\nUse tools like [CSS Minification](https://web.dev/minify-css/#css-minification-with-webpack) or [Terser JS Plugin](https://github.com/terser/terser). In Nuxt, Terser is included by default.\n\nTo eliminate unused css use a tool like [PurgeCSS](https://purgecss.com/).\n\nTo eliminate unnecessary JavaScript you can use Terser mentioned previously or utilize [Tree Shaking](https://webpack.js.org/guides/tree-shaking/) to allow Dead Code Elimination. You can also use [Code Splitting](https://developer.mozilla.org/en-US/docs/Glossary/Code_splitting) which will split code into bundles that can be loaded on demand.\n\nNuxt provides code-splitting out of the box.\n\n### Scan modules for duplicates\n\nRemove large, duplicate JavaScript modules from bundles to reduce final bundle size.\n\n![image](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/m8jgv7d98jpb0cwdz2gt.png)\n\nUse [Webpack Bundle Analyzer](https://www.npmjs.com/package/webpack-bundle-analyzer) or `--analyze` flag in Nuxt.js\n\n## Reduce execution time\n\nThe combination of code splitting, minification and compression, removal of unused code and caching techniques will greatly improve execution time.\n\nConsider reducing the time spent parsing, compiling and executing JS. You may find delivering smaller JS payloads helps with this.\nThe idea is to optimize both our JS and CSS code, minimizing it and removing unused code, as well as the third-party libraries we are using.\n\nKeep the server response time for the main document short because all other requests depend on it.\n\nYou can read more about this [here](https://gtmetrix.com/reduce-javascript-execution-time.html)\n\n## Image handling\n\n### Properly size images\n\nServe images that are appropriately-sized to save cellular data and improve load time.\n\n```html\n<img src=\"cat-large.jpg\" srcset=\"cat-small.jpg 480w, cat-large.jpg 1080w\" sizes=\"50vw\">\n```\n\nYou can read more about this [here](https://web.dev/uses-responsive-images/?utm_source=lighthouse&utm_medium=cli)\n\n### Efficiently encode images\n\nOptimized images load faster and consume less cellular data.\nUsing your image CDN service or the compression of your image should be enough.\n\nYou can read more about this [here](https://web.dev/uses-optimized-images/)\n\n### Serve images in next-gen formats\n\nImage formats like WebP or Avif often provide better compression than PNG or JPEG, which means faster downloads and less data consumption.\n\nYou can read more about this [here](https://web.dev/uses-webp-images/)\n\n### Image elements have explicit width and height\n\nSet an explicit width and height on image elements to reduce layout shifts and improve CLS.\n\nYou can read more about this [here](https://gtmetrix.com/use-explicit-width-and-height-on-image-elements.html)\n\n### Preload largest contentful paint (LCP)\n\nPreload the image used by the LCP element in order to improve your LCP time.\n\n```html\n<link rel=\"preload\" href=\"/path/to/image.jpg\" as=\"image\">\n```\n\n```js\nhead() {\n return {\n    link: [\n      {\n        rel: 'preload',\n        as: 'image',\n        href: 'path/to/lcp/image',\n      },\n    ],\n  }\n}\n```\n\nYou can read more about this [here](https://gtmetrix.com/preload-largest-contentful-paint-image.html#:~:text=Preloading%20the%20Largest%20Contentful%20Paint,sooner%2C%20enhancing%20their%20user%20experience.)\n\n## Fonts\n\n### All text remains visible during webfont loads\n\nLeverage the font-display CSS feature to ensure text is user-visible while webfonts are loading.\n\n```css\n@font-face {\n  font-family: 'Arial';\n  font-display: swap;\n}\n```\n\nThe font-display API specifies how a font is displayed. swap tells the browser that text using the font should be displayed immediately using a system font. Once the custom font is ready, it replaces the system font.\n\nFor Google fonts, for example, is as simple as adding the &display=swap parameter to the end to the Google Fonts URL:\n\n```html\n<link href=\"https://fonts.googleapis.com/css?family=Roboto:400,700&**display=swap**\" rel=\"stylesheet\">\n```\n\nYou can read more about this [here](https://web.dev/font-display/)\n\n## What to avoid?\n\n### Large layout shifts\n\nCumulative Layout Shift (CLS) is a Core Web Vitals metric calculated by summing all layout shifts that aren’t caused by user interaction.\n\n### Avoid an excessive DOM size\n\nA large DOM will increase memory usage, cause longer style calculations, and produce costly layout reflows.\n\n### Multiple page redirects\n\nRedirects introduce additional delays before the page can be loaded.\n\n### Serving legacy JavaScript to modern browsers\n\nPolyfills and transforms enable legacy browsers to use new JavaScript features. However, many aren't necessary for modern browsers.\n\nIn Nuxt we have --modern with some options in the build command.\n\n### Enormous network payloads\n\nLarge network payloads cost users real money and are highly correlated with long load times.\n\n* Defer requests until they're needed. Nuxt is taking care of it.\n* Optimize requests to be as small as possible, minimizing and compressing, try to use WebP for the images when it's possible. An image CDN will be always there to keep our performance up!\n* Cache requests so the page doesn't re-download the resources on repeat visits.\n\n### Document.write()\n\nFor users on slow connections, external scripts dynamically injected via document.write() can delay page load by tens of seconds.\n\n### Non-compositioned animations\n\nAnimations which are not composited can be heavy and increase CLS. Use `translate` and `scale` CSS properties instead.\n\n## Framework improvements\n\nWe went through things that you can do with your HTML, CSS, and JavaScript. Now, let's tackle the framework layer to see what we can do to improve performance of our website.\n\n### Asynchronous Components\n\nAsynchronous Components allow you to only load Components when a specific condition is matched.\n\n```vue\n<template>\n  <header>\n    <Search v-if=\"searchActive\" />\n    <button @click=\"searchActive = !searchActive\">\n      🔍   \n    </button>\n  </header>\n</template>\n<script>\nexport default {\n  components: {\n    Search: () => import('~/components/search.vue')\n  },\n  data() {\n    return {\n      searchActive: false\n    }\n  }\n}\n<\/script>\n```\n\n### Route based code splitting\n\nOnly the code from route that is currently visited by the user will be downloaded.\n\nSo instead:\n\n```js\n// router.js\nimport Home from './Home.vue'\nimport About from './About.vue'\n\nconst routes = [\n  { path: '/', component: Home }\n  { path: '/about', component: About }\n]\n```\n\nWe could write this:\n\n```js\n// router.js \nconst routes = [\n  { path: '/', component: () => import('./Home.vue') }\n  { path: '/about', component: () => import('./About.vue') }\n]\n```\n\nIf you’re using Nuxt this is out of the box. Nuxt’s default directory-based routing system is code-splitting every route by default.\n\n### Use reactivity when it is actually needed\n\nOverloading your page with too many reactive properties will make your page slower (especially using Vue 2). Make sure to use them only when needed and other static values that won't be changed over time, store them in constant variables.\n\nSo instead:\n\n```js\nexport default {\n  data() {\n    return {\n      milisecondsInAnHour: 3600000,\n    }\n  },\n  computed: {\n    getMilisecondsInAnHour() {\n       return this.milisecondsInAnHour\n    }\n  }\n}\n```\n\nWrite something like this:\n\n```js\nconst MILISECONDS_IN_AN_HOUR = 3600000;\n\nexport default {\ncomputed: {\n    getMilisecondsInAnHour() {\n       return MILISECONDS_IN_AN_HOUR\n    }\n  }\n}\n```\n\n### Eliminate memory leaks\n\nThe easiest example of a memory leak is registering an event listener and not properly unregistering it.\n```js\nexport default {\n  created() {\n     target.addEventListener(type, listener);\n  }\n}\n```\n\nTo avoid that, make sure to include removeEventListener on destroy lifecycle hook.\n\n### Optimize third party packages\n\nMany popular third party packages provide lighter versions that you can check using https://bundlephobia.com/. Bundlephobia helps you find the performance impact of npm packages. Find the size of any javascript package and its effect on your frontend bundle.\n\nMake sure to use libraries that support tree shaking to only load code that will be used in the final configuration.\n\nSome libraries like lodash support importing direct files instead of the whole library. So instead writing this:\n\n```js\nimport { isNull } from 'lodash'\n```\n\nWe can use this:\n\n```js\nimport isNull from 'lodash/isNull`\n```\n\n### [Nuxt] Use plugins only if they are used app-wide\n\nPlugins are a great way to provide application wide logic, but that also means that they are loaded application wide. If it turns out to be a piece of logic you’ll only need in certain conditions or certain pages consider loading it via dynamic import at these places.\n\n### [Infrastructure] Use a Content Delivery Network (CDN)\n\nA CDN allows for the quick transfer of assets needed for loading Internet content including HTML pages, javascript files, stylesheets, images, and videos.\nThe `build.publicPath` option allows you to configure a CDN for all assets.\n\n## Useful Vue & Nuxt Packages\n\nIn terms of improving performance of your website there are several packages available you can use.\n\n### Implement Progressive Web App\n\n[@nuxjs/pwa package](https://pwa.nuxtjs.org/)\n\nPWA will cache all of the resources needed to load our app. Not only the static files like JS and CSS, but it also caches the images. Even the API response is cached as well.\n\n```js\npwa: {\n  manifest: {\n    name: 'My Awesome App',\n    lang: 'fa',\n  }\n}\n```\n\n### Preconnect fonts\n\n[@nuxtjs/google-fonts package](https://google-fonts.nuxtjs.org/)\n\nIf you are using Google Fonts like Roboto, Raleway, etc, you can use this package to not block the page from rendering.\n\n```js\ngoogleFonts: {\n  families: {\n    Roboto: true,\n    Raleway: {\n      wght: [100, 400],\n      ital: [100]\n    },\n  }\n}\n```\n\n### Use Optimized Images\n\n[@nuxtjs/image package](https://image.nuxtjs.org/)\n\nMake sure all images have right sizes and/or use external Digital Asset Management like Cloudinary to optimize images on the fly.\n\n```js\n  image: {\n    cloudinary: {\n      baseURL: 'https://res.cloudinary.com/<your-cloud-name>/image/upload/'\n    }\n  }\n```\n\n### Purge Unnecessary CSS\n\n[nuxt-purgecss package](https://purgecss.com/guides/nuxt.html#nuxt-js-plugin)\n\nPurgeCSS analyzes your content and your CSS files. Then it matches the selectors used in your files with the one in your content files. It removes unused selectors from your CSS, resulting in smaller CSS files.\n\n### Lazy Hydration\n\n[vue-lazy-hydration package](https://github.com/maoberlehner/vue-lazy-hydration)\n\nThe idea of lazy hydration is to be able to control what components are hydrated (with JavaScript), when and under what conditions.\n\n```html\n<LazyHydrate when-visible>\n  <AdSlider/>\n</LazyHydrate>\n```\n\n### Image Lazy Loading\n\n[vue-lazyload package](https://www.npmjs.com/package/vue-lazyload)\n\nThe idea of lazy loading images is to delay sending requests for images to the point the image appears in the viewport. So basically, if you have an image in the footer, the request for it will be done when user scrolls down to it.\n\n```html\n<img v-lazy=\"img.src\">\n```\n\n### Infinite Loading\n\n[vue-infinite-loading package](https://peachscript.github.io/vue-infinite-loading)\n\nThe idea of the infinite load is as the user scrolling through the page goes on, we load the next paginated data.\n\n```vue\n<template>\n  <infinite-loading></infinite-loading>\n</template>\n\n<script>\nimport InfiniteLoading from 'vue-infinite-loading';\n\nexport default {\n  components: {\n    InfiniteLoading,\n  },\n};\n<\/script>\n```\n\n### Use Compression (Brotli)\n\n[nuxt-compress package](https://www.npmjs.com/package/nuxt-compress)\n\nAdding Brotli compression will reduce the overall file size of your application by a relevant margin, Alexander Lichter wrote a [great article](https://blog.lichter.io/posts/nuxtjs-on-brotli/) about how to add it.\n\n```js\nmodule.exports = {\n  modules: [\n    ['nuxt-compress', {\n      brotli: {\n        threshold: 8192,\n      },\n    }],\n  ],\n};\n```\n\n### Caching\n\n[nuxt-ssr-cache package](https://www.npmjs.com/package/nuxt-ssr-cache)\n\nCache is a hardware or software component that stores data so that future requests for that data can be served faster.\n\n```js\n  cache: {\n    useHostPrefix: false,\n    pages: [\n      '/page1',\n      '/page2',\n    ],\n    store: {\n      type: 'memory',\n      max: 100,\n      ttl: 60,\n    },\n  },\n```\n\n### Bonus\n\n* Make sure to include `min-height` for all your main pages. We encountered this problem in Vue Storefront, that we were fetching the data from an Ecommerce platform and because of that it took some time for the content to arrive and it was causing layout shifts (which resulted in worse Lighthouse results that were relatively easy to fix).\n* Make sure to scan your components for unnecessary imports. When developing a huge application, it is common to refactor your pages so that you are constantly adding or removing components. It is really easy to lose track of used and unused components/helpers/etc.\n* Check your build configuration in `nuxt.config.js`. To decrease the final bundle you can add `extractCSS: true` to your `build` object. In our case it resulted in decreasing the final bundle by about 60 KB (20% of overall size).\n\n",s.user={name:"Jakub Andrzejewski",username:e,twitter_username:e,github_username:"Baroshem",website_url:"https://pl.linkedin.com/in/jakub-andrzejewski",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--8p-Vfa2M--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/652576/5285632c-5819-4874-adf9-6d3730420830.jpeg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--a7o_PXrk--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/652576/5285632c-5819-4874-adf9-6d3730420830.jpeg"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:s}},error:n,state:{currentArticle:s},serverRendered:!0,routePath:"/jacobandrewsky/857448",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:n}}}}(null,{},"2021-10-11T14:47:56Z","jacobandrewsky")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

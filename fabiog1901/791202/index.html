@@ -1,0 +1,728 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Deploy CockroachDB on the Public Cloud using Ansible</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Deploy CockroachDB on the Public Cloud using Ansible</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/cockroachdb" class="tag" data-v-70afb46a>
+          #cockroachdb
+        </a><a href="/nuxtstop/t/ansible" class="tag" data-v-70afb46a>
+          #ansible
+        </a><a href="/nuxtstop/t/cloud" class="tag" data-v-70afb46a>
+          #cloud
+        </a><a href="/nuxtstop/t/testing" class="tag" data-v-70afb46a>
+          #testing
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--snzQCsDu--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/51mk5rg677wuhpkcqtks.png" alt="Deploy CockroachDB on the Public Cloud using Ansible" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            5
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Aug 19 '21</time></div></header> <div class="content" data-v-70afb46a><p>I've been casually using Ansible for a few years now. I use it mostly to facilitate the creation of demo clusters and workshop environments. In previous jobs, the standard was to create bash scripts for this type of automation. But bash scripts have a bad tendency to become long applications that are hard to read, maintain and expand in scope. Ansible instead scales and expands easily, and while it's certainly more difficult to get started, the benefits from using it appear very soon.</p>
+
+<p>I never had the opportunity to learn Ansible for real DevOps work, still, I thought you might find useful to see how I can easily create a CockroachDB cluster on the public cloud. I have created an <a href="https://github.com/fabiog1901/cockroachdb-collection">Ansible Collection</a> and made it available for anyone to download and use.</p>
+
+<h2>
+  <a name="overview" href="#overview">
+  </a>
+  Overview
+</h2>
+
+<p>In this blog post, I will demonstrate how to deploy a secured, kerberized, multi-cloud CockroachDB cluster using Ansible. This is helpful for testing, demonstrations, and to gain a broad understanding of the steps required for a real production deployment.<br>
+We create a 9 nodes cluster across 3 regions, with each region in a different cloud provider. We will create Load Balancers for each region, too.<br>
+Each region will also be setup with an App server, from which you will connect and run your SQL queries.<br>
+Additionally, we setup a MIT KDC server, for Kerberos authentication.</p>
+
+<p>Below is the architecture diagram of the deployment.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--NylTw-hJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/drsz5abjg3x7d2d94vq9.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--NylTw-hJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/drsz5abjg3x7d2d94vq9.png" alt="arch" loading="lazy" width="880" height="388"></a></p>
+
+<p>Let's get started!</p>
+
+<blockquote>
+<p><strong>Note</strong>: I'm currently updating Ansible Role <code>cloud_instance</code> that I use to provision VMs in the public cloud, specifically, the modules used for Azure. Therefore, temporarily, we will use GCP instead of Azure. I will update this blog and remove this notice as soon as the Ansible Role has been updated.</p>
+</blockquote>
+<h2>
+  <a name="optional-create-an-ansible-control-machine-acm" href="#optional-create-an-ansible-control-machine-acm">
+  </a>
+  (Optional) Create an Ansible Control Machine (ACM)
+</h2>
+
+<p>I run Ansible out of my work computer, so if you are already familiar with how Ansible works you don't need to create an ACM in the public cloud.</p>
+
+<p>However, if this is your first time with Ansible and/or you are working with a Windows computer, it might be easier to reproduce the steps if you setup the ACM and follow along.</p>
+
+<p>Spin up a <code>t2.micro</code> with Ubuntu 21.04, or similar instance in your preferred public cloud provider.<br>
+Ensure the AWS Security Group has a rule to only allow SSH traffic from your IP: we want to be sure nobody can access this VM as you will store the keys used to provision the cluster.</p>
+
+<p>Once provisioned, ssh into the box and run below commands:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="c"># ensure system is up-to-date, and install ansible + pip</span>
+<span class="nv">$ </span><span class="nb">sudo </span>apt update
+<span class="nv">$ </span><span class="nb">sudo </span>apt upgrade <span class="nt">-y</span>
+<span class="nv">$ </span><span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> ansible python3-pip
+
+<span class="c"># ensure you're using Ansible 2.10 or higher</span>
+<span class="nv">$ </span>ansible <span class="nt">--version</span>
+ansible 2.10.5
+  config file <span class="o">=</span> None
+  configured module search path <span class="o">=</span> <span class="o">[</span><span class="s1">'/home/ubuntu/.ansible/plugins/modules'</span>, <span class="s1">'/usr/share/ansible/plugins/modules'</span><span class="o">]</span>
+  ansible python module location <span class="o">=</span> /usr/lib/python3/dist-packages/ansible
+  executable location <span class="o">=</span> /usr/bin/ansible
+  python version <span class="o">=</span> 3.9.5 <span class="o">(</span>default, May 11 2021, 08:20:37<span class="o">)</span> <span class="o">[</span>GCC 10.3.0]
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Good, your ACM is now ready to go!</p>
+
+<h2>
+  <a name="setup" href="#setup">
+  </a>
+  Setup
+</h2>
+
+<p>In this section, we will download and configure the Ansible Collections required to deploy the cluster.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="c"># create a directory for your work</span>
+<span class="nb">mkdir </span>cockroachdb
+<span class="nb">cd </span>cockroachdb
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Create a project specific Ansible config file, and install the Ansible Collections and their Requirements<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">cat</span> - <span class="o">></span>ansible.cfg <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh">
+[defaults]
+forks           = 25
+host_key_checking = False 
+stdout_callback = yaml
+</span><span class="no">EOF
+
+</span><span class="c"># Install the Ansible CockroachDB Collection at playbook level</span>
+ansible-galaxy collection <span class="nb">install </span>git+https://github.com/fabiog1901/cockroachdb-collection.git <span class="nt">-p</span> collections/
+
+<span class="c"># Install the required Ansible Collections to the default location:</span>
+ansible-galaxy collection <span class="nb">install</span> <span class="nt">-r</span> collections/ansible_collections/fabiog1901/cockroachdb/requirements.yml 
+
+
+<span class="c"># install required pip packages for AWS, GCP, Azure</span>
+pip <span class="nb">install</span> <span class="nt">-r</span> ~/.ansible/collections/ansible_collections/amazon/aws/requirements.txt 
+pip <span class="nb">install</span> <span class="nt">-r</span> ~/.ansible/collections/ansible_collections/google/cloud/requirements.txt 
+pip <span class="nb">install</span> <span class="nt">-r</span> ~/.ansible/collections/ansible_collections/azure/azcollection/requirements-azure.txt
+
+<span class="c"># copy the sample Playbooks in the CockroachDB Collection to our working directory</span>
+<span class="nb">cp </span>collections/ansible_collections/fabiog1901/cockroachdb/playbooks/<span class="k">*</span> <span class="nb">.</span>  
+<span class="nb">mkdir </span>config
+<span class="nb">cp </span>collections/ansible_collections/fabiog1901/cockroachdb/config/sample.yml config   
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Great, we've all the required Ansible components!</p>
+
+<p>Now export the public cloud auth keys and start the SSH Agent, adding the ssh key to the agent<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="c"># export cloud provider keys</span>
+
+<span class="c"># AWS</span>
+<span class="nb">export </span><span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>AKIxxxxxxxxyyyyyzzzz
+<span class="nb">export </span><span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>xxxxxxxyyyyyyyyyyzzzzzzzz
+
+<span class="c"># For Google Cloud, it's not as easy so you need to sftp or copy-paste your service account file if</span>
+<span class="c"># you're using the cloud ACM</span>
+<span class="nb">touch </span>my-project.json
+<span class="nb">cat</span> - <span class="o">></span>my-project.json <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh">
+{
+  "type": "service_account",
+  "project_id": "my-project",
+  "private_key_id": "xxxyyyzzzz",
+  "private_key": "-----BEGIN PRIVATE KEY-----</span><span class="se">\ </span><span class="sh">... -----END PRIVATE KEY-----</span><span class="se">\n</span><span class="sh">",
+  "client_email": "workshop@my-project.iam.gserviceaccount.com",
+  "client_id": "8888",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/workshop%40cmyproject.iam.gserviceaccount.com"
+}
+</span><span class="no">EOF
+</span><span class="nb">chmod </span>400 my-project.json
+
+<span class="nb">export </span><span class="nv">GCP_SERVICE_ACCOUNT_FILE</span><span class="o">=</span>my-project.json
+<span class="nb">export </span><span class="nv">GCP_AUTH_KIND</span><span class="o">=</span>serviceaccount
+<span class="nb">export </span><span class="nv">GCP_PROJECT</span><span class="o">=</span>my-gcp-project
+
+<span class="c"># for AZURE</span>
+<span class="nb">export </span><span class="nv">AZURE_SUBSCRIPTION_ID</span><span class="o">=</span>xxxxxx-yyyyy-zzzzzz
+<span class="nb">export </span><span class="nv">AZURE_AD_USER</span><span class="o">=</span>xxxxyyyyzzzzz
+<span class="nb">export </span><span class="nv">AZURE_PASSWORD</span><span class="o">=</span><span class="s1">'xxxxyyyyzzzz'</span>
+
+<span class="c"># Just like you did for GCP's service account file, sftp or copy-paste the private ssh key if</span>
+<span class="c"># you're using the cloud ACM</span>
+<span class="nb">touch </span>workshop.pem
+<span class="nb">cat</span> - <span class="o">></span>workshop.pem <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh">
+-----BEGIN RSA PRIVATE KEY-----
+...
+-----END RSA PRIVATE KEY-----
+</span><span class="no">EOF
+</span><span class="nb">chmod </span>400 workshop.pem
+
+<span class="c"># start the ssh-agent and add the key.</span>
+<span class="c"># On my macbook, I just do `ssh-agent`.</span>
+<span class="c"># Below is the command on Ubuntu</span>
+<span class="nb">eval</span> <span class="si">$(</span>ssh-agent<span class="si">)</span>
+ssh-add workshop.pem
+
+<span class="c"># confirm the key was added with</span>
+ssh-add <span class="nt">-l</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The ssh key I've added here to the ssh-agent is the key used by Ansible to ssh into every VM. This is the private key part of the public key you've setup on the public cloud, see below for AWS and GCP:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--2DgJsr0P--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kvjyz9v1o8l0rs5v7xso.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--2DgJsr0P--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kvjyz9v1o8l0rs5v7xso.png" alt="aws" loading="lazy" width="880" height="252"></a></p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--KDR_xmKi--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/63nx9b62hkgq53naqmiy.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--KDR_xmKi--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/63nx9b62hkgq53naqmiy.png" alt="gcp" loading="lazy" width="880" height="389"></a></p>
+
+<p>For simplicity, I use the same key for both clouds.</p>
+
+<p>At this point you've all the tools you need to run the playbook.</p>
+
+<p>What's missing are the details of you public cloud environments.</p>
+
+<h2>
+  <a name="configuration" href="#configuration">
+  </a>
+  Configuration
+</h2>
+
+<blockquote>
+<p>Assumptions:</p>
+
+<ol>
+<li>you already have available, or know how to create, AWS VPCs, Subnets, Security Groups and their equivalent in GCP and Azure.</li>
+<li>you know how to request to increase your quotas, should you run into an error that points at quotas been exceeded.</li>
+<li>you know how to read the Ansible output to figure out and troubleshoot any possible errors. There are unfortunately too many variables to consider to ensure your public cloud env is similar to the one I use so I rely on your skills to overcome these issues.</li>
+</ol>
+</blockquote>
+
+<p>Using <code>vi</code> or <code>nano</code>, open file <code>config/sample.yml</code>.<br>
+At line 5 of the file you'll find a variable called <code>regions</code>. Take some time to study this variable, as it's quite complex yet, hopefully, well organized.<br>
+This variable is a dictionary that holds the values of your VPC, subnets, Security Groups, etc.. You need to update the variable with your details.<br>
+If you prefer to use different regions then those listed, feel free to update or add more as you see fit. As long as the structure of the variables is the same, you will be fine.<br>
+For example, at line 9 you'll find the <code>public_key_id</code> mentioned previously, in this case, the key is called <code>workshop</code>.</p>
+
+<p>Unless you choose to use different regions than those specified, you're done here. If you use different regions however, make sure you update variable <code>infra</code> accordingly.</p>
+
+<p>At this point, your config file is setup to suit your cloud environment.</p>
+<h2>
+  <a name="run" href="#run">
+  </a>
+  Run
+</h2>
+
+<p>You can now run the playbook. <code>sample.yml</code> is your <strong>deployment</strong> file, that is, the file that holds all information about what you want to deploy, similar in spirit to a Kubernetes deployment file.</p>
+
+<p>The playbook tries for the most part to stay idempotent, so if it errors out for some silly mistake you know how to fix, it's safe to run it again and again.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>ansible-playbook site.yml <span class="nt">-e</span> @config/sample.yml  
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>If it completes successfully, the Playbook will print out the <code>groups</code> magic variable, which is very useful now that we want to login and review everything that got deployed.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>TASK [PRINT GROUPS MAGIC VARIABLE] ********************************************
+ok: [localhost] => 
+  msg:
+[...]
+    app:
+    - 35.245.28.201
+    - 54.219.186.215
+    - 34.142.11.1
+    cockroachdb:
+    - 34.145.153.191
+    - 54.241.135.38
+    - 54.193.57.73
+    - 54.183.36.247
+    - 34.89.108.176
+    - 34.85.227.69
+    - 35.221.40.16
+    - 34.142.16.169
+    - 34.142.83.159
+    haproxy:
+    - 34.86.85.212
+    - 54.176.62.208
+    - 35.246.47.46
+[...]
+    krb5_server:
+    - 34.66.230.216
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Take notice of groups <code>cockroachdb</code>, <code>app</code>, <code>haproxy</code> and <code>krb5_server</code>. This output doesn't list the region where the VM is located, so you might have to look it up from the AWS or GCP Console for those details.</p>
+
+<h2>
+  <a name="review" href="#review">
+  </a>
+  Review
+</h2>
+
+<p>On your browser go to port 8080 on any or all of your haproxy servers to access the CockroachDB Console. In this example I head out to <a href="https://34.86.85.212:8080">https://34.86.85.212:8080</a>.<br>
+You need to accept the untrusted certificate presented (remember, this is a secure cluster with a self-signed cert whose CA is not recognized by the browser, see the <a href="https://www.cockroachlabs.com/docs/stable/deploy-cockroachdb-on-premises.html#step-2-generate-certificates">Note</a> at the bottom for more details).</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--3jBJTLw1--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pw47q3bs1i2cl203859j.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--3jBJTLw1--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pw47q3bs1i2cl203859j.png" alt="cert-warning" loading="lazy" width="880" height="676"></a></p>
+
+<p>Login with user <code>fabio</code> and password <code>cockroach</code>.<br>
+You have specified these details in the <code>config/sample.yml</code> file under section <code>APPLICATION</code> in the <code>dbusers</code> variable, and have created and granted <code>admin</code> privileges in the last 2 Tasks of Playbook <code>application.yml</code>.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--2Ge4t_-M--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/mowqyel1thp6sfgdiq77.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--2Ge4t_-M--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/mowqyel1thp6sfgdiq77.png" alt="console-overview" loading="lazy" width="880" height="518"></a></p>
+
+<p>Great, your 9 nodes, secure cluster is up!</p>
+
+<p>Now, let's login into the SQL prompt as <code>root</code> user.<br>
+Pick any of the CockroachDB servers (here I picked the first of the list, 34.145.153.191), and ssh into the box.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="c"># from the ACM, ssh into cockroachdb node</span>
+ssh ubuntu@34.145.153.191
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Then, login as user <code>root</code> using the root cert and root key, which are located at <code>/var/lib/cockroach/certs</code>.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo </span>cockroach sql <span class="nt">--certs-dir</span><span class="o">=</span>/var/lib/cockroach/certs
+<span class="c">#</span>
+<span class="c"># Welcome to the CockroachDB SQL shell.</span>
+<span class="c"># All statements must be terminated by a semicolon.</span>
+<span class="c"># To exit, type: \q.</span>
+<span class="c">#</span>
+<span class="c"># Server version: CockroachDB CCL v21.1.5 (x86_64-unknown-linux-gnu, built 2021/07/02 03:57:09, go1.15.11) (same version as client)</span>
+<span class="c"># Cluster ID: adc08ee1-8805-4341-ab36-a87984332b26</span>
+<span class="c"># Organization: Workshop</span>
+<span class="c">#</span>
+<span class="c"># Enter \? for a brief introduction.</span>
+<span class="c">#</span>
+root@:26257/defaultdb> SHOW DATABASES<span class="p">;</span>
+  database_name | owner | primary_region | regions | survival_goal
+<span class="nt">----------------</span>+-------+----------------+---------+----------------
+  defaultdb     | root  | NULL           | <span class="o">{}</span>      | NULL
+  postgres      | root  | NULL           | <span class="o">{}</span>      | NULL
+  system        | node  | NULL           | <span class="o">{}</span>      | NULL
+<span class="o">(</span>3 rows<span class="o">)</span>
+
+Time: 221ms total <span class="o">(</span>execution 221ms / network 0ms<span class="o">)</span>
+
+root@:26257/defaultdb> SHOW LOCALITY<span class="p">;</span>
+         locality
+<span class="nt">--------------------------</span>
+  <span class="nv">region</span><span class="o">=</span>us-east4,zone<span class="o">=</span>a
+<span class="o">(</span>1 row<span class="o">)</span>
+
+Time: 2ms total <span class="o">(</span>execution 1ms / network 0ms<span class="o">)</span>
+
+root@:26257/defaultdb> SHOW USERS<span class="p">;</span>
+  username | options | member_of
+<span class="nt">-----------</span>+---------+------------
+  admin    |         | <span class="o">{}</span>
+  app      |         | <span class="o">{</span>admin<span class="o">}</span>
+  fabio    |         | <span class="o">{</span>admin<span class="o">}</span>
+  root     |         | <span class="o">{</span>admin<span class="o">}</span>
+<span class="o">(</span>4 rows<span class="o">)</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You can also use the full ODBC URL to login<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">sudo </span>cockroach sql <span class="nt">--url</span> <span class="s2">"postgresql://root@localhost:26257/defaultdb?sslmode=require&sslrootcert=/var/lib/cockroach/certs/ca.crt&sslcert=/var/lib/cockroach/certs/client.root.crt&sslkey=/var/lib/cockroach/certs/client.root.key"</span> 
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Next, let's login as user <code>fabio</code>.<br>
+We have <a href="https://www.cockroachlabs.com/docs/stable/gssapi_authentication.html">configured</a> the cluster to use Kerberos, and are permitting connection to the cluster using Kerberos users only via the HAProxies, that is, you can't point to a CockroachDB node directly (this was instructed in the Ansible Playbook).</p>
+
+<p>Ssh into any of the App Servers, then, at the prompt:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span><span class="c"># the kerberos password was set in config/sample.yml </span>
+<span class="nv">$ </span><span class="c"># with variable 'krb5_principals', </span>
+<span class="nv">$ </span><span class="c"># under section PLATFORM > MIT KDC.</span>
+<span class="nv">$ </span>kinit fabio
+Password <span class="k">for </span>fabio@FABIO.LOCAL: 
+
+<span class="nv">$ </span><span class="c"># verify the ticket was created successfully</span>
+<span class="nv">$ </span>klist
+Ticket cache: FILE:/tmp/krb5cc_1000
+Default principal: fabio@FABIO.LOCAL
+
+Valid starting     Expires            Service principal
+08/13/21 11:53:46  08/14/21 11:53:46  krbtgt/FABIO.LOCAL@FABIO.LOCAL
+        renew <span class="k">until </span>08/20/21 11:53:46
+
+<span class="nv">$ </span><span class="c"># connect to the database</span>
+<span class="nv">$ </span><span class="c"># take note of parameter 'krbsrvname=cockroach'</span>
+<span class="nv">$ </span><span class="c"># which is the SPN we created with Ansible</span>
+<span class="nv">$ </span>cockroach sql <span class="nt">--url</span> <span class="s2">"postgresql://fabio@212.85.86.34.bc.googleusercontent.com:26257/defaultdb?sslmode=require&sslrootcert=ca.crt&krbsrvname=cockroach"</span>
+<span class="c">#</span>
+<span class="c"># Welcome to the CockroachDB SQL shell.</span>
+<span class="c"># All statements must be terminated by a semicolon.</span>
+<span class="c"># To exit, type: \q.</span>
+<span class="c">#</span>
+<span class="c"># Client version: CockroachDB CCL v21.1.7 (x86_64-unknown-linux-gnu, built 2021/08/09 17:55:28, go1.15.14)</span>
+<span class="c"># Server version: CockroachDB CCL v21.1.5 (x86_64-unknown-linux-gnu, built 2021/07/02 03:57:09, go1.15.11)</span>
+<span class="c"># Cluster ID: adc08ee1-8805-4341-ab36-a87984332b26</span>
+<span class="c"># Organization: Workshop</span>
+<span class="c">#</span>
+<span class="c"># Enter \? for a brief introduction.</span>
+<span class="c">#</span>
+fabio@34.86.85.212:26257/defaultdb> SHOW LOCALITY<span class="p">;</span>
+         locality
+<span class="nt">--------------------------</span>
+  <span class="nv">region</span><span class="o">=</span>us-east4,zone<span class="o">=</span>c
+<span class="o">(</span>1 row<span class="o">)</span>
+
+Time: 3ms total <span class="o">(</span>execution 1ms / network 2ms<span class="o">)</span>
+
+fabio@34.86.85.212:26257/defaultdb> SELECT version<span class="o">()</span><span class="p">;</span>
+                                          version
+<span class="nt">--------------------------------------------------------------------------------------------</span>
+  CockroachDB CCL v21.1.5 <span class="o">(</span>x86_64-unknown-linux-gnu, built 2021/07/02 03:57:09, go1.15.11<span class="o">)</span>
+<span class="o">(</span>1 row<span class="o">)</span>
+
+Time: 2ms total <span class="o">(</span>execution 0ms / network 2ms<span class="o">)</span>
+
+fabio@34.86.85.212:26257/defaultdb> SELECT now<span class="o">()</span><span class="p">;</span>
+               now
+<span class="nt">---------------------------------</span>
+  2021-08-13 11:54:49.551574+00
+<span class="o">(</span>1 row<span class="o">)</span>
+
+Time: 2ms total <span class="o">(</span>execution 0ms / network 2ms<span class="o">)</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Validate by destroying the ticket and reattempt connection<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>kdestroy
+<span class="nv">$ </span>cockroach sql <span class="nt">--url</span> <span class="s2">"postgresql://fabio@212.85.86.34.bc.googleusercontent.com:26257/defaultdb?sslmode=require&sslrootcert=ca.crt&krbsrvname=cockroach"</span>
+<span class="c">#</span>
+<span class="c"># Welcome to the CockroachDB SQL shell.</span>
+<span class="c"># All statements must be terminated by a semicolon.</span>
+<span class="c"># To exit, type: \q.</span>
+<span class="c">#</span>
+ERROR: pq: kerberos error: open /tmp/krb5cc_1000: no such file or directory
+Failed running <span class="s2">"sql"</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>As expected, we got denied.</p>
+
+<p>Finally, our last test involves bypassing Kerberos by authenticating using cert+key.<br>
+We specified that we allow user <code>app</code> to authenticate using this mechanism in the "hba.conf" file using this SQL line, in <code>application.yml</code>:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>SET cluster setting server.host_based_authentication.configuration = '
+host all app all cert-password
+host all all all gss include_realm=0';
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Which says, in plain English: "accept either a certificate or a password as authentication mechanism for user <code>app</code>; accept Kerberos auth for any user".</p>
+
+<p>The certificate and key for user <code>app</code> should be in the home folder already, check with <code>ls</code>.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-l</span> client.app<span class="k">*</span>
+<span class="nt">-rw-r--r--</span> 1 root root 4000 Aug 10 22:04 client.app.crt
+<span class="nt">-rw-------</span> 1 root root 1675 Aug 10 22:04 client.app.key
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now, login using these certs<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>cockroach sql <span class="nt">--url</span> <span class="s2">"postgresql://app@34.86.85.212:26257/defaultdb?sslmode=require&sslrootcert=ca.crt&sslcert=client.app.crt&sslkey=client.app.key"</span> 
+<span class="c">#</span>
+<span class="c"># Welcome to the CockroachDB SQL shell.</span>
+<span class="c"># All statements must be terminated by a semicolon.</span>
+<span class="c"># To exit, type: \q.</span>
+<span class="c">#</span>
+<span class="c"># Client version: CockroachDB CCL v21.1.7 (x86_64-unknown-linux-gnu, built 2021/08/09 17:55:28, go1.15.14)</span>
+<span class="c"># Server version: CockroachDB CCL v21.1.5 (x86_64-unknown-linux-gnu, built 2021/07/02 03:57:09, go1.15.11)</span>
+<span class="c"># Cluster ID: adc08ee1-8805-4341-ab36-a87984332b26</span>
+<span class="c"># Organization: Workshop</span>
+<span class="c">#</span>
+<span class="c"># Enter \? for a brief introduction.</span>
+<span class="c">#</span>
+app@34.86.85.212:26257/defaultdb> SELECT gen_random_uuid<span class="o">()</span> FROM generate_series<span class="o">(</span>1, 10<span class="o">)</span><span class="p">;</span>    
+            gen_random_uuid
+<span class="nt">----------------------------------------</span>
+  e5af9bdd-4e43-44b4-8a05-79b183adf33e
+  b59922b8-37ae-4c7a-8de5-7012b0b3c3a5
+  3b14db65-321d-4bd8-8018-2777a436e27c
+  a8b01ae3-2326-4e72-ad40-d260fa3b0876
+  9aaa7a29-8615-4f67-81a6-efea50b62eb8
+  15774a59-9ca6-456b-974c-db2965cbb36a
+  a2f748a1-fca1-4e46-8ea8-6760bf2dc8d1
+  0526fd48-ac5c-471a-be92-7e51e71e397e
+  b0bc6785-e110-45b5-8fa9-8f234bfcbbe7
+  6622fb33-d66e-4858-88a1-9b5c75ccbf67
+<span class="o">(</span>10 rows<span class="o">)</span>
+
+Time: 2ms total <span class="o">(</span>execution 1ms / network 2ms<span class="o">)</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Perfect, this concludes our testing!</p>
+
+<h2>
+  <a name="clean-up" href="#clean-up">
+  </a>
+  Clean up
+</h2>
+
+<p>You can destroy every VM by simple set variable <code>exact_count</code> to 0 (zero), however, it's far simpler to delete all VMs from the AWS/GCP console. Each VM has been tagged with <code>deployment_id</code> and <code>owner</code>, so it's easy to filter out the VMs for this deployment.</p>
+
+<h2>
+  <a name="acknowledgments" href="#acknowledgments">
+  </a>
+  Acknowledgments
+</h2>
+
+<p>I would like to thank the <a href="https://www.cloudera.com/about/services-and-support/professional-services.html">Cloudera Professional Services organization</a> for the <code>krb_client</code> and <code>krb_server</code> roles, which are included in the Collection but were taken from an early work and are currently available <a href="https://github.com/cloudera-labs/cloudera.cluster/tree/main/roles/infrastructure">here</a> in their latest version.</p>
+
+<p>Special thanks go to <a href="https://www.linkedin.com/in/wmudge/">Webster Mudge</a>, who initially designed the high level architecture of the Collection's Playbooks (infrastructure, platform, application).</p>
+
+<h2>
+  <a name="reference" href="#reference">
+  </a>
+  Reference
+</h2>
+
+<p><a href="https://www.cockroachlabs.com/product/">CockroachDB</a><br>
+<a href="https://www.cockroachlabs.com/docs/stable/index.html">CockroachDB Docs</a><br>
+<a href="https://github.com/fabiog1901/cockroachdb-collection">fabiog1901/cockroachdb-collection</a></p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/fabiog1901/deploy-cockroachdb-on-the-public-cloud-using-ansible-1ek1" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(n,e,s,a,o,t){return s.type_of="article",s.id=791202,s.title="Deploy CockroachDB on the Public Cloud using Ansible",s.description="I've been casually using Ansible for a few years now. I use it mostly to facilitate the creation of...",s.readable_publish_date="Aug 19 '21",s.slug="deploy-cockroachdb-on-the-public-cloud-using-ansible-1ek1",s.path="/cockroachlabs/deploy-cockroachdb-on-the-public-cloud-using-ansible-1ek1",s.url=a,s.comments_count=0,s.public_reactions_count=5,s.collection_id=n,s.published_timestamp=e,s.positive_reactions_count=5,s.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--snzQCsDu--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/51mk5rg677wuhpkcqtks.png",s.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--HYIYSm8t--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/51mk5rg677wuhpkcqtks.png",s.canonical_url=a,s.created_at="2021-08-13T21:37:40Z",s.edited_at="2022-02-01T16:30:37Z",s.crossposted_at=n,s.published_at=e,s.last_comment_at=e,s.reading_time_minutes=11,s.tag_list="cockroachdb, ansible, cloud, testing",s.tags=["cockroachdb","ansible","cloud","testing"],s.body_html='<p>I\'ve been casually using Ansible for a few years now. I use it mostly to facilitate the creation of demo clusters and workshop environments. In previous jobs, the standard was to create bash scripts for this type of automation. But bash scripts have a bad tendency to become long applications that are hard to read, maintain and expand in scope. Ansible instead scales and expands easily, and while it\'s certainly more difficult to get started, the benefits from using it appear very soon.</p>\n\n<p>I never had the opportunity to learn Ansible for real DevOps work, still, I thought you might find useful to see how I can easily create a CockroachDB cluster on the public cloud. I have created an <a href="https://github.com/fabiog1901/cockroachdb-collection">Ansible Collection</a> and made it available for anyone to download and use.</p>\n\n<h2>\n  <a name="overview" href="#overview">\n  </a>\n  Overview\n</h2>\n\n<p>In this blog post, I will demonstrate how to deploy a secured, kerberized, multi-cloud CockroachDB cluster using Ansible. This is helpful for testing, demonstrations, and to gain a broad understanding of the steps required for a real production deployment.<br>\nWe create a 9 nodes cluster across 3 regions, with each region in a different cloud provider. We will create Load Balancers for each region, too.<br>\nEach region will also be setup with an App server, from which you will connect and run your SQL queries.<br>\nAdditionally, we setup a MIT KDC server, for Kerberos authentication.</p>\n\n<p>Below is the architecture diagram of the deployment.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--NylTw-hJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/drsz5abjg3x7d2d94vq9.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--NylTw-hJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/drsz5abjg3x7d2d94vq9.png" alt="arch" loading="lazy" width="880" height="388"></a></p>\n\n<p>Let\'s get started!</p>\n\n<blockquote>\n<p><strong>Note</strong>: I\'m currently updating Ansible Role <code>cloud_instance</code> that I use to provision VMs in the public cloud, specifically, the modules used for Azure. Therefore, temporarily, we will use GCP instead of Azure. I will update this blog and remove this notice as soon as the Ansible Role has been updated.</p>\n</blockquote>\n<h2>\n  <a name="optional-create-an-ansible-control-machine-acm" href="#optional-create-an-ansible-control-machine-acm">\n  </a>\n  (Optional) Create an Ansible Control Machine (ACM)\n</h2>\n\n<p>I run Ansible out of my work computer, so if you are already familiar with how Ansible works you don\'t need to create an ACM in the public cloud.</p>\n\n<p>However, if this is your first time with Ansible and/or you are working with a Windows computer, it might be easier to reproduce the steps if you setup the ACM and follow along.</p>\n\n<p>Spin up a <code>t2.micro</code> with Ubuntu 21.04, or similar instance in your preferred public cloud provider.<br>\nEnsure the AWS Security Group has a rule to only allow SSH traffic from your IP: we want to be sure nobody can access this VM as you will store the keys used to provision the cluster.</p>\n\n<p>Once provisioned, ssh into the box and run below commands:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="c"># ensure system is up-to-date, and install ansible + pip</span>\n<span class="nv">$ </span><span class="nb">sudo </span>apt update\n<span class="nv">$ </span><span class="nb">sudo </span>apt upgrade <span class="nt">-y</span>\n<span class="nv">$ </span><span class="nb">sudo </span>apt <span class="nb">install</span> <span class="nt">-y</span> ansible python3-pip\n\n<span class="c"># ensure you\'re using Ansible 2.10 or higher</span>\n<span class="nv">$ </span>ansible <span class="nt">--version</span>\nansible 2.10.5\n  config file <span class="o">=</span> None\n  configured module search path <span class="o">=</span> <span class="o">[</span><span class="s1">\'/home/ubuntu/.ansible/plugins/modules\'</span>, <span class="s1">\'/usr/share/ansible/plugins/modules\'</span><span class="o">]</span>\n  ansible python module location <span class="o">=</span> /usr/lib/python3/dist-packages/ansible\n  executable location <span class="o">=</span> /usr/bin/ansible\n  python version <span class="o">=</span> 3.9.5 <span class="o">(</span>default, May 11 2021, 08:20:37<span class="o">)</span> <span class="o">[</span>GCC 10.3.0]\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Good, your ACM is now ready to go!</p>\n\n<h2>\n  <a name="setup" href="#setup">\n  </a>\n  Setup\n</h2>\n\n<p>In this section, we will download and configure the Ansible Collections required to deploy the cluster.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="c"># create a directory for your work</span>\n<span class="nb">mkdir </span>cockroachdb\n<span class="nb">cd </span>cockroachdb\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Create a project specific Ansible config file, and install the Ansible Collections and their Requirements<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">cat</span> - <span class="o">&gt;</span>ansible.cfg <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh">\n[defaults]\nforks           = 25\nhost_key_checking = False \nstdout_callback = yaml\n</span><span class="no">EOF\n\n</span><span class="c"># Install the Ansible CockroachDB Collection at playbook level</span>\nansible-galaxy collection <span class="nb">install </span>git+https://github.com/fabiog1901/cockroachdb-collection.git <span class="nt">-p</span> collections/\n\n<span class="c"># Install the required Ansible Collections to the default location:</span>\nansible-galaxy collection <span class="nb">install</span> <span class="nt">-r</span> collections/ansible_collections/fabiog1901/cockroachdb/requirements.yml \n\n\n<span class="c"># install required pip packages for AWS, GCP, Azure</span>\npip <span class="nb">install</span> <span class="nt">-r</span> ~/.ansible/collections/ansible_collections/amazon/aws/requirements.txt \npip <span class="nb">install</span> <span class="nt">-r</span> ~/.ansible/collections/ansible_collections/google/cloud/requirements.txt \npip <span class="nb">install</span> <span class="nt">-r</span> ~/.ansible/collections/ansible_collections/azure/azcollection/requirements-azure.txt\n\n<span class="c"># copy the sample Playbooks in the CockroachDB Collection to our working directory</span>\n<span class="nb">cp </span>collections/ansible_collections/fabiog1901/cockroachdb/playbooks/<span class="k">*</span> <span class="nb">.</span>  \n<span class="nb">mkdir </span>config\n<span class="nb">cp </span>collections/ansible_collections/fabiog1901/cockroachdb/config/sample.yml config   \n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Great, we\'ve all the required Ansible components!</p>\n\n<p>Now export the public cloud auth keys and start the SSH Agent, adding the ssh key to the agent<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="c"># export cloud provider keys</span>\n\n<span class="c"># AWS</span>\n<span class="nb">export </span><span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span>AKIxxxxxxxxyyyyyzzzz\n<span class="nb">export </span><span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span>xxxxxxxyyyyyyyyyyzzzzzzzz\n\n<span class="c"># For Google Cloud, it\'s not as easy so you need to sftp or copy-paste your service account file if</span>\n<span class="c"># you\'re using the cloud ACM</span>\n<span class="nb">touch </span>my-project.json\n<span class="nb">cat</span> - <span class="o">&gt;</span>my-project.json <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh">\n{\n  "type": "service_account",\n  "project_id": "my-project",\n  "private_key_id": "xxxyyyzzzz",\n  "private_key": "-----BEGIN PRIVATE KEY-----</span><span class="se">\\ </span><span class="sh">... -----END PRIVATE KEY-----</span><span class="se">\\n</span><span class="sh">",\n  "client_email": "workshop@my-project.iam.gserviceaccount.com",\n  "client_id": "8888",\n  "auth_uri": "https://accounts.google.com/o/oauth2/auth",\n  "token_uri": "https://oauth2.googleapis.com/token",\n  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",\n  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/workshop%40cmyproject.iam.gserviceaccount.com"\n}\n</span><span class="no">EOF\n</span><span class="nb">chmod </span>400 my-project.json\n\n<span class="nb">export </span><span class="nv">GCP_SERVICE_ACCOUNT_FILE</span><span class="o">=</span>my-project.json\n<span class="nb">export </span><span class="nv">GCP_AUTH_KIND</span><span class="o">=</span>serviceaccount\n<span class="nb">export </span><span class="nv">GCP_PROJECT</span><span class="o">=</span>my-gcp-project\n\n<span class="c"># for AZURE</span>\n<span class="nb">export </span><span class="nv">AZURE_SUBSCRIPTION_ID</span><span class="o">=</span>xxxxxx-yyyyy-zzzzzz\n<span class="nb">export </span><span class="nv">AZURE_AD_USER</span><span class="o">=</span>xxxxyyyyzzzzz\n<span class="nb">export </span><span class="nv">AZURE_PASSWORD</span><span class="o">=</span><span class="s1">\'xxxxyyyyzzzz\'</span>\n\n<span class="c"># Just like you did for GCP\'s service account file, sftp or copy-paste the private ssh key if</span>\n<span class="c"># you\'re using the cloud ACM</span>\n<span class="nb">touch </span>workshop.pem\n<span class="nb">cat</span> - <span class="o">&gt;</span>workshop.pem <span class="o">&lt;&lt;</span><span class="no">EOF</span><span class="sh">\n-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----\n</span><span class="no">EOF\n</span><span class="nb">chmod </span>400 workshop.pem\n\n<span class="c"># start the ssh-agent and add the key.</span>\n<span class="c"># On my macbook, I just do `ssh-agent`.</span>\n<span class="c"># Below is the command on Ubuntu</span>\n<span class="nb">eval</span> <span class="si">$(</span>ssh-agent<span class="si">)</span>\nssh-add workshop.pem\n\n<span class="c"># confirm the key was added with</span>\nssh-add <span class="nt">-l</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The ssh key I\'ve added here to the ssh-agent is the key used by Ansible to ssh into every VM. This is the private key part of the public key you\'ve setup on the public cloud, see below for AWS and GCP:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--2DgJsr0P--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kvjyz9v1o8l0rs5v7xso.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--2DgJsr0P--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kvjyz9v1o8l0rs5v7xso.png" alt="aws" loading="lazy" width="880" height="252"></a></p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--KDR_xmKi--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/63nx9b62hkgq53naqmiy.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--KDR_xmKi--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/63nx9b62hkgq53naqmiy.png" alt="gcp" loading="lazy" width="880" height="389"></a></p>\n\n<p>For simplicity, I use the same key for both clouds.</p>\n\n<p>At this point you\'ve all the tools you need to run the playbook.</p>\n\n<p>What\'s missing are the details of you public cloud environments.</p>\n\n<h2>\n  <a name="configuration" href="#configuration">\n  </a>\n  Configuration\n</h2>\n\n<blockquote>\n<p>Assumptions:</p>\n\n<ol>\n<li>you already have available, or know how to create, AWS VPCs, Subnets, Security Groups and their equivalent in GCP and Azure.</li>\n<li>you know how to request to increase your quotas, should you run into an error that points at quotas been exceeded.</li>\n<li>you know how to read the Ansible output to figure out and troubleshoot any possible errors. There are unfortunately too many variables to consider to ensure your public cloud env is similar to the one I use so I rely on your skills to overcome these issues.</li>\n</ol>\n</blockquote>\n\n<p>Using <code>vi</code> or <code>nano</code>, open file <code>config/sample.yml</code>.<br>\nAt line 5 of the file you\'ll find a variable called <code>regions</code>. Take some time to study this variable, as it\'s quite complex yet, hopefully, well organized.<br>\nThis variable is a dictionary that holds the values of your VPC, subnets, Security Groups, etc.. You need to update the variable with your details.<br>\nIf you prefer to use different regions then those listed, feel free to update or add more as you see fit. As long as the structure of the variables is the same, you will be fine.<br>\nFor example, at line 9 you\'ll find the <code>public_key_id</code> mentioned previously, in this case, the key is called <code>workshop</code>.</p>\n\n<p>Unless you choose to use different regions than those specified, you\'re done here. If you use different regions however, make sure you update variable <code>infra</code> accordingly.</p>\n\n<p>At this point, your config file is setup to suit your cloud environment.</p>\n<h2>\n  <a name="run" href="#run">\n  </a>\n  Run\n</h2>\n\n<p>You can now run the playbook. <code>sample.yml</code> is your <strong>deployment</strong> file, that is, the file that holds all information about what you want to deploy, similar in spirit to a Kubernetes deployment file.</p>\n\n<p>The playbook tries for the most part to stay idempotent, so if it errors out for some silly mistake you know how to fix, it\'s safe to run it again and again.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>ansible-playbook site.yml <span class="nt">-e</span> @config/sample.yml  \n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>If it completes successfully, the Playbook will print out the <code>groups</code> magic variable, which is very useful now that we want to login and review everything that got deployed.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>TASK [PRINT GROUPS MAGIC VARIABLE] ********************************************\nok: [localhost] =&gt; \n  msg:\n[...]\n    app:\n    - 35.245.28.201\n    - 54.219.186.215\n    - 34.142.11.1\n    cockroachdb:\n    - 34.145.153.191\n    - 54.241.135.38\n    - 54.193.57.73\n    - 54.183.36.247\n    - 34.89.108.176\n    - 34.85.227.69\n    - 35.221.40.16\n    - 34.142.16.169\n    - 34.142.83.159\n    haproxy:\n    - 34.86.85.212\n    - 54.176.62.208\n    - 35.246.47.46\n[...]\n    krb5_server:\n    - 34.66.230.216\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Take notice of groups <code>cockroachdb</code>, <code>app</code>, <code>haproxy</code> and <code>krb5_server</code>. This output doesn\'t list the region where the VM is located, so you might have to look it up from the AWS or GCP Console for those details.</p>\n\n<h2>\n  <a name="review" href="#review">\n  </a>\n  Review\n</h2>\n\n<p>On your browser go to port 8080 on any or all of your haproxy servers to access the CockroachDB Console. In this example I head out to <a href="https://34.86.85.212:8080">https://34.86.85.212:8080</a>.<br>\nYou need to accept the untrusted certificate presented (remember, this is a secure cluster with a self-signed cert whose CA is not recognized by the browser, see the <a href="https://www.cockroachlabs.com/docs/stable/deploy-cockroachdb-on-premises.html#step-2-generate-certificates">Note</a> at the bottom for more details).</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--3jBJTLw1--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pw47q3bs1i2cl203859j.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--3jBJTLw1--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pw47q3bs1i2cl203859j.png" alt="cert-warning" loading="lazy" width="880" height="676"></a></p>\n\n<p>Login with user <code>fabio</code> and password <code>cockroach</code>.<br>\nYou have specified these details in the <code>config/sample.yml</code> file under section <code>APPLICATION</code> in the <code>dbusers</code> variable, and have created and granted <code>admin</code> privileges in the last 2 Tasks of Playbook <code>application.yml</code>.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--2Ge4t_-M--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/mowqyel1thp6sfgdiq77.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--2Ge4t_-M--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/mowqyel1thp6sfgdiq77.png" alt="console-overview" loading="lazy" width="880" height="518"></a></p>\n\n<p>Great, your 9 nodes, secure cluster is up!</p>\n\n<p>Now, let\'s login into the SQL prompt as <code>root</code> user.<br>\nPick any of the CockroachDB servers (here I picked the first of the list, 34.145.153.191), and ssh into the box.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="c"># from the ACM, ssh into cockroachdb node</span>\nssh ubuntu@34.145.153.191\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Then, login as user <code>root</code> using the root cert and root key, which are located at <code>/var/lib/cockroach/certs</code>.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">sudo </span>cockroach sql <span class="nt">--certs-dir</span><span class="o">=</span>/var/lib/cockroach/certs\n<span class="c">#</span>\n<span class="c"># Welcome to the CockroachDB SQL shell.</span>\n<span class="c"># All statements must be terminated by a semicolon.</span>\n<span class="c"># To exit, type: \\q.</span>\n<span class="c">#</span>\n<span class="c"># Server version: CockroachDB CCL v21.1.5 (x86_64-unknown-linux-gnu, built 2021/07/02 03:57:09, go1.15.11) (same version as client)</span>\n<span class="c"># Cluster ID: adc08ee1-8805-4341-ab36-a87984332b26</span>\n<span class="c"># Organization: Workshop</span>\n<span class="c">#</span>\n<span class="c"># Enter \\? for a brief introduction.</span>\n<span class="c">#</span>\nroot@:26257/defaultdb&gt; SHOW DATABASES<span class="p">;</span>\n  database_name | owner | primary_region | regions | survival_goal\n<span class="nt">----------------</span>+-------+----------------+---------+----------------\n  defaultdb     | root  | NULL           | <span class="o">{}</span>      | NULL\n  postgres      | root  | NULL           | <span class="o">{}</span>      | NULL\n  system        | node  | NULL           | <span class="o">{}</span>      | NULL\n<span class="o">(</span>3 rows<span class="o">)</span>\n\nTime: 221ms total <span class="o">(</span>execution 221ms / network 0ms<span class="o">)</span>\n\nroot@:26257/defaultdb&gt; SHOW LOCALITY<span class="p">;</span>\n         locality\n<span class="nt">--------------------------</span>\n  <span class="nv">region</span><span class="o">=</span>us-east4,zone<span class="o">=</span>a\n<span class="o">(</span>1 row<span class="o">)</span>\n\nTime: 2ms total <span class="o">(</span>execution 1ms / network 0ms<span class="o">)</span>\n\nroot@:26257/defaultdb&gt; SHOW USERS<span class="p">;</span>\n  username | options | member_of\n<span class="nt">-----------</span>+---------+------------\n  admin    |         | <span class="o">{}</span>\n  app      |         | <span class="o">{</span>admin<span class="o">}</span>\n  fabio    |         | <span class="o">{</span>admin<span class="o">}</span>\n  root     |         | <span class="o">{</span>admin<span class="o">}</span>\n<span class="o">(</span>4 rows<span class="o">)</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You can also use the full ODBC URL to login<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">sudo </span>cockroach sql <span class="nt">--url</span> <span class="s2">"postgresql://root@localhost:26257/defaultdb?sslmode=require&amp;sslrootcert=/var/lib/cockroach/certs/ca.crt&amp;sslcert=/var/lib/cockroach/certs/client.root.crt&amp;sslkey=/var/lib/cockroach/certs/client.root.key"</span> \n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Next, let\'s login as user <code>fabio</code>.<br>\nWe have <a href="https://www.cockroachlabs.com/docs/stable/gssapi_authentication.html">configured</a> the cluster to use Kerberos, and are permitting connection to the cluster using Kerberos users only via the HAProxies, that is, you can\'t point to a CockroachDB node directly (this was instructed in the Ansible Playbook).</p>\n\n<p>Ssh into any of the App Servers, then, at the prompt:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span><span class="c"># the kerberos password was set in config/sample.yml </span>\n<span class="nv">$ </span><span class="c"># with variable \'krb5_principals\', </span>\n<span class="nv">$ </span><span class="c"># under section PLATFORM &gt; MIT KDC.</span>\n<span class="nv">$ </span>kinit fabio\nPassword <span class="k">for </span>fabio@FABIO.LOCAL: \n\n<span class="nv">$ </span><span class="c"># verify the ticket was created successfully</span>\n<span class="nv">$ </span>klist\nTicket cache: FILE:/tmp/krb5cc_1000\nDefault principal: fabio@FABIO.LOCAL\n\nValid starting     Expires            Service principal\n08/13/21 11:53:46  08/14/21 11:53:46  krbtgt/FABIO.LOCAL@FABIO.LOCAL\n        renew <span class="k">until </span>08/20/21 11:53:46\n\n<span class="nv">$ </span><span class="c"># connect to the database</span>\n<span class="nv">$ </span><span class="c"># take note of parameter \'krbsrvname=cockroach\'</span>\n<span class="nv">$ </span><span class="c"># which is the SPN we created with Ansible</span>\n<span class="nv">$ </span>cockroach sql <span class="nt">--url</span> <span class="s2">"postgresql://fabio@212.85.86.34.bc.googleusercontent.com:26257/defaultdb?sslmode=require&amp;sslrootcert=ca.crt&amp;krbsrvname=cockroach"</span>\n<span class="c">#</span>\n<span class="c"># Welcome to the CockroachDB SQL shell.</span>\n<span class="c"># All statements must be terminated by a semicolon.</span>\n<span class="c"># To exit, type: \\q.</span>\n<span class="c">#</span>\n<span class="c"># Client version: CockroachDB CCL v21.1.7 (x86_64-unknown-linux-gnu, built 2021/08/09 17:55:28, go1.15.14)</span>\n<span class="c"># Server version: CockroachDB CCL v21.1.5 (x86_64-unknown-linux-gnu, built 2021/07/02 03:57:09, go1.15.11)</span>\n<span class="c"># Cluster ID: adc08ee1-8805-4341-ab36-a87984332b26</span>\n<span class="c"># Organization: Workshop</span>\n<span class="c">#</span>\n<span class="c"># Enter \\? for a brief introduction.</span>\n<span class="c">#</span>\nfabio@34.86.85.212:26257/defaultdb&gt; SHOW LOCALITY<span class="p">;</span>\n         locality\n<span class="nt">--------------------------</span>\n  <span class="nv">region</span><span class="o">=</span>us-east4,zone<span class="o">=</span>c\n<span class="o">(</span>1 row<span class="o">)</span>\n\nTime: 3ms total <span class="o">(</span>execution 1ms / network 2ms<span class="o">)</span>\n\nfabio@34.86.85.212:26257/defaultdb&gt; SELECT version<span class="o">()</span><span class="p">;</span>\n                                          version\n<span class="nt">--------------------------------------------------------------------------------------------</span>\n  CockroachDB CCL v21.1.5 <span class="o">(</span>x86_64-unknown-linux-gnu, built 2021/07/02 03:57:09, go1.15.11<span class="o">)</span>\n<span class="o">(</span>1 row<span class="o">)</span>\n\nTime: 2ms total <span class="o">(</span>execution 0ms / network 2ms<span class="o">)</span>\n\nfabio@34.86.85.212:26257/defaultdb&gt; SELECT now<span class="o">()</span><span class="p">;</span>\n               now\n<span class="nt">---------------------------------</span>\n  2021-08-13 11:54:49.551574+00\n<span class="o">(</span>1 row<span class="o">)</span>\n\nTime: 2ms total <span class="o">(</span>execution 0ms / network 2ms<span class="o">)</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Validate by destroying the ticket and reattempt connection<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>kdestroy\n<span class="nv">$ </span>cockroach sql <span class="nt">--url</span> <span class="s2">"postgresql://fabio@212.85.86.34.bc.googleusercontent.com:26257/defaultdb?sslmode=require&amp;sslrootcert=ca.crt&amp;krbsrvname=cockroach"</span>\n<span class="c">#</span>\n<span class="c"># Welcome to the CockroachDB SQL shell.</span>\n<span class="c"># All statements must be terminated by a semicolon.</span>\n<span class="c"># To exit, type: \\q.</span>\n<span class="c">#</span>\nERROR: pq: kerberos error: open /tmp/krb5cc_1000: no such file or directory\nFailed running <span class="s2">"sql"</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>As expected, we got denied.</p>\n\n<p>Finally, our last test involves bypassing Kerberos by authenticating using cert+key.<br>\nWe specified that we allow user <code>app</code> to authenticate using this mechanism in the "hba.conf" file using this SQL line, in <code>application.yml</code>:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>SET cluster setting server.host_based_authentication.configuration = \'\nhost all app all cert-password\nhost all all all gss include_realm=0\';\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Which says, in plain English: "accept either a certificate or a password as authentication mechanism for user <code>app</code>; accept Kerberos auth for any user".</p>\n\n<p>The certificate and key for user <code>app</code> should be in the home folder already, check with <code>ls</code>.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-l</span> client.app<span class="k">*</span>\n<span class="nt">-rw-r--r--</span> 1 root root 4000 Aug 10 22:04 client.app.crt\n<span class="nt">-rw-------</span> 1 root root 1675 Aug 10 22:04 client.app.key\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now, login using these certs<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>cockroach sql <span class="nt">--url</span> <span class="s2">"postgresql://app@34.86.85.212:26257/defaultdb?sslmode=require&amp;sslrootcert=ca.crt&amp;sslcert=client.app.crt&amp;sslkey=client.app.key"</span> \n<span class="c">#</span>\n<span class="c"># Welcome to the CockroachDB SQL shell.</span>\n<span class="c"># All statements must be terminated by a semicolon.</span>\n<span class="c"># To exit, type: \\q.</span>\n<span class="c">#</span>\n<span class="c"># Client version: CockroachDB CCL v21.1.7 (x86_64-unknown-linux-gnu, built 2021/08/09 17:55:28, go1.15.14)</span>\n<span class="c"># Server version: CockroachDB CCL v21.1.5 (x86_64-unknown-linux-gnu, built 2021/07/02 03:57:09, go1.15.11)</span>\n<span class="c"># Cluster ID: adc08ee1-8805-4341-ab36-a87984332b26</span>\n<span class="c"># Organization: Workshop</span>\n<span class="c">#</span>\n<span class="c"># Enter \\? for a brief introduction.</span>\n<span class="c">#</span>\napp@34.86.85.212:26257/defaultdb&gt; SELECT gen_random_uuid<span class="o">()</span> FROM generate_series<span class="o">(</span>1, 10<span class="o">)</span><span class="p">;</span>    \n            gen_random_uuid\n<span class="nt">----------------------------------------</span>\n  e5af9bdd-4e43-44b4-8a05-79b183adf33e\n  b59922b8-37ae-4c7a-8de5-7012b0b3c3a5\n  3b14db65-321d-4bd8-8018-2777a436e27c\n  a8b01ae3-2326-4e72-ad40-d260fa3b0876\n  9aaa7a29-8615-4f67-81a6-efea50b62eb8\n  15774a59-9ca6-456b-974c-db2965cbb36a\n  a2f748a1-fca1-4e46-8ea8-6760bf2dc8d1\n  0526fd48-ac5c-471a-be92-7e51e71e397e\n  b0bc6785-e110-45b5-8fa9-8f234bfcbbe7\n  6622fb33-d66e-4858-88a1-9b5c75ccbf67\n<span class="o">(</span>10 rows<span class="o">)</span>\n\nTime: 2ms total <span class="o">(</span>execution 1ms / network 2ms<span class="o">)</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Perfect, this concludes our testing!</p>\n\n<h2>\n  <a name="clean-up" href="#clean-up">\n  </a>\n  Clean up\n</h2>\n\n<p>You can destroy every VM by simple set variable <code>exact_count</code> to 0 (zero), however, it\'s far simpler to delete all VMs from the AWS/GCP console. Each VM has been tagged with <code>deployment_id</code> and <code>owner</code>, so it\'s easy to filter out the VMs for this deployment.</p>\n\n<h2>\n  <a name="acknowledgments" href="#acknowledgments">\n  </a>\n  Acknowledgments\n</h2>\n\n<p>I would like to thank the <a href="https://www.cloudera.com/about/services-and-support/professional-services.html">Cloudera Professional Services organization</a> for the <code>krb_client</code> and <code>krb_server</code> roles, which are included in the Collection but were taken from an early work and are currently available <a href="https://github.com/cloudera-labs/cloudera.cluster/tree/main/roles/infrastructure">here</a> in their latest version.</p>\n\n<p>Special thanks go to <a href="https://www.linkedin.com/in/wmudge/">Webster Mudge</a>, who initially designed the high level architecture of the Collection\'s Playbooks (infrastructure, platform, application).</p>\n\n<h2>\n  <a name="reference" href="#reference">\n  </a>\n  Reference\n</h2>\n\n<p><a href="https://www.cockroachlabs.com/product/">CockroachDB</a><br>\n<a href="https://www.cockroachlabs.com/docs/stable/index.html">CockroachDB Docs</a><br>\n<a href="https://github.com/fabiog1901/cockroachdb-collection">fabiog1901/cockroachdb-collection</a></p>\n\n',s.body_markdown='I\'ve been casually using Ansible for a few years now. I use it mostly to facilitate the creation of demo clusters and workshop environments. In previous jobs, the standard was to create bash scripts for this type of automation. But bash scripts have a bad tendency to become long applications that are hard to read, maintain and expand in scope. Ansible instead scales and expands easily, and while it\'s certainly more difficult to get started, the benefits from using it appear very soon.\n \nI never had the opportunity to learn Ansible for real DevOps work, still, I thought you might find useful to see how I can easily create a CockroachDB cluster on the public cloud. I have created an [Ansible Collection](https://github.com/fabiog1901/cockroachdb-collection) and made it available for anyone to download and use.\n\n## Overview\n\nIn this blog post, I will demonstrate how to deploy a secured, kerberized, multi-cloud CockroachDB cluster using Ansible. This is helpful for testing, demonstrations, and to gain a broad understanding of the steps required for a real production deployment.\nWe create a 9 nodes cluster across 3 regions, with each region in a different cloud provider. We will create Load Balancers for each region, too.\nEach region will also be setup with an App server, from which you will connect and run your SQL queries.\nAdditionally, we setup a MIT KDC server, for Kerberos authentication.\n\nBelow is the architecture diagram of the deployment.\n\n![arch](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/drsz5abjg3x7d2d94vq9.png)\n\nLet\'s get started!\n\n> **Note**: I\'m currently updating Ansible Role `cloud_instance` that I use to provision VMs in the public cloud, specifically, the modules used for Azure. Therefore, temporarily, we will use GCP instead of Azure. I will update this blog and remove this notice as soon as the Ansible Role has been updated.\n\n## (Optional) Create an Ansible Control Machine (ACM)\n\nI run Ansible out of my work computer, so if you are already familiar with how Ansible works you don\'t need to create an ACM in the public cloud.\n\nHowever, if this is your first time with Ansible and/or you are working with a Windows computer, it might be easier to reproduce the steps if you setup the ACM and follow along.\n\nSpin up a `t2.micro` with Ubuntu 21.04, or similar instance in your preferred public cloud provider.\nEnsure the AWS Security Group has a rule to only allow SSH traffic from your IP: we want to be sure nobody can access this VM as you will store the keys used to provision the cluster.\n\nOnce provisioned, ssh into the box and run below commands:\n\n```bash\n# ensure system is up-to-date, and install ansible + pip\n$ sudo apt update\n$ sudo apt upgrade -y\n$ sudo apt install -y ansible python3-pip\n\n# ensure you\'re using Ansible 2.10 or higher\n$ ansible --version\nansible 2.10.5\n  config file = None\n  configured module search path = [\'/home/ubuntu/.ansible/plugins/modules\', \'/usr/share/ansible/plugins/modules\']\n  ansible python module location = /usr/lib/python3/dist-packages/ansible\n  executable location = /usr/bin/ansible\n  python version = 3.9.5 (default, May 11 2021, 08:20:37) [GCC 10.3.0]\n```\n\nGood, your ACM is now ready to go!\n\n## Setup\n\nIn this section, we will download and configure the Ansible Collections required to deploy the cluster.\n\n```bash\n# create a directory for your work\nmkdir cockroachdb\ncd cockroachdb\n```\n\nCreate a project specific Ansible config file, and install the Ansible Collections and their Requirements\n\n```bash\ncat - >ansible.cfg <<EOF\n[defaults]\nforks           = 25\nhost_key_checking = False \nstdout_callback = yaml\nEOF\n\n# Install the Ansible CockroachDB Collection at playbook level\nansible-galaxy collection install git+https://github.com/fabiog1901/cockroachdb-collection.git -p collections/\n\n# Install the required Ansible Collections to the default location:\nansible-galaxy collection install -r collections/ansible_collections/fabiog1901/cockroachdb/requirements.yml \n\n\n# install required pip packages for AWS, GCP, Azure\npip install -r ~/.ansible/collections/ansible_collections/amazon/aws/requirements.txt \npip install -r ~/.ansible/collections/ansible_collections/google/cloud/requirements.txt \npip install -r ~/.ansible/collections/ansible_collections/azure/azcollection/requirements-azure.txt\n\n# copy the sample Playbooks in the CockroachDB Collection to our working directory\ncp collections/ansible_collections/fabiog1901/cockroachdb/playbooks/* .  \nmkdir config\ncp collections/ansible_collections/fabiog1901/cockroachdb/config/sample.yml config   \n```\n\nGreat, we\'ve all the required Ansible components!\n\nNow export the public cloud auth keys and start the SSH Agent, adding the ssh key to the agent\n\n```bash\n# export cloud provider keys\n\n# AWS\nexport AWS_ACCESS_KEY_ID=AKIxxxxxxxxyyyyyzzzz\nexport AWS_SECRET_ACCESS_KEY=xxxxxxxyyyyyyyyyyzzzzzzzz\n\n# For Google Cloud, it\'s not as easy so you need to sftp or copy-paste your service account file if\n# you\'re using the cloud ACM\ntouch my-project.json\ncat - >my-project.json <<EOF\n{\n  "type": "service_account",\n  "project_id": "my-project",\n  "private_key_id": "xxxyyyzzzz",\n  "private_key": "-----BEGIN PRIVATE KEY-----\\ ... -----END PRIVATE KEY-----\\n",\n  "client_email": "workshop@my-project.iam.gserviceaccount.com",\n  "client_id": "8888",\n  "auth_uri": "https://accounts.google.com/o/oauth2/auth",\n  "token_uri": "https://oauth2.googleapis.com/token",\n  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",\n  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/workshop%40cmyproject.iam.gserviceaccount.com"\n}\nEOF\nchmod 400 my-project.json\n\nexport GCP_SERVICE_ACCOUNT_FILE=my-project.json\nexport GCP_AUTH_KIND=serviceaccount\nexport GCP_PROJECT=my-gcp-project\n\n# for AZURE\nexport AZURE_SUBSCRIPTION_ID=xxxxxx-yyyyy-zzzzzz\nexport AZURE_AD_USER=xxxxyyyyzzzzz\nexport AZURE_PASSWORD=\'xxxxyyyyzzzz\'\n\n# Just like you did for GCP\'s service account file, sftp or copy-paste the private ssh key if\n# you\'re using the cloud ACM\ntouch workshop.pem\ncat - >workshop.pem <<EOF\n-----BEGIN RSA PRIVATE KEY-----\n...\n-----END RSA PRIVATE KEY-----\nEOF\nchmod 400 workshop.pem\n\n# start the ssh-agent and add the key.\n# On my macbook, I just do `ssh-agent`.\n# Below is the command on Ubuntu\neval $(ssh-agent)\nssh-add workshop.pem\n\n# confirm the key was added with\nssh-add -l\n```\n\nThe ssh key I\'ve added here to the ssh-agent is the key used by Ansible to ssh into every VM. This is the private key part of the public key you\'ve setup on the public cloud, see below for AWS and GCP:\n\n![aws](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kvjyz9v1o8l0rs5v7xso.png)\n\n![gcp](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/63nx9b62hkgq53naqmiy.png)\n\nFor simplicity, I use the same key for both clouds.\n\nAt this point you\'ve all the tools you need to run the playbook.\n\nWhat\'s missing are the details of you public cloud environments.\n\n## Configuration\n\n> Assumptions:\n>\n> 1. you already have available, or know how to create, AWS VPCs, Subnets, Security Groups and their equivalent in GCP and Azure.\n> 2. you know how to request to increase your quotas, should you run into an error that points at quotas been exceeded.\n> 3. you know how to read the Ansible output to figure out and troubleshoot any possible errors. There are unfortunately too many variables to consider to ensure your public cloud env is similar to the one I use so I rely on your skills to overcome these issues.\n\nUsing `vi` or `nano`, open file `config/sample.yml`.\nAt line 5 of the file you\'ll find a variable called `regions`. Take some time to study this variable, as it\'s quite complex yet, hopefully, well organized.\nThis variable is a dictionary that holds the values of your VPC, subnets, Security Groups, etc.. You need to update the variable with your details.\nIf you prefer to use different regions then those listed, feel free to update or add more as you see fit. As long as the structure of the variables is the same, you will be fine.\nFor example, at line 9 you\'ll find the `public_key_id` mentioned previously, in this case, the key is called `workshop`.\n\nUnless you choose to use different regions than those specified, you\'re done here. If you use different regions however, make sure you update variable `infra` accordingly.\n\nAt this point, your config file is setup to suit your cloud environment.\n\n## Run\n\nYou can now run the playbook. `sample.yml` is your **deployment** file, that is, the file that holds all information about what you want to deploy, similar in spirit to a Kubernetes deployment file.\n\nThe playbook tries for the most part to stay idempotent, so if it errors out for some silly mistake you know how to fix, it\'s safe to run it again and again.\n\n```bash\nansible-playbook site.yml -e @config/sample.yml  \n```\n\nIf it completes successfully, the Playbook will print out the `groups` magic variable, which is very useful now that we want to login and review everything that got deployed.\n\n```text\nTASK [PRINT GROUPS MAGIC VARIABLE] ********************************************\nok: [localhost] => \n  msg:\n[...]\n    app:\n    - 35.245.28.201\n    - 54.219.186.215\n    - 34.142.11.1\n    cockroachdb:\n    - 34.145.153.191\n    - 54.241.135.38\n    - 54.193.57.73\n    - 54.183.36.247\n    - 34.89.108.176\n    - 34.85.227.69\n    - 35.221.40.16\n    - 34.142.16.169\n    - 34.142.83.159\n    haproxy:\n    - 34.86.85.212\n    - 54.176.62.208\n    - 35.246.47.46\n[...]\n    krb5_server:\n    - 34.66.230.216\n  ```\n\nTake notice of groups `cockroachdb`, `app`, `haproxy` and `krb5_server`. This output doesn\'t list the region where the VM is located, so you might have to look it up from the AWS or GCP Console for those details.\n\n## Review\n\nOn your browser go to port 8080 on any or all of your haproxy servers to access the CockroachDB Console. In this example I head out to <https://34.86.85.212:8080>.\nYou need to accept the untrusted certificate presented (remember, this is a secure cluster with a self-signed cert whose CA is not recognized by the browser, see the [Note](https://www.cockroachlabs.com/docs/stable/deploy-cockroachdb-on-premises.html#step-2-generate-certificates) at the bottom for more details).\n\n![cert-warning](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pw47q3bs1i2cl203859j.png)\n\nLogin with user `fabio` and password `cockroach`.\nYou have specified these details in the `config/sample.yml` file under section `APPLICATION` in the `dbusers` variable, and have created and granted `admin` privileges in the last 2 Tasks of Playbook `application.yml`.\n\n![console-overview](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/mowqyel1thp6sfgdiq77.png)\n\nGreat, your 9 nodes, secure cluster is up!\n\nNow, let\'s login into the SQL prompt as `root` user.\nPick any of the CockroachDB servers (here I picked the first of the list, 34.145.153.191), and ssh into the box.\n\n```bash\n# from the ACM, ssh into cockroachdb node\nssh ubuntu@34.145.153.191\n```\n\nThen, login as user `root` using the root cert and root key, which are located at `/var/lib/cockroach/certs`.\n\n```bash\n$ sudo cockroach sql --certs-dir=/var/lib/cockroach/certs\n#\n# Welcome to the CockroachDB SQL shell.\n# All statements must be terminated by a semicolon.\n# To exit, type: \\q.\n#\n# Server version: CockroachDB CCL v21.1.5 (x86_64-unknown-linux-gnu, built 2021/07/02 03:57:09, go1.15.11) (same version as client)\n# Cluster ID: adc08ee1-8805-4341-ab36-a87984332b26\n# Organization: Workshop\n#\n# Enter \\? for a brief introduction.\n#\nroot@:26257/defaultdb> SHOW DATABASES;\n  database_name | owner | primary_region | regions | survival_goal\n----------------+-------+----------------+---------+----------------\n  defaultdb     | root  | NULL           | {}      | NULL\n  postgres      | root  | NULL           | {}      | NULL\n  system        | node  | NULL           | {}      | NULL\n(3 rows)\n\nTime: 221ms total (execution 221ms / network 0ms)\n\nroot@:26257/defaultdb> SHOW LOCALITY;\n         locality\n--------------------------\n  region=us-east4,zone=a\n(1 row)\n\nTime: 2ms total (execution 1ms / network 0ms)\n\nroot@:26257/defaultdb> SHOW USERS;\n  username | options | member_of\n-----------+---------+------------\n  admin    |         | {}\n  app      |         | {admin}\n  fabio    |         | {admin}\n  root     |         | {admin}\n(4 rows)\n```\n\nYou can also use the full ODBC URL to login\n\n```bash\nsudo cockroach sql --url "postgresql://root@localhost:26257/defaultdb?sslmode=require&sslrootcert=/var/lib/cockroach/certs/ca.crt&sslcert=/var/lib/cockroach/certs/client.root.crt&sslkey=/var/lib/cockroach/certs/client.root.key" \n```\n\nNext, let\'s login as user `fabio`.\nWe have [configured](https://www.cockroachlabs.com/docs/stable/gssapi_authentication.html) the cluster to use Kerberos, and are permitting connection to the cluster using Kerberos users only via the HAProxies, that is, you can\'t point to a CockroachDB node directly (this was instructed in the Ansible Playbook).\n\nSsh into any of the App Servers, then, at the prompt:\n\n```bash\n$ # the kerberos password was set in config/sample.yml \n$ # with variable \'krb5_principals\', \n$ # under section PLATFORM > MIT KDC.\n$ kinit fabio\nPassword for fabio@FABIO.LOCAL: \n\n$ # verify the ticket was created successfully\n$ klist\nTicket cache: FILE:/tmp/krb5cc_1000\nDefault principal: fabio@FABIO.LOCAL\n\nValid starting     Expires            Service principal\n08/13/21 11:53:46  08/14/21 11:53:46  krbtgt/FABIO.LOCAL@FABIO.LOCAL\n        renew until 08/20/21 11:53:46\n\n$ # connect to the database\n$ # take note of parameter \'krbsrvname=cockroach\'\n$ # which is the SPN we created with Ansible\n$ cockroach sql --url "postgresql://fabio@212.85.86.34.bc.googleusercontent.com:26257/defaultdb?sslmode=require&sslrootcert=ca.crt&krbsrvname=cockroach"\n#\n# Welcome to the CockroachDB SQL shell.\n# All statements must be terminated by a semicolon.\n# To exit, type: \\q.\n#\n# Client version: CockroachDB CCL v21.1.7 (x86_64-unknown-linux-gnu, built 2021/08/09 17:55:28, go1.15.14)\n# Server version: CockroachDB CCL v21.1.5 (x86_64-unknown-linux-gnu, built 2021/07/02 03:57:09, go1.15.11)\n# Cluster ID: adc08ee1-8805-4341-ab36-a87984332b26\n# Organization: Workshop\n#\n# Enter \\? for a brief introduction.\n#\nfabio@34.86.85.212:26257/defaultdb> SHOW LOCALITY;\n         locality\n--------------------------\n  region=us-east4,zone=c\n(1 row)\n\nTime: 3ms total (execution 1ms / network 2ms)\n\nfabio@34.86.85.212:26257/defaultdb> SELECT version();\n                                          version\n--------------------------------------------------------------------------------------------\n  CockroachDB CCL v21.1.5 (x86_64-unknown-linux-gnu, built 2021/07/02 03:57:09, go1.15.11)\n(1 row)\n\nTime: 2ms total (execution 0ms / network 2ms)\n\nfabio@34.86.85.212:26257/defaultdb> SELECT now();\n               now\n---------------------------------\n  2021-08-13 11:54:49.551574+00\n(1 row)\n\nTime: 2ms total (execution 0ms / network 2ms)\n```\n\nValidate by destroying the ticket and reattempt connection\n\n```bash\n$ kdestroy\n$ cockroach sql --url "postgresql://fabio@212.85.86.34.bc.googleusercontent.com:26257/defaultdb?sslmode=require&sslrootcert=ca.crt&krbsrvname=cockroach"\n#\n# Welcome to the CockroachDB SQL shell.\n# All statements must be terminated by a semicolon.\n# To exit, type: \\q.\n#\nERROR: pq: kerberos error: open /tmp/krb5cc_1000: no such file or directory\nFailed running "sql"\n```\n\nAs expected, we got denied.\n\nFinally, our last test involves bypassing Kerberos by authenticating using cert+key.\nWe specified that we allow user `app` to authenticate using this mechanism in the "hba.conf" file using this SQL line, in `application.yml`:\n\n```text\nSET cluster setting server.host_based_authentication.configuration = \'\nhost all app all cert-password\nhost all all all gss include_realm=0\';\n```\n\nWhich says, in plain English: "accept either a certificate or a password as authentication mechanism for user `app`; accept Kerberos auth for any user".\n\nThe certificate and key for user `app` should be in the home folder already, check with `ls`.\n\n```bash\n$ ls -l client.app*\n-rw-r--r-- 1 root root 4000 Aug 10 22:04 client.app.crt\n-rw------- 1 root root 1675 Aug 10 22:04 client.app.key\n```\n\nNow, login using these certs\n\n```bash\n$ cockroach sql --url "postgresql://app@34.86.85.212:26257/defaultdb?sslmode=require&sslrootcert=ca.crt&sslcert=client.app.crt&sslkey=client.app.key" \n#\n# Welcome to the CockroachDB SQL shell.\n# All statements must be terminated by a semicolon.\n# To exit, type: \\q.\n#\n# Client version: CockroachDB CCL v21.1.7 (x86_64-unknown-linux-gnu, built 2021/08/09 17:55:28, go1.15.14)\n# Server version: CockroachDB CCL v21.1.5 (x86_64-unknown-linux-gnu, built 2021/07/02 03:57:09, go1.15.11)\n# Cluster ID: adc08ee1-8805-4341-ab36-a87984332b26\n# Organization: Workshop\n#\n# Enter \\? for a brief introduction.\n#\napp@34.86.85.212:26257/defaultdb> SELECT gen_random_uuid() FROM generate_series(1, 10);    \n            gen_random_uuid\n----------------------------------------\n  e5af9bdd-4e43-44b4-8a05-79b183adf33e\n  b59922b8-37ae-4c7a-8de5-7012b0b3c3a5\n  3b14db65-321d-4bd8-8018-2777a436e27c\n  a8b01ae3-2326-4e72-ad40-d260fa3b0876\n  9aaa7a29-8615-4f67-81a6-efea50b62eb8\n  15774a59-9ca6-456b-974c-db2965cbb36a\n  a2f748a1-fca1-4e46-8ea8-6760bf2dc8d1\n  0526fd48-ac5c-471a-be92-7e51e71e397e\n  b0bc6785-e110-45b5-8fa9-8f234bfcbbe7\n  6622fb33-d66e-4858-88a1-9b5c75ccbf67\n(10 rows)\n\nTime: 2ms total (execution 1ms / network 2ms)\n```\n\nPerfect, this concludes our testing!\n\n## Clean up\n\nYou can destroy every VM by simple set variable `exact_count` to 0 (zero), however, it\'s far simpler to delete all VMs from the AWS/GCP console. Each VM has been tagged with `deployment_id` and `owner`, so it\'s easy to filter out the VMs for this deployment.\n\n## Acknowledgments\n\nI would like to thank the [Cloudera Professional Services organization](https://www.cloudera.com/about/services-and-support/professional-services.html) for the `krb_client` and `krb_server` roles, which are included in the Collection but were taken from an early work and are currently available [here](https://github.com/cloudera-labs/cloudera.cluster/tree/main/roles/infrastructure) in their latest version.\n\nSpecial thanks go to [Webster Mudge](https://www.linkedin.com/in/wmudge/), who initially designed the high level architecture of the Collection\'s Playbooks (infrastructure, platform, application).\n\n## Reference\n\n[CockroachDB](https://www.cockroachlabs.com/product/)\n[CockroachDB Docs](https://www.cockroachlabs.com/docs/stable/index.html)\n[fabiog1901/cockroachdb-collection](https://github.com/fabiog1901/cockroachdb-collection)\n\n\n\n\n',s.user={name:"Fabio Ghirardello",username:o,twitter_username:n,github_username:o,website_url:n,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--bS67cj-j--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/469108/a6ea006d-39ce-42b8-bada-fd550237fbfe.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--XO0IboBf--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/469108/a6ea006d-39ce-42b8-bada-fd550237fbfe.png"},s.organization={name:"Cockroach Labs",username:t,slug:t,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--nd3oCfw_--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/3006/8597bfeb-4701-43f9-8452-1a2b158cba75.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--4u-NOJiz--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/3006/8597bfeb-4701-43f9-8452-1a2b158cba75.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:s}},error:n,state:{currentArticle:s},serverRendered:!0,routePath:"/fabiog1901/791202",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:n}}}}(null,"2021-08-19T12:09:06Z",{},"https://dev.to/cockroachlabs/deploy-cockroachdb-on-the-public-cloud-using-ansible-1ek1","fabiog1901","cockroachlabs")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

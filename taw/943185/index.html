@@ -1,0 +1,745 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>100 Languages Speedrun: Episode 44: RISC-V Assembly</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>100 Languages Speedrun: Episode 44: RISC-V Assembly</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/riscv" class="tag" data-v-70afb46a>
+          #riscv
+        </a><a href="/nuxtstop/t/assembly" class="tag" data-v-70afb46a>
+          #assembly
+        </a><a href="/nuxtstop/t/risc" class="tag" data-v-70afb46a>
+          #risc
+        </a></div> <!----> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            6
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Jan 3</time></div></header> <div class="content" data-v-70afb46a><p>The world of computing is dominated by two instruction set architectures, x86-64 (<a href="https://dev.to/taw/100-languages-speedrun-episode-40-x86-64-assembly-jjj">which I covered in episode 40</a>) and ARM, with all other architectures irrelevant by now.</p>
+
+<p>But a new contender recently emerged, <a href="https://en.wikipedia.org/wiki/RISC-V">RISC-V</a>. RISC-V attempts to be an Open Source and architecturally neutral ISA. The goal isn't for the hardware itself to be Open Source, it is for any company or researcher to be able to make their own RISC-V-based processor, with whichever extra features and performance trade-offs they need, and to have them be interoperable thanks to shared RISC-V standard.</p>
+
+<p>So far it's a very distant third, but <a href="https://en.wikipedia.org/wiki/RISC-V#Implementations">RISC-V based products keep showing up</a>, especially in embedded space, and <a href="https://www.extremetech.com/computing/273236-arm-kills-its-risc-v-fud-website-after-staff-revolt">it is obviously making ARM really uncomfortable</a>.</p>
+
+<h3>
+  <a name="how-to-run-riscv-code" href="#how-to-run-riscv-code">
+  </a>
+  How to run RISC-V code
+</h3>
+
+<p>As you probably don't have any RISC-V computers at hand, the best way is to use QEMU emulation and Docker. If you run <code>docker run -it riscv64/ubuntu</code>, you can get RISC-V environment. At least on OSX, Docker comes with everything preconfigured for it, and it shouldn't be too hard on other systems. This is of course much slower than the real thing would be.</p>
+
+<p>So let's start a new container and install compiler tools on it:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ docker run -it --platform linux/riscv64 -v $(pwd):/source riscv64/ubuntu
+$ apt update
+$ apt install -y build-essential
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="simplest-riscv-program" href="#simplest-riscv-program">
+  </a>
+  Simplest RISC-V program
+</h3>
+
+<p>Let's write and compile our first RISC-V program. It will just tell the operating system to exit, with exit code 7:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>.text
+.global _start
+_start:
+  /* Tell the operating system to exit with code 7 */
+  li a7, 93
+  li a0, 7
+  ecall
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The x86-64 version we had was very similar:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>global start
+section .text
+start:
+  ; Tell operating system to exit with code 7
+  mov rax, 0x2000001
+  mov rdi, 7
+  syscall
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>And let's run it:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ as exit.s -o exit.o
+$ ld -static exit.o -o exit
+$ ./exit
+$ echo $?
+7
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Step by step:</p>
+
+<ul>
+<li>these are different assemblers (GNU as vs NASM), different operating systems (Linux vs OSX), and different architectures (RISC-V vs x86-64), but it's so damn similar</li>
+<li>
+<code>.text</code> (NASM <code>.section text</code>)</li>
+<li>I'm not really sure why <code>start</code> vs <code>_start</code> as default start symbol for statically linked</li>
+<li>
+<code>ecall</code> (x86 <code>syscall</code>) - call operating system function</li>
+<li>
+<code>.text</code> (or <code>section .text</code> in NASM) - where the code is</li>
+<li>
+<code>li</code> - load integer, on RISCV it only supports very small numbers with a single opcode (12bit), and if you want to load 64bit number you'd need multiple instructions, on x86-64 you can load number of up to 64bit size as x86-64 supports much more complex instructions</li>
+<li>
+<code>a7</code> (x86-64 <code>rax</code>) is where we choose the operating system function to call, in this case exit</li>
+<li>numbers of system calls vary both by operating system and architecture, on x86-64 OSX it's <code>0x2000001</code>, on RISC-V Linux it's <code>93</code>.</li>
+<li>
+<code>a0</code> (x86-64 <code>rdi</code>) is where the first argument goes, exit has only one argument, where we pass <code>7</code>
+</li>
+<li>weirdly assembler comment syntax is different on different architectures, and <code>;</code> comments don't work on RISC-V version of GNU as.</li>
+</ul>
+
+<h3>
+  <a name="hello-world" href="#hello-world">
+  </a>
+  Hello, World!
+</h3>
+
+<p>Now that we know how to run RISC-V code, let's write a simple program that prints "Hello, World!" to the screen.</p>
+
+<p>It needs to do two system calls</p>
+
+<ul>
+<li>
+<code>write</code> call, passing file descriptor number (<code>1</code> for standard output), address of <code>"Hello, World!\n"</code> string, and length of the string <code>14</code>.</li>
+<li>
+<code>exit</code> call, passing <code>0</code> as exit code to indicate success
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>.text
+.global _start
+_start:
+  /* Tell the operating system to write "Hello, World!\n" to stadard output */
+  li a7, 64
+  li a0, 1       /* standard output */
+  lla a1, hello  /* address of thing to write */
+  li a2, 14      /* amount of data to write */
+  ecall
+
+  /* Tell the operating system to exit with code 0 */
+  li a7, 93
+  li a0, 0
+  ecall
+
+.data
+hello:
+  .ascii "Hello World!\n"
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>It works just like we'd expect:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ as hello.s -o hello.o
+$ ld -static hello.o -o hello
+$ ./hello
+Hello World!
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>But hang on, how does RISC-V load an address if addresses are 64bit, and it cannot load such big numbers, let's disassemble it and take a peak:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ objdump -d hello
+
+hello:     file format elf64-littleriscv
+
+
+Disassembly of section .text:
+
+00000000000100b0 &lt;_start>:
+   100b0:   04000893            li  a7,64
+   100b4:   00100513            li  a0,1
+   100b8:   00001597            auipc   a1,0x1
+   100bc:   01c58593            addi    a1,a1,28 # 110d4 &lt;__DATA_BEGIN__>
+   100c0:   00e00613            li  a2,14
+   100c4:   00000073            ecall
+   100c8:   05d00893            li  a7,93
+   100cc:   00000513            li  a0,0
+   100d0:   00000073            ecall
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>As you can see, each instruction is exactly 32bits, or 4 bytes. As some of those bits must identify which instruction we want, it's not possible to load 32bit number, let alone 64bit number, with one instruction.</p>
+
+<p>x86-64 on the other hand can absolutely do that, as instructions on x86-64 have variable width, and some of them can be very long. Apparently the longest valid instruction is 15 bytes, but you're not likely to see many such instructions, and most instructions are a lot shorter. The most common 10 bytes instruction is to load a 64 bit number into a register (2 bytes to select such an instruction, then 8 bytes of data) - but if top half of that number is all zeroes or ones, it will be a lot shorter.</p>
+
+<p>x86-64 style variable length instruction encoding tends to use a lot less memory, and due to limited size of CPU's innermost caches, it is generally a lot faster. RISC-V constant length instruction encoding tends to be a lot simpler to implement, but more instructions will be required, and less of a program will fit in a cache, so generally such choices result in poorer performance. Of course in practice a lot of other factors affect performance as well.</p>
+
+<p>Anyway, how does RISC-V load that address? It translated our <code>lla</code> into two instructions:</p>
+
+<ul>
+<li>
+<code>auipc a1,0x10</code> (Add Upper Immediate to Program Counter) checks current "program counter" and adds <code>0x1 * 4096</code> to it, and saves it to <code>a1</code>
+</li>
+<li>
+<code>addi    a1,a1,28</code> (add immediate) - adds <code>28</code> (numbers from <code>0</code> to <code>4095</code> fit in the instruction) to <code>a1</code> and saves result in <code>a1</code>
+</li>
+<li>so as result, we have <code>a1</code> equal to <code>pc + 4096 + 28</code>, presumably covering distance between where that instruction was, and where <code>"Hello, World!\n"</code> is located in the program</li>
+<li>this pair of instructions can load any address within 32bit from PC, more instructions would be needed for 64bit</li>
+<li>very similar technique is used for loading 32bit numbers - first <code>lui</code> to load <code>4096 * constant</code>, then <code>addi</code> to add the final digits to that</li>
+</ul>
+
+<p>This kind of relative loading is a pretty decent idea - memory might be huge, but programs tend to be small, so distance between instruction and constant it refers should generally fit 32bit.</p>
+
+<p>This also illustrates one interesting idea RISC-V has - on surface level, it only has constant length instructions, and for simpler implementations that's it, but the idea is that more complex high-performance implementations could look at multiple instructions together, and treat such a common pair like <code>auipc+addi</code> or <code>lui+addi</code> as a single double-length instruction to load a 32bit number, instead of following each step separately. How well that's going to work in practice is a big unknown.</p>
+
+<h3>
+  <a name="loop" href="#loop">
+  </a>
+  Loop
+</h3>
+
+<p>The loop is very straightforward:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>.text
+.global _start
+_start:
+
+  /* initialize iteration count to 5 */
+  li s0, 5
+
+loop:
+  /* print one "Hello, World!\n" */
+  li a7, 64
+  li a0, 1       /* standard output */
+  lla a1, hello  /* address of thing to write */
+  li a2, 14      /* amount of data to write */
+  ecall
+
+  /* subtract 1, check if s0 reached 0 */
+  addi s0, s0, -1
+  bnez s0, loop
+
+done:
+  li a7, 93
+  li a0, 0
+  ecall
+
+.data
+hello:
+  .ascii "Hello World!\n"
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We use <code>s0</code> to store how many loop iterations are remaining.</p>
+
+<p>There are two interesting quirks of RISC-V. It doesn't have any "subtract constant" operation, instead it adds a negative number.</p>
+
+<p>And second, there are no "CPU flags" - on x86-64 there was an operation to compare numbers that set some flags, then there was conditional jump based on those flags. RISC-V doesn't have that design, instead it uses "compare and jump" (with all the comparison flavors) as a single instruction. CPU flags were very easy to implement on simple CPUs, but they're really complicate things on modern high performance CPUs where multiple operations can happen in parallel while CPU needs to manage the results as if it was executing things one at a time.</p>
+
+<h3>
+  <a name="print-numbers" href="#print-numbers">
+  </a>
+  Print numbers
+</h3>
+
+<p>On our way to FizzBuzz, we need to be able to print a number. This is very similar algorithm to the one I wrote for x86-64. We start building the string from the back, one digit at a time. At every iteration we do <code>number % 10</code>, add 48 to get corresponding ASCII code, and store that in a string. Then we divide <code>number</code> by 10, and repeat the process.</p>
+
+<p>The GNU assembler equivalent of NASM macros I used <code>buffer_last_byte: equ $ - 1</code> and <code>buffer_after: equ $</code> don't work correctly here, it looks like some linker issue. I didn't investigate it further, and just added extra operation to add <code>31</code> to the buffer address.</p>
+
+<p>RISC-V<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>.text
+.global _start
+
+print_number:
+  /* a1 = address of the last character of the buffer (excluding newline) */
+  /* a2 = number of characters to print (including newline) */
+  /* a3 = 10 */
+  lla a1, buffer
+  addi a1, a1, 31
+  li a2, 2
+  li a3, 10
+
+print_number_loop_iteration:
+  /* split last digit out */
+  /* a4 = a0 / 10 */
+  div a4, a0, a3
+  /* a5 = a0 % 10 */
+  rem a5, a0, a3
+
+  /* store one character at the address */
+  addi a5, a5, 48
+  sb a5, (a1)
+
+  beqz a4, print_number_loop_done
+
+  mv a0, a4        /* a0 = a0/10, that is remove last digit */
+  addi a1, a1, -1  /* move buffer back one character  */
+  addi a2, a2, 1   /* increase number of characters to print by one */
+  j print_number_loop_iteration
+
+print_number_loop_done:
+  /* now we can tell the operating system to print string we built */
+  li a7, 64
+  li a0, 1
+  ecall
+  /* and return */
+  ret
+
+_start:
+  /* set a0 to be argument ad call print_number function */
+  li a0, 12345678
+  call print_number
+
+  /* Tell the operating system to exit with code 0 */
+  li a7, 93
+  li a0, 0
+  ecall
+
+.data
+/* 32 characters + \n; initial contents do not matter */
+buffer:
+  .ascii "0123456789abcdef0123456789abcdef\n"
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="print-numbers-with-loop" href="#print-numbers-with-loop">
+  </a>
+  Print numbers with loop
+</h3>
+
+<p>It takes very little extra work to loop all numbers from 1 to 20 instead of printing just one.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>.text
+.global _start
+
+print_number:
+  /* a1 = address of the last character of the buffer (excluding newline) */
+  /* a2 = number of characters to print (including newline) */
+  /* a3 = 10 */
+  lla a1, buffer
+  addi a1, a1, 31
+  li a2, 2
+  li a3, 10
+
+print_number_loop_iteration:
+  /* split last digit out */
+  /* a4 = a0 / 10 */
+  div a4, a0, a3
+  /* a5 = a0 % 10 */
+  rem a5, a0, a3
+
+  /* store one character at the address */
+  addi a5, a5, 48
+  sb a5, (a1)
+
+  beqz a4, print_number_loop_done
+
+  mv a0, a4        /* a0 = a0/10, that is remove last digit */
+  addi a1, a1, -1  /* move buffer back one character  */
+  addi a2, a2, 1   /* increase number of characters to print by one */
+  j print_number_loop_iteration
+
+print_number_loop_done:
+  /* now we can tell the operating system to print string we built */
+  li a7, 64
+  li a0, 1
+  ecall
+  /* and return */
+  ret
+
+_start:
+  /* set a0 to be argument ad call print_number function */
+  li s0, 1
+  li s1, 20
+loop:
+  mv a0, s0
+  call print_number
+  addi s0, s0, 1
+  ble s0, s1, loop
+
+  /* Tell the operating system to exit with code 0 */
+  li a7, 93
+  li a0, 0
+  ecall
+
+.data
+/* 32 characters + \n; initial contents do not matter */
+buffer:
+  .ascii "0123456789abcdef0123456789abcdef\n"
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>RISC-V has a lot of registers, and by convention some of them (a0-a7) are used to pass arguments to functions, and can be overwritten by the function. Others (s0-s11) should be saved and restored if a function wants to use them. This is just a convention, not any hard requirement, but we follow it here, as we store data we want to not get overwritten in <code>s0</code> and <code>s1</code>.</p>
+
+<h3>
+  <a name="fizzbuzz" href="#fizzbuzz">
+  </a>
+  FizzBuzz
+</h3>
+
+<p>I then wrote a perfectly fine FizzBuzz program, but the linker really hated it. I think this is a linker bug as <code>lla</code> is supposed to always use relative addressing. Or assembler incorrectly informs linker about this. Or maybe it's supposed to not work, and need some extra flags, I'm not really sure.</p>
+
+<p>Anyway, it all worked when I changed the command from static to dynamic linking:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ as fizzbuzz.s -o fizzbuzz.o
+$ ld -fPIC -shared fizzbuzz.o -o fizzbuzz
+$ ./fizzbuzz
+1
+2
+Fizz
+4
+Buzz
+Fizz
+7
+8
+Fizz
+Buzz
+11
+Fizz
+13
+14
+FizzBuzz
+16
+17
+Fizz
+19
+Buzz
+...
+Fizz
+97
+98
+Fizz
+Buzz
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>And here's the program:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>.option pic
+.text
+.global _start
+
+print_number:
+  /* a1 = address of the last character of the buffer (excluding newline) */
+  /* a2 = number of characters to print (including newline) */
+  /* a3 = 10 */
+  lla a1, .buffer
+  addi a1, a1, 31
+  li a2, 2
+  li a3, 10
+
+print_number_loop_iteration:
+  /* split last digit out */
+  /* a4 = a0 / 10 */
+  div a4, a0, a3
+  /* a5 = a0 % 10 */
+  rem a5, a0, a3
+
+  /* store one character at the address */
+  addi a5, a5, 48
+  sb a5, (a1)
+
+  beqz a4, print_number_loop_done
+
+  mv a0, a4        /* a0 = a0/10, that is remove last digit */
+  addi a1, a1, -1  /* move buffer back one character  */
+  addi a2, a2, 1   /* increase number of characters to print by one */
+  j print_number_loop_iteration
+
+print_number_loop_done:
+  /* now we can tell the operating system to print string we built */
+  li a7, 64
+  li a0, 1
+  ecall
+  /* and return */
+  ret
+
+_start:
+  /* set a0 to be argument ad call print_number function */
+  li s0, 1
+  li s1, 100
+  li s3, 3
+  li s5, 5
+loop:
+  rem a3, s0, s3
+  rem a5, s0, s5
+  beqz a3, divides_by_three
+  beqz a5, divides_by_five_only
+
+divides_neither:
+  mv a0, s0
+  call print_number
+  j continue_loop
+
+divides_by_three:
+  beqz a5, divides_by_three_and_five
+
+divides_by_three_only:
+  li a7, 64
+  li a0, 1
+  lla a1, .fizz
+  li a2, 5
+  ecall
+  j continue_loop
+
+divides_by_five_only:
+  li a7, 64
+  li a0, 1
+  lla a1, .buzz
+  li a2, 5
+  ecall
+  j continue_loop
+
+divides_by_three_and_five:
+  li a7, 64
+  li a0, 1
+  lla a1, .fizzbuzz
+  li a2, 9
+  ecall
+
+continue_loop:
+  addi s0, s0, 1
+  ble s0, s1, loop
+
+  /* Tell the operating system to exit with code 0 */
+  li a7, 93
+  li a0, 0
+  ecall
+
+.data
+/* 32 characters + \n; initial contents do not matter */
+.buffer:
+  .ascii "0123456789abcdef0123456789abcdef\n"
+.fizz:
+  .ascii "Fizz\n"
+.buzz:
+  .ascii "Buzz\n"
+.fizzbuzz:
+  .ascii "FizzBuzz\n"
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="should-you-use-riscv" href="#should-you-use-riscv">
+  </a>
+  Should you use RISC-V?
+</h3>
+
+<p>As for the hardware, only the future will tell.</p>
+
+<p>As for RISC-V assembly, it's not something you're likely to ever need, even less so than x86-64 assembly, but it's good fun to play with it if you like esoteric languages, and now thanks to Docker and QEMU it's quite easy.</p>
+
+<p>There's some rumor that RISC-V alternative to ARM-based Raspberry Pi <a href="https://www.tomshardware.com/uk/news/visionfive-riscv-board">is coming real soon now</a> so maybe you'll even be able to run your code on real hardware.</p>
+
+<h3>
+  <a name="code" href="#code">
+  </a>
+  Code
+</h3>
+
+<p><a href="https://github.com/taw/100-languages-speedrun">All code examples for the series will be in this repository</a>.</p>
+
+<p><a href="https://github.com/taw/100-languages-speedrun/tree/master/episode-44-riscv">Code for the RISC-V Assembly episode is available here</a>.</p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/taw/100-languages-speedrun-episode-44-risc-v-assembly-154p" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(n,e,t,i){return t.type_of="article",t.id=943185,t.title="100 Languages Speedrun: Episode 44: RISC-V Assembly",t.description="The world of computing is dominated by two instruction set architectures, x86-64 (which I covered in...",t.readable_publish_date="Jan 3",t.slug="100-languages-speedrun-episode-44-risc-v-assembly-154p",t.path="/taw/100-languages-speedrun-episode-44-risc-v-assembly-154p",t.url=i,t.comments_count=0,t.public_reactions_count=6,t.collection_id=15607,t.published_timestamp=e,t.positive_reactions_count=6,t.cover_image=n,t.social_image="https://dev.to/social_previews/article/943185.png",t.canonical_url=i,t.created_at=e,t.edited_at=n,t.crossposted_at=n,t.published_at=e,t.last_comment_at=e,t.reading_time_minutes=10,t.tag_list="riscv, assembly, risc",t.tags=["riscv","assembly","risc"],t.body_html='<p>The world of computing is dominated by two instruction set architectures, x86-64 (<a href="https://dev.to/taw/100-languages-speedrun-episode-40-x86-64-assembly-jjj">which I covered in episode 40</a>) and ARM, with all other architectures irrelevant by now.</p>\n\n<p>But a new contender recently emerged, <a href="https://en.wikipedia.org/wiki/RISC-V">RISC-V</a>. RISC-V attempts to be an Open Source and architecturally neutral ISA. The goal isn\'t for the hardware itself to be Open Source, it is for any company or researcher to be able to make their own RISC-V-based processor, with whichever extra features and performance trade-offs they need, and to have them be interoperable thanks to shared RISC-V standard.</p>\n\n<p>So far it\'s a very distant third, but <a href="https://en.wikipedia.org/wiki/RISC-V#Implementations">RISC-V based products keep showing up</a>, especially in embedded space, and <a href="https://www.extremetech.com/computing/273236-arm-kills-its-risc-v-fud-website-after-staff-revolt">it is obviously making ARM really uncomfortable</a>.</p>\n\n<h3>\n  <a name="how-to-run-riscv-code" href="#how-to-run-riscv-code">\n  </a>\n  How to run RISC-V code\n</h3>\n\n<p>As you probably don\'t have any RISC-V computers at hand, the best way is to use QEMU emulation and Docker. If you run <code>docker run -it riscv64/ubuntu</code>, you can get RISC-V environment. At least on OSX, Docker comes with everything preconfigured for it, and it shouldn\'t be too hard on other systems. This is of course much slower than the real thing would be.</p>\n\n<p>So let\'s start a new container and install compiler tools on it:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ docker run -it --platform linux/riscv64 -v $(pwd):/source riscv64/ubuntu\n$ apt update\n$ apt install -y build-essential\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="simplest-riscv-program" href="#simplest-riscv-program">\n  </a>\n  Simplest RISC-V program\n</h3>\n\n<p>Let\'s write and compile our first RISC-V program. It will just tell the operating system to exit, with exit code 7:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>.text\n.global _start\n_start:\n  /* Tell the operating system to exit with code 7 */\n  li a7, 93\n  li a0, 7\n  ecall\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The x86-64 version we had was very similar:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>global start\nsection .text\nstart:\n  ; Tell operating system to exit with code 7\n  mov rax, 0x2000001\n  mov rdi, 7\n  syscall\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>And let\'s run it:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ as exit.s -o exit.o\n$ ld -static exit.o -o exit\n$ ./exit\n$ echo $?\n7\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Step by step:</p>\n\n<ul>\n<li>these are different assemblers (GNU as vs NASM), different operating systems (Linux vs OSX), and different architectures (RISC-V vs x86-64), but it\'s so damn similar</li>\n<li>\n<code>.text</code> (NASM <code>.section text</code>)</li>\n<li>I\'m not really sure why <code>start</code> vs <code>_start</code> as default start symbol for statically linked</li>\n<li>\n<code>ecall</code> (x86 <code>syscall</code>) - call operating system function</li>\n<li>\n<code>.text</code> (or <code>section .text</code> in NASM) - where the code is</li>\n<li>\n<code>li</code> - load integer, on RISCV it only supports very small numbers with a single opcode (12bit), and if you want to load 64bit number you\'d need multiple instructions, on x86-64 you can load number of up to 64bit size as x86-64 supports much more complex instructions</li>\n<li>\n<code>a7</code> (x86-64 <code>rax</code>) is where we choose the operating system function to call, in this case exit</li>\n<li>numbers of system calls vary both by operating system and architecture, on x86-64 OSX it\'s <code>0x2000001</code>, on RISC-V Linux it\'s <code>93</code>.</li>\n<li>\n<code>a0</code> (x86-64 <code>rdi</code>) is where the first argument goes, exit has only one argument, where we pass <code>7</code>\n</li>\n<li>weirdly assembler comment syntax is different on different architectures, and <code>;</code> comments don\'t work on RISC-V version of GNU as.</li>\n</ul>\n\n<h3>\n  <a name="hello-world" href="#hello-world">\n  </a>\n  Hello, World!\n</h3>\n\n<p>Now that we know how to run RISC-V code, let\'s write a simple program that prints "Hello, World!" to the screen.</p>\n\n<p>It needs to do two system calls</p>\n\n<ul>\n<li>\n<code>write</code> call, passing file descriptor number (<code>1</code> for standard output), address of <code>"Hello, World!\\n"</code> string, and length of the string <code>14</code>.</li>\n<li>\n<code>exit</code> call, passing <code>0</code> as exit code to indicate success\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>.text\n.global _start\n_start:\n  /* Tell the operating system to write "Hello, World!\\n" to stadard output */\n  li a7, 64\n  li a0, 1       /* standard output */\n  lla a1, hello  /* address of thing to write */\n  li a2, 14      /* amount of data to write */\n  ecall\n\n  /* Tell the operating system to exit with code 0 */\n  li a7, 93\n  li a0, 0\n  ecall\n\n.data\nhello:\n  .ascii "Hello World!\\n"\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>It works just like we\'d expect:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ as hello.s -o hello.o\n$ ld -static hello.o -o hello\n$ ./hello\nHello World!\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>But hang on, how does RISC-V load an address if addresses are 64bit, and it cannot load such big numbers, let\'s disassemble it and take a peak:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ objdump -d hello\n\nhello:     file format elf64-littleriscv\n\n\nDisassembly of section .text:\n\n00000000000100b0 &lt;_start&gt;:\n   100b0:   04000893            li  a7,64\n   100b4:   00100513            li  a0,1\n   100b8:   00001597            auipc   a1,0x1\n   100bc:   01c58593            addi    a1,a1,28 # 110d4 &lt;__DATA_BEGIN__&gt;\n   100c0:   00e00613            li  a2,14\n   100c4:   00000073            ecall\n   100c8:   05d00893            li  a7,93\n   100cc:   00000513            li  a0,0\n   100d0:   00000073            ecall\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>As you can see, each instruction is exactly 32bits, or 4 bytes. As some of those bits must identify which instruction we want, it\'s not possible to load 32bit number, let alone 64bit number, with one instruction.</p>\n\n<p>x86-64 on the other hand can absolutely do that, as instructions on x86-64 have variable width, and some of them can be very long. Apparently the longest valid instruction is 15 bytes, but you\'re not likely to see many such instructions, and most instructions are a lot shorter. The most common 10 bytes instruction is to load a 64 bit number into a register (2 bytes to select such an instruction, then 8 bytes of data) - but if top half of that number is all zeroes or ones, it will be a lot shorter.</p>\n\n<p>x86-64 style variable length instruction encoding tends to use a lot less memory, and due to limited size of CPU\'s innermost caches, it is generally a lot faster. RISC-V constant length instruction encoding tends to be a lot simpler to implement, but more instructions will be required, and less of a program will fit in a cache, so generally such choices result in poorer performance. Of course in practice a lot of other factors affect performance as well.</p>\n\n<p>Anyway, how does RISC-V load that address? It translated our <code>lla</code> into two instructions:</p>\n\n<ul>\n<li>\n<code>auipc a1,0x10</code> (Add Upper Immediate to Program Counter) checks current "program counter" and adds <code>0x1 * 4096</code> to it, and saves it to <code>a1</code>\n</li>\n<li>\n<code>addi    a1,a1,28</code> (add immediate) - adds <code>28</code> (numbers from <code>0</code> to <code>4095</code> fit in the instruction) to <code>a1</code> and saves result in <code>a1</code>\n</li>\n<li>so as result, we have <code>a1</code> equal to <code>pc + 4096 + 28</code>, presumably covering distance between where that instruction was, and where <code>"Hello, World!\\n"</code> is located in the program</li>\n<li>this pair of instructions can load any address within 32bit from PC, more instructions would be needed for 64bit</li>\n<li>very similar technique is used for loading 32bit numbers - first <code>lui</code> to load <code>4096 * constant</code>, then <code>addi</code> to add the final digits to that</li>\n</ul>\n\n<p>This kind of relative loading is a pretty decent idea - memory might be huge, but programs tend to be small, so distance between instruction and constant it refers should generally fit 32bit.</p>\n\n<p>This also illustrates one interesting idea RISC-V has - on surface level, it only has constant length instructions, and for simpler implementations that\'s it, but the idea is that more complex high-performance implementations could look at multiple instructions together, and treat such a common pair like <code>auipc+addi</code> or <code>lui+addi</code> as a single double-length instruction to load a 32bit number, instead of following each step separately. How well that\'s going to work in practice is a big unknown.</p>\n\n<h3>\n  <a name="loop" href="#loop">\n  </a>\n  Loop\n</h3>\n\n<p>The loop is very straightforward:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>.text\n.global _start\n_start:\n\n  /* initialize iteration count to 5 */\n  li s0, 5\n\nloop:\n  /* print one "Hello, World!\\n" */\n  li a7, 64\n  li a0, 1       /* standard output */\n  lla a1, hello  /* address of thing to write */\n  li a2, 14      /* amount of data to write */\n  ecall\n\n  /* subtract 1, check if s0 reached 0 */\n  addi s0, s0, -1\n  bnez s0, loop\n\ndone:\n  li a7, 93\n  li a0, 0\n  ecall\n\n.data\nhello:\n  .ascii "Hello World!\\n"\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>We use <code>s0</code> to store how many loop iterations are remaining.</p>\n\n<p>There are two interesting quirks of RISC-V. It doesn\'t have any "subtract constant" operation, instead it adds a negative number.</p>\n\n<p>And second, there are no "CPU flags" - on x86-64 there was an operation to compare numbers that set some flags, then there was conditional jump based on those flags. RISC-V doesn\'t have that design, instead it uses "compare and jump" (with all the comparison flavors) as a single instruction. CPU flags were very easy to implement on simple CPUs, but they\'re really complicate things on modern high performance CPUs where multiple operations can happen in parallel while CPU needs to manage the results as if it was executing things one at a time.</p>\n\n<h3>\n  <a name="print-numbers" href="#print-numbers">\n  </a>\n  Print numbers\n</h3>\n\n<p>On our way to FizzBuzz, we need to be able to print a number. This is very similar algorithm to the one I wrote for x86-64. We start building the string from the back, one digit at a time. At every iteration we do <code>number % 10</code>, add 48 to get corresponding ASCII code, and store that in a string. Then we divide <code>number</code> by 10, and repeat the process.</p>\n\n<p>The GNU assembler equivalent of NASM macros I used <code>buffer_last_byte: equ $ - 1</code> and <code>buffer_after: equ $</code> don\'t work correctly here, it looks like some linker issue. I didn\'t investigate it further, and just added extra operation to add <code>31</code> to the buffer address.</p>\n\n<p>RISC-V<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>.text\n.global _start\n\nprint_number:\n  /* a1 = address of the last character of the buffer (excluding newline) */\n  /* a2 = number of characters to print (including newline) */\n  /* a3 = 10 */\n  lla a1, buffer\n  addi a1, a1, 31\n  li a2, 2\n  li a3, 10\n\nprint_number_loop_iteration:\n  /* split last digit out */\n  /* a4 = a0 / 10 */\n  div a4, a0, a3\n  /* a5 = a0 % 10 */\n  rem a5, a0, a3\n\n  /* store one character at the address */\n  addi a5, a5, 48\n  sb a5, (a1)\n\n  beqz a4, print_number_loop_done\n\n  mv a0, a4        /* a0 = a0/10, that is remove last digit */\n  addi a1, a1, -1  /* move buffer back one character  */\n  addi a2, a2, 1   /* increase number of characters to print by one */\n  j print_number_loop_iteration\n\nprint_number_loop_done:\n  /* now we can tell the operating system to print string we built */\n  li a7, 64\n  li a0, 1\n  ecall\n  /* and return */\n  ret\n\n_start:\n  /* set a0 to be argument ad call print_number function */\n  li a0, 12345678\n  call print_number\n\n  /* Tell the operating system to exit with code 0 */\n  li a7, 93\n  li a0, 0\n  ecall\n\n.data\n/* 32 characters + \\n; initial contents do not matter */\nbuffer:\n  .ascii "0123456789abcdef0123456789abcdef\\n"\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="print-numbers-with-loop" href="#print-numbers-with-loop">\n  </a>\n  Print numbers with loop\n</h3>\n\n<p>It takes very little extra work to loop all numbers from 1 to 20 instead of printing just one.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>.text\n.global _start\n\nprint_number:\n  /* a1 = address of the last character of the buffer (excluding newline) */\n  /* a2 = number of characters to print (including newline) */\n  /* a3 = 10 */\n  lla a1, buffer\n  addi a1, a1, 31\n  li a2, 2\n  li a3, 10\n\nprint_number_loop_iteration:\n  /* split last digit out */\n  /* a4 = a0 / 10 */\n  div a4, a0, a3\n  /* a5 = a0 % 10 */\n  rem a5, a0, a3\n\n  /* store one character at the address */\n  addi a5, a5, 48\n  sb a5, (a1)\n\n  beqz a4, print_number_loop_done\n\n  mv a0, a4        /* a0 = a0/10, that is remove last digit */\n  addi a1, a1, -1  /* move buffer back one character  */\n  addi a2, a2, 1   /* increase number of characters to print by one */\n  j print_number_loop_iteration\n\nprint_number_loop_done:\n  /* now we can tell the operating system to print string we built */\n  li a7, 64\n  li a0, 1\n  ecall\n  /* and return */\n  ret\n\n_start:\n  /* set a0 to be argument ad call print_number function */\n  li s0, 1\n  li s1, 20\nloop:\n  mv a0, s0\n  call print_number\n  addi s0, s0, 1\n  ble s0, s1, loop\n\n  /* Tell the operating system to exit with code 0 */\n  li a7, 93\n  li a0, 0\n  ecall\n\n.data\n/* 32 characters + \\n; initial contents do not matter */\nbuffer:\n  .ascii "0123456789abcdef0123456789abcdef\\n"\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>RISC-V has a lot of registers, and by convention some of them (a0-a7) are used to pass arguments to functions, and can be overwritten by the function. Others (s0-s11) should be saved and restored if a function wants to use them. This is just a convention, not any hard requirement, but we follow it here, as we store data we want to not get overwritten in <code>s0</code> and <code>s1</code>.</p>\n\n<h3>\n  <a name="fizzbuzz" href="#fizzbuzz">\n  </a>\n  FizzBuzz\n</h3>\n\n<p>I then wrote a perfectly fine FizzBuzz program, but the linker really hated it. I think this is a linker bug as <code>lla</code> is supposed to always use relative addressing. Or assembler incorrectly informs linker about this. Or maybe it\'s supposed to not work, and need some extra flags, I\'m not really sure.</p>\n\n<p>Anyway, it all worked when I changed the command from static to dynamic linking:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ as fizzbuzz.s -o fizzbuzz.o\n$ ld -fPIC -shared fizzbuzz.o -o fizzbuzz\n$ ./fizzbuzz\n1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz\n16\n17\nFizz\n19\nBuzz\n...\nFizz\n97\n98\nFizz\nBuzz\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>And here\'s the program:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>.option pic\n.text\n.global _start\n\nprint_number:\n  /* a1 = address of the last character of the buffer (excluding newline) */\n  /* a2 = number of characters to print (including newline) */\n  /* a3 = 10 */\n  lla a1, .buffer\n  addi a1, a1, 31\n  li a2, 2\n  li a3, 10\n\nprint_number_loop_iteration:\n  /* split last digit out */\n  /* a4 = a0 / 10 */\n  div a4, a0, a3\n  /* a5 = a0 % 10 */\n  rem a5, a0, a3\n\n  /* store one character at the address */\n  addi a5, a5, 48\n  sb a5, (a1)\n\n  beqz a4, print_number_loop_done\n\n  mv a0, a4        /* a0 = a0/10, that is remove last digit */\n  addi a1, a1, -1  /* move buffer back one character  */\n  addi a2, a2, 1   /* increase number of characters to print by one */\n  j print_number_loop_iteration\n\nprint_number_loop_done:\n  /* now we can tell the operating system to print string we built */\n  li a7, 64\n  li a0, 1\n  ecall\n  /* and return */\n  ret\n\n_start:\n  /* set a0 to be argument ad call print_number function */\n  li s0, 1\n  li s1, 100\n  li s3, 3\n  li s5, 5\nloop:\n  rem a3, s0, s3\n  rem a5, s0, s5\n  beqz a3, divides_by_three\n  beqz a5, divides_by_five_only\n\ndivides_neither:\n  mv a0, s0\n  call print_number\n  j continue_loop\n\ndivides_by_three:\n  beqz a5, divides_by_three_and_five\n\ndivides_by_three_only:\n  li a7, 64\n  li a0, 1\n  lla a1, .fizz\n  li a2, 5\n  ecall\n  j continue_loop\n\ndivides_by_five_only:\n  li a7, 64\n  li a0, 1\n  lla a1, .buzz\n  li a2, 5\n  ecall\n  j continue_loop\n\ndivides_by_three_and_five:\n  li a7, 64\n  li a0, 1\n  lla a1, .fizzbuzz\n  li a2, 9\n  ecall\n\ncontinue_loop:\n  addi s0, s0, 1\n  ble s0, s1, loop\n\n  /* Tell the operating system to exit with code 0 */\n  li a7, 93\n  li a0, 0\n  ecall\n\n.data\n/* 32 characters + \\n; initial contents do not matter */\n.buffer:\n  .ascii "0123456789abcdef0123456789abcdef\\n"\n.fizz:\n  .ascii "Fizz\\n"\n.buzz:\n  .ascii "Buzz\\n"\n.fizzbuzz:\n  .ascii "FizzBuzz\\n"\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="should-you-use-riscv" href="#should-you-use-riscv">\n  </a>\n  Should you use RISC-V?\n</h3>\n\n<p>As for the hardware, only the future will tell.</p>\n\n<p>As for RISC-V assembly, it\'s not something you\'re likely to ever need, even less so than x86-64 assembly, but it\'s good fun to play with it if you like esoteric languages, and now thanks to Docker and QEMU it\'s quite easy.</p>\n\n<p>There\'s some rumor that RISC-V alternative to ARM-based Raspberry Pi <a href="https://www.tomshardware.com/uk/news/visionfive-riscv-board">is coming real soon now</a> so maybe you\'ll even be able to run your code on real hardware.</p>\n\n<h3>\n  <a name="code" href="#code">\n  </a>\n  Code\n</h3>\n\n<p><a href="https://github.com/taw/100-languages-speedrun">All code examples for the series will be in this repository</a>.</p>\n\n<p><a href="https://github.com/taw/100-languages-speedrun/tree/master/episode-44-riscv">Code for the RISC-V Assembly episode is available here</a>.</p>\n\n',t.body_markdown="The world of computing is dominated by two instruction set architectures, x86-64 ([which I covered in episode 40](https://dev.to/taw/100-languages-speedrun-episode-40-x86-64-assembly-jjj)) and ARM, with all other architectures irrelevant by now.\n\nBut a new contender recently emerged, [RISC-V](https://en.wikipedia.org/wiki/RISC-V). RISC-V attempts to be an Open Source and architecturally neutral ISA. The goal isn't for the hardware itself to be Open Source, it is for any company or researcher to be able to make their own RISC-V-based processor, with whichever extra features and performance trade-offs they need, and to have them be interoperable thanks to shared RISC-V standard.\n\nSo far it's a very distant third, but [RISC-V based products keep showing up](https://en.wikipedia.org/wiki/RISC-V#Implementations), especially in embedded space, and [it is obviously making ARM really uncomfortable](https://www.extremetech.com/computing/273236-arm-kills-its-risc-v-fud-website-after-staff-revolt).\n\n### How to run RISC-V code\n\nAs you probably don't have any RISC-V computers at hand, the best way is to use QEMU emulation and Docker. If you run `docker run -it riscv64/ubuntu`, you can get RISC-V environment. At least on OSX, Docker comes with everything preconfigured for it, and it shouldn't be too hard on other systems. This is of course much slower than the real thing would be.\n\nSo let's start a new container and install compiler tools on it:\n\n```\n$ docker run -it --platform linux/riscv64 -v $(pwd):/source riscv64/ubuntu\n$ apt update\n$ apt install -y build-essential\n```\n\n### Simplest RISC-V program\n\nLet's write and compile our first RISC-V program. It will just tell the operating system to exit, with exit code 7:\n\n```\n.text\n.global _start\n_start:\n  /* Tell the operating system to exit with code 7 */\n  li a7, 93\n  li a0, 7\n  ecall\n```\n\nThe x86-64 version we had was very similar:\n\n```\nglobal start\nsection .text\nstart:\n  ; Tell operating system to exit with code 7\n  mov rax, 0x2000001\n  mov rdi, 7\n  syscall\n```\n\nAnd let's run it:\n\n```\n$ as exit.s -o exit.o\n$ ld -static exit.o -o exit\n$ ./exit\n$ echo $?\n7\n```\n\nStep by step:\n\n* these are different assemblers (GNU as vs NASM), different operating systems (Linux vs OSX), and different architectures (RISC-V vs x86-64), but it's so damn similar\n* `.text` (NASM `.section text`)\n* I'm not really sure why `start` vs `_start` as default start symbol for statically linked\n* `ecall` (x86 `syscall`) - call operating system function\n* `.text` (or `section .text` in NASM) - where the code is\n* `li` - load integer, on RISCV it only supports very small numbers with a single opcode (12bit), and if you want to load 64bit number you'd need multiple instructions, on x86-64 you can load number of up to 64bit size as x86-64 supports much more complex instructions\n* `a7` (x86-64 `rax`) is where we choose the operating system function to call, in this case exit\n* numbers of system calls vary both by operating system and architecture, on x86-64 OSX it's `0x2000001`, on RISC-V Linux it's `93`.\n* `a0` (x86-64 `rdi`) is where the first argument goes, exit has only one argument, where we pass `7`\n* weirdly assembler comment syntax is different on different architectures, and `;` comments don't work on RISC-V version of GNU as.\n\n### Hello, World!\n\nNow that we know how to run RISC-V code, let's write a simple program that prints \"Hello, World!\" to the screen.\n\nIt needs to do two system calls\n\n* `write` call, passing file descriptor number (`1` for standard output), address of `\"Hello, World!\\n\"` string, and length of the string `14`.\n* `exit` call, passing `0` as exit code to indicate success\n\n```\n.text\n.global _start\n_start:\n  /* Tell the operating system to write \"Hello, World!\\n\" to stadard output */\n  li a7, 64\n  li a0, 1       /* standard output */\n  lla a1, hello  /* address of thing to write */\n  li a2, 14      /* amount of data to write */\n  ecall\n\n  /* Tell the operating system to exit with code 0 */\n  li a7, 93\n  li a0, 0\n  ecall\n\n.data\nhello:\n  .ascii \"Hello World!\\n\"\n```\n\nIt works just like we'd expect:\n\n```\n$ as hello.s -o hello.o\n$ ld -static hello.o -o hello\n$ ./hello\nHello World!\n```\n\nBut hang on, how does RISC-V load an address if addresses are 64bit, and it cannot load such big numbers, let's disassemble it and take a peak:\n\n```\n$ objdump -d hello\n\nhello:     file format elf64-littleriscv\n\n\nDisassembly of section .text:\n\n00000000000100b0 <_start>:\n   100b0:\t04000893          \tli\ta7,64\n   100b4:\t00100513          \tli\ta0,1\n   100b8:\t00001597          \tauipc\ta1,0x1\n   100bc:\t01c58593          \taddi\ta1,a1,28 # 110d4 <__DATA_BEGIN__>\n   100c0:\t00e00613          \tli\ta2,14\n   100c4:\t00000073          \tecall\n   100c8:\t05d00893          \tli\ta7,93\n   100cc:\t00000513          \tli\ta0,0\n   100d0:\t00000073          \tecall\n```\n\nAs you can see, each instruction is exactly 32bits, or 4 bytes. As some of those bits must identify which instruction we want, it's not possible to load 32bit number, let alone 64bit number, with one instruction.\n\nx86-64 on the other hand can absolutely do that, as instructions on x86-64 have variable width, and some of them can be very long. Apparently the longest valid instruction is 15 bytes, but you're not likely to see many such instructions, and most instructions are a lot shorter. The most common 10 bytes instruction is to load a 64 bit number into a register (2 bytes to select such an instruction, then 8 bytes of data) - but if top half of that number is all zeroes or ones, it will be a lot shorter.\n\nx86-64 style variable length instruction encoding tends to use a lot less memory, and due to limited size of CPU's innermost caches, it is generally a lot faster. RISC-V constant length instruction encoding tends to be a lot simpler to implement, but more instructions will be required, and less of a program will fit in a cache, so generally such choices result in poorer performance. Of course in practice a lot of other factors affect performance as well.\n\nAnyway, how does RISC-V load that address? It translated our `lla` into two instructions:\n\n* `auipc a1,0x10` (Add Upper Immediate to Program Counter) checks current \"program counter\" and adds `0x1 * 4096` to it, and saves it to `a1`\n* `addi\ta1,a1,28` (add immediate) - adds `28` (numbers from `0` to `4095` fit in the instruction) to `a1` and saves result in `a1`\n* so as result, we have `a1` equal to `pc + 4096 + 28`, presumably covering distance between where that instruction was, and where `\"Hello, World!\\n\"` is located in the program\n* this pair of instructions can load any address within 32bit from PC, more instructions would be needed for 64bit\n* very similar technique is used for loading 32bit numbers - first `lui` to load `4096 * constant`, then `addi` to add the final digits to that\n\nThis kind of relative loading is a pretty decent idea - memory might be huge, but programs tend to be small, so distance between instruction and constant it refers should generally fit 32bit.\n\nThis also illustrates one interesting idea RISC-V has - on surface level, it only has constant length instructions, and for simpler implementations that's it, but the idea is that more complex high-performance implementations could look at multiple instructions together, and treat such a common pair like `auipc+addi` or `lui+addi` as a single double-length instruction to load a 32bit number, instead of following each step separately. How well that's going to work in practice is a big unknown.\n\n### Loop\n\nThe loop is very straightforward:\n\n```\n.text\n.global _start\n_start:\n\n  /* initialize iteration count to 5 */\n  li s0, 5\n\nloop:\n  /* print one \"Hello, World!\\n\" */\n  li a7, 64\n  li a0, 1       /* standard output */\n  lla a1, hello  /* address of thing to write */\n  li a2, 14      /* amount of data to write */\n  ecall\n\n  /* subtract 1, check if s0 reached 0 */\n  addi s0, s0, -1\n  bnez s0, loop\n\ndone:\n  li a7, 93\n  li a0, 0\n  ecall\n\n.data\nhello:\n  .ascii \"Hello World!\\n\"\n```\n\nWe use `s0` to store how many loop iterations are remaining.\n\nThere are two interesting quirks of RISC-V. It doesn't have any \"subtract constant\" operation, instead it adds a negative number.\n\nAnd second, there are no \"CPU flags\" - on x86-64 there was an operation to compare numbers that set some flags, then there was conditional jump based on those flags. RISC-V doesn't have that design, instead it uses \"compare and jump\" (with all the comparison flavors) as a single instruction. CPU flags were very easy to implement on simple CPUs, but they're really complicate things on modern high performance CPUs where multiple operations can happen in parallel while CPU needs to manage the results as if it was executing things one at a time.\n\n### Print numbers\n\nOn our way to FizzBuzz, we need to be able to print a number. This is very similar algorithm to the one I wrote for x86-64. We start building the string from the back, one digit at a time. At every iteration we do `number % 10`, add 48 to get corresponding ASCII code, and store that in a string. Then we divide `number` by 10, and repeat the process.\n\nThe GNU assembler equivalent of NASM macros I used `buffer_last_byte: equ $ - 1` and `buffer_after: equ $` don't work correctly here, it looks like some linker issue. I didn't investigate it further, and just added extra operation to add `31` to the buffer address.\n\nRISC-V\n\n```\n.text\n.global _start\n\nprint_number:\n  /* a1 = address of the last character of the buffer (excluding newline) */\n  /* a2 = number of characters to print (including newline) */\n  /* a3 = 10 */\n  lla a1, buffer\n  addi a1, a1, 31\n  li a2, 2\n  li a3, 10\n\nprint_number_loop_iteration:\n  /* split last digit out */\n  /* a4 = a0 / 10 */\n  div a4, a0, a3\n  /* a5 = a0 % 10 */\n  rem a5, a0, a3\n\n  /* store one character at the address */\n  addi a5, a5, 48\n  sb a5, (a1)\n\n  beqz a4, print_number_loop_done\n\n  mv a0, a4        /* a0 = a0/10, that is remove last digit */\n  addi a1, a1, -1  /* move buffer back one character  */\n  addi a2, a2, 1   /* increase number of characters to print by one */\n  j print_number_loop_iteration\n\nprint_number_loop_done:\n  /* now we can tell the operating system to print string we built */\n  li a7, 64\n  li a0, 1\n  ecall\n  /* and return */\n  ret\n\n_start:\n  /* set a0 to be argument ad call print_number function */\n  li a0, 12345678\n  call print_number\n\n  /* Tell the operating system to exit with code 0 */\n  li a7, 93\n  li a0, 0\n  ecall\n\n.data\n/* 32 characters + \\n; initial contents do not matter */\nbuffer:\n  .ascii \"0123456789abcdef0123456789abcdef\\n\"\n```\n\n### Print numbers with loop\n\nIt takes very little extra work to loop all numbers from 1 to 20 instead of printing just one.\n\n```\n.text\n.global _start\n\nprint_number:\n  /* a1 = address of the last character of the buffer (excluding newline) */\n  /* a2 = number of characters to print (including newline) */\n  /* a3 = 10 */\n  lla a1, buffer\n  addi a1, a1, 31\n  li a2, 2\n  li a3, 10\n\nprint_number_loop_iteration:\n  /* split last digit out */\n  /* a4 = a0 / 10 */\n  div a4, a0, a3\n  /* a5 = a0 % 10 */\n  rem a5, a0, a3\n\n  /* store one character at the address */\n  addi a5, a5, 48\n  sb a5, (a1)\n\n  beqz a4, print_number_loop_done\n\n  mv a0, a4        /* a0 = a0/10, that is remove last digit */\n  addi a1, a1, -1  /* move buffer back one character  */\n  addi a2, a2, 1   /* increase number of characters to print by one */\n  j print_number_loop_iteration\n\nprint_number_loop_done:\n  /* now we can tell the operating system to print string we built */\n  li a7, 64\n  li a0, 1\n  ecall\n  /* and return */\n  ret\n\n_start:\n  /* set a0 to be argument ad call print_number function */\n  li s0, 1\n  li s1, 20\nloop:\n  mv a0, s0\n  call print_number\n  addi s0, s0, 1\n  ble s0, s1, loop\n\n  /* Tell the operating system to exit with code 0 */\n  li a7, 93\n  li a0, 0\n  ecall\n\n.data\n/* 32 characters + \\n; initial contents do not matter */\nbuffer:\n  .ascii \"0123456789abcdef0123456789abcdef\\n\"\n```\n\nRISC-V has a lot of registers, and by convention some of them (a0-a7) are used to pass arguments to functions, and can be overwritten by the function. Others (s0-s11) should be saved and restored if a function wants to use them. This is just a convention, not any hard requirement, but we follow it here, as we store data we want to not get overwritten in `s0` and `s1`.\n\n### FizzBuzz\n\nI then wrote a perfectly fine FizzBuzz program, but the linker really hated it. I think this is a linker bug as `lla` is supposed to always use relative addressing. Or assembler incorrectly informs linker about this. Or maybe it's supposed to not work, and need some extra flags, I'm not really sure.\n\nAnyway, it all worked when I changed the command from static to dynamic linking:\n\n```\n$ as fizzbuzz.s -o fizzbuzz.o\n$ ld -fPIC -shared fizzbuzz.o -o fizzbuzz\n$ ./fizzbuzz\n1\n2\nFizz\n4\nBuzz\nFizz\n7\n8\nFizz\nBuzz\n11\nFizz\n13\n14\nFizzBuzz\n16\n17\nFizz\n19\nBuzz\n...\nFizz\n97\n98\nFizz\nBuzz\n```\n\nAnd here's the program:\n\n```\n.option pic\n.text\n.global _start\n\nprint_number:\n  /* a1 = address of the last character of the buffer (excluding newline) */\n  /* a2 = number of characters to print (including newline) */\n  /* a3 = 10 */\n  lla a1, .buffer\n  addi a1, a1, 31\n  li a2, 2\n  li a3, 10\n\nprint_number_loop_iteration:\n  /* split last digit out */\n  /* a4 = a0 / 10 */\n  div a4, a0, a3\n  /* a5 = a0 % 10 */\n  rem a5, a0, a3\n\n  /* store one character at the address */\n  addi a5, a5, 48\n  sb a5, (a1)\n\n  beqz a4, print_number_loop_done\n\n  mv a0, a4        /* a0 = a0/10, that is remove last digit */\n  addi a1, a1, -1  /* move buffer back one character  */\n  addi a2, a2, 1   /* increase number of characters to print by one */\n  j print_number_loop_iteration\n\nprint_number_loop_done:\n  /* now we can tell the operating system to print string we built */\n  li a7, 64\n  li a0, 1\n  ecall\n  /* and return */\n  ret\n\n_start:\n  /* set a0 to be argument ad call print_number function */\n  li s0, 1\n  li s1, 100\n  li s3, 3\n  li s5, 5\nloop:\n  rem a3, s0, s3\n  rem a5, s0, s5\n  beqz a3, divides_by_three\n  beqz a5, divides_by_five_only\n\ndivides_neither:\n  mv a0, s0\n  call print_number\n  j continue_loop\n\ndivides_by_three:\n  beqz a5, divides_by_three_and_five\n\ndivides_by_three_only:\n  li a7, 64\n  li a0, 1\n  lla a1, .fizz\n  li a2, 5\n  ecall\n  j continue_loop\n\ndivides_by_five_only:\n  li a7, 64\n  li a0, 1\n  lla a1, .buzz\n  li a2, 5\n  ecall\n  j continue_loop\n\ndivides_by_three_and_five:\n  li a7, 64\n  li a0, 1\n  lla a1, .fizzbuzz\n  li a2, 9\n  ecall\n\ncontinue_loop:\n  addi s0, s0, 1\n  ble s0, s1, loop\n\n  /* Tell the operating system to exit with code 0 */\n  li a7, 93\n  li a0, 0\n  ecall\n\n.data\n/* 32 characters + \\n; initial contents do not matter */\n.buffer:\n  .ascii \"0123456789abcdef0123456789abcdef\\n\"\n.fizz:\n  .ascii \"Fizz\\n\"\n.buzz:\n  .ascii \"Buzz\\n\"\n.fizzbuzz:\n  .ascii \"FizzBuzz\\n\"\n```\n\n### Should you use RISC-V?\n\nAs for the hardware, only the future will tell.\n\nAs for RISC-V assembly, it's not something you're likely to ever need, even less so than x86-64 assembly, but it's good fun to play with it if you like esoteric languages, and now thanks to Docker and QEMU it's quite easy.\n\nThere's some rumor that RISC-V alternative to ARM-based Raspberry Pi [is coming real soon now](https://www.tomshardware.com/uk/news/visionfive-riscv-board) so maybe you'll even be able to run your code on real hardware.\n\n### Code\n\n[All code examples for the series will be in this repository](https://github.com/taw/100-languages-speedrun).\n\n[Code for the RISC-V Assembly episode is available here](https://github.com/taw/100-languages-speedrun/tree/master/episode-44-riscv).\n",t.user={name:"Tomasz Wegrzanowski",username:"taw",twitter_username:n,github_username:"taw",website_url:"http://t-a-w.blogspot.com/",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--lGKeg0_8--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/673595/a3ca7eb8-f1aa-48f9-b544-1b90b6a6f948.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--k8TpFgMg--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/673595/a3ca7eb8-f1aa-48f9-b544-1b90b6a6f948.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:t}},error:n,state:{currentArticle:t},serverRendered:!0,routePath:"/taw/943185",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:n}}}}(null,"2022-01-03T12:09:38Z",{},"https://dev.to/taw/100-languages-speedrun-episode-44-risc-v-assembly-154p")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

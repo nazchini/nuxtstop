@@ -1,0 +1,745 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>A First Look at Remix.run</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>A First Look at Remix.run</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/webdev" class="tag" data-v-70afb46a>
+          #webdev
+        </a><a href="/nuxtstop/t/javascript" class="tag" data-v-70afb46a>
+          #javascript
+        </a><a href="/nuxtstop/t/react" class="tag" data-v-70afb46a>
+          #react
+        </a><a href="/nuxtstop/t/node" class="tag" data-v-70afb46a>
+          #node
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--LsLjAe3Z--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/i/6bkwrfbwxkb3cq1oo7r4.jpg" alt="A First Look at Remix.run" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            190
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            25
+          </span></div> <time data-v-70afb46a>Oct 28 '20</time></div></header> <div class="content" data-v-70afb46a><p>Today the <a href="https://remix.run/">Remix Run</a> Supporter Preview finally launched. Remix is a new React framework.</p>
+
+<p>One of the thing that excites me the most about Remix is the team behind it. <a href="https://twitter.com/mjackson">Michael Jackson</a> and <a href="https://twitter.com/ryanflorence">Ryan Florence</a> are some of the most knowledgeable engineers in the React community and have built a lot of things (like <a href="https://reactrouter.com/">React Router</a>, <a href="https://unpkg.com/">UNPKG</a> and <a href="https://reach.tech/">Reach UI</a>) that I have used countless times in my career personally, at AWS, and when working with customers when I was consulting.</p>
+
+<p>Another thing that excites me is the innovation that has happened over the past few years since React was first released and how they have built upon those ideas in Remix.</p>
+
+<p>In this quick post I'll show you how Remix works:</p>
+
+<ol>
+<li>Creating a new project</li>
+<li>Setting credentials</li>
+<li>Configuring routing</li>
+<li>Adding dynamic routing</li>
+<li>Dynamic data fetching</li>
+<li>Dynamic data fetching using route parameters</li>
+<li>Using the global Remix config</li>
+</ol>
+
+<blockquote>
+<p>You can also check out my video walkthrough of how Remix works <a href="https://www.youtube.com/watch?v=HwdAK9FNUOE">here</a> </p>
+</blockquote>
+
+<h2>
+  <a name="about-remix" href="#about-remix">
+  </a>
+  About Remix
+</h2>
+
+<h3>
+  <a name="pricing" href="#pricing">
+  </a>
+  Pricing
+</h3>
+
+<p>Remix is not free. To use Remix, you need to buy either a indie ($250 per year) or enterprise ($1,000 per year) license. There are a lot of opinions about this. I think there's a good argument on both sides, so here's mine.</p>
+
+<p>I've personally paid more than $250 for 1 hour of training when I was getting into consulting, so for an entire year of support from a team I can trust for a framework that makes it easier for me to build apps – I think it's worth it. You might also look at frameworks like Next.js that are free and decide it's not worth it. Both opinions are totally valid IMO.</p>
+
+<p>At the end of the day I just want to be able to build high quality apps and do so as quickly and efficiently as possible without compromising quality, and because time is money I often invest in tools that can make me better and faster (especially those where I can leverage my existing skillset).</p>
+
+<h3>
+  <a name="ssr" href="#ssr">
+  </a>
+  SSR
+</h3>
+
+<p>The entire idea behind Remix is that everything is SSR. It also has a lot lower level of an API than something like Next.js, exposing the entire Request object and allowing you to modify things like headers before rendering the page. I still don't know all of it's capabilities, but at first glance I see it as a closer to the metal / more configurable version of Next.js but without SSG, and there are some benefits to nested routes that I honestly haven't quite explored yet, but it feels interesting.</p>
+
+<h3>
+  <a name="routing" href="#routing">
+  </a>
+  Routing
+</h3>
+
+<p>One other large difference between Remix and other frameworks (like Next.js) is how the routing works. Nested routes and params are supported in Remix, and "are a critical idea to understand in Remix" (according to the docs).</p>
+
+<p>Using an <code>Outlet</code> from React Router Dom, you can build out a hierarchy of nested routes with a pretty simple to use API:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Link</span><span class="p">,</span> <span class="nx">Outlet</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-router-dom</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">useRouteData</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@remix-run/react</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="nx">Team</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">useRouteData</span><span class="p">();</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">></span>
+      <span class="o">&lt;</span><span class="nx">h2</span><span class="o">></span><span class="nx">Team</span><span class="o">&lt;</span><span class="sr">/h2</span><span class="err">>
+</span>      <span class="o">&lt;</span><span class="nx">ul</span><span class="o">></span>
+        <span class="p">{</span><span class="nx">data</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">member</span><span class="p">)</span> <span class="o">=></span> <span class="p">(</span>
+          <span class="o">&lt;</span><span class="nx">li</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">member</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">></span>
+            <span class="o">&lt;</span><span class="nx">Link</span> <span class="nx">to</span><span class="o">=</span><span class="p">{</span><span class="nx">member</span><span class="p">.</span><span class="nx">login</span><span class="p">}</span><span class="o">></span><span class="p">{</span><span class="nx">member</span><span class="p">.</span><span class="nx">login</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/Link</span><span class="err">>
+</span>          <span class="o">&lt;</span><span class="sr">/li</span><span class="err">>
+</span>        <span class="p">))}</span>
+      <span class="o">&lt;</span><span class="sr">/ul</span><span class="err">>
+</span>      <span class="o">&lt;</span><span class="nx">hr</span> <span class="o">/></span>
+      <span class="o">&lt;</span><span class="nx">Outlet</span> <span class="o">/></span>
+    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">>
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>When you navigate using a <code>Link</code>, the Outlet will render the new content from the navigated route.</p>
+<h3>
+  <a name="http-caching" href="#http-caching">
+  </a>
+  HTTP Caching
+</h3>
+
+<p>Remix has this idea of <strong>loaders</strong> that enable you to not just return data for a route, but send full responses, which includes sending cache control headers. By having simple apis to set headers for loaders and routes, you can easily take advantage of browsers (and CDNs) built in cache capabilities).</p>
+
+<p>For instance, if you set cache headers on your responses, when the user visits the same route, it wont' even fetch the data, it'll use the cache. And if you put a CDN in front of your server, the server will rarely actually handle the requests because the CDN will have it cached</p>
+<h2>
+  <a name="code" href="#code">
+  </a>
+  Code
+</h2>
+
+<p>Enough of the explanation, let's look at some code.</p>
+<h3>
+  <a name="creating-a-project" href="#creating-a-project">
+  </a>
+  Creating a project
+</h3>
+
+<p>When you purchase a subscription for a Remix license you are given access to their dashboard. In this dashboard, you can view your license details, documentation, and billing information.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--aCXBcXCT--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/i/erf7n1rzd1op1n5kc68b.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--aCXBcXCT--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/i/erf7n1rzd1op1n5kc68b.png" alt="Remix Dashboard" loading="lazy"></a></p>
+
+<p>This is a much different experience than most frameworks I've used that are simply open source, while this is all hidden behind the paywall.</p>
+
+<p>From this dashboard you have everything you need to get going, including a quick start tutorial.</p>
+
+<p>To get started, they recommend you clone an <a href="https://github.com/remix-run/starter-express">open source starter project</a> that uses express as the server:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">$</span> <span class="nx">git</span> <span class="nx">clone</span> <span class="nx">git</span><span class="p">@</span><span class="nd">github</span><span class="p">.</span><span class="nx">com</span><span class="p">:</span><span class="nx">remix</span><span class="o">-</span><span class="nx">run</span><span class="o">/</span><span class="nx">starter</span><span class="o">-</span><span class="nx">express</span><span class="p">.</span><span class="nx">git</span> <span class="nx">my</span><span class="o">-</span><span class="nx">remix</span><span class="o">-</span><span class="nx">app</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>Out of the box they support Firebase to deploy using a single command:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>firebase deploy
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>In the future they plan to support deployment to these different cloud service providers as well:</p>
+
+<ul>
+<li>Firebase</li>
+<li>Vercel</li>
+<li>AWS Amplify</li>
+<li>Architect</li>
+<li>Azure</li>
+<li>Netlify</li>
+</ul>
+<h3>
+  <a name="restricting-access" href="#restricting-access">
+  </a>
+  Restricting access
+</h3>
+
+<p>You may be wondering how they limit access to only paying customers. The way they do this is that, to install the latest <code>node-modules</code> necessary for the app to run, you have to configure an <strong>.npmrc</strong> file that looks something like this to include your secret key:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>//npm.remix.run/:_authToken=your-unique-token
+
+# This line tells npm where to find @remix-run packages.
+@remix-run:registry=https://npm.remix.run
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>Once this is configured you can install the dependencies using npm or yarn.</p>
+<h3>
+  <a name="project-structure" href="#project-structure">
+  </a>
+  Project structure
+</h3>
+
+<p>Here is a look at the Remix-specific project configuration<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>remix-app  
+└───app
+│   │   App.tsx
+│   │   entry-browser.tsx
+│   │   entry-server.tsx
+│   │   global.css
+│   │   tsconfig.json
+│   └───routes
+│       │   index.js
+│       │   404.js
+│       │   500.js
+│       │   index.css
+└───config
+│   │   shared-tsconfig.json
+└───loaders
+│    │   global.ts
+│    │   tsconfig.json
+│
+└───public
+│    │   favicon.ico
+│    
+└───.npmrc
+│
+└───remix.config.js
+│
+└───server.js
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>The entry-point is <strong>App.tsx</strong>, and looks something like this:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Meta</span><span class="p">,</span> <span class="nx">Scripts</span><span class="p">,</span> <span class="nx">Styles</span><span class="p">,</span> <span class="nx">Routes</span><span class="p">,</span> <span class="nx">useGlobalData</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@remix-run/react</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">useGlobalData</span><span class="p">();</span>
+
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">html</span> <span class="nx">lang</span><span class="o">=</span><span class="dl">"</span><span class="s2">en</span><span class="dl">"</span><span class="o">></span>
+      <span class="o">&lt;</span><span class="nx">head</span><span class="o">></span>
+        <span class="o">&lt;</span><span class="nx">meta</span> <span class="nx">charSet</span><span class="o">=</span><span class="dl">"</span><span class="s2">utf-8</span><span class="dl">"</span> <span class="o">/></span>
+        <span class="o">&lt;</span><span class="nx">Meta</span> <span class="o">/></span>
+        <span class="o">&lt;</span><span class="nx">Styles</span> <span class="o">/></span>
+      <span class="o">&lt;</span><span class="sr">/head</span><span class="err">>
+</span>      <span class="o">&lt;</span><span class="nx">body</span><span class="o">></span>
+        <span class="o">&lt;</span><span class="nx">Routes</span> <span class="o">/></span>
+        <span class="o">&lt;</span><span class="nx">Scripts</span> <span class="o">/></span>
+        <span class="o">&lt;</span><span class="nx">footer</span><span class="o">></span>
+          <span class="o">&lt;</span><span class="nx">p</span><span class="o">></span><span class="nx">This</span> <span class="nx">page</span> <span class="nx">was</span> <span class="nx">rendered</span> <span class="nx">at</span> <span class="p">{</span><span class="nx">data</span><span class="p">.</span><span class="nx">date</span><span class="p">.</span><span class="nx">toLocaleString</span><span class="p">()}</span><span class="o">&lt;</span><span class="sr">/p</span><span class="err">>
+</span>        <span class="o">&lt;</span><span class="sr">/footer</span><span class="err">>
+</span>      <span class="o">&lt;</span><span class="sr">/body</span><span class="err">>
+</span>    <span class="o">&lt;</span><span class="sr">/html</span><span class="err">>
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>One interesting thing is this line:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">useGlobalData</span><span class="p">();</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>In <strong>loaders/global.ts</strong> you can configure global values, variables (both static and dynamic), or anything you need to load from the server in order to render your base layout. For instance, let's say we wanted to define the app version here and use it throughout our app, we can define this here:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight typescript"><code><span class="k">import</span> <span class="kd">type</span> <span class="p">{</span> <span class="nx">DataLoader</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@remix-run/core</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="kd">let</span> <span class="nx">loader</span><span class="p">:</span> <span class="nx">DataLoader</span> <span class="o">=</span> <span class="k">async</span> <span class="p">()</span> <span class="o">=></span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="na">date</span><span class="p">:</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(),</span>
+    <span class="na">version</span><span class="p">:</span> <span class="dl">"</span><span class="s2">V2.0</span><span class="dl">"</span>
+  <span class="p">};</span>
+<span class="p">};</span>
+
+<span class="k">export</span> <span class="o">=</span> <span class="nx">loader</span><span class="p">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>And then use it like this:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">useGlobalData</span><span class="p">();</span>
+<span class="kd">const</span> <span class="nx">version</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">version</span><span class="p">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+<h3>
+  <a name="routing" href="#routing">
+  </a>
+  Routing
+</h3>
+
+<blockquote>
+<p><strong>From the docs:</strong> Routes in remix can be defined two ways: conventionally inside of the "app/routes" folder or manually with remix.config.routes.</p>
+</blockquote>
+
+<p>So if I create a file called <strong>routes/contact.js</strong>, it will be it will be available at <strong><a href="http://myapp/contact">http://myapp/contact</a></strong>.</p>
+
+<p>As mentioned though, you can also define them in <strong>remix.config.js</strong>.</p>
+
+<p>From the code comments in <strong>remix.config.js</strong>:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">A</span> <span class="nx">hook</span> <span class="k">for</span> <span class="nx">defining</span> <span class="nx">custom</span> <span class="nx">routes</span> <span class="nx">based</span> <span class="nx">on</span> <span class="nx">your</span> <span class="nx">own</span> <span class="nx">file</span>
+<span class="nx">conventions</span><span class="p">.</span> <span class="nx">This</span> <span class="nx">is</span> <span class="nx">not</span> <span class="nx">required</span><span class="p">,</span> <span class="nx">but</span> <span class="nx">may</span> <span class="nx">be</span> <span class="nx">useful</span> <span class="k">if</span>
+<span class="nx">you</span> <span class="nx">have</span> <span class="nx">custom</span><span class="o">/</span><span class="nx">advanced</span> <span class="nx">routing</span> <span class="nx">requirements</span><span class="p">.</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>Here's the example provided by the boilerplate:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">routes</span><span class="p">(</span><span class="nx">defineRoutes</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">defineRoutes</span><span class="p">(</span><span class="nx">route</span> <span class="o">=></span> <span class="p">{</span>
+    <span class="nx">route</span><span class="p">(</span>
+      <span class="c1">// The URL path for this route.</span>
+      <span class="dl">"</span><span class="s2">/pages/one</span><span class="dl">"</span><span class="p">,</span>
+      <span class="c1">// The path to this route's component file, relative to `appDirectory`.</span>
+      <span class="dl">"</span><span class="s2">pages/one.tsx</span><span class="dl">"</span><span class="p">,</span>
+      <span class="c1">// Options:</span>
+      <span class="p">{</span>
+        <span class="c1">// The path to this route's data loader, relative to `loadersDirectory`.</span>
+        <span class="na">loader</span><span class="p">:</span> <span class="dl">"</span><span class="s2">...</span><span class="dl">"</span><span class="p">,</span>
+        <span class="c1">// The path to this route's styles file, relative to `appDirectory`.</span>
+        <span class="na">styles</span><span class="p">:</span> <span class="dl">"</span><span class="s2">...</span><span class="dl">"</span>
+      <span class="p">}</span>
+    <span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">},</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>In doing this, you can define custom route configurations if you want or need to bypass the opinions of Remix.</p>
+<h3>
+  <a name="data-loading" href="#data-loading">
+  </a>
+  Data loading
+</h3>
+
+<p>One of the most interesting and powerful things about Remix is how it loads data.</p>
+
+<p>The approach combines <strong>routes</strong> with <strong>loaders</strong> to enable dynamic data fetching.</p>
+
+<blockquote>
+<p><strong>From the docs:</strong> Page data in Remix comes from files called "route data loaders". These loaders are only ever run server side so you can use whatever node modules you need to load data, including a direct connection to your database.</p>
+</blockquote>
+
+<p>If you name a loader the same as a route, Remix will automatically call it <em>before</em> rendering, and make that data available in your route.</p>
+
+<p>Let's take a look at how this works.</p>
+
+<p>Let's say I create a route and page at <strong>routes/people.ts</strong> that looks something like this:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="c1">// routes/people.ts</span>
+<span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">useState</span><span class="p">,</span> <span class="nx">useEffect</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="nx">People</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">></span>
+      <span class="o">&lt;</span><span class="nx">h2</span><span class="o">></span><span class="nx">Star</span> <span class="nx">Wars</span> <span class="nx">Characters</span><span class="o">&lt;</span><span class="sr">/h2</span><span class="err">>
+</span>      <span class="c1">// todo, fetch & map over star wars characters from API</span>
+    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">>
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>When this route is rendered, I want to fetch the data for the array of people and make it available in the component.</p>
+
+<p>To do this, we can create a new file in the <strong>loaders/routes</strong> directory called <strong>people.ts</strong> with the following code:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="c1">// loaders/routes/people.ts</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=></span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">fetch</span><span class="p">(</span><span class="s2">`https://swapi.dev/api/people/`</span><span class="p">);</span>
+<span class="p">};</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>You can now use the <code>useRouteData</code> API from Remix to get access to this data in the route:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="c1">// routes/people.ts</span>
+<span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">useState</span><span class="p">,</span> <span class="nx">useEffect</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Link</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-router-dom</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">useRouteData</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@remix-run/react</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="nx">People</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">useRouteData</span><span class="p">()</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">></span>
+      <span class="o">&lt;</span><span class="nx">h2</span><span class="o">></span><span class="nx">Star</span> <span class="nx">Wars</span> <span class="nx">Characters</span><span class="o">&lt;</span><span class="sr">/h2</span><span class="err">>
+</span>      <span class="p">{</span>
+        <span class="nx">data</span><span class="p">.</span><span class="nx">results</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">result</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="o">=></span> <span class="p">(</span>
+          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">index</span><span class="p">}</span><span class="o">></span>
+            <span class="o">&lt;</span><span class="nx">Link</span> <span class="nx">to</span><span class="o">=</span><span class="p">{</span><span class="s2">`/person/</span><span class="p">${</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}</span><span class="s2">`</span><span class="p">}</span><span class="o">></span>
+              <span class="o">&lt;</span><span class="nx">h1</span><span class="o">></span><span class="p">{</span><span class="nx">result</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/h1>           </span><span class="err"> 
+</span>            <span class="o">&lt;</span><span class="sr">/Link</span><span class="err">>
+</span>          <span class="o">&lt;</span><span class="sr">/div</span><span class="err">>
+</span>        <span class="p">))</span>
+      <span class="p">}</span>
+    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">>
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+<h4>
+  <a name="the-big-question" href="#the-big-question">
+  </a>
+  The big question
+</h4>
+
+<p>Why didn't we have to await the fetch and then await the res.json? Because Remix awaits your loader, and fetch resolves to response, and Remix is expecting exactly that type of object.</p>
+
+<blockquote>
+<p><strong>From the docs:</strong> You might be scratching your head at that last bit. Why didn't we have to unwrap the fetch response with the usual await res.json()?</p>
+
+<p>If you've been around the Node.js world for a while you'll recognize that there are many different versions of "request" and "response". The express API req, res is probably the most ubiquitous, but wherever you go it's always a little different.</p>
+
+<p>When browsers shipped the Fetch API, they didn't just create a spec for window.fetch, but they also created a spec for what a fetch sends and returns, Request, Headers, and Response. You can read about these APIs on MDN.</p>
+
+<p>Instead of coming up with our own API, we built Remix on top of the Web Fetch API.</p>
+</blockquote>
+<h4>
+  <a name="adding-caching" href="#adding-caching">
+  </a>
+  Adding caching
+</h4>
+
+<p>Let's have a look at how me might implement the caching mechanism I mentioned at the start of this post.</p>
+
+<p>We can make the following update:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="kd">const</span> <span class="p">{</span> <span class="nx">json</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">@remix-run/loader</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">res</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">fetch</span><span class="p">(</span><span class="nx">swapi</span><span class="p">);</span>
+<span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>
+<span class="k">return</span> <span class="nx">json</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="p">{</span> <span class="na">headers</span><span class="p">:</span> <span class="p">{</span> <span class="dl">"</span><span class="s2">cache-control</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">max-age=3600</span><span class="dl">"</span><span class="p">}})</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>For the next hour, the browser won't request that resource again, and for the next visitors, the CDN won't either.</p>
+<h3>
+  <a name="combining-dynamic-routes-route-params-and-data-fetching" href="#combining-dynamic-routes-route-params-and-data-fetching">
+  </a>
+  Combining dynamic routes, route params, and data fetching
+</h3>
+
+<p>How does this work for Dynamic routes? For example, what if I want to drill down into a route like <strong>/person/#person-id</strong> and fetch the data?</p>
+
+<p>Here's how that works. We need two new files: One for the route and one for the loader.</p>
+
+<p>First, we'd create a loader at <strong>loaders/person/$id.js</strong> that looks something like this:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="c1">// loaders/person/$id.js</span>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">params</span> <span class="p">})</span> <span class="o">=></span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">fetch</span><span class="p">(</span><span class="s2">`https://swapi.dev/api/people/</span><span class="p">${</span><span class="nx">params</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span>
+<span class="p">};</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>Next we'd create the route, something like <strong>routes/person/$id.js</strong>. Remix will parse the params from the url (the $id portion of person/$id) and passes them to the loader.<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="c1">// routes/person/$id.js</span>
+<span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">useRouteData</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@remix-run/react</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="nx">Person</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">user</span> <span class="o">=</span> <span class="nx">useRouteData</span><span class="p">()</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">div</span><span class="o">></span>
+      <span class="o">&lt;</span><span class="nx">h2</span><span class="o">></span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/h2</span><span class="err">>
+</span>      <span class="o">&lt;</span><span class="nx">h3</span><span class="o">></span><span class="nx">Homeworld</span> <span class="o">-</span> <span class="p">{</span> <span class="nx">user</span><span class="p">.</span><span class="nx">homeworld</span> <span class="p">}</span><span class="o">&lt;</span><span class="sr">/h3</span><span class="err">>
+</span>      <span class="o">&lt;</span><span class="nx">p</span><span class="o">></span><span class="nx">Height</span> <span class="o">-</span> <span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">height</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/p</span><span class="err">>
+</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">>
+</span>  <span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>The data fetched from the API will now be available using <code>useRouteData</code>.</p>
+<h3>
+  <a name="up-and-running-with-remixrun-video" href="#up-and-running-with-remixrun-video">
+  </a>
+  Up and Running with Remix.run video
+</h3>
+
+<p><iframe width="710" height="399" src="https://www.youtube.com/embed/HwdAK9FNUOE" allowfullscreen loading="lazy">
+</iframe>
+</p>
+<h2>
+  <a name="conclusion" href="#conclusion">
+  </a>
+  Conclusion
+</h2>
+
+<p>Overall I'm really enjoying using Remix. It's an entirely new approach to building hybrid React web applications that is built upon the advancements we've seen in both modern and legacy web technologies over the years.</p>
+
+<p>I expect to see Remix continue to get better over time, but am unsure how far or fast it will take off considering it is not OSS.</p>
+
+<p>I applaud Ryan and Michael for trying a new payment model, and look forward to seeing how it turns out. The challenge of monetizing OSS has not completely been solved yet, so any new approaches in doing so lay the foundation for anyone looking to make their open source work profitable and maintainable now and in the future.</p>
+
+<p>Also check out my post going a little deeper into the differences between Remix and Next.js.</p>
+
+
+<div class="ltag__link">
+  <a href="/dabit3" class="ltag__link__link">
+    <div class="ltag__link__pic">
+      <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--9gYALFAE--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://res.cloudinary.com/practicaldev/image/fetch/s--YawV5F9h--/c_fill%2Cf_auto%2Cfl_progressive%2Ch_150%2Cq_auto%2Cw_150/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/126437/41231eb2-054b-4417-bc35-814e491a2d5d.jpeg" alt="dabit3 image" loading="lazy">
+    </div>
+  </a>
+  <a href="/dabit3/how-is-remix-different-from-next-js-4jd1" class="ltag__link__link">
+    <div class="ltag__link__content">
+      <h2>How is Remix different from Next.js</h2>
+      <h3>Nader Dabit ・ Oct 29 '20 ・ 2 min read</h3>
+      <div class="ltag__link__taglist">
+        <span class="ltag__link__tag">#discuss</span>
+        <span class="ltag__link__tag">#jamstack</span>
+        <span class="ltag__link__tag">#react</span>
+        <span class="ltag__link__tag">#webdev</span>
+      </div>
+    </div>
+  </a>
+</div>
+
+
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/dabit3/a-first-look-at-remix-run-449a" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(s,n,a,e,t){return a.type_of="article",a.id=500571,a.title="A First Look at Remix.run",a.description="An overview of Remix, a new hybrid React framework.",a.readable_publish_date="Oct 28 '20",a.slug="a-first-look-at-remix-run-449a",a.path="/dabit3/a-first-look-at-remix-run-449a",a.url=e,a.comments_count=25,a.public_reactions_count=190,a.collection_id=s,a.published_timestamp=t,a.positive_reactions_count=190,a.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--LsLjAe3Z--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/i/6bkwrfbwxkb3cq1oo7r4.jpg",a.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--Q7wl_P_2--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/i/6bkwrfbwxkb3cq1oo7r4.jpg",a.canonical_url=e,a.created_at="2020-10-28T21:58:22Z",a.edited_at="2020-10-29T15:21:34Z",a.crossposted_at=s,a.published_at=t,a.last_comment_at="2021-12-24T03:03:27Z",a.reading_time_minutes=9,a.tag_list="webdev, javascript, react, node",a.tags=["webdev","javascript","react","node"],a.body_html='<p>Today the <a href="https://remix.run/">Remix Run</a> Supporter Preview finally launched. Remix is a new React framework.</p>\n\n<p>One of the thing that excites me the most about Remix is the team behind it. <a href="https://twitter.com/mjackson">Michael Jackson</a> and <a href="https://twitter.com/ryanflorence">Ryan Florence</a> are some of the most knowledgeable engineers in the React community and have built a lot of things (like <a href="https://reactrouter.com/">React Router</a>, <a href="https://unpkg.com/">UNPKG</a> and <a href="https://reach.tech/">Reach UI</a>) that I have used countless times in my career personally, at AWS, and when working with customers when I was consulting.</p>\n\n<p>Another thing that excites me is the innovation that has happened over the past few years since React was first released and how they have built upon those ideas in Remix.</p>\n\n<p>In this quick post I\'ll show you how Remix works:</p>\n\n<ol>\n<li>Creating a new project</li>\n<li>Setting credentials</li>\n<li>Configuring routing</li>\n<li>Adding dynamic routing</li>\n<li>Dynamic data fetching</li>\n<li>Dynamic data fetching using route parameters</li>\n<li>Using the global Remix config</li>\n</ol>\n\n<blockquote>\n<p>You can also check out my video walkthrough of how Remix works <a href="https://www.youtube.com/watch?v=HwdAK9FNUOE">here</a> </p>\n</blockquote>\n\n<h2>\n  <a name="about-remix" href="#about-remix">\n  </a>\n  About Remix\n</h2>\n\n<h3>\n  <a name="pricing" href="#pricing">\n  </a>\n  Pricing\n</h3>\n\n<p>Remix is not free. To use Remix, you need to buy either a indie ($250 per year) or enterprise ($1,000 per year) license. There are a lot of opinions about this. I think there\'s a good argument on both sides, so here\'s mine.</p>\n\n<p>I\'ve personally paid more than $250 for 1 hour of training when I was getting into consulting, so for an entire year of support from a team I can trust for a framework that makes it easier for me to build apps – I think it\'s worth it. You might also look at frameworks like Next.js that are free and decide it\'s not worth it. Both opinions are totally valid IMO.</p>\n\n<p>At the end of the day I just want to be able to build high quality apps and do so as quickly and efficiently as possible without compromising quality, and because time is money I often invest in tools that can make me better and faster (especially those where I can leverage my existing skillset).</p>\n\n<h3>\n  <a name="ssr" href="#ssr">\n  </a>\n  SSR\n</h3>\n\n<p>The entire idea behind Remix is that everything is SSR. It also has a lot lower level of an API than something like Next.js, exposing the entire Request object and allowing you to modify things like headers before rendering the page. I still don\'t know all of it\'s capabilities, but at first glance I see it as a closer to the metal / more configurable version of Next.js but without SSG, and there are some benefits to nested routes that I honestly haven\'t quite explored yet, but it feels interesting.</p>\n\n<h3>\n  <a name="routing" href="#routing">\n  </a>\n  Routing\n</h3>\n\n<p>One other large difference between Remix and other frameworks (like Next.js) is how the routing works. Nested routes and params are supported in Remix, and "are a critical idea to understand in Remix" (according to the docs).</p>\n\n<p>Using an <code>Outlet</code> from React Router Dom, you can build out a hierarchy of nested routes with a pretty simple to use API:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react</span><span class="dl">"</span><span class="p">;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">Link</span><span class="p">,</span> <span class="nx">Outlet</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-router-dom</span><span class="dl">"</span><span class="p">;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">useRouteData</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@remix-run/react</span><span class="dl">"</span><span class="p">;</span>\n\n<span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="nx">Team</span><span class="p">()</span> <span class="p">{</span>\n  <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">useRouteData</span><span class="p">();</span>\n  <span class="k">return</span> <span class="p">(</span>\n    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>\n      <span class="o">&lt;</span><span class="nx">h2</span><span class="o">&gt;</span><span class="nx">Team</span><span class="o">&lt;</span><span class="sr">/h2</span><span class="err">&gt;\n</span>      <span class="o">&lt;</span><span class="nx">ul</span><span class="o">&gt;</span>\n        <span class="p">{</span><span class="nx">data</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">member</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span>\n          <span class="o">&lt;</span><span class="nx">li</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">member</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="o">&gt;</span>\n            <span class="o">&lt;</span><span class="nx">Link</span> <span class="nx">to</span><span class="o">=</span><span class="p">{</span><span class="nx">member</span><span class="p">.</span><span class="nx">login</span><span class="p">}</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">member</span><span class="p">.</span><span class="nx">login</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/Link</span><span class="err">&gt;\n</span>          <span class="o">&lt;</span><span class="sr">/li</span><span class="err">&gt;\n</span>        <span class="p">))}</span>\n      <span class="o">&lt;</span><span class="sr">/ul</span><span class="err">&gt;\n</span>      <span class="o">&lt;</span><span class="nx">hr</span> <span class="o">/&gt;</span>\n      <span class="o">&lt;</span><span class="nx">Outlet</span> <span class="o">/&gt;</span>\n    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;\n</span>  <span class="p">);</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>When you navigate using a <code>Link</code>, the Outlet will render the new content from the navigated route.</p>\n<h3>\n  <a name="http-caching" href="#http-caching">\n  </a>\n  HTTP Caching\n</h3>\n\n<p>Remix has this idea of <strong>loaders</strong> that enable you to not just return data for a route, but send full responses, which includes sending cache control headers. By having simple apis to set headers for loaders and routes, you can easily take advantage of browsers (and CDNs) built in cache capabilities).</p>\n\n<p>For instance, if you set cache headers on your responses, when the user visits the same route, it wont\' even fetch the data, it\'ll use the cache. And if you put a CDN in front of your server, the server will rarely actually handle the requests because the CDN will have it cached</p>\n<h2>\n  <a name="code" href="#code">\n  </a>\n  Code\n</h2>\n\n<p>Enough of the explanation, let\'s look at some code.</p>\n<h3>\n  <a name="creating-a-project" href="#creating-a-project">\n  </a>\n  Creating a project\n</h3>\n\n<p>When you purchase a subscription for a Remix license you are given access to their dashboard. In this dashboard, you can view your license details, documentation, and billing information.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--aCXBcXCT--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/i/erf7n1rzd1op1n5kc68b.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--aCXBcXCT--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/i/erf7n1rzd1op1n5kc68b.png" alt="Remix Dashboard" loading="lazy"></a></p>\n\n<p>This is a much different experience than most frameworks I\'ve used that are simply open source, while this is all hidden behind the paywall.</p>\n\n<p>From this dashboard you have everything you need to get going, including a quick start tutorial.</p>\n\n<p>To get started, they recommend you clone an <a href="https://github.com/remix-run/starter-express">open source starter project</a> that uses express as the server:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">$</span> <span class="nx">git</span> <span class="nx">clone</span> <span class="nx">git</span><span class="p">@</span><span class="nd">github</span><span class="p">.</span><span class="nx">com</span><span class="p">:</span><span class="nx">remix</span><span class="o">-</span><span class="nx">run</span><span class="o">/</span><span class="nx">starter</span><span class="o">-</span><span class="nx">express</span><span class="p">.</span><span class="nx">git</span> <span class="nx">my</span><span class="o">-</span><span class="nx">remix</span><span class="o">-</span><span class="nx">app</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>Out of the box they support Firebase to deploy using a single command:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>firebase deploy\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>In the future they plan to support deployment to these different cloud service providers as well:</p>\n\n<ul>\n<li>Firebase</li>\n<li>Vercel</li>\n<li>AWS Amplify</li>\n<li>Architect</li>\n<li>Azure</li>\n<li>Netlify</li>\n</ul>\n<h3>\n  <a name="restricting-access" href="#restricting-access">\n  </a>\n  Restricting access\n</h3>\n\n<p>You may be wondering how they limit access to only paying customers. The way they do this is that, to install the latest <code>node-modules</code> necessary for the app to run, you have to configure an <strong>.npmrc</strong> file that looks something like this to include your secret key:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>//npm.remix.run/:_authToken=your-unique-token\n\n# This line tells npm where to find @remix-run packages.\n@remix-run:registry=https://npm.remix.run\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>Once this is configured you can install the dependencies using npm or yarn.</p>\n<h3>\n  <a name="project-structure" href="#project-structure">\n  </a>\n  Project structure\n</h3>\n\n<p>Here is a look at the Remix-specific project configuration<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>remix-app  \n└───app\n│   │   App.tsx\n│   │   entry-browser.tsx\n│   │   entry-server.tsx\n│   │   global.css\n│   │   tsconfig.json\n│   └───routes\n│       │   index.js\n│       │   404.js\n│       │   500.js\n│       │   index.css\n└───config\n│   │   shared-tsconfig.json\n└───loaders\n│    │   global.ts\n│    │   tsconfig.json\n│\n└───public\n│    │   favicon.ico\n│    \n└───.npmrc\n│\n└───remix.config.js\n│\n└───server.js\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>The entry-point is <strong>App.tsx</strong>, and looks something like this:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react</span><span class="dl">"</span><span class="p">;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">Meta</span><span class="p">,</span> <span class="nx">Scripts</span><span class="p">,</span> <span class="nx">Styles</span><span class="p">,</span> <span class="nx">Routes</span><span class="p">,</span> <span class="nx">useGlobalData</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@remix-run/react</span><span class="dl">"</span><span class="p">;</span>\n\n<span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>\n  <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">useGlobalData</span><span class="p">();</span>\n\n  <span class="k">return</span> <span class="p">(</span>\n    <span class="o">&lt;</span><span class="nx">html</span> <span class="nx">lang</span><span class="o">=</span><span class="dl">"</span><span class="s2">en</span><span class="dl">"</span><span class="o">&gt;</span>\n      <span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span>\n        <span class="o">&lt;</span><span class="nx">meta</span> <span class="nx">charSet</span><span class="o">=</span><span class="dl">"</span><span class="s2">utf-8</span><span class="dl">"</span> <span class="o">/&gt;</span>\n        <span class="o">&lt;</span><span class="nx">Meta</span> <span class="o">/&gt;</span>\n        <span class="o">&lt;</span><span class="nx">Styles</span> <span class="o">/&gt;</span>\n      <span class="o">&lt;</span><span class="sr">/head</span><span class="err">&gt;\n</span>      <span class="o">&lt;</span><span class="nx">body</span><span class="o">&gt;</span>\n        <span class="o">&lt;</span><span class="nx">Routes</span> <span class="o">/&gt;</span>\n        <span class="o">&lt;</span><span class="nx">Scripts</span> <span class="o">/&gt;</span>\n        <span class="o">&lt;</span><span class="nx">footer</span><span class="o">&gt;</span>\n          <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">This</span> <span class="nx">page</span> <span class="nx">was</span> <span class="nx">rendered</span> <span class="nx">at</span> <span class="p">{</span><span class="nx">data</span><span class="p">.</span><span class="nx">date</span><span class="p">.</span><span class="nx">toLocaleString</span><span class="p">()}</span><span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;\n</span>        <span class="o">&lt;</span><span class="sr">/footer</span><span class="err">&gt;\n</span>      <span class="o">&lt;</span><span class="sr">/body</span><span class="err">&gt;\n</span>    <span class="o">&lt;</span><span class="sr">/html</span><span class="err">&gt;\n</span>  <span class="p">);</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>One interesting thing is this line:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">useGlobalData</span><span class="p">();</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>In <strong>loaders/global.ts</strong> you can configure global values, variables (both static and dynamic), or anything you need to load from the server in order to render your base layout. For instance, let\'s say we wanted to define the app version here and use it throughout our app, we can define this here:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight typescript"><code><span class="k">import</span> <span class="kd">type</span> <span class="p">{</span> <span class="nx">DataLoader</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@remix-run/core</span><span class="dl">"</span><span class="p">;</span>\n\n<span class="kd">let</span> <span class="nx">loader</span><span class="p">:</span> <span class="nx">DataLoader</span> <span class="o">=</span> <span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>\n  <span class="k">return</span> <span class="p">{</span>\n    <span class="na">date</span><span class="p">:</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">(),</span>\n    <span class="na">version</span><span class="p">:</span> <span class="dl">"</span><span class="s2">V2.0</span><span class="dl">"</span>\n  <span class="p">};</span>\n<span class="p">};</span>\n\n<span class="k">export</span> <span class="o">=</span> <span class="nx">loader</span><span class="p">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>And then use it like this:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">useGlobalData</span><span class="p">();</span>\n<span class="kd">const</span> <span class="nx">version</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">version</span><span class="p">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n<h3>\n  <a name="routing" href="#routing">\n  </a>\n  Routing\n</h3>\n\n<blockquote>\n<p><strong>From the docs:</strong> Routes in remix can be defined two ways: conventionally inside of the "app/routes" folder or manually with remix.config.routes.</p>\n</blockquote>\n\n<p>So if I create a file called <strong>routes/contact.js</strong>, it will be it will be available at <strong><a href="http://myapp/contact">http://myapp/contact</a></strong>.</p>\n\n<p>As mentioned though, you can also define them in <strong>remix.config.js</strong>.</p>\n\n<p>From the code comments in <strong>remix.config.js</strong>:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">A</span> <span class="nx">hook</span> <span class="k">for</span> <span class="nx">defining</span> <span class="nx">custom</span> <span class="nx">routes</span> <span class="nx">based</span> <span class="nx">on</span> <span class="nx">your</span> <span class="nx">own</span> <span class="nx">file</span>\n<span class="nx">conventions</span><span class="p">.</span> <span class="nx">This</span> <span class="nx">is</span> <span class="nx">not</span> <span class="nx">required</span><span class="p">,</span> <span class="nx">but</span> <span class="nx">may</span> <span class="nx">be</span> <span class="nx">useful</span> <span class="k">if</span>\n<span class="nx">you</span> <span class="nx">have</span> <span class="nx">custom</span><span class="o">/</span><span class="nx">advanced</span> <span class="nx">routing</span> <span class="nx">requirements</span><span class="p">.</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>Here\'s the example provided by the boilerplate:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">routes</span><span class="p">(</span><span class="nx">defineRoutes</span><span class="p">)</span> <span class="p">{</span>\n  <span class="k">return</span> <span class="nx">defineRoutes</span><span class="p">(</span><span class="nx">route</span> <span class="o">=&gt;</span> <span class="p">{</span>\n    <span class="nx">route</span><span class="p">(</span>\n      <span class="c1">// The URL path for this route.</span>\n      <span class="dl">"</span><span class="s2">/pages/one</span><span class="dl">"</span><span class="p">,</span>\n      <span class="c1">// The path to this route\'s component file, relative to `appDirectory`.</span>\n      <span class="dl">"</span><span class="s2">pages/one.tsx</span><span class="dl">"</span><span class="p">,</span>\n      <span class="c1">// Options:</span>\n      <span class="p">{</span>\n        <span class="c1">// The path to this route\'s data loader, relative to `loadersDirectory`.</span>\n        <span class="na">loader</span><span class="p">:</span> <span class="dl">"</span><span class="s2">...</span><span class="dl">"</span><span class="p">,</span>\n        <span class="c1">// The path to this route\'s styles file, relative to `appDirectory`.</span>\n        <span class="na">styles</span><span class="p">:</span> <span class="dl">"</span><span class="s2">...</span><span class="dl">"</span>\n      <span class="p">}</span>\n    <span class="p">);</span>\n  <span class="p">});</span>\n<span class="p">},</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>In doing this, you can define custom route configurations if you want or need to bypass the opinions of Remix.</p>\n<h3>\n  <a name="data-loading" href="#data-loading">\n  </a>\n  Data loading\n</h3>\n\n<p>One of the most interesting and powerful things about Remix is how it loads data.</p>\n\n<p>The approach combines <strong>routes</strong> with <strong>loaders</strong> to enable dynamic data fetching.</p>\n\n<blockquote>\n<p><strong>From the docs:</strong> Page data in Remix comes from files called "route data loaders". These loaders are only ever run server side so you can use whatever node modules you need to load data, including a direct connection to your database.</p>\n</blockquote>\n\n<p>If you name a loader the same as a route, Remix will automatically call it <em>before</em> rendering, and make that data available in your route.</p>\n\n<p>Let\'s take a look at how this works.</p>\n\n<p>Let\'s say I create a route and page at <strong>routes/people.ts</strong> that looks something like this:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="c1">// routes/people.ts</span>\n<span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">useState</span><span class="p">,</span> <span class="nx">useEffect</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react</span><span class="dl">"</span><span class="p">;</span>\n\n<span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="nx">People</span><span class="p">()</span> <span class="p">{</span>\n  <span class="k">return</span> <span class="p">(</span>\n    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>\n      <span class="o">&lt;</span><span class="nx">h2</span><span class="o">&gt;</span><span class="nx">Star</span> <span class="nx">Wars</span> <span class="nx">Characters</span><span class="o">&lt;</span><span class="sr">/h2</span><span class="err">&gt;\n</span>      <span class="c1">// todo, fetch &amp; map over star wars characters from API</span>\n    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;\n</span>  <span class="p">);</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>When this route is rendered, I want to fetch the data for the array of people and make it available in the component.</p>\n\n<p>To do this, we can create a new file in the <strong>loaders/routes</strong> directory called <strong>people.ts</strong> with the following code:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="c1">// loaders/routes/people.ts</span>\n<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>\n  <span class="k">return</span> <span class="nx">fetch</span><span class="p">(</span><span class="s2">`https://swapi.dev/api/people/`</span><span class="p">);</span>\n<span class="p">};</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>You can now use the <code>useRouteData</code> API from Remix to get access to this data in the route:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="c1">// routes/people.ts</span>\n<span class="k">import</span> <span class="nx">React</span><span class="p">,</span> <span class="p">{</span> <span class="nx">useState</span><span class="p">,</span> <span class="nx">useEffect</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react</span><span class="dl">"</span><span class="p">;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">Link</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-router-dom</span><span class="dl">"</span><span class="p">;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">useRouteData</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@remix-run/react</span><span class="dl">"</span><span class="p">;</span>\n\n<span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="nx">People</span><span class="p">()</span> <span class="p">{</span>\n  <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">useRouteData</span><span class="p">()</span>\n  <span class="k">return</span> <span class="p">(</span>\n    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>\n      <span class="o">&lt;</span><span class="nx">h2</span><span class="o">&gt;</span><span class="nx">Star</span> <span class="nx">Wars</span> <span class="nx">Characters</span><span class="o">&lt;</span><span class="sr">/h2</span><span class="err">&gt;\n</span>      <span class="p">{</span>\n        <span class="nx">data</span><span class="p">.</span><span class="nx">results</span><span class="p">.</span><span class="nx">map</span><span class="p">((</span><span class="nx">result</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span>\n          <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">key</span><span class="o">=</span><span class="p">{</span><span class="nx">index</span><span class="p">}</span><span class="o">&gt;</span>\n            <span class="o">&lt;</span><span class="nx">Link</span> <span class="nx">to</span><span class="o">=</span><span class="p">{</span><span class="s2">`/person/</span><span class="p">${</span><span class="nx">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">}</span><span class="s2">`</span><span class="p">}</span><span class="o">&gt;</span>\n              <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">result</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/h1&gt;           </span><span class="err"> \n</span>            <span class="o">&lt;</span><span class="sr">/Link</span><span class="err">&gt;\n</span>          <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;\n</span>        <span class="p">))</span>\n      <span class="p">}</span>\n    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;\n</span>  <span class="p">);</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n<h4>\n  <a name="the-big-question" href="#the-big-question">\n  </a>\n  The big question\n</h4>\n\n<p>Why didn\'t we have to await the fetch and then await the res.json? Because Remix awaits your loader, and fetch resolves to response, and Remix is expecting exactly that type of object.</p>\n\n<blockquote>\n<p><strong>From the docs:</strong> You might be scratching your head at that last bit. Why didn\'t we have to unwrap the fetch response with the usual await res.json()?</p>\n\n<p>If you\'ve been around the Node.js world for a while you\'ll recognize that there are many different versions of "request" and "response". The express API req, res is probably the most ubiquitous, but wherever you go it\'s always a little different.</p>\n\n<p>When browsers shipped the Fetch API, they didn\'t just create a spec for window.fetch, but they also created a spec for what a fetch sends and returns, Request, Headers, and Response. You can read about these APIs on MDN.</p>\n\n<p>Instead of coming up with our own API, we built Remix on top of the Web Fetch API.</p>\n</blockquote>\n<h4>\n  <a name="adding-caching" href="#adding-caching">\n  </a>\n  Adding caching\n</h4>\n\n<p>Let\'s have a look at how me might implement the caching mechanism I mentioned at the start of this post.</p>\n\n<p>We can make the following update:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="kd">const</span> <span class="p">{</span> <span class="nx">json</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">@remix-run/loader</span><span class="dl">"</span><span class="p">);</span>\n<span class="kd">let</span> <span class="nx">res</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">fetch</span><span class="p">(</span><span class="nx">swapi</span><span class="p">);</span>\n<span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">();</span>\n<span class="k">return</span> <span class="nx">json</span><span class="p">(</span><span class="nx">data</span><span class="p">,</span> <span class="p">{</span> <span class="na">headers</span><span class="p">:</span> <span class="p">{</span> <span class="dl">"</span><span class="s2">cache-control</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">max-age=3600</span><span class="dl">"</span><span class="p">}})</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>For the next hour, the browser won\'t request that resource again, and for the next visitors, the CDN won\'t either.</p>\n<h3>\n  <a name="combining-dynamic-routes-route-params-and-data-fetching" href="#combining-dynamic-routes-route-params-and-data-fetching">\n  </a>\n  Combining dynamic routes, route params, and data fetching\n</h3>\n\n<p>How does this work for Dynamic routes? For example, what if I want to drill down into a route like <strong>/person/#person-id</strong> and fetch the data?</p>\n\n<p>Here\'s how that works. We need two new files: One for the route and one for the loader.</p>\n\n<p>First, we\'d create a loader at <strong>loaders/person/$id.js</strong> that looks something like this:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="c1">// loaders/person/$id.js</span>\n<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">params</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">{</span>\n  <span class="k">return</span> <span class="nx">fetch</span><span class="p">(</span><span class="s2">`https://swapi.dev/api/people/</span><span class="p">${</span><span class="nx">params</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span>\n<span class="p">};</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>Next we\'d create the route, something like <strong>routes/person/$id.js</strong>. Remix will parse the params from the url (the $id portion of person/$id) and passes them to the loader.<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="c1">// routes/person/$id.js</span>\n<span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react</span><span class="dl">"</span><span class="p">;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">useRouteData</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@remix-run/react</span><span class="dl">"</span><span class="p">;</span>\n\n<span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="nx">Person</span><span class="p">()</span> <span class="p">{</span>\n  <span class="kd">const</span> <span class="nx">user</span> <span class="o">=</span> <span class="nx">useRouteData</span><span class="p">()</span>\n  <span class="k">return</span> <span class="p">(</span>\n    <span class="o">&lt;</span><span class="nx">div</span><span class="o">&gt;</span>\n      <span class="o">&lt;</span><span class="nx">h2</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/h2</span><span class="err">&gt;\n</span>      <span class="o">&lt;</span><span class="nx">h3</span><span class="o">&gt;</span><span class="nx">Homeworld</span> <span class="o">-</span> <span class="p">{</span> <span class="nx">user</span><span class="p">.</span><span class="nx">homeworld</span> <span class="p">}</span><span class="o">&lt;</span><span class="sr">/h3</span><span class="err">&gt;\n</span>      <span class="o">&lt;</span><span class="nx">p</span><span class="o">&gt;</span><span class="nx">Height</span> <span class="o">-</span> <span class="p">{</span><span class="nx">user</span><span class="p">.</span><span class="nx">height</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/p</span><span class="err">&gt;\n</span>    <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;\n</span>  <span class="p">);</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>The data fetched from the API will now be available using <code>useRouteData</code>.</p>\n<h3>\n  <a name="up-and-running-with-remixrun-video" href="#up-and-running-with-remixrun-video">\n  </a>\n  Up and Running with Remix.run video\n</h3>\n\n<p><iframe width="710" height="399" src="https://www.youtube.com/embed/HwdAK9FNUOE" allowfullscreen loading="lazy">\n</iframe>\n</p>\n<h2>\n  <a name="conclusion" href="#conclusion">\n  </a>\n  Conclusion\n</h2>\n\n<p>Overall I\'m really enjoying using Remix. It\'s an entirely new approach to building hybrid React web applications that is built upon the advancements we\'ve seen in both modern and legacy web technologies over the years.</p>\n\n<p>I expect to see Remix continue to get better over time, but am unsure how far or fast it will take off considering it is not OSS.</p>\n\n<p>I applaud Ryan and Michael for trying a new payment model, and look forward to seeing how it turns out. The challenge of monetizing OSS has not completely been solved yet, so any new approaches in doing so lay the foundation for anyone looking to make their open source work profitable and maintainable now and in the future.</p>\n\n<p>Also check out my post going a little deeper into the differences between Remix and Next.js.</p>\n\n\n<div class="ltag__link">\n  <a href="/dabit3" class="ltag__link__link">\n    <div class="ltag__link__pic">\n      <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--9gYALFAE--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://res.cloudinary.com/practicaldev/image/fetch/s--YawV5F9h--/c_fill%2Cf_auto%2Cfl_progressive%2Ch_150%2Cq_auto%2Cw_150/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/126437/41231eb2-054b-4417-bc35-814e491a2d5d.jpeg" alt="dabit3 image" loading="lazy">\n    </div>\n  </a>\n  <a href="/dabit3/how-is-remix-different-from-next-js-4jd1" class="ltag__link__link">\n    <div class="ltag__link__content">\n      <h2>How is Remix different from Next.js</h2>\n      <h3>Nader Dabit ・ Oct 29 \'20 ・ 2 min read</h3>\n      <div class="ltag__link__taglist">\n        <span class="ltag__link__tag">#discuss</span>\n        <span class="ltag__link__tag">#jamstack</span>\n        <span class="ltag__link__tag">#react</span>\n        <span class="ltag__link__tag">#webdev</span>\n      </div>\n    </div>\n  </a>\n</div>\n\n\n\n',a.body_markdown='---\ntitle: A First Look at Remix.run\npublished: true\ndescription: An overview of Remix, a new hybrid React framework.\ntags: webdev, javascript, react, node\ncover_image: https://dev-to-uploads.s3.amazonaws.com/i/6bkwrfbwxkb3cq1oo7r4.jpg\n---\n\nToday the [Remix Run](https://remix.run/) Supporter Preview finally launched. Remix is a new React framework.\n\nOne of the thing that excites me the most about Remix is the team behind it. [Michael Jackson](https://twitter.com/mjackson) and [Ryan Florence](https://twitter.com/ryanflorence) are some of the most knowledgeable engineers in the React community and have built a lot of things (like [React Router](https://reactrouter.com/), [UNPKG](https://unpkg.com/) and [Reach UI](https://reach.tech/)) that I have used countless times in my career personally, at AWS, and when working with customers when I was consulting.\n\nAnother thing that excites me is the innovation that has happened over the past few years since React was first released and how they have built upon those ideas in Remix.\n\nIn this quick post I\'ll show you how Remix works:\n\n1. Creating a new project\n2. Setting credentials\n3. Configuring routing\n4. Adding dynamic routing\n5. Dynamic data fetching\n6. Dynamic data fetching using route parameters\n7. Using the global Remix config\n\n> You can also check out my video walkthrough of how Remix works [here](https://www.youtube.com/watch?v=HwdAK9FNUOE) \n\n## About Remix\n\n### Pricing\n\nRemix is not free. To use Remix, you need to buy either a indie ($250 per year) or enterprise ($1,000 per year) license. There are a lot of opinions about this. I think there\'s a good argument on both sides, so here\'s mine.\n\nI\'ve personally paid more than $250 for 1 hour of training when I was getting into consulting, so for an entire year of support from a team I can trust for a framework that makes it easier for me to build apps – I think it\'s worth it. You might also look at frameworks like Next.js that are free and decide it\'s not worth it. Both opinions are totally valid IMO.\n\nAt the end of the day I just want to be able to build high quality apps and do so as quickly and efficiently as possible without compromising quality, and because time is money I often invest in tools that can make me better and faster (especially those where I can leverage my existing skillset).\n\n### SSR\n\nThe entire idea behind Remix is that everything is SSR. It also has a lot lower level of an API than something like Next.js, exposing the entire Request object and allowing you to modify things like headers before rendering the page. I still don\'t know all of it\'s capabilities, but at first glance I see it as a closer to the metal / more configurable version of Next.js but without SSG, and there are some benefits to nested routes that I honestly haven\'t quite explored yet, but it feels interesting.\n\n### Routing\n\nOne other large difference between Remix and other frameworks (like Next.js) is how the routing works. Nested routes and params are supported in Remix, and "are a critical idea to understand in Remix" (according to the docs).\n\nUsing an `Outlet` from React Router Dom, you can build out a hierarchy of nested routes with a pretty simple to use API:\n\n```js\nimport React from "react";\nimport { Link, Outlet } from "react-router-dom";\nimport { useRouteData } from "@remix-run/react";\n\nexport default function Team() {\n  let data = useRouteData();\n  return (\n    <div>\n      <h2>Team</h2>\n      <ul>\n        {data.map((member) => (\n          <li key={member.id}>\n            <Link to={member.login}>{member.login}</Link>\n          </li>\n        ))}\n      </ul>\n      <hr />\n      <Outlet />\n    </div>\n  );\n}\n```\n\nWhen you navigate using a `Link`, the Outlet will render the new content from the navigated route.\n\n### HTTP Caching\n\nRemix has this idea of __loaders__ that enable you to not just return data for a route, but send full responses, which includes sending cache control headers. By having simple apis to set headers for loaders and routes, you can easily take advantage of browsers (and CDNs) built in cache capabilities).\n\nFor instance, if you set cache headers on your responses, when the user visits the same route, it wont\' even fetch the data, it\'ll use the cache. And if you put a CDN in front of your server, the server will rarely actually handle the requests because the CDN will have it cached\n\n## Code\n\nEnough of the explanation, let\'s look at some code.\n\n### Creating a project\n\nWhen you purchase a subscription for a Remix license you are given access to their dashboard. In this dashboard, you can view your license details, documentation, and billing information.\n\n![Remix Dashboard](https://dev-to-uploads.s3.amazonaws.com/i/erf7n1rzd1op1n5kc68b.png)\n\nThis is a much different experience than most frameworks I\'ve used that are simply open source, while this is all hidden behind the paywall.\n\nFrom this dashboard you have everything you need to get going, including a quick start tutorial.\n\nTo get started, they recommend you clone an [open source starter project](https://github.com/remix-run/starter-express) that uses express as the server:\n\n```js\n$ git clone git@github.com:remix-run/starter-express.git my-remix-app\n```\n\nOut of the box they support Firebase to deploy using a single command:\n\n```sh\nfirebase deploy\n```\n\nIn the future they plan to support deployment to these different cloud service providers as well:\n\n- Firebase\n- Vercel\n- AWS Amplify\n- Architect\n- Azure\n- Netlify\n\n### Restricting access\n\nYou may be wondering how they limit access to only paying customers. The way they do this is that, to install the latest `node-modules` necessary for the app to run, you have to configure an __.npmrc__ file that looks something like this to include your secret key:\n\n```\n//npm.remix.run/:_authToken=your-unique-token\n\n# This line tells npm where to find @remix-run packages.\n@remix-run:registry=https://npm.remix.run\n```\n\nOnce this is configured you can install the dependencies using npm or yarn.\n\n### Project structure\n\nHere is a look at the Remix-specific project configuration\n\n```\nremix-app  \n└───app\n│   │   App.tsx\n│   │   entry-browser.tsx\n│   │   entry-server.tsx\n│   │   global.css\n│   │   tsconfig.json\n│   └───routes\n│       │   index.js\n│       │   404.js\n│       │   500.js\n│       │   index.css\n└───config\n│   │   shared-tsconfig.json\n└───loaders\n│    │   global.ts\n│    │   tsconfig.json\n│\n└───public\n│    │   favicon.ico\n│    \n└───.npmrc\n│\n└───remix.config.js\n│\n└───server.js\n```\n\nThe entry-point is __App.tsx__, and looks something like this:\n\n```js\nimport React from "react";\nimport { Meta, Scripts, Styles, Routes, useGlobalData } from "@remix-run/react";\n\nexport default function App() {\n  let data = useGlobalData();\n\n  return (\n    <html lang="en">\n      <head>\n        <meta charSet="utf-8" />\n        <Meta />\n        <Styles />\n      </head>\n      <body>\n        <Routes />\n        <Scripts />\n        <footer>\n          <p>This page was rendered at {data.date.toLocaleString()}</p>\n        </footer>\n      </body>\n    </html>\n  );\n}\n```\n\nOne interesting thing is this line:\n\n```js\nlet data = useGlobalData();\n```\n\nIn __loaders/global.ts__ you can configure global values, variables (both static and dynamic), or anything you need to load from the server in order to render your base layout. For instance, let\'s say we wanted to define the app version here and use it throughout our app, we can define this here:\n\n```ts\nimport type { DataLoader } from "@remix-run/core";\n\nlet loader: DataLoader = async () => {\n  return {\n    date: new Date(),\n    version: "V2.0"\n  };\n};\n\nexport = loader;\n```\n\nAnd then use it like this:\n\n```js\nlet data = useGlobalData();\nconst version = data.version;\n```\n\n### Routing\n\n> __From the docs:__ Routes in remix can be defined two ways: conventionally inside of the "app/routes" folder or manually with remix.config.routes.\n\nSo if I create a file called __routes/contact.js__, it will be it will be available at __http://myapp/contact__.\n\nAs mentioned though, you can also define them in __remix.config.js__.\n\nFrom the code comments in __remix.config.js__:\n\n```js\nA hook for defining custom routes based on your own file\nconventions. This is not required, but may be useful if\nyou have custom/advanced routing requirements.\n```\n\nHere\'s the example provided by the boilerplate:\n\n```js\nroutes(defineRoutes) {\n  return defineRoutes(route => {\n    route(\n      // The URL path for this route.\n      "/pages/one",\n      // The path to this route\'s component file, relative to `appDirectory`.\n      "pages/one.tsx",\n      // Options:\n      {\n        // The path to this route\'s data loader, relative to `loadersDirectory`.\n        loader: "...",\n        // The path to this route\'s styles file, relative to `appDirectory`.\n        styles: "..."\n      }\n    );\n  });\n},\n```\n\nIn doing this, you can define custom route configurations if you want or need to bypass the opinions of Remix.\n\n### Data loading\n\nOne of the most interesting and powerful things about Remix is how it loads data.\n\nThe approach combines __routes__ with __loaders__ to enable dynamic data fetching.\n\n> __From the docs:__ Page data in Remix comes from files called "route data loaders". These loaders are only ever run server side so you can use whatever node modules you need to load data, including a direct connection to your database.\n\nIf you name a loader the same as a route, Remix will automatically call it _before_ rendering, and make that data available in your route.\n\nLet\'s take a look at how this works.\n\nLet\'s say I create a route and page at __routes/people.ts__ that looks something like this:\n\n```js\n// routes/people.ts\nimport React, { useState, useEffect } from "react";\n\nexport default function People() {\n  return (\n    <div>\n      <h2>Star Wars Characters</h2>\n      // todo, fetch & map over star wars characters from API\n    </div>\n  );\n}\n```\n\nWhen this route is rendered, I want to fetch the data for the array of people and make it available in the component.\n\nTo do this, we can create a new file in the __loaders/routes__ directory called __people.ts__ with the following code:\n\n```js\n// loaders/routes/people.ts\nmodule.exports = () => {\n  return fetch(`https://swapi.dev/api/people/`);\n};\n```\n\nYou can now use the `useRouteData` API from Remix to get access to this data in the route:\n\n```js\n// routes/people.ts\nimport React, { useState, useEffect } from "react";\nimport { Link } from "react-router-dom";\nimport { useRouteData } from "@remix-run/react";\n\nexport default function People() {\n  const data = useRouteData()\n  return (\n    <div>\n      <h2>Star Wars Characters</h2>\n      {\n        data.results.map((result, index) => (\n          <div key={index}>\n            <Link to={`/person/${index + 1}`}>\n              <h1>{result.name}</h1>            \n            </Link>\n          </div>\n        ))\n      }\n    </div>\n  );\n}\n```\n\n#### The big question\n\nWhy didn\'t we have to await the fetch and then await the res.json? Because Remix awaits your loader, and fetch resolves to response, and Remix is expecting exactly that type of object.\n\n> __From the docs:__ You might be scratching your head at that last bit. Why didn\'t we have to unwrap the fetch response with the usual await res.json()?\n\n> If you\'ve been around the Node.js world for a while you\'ll recognize that there are many different versions of "request" and "response". The express API req, res is probably the most ubiquitous, but wherever you go it\'s always a little different.\n\n> When browsers shipped the Fetch API, they didn\'t just create a spec for window.fetch, but they also created a spec for what a fetch sends and returns, Request, Headers, and Response. You can read about these APIs on MDN.\n\n> Instead of coming up with our own API, we built Remix on top of the Web Fetch API.\n\n#### Adding caching\n\nLet\'s have a look at how me might implement the caching mechanism I mentioned at the start of this post.\n\nWe can make the following update:\n\n```js\nconst { json } = require("@remix-run/loader");\nlet res = await fetch(swapi);\nlet data = await res.json();\nreturn json(data, { headers: { "cache-control": "max-age=3600"}})\n```\n\nFor the next hour, the browser won\'t request that resource again, and for the next visitors, the CDN won\'t either.\n\n### Combining dynamic routes, route params, and data fetching\n\nHow does this work for Dynamic routes? For example, what if I want to drill down into a route like __/person/#person-id__ and fetch the data?\n\nHere\'s how that works. We need two new files: One for the route and one for the loader.\n\nFirst, we\'d create a loader at __loaders/person/$id.js__ that looks something like this:\n\n```js\n// loaders/person/$id.js\nmodule.exports = ({ params }) => {\n  return fetch(`https://swapi.dev/api/people/${params.id}`)\n};\n```\n\nNext we\'d create the route, something like __routes/person/$id.js__. Remix will parse the params from the url (the $id portion of person/$id) and passes them to the loader.\n\n```js\n// routes/person/$id.js\nimport React from "react";\nimport { useRouteData } from "@remix-run/react";\n\nexport default function Person() {\n  const user = useRouteData()\n  return (\n    <div>\n      <h2>{user.name}</h2>\n      <h3>Homeworld - { user.homeworld }</h3>\n      <p>Height - {user.height}</p>\n    </div>\n  );\n}\n```\n\nThe data fetched from the API will now be available using `useRouteData`.\n\n### Up and Running with Remix.run video\n\n{% youtube HwdAK9FNUOE %}\n\n## Conclusion\n\nOverall I\'m really enjoying using Remix. It\'s an entirely new approach to building hybrid React web applications that is built upon the advancements we\'ve seen in both modern and legacy web technologies over the years.\n\nI expect to see Remix continue to get better over time, but am unsure how far or fast it will take off considering it is not OSS.\n\nI applaud Ryan and Michael for trying a new payment model, and look forward to seeing how it turns out. The challenge of monetizing OSS has not completely been solved yet, so any new approaches in doing so lay the foundation for anyone looking to make their open source work profitable and maintainable now and in the future.\n\nAlso check out my post going a little deeper into the differences between Remix and Next.js.\n\n{% link https://dev.to/dabit3/how-is-remix-different-from-next-js-4jd1 %}\n ',a.user={name:"Nader Dabit",username:n,twitter_username:n,github_username:n,website_url:"https://mmm.page/nader.main",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--aNfZvjEi--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/126437/41231eb2-054b-4417-bc35-814e491a2d5d.jpeg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--qYNR4ugk--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/126437/41231eb2-054b-4417-bc35-814e491a2d5d.jpeg"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:a}},error:s,state:{currentArticle:a},serverRendered:!0,routePath:"/dabit3/500571",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:s}}}}(null,"dabit3",{},"https://dev.to/dabit3/a-first-look-at-remix-run-449a","2020-10-28T22:59:58Z")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

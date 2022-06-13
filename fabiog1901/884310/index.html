@@ -1,0 +1,680 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>A gentle introduction to CockroachDB logging and Fluentd</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>A gentle introduction to CockroachDB logging and Fluentd</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/cockroachdb" class="tag" data-v-70afb46a>
+          #cockroachdb
+        </a><a href="/nuxtstop/t/fluentd" class="tag" data-v-70afb46a>
+          #fluentd
+        </a><a href="/nuxtstop/t/tutorial" class="tag" data-v-70afb46a>
+          #tutorial
+        </a></div> <!----> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            5
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Nov 1 '21</time></div></header> <div class="content" data-v-70afb46a><p>As of version 21.1 (May 2021), CockroachDB ships with a new, powerful <strong>logging framework</strong> which greatly simplifies the organization and maintenance of logs, and eases operations, specifically around the areas of monitoring and alerting.</p>
+
+<p>Log messages are clearly categorized, allowing you to route messages to select destinations. Furthermore, CockroachDB has been enhanced to log more events, improving its audit and monitoring capabilities.</p>
+
+<p>Here's a quick overview of how the framework is built.</p>
+
+<h2>
+  <a name="overview" href="#overview">
+  </a>
+  Overview
+</h2>
+
+<p>CockroachDB <a href="https://www.cockroachlabs.com/docs/stable/logging-overview.html">logs</a> include details about notable cluster, node, and range-level events.</p>
+
+<p>Each log message is composed of a <strong>payload</strong> and an envelope that contains <strong>event metadata</strong> (e.g., severity, date, timestamp, channel).</p>
+
+<p>Certain <a href="https://www.cockroachlabs.com/docs/v21.1/eventlog.html">notable events</a> are reported using a structured format.<br>
+As an added bonus, these notable events are also copied to the table <code>system.eventlog</code>.</p>
+
+<p>Log messages are organized into <strong>logging channels</strong> and then routed through <strong>log sinks</strong>.</p>
+
+<p>Each sink further <strong>processes and filters</strong> the messages before emitting them to destinations outside CockroachDB.</p>
+
+<p>The mapping of channels to sinks, as well as the processing and filtering done by each sink, is <a href="https://www.cockroachlabs.com/docs/stable/configure-logs.html">configurable</a>.</p>
+<h3>
+  <a name="channels" href="#channels">
+  </a>
+  Channels
+</h3>
+
+<p>Below the list of all <a href="https://www.cockroachlabs.com/docs/v21.1/logging#logging-channels">channels</a> and a brief description.</p>
+
+<div class="table-wrapper-paragraph"><table>
+<thead>
+<tr>
+<th>Channel</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DEV</td>
+<td>Uncategorized and debug messages.</td>
+</tr>
+<tr>
+<td>OPS</td>
+<td>Process starts, stops, shutdowns, and crashes (if they can be logged); changes to cluster topology, such as node additions, removals, and decommissions.</td>
+</tr>
+<tr>
+<td>HEALTH</td>
+<td>Resource usage; node-node connection events, including connection errors; up- and down-replication and range unavailability.</td>
+</tr>
+<tr>
+<td>STORAGE</td>
+<td>Low-level storage logs</td>
+</tr>
+<tr>
+<td>SESSIONS</td>
+<td>Client connections and disconnections; SQL authentication logins/attempts and session/query terminations.</td>
+</tr>
+<tr>
+<td>SQL_SCHEMA</td>
+<td>Database, schema, table, sequence, view, and type creation; changes to table columns and sequence parameters.</td>
+</tr>
+<tr>
+<td>USER_ADMIN</td>
+<td>Changes to users, roles, and authentication credentials.</td>
+</tr>
+<tr>
+<td>PRIVILEGES</td>
+<td>Changes to privileges and object ownership.</td>
+</tr>
+<tr>
+<td>SENSITIVE_ACCESS</td>
+<td>SQL audit events.</td>
+</tr>
+<tr>
+<td>SQL_EXEC</td>
+<td>SQL statement executions and uncaught Go panic errors during SQL statement execution.</td>
+</tr>
+<tr>
+<td>SQL_PERF</td>
+<td>SQL executions that impact performance, such as slow queries.</td>
+</tr>
+</tbody>
+</table></div>
+<h3>
+  <a name="sinks" href="#sinks">
+  </a>
+  Sinks
+</h3>
+
+<p>Channels output messages to sinks.<br>
+There are 3 types of sinks available:</p>
+
+<ul>
+<li>Log files</li>
+<li>Fluentd-compatible servers (Splunk)</li>
+<li><code>stderr</code></li>
+</ul>
+
+<p>Each sink can be configured with <strong>parameters</strong>. Below a list of the common parameters for all sink types.</p>
+
+<div class="table-wrapper-paragraph"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>filter</code></td>
+<td>Minimum severity log <a href="https://www.cockroachlabs.com/docs/v21.1/logging#logging-levels-severities">level</a>
+</td>
+</tr>
+<tr>
+<td><code>format</code></td>
+<td>Log message <a href="https://www.cockroachlabs.com/docs/v21.1/log-formats.html">format</a>
+</td>
+</tr>
+<tr>
+<td><code>redact</code></td>
+<td>When true, enables automatic redaction of personally identifiable information (PII) from log messages. This ensures that sensitive data is not transmitted when collecting logs centrally or over a network. For details, see Redact logs.</td>
+</tr>
+<tr>
+<td><code>redactable</code></td>
+<td>When true, preserves redaction markers around fields that are considered sensitive in the log messages. The markers are recognized by cockroach debug zip and cockroach debug merge-logs but may not be compatible with external log collectors. For details on how the markers appear in each format, see Log formats.</td>
+</tr>
+<tr>
+<td><code>exit-on-error</code></td>
+<td>When true, stops the Cockroach node if an error is encountered while writing to the sink. We recommend enabling this option on file sinks in order to avoid losing any log entries. When set to false, this can be used to mark certain sinks (such as stderr) as non-critical.</td>
+</tr>
+<tr>
+<td><code>auditable</code></td>
+<td>If true, enables exit-on-error on the sink. Also disables buffered-writes if the sink is under file-groups. This guarantees non-repudiability for any logs in the sink, but can incur a performance overhead and higher disk IOPS consumption. This setting is typically enabled for security-related logs.</td>
+</tr>
+</tbody>
+</table></div>
+
+<p>Each sink type also features its own set of parameters.</p>
+<h2>
+  <a name="setup" href="#setup">
+  </a>
+  Setup
+</h2>
+
+<p>Let's create a simple, local working environment to play around with the new logging features. This is helpful to familiarize yourself with Channels and Sinks, and validate that the output matches your requirements.</p>
+
+<p>Create file <code>logs.yaml</code> to store your logging configuration.<br>
+Read through it:</p>
+
+<ul>
+<li>we are only using files as sinks (not fluentd/Splunk)</li>
+<li>we use the JSON format</li>
+<li>the most used channels are mapped to file <code>cockroach.log</code> (identified by the key <code>default</code>)</li>
+<li>each other channel is mapped to a channel that bears its name, eg <code>cockroach-storage.log</code> for channel <code>storage</code>
+</li>
+<li>every sink inherits the default parameters, no special params used.
+</li>
+</ul>
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">file-defaults</span><span class="pi">:</span>
+  <span class="na">max-file-size</span><span class="pi">:</span> <span class="s">10MiB</span>
+  <span class="na">max-group-size</span><span class="pi">:</span> <span class="s">100MiB</span>
+  <span class="na">buffered-writes</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="na">filter</span><span class="pi">:</span> <span class="s">INFO</span>
+  <span class="na">format</span><span class="pi">:</span> <span class="s">json</span>
+  <span class="na">redact</span><span class="pi">:</span> <span class="no">false</span>
+  <span class="na">redactable</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="na">exit-on-error</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="na">auditable</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">fluent-defaults</span><span class="pi">:</span>
+  <span class="na">filter</span><span class="pi">:</span> <span class="s">INFO</span>
+  <span class="c1"># format: json-fluent # default</span>
+  <span class="na">redact</span><span class="pi">:</span> <span class="no">false</span>
+  <span class="na">redactable</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="na">exit-on-error</span><span class="pi">:</span> <span class="no">false</span>
+  <span class="na">auditable</span><span class="pi">:</span> <span class="no">false</span>
+<span class="na">sinks</span><span class="pi">:</span>
+  <span class="c1"># fluent-servers:</span>
+  <span class="c1">#  myhost:</span>
+  <span class="c1">#    channels: [DEV, OPS, HEALTH]</span>
+  <span class="c1">#    address: 127.0.0.1:5170</span>
+  <span class="c1">#    net: tcp</span>
+  <span class="na">file-groups</span><span class="pi">:</span>
+    <span class="na">default</span><span class="pi">:</span>  <span class="c1"># will output to cockroach.log</span>
+      <span class="na">channels</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">DEV</span><span class="pi">,</span> <span class="nv">OPS</span><span class="pi">,</span> <span class="nv">HEALTH</span><span class="pi">,</span> <span class="nv">SQL_SCHEMA</span><span class="pi">,</span> <span class="nv">USER_ADMIN</span><span class="pi">,</span> <span class="nv">PRIVILEGES</span><span class="pi">]</span>
+    <span class="na">storage</span><span class="pi">:</span> <span class="c1"># will output to cockroach-storage.log</span>
+      <span class="na">channels</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">STORAGE</span><span class="pi">]</span>
+    <span class="na">sensitive-access</span><span class="pi">:</span>
+      <span class="na">channels</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">SENSITIVE_ACCESS</span><span class="pi">]</span>
+    <span class="na">sessions</span><span class="pi">:</span>
+      <span class="na">channels</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">SESSIONS</span><span class="pi">]</span>
+    <span class="na">sql-exec</span><span class="pi">:</span>
+      <span class="na">channels</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">SQL_EXEC</span><span class="pi">]</span>
+    <span class="na">sql-perf</span><span class="pi">:</span>
+      <span class="na">channels</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">SQL_PERF</span><span class="pi">]</span>
+    <span class="na">sql-internal-perf</span><span class="pi">:</span>
+      <span class="na">channels</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">SQL_INTERNAL_PERF</span><span class="pi">]</span>
+  <span class="na">stderr</span><span class="pi">:</span>
+    <span class="na">channels</span><span class="pi">:</span> <span class="s">all</span>
+    <span class="na">filter</span><span class="pi">:</span> <span class="s">NONE</span>
+    <span class="na">format</span><span class="pi">:</span> <span class="s">json</span>
+    <span class="na">redact</span><span class="pi">:</span> <span class="no">false</span>
+    <span class="na">redactable</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">exit-on-error</span><span class="pi">:</span> <span class="no">true</span>
+<span class="na">capture-stray-errors</span><span class="pi">:</span>
+  <span class="na">enable</span><span class="pi">:</span> <span class="no">true</span>
+  <span class="na">max-group-size</span><span class="pi">:</span> <span class="s">100MiB</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>Download and install the <a href="https://www.cockroachlabs.com/docs/stable/install-cockroachdb.html">CockroachDB binary</a>.<br>
+Then, start a secure database instance<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="c"># From https://www.cockroachlabs.com/docs/v21.1/secure-a-cluster#step-1-generate-certificates</span>
+<span class="nb">mkdir </span>certs my-safe-directory
+cockroach cert create-ca <span class="nt">--certs-dir</span><span class="o">=</span>certs <span class="nt">--ca-key</span><span class="o">=</span>my-safe-directory/ca.key
+cockroach cert create-node localhost <span class="si">$(</span><span class="nb">hostname</span><span class="si">)</span> <span class="nt">--certs-dir</span><span class="o">=</span>certs <span class="nt">--ca-key</span><span class="o">=</span>my-safe-directory/ca.key
+
+<span class="c"># start a secure single node cluster</span>
+cockroach start-single-node <span class="nt">--certs-dir</span><span class="o">=</span>certs <span class="nt">--background</span> <span class="nt">--log-config-file</span><span class="o">=</span>logs.yaml
+
+<span class="c"># log into the cluster as root</span>
+cockroach sql <span class="nt">--certs-dir</span><span class="o">=</span>certs
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="file-output" href="#file-output">
+  </a>
+  File output
+</h3>
+
+<p>Good, now open a new Terminal window to inspect the files that were created<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">cd </span>cockroach-data/logs
+<span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-l</span>
+total 552
+lrwxr-x---   1 fabio  staff      58 Oct 27 15:13 cockroach-stderr.log -> cockroach-stderr.mac.fabio.2021-10-27T19_13_01Z.011252.log
+<span class="nt">-rw-r-----</span>   1 fabio  staff     910 Oct 27 15:13 cockroach-stderr.mac.fabio.2021-10-27T19_13_01Z.011252.log
+lrwxr-x---   1 fabio  staff      59 Oct 27 15:13 cockroach-storage.log -> cockroach-storage.mac.fabio.2021-10-27T19_13_01Z.011252.log
+<span class="nt">-rw-r-----</span>   1 fabio  staff   10793 Oct 27 15:44 cockroach-storage.mac.fabio.2021-10-27T19_13_01Z.011252.log
+lrwxr-x---   1 fabio  staff      51 Oct 27 15:13 cockroach.log -> cockroach.mac.fabio.2021-10-27T19_13_01Z.011252.log
+<span class="nt">-rw-r-----</span>   1 fabio  staff  236291 Oct 27 16:02 cockroach.mac.fabio.2021-10-27T19_13_01Z.011252.log
+
+<span class="c"># display last line of cockroach.log</span>
+<span class="nv">$ </span><span class="nb">tail</span> <span class="nt">-n1</span> cockroach.log
+<span class="o">{</span><span class="s2">"channel_numeric"</span>:2,<span class="s2">"channel"</span>:<span class="s2">"HEALTH"</span>,<span class="s2">"timestamp"</span>:<span class="s2">"1635365292.961975000"</span>,<span class="s2">"cluster_id"</span>:<span class="s2">"a9dc27ba-af51-4c8c-b165-69a937b48eb9"</span>,<span class="s2">"node_id"</span>:1,<span class="s2">"severity_numeric"</span>:1,<span class="s2">"severity"</span>:<span class="s2">"INFO"</span>,<span class="s2">"goroutine"</span>:20,<span class="s2">"file"</span>:<span class="s2">"server/status/runtime.go"</span>,<span class="s2">"line"</span>:569,<span class="s2">"entry_counter"</span>:478,<span class="s2">"redactable"</span>:1,<span class="s2">"tags"</span>:<span class="o">{</span><span class="s2">"n"</span>:<span class="s2">"1"</span><span class="o">}</span>,<span class="s2">"message"</span>:<span class="s2">"runtime stats: 178 MiB RSS, 274 goroutines (stacks: 3.7 MiB), 47 MiB/85 MiB Go alloc/total (heap fragmentation: 7.2 MiB, heap reserved: 13 MiB, heap released: 58 MiB), 71 MiB/78 MiB CGO alloc/total (0.6 CGO/sec), 1.4/1.1 %(u/s)time, 0.0 %gc (0x), 24 KiB/22 KiB (r/w)net"</span><span class="o">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>As expected, we see file <code>cockroach.log</code>, <code>cockroach-storage.log</code> and <code>cockroach-stderr.log</code>.<br>
+The format is JSON, as configured.</p>
+
+<p>But where are the other log files? We're missing those related to sessions, audit, sql-exec...<br>
+Some logging channels needs to be enabled by means of <a href="https://www.cockroachlabs.com/docs/v21.1/cluster-settings">Cluster Settings</a>.</p>
+
+<p>For example, channel <code>SESSIONS</code> is enabled by these 2 cluster settings, set to <code>False</code> by default:</p>
+
+<ul>
+<li>
+<code>server.auth_log.sql_connections.enabled</code> --> if set, log SQL client connect and disconnect events</li>
+<li>
+<code>server.auth_log.sql_sessions.enabled</code>    --> if set, log SQL session login/disconnection events</li>
+</ul>
+
+<p>Check the <a href="https://www.cockroachlabs.com/docs/v21.1/logging-overview.html#logging-channels">Logging Channels</a> for more information on which cluster settings you need to enable.</p>
+
+<p>Now, let's change a simple setting in <code>logs.yaml</code> to test how logs look like.<br>
+In this exercise, we change the log format from <code>json</code> to <code>crdb-v2</code>, which is more humanly readable.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="c"># stop the cluster</span>
+<span class="nv">$ </span>cockroach quit <span class="nt">--certs-dir</span><span class="o">=</span>certs
+
+<span class="c"># on my macbook, sed is aliased to gsed (GNU sed)</span>
+<span class="nv">$ </span><span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">'s/json/crdb-v2/g'</span> logs.yaml
+
+<span class="c"># restart the cluster</span>
+<span class="nv">$ </span>cockroach start-single-node <span class="nt">--certs-dir</span><span class="o">=</span>certs <span class="nt">--background</span> <span class="nt">--log-config-file</span><span class="o">=</span>logs.yaml 
+
+<span class="c"># check again the last line of cockroach.log</span>
+<span class="nv">$ </span><span class="nb">tail</span> <span class="nt">-n1</span> cockroach.log
+I211027 20:20:40.838139 447 sql/sqlliveness/slinstance/slinstance.go:144 ⋮ <span class="o">[</span>n1] 52  created new SQL liveness session ‹ef0fdfe18b014b42a809f36257c3818b›
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>As expected, we see the new format.</p>
+
+<p>Let's do one more exercise.<br>
+At the <strong>SQL prompt</strong>, enable the <code>SQL_EXEC</code> channel<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight sql"><code><span class="k">SET</span> <span class="k">CLUSTER</span> <span class="n">SETTING</span> <span class="k">sql</span><span class="p">.</span><span class="n">trace</span><span class="p">.</span><span class="n">log_statement_execute</span> <span class="o">=</span> <span class="k">True</span><span class="p">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>and immediately you will see these new files<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-l</span> 
+total 904
+lrwxr-x---   1 fabio  staff    60B Oct 27 16:31 cockroach-sql-exec.log@ -> cockroach-sql-exec.mac.fabio.2021-10-27T20_31_16Z.013087.log
+<span class="nt">-rw-r-----</span>   1 fabio  staff   3.5K Oct 27 16:31 cockroach-sql-exec.mac.fabio.2021-10-27T20_31_16Z.013087.log
+<span class="o">[</span>...]
+
+<span class="nv">$ </span><span class="nb">tail</span> <span class="nt">-n1</span> cockroach-sql-exec.log
+I211027 20:34:11.553235 10838 9@util/log/event_log.go:32 ⋮ <span class="o">[</span><span class="nv">intExec</span><span class="o">=</span>‹cancel/pause-requested›] 95 <span class="o">={</span><span class="s2">"Timestamp"</span>:1635366851551571000,<span class="s2">"EventType"</span>:<span class="s2">"query_execute"</span>,<span class="s2">"Statement"</span>:<span class="s2">"‹UPDATE </span><span class="se">\"\"</span><span class="s2">.system.jobs SET status = CASE WHEN status = </span><span class="nv">$1</span><span class="s2"> THEN </span><span class="nv">$2</span><span class="s2"> WHEN status = </span><span class="nv">$3</span><span class="s2"> THEN </span><span class="nv">$4</span><span class="s2"> ELSE status END WHERE (status IN (</span><span class="nv">$1</span><span class="s2">, </span><span class="nv">$3</span><span class="s2">)) AND ((claim_session_id = </span><span class="nv">$5</span><span class="s2">) AND (claim_instance_id = </span><span class="nv">$6</span><span class="s2">)) RETURNING id, status›"</span>,<span class="s2">"Tag"</span>:<span class="s2">"UPDATE"</span>,<span class="s2">"User"</span>:<span class="s2">"node"</span>,<span class="s2">"ApplicationName"</span>:<span class="s2">"</span><span class="nv">$ </span><span class="s2">internal-cancel/pause-requested"</span>,<span class="s2">"PlaceholderValues"</span>:[<span class="s2">"‹'pause-requested'›"</span>,<span class="s2">"‹'paused'›"</span>,<span class="s2">"‹'cancel-requested'›"</span>,<span class="s2">"‹'reverting'›"</span>,<span class="s2">"‹'</span><span class="se">\\</span><span class="s2">xef0fdfe18b014b42a809f36257c3818b'›"</span>,<span class="s2">"‹1›"</span><span class="o">]</span>,<span class="s2">"ExecMode"</span>:<span class="s2">"exec-internal"</span>,<span class="s2">"Age"</span>:1.631<span class="o">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Very good! Now you have a simple setup to test how logging works.</p>
+
+<h3>
+  <a name="fluentd-output" href="#fluentd-output">
+  </a>
+  Fluentd output
+</h3>
+
+<p><a href="https://www.fluentd.org/architecture">Fluentd</a> is an open-source project for data collection. Fluentd allows you to have a unified view of all your logs from all your applications. Many companies use Fluentd, or use products that receive the same protocol.</p>
+
+<p>You can hook up CockroachDB to Fluentd very easily to test how logging is handled over a network.</p>
+
+<p>Create a file <code>fluent.conf</code> in your home directory<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="c">##########</span>
+<span class="c"># Inputs #</span>
+<span class="c">##########</span>
+
+<span class="c"># this source reads files in a directory</span>
+<span class="c"># &lt;source></span>
+<span class="c">#   @type tail</span>
+<span class="c">#   path "/var/log/*.log"</span>
+<span class="c">#   read_from_head true</span>
+<span class="c">#   tag gino</span>
+<span class="c">#   &lt;parse></span>
+<span class="c">#     @type json</span>
+<span class="c">#     time_type string</span>
+<span class="c">#     time_format "%Y-%m-%d %H:%M:%S.%N"</span>
+<span class="c">#     # time_type float</span>
+<span class="c">#     time_key timestamp</span>
+<span class="c">#   &lt;/parse></span>
+<span class="c"># &lt;/source></span>
+
+<span class="c"># this source listens on a network port</span>
+&lt;<span class="nb">source</span><span class="o">></span>
+  @type tcp
+  tag CRDB
+  &lt;parse>
+    @type json
+    time_type float
+    time_key timestamp
+  &lt;/parse>
+  port 5170
+  <span class="nb">bind </span>0.0.0.0
+  delimiter <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span>
+&lt;/source>
+
+<span class="c">###########</span>
+<span class="c"># Outputs #</span>
+<span class="c">###########</span>
+
+<span class="c"># output to file buffer</span>
+&lt;match <span class="k">**</span><span class="o">></span>
+  @type file
+  path /output/
+  append <span class="nb">true</span>
+  &lt;buffer>
+    timekey 1d
+    timekey_use_utc <span class="nb">true
+    </span>timekey_wait 1m
+  &lt;/buffer>
+  &lt;format>
+    @type out_file
+    delimiter <span class="s2">","</span>
+    time_format <span class="s2">"%Y-%m-%d %H:%M:%S.%N"</span>
+  &lt;/format>
+&lt;/match>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Then, start the server using Docker<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">cd</span> ~
+<span class="nb">mkdir </span>output
+
+<span class="c"># make sure you map the path accordingly</span>
+docker run <span class="nt">-ti</span> <span class="nt">--rm</span> <span class="nt">-v</span> /Users/fabio/fluent.conf:/fluentd/etc/fluent.conf <span class="nt">-v</span> /Users/fabio/output:/output <span class="nt">-p</span><span class="o">=</span>5170:5170 fluent/fluentd
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>If Fluentd starts successfully, you should see this output on stdout:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>2021-11-01 16:56:24 +0000 [info]: parsing config file is succeeded path="/fluentd/etc/fluent.conf"
+2021-11-01 16:56:24 +0000 [info]: using configuration file: &lt;ROOT>
+[...]
+2021-11-01 16:56:24 +0000 [info]: adding source type="tcp"
+2021-11-01 16:56:24 +0000 [info]: #0 starting fluentd worker pid=17 ppid=7 worker=0
+2021-11-01 16:56:24 +0000 [info]: #0 fluentd worker is now running worker=0
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Ok, Fluent is correctly listening for incoming messages.</p>
+
+<p>Now, stop CockroachDB<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>cockroach quit <span class="nt">--certs-dir</span><span class="o">=</span>certs
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Uncomment this section in the <code>logs.yaml</code> file<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code>  <span class="na">fluent-servers</span><span class="pi">:</span>
+    <span class="na">myhost</span><span class="pi">:</span>
+      <span class="na">channels</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">DEV</span><span class="pi">,</span> <span class="nv">OPS</span><span class="pi">,</span> <span class="nv">HEALTH</span><span class="pi">]</span>
+      <span class="na">address</span><span class="pi">:</span> <span class="s">127.0.0.1:5170</span>
+      <span class="na">net</span><span class="pi">:</span> <span class="s">tcp</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Restart CockroachDB<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>cockroach start-single-node <span class="nt">--certs-dir</span><span class="o">=</span>certs <span class="nt">--background</span> <span class="nt">--log-config-file</span><span class="o">=</span>logs.yaml
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Check directory <code>output</code> and tail the buffer log file<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">tail</span> <span class="nt">-n1</span> output/buffer.<span class="k">*</span>.log
+2021-11-01 17:03:09.353577800   CRDB    <span class="o">{</span><span class="s2">"tag"</span>:<span class="s2">"cockroach.health"</span>,<span class="s2">"c"</span>:2,<span class="s2">"t"</span>:<span class="s2">"1635786189.332476000"</span>,<span class="s2">"x"</span>:<span class="s2">"92c25c70-6e91-41f6-9480-6b2de3cb729a"</span>,<span class="s2">"N"</span>:1,<span class="s2">"s"</span>:1,<span class="s2">"sev"</span>:<span class="s2">"I"</span>,<span class="s2">"g"</span>:325,<span class="s2">"f"</span>:<span class="s2">"server/status/runtime.go"</span>,<span class="s2">"l"</span>:569,<span class="s2">"n"</span>:73,<span class="s2">"r"</span>:1,<span class="s2">"tags"</span>:<span class="o">{</span><span class="s2">"n"</span>:<span class="s2">"1"</span><span class="o">}</span>,<span class="s2">"message"</span>:<span class="s2">"runtime stats: 101 MiB RSS, 271 goroutines (stacks: 3.5 MiB), 27 MiB/58 MiB Go alloc/total (heap fragmentation: 7.4 MiB, heap reserved: 8.9 MiB, heap released: 17 MiB), 3.8 MiB/7.0 MiB CGO alloc/total (0.0 CGO/sec), 0.0/0.0 %(u/s)time, 0.0 %gc (0x), 79 KiB/180 KiB (r/w)net"</span><span class="o">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Good stuff, you successfully integrated Fluentd with CockroachDB logging framework!</p>
+
+<h2>
+  <a name="reference" href="#reference">
+  </a>
+  Reference
+</h2>
+
+<ul>
+<li><a href="https://www.cockroachlabs.com/docs/stable/logging-overview.html">Logging Overview</a></li>
+<li><a href="https://www.cockroachlabs.com/docs/stable/configure-logs.html">Configure Logs</a></li>
+<li><a href="https://www.cockroachlabs.com/docs/stable/logging-use-cases.html">Logging Use Cases</a></li>
+<li><a href="https://www.cockroachlabs.com/docs/v21.1/log-formats.html">Log Formats</a></li>
+<li><a href="https://www.cockroachlabs.com/docs/v21.1/eventlog.html">Notable Event Types</a></li>
+<li><a href="https://www.cockroachlabs.com/docs/v21.1/cluster-settings">Cluster Settings</a></li>
+<li><a href="https://docs.fluentd.org/">Fluentd Docs</a></li>
+</ul>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/fabiog1901/a-gentle-introduction-to-cockroachdb-logging-and-fluentd-4mn9" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(s,n,a,e,t,o){return a.type_of="article",a.id=884310,a.title="A gentle introduction to CockroachDB logging and Fluentd",a.description="As of version 21.1 (May 2021), CockroachDB ships with a new, powerful logging framework which greatly...",a.readable_publish_date="Nov 1 '21",a.slug="a-gentle-introduction-to-cockroachdb-logging-and-fluentd-4mn9",a.path="/cockroachlabs/a-gentle-introduction-to-cockroachdb-logging-and-fluentd-4mn9",a.url=e,a.comments_count=0,a.public_reactions_count=5,a.collection_id=s,a.published_timestamp=n,a.positive_reactions_count=5,a.cover_image=s,a.social_image="https://dev.to/social_previews/article/884310.png",a.canonical_url=e,a.created_at="2021-11-01T17:33:50Z",a.edited_at=s,a.crossposted_at=s,a.published_at=n,a.last_comment_at=n,a.reading_time_minutes=8,a.tag_list="cockroachdb, fluentd, tutorial",a.tags=["cockroachdb","fluentd","tutorial"],a.body_html='<p>As of version 21.1 (May 2021), CockroachDB ships with a new, powerful <strong>logging framework</strong> which greatly simplifies the organization and maintenance of logs, and eases operations, specifically around the areas of monitoring and alerting.</p>\n\n<p>Log messages are clearly categorized, allowing you to route messages to select destinations. Furthermore, CockroachDB has been enhanced to log more events, improving its audit and monitoring capabilities.</p>\n\n<p>Here\'s a quick overview of how the framework is built.</p>\n\n<h2>\n  <a name="overview" href="#overview">\n  </a>\n  Overview\n</h2>\n\n<p>CockroachDB <a href="https://www.cockroachlabs.com/docs/stable/logging-overview.html">logs</a> include details about notable cluster, node, and range-level events.</p>\n\n<p>Each log message is composed of a <strong>payload</strong> and an envelope that contains <strong>event metadata</strong> (e.g., severity, date, timestamp, channel).</p>\n\n<p>Certain <a href="https://www.cockroachlabs.com/docs/v21.1/eventlog.html">notable events</a> are reported using a structured format.<br>\nAs an added bonus, these notable events are also copied to the table <code>system.eventlog</code>.</p>\n\n<p>Log messages are organized into <strong>logging channels</strong> and then routed through <strong>log sinks</strong>.</p>\n\n<p>Each sink further <strong>processes and filters</strong> the messages before emitting them to destinations outside CockroachDB.</p>\n\n<p>The mapping of channels to sinks, as well as the processing and filtering done by each sink, is <a href="https://www.cockroachlabs.com/docs/stable/configure-logs.html">configurable</a>.</p>\n<h3>\n  <a name="channels" href="#channels">\n  </a>\n  Channels\n</h3>\n\n<p>Below the list of all <a href="https://www.cockroachlabs.com/docs/v21.1/logging#logging-channels">channels</a> and a brief description.</p>\n\n<div class="table-wrapper-paragraph"><table>\n<thead>\n<tr>\n<th>Channel</th>\n<th>Description</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>DEV</td>\n<td>Uncategorized and debug messages.</td>\n</tr>\n<tr>\n<td>OPS</td>\n<td>Process starts, stops, shutdowns, and crashes (if they can be logged); changes to cluster topology, such as node additions, removals, and decommissions.</td>\n</tr>\n<tr>\n<td>HEALTH</td>\n<td>Resource usage; node-node connection events, including connection errors; up- and down-replication and range unavailability.</td>\n</tr>\n<tr>\n<td>STORAGE</td>\n<td>Low-level storage logs</td>\n</tr>\n<tr>\n<td>SESSIONS</td>\n<td>Client connections and disconnections; SQL authentication logins/attempts and session/query terminations.</td>\n</tr>\n<tr>\n<td>SQL_SCHEMA</td>\n<td>Database, schema, table, sequence, view, and type creation; changes to table columns and sequence parameters.</td>\n</tr>\n<tr>\n<td>USER_ADMIN</td>\n<td>Changes to users, roles, and authentication credentials.</td>\n</tr>\n<tr>\n<td>PRIVILEGES</td>\n<td>Changes to privileges and object ownership.</td>\n</tr>\n<tr>\n<td>SENSITIVE_ACCESS</td>\n<td>SQL audit events.</td>\n</tr>\n<tr>\n<td>SQL_EXEC</td>\n<td>SQL statement executions and uncaught Go panic errors during SQL statement execution.</td>\n</tr>\n<tr>\n<td>SQL_PERF</td>\n<td>SQL executions that impact performance, such as slow queries.</td>\n</tr>\n</tbody>\n</table></div>\n<h3>\n  <a name="sinks" href="#sinks">\n  </a>\n  Sinks\n</h3>\n\n<p>Channels output messages to sinks.<br>\nThere are 3 types of sinks available:</p>\n\n<ul>\n<li>Log files</li>\n<li>Fluentd-compatible servers (Splunk)</li>\n<li><code>stderr</code></li>\n</ul>\n\n<p>Each sink can be configured with <strong>parameters</strong>. Below a list of the common parameters for all sink types.</p>\n\n<div class="table-wrapper-paragraph"><table>\n<thead>\n<tr>\n<th>Parameter</th>\n<th>Description</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><code>filter</code></td>\n<td>Minimum severity log <a href="https://www.cockroachlabs.com/docs/v21.1/logging#logging-levels-severities">level</a>\n</td>\n</tr>\n<tr>\n<td><code>format</code></td>\n<td>Log message <a href="https://www.cockroachlabs.com/docs/v21.1/log-formats.html">format</a>\n</td>\n</tr>\n<tr>\n<td><code>redact</code></td>\n<td>When true, enables automatic redaction of personally identifiable information (PII) from log messages. This ensures that sensitive data is not transmitted when collecting logs centrally or over a network. For details, see Redact logs.</td>\n</tr>\n<tr>\n<td><code>redactable</code></td>\n<td>When true, preserves redaction markers around fields that are considered sensitive in the log messages. The markers are recognized by cockroach debug zip and cockroach debug merge-logs but may not be compatible with external log collectors. For details on how the markers appear in each format, see Log formats.</td>\n</tr>\n<tr>\n<td><code>exit-on-error</code></td>\n<td>When true, stops the Cockroach node if an error is encountered while writing to the sink. We recommend enabling this option on file sinks in order to avoid losing any log entries. When set to false, this can be used to mark certain sinks (such as stderr) as non-critical.</td>\n</tr>\n<tr>\n<td><code>auditable</code></td>\n<td>If true, enables exit-on-error on the sink. Also disables buffered-writes if the sink is under file-groups. This guarantees non-repudiability for any logs in the sink, but can incur a performance overhead and higher disk IOPS consumption. This setting is typically enabled for security-related logs.</td>\n</tr>\n</tbody>\n</table></div>\n\n<p>Each sink type also features its own set of parameters.</p>\n<h2>\n  <a name="setup" href="#setup">\n  </a>\n  Setup\n</h2>\n\n<p>Let\'s create a simple, local working environment to play around with the new logging features. This is helpful to familiarize yourself with Channels and Sinks, and validate that the output matches your requirements.</p>\n\n<p>Create file <code>logs.yaml</code> to store your logging configuration.<br>\nRead through it:</p>\n\n<ul>\n<li>we are only using files as sinks (not fluentd/Splunk)</li>\n<li>we use the JSON format</li>\n<li>the most used channels are mapped to file <code>cockroach.log</code> (identified by the key <code>default</code>)</li>\n<li>each other channel is mapped to a channel that bears its name, eg <code>cockroach-storage.log</code> for channel <code>storage</code>\n</li>\n<li>every sink inherits the default parameters, no special params used.\n</li>\n</ul>\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">file-defaults</span><span class="pi">:</span>\n  <span class="na">max-file-size</span><span class="pi">:</span> <span class="s">10MiB</span>\n  <span class="na">max-group-size</span><span class="pi">:</span> <span class="s">100MiB</span>\n  <span class="na">buffered-writes</span><span class="pi">:</span> <span class="no">true</span>\n  <span class="na">filter</span><span class="pi">:</span> <span class="s">INFO</span>\n  <span class="na">format</span><span class="pi">:</span> <span class="s">json</span>\n  <span class="na">redact</span><span class="pi">:</span> <span class="no">false</span>\n  <span class="na">redactable</span><span class="pi">:</span> <span class="no">true</span>\n  <span class="na">exit-on-error</span><span class="pi">:</span> <span class="no">true</span>\n  <span class="na">auditable</span><span class="pi">:</span> <span class="no">false</span>\n<span class="na">fluent-defaults</span><span class="pi">:</span>\n  <span class="na">filter</span><span class="pi">:</span> <span class="s">INFO</span>\n  <span class="c1"># format: json-fluent # default</span>\n  <span class="na">redact</span><span class="pi">:</span> <span class="no">false</span>\n  <span class="na">redactable</span><span class="pi">:</span> <span class="no">true</span>\n  <span class="na">exit-on-error</span><span class="pi">:</span> <span class="no">false</span>\n  <span class="na">auditable</span><span class="pi">:</span> <span class="no">false</span>\n<span class="na">sinks</span><span class="pi">:</span>\n  <span class="c1"># fluent-servers:</span>\n  <span class="c1">#  myhost:</span>\n  <span class="c1">#    channels: [DEV, OPS, HEALTH]</span>\n  <span class="c1">#    address: 127.0.0.1:5170</span>\n  <span class="c1">#    net: tcp</span>\n  <span class="na">file-groups</span><span class="pi">:</span>\n    <span class="na">default</span><span class="pi">:</span>  <span class="c1"># will output to cockroach.log</span>\n      <span class="na">channels</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">DEV</span><span class="pi">,</span> <span class="nv">OPS</span><span class="pi">,</span> <span class="nv">HEALTH</span><span class="pi">,</span> <span class="nv">SQL_SCHEMA</span><span class="pi">,</span> <span class="nv">USER_ADMIN</span><span class="pi">,</span> <span class="nv">PRIVILEGES</span><span class="pi">]</span>\n    <span class="na">storage</span><span class="pi">:</span> <span class="c1"># will output to cockroach-storage.log</span>\n      <span class="na">channels</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">STORAGE</span><span class="pi">]</span>\n    <span class="na">sensitive-access</span><span class="pi">:</span>\n      <span class="na">channels</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">SENSITIVE_ACCESS</span><span class="pi">]</span>\n    <span class="na">sessions</span><span class="pi">:</span>\n      <span class="na">channels</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">SESSIONS</span><span class="pi">]</span>\n    <span class="na">sql-exec</span><span class="pi">:</span>\n      <span class="na">channels</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">SQL_EXEC</span><span class="pi">]</span>\n    <span class="na">sql-perf</span><span class="pi">:</span>\n      <span class="na">channels</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">SQL_PERF</span><span class="pi">]</span>\n    <span class="na">sql-internal-perf</span><span class="pi">:</span>\n      <span class="na">channels</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">SQL_INTERNAL_PERF</span><span class="pi">]</span>\n  <span class="na">stderr</span><span class="pi">:</span>\n    <span class="na">channels</span><span class="pi">:</span> <span class="s">all</span>\n    <span class="na">filter</span><span class="pi">:</span> <span class="s">NONE</span>\n    <span class="na">format</span><span class="pi">:</span> <span class="s">json</span>\n    <span class="na">redact</span><span class="pi">:</span> <span class="no">false</span>\n    <span class="na">redactable</span><span class="pi">:</span> <span class="no">true</span>\n    <span class="na">exit-on-error</span><span class="pi">:</span> <span class="no">true</span>\n<span class="na">capture-stray-errors</span><span class="pi">:</span>\n  <span class="na">enable</span><span class="pi">:</span> <span class="no">true</span>\n  <span class="na">max-group-size</span><span class="pi">:</span> <span class="s">100MiB</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>Download and install the <a href="https://www.cockroachlabs.com/docs/stable/install-cockroachdb.html">CockroachDB binary</a>.<br>\nThen, start a secure database instance<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="c"># From https://www.cockroachlabs.com/docs/v21.1/secure-a-cluster#step-1-generate-certificates</span>\n<span class="nb">mkdir </span>certs my-safe-directory\ncockroach cert create-ca <span class="nt">--certs-dir</span><span class="o">=</span>certs <span class="nt">--ca-key</span><span class="o">=</span>my-safe-directory/ca.key\ncockroach cert create-node localhost <span class="si">$(</span><span class="nb">hostname</span><span class="si">)</span> <span class="nt">--certs-dir</span><span class="o">=</span>certs <span class="nt">--ca-key</span><span class="o">=</span>my-safe-directory/ca.key\n\n<span class="c"># start a secure single node cluster</span>\ncockroach start-single-node <span class="nt">--certs-dir</span><span class="o">=</span>certs <span class="nt">--background</span> <span class="nt">--log-config-file</span><span class="o">=</span>logs.yaml\n\n<span class="c"># log into the cluster as root</span>\ncockroach sql <span class="nt">--certs-dir</span><span class="o">=</span>certs\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="file-output" href="#file-output">\n  </a>\n  File output\n</h3>\n\n<p>Good, now open a new Terminal window to inspect the files that were created<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">cd </span>cockroach-data/logs\n<span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-l</span>\ntotal 552\nlrwxr-x---   1 fabio  staff      58 Oct 27 15:13 cockroach-stderr.log -&gt; cockroach-stderr.mac.fabio.2021-10-27T19_13_01Z.011252.log\n<span class="nt">-rw-r-----</span>   1 fabio  staff     910 Oct 27 15:13 cockroach-stderr.mac.fabio.2021-10-27T19_13_01Z.011252.log\nlrwxr-x---   1 fabio  staff      59 Oct 27 15:13 cockroach-storage.log -&gt; cockroach-storage.mac.fabio.2021-10-27T19_13_01Z.011252.log\n<span class="nt">-rw-r-----</span>   1 fabio  staff   10793 Oct 27 15:44 cockroach-storage.mac.fabio.2021-10-27T19_13_01Z.011252.log\nlrwxr-x---   1 fabio  staff      51 Oct 27 15:13 cockroach.log -&gt; cockroach.mac.fabio.2021-10-27T19_13_01Z.011252.log\n<span class="nt">-rw-r-----</span>   1 fabio  staff  236291 Oct 27 16:02 cockroach.mac.fabio.2021-10-27T19_13_01Z.011252.log\n\n<span class="c"># display last line of cockroach.log</span>\n<span class="nv">$ </span><span class="nb">tail</span> <span class="nt">-n1</span> cockroach.log\n<span class="o">{</span><span class="s2">"channel_numeric"</span>:2,<span class="s2">"channel"</span>:<span class="s2">"HEALTH"</span>,<span class="s2">"timestamp"</span>:<span class="s2">"1635365292.961975000"</span>,<span class="s2">"cluster_id"</span>:<span class="s2">"a9dc27ba-af51-4c8c-b165-69a937b48eb9"</span>,<span class="s2">"node_id"</span>:1,<span class="s2">"severity_numeric"</span>:1,<span class="s2">"severity"</span>:<span class="s2">"INFO"</span>,<span class="s2">"goroutine"</span>:20,<span class="s2">"file"</span>:<span class="s2">"server/status/runtime.go"</span>,<span class="s2">"line"</span>:569,<span class="s2">"entry_counter"</span>:478,<span class="s2">"redactable"</span>:1,<span class="s2">"tags"</span>:<span class="o">{</span><span class="s2">"n"</span>:<span class="s2">"1"</span><span class="o">}</span>,<span class="s2">"message"</span>:<span class="s2">"runtime stats: 178 MiB RSS, 274 goroutines (stacks: 3.7 MiB), 47 MiB/85 MiB Go alloc/total (heap fragmentation: 7.2 MiB, heap reserved: 13 MiB, heap released: 58 MiB), 71 MiB/78 MiB CGO alloc/total (0.6 CGO/sec), 1.4/1.1 %(u/s)time, 0.0 %gc (0x), 24 KiB/22 KiB (r/w)net"</span><span class="o">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>As expected, we see file <code>cockroach.log</code>, <code>cockroach-storage.log</code> and <code>cockroach-stderr.log</code>.<br>\nThe format is JSON, as configured.</p>\n\n<p>But where are the other log files? We\'re missing those related to sessions, audit, sql-exec...<br>\nSome logging channels needs to be enabled by means of <a href="https://www.cockroachlabs.com/docs/v21.1/cluster-settings">Cluster Settings</a>.</p>\n\n<p>For example, channel <code>SESSIONS</code> is enabled by these 2 cluster settings, set to <code>False</code> by default:</p>\n\n<ul>\n<li>\n<code>server.auth_log.sql_connections.enabled</code> --&gt; if set, log SQL client connect and disconnect events</li>\n<li>\n<code>server.auth_log.sql_sessions.enabled</code>    --&gt; if set, log SQL session login/disconnection events</li>\n</ul>\n\n<p>Check the <a href="https://www.cockroachlabs.com/docs/v21.1/logging-overview.html#logging-channels">Logging Channels</a> for more information on which cluster settings you need to enable.</p>\n\n<p>Now, let\'s change a simple setting in <code>logs.yaml</code> to test how logs look like.<br>\nIn this exercise, we change the log format from <code>json</code> to <code>crdb-v2</code>, which is more humanly readable.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="c"># stop the cluster</span>\n<span class="nv">$ </span>cockroach quit <span class="nt">--certs-dir</span><span class="o">=</span>certs\n\n<span class="c"># on my macbook, sed is aliased to gsed (GNU sed)</span>\n<span class="nv">$ </span><span class="nb">sed</span> <span class="nt">-i</span> <span class="s1">\'s/json/crdb-v2/g\'</span> logs.yaml\n\n<span class="c"># restart the cluster</span>\n<span class="nv">$ </span>cockroach start-single-node <span class="nt">--certs-dir</span><span class="o">=</span>certs <span class="nt">--background</span> <span class="nt">--log-config-file</span><span class="o">=</span>logs.yaml \n\n<span class="c"># check again the last line of cockroach.log</span>\n<span class="nv">$ </span><span class="nb">tail</span> <span class="nt">-n1</span> cockroach.log\nI211027 20:20:40.838139 447 sql/sqlliveness/slinstance/slinstance.go:144 ⋮ <span class="o">[</span>n1] 52  created new SQL liveness session ‹ef0fdfe18b014b42a809f36257c3818b›\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>As expected, we see the new format.</p>\n\n<p>Let\'s do one more exercise.<br>\nAt the <strong>SQL prompt</strong>, enable the <code>SQL_EXEC</code> channel<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight sql"><code><span class="k">SET</span> <span class="k">CLUSTER</span> <span class="n">SETTING</span> <span class="k">sql</span><span class="p">.</span><span class="n">trace</span><span class="p">.</span><span class="n">log_statement_execute</span> <span class="o">=</span> <span class="k">True</span><span class="p">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>and immediately you will see these new files<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">ls</span> <span class="nt">-l</span> \ntotal 904\nlrwxr-x---   1 fabio  staff    60B Oct 27 16:31 cockroach-sql-exec.log@ -&gt; cockroach-sql-exec.mac.fabio.2021-10-27T20_31_16Z.013087.log\n<span class="nt">-rw-r-----</span>   1 fabio  staff   3.5K Oct 27 16:31 cockroach-sql-exec.mac.fabio.2021-10-27T20_31_16Z.013087.log\n<span class="o">[</span>...]\n\n<span class="nv">$ </span><span class="nb">tail</span> <span class="nt">-n1</span> cockroach-sql-exec.log\nI211027 20:34:11.553235 10838 9@util/log/event_log.go:32 ⋮ <span class="o">[</span><span class="nv">intExec</span><span class="o">=</span>‹cancel/pause-requested›] 95 <span class="o">={</span><span class="s2">"Timestamp"</span>:1635366851551571000,<span class="s2">"EventType"</span>:<span class="s2">"query_execute"</span>,<span class="s2">"Statement"</span>:<span class="s2">"‹UPDATE </span><span class="se">\\"\\"</span><span class="s2">.system.jobs SET status = CASE WHEN status = </span><span class="nv">$1</span><span class="s2"> THEN </span><span class="nv">$2</span><span class="s2"> WHEN status = </span><span class="nv">$3</span><span class="s2"> THEN </span><span class="nv">$4</span><span class="s2"> ELSE status END WHERE (status IN (</span><span class="nv">$1</span><span class="s2">, </span><span class="nv">$3</span><span class="s2">)) AND ((claim_session_id = </span><span class="nv">$5</span><span class="s2">) AND (claim_instance_id = </span><span class="nv">$6</span><span class="s2">)) RETURNING id, status›"</span>,<span class="s2">"Tag"</span>:<span class="s2">"UPDATE"</span>,<span class="s2">"User"</span>:<span class="s2">"node"</span>,<span class="s2">"ApplicationName"</span>:<span class="s2">"</span><span class="nv">$ </span><span class="s2">internal-cancel/pause-requested"</span>,<span class="s2">"PlaceholderValues"</span>:[<span class="s2">"‹\'pause-requested\'›"</span>,<span class="s2">"‹\'paused\'›"</span>,<span class="s2">"‹\'cancel-requested\'›"</span>,<span class="s2">"‹\'reverting\'›"</span>,<span class="s2">"‹\'</span><span class="se">\\\\</span><span class="s2">xef0fdfe18b014b42a809f36257c3818b\'›"</span>,<span class="s2">"‹1›"</span><span class="o">]</span>,<span class="s2">"ExecMode"</span>:<span class="s2">"exec-internal"</span>,<span class="s2">"Age"</span>:1.631<span class="o">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Very good! Now you have a simple setup to test how logging works.</p>\n\n<h3>\n  <a name="fluentd-output" href="#fluentd-output">\n  </a>\n  Fluentd output\n</h3>\n\n<p><a href="https://www.fluentd.org/architecture">Fluentd</a> is an open-source project for data collection. Fluentd allows you to have a unified view of all your logs from all your applications. Many companies use Fluentd, or use products that receive the same protocol.</p>\n\n<p>You can hook up CockroachDB to Fluentd very easily to test how logging is handled over a network.</p>\n\n<p>Create a file <code>fluent.conf</code> in your home directory<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="c">##########</span>\n<span class="c"># Inputs #</span>\n<span class="c">##########</span>\n\n<span class="c"># this source reads files in a directory</span>\n<span class="c"># &lt;source&gt;</span>\n<span class="c">#   @type tail</span>\n<span class="c">#   path "/var/log/*.log"</span>\n<span class="c">#   read_from_head true</span>\n<span class="c">#   tag gino</span>\n<span class="c">#   &lt;parse&gt;</span>\n<span class="c">#     @type json</span>\n<span class="c">#     time_type string</span>\n<span class="c">#     time_format "%Y-%m-%d %H:%M:%S.%N"</span>\n<span class="c">#     # time_type float</span>\n<span class="c">#     time_key timestamp</span>\n<span class="c">#   &lt;/parse&gt;</span>\n<span class="c"># &lt;/source&gt;</span>\n\n<span class="c"># this source listens on a network port</span>\n&lt;<span class="nb">source</span><span class="o">&gt;</span>\n  @type tcp\n  tag CRDB\n  &lt;parse&gt;\n    @type json\n    time_type float\n    time_key timestamp\n  &lt;/parse&gt;\n  port 5170\n  <span class="nb">bind </span>0.0.0.0\n  delimiter <span class="s2">"</span><span class="se">\\n</span><span class="s2">"</span>\n&lt;/source&gt;\n\n<span class="c">###########</span>\n<span class="c"># Outputs #</span>\n<span class="c">###########</span>\n\n<span class="c"># output to file buffer</span>\n&lt;match <span class="k">**</span><span class="o">&gt;</span>\n  @type file\n  path /output/\n  append <span class="nb">true</span>\n  &lt;buffer&gt;\n    timekey 1d\n    timekey_use_utc <span class="nb">true\n    </span>timekey_wait 1m\n  &lt;/buffer&gt;\n  &lt;format&gt;\n    @type out_file\n    delimiter <span class="s2">","</span>\n    time_format <span class="s2">"%Y-%m-%d %H:%M:%S.%N"</span>\n  &lt;/format&gt;\n&lt;/match&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Then, start the server using Docker<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">cd</span> ~\n<span class="nb">mkdir </span>output\n\n<span class="c"># make sure you map the path accordingly</span>\ndocker run <span class="nt">-ti</span> <span class="nt">--rm</span> <span class="nt">-v</span> /Users/fabio/fluent.conf:/fluentd/etc/fluent.conf <span class="nt">-v</span> /Users/fabio/output:/output <span class="nt">-p</span><span class="o">=</span>5170:5170 fluent/fluentd\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>If Fluentd starts successfully, you should see this output on stdout:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>2021-11-01 16:56:24 +0000 [info]: parsing config file is succeeded path="/fluentd/etc/fluent.conf"\n2021-11-01 16:56:24 +0000 [info]: using configuration file: &lt;ROOT&gt;\n[...]\n2021-11-01 16:56:24 +0000 [info]: adding source type="tcp"\n2021-11-01 16:56:24 +0000 [info]: #0 starting fluentd worker pid=17 ppid=7 worker=0\n2021-11-01 16:56:24 +0000 [info]: #0 fluentd worker is now running worker=0\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Ok, Fluent is correctly listening for incoming messages.</p>\n\n<p>Now, stop CockroachDB<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>cockroach quit <span class="nt">--certs-dir</span><span class="o">=</span>certs\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Uncomment this section in the <code>logs.yaml</code> file<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code>  <span class="na">fluent-servers</span><span class="pi">:</span>\n    <span class="na">myhost</span><span class="pi">:</span>\n      <span class="na">channels</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">DEV</span><span class="pi">,</span> <span class="nv">OPS</span><span class="pi">,</span> <span class="nv">HEALTH</span><span class="pi">]</span>\n      <span class="na">address</span><span class="pi">:</span> <span class="s">127.0.0.1:5170</span>\n      <span class="na">net</span><span class="pi">:</span> <span class="s">tcp</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Restart CockroachDB<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>cockroach start-single-node <span class="nt">--certs-dir</span><span class="o">=</span>certs <span class="nt">--background</span> <span class="nt">--log-config-file</span><span class="o">=</span>logs.yaml\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Check directory <code>output</code> and tail the buffer log file<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">tail</span> <span class="nt">-n1</span> output/buffer.<span class="k">*</span>.log\n2021-11-01 17:03:09.353577800   CRDB    <span class="o">{</span><span class="s2">"tag"</span>:<span class="s2">"cockroach.health"</span>,<span class="s2">"c"</span>:2,<span class="s2">"t"</span>:<span class="s2">"1635786189.332476000"</span>,<span class="s2">"x"</span>:<span class="s2">"92c25c70-6e91-41f6-9480-6b2de3cb729a"</span>,<span class="s2">"N"</span>:1,<span class="s2">"s"</span>:1,<span class="s2">"sev"</span>:<span class="s2">"I"</span>,<span class="s2">"g"</span>:325,<span class="s2">"f"</span>:<span class="s2">"server/status/runtime.go"</span>,<span class="s2">"l"</span>:569,<span class="s2">"n"</span>:73,<span class="s2">"r"</span>:1,<span class="s2">"tags"</span>:<span class="o">{</span><span class="s2">"n"</span>:<span class="s2">"1"</span><span class="o">}</span>,<span class="s2">"message"</span>:<span class="s2">"runtime stats: 101 MiB RSS, 271 goroutines (stacks: 3.5 MiB), 27 MiB/58 MiB Go alloc/total (heap fragmentation: 7.4 MiB, heap reserved: 8.9 MiB, heap released: 17 MiB), 3.8 MiB/7.0 MiB CGO alloc/total (0.0 CGO/sec), 0.0/0.0 %(u/s)time, 0.0 %gc (0x), 79 KiB/180 KiB (r/w)net"</span><span class="o">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Good stuff, you successfully integrated Fluentd with CockroachDB logging framework!</p>\n\n<h2>\n  <a name="reference" href="#reference">\n  </a>\n  Reference\n</h2>\n\n<ul>\n<li><a href="https://www.cockroachlabs.com/docs/stable/logging-overview.html">Logging Overview</a></li>\n<li><a href="https://www.cockroachlabs.com/docs/stable/configure-logs.html">Configure Logs</a></li>\n<li><a href="https://www.cockroachlabs.com/docs/stable/logging-use-cases.html">Logging Use Cases</a></li>\n<li><a href="https://www.cockroachlabs.com/docs/v21.1/log-formats.html">Log Formats</a></li>\n<li><a href="https://www.cockroachlabs.com/docs/v21.1/eventlog.html">Notable Event Types</a></li>\n<li><a href="https://www.cockroachlabs.com/docs/v21.1/cluster-settings">Cluster Settings</a></li>\n<li><a href="https://docs.fluentd.org/">Fluentd Docs</a></li>\n</ul>\n\n',a.body_markdown='As of version 21.1 (May 2021), CockroachDB ships with a new, powerful **logging framework** which greatly simplifies the organization and maintenance of logs, and eases operations, specifically around the areas of monitoring and alerting.\n\nLog messages are clearly categorized, allowing you to route messages to select destinations. Furthermore, CockroachDB has been enhanced to log more events, improving its audit and monitoring capabilities.\n\nHere\'s a quick overview of how the framework is built.\n\n## Overview\n\nCockroachDB [logs](https://www.cockroachlabs.com/docs/stable/logging-overview.html) include details about notable cluster, node, and range-level events.\n\nEach log message is composed of a **payload** and an envelope that contains **event metadata** (e.g., severity, date, timestamp, channel).\n\nCertain [notable events](https://www.cockroachlabs.com/docs/v21.1/eventlog.html) are reported using a structured format.\nAs an added bonus, these notable events are also copied to the table `system.eventlog`.\n\nLog messages are organized into **logging channels** and then routed through **log sinks**.\n\nEach sink further **processes and filters** the messages before emitting them to destinations outside CockroachDB.\n\nThe mapping of channels to sinks, as well as the processing and filtering done by each sink, is [configurable](https://www.cockroachlabs.com/docs/stable/configure-logs.html).\n\n### Channels\n\nBelow the list of all [channels](https://www.cockroachlabs.com/docs/v21.1/logging#logging-channels) and a brief description.\n\n| Channel | Description |\n|---------|-------------|\n| DEV | Uncategorized and debug messages. |\n| OPS | Process starts, stops, shutdowns, and crashes (if they can be logged); changes to cluster topology, such as node additions, removals, and decommissions.|\n| HEALTH | Resource usage; node-node connection events, including connection errors; up- and down-replication and range unavailability.|\n| STORAGE | Low-level storage logs |\n| SESSIONS | Client connections and disconnections; SQL authentication logins/attempts and session/query terminations.|\n| SQL_SCHEMA | Database, schema, table, sequence, view, and type creation; changes to table columns and sequence parameters.|\n| USER_ADMIN | Changes to users, roles, and authentication credentials.|\n| PRIVILEGES | Changes to privileges and object ownership.|\n| SENSITIVE_ACCESS | SQL audit events.|\n| SQL_EXEC | SQL statement executions and uncaught Go panic errors during SQL statement execution.|\n| SQL_PERF | SQL executions that impact performance, such as slow queries.|\n\n### Sinks\n\nChannels output messages to sinks.\nThere are 3 types of sinks available:\n\n- Log files\n- Fluentd-compatible servers (Splunk)\n- `stderr`\n\nEach sink can be configured with **parameters**. Below a list of the common parameters for all sink types.\n\n| Parameter | Description |\n|---------|-------------|\n| `filter` | Minimum severity log [level](https://www.cockroachlabs.com/docs/v21.1/logging#logging-levels-severities) |\n| `format` | Log message [format](https://www.cockroachlabs.com/docs/v21.1/log-formats.html)  |\n| `redact` | When true, enables automatic redaction of personally identifiable information (PII) from log messages. This ensures that sensitive data is not transmitted when collecting logs centrally or over a network. For details, see Redact logs. |\n| `redactable` | When true, preserves redaction markers around fields that are considered sensitive in the log messages. The markers are recognized by cockroach debug zip and cockroach debug merge-logs but may not be compatible with external log collectors. For details on how the markers appear in each format, see Log formats. |\n| `exit-on-error` | When true, stops the Cockroach node if an error is encountered while writing to the sink. We recommend enabling this option on file sinks in order to avoid losing any log entries. When set to false, this can be used to mark certain sinks (such as stderr) as non-critical. |\n| `auditable` | If true, enables exit-on-error on the sink. Also disables buffered-writes if the sink is under file-groups. This guarantees non-repudiability for any logs in the sink, but can incur a performance overhead and higher disk IOPS consumption. This setting is typically enabled for security-related logs. |\n\nEach sink type also features its own set of parameters.\n\n## Setup\n\nLet\'s create a simple, local working environment to play around with the new logging features. This is helpful to familiarize yourself with Channels and Sinks, and validate that the output matches your requirements.\n\nCreate file `logs.yaml` to store your logging configuration.\nRead through it:\n\n- we are only using files as sinks (not fluentd/Splunk)\n- we use the JSON format\n- the most used channels are mapped to file `cockroach.log` (identified by the key `default`)\n- each other channel is mapped to a channel that bears its name, eg `cockroach-storage.log` for channel `storage`\n- every sink inherits the default parameters, no special params used.\n\n```yaml\nfile-defaults:\n  max-file-size: 10MiB\n  max-group-size: 100MiB\n  buffered-writes: true\n  filter: INFO\n  format: json\n  redact: false\n  redactable: true\n  exit-on-error: true\n  auditable: false\nfluent-defaults:\n  filter: INFO\n  # format: json-fluent # default\n  redact: false\n  redactable: true\n  exit-on-error: false\n  auditable: false\nsinks:\n  # fluent-servers:\n  #  myhost:\n  #    channels: [DEV, OPS, HEALTH]\n  #    address: 127.0.0.1:5170\n  #    net: tcp\n  file-groups:\n    default:  # will output to cockroach.log\n      channels: [DEV, OPS, HEALTH, SQL_SCHEMA, USER_ADMIN, PRIVILEGES]\n    storage: # will output to cockroach-storage.log\n      channels: [STORAGE]\n    sensitive-access:\n      channels: [SENSITIVE_ACCESS]\n    sessions:\n      channels: [SESSIONS]\n    sql-exec:\n      channels: [SQL_EXEC]\n    sql-perf:\n      channels: [SQL_PERF]\n    sql-internal-perf:\n      channels: [SQL_INTERNAL_PERF]\n  stderr:\n    channels: all\n    filter: NONE\n    format: json\n    redact: false\n    redactable: true\n    exit-on-error: true\ncapture-stray-errors:\n  enable: true\n  max-group-size: 100MiB\n```\n\nDownload and install the [CockroachDB binary](https://www.cockroachlabs.com/docs/stable/install-cockroachdb.html).\nThen, start a secure database instance\n\n```bash\n# From https://www.cockroachlabs.com/docs/v21.1/secure-a-cluster#step-1-generate-certificates\nmkdir certs my-safe-directory\ncockroach cert create-ca --certs-dir=certs --ca-key=my-safe-directory/ca.key\ncockroach cert create-node localhost $(hostname) --certs-dir=certs --ca-key=my-safe-directory/ca.key\n\n# start a secure single node cluster\ncockroach start-single-node --certs-dir=certs --background --log-config-file=logs.yaml\n\n# log into the cluster as root\ncockroach sql --certs-dir=certs\n```\n\n### File output\n\nGood, now open a new Terminal window to inspect the files that were created\n\n```bash\n$ cd cockroach-data/logs\n$ ls -l\ntotal 552\nlrwxr-x---   1 fabio  staff      58 Oct 27 15:13 cockroach-stderr.log -> cockroach-stderr.mac.fabio.2021-10-27T19_13_01Z.011252.log\n-rw-r-----   1 fabio  staff     910 Oct 27 15:13 cockroach-stderr.mac.fabio.2021-10-27T19_13_01Z.011252.log\nlrwxr-x---   1 fabio  staff      59 Oct 27 15:13 cockroach-storage.log -> cockroach-storage.mac.fabio.2021-10-27T19_13_01Z.011252.log\n-rw-r-----   1 fabio  staff   10793 Oct 27 15:44 cockroach-storage.mac.fabio.2021-10-27T19_13_01Z.011252.log\nlrwxr-x---   1 fabio  staff      51 Oct 27 15:13 cockroach.log -> cockroach.mac.fabio.2021-10-27T19_13_01Z.011252.log\n-rw-r-----   1 fabio  staff  236291 Oct 27 16:02 cockroach.mac.fabio.2021-10-27T19_13_01Z.011252.log\n\n# display last line of cockroach.log\n$ tail -n1 cockroach.log\n{"channel_numeric":2,"channel":"HEALTH","timestamp":"1635365292.961975000","cluster_id":"a9dc27ba-af51-4c8c-b165-69a937b48eb9","node_id":1,"severity_numeric":1,"severity":"INFO","goroutine":20,"file":"server/status/runtime.go","line":569,"entry_counter":478,"redactable":1,"tags":{"n":"1"},"message":"runtime stats: 178 MiB RSS, 274 goroutines (stacks: 3.7 MiB), 47 MiB/85 MiB Go alloc/total (heap fragmentation: 7.2 MiB, heap reserved: 13 MiB, heap released: 58 MiB), 71 MiB/78 MiB CGO alloc/total (0.6 CGO/sec), 1.4/1.1 %(u/s)time, 0.0 %gc (0x), 24 KiB/22 KiB (r/w)net"}\n```\n\nAs expected, we see file `cockroach.log`, `cockroach-storage.log` and `cockroach-stderr.log`.\nThe format is JSON, as configured.\n\nBut where are the other log files? We\'re missing those related to sessions, audit, sql-exec...\nSome logging channels needs to be enabled by means of [Cluster Settings](https://www.cockroachlabs.com/docs/v21.1/cluster-settings).\n\nFor example, channel `SESSIONS` is enabled by these 2 cluster settings, set to `False` by default:\n\n- `server.auth_log.sql_connections.enabled` --\x3e if set, log SQL client connect and disconnect events\n- `server.auth_log.sql_sessions.enabled`    --\x3e if set, log SQL session login/disconnection events\n\nCheck the [Logging Channels](https://www.cockroachlabs.com/docs/v21.1/logging-overview.html#logging-channels) for more information on which cluster settings you need to enable.\n\nNow, let\'s change a simple setting in `logs.yaml` to test how logs look like.\nIn this exercise, we change the log format from `json` to `crdb-v2`, which is more humanly readable.\n\n```bash\n# stop the cluster\n$ cockroach quit --certs-dir=certs\n\n# on my macbook, sed is aliased to gsed (GNU sed)\n$ sed -i \'s/json/crdb-v2/g\' logs.yaml\n\n# restart the cluster\n$ cockroach start-single-node --certs-dir=certs --background --log-config-file=logs.yaml \n\n# check again the last line of cockroach.log\n$ tail -n1 cockroach.log\nI211027 20:20:40.838139 447 sql/sqlliveness/slinstance/slinstance.go:144 ⋮ [n1] 52  created new SQL liveness session ‹ef0fdfe18b014b42a809f36257c3818b›\n```\n\nAs expected, we see the new format.\n\nLet\'s do one more exercise.\nAt the **SQL prompt**, enable the `SQL_EXEC` channel\n\n```sql\nSET CLUSTER SETTING sql.trace.log_statement_execute = True;\n```\n\nand immediately you will see these new files\n\n```bash\n$ ls -l \ntotal 904\nlrwxr-x---   1 fabio  staff    60B Oct 27 16:31 cockroach-sql-exec.log@ -> cockroach-sql-exec.mac.fabio.2021-10-27T20_31_16Z.013087.log\n-rw-r-----   1 fabio  staff   3.5K Oct 27 16:31 cockroach-sql-exec.mac.fabio.2021-10-27T20_31_16Z.013087.log\n[...]\n\n$ tail -n1 cockroach-sql-exec.log\nI211027 20:34:11.553235 10838 9@util/log/event_log.go:32 ⋮ [intExec=‹cancel/pause-requested›] 95 ={"Timestamp":1635366851551571000,"EventType":"query_execute","Statement":"‹UPDATE \\"\\".system.jobs SET status = CASE WHEN status = $1 THEN $2 WHEN status = $3 THEN $4 ELSE status END WHERE (status IN ($1, $3)) AND ((claim_session_id = $5) AND (claim_instance_id = $6)) RETURNING id, status›","Tag":"UPDATE","User":"node","ApplicationName":"$ internal-cancel/pause-requested","PlaceholderValues":["‹\'pause-requested\'›","‹\'paused\'›","‹\'cancel-requested\'›","‹\'reverting\'›","‹\'\\\\xef0fdfe18b014b42a809f36257c3818b\'›","‹1›"],"ExecMode":"exec-internal","Age":1.631}\n```\n\nVery good! Now you have a simple setup to test how logging works.\n\n### Fluentd output\n\n[Fluentd](https://www.fluentd.org/architecture) is an open-source project for data collection. Fluentd allows you to have a unified view of all your logs from all your applications. Many companies use Fluentd, or use products that receive the same protocol.\n\nYou can hook up CockroachDB to Fluentd very easily to test how logging is handled over a network.\n\nCreate a file `fluent.conf` in your home directory\n\n```bash\n##########\n# Inputs #\n##########\n\n# this source reads files in a directory\n# <source>\n#   @type tail\n#   path "/var/log/*.log"\n#   read_from_head true\n#   tag gino\n#   <parse>\n#     @type json\n#     time_type string\n#     time_format "%Y-%m-%d %H:%M:%S.%N"\n#     # time_type float\n#     time_key timestamp\n#   </parse>\n# </source>\n\n# this source listens on a network port\n<source>\n  @type tcp\n  tag CRDB\n  <parse>\n    @type json\n    time_type float\n    time_key timestamp\n  </parse>\n  port 5170\n  bind 0.0.0.0\n  delimiter "\\n"\n</source>\n\n###########\n# Outputs #\n###########\n\n# output to file buffer\n<match **>\n  @type file\n  path /output/\n  append true\n  <buffer>\n    timekey 1d\n    timekey_use_utc true\n    timekey_wait 1m\n  </buffer>\n  <format>\n    @type out_file\n    delimiter ","\n    time_format "%Y-%m-%d %H:%M:%S.%N"\n  </format>\n</match>\n```\n\nThen, start the server using Docker\n\n```bash\ncd ~\nmkdir output\n\n# make sure you map the path accordingly\ndocker run -ti --rm -v /Users/fabio/fluent.conf:/fluentd/etc/fluent.conf -v /Users/fabio/output:/output -p=5170:5170 fluent/fluentd\n```\n\nIf Fluentd starts successfully, you should see this output on stdout:\n\n```text\n2021-11-01 16:56:24 +0000 [info]: parsing config file is succeeded path="/fluentd/etc/fluent.conf"\n2021-11-01 16:56:24 +0000 [info]: using configuration file: <ROOT>\n[...]\n2021-11-01 16:56:24 +0000 [info]: adding source type="tcp"\n2021-11-01 16:56:24 +0000 [info]: #0 starting fluentd worker pid=17 ppid=7 worker=0\n2021-11-01 16:56:24 +0000 [info]: #0 fluentd worker is now running worker=0\n```\n\nOk, Fluent is correctly listening for incoming messages.\n\nNow, stop CockroachDB\n\n```bash\ncockroach quit --certs-dir=certs\n```\n\nUncomment this section in the `logs.yaml` file\n\n```yaml\n  fluent-servers:\n    myhost:\n      channels: [DEV, OPS, HEALTH]\n      address: 127.0.0.1:5170\n      net: tcp\n```\n\nRestart CockroachDB\n\n```bash\ncockroach start-single-node --certs-dir=certs --background --log-config-file=logs.yaml\n```\n\nCheck directory `output` and tail the buffer log file\n\n```bash\n$ tail -n1 output/buffer.*.log\n2021-11-01 17:03:09.353577800   CRDB    {"tag":"cockroach.health","c":2,"t":"1635786189.332476000","x":"92c25c70-6e91-41f6-9480-6b2de3cb729a","N":1,"s":1,"sev":"I","g":325,"f":"server/status/runtime.go","l":569,"n":73,"r":1,"tags":{"n":"1"},"message":"runtime stats: 101 MiB RSS, 271 goroutines (stacks: 3.5 MiB), 27 MiB/58 MiB Go alloc/total (heap fragmentation: 7.4 MiB, heap reserved: 8.9 MiB, heap released: 17 MiB), 3.8 MiB/7.0 MiB CGO alloc/total (0.0 CGO/sec), 0.0/0.0 %(u/s)time, 0.0 %gc (0x), 79 KiB/180 KiB (r/w)net"}\n```\n\nGood stuff, you successfully integrated Fluentd with CockroachDB logging framework!\n\n## Reference\n\n- [Logging Overview](https://www.cockroachlabs.com/docs/stable/logging-overview.html)\n- [Configure Logs](https://www.cockroachlabs.com/docs/stable/configure-logs.html)\n- [Logging Use Cases](https://www.cockroachlabs.com/docs/stable/logging-use-cases.html)\n- [Log Formats](https://www.cockroachlabs.com/docs/v21.1/log-formats.html)\n- [Notable Event Types](https://www.cockroachlabs.com/docs/v21.1/eventlog.html)\n- [Cluster Settings](https://www.cockroachlabs.com/docs/v21.1/cluster-settings)\n- [Fluentd Docs](https://docs.fluentd.org/)\n',a.user={name:"Fabio Ghirardello",username:t,twitter_username:s,github_username:t,website_url:s,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--bS67cj-j--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/469108/a6ea006d-39ce-42b8-bada-fd550237fbfe.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--XO0IboBf--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/469108/a6ea006d-39ce-42b8-bada-fd550237fbfe.png"},a.organization={name:"Cockroach Labs",username:o,slug:o,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--nd3oCfw_--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/3006/8597bfeb-4701-43f9-8452-1a2b158cba75.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--4u-NOJiz--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/3006/8597bfeb-4701-43f9-8452-1a2b158cba75.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:a}},error:s,state:{currentArticle:a},serverRendered:!0,routePath:"/fabiog1901/884310",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:s}}}}(null,"2021-11-01T18:46:18Z",{},"https://dev.to/cockroachlabs/a-gentle-introduction-to-cockroachdb-logging-and-fluentd-4mn9","fabiog1901","cockroachlabs")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

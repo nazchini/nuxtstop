@@ -1,0 +1,838 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>About the Collatz conjecture, Neo4J & cypher</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>About the Collatz conjecture, Neo4J & cypher</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/cypher" class="tag" data-v-70afb46a>
+          #cypher
+        </a><a href="/nuxtstop/t/neo4j" class="tag" data-v-70afb46a>
+          #neo4j
+        </a><a href="/nuxtstop/t/graph" class="tag" data-v-70afb46a>
+          #graph
+        </a><a href="/nuxtstop/t/tutorial" class="tag" data-v-70afb46a>
+          #tutorial
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SPOG40Oq--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/bmaaxu8digrm2xtlscdv.png" alt="About the Collatz conjecture, Neo4J & cypher" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            5
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            2
+          </span></div> <time data-v-70afb46a>Sep 7 '21</time></div></header> <div class="content" data-v-70afb46a><h2>
+  <a name="intro" href="#intro">
+  </a>
+  Intro
+</h2>
+
+<p>I'm a fan of Mathematics story telling, and a fidel follower of <a href="https://www.youtube.com/channel/UCoxcjq-8xIDTYp3uz647V5A">Numberphile</a>.<br>
+Recently Youtube recommended me the following appealing content :</p>
+
+<p><iframe width="710" height="399" src="https://www.youtube.com/embed/094y1Z2wpJg" allowfullscreen loading="lazy">
+</iframe>
+</p>
+
+<p>I was discovering the <a href="https://en.wikipedia.org/wiki/Collatz_conjecture">Collatz conjecture</a>, and that was already fascinating me.</p>
+
+<p>The following things kept my attention :</p>
+
+<ol>
+<li>The structure looks like a graph where each node is a number <code>LINKED_TO</code> (or not) to an another one</li>
+<li>If we stay on positive numbers, they all are connected to a same tree... linked to the number one (that's the essence of the Collatz conjecture)</li>
+<li>If we play with negative number, islands of communities should appear</li>
+</ol>
+
+<p>Immediately, questions came to me :</p>
+
+<ul>
+<li>What does the graph look like ?</li>
+<li>How big are the islands ?</li>
+<li>How could I interact with the graph ?</li>
+</ul>
+
+<p>These are the questions I'll cover shortly in this post.</p>
+
+<h2>
+  <a name="the-underlying-universe" href="#the-underlying-universe">
+  </a>
+  The underlying universe
+</h2>
+
+<p>The most exciting thing is that this time, the social data is generated from maths, juste the following simple rule does the whole thing :</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--R4mOh8kf--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/formula.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--R4mOh8kf--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/formula.png" alt="Collatz formula" loading="lazy" width="776" height="259"></a></p>
+
+<p>Then comes the following <strong><a href="https://en.wikipedia.org/wiki/List_of_unsolved_problems_in_mathematics">Unsolved problem in mathematics</a></strong>:</p>
+
+<blockquote>
+<p><em>"Does the Collatz sequence eventually reach 1 for all positive integer initial values?"</em></p>
+</blockquote>
+
+<p>This simple formula is embedding a whole universe.</p>
+
+<h2>
+  <a name="generate-the-universe" href="#generate-the-universe">
+  </a>
+  Generate the Universe
+</h2>
+
+<p>To generate the data for the universe, I created a quick program that creates two kind of files :</p>
+
+<ul>
+<li>
+<a href="http://graphml.graphdrawing.org/primer/graphml-primer.html">graphml</a> file so the graph can be imported by drawing/analysis tools like yEd or <a href="https://gephi.org/">Gephi</a>
+</li>
+<li>
+<code>NODES.csv</code> which contains all the nodes of the graph, and <code>RELATIONS.csv</code> that contain all relations between nodes</li>
+</ul>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--gwWWimlC--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/carbon.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--gwWWimlC--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/carbon.png" alt="Alt text of image" loading="lazy" width="880" height="557"></a></p>
+
+<p>The program takes two arguments : the lower (<code>-l</code>) and upper (<code>-u</code>) bounds of the seeds. Then, for each seed, compute nodes and relationships around them.</p>
+
+<h2>
+  <a name="load-the-graph" href="#load-the-graph">
+  </a>
+  Load the graph
+</h2>
+
+<p>If it's a graph, why not playing with it through <a href="https://neo4j.com/developer/intro-videos/">Neo4J</a>, the graph database ?</p>
+
+<p>Therefore, simply :<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight cypher"><code><span class="c1">// Load nodes</span>
+<span class="k">LOAD</span> <span class="k">CSV</span> <span class="k">WITH</span> <span class="k">HEADERS</span> <span class="k">FROM</span> <span class="s1">'file:///NODES.csv'</span>
+<span class="k">AS</span> <span class="n">line</span>
+<span class="k">CREATE</span><span class="w"> </span><span class="ss">(</span><span class="nc">:Number</span> <span class="ss">{</span>
+     <span class="py">id:</span> <span class="n">line.id</span>
+    <span class="ss">});</span>
+<span class="k">MATCH</span><span class="w"> </span><span class="ss">(</span><span class="py">n:</span><span class="n">Number</span><span class="ss">)</span>
+<span class="k">RETURN</span> <span class="n">n</span><span class="ss">;</span>
+
+<span class="c1">// Add unicity constraint, index nodes</span>
+<span class="k">CREATE</span> <span class="k">CONSTRAINT</span> <span class="n">uniqueNumber</span> <span class="n">IF</span> <span class="ow">NOT</span> <span class="ow">EXISTS</span>
+<span class="k">ON</span><span class="w"> </span><span class="ss">(</span><span class="py">n:</span><span class="n">Number</span><span class="ss">)</span>
+<span class="k">ASSERT</span> <span class="n">n.id</span> <span class="k">IS</span> <span class="k">UNIQUE</span><span class="ss">;</span>
+
+<span class="c1">// Link nodes with edges</span>
+<span class="c1">// Increment weight between node each time</span>
+<span class="c1">// they get a new connection</span>
+<span class="k">LOAD</span> <span class="k">CSV</span> <span class="k">WITH</span> <span class="k">HEADERS</span> <span class="k">FROM</span> <span class="s2">"file:///RELATIONS.csv"</span> <span class="k">AS</span> <span class="n">row</span>
+<span class="k">MATCH</span><span class="w"> </span><span class="ss">(</span><span class="py">i:</span><span class="n">Number</span><span class="ss">),</span> <span class="ss">(</span><span class="py">j:</span><span class="n">Number</span><span class="ss">)</span>
+<span class="k">WHERE</span>
+    <span class="n">i.id</span> <span class="o">=</span> <span class="n">row.source</span> <span class="ow">AND</span>
+    <span class="n">j.id</span> <span class="o">=</span> <span class="n">row.target</span>
+<span class="k">MERGE</span><span class="w"> </span><span class="ss">(</span><span class="n">i</span><span class="ss">)</span><span class="o">-</span><span class="ss">[</span><span class="py">r:</span><span class="n">LINKED_TO</span><span class="ss">]</span><span class="o">-></span><span class="ss">(</span><span class="n">j</span><span class="ss">)</span>
+<span class="k">ON</span> <span class="k">CREATE</span> <span class="k">SET</span> <span class="n">r.weight</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="k">ON</span> <span class="k">MATCH</span> <span class="k">SET</span> <span class="n">r.weight</span> <span class="o">=</span> <span class="n">r.weight</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="k">RETURN</span> <span class="n">r</span><span class="ss">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>The data is in.</p>
+
+<p>Notice that the more nodes are connected, the heavier is the link between them, thanks to the <code>weight</code> attribute of the <code>LINKED_TO</code> relation.</p>
+
+<p>We can play with it, first, check is we visually retrieve the infinite loop around <code>4</code>, <code>2</code> and <code>1</code> nodes:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--dVxhMxrQ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/loop-421.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--dVxhMxrQ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/loop-421.png" alt="Neo4J 4,2,1 loop" loading="lazy" width="880" height="446"></a></p>
+
+<p>Also, let's take a look at the whole picture while loading the graphml in <a href="https://www.yworks.com/products/yed">yEd</a> :</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--sXh4MVKI--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/yed_islands.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--sXh4MVKI--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/yed_islands.png" alt="yEd islands" loading="lazy" width="880" height="595"></a></p>
+
+<p>The two tools provide different perspectives. The second one puts in evidence the presence of islands (or cities with roads), not connected to others.</p>
+
+<p>The first one makes it easier to make more analytics queries to explore this universe, thanks to the dedicated <a href="https://neo4j.com/product/graph-data-science-library/">GraphDataScience library</a> :</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--k_hstngU--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/gds.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k_hstngU--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/gds.png" alt="yEd islands" loading="lazy" width="880" height="609"></a></p>
+<h2>
+  <a name="detect-subgraphs-aka-islands-or-communities" href="#detect-subgraphs-aka-islands-or-communities">
+  </a>
+  Detect subgraphs (aka. islands or communities)
+</h2>
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight cypher"><code><span class="k">CALL</span> <span class="n">gds.graph.create</span><span class="ss">(</span>
+  <span class="s1">'Collatz'</span><span class="ss">,</span>
+  <span class="s1">'Number'</span><span class="ss">,</span>
+  <span class="s1">'LINKED_TO'</span><span class="ss">,</span>
+  <span class="ss">{</span>
+    <span class="py">relationshipProperties:</span> <span class="s1">'weight'</span>
+  <span class="ss">}</span>
+<span class="ss">);</span>
+
+<span class="c1">// Count subgraphs</span>
+<span class="k">CALL</span> <span class="n">gds.wcc.stats</span><span class="ss">(</span><span class="s1">'Collatz'</span><span class="ss">)</span>
+<span class="k">YIELD</span> <span class="n">componentCount</span><span class="ss">;</span>
+
+<span class="c1">// Tag components</span>
+<span class="k">CALL</span> <span class="n">gds.wcc.mutate</span><span class="ss">(</span><span class="s1">'Collatz'</span><span class="ss">,</span>
+<span class="ss">{</span> <span class="py">mutateProperty:</span> <span class="s1">'componentId'</span> <span class="ss">})</span>
+<span class="k">YIELD</span> <span class="n">nodePropertiesWritten</span><span class="ss">,</span> <span class="n">componentCount</span><span class="ss">;</span>
+
+<span class="c1">// Put compoentId on each node to flag them</span>
+<span class="c1">// as part of the same component</span>
+<span class="k">CALL</span> <span class="n">gds.wcc.write</span><span class="ss">(</span><span class="s1">'Collatz'</span><span class="ss">,</span>
+<span class="ss">{</span> <span class="py">writeProperty:</span> <span class="s1">'componentId'</span> <span class="ss">})</span>
+<span class="k">YIELD</span> <span class="n">nodePropertiesWritten</span><span class="ss">,</span> <span class="n">componentCount</span><span class="ss">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>Then each node has a new property called <code>componentId</code> that tells to which subraph each node belongs to.</p>
+
+<p>How are positive nodes organized ?<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight cypher"><code><span class="c1">// Different componentId from positive nodes</span>
+<span class="k">MATCH</span><span class="w"> </span><span class="ss">(</span><span class="py">n:</span><span class="n">Number</span><span class="ss">)</span>
+    <span class="k">where</span> <span class="nf">toInteger</span><span class="ss">(</span><span class="n">n.id</span><span class="ss">)</span> <span class="o">>=</span> <span class="mi">0</span>
+<span class="k">RETURN</span> <span class="k">DISTINCT</span> <span class="n">n.componentId</span><span class="ss">,</span> <span class="nf">count</span><span class="ss">(</span><span class="o">*</span><span class="ss">);</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>Will return :<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>n.componentId  count(*)
+2              2228
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>Well, all positive numbers are part of a same huge subgraph.</p>
+
+<p>What about negative integers ?<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight cypher"><code><span class="k">MATCH</span><span class="w"> </span><span class="ss">(</span><span class="py">n:</span><span class="n">Number</span><span class="ss">)</span>
+    <span class="k">where</span> <span class="nf">toInteger</span><span class="ss">(</span><span class="n">n.id</span><span class="ss">)</span> <span class="o">&lt;</span> <span class="mi">0</span>
+<span class="k">RETURN</span> <span class="k">DISTINCT</span> <span class="n">n.componentId</span><span class="ss">,</span> <span class="nf">count</span><span class="ss">(</span><span class="o">*</span><span class="ss">);</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>will return<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>n.componentId  count(*)
+0              702
+7              677
+32             783
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>This time there are many subgraphs, the one we were previously seing as islands.</p>
+<h2>
+  <a name="local-clustering-coefficient" href="#local-clustering-coefficient">
+  </a>
+  Local clustering coefficient
+</h2>
+
+<blockquote>
+<p>The <a href="https://neo4j.com/docs/graph-data-science/current/algorithms/local-clustering-coefficient/">Local Clustering Coefficient</a> algorithm computes the local clustering coefficient for each node in the graph. The local clustering coefficient Cn of a node n describes the likelihood that the neighbours of n are also connected.<br>
+</p>
+</blockquote>
+<div class="highlight js-code-highlight">
+<pre class="highlight cypher"><code><span class="k">CALL</span> <span class="n">gds.graph.create</span><span class="ss">(</span>
+  <span class="s1">'ClusterCoeff'</span><span class="ss">,</span>
+  <span class="s1">'Number'</span><span class="ss">,</span>
+  <span class="ss">{</span>
+    <span class="py">LINKED_TO:</span> <span class="ss">{</span>
+      <span class="py">orientation:</span> <span class="s1">'UNDIRECTED'</span>
+    <span class="ss">}</span>
+  <span class="ss">}</span>
+<span class="ss">);</span>
+<span class="k">CALL</span> <span class="n">gds.localClusteringCoefficient.write</span><span class="ss">(</span><span class="s1">'ClusterCoeff'</span><span class="ss">,</span> <span class="ss">{</span>
+  <span class="py">writeProperty:</span> <span class="s1">'localClusteringCoefficient'</span>
+<span class="ss">})</span>
+<span class="k">YIELD</span> <span class="n">averageClusteringCoefficient</span><span class="ss">,</span> <span class="n">nodeCount</span><span class="ss">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+<h2>
+  <a name="pagerank" href="#pagerank">
+  </a>
+  PageRank
+</h2>
+
+<blockquote>
+<p>The <a href="https://neo4j.com/docs/graph-data-science/current/algorithms/page-rank/">PageRank algorithm</a> measures the importance of each node within the graph, based on the number incoming relationships and the importance of the corresponding source nodes.<br>
+</p>
+</blockquote>
+<div class="highlight js-code-highlight">
+<pre class="highlight cypher"><code><span class="k">CALL</span> <span class="n">gds.graph.create</span><span class="ss">(</span>
+  <span class="s1">'pageRank'</span><span class="ss">,</span>
+  <span class="s1">'Number'</span><span class="ss">,</span>
+  <span class="s1">'LINKED_TO'</span><span class="ss">,</span>
+  <span class="ss">{</span>
+    <span class="py">relationshipProperties:</span> <span class="s1">'weight'</span>
+  <span class="ss">}</span>
+<span class="ss">);</span>
+
+<span class="k">CALL</span> <span class="n">gds.pageRank.write</span><span class="ss">(</span><span class="s1">'pageRank'</span><span class="ss">,</span> <span class="ss">{</span>
+  <span class="nl">maxIterations</span><span class="dl">:</span><span class="w"> </span><span class="m">20</span><span class="ss">,</span>
+  <span class="nl">dampingFactor</span><span class="dl">:</span><span class="w"> </span><span class="m">0.85</span><span class="ss">,</span>
+  <span class="py">writeProperty:</span> <span class="s1">'pagerank'</span>
+<span class="ss">})</span>
+<span class="k">YIELD</span> <span class="n">nodePropertiesWritten</span><span class="ss">,</span> <span class="n">ranIterations</span><span class="ss">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>What are the most important nodes of the structure ?<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight cypher"><code><span class="k">MATCH</span><span class="w"> </span><span class="ss">(</span><span class="py">n:</span><span class="n">Number</span><span class="ss">)</span> 
+<span class="k">RETURN</span> <span class="n">n.id</span><span class="ss">,</span> <span class="n">n.pagerank</span>
+<span class="k">order</span> <span class="k">by</span> <span class="n">n.pagerank</span> <span class="k">desc</span>
+<span class="k">limit</span> <span class="mi">20</span><span class="ss">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>We get the following result, not surprised to see <code>4</code> almost at the top, also <code>-14</code> is quite interesting:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>n.id    n.pagerank
+"-2"    9.92905827432867
+"4"     9.319116539911938
+"-14"   8.316335296925851
+"-1"    8.13621301949055
+"-20"   7.764817040114742
+"2"     7.629390404561685
+"-7"    6.922374589590439
+"-10"   6.4826537196143805
+"40"    6.373381127872719
+"1"     6.22800676749003
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>Also, check that <code>-14</code> is part of a cycle :</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--zikQHgqF--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/cycle_-14.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--zikQHgqF--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/cycle_-14.png" alt="-14 cycle" loading="lazy" width="794" height="527"></a></p>
+<h2>
+  <a name="get-the-top-20-heavily-linked-nodes" href="#get-the-top-20-heavily-linked-nodes">
+  </a>
+  Get the top 20 heavily linked nodes
+</h2>
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight cypher"><code><span class="k">MATCH</span><span class="w"> </span><span class="ss">(</span><span class="py">i:</span><span class="n">Number</span><span class="ss">)</span><span class="o">-</span><span class="ss">[</span><span class="py">r:</span><span class="n">LINKED_TO</span><span class="ss">]</span><span class="o">-></span><span class="ss">(</span><span class="py">j:</span><span class="n">Number</span><span class="ss">)</span>
+<span class="k">RETURN</span> <span class="n">r.weight</span><span class="ss">,</span><span class="n">i</span><span class="ss">,</span><span class="n">j</span>
+<span class="k">order</span> <span class="k">by</span> <span class="n">r.weight</span> <span class="k">desc</span> <span class="k">limit</span> <span class="mi">20</span><span class="ss">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--PtEs9RlJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/top-20-most-linked-nodes.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--PtEs9RlJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/top-20-most-linked-nodes.png" alt="top 20 heavily linked nodes" loading="lazy" width="790" height="738"></a></p>
+<h2>
+  <a name="degree-centrality-find-bifurcations" href="#degree-centrality-find-bifurcations">
+  </a>
+  Degree Centrality : find "bifurcations"
+</h2>
+
+<p>The <a href="https://neo4j.com/docs/graph-data-science/current/algorithms/degree-centrality/">Degree Centrality algorithm</a></p>
+
+<blockquote>
+<p>can be used to find popular nodes within a graph. Degree centrality measures the number of incoming or outgoing (or both) relationships from a node, depending on the orientation of a relationship projection.<br>
+</p>
+</blockquote>
+<div class="highlight js-code-highlight">
+<pre class="highlight cypher"><code><span class="k">CALL</span> <span class="n">gds.graph.create</span><span class="ss">(</span>
+  <span class="s1">'CollatzDegree'</span><span class="ss">,</span>
+  <span class="s1">'Number'</span><span class="ss">,</span>
+  <span class="ss">{</span>
+    <span class="py">LINKED_TO:</span> <span class="ss">{</span>
+      <span class="py">orientation:</span> <span class="s1">'REVERSE'</span><span class="ss">,</span>
+      <span class="py">properties:</span> <span class="ss">[</span><span class="s1">'weight'</span><span class="ss">]</span>
+    <span class="ss">}</span>
+  <span class="ss">}</span>
+<span class="ss">);</span>
+
+<span class="k">CALL</span> <span class="n">gds.degree.write</span><span class="ss">(</span><span class="s1">'CollatzDegree'</span><span class="ss">,</span>
+<span class="ss">{</span> <span class="py">writeProperty:</span> <span class="s1">'degree'</span> <span class="ss">})</span>
+<span class="k">YIELD</span> <span class="n">centralityDistribution</span><span class="ss">,</span>
+<span class="n">nodePropertiesWritten</span>
+<span class="k">RETURN</span> <span class="n">centralityDistribution.min</span> <span class="k">AS</span> <span class="n">minimumScore</span><span class="ss">,</span>
+<span class="n">centralityDistribution.mean</span> <span class="k">AS</span> <span class="n">meanScore</span><span class="ss">,</span>
+<span class="n">nodePropertiesWritten</span><span class="ss">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>Finally, the biggest bifurcations<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight cypher"><code><span class="k">MATCH</span><span class="w"> </span><span class="ss">(</span><span class="py">n:</span><span class="n">Number</span><span class="ss">)</span>
+<span class="k">RETURN</span> <span class="n">n.id</span><span class="ss">,</span> <span class="n">n.degree</span>
+<span class="k">order</span> <span class="k">by</span> <span class="n">n.degree</span> <span class="k">desc</span> <span class="k">limit</span> <span class="mi">10</span><span class="ss">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>2 is the maximum incoming amount of edges to<br>
+any node (and <code>4</code> is one of them) :<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>n.id    n.degree
+"16"    2.0
+"-26"   2.0
+"-8"    2.0
+...
+"4"     2.0
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>Or this way if you rather drill down afterwards :<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight cypher"><code><span class="k">MATCH</span><span class="w"> </span><span class="ss">(</span><span class="py">n:</span><span class="n">Number</span><span class="ss">)</span>
+<span class="k">where</span> <span class="n">n.degree</span> <span class="o">></span> <span class="mi">1</span>
+<span class="k">RETURN</span> <span class="n">n</span><span class="ss">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+<h2>
+  <a name="size-of-the-biggest-island-component" href="#size-of-the-biggest-island-component">
+  </a>
+  Size of the biggest island (component)
+</h2>
+
+<p>Get components, elect a number of the island then get its size :<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight cypher"><code><span class="k">MATCH</span><span class="w"> </span><span class="ss">(</span><span class="py">n:</span><span class="n">Number</span><span class="ss">)</span> 
+<span class="k">RETURN</span> <span class="n">n.componentId</span><span class="ss">,</span> <span class="nf">min</span><span class="ss">(</span><span class="nf">toInteger</span><span class="ss">(</span><span class="n">n.id</span><span class="ss">)),</span>
+<span class="nf">count</span><span class="ss">(</span><span class="o">*</span><span class="ss">)</span> <span class="k">as</span> <span class="n">component_size</span>
+<span class="k">order</span> <span class="k">by</span> <span class="n">component_size</span> <span class="k">desc</span><span class="ss">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>Gives back :<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>n.componentId   min(toInteger(n.id))    component_size
+2               1                       2228
+32              -132860                 783
+0               -113240                 702
+7               -45200                  677
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p><strong>Notice that the "positive" island is by far the biggest one,... at least for this dataset.</strong></p>
+<h2>
+  <a name="explore-loops" href="#explore-loops">
+  </a>
+  Explore loops
+</h2>
+
+<p>Finally, one of the funniest thing in the Collatz dataset : the cycles, ... or loops.<br>
+When you manually compute them on a paperboard, this is a really cool experience ! </p>
+
+<p>But how to discover them on such a huge dataset ?</p>
+
+<p>Let's find out :<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight cypher"><code><span class="k">MATCH</span><span class="w">
+  </span><span class="ss">(</span><span class="py">m1:</span><span class="n">Number</span><span class="ss">)</span><span class="o">-</span><span class="ss">[</span><span class="nc">:LINKED_TO</span><span class="ss">]</span><span class="o">-></span><span class="ss">(</span><span class="py">m2:</span><span class="n">Number</span><span class="ss">),</span>
+  <span class="n">cyclePath</span><span class="o">=</span><span class="nf">shortestPath</span><span class="ss">((</span><span class="n">m2</span><span class="ss">)</span><span class="o">-</span><span class="ss">[</span><span class="nc">:LINKED_TO</span><span class="o">*</span><span class="ss">]</span><span class="o">-></span><span class="ss">(</span><span class="n">m1</span><span class="ss">))</span>
+<span class="k">WITH</span>
+  <span class="n">m1</span><span class="ss">,</span> <span class="nf">nodes</span><span class="ss">(</span><span class="n">cyclePath</span><span class="ss">)</span> <span class="k">as</span> <span class="n">cycle</span>
+<span class="k">WHERE</span> <span class="nf">id</span><span class="ss">(</span><span class="n">m1</span><span class="ss">)</span> <span class="o">=</span> <span class="n">apoc.coll.max</span><span class="ss">([</span><span class="n">node</span> <span class="ow">in</span> <span class="n">cycle</span> <span class="o">|</span> <span class="nf">id</span><span class="ss">(</span><span class="n">node</span><span class="ss">)])</span>
+<span class="k">RETURN</span> <span class="n">m1</span><span class="ss">,</span> <span class="n">cycle</span><span class="ss">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>And we discover the cycles :</p>
+
+<ul>
+<li>the well known <code>1->4->2->1</code>
+</li>
+<li>the funny two state one <code>(-2)->(-1)->(-2)</code>
+</li>
+<li>but also a much bigger (and unexpected) cycle that "contains" the seed <code>-17</code>:</li>
+</ul>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--7SvIP3x3--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/cycles.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--7SvIP3x3--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/cycles.png" alt="Cycles" loading="lazy" width="837" height="729"></a></p>
+<h2>
+  <a name="going-futrther-whats-next-" href="#going-futrther-whats-next-">
+  </a>
+  Going futrther : what's next ?
+</h2>
+
+<p>Keep pushing boundaries of seeds and :</p>
+
+<ul>
+<li>Generate really huge datasets and upgrade the Generator accordingly (better algorithm, better types or datastructures)</li>
+<li>Tune Neo4J instance to support huge datasets</li>
+<li>Look for more porwerful workstations to run analysis on them</li>
+<li>Discover if the number of islands is stable or if we discover new ones : are they bigger or smaller ?</li>
+<li>Discover if there are even bigger cycles on negative numbers</li>
+<li>Make digital art on top of these datasets</li>
+</ul>
+<h2>
+  <a name="other-algorithms-to-play-with" href="#other-algorithms-to-play-with">
+  </a>
+  Other algorithms to play with
+</h2>
+
+<ul>
+<li><a href="https://neo4j.com/docs/graph-data-science/current/algorithms/linkprediction/">Link Prediction algorithms</a></li>
+<li><a href="https://neo4j.com/docs/graph-data-science/current/algorithms/node-embeddings/">Node embeddings</a></li>
+<li><a href="https://neo4j.com/docs/graph-data-science/current/alpha-algorithms/minimum-weight-spanning-tree/">Minimum Weight Spanning Tree</a></li>
+</ul>
+<h2>
+  <a name="resources" href="#resources">
+  </a>
+  Resources
+</h2>
+
+<p>Generator repo (with <a href="https://github.com/adriens/JCollatz/tree/main/samples">ready to use samples</a>), feel free to report ideas or feature requests, or even better pull requests :</p>
+
+
+<div class="ltag-github-readme-tag">
+  <div class="readme-overview">
+    <h2>
+      <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--566lAguM--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/github-logo-5a155e1f9a670af7944dd5e12375bc76ed542ea80224905ecaf878b9157cdefc.svg" alt="GitHub logo" loading="lazy">
+      <a href="https://github.com/adriens">
+        adriens
+      </a> / <a style="font-weight:600" href="https://github.com/adriens/JCollatz">
+        JCollatz
+      </a>
+    </h2>
+    <h3>
+      
+    </h3>
+  </div>
+  <div class="ltag-github-body">
+    
+<div id="readme" class="md" data-path="README.md"><article class="markdown-body entry-content container-lg" itemprop="text"><h1 dir="auto">
+<g-emoji class="g-emoji" alias="grey_question" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2754.png">❔</g-emoji>About</h1>
+<p dir="auto">This repo has been created to generate ready to use data files around the Collatz Conjecture. As I
+wanted to learn more about these patterns, I needed to generate some custom files.</p>
+<p dir="auto">Finally I quickly developed a first draft, a generator that makes the job at least for my first experimentations.</p>
+<h1 dir="auto">
+<g-emoji class="g-emoji" alias="point_right" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f449.png">👉</g-emoji>Usage</h1>
+<p dir="auto">To play with these files, you have two options :</p>
+<ul dir="auto">
+<li>use ready to use samples</li>
+<li>generate your owns</li>
+</ul>
+<h2 dir="auto">
+<g-emoji class="g-emoji" alias="open_file_folder" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4c2.png">📂</g-emoji>Ready to use samples</h2>
+<p dir="auto">Ready to use samples are stored in <code>samples</code> directory. The directorories are organized
+as follow : <code>${lower-bound}_${upper_bound}</code>.</p>
+<p dir="auto">So, the <code>-1000_1000</code> directory contains sample where seeds are between <code>-1000</code> and <code>1000</code>.</p>
+<h2 dir="auto">
+<g-emoji class="g-emoji" alias="rocket" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f680.png">🚀</g-emoji>Generate your own samples</h2>
+<p dir="auto">The code is organized as a JBang script, so all you have to do to install :</p>
+<h3 dir="auto">
+<g-emoji class="g-emoji" alias="bomb" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4a3.png">💣</g-emoji>Install JBang</h3>
+<p dir="auto">Linux :</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="sdk install jbang
+choco install jbang"><pre class="notranslate"><code>sdk install jbang
+choco install jbang
+</code></pre></div>
+<p dir="auto">Windows :</p>
+<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="choco install jbang"><pre class="notranslate"><code>choco install jbang
+</code></pre></div>
+<h3 dir="auto">
+<g-emoji class="g-emoji" alias="joystick" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f579.png">🕹️</g-emoji>Generate</h3>…</article></div>
+  </div>
+  <div class="gh-btn-container"><a class="gh-btn" href="https://github.com/adriens/JCollatz">View on GitHub</a></div>
+</div>
+
+
+
+<ul>
+<li><a href="https://youtu.be/5mFpVDpKX70">Collatz Conjecture on NumberPhile</a></li>
+<li><a href="https://youtu.be/EYLWxwo1Ed8">Dedicated Coding Train episode</a></li>
+<li><a href="https://neo4j.com/product/graph-data-science-library/">Graph Data Science Library</a></li>
+<li><a href="https://youtu.be/GJDz4kQqTV4">Extend Collatz Conjecture to fractal approach with complex numbers</a></li>
+</ul>
+
+<h2>
+  <a name="feedbacks" href="#feedbacks">
+  </a>
+  Feedbacks
+</h2>
+
+
+<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/neo4j/status/1444655240368775168">
+    <div class="ltag__twitter-tweet__media ltag__twitter-tweet__media__two-pics">
+      <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--JyLVGniI--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/media/FAxySGgWQAId_YQ.png" alt="unknown tweet media content" loading="lazy">
+    </div>
+
+  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/neo4j/status/1444655240368775168">
+    <div class="ltag__twitter-tweet__header">
+      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--XiUHi0F_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/1385615645002326021/Zm5Xd5_2_normal.jpg" alt="Neo4j profile image" loading="lazy">
+      <div class="ltag__twitter-tweet__full-name">
+        Neo4j
+      </div>
+      <div class="ltag__twitter-tweet__username">
+        @neo4j
+      </div>
+      <div class="ltag__twitter-tweet__twitter-logo">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">
+      </div>
+    </div>
+    <div class="ltag__twitter-tweet__body">
+      . <a href="https://twitter.com/rastadidi">@rastadidi</a> explores using graphs to visualize the Collatz Conjecture mathematical problem. <br><br><a href="https://t.co/rDp4Ic5ZJz">okt.to/SQ7Y6f</a><br><br> <a href="https://twitter.com/hashtag/twin4j">#twin4j</a>,  <a href="https://twitter.com/hashtag/neo4j">#neo4j</a> <a href="https://twitter.com/hashtag/mathematics">#mathematics</a> <a href="https://twitter.com/hashtag/collatzconjecture">#collatzconjecture</a> <a href="https://twitter.com/hashtag/graphalgorithms">#graphalgorithms</a> 
+    </div>
+    <div class="ltag__twitter-tweet__date">
+      13:27 PM - 03 Oct 2021
+    </div>
+
+
+    <div class="ltag__twitter-tweet__actions">
+      <a href="https://twitter.com/intent/tweet?in_reply_to=1444655240368775168" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/retweet?tweet_id=1444655240368775168" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/like?tweet_id=1444655240368775168" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">
+      </a>
+    </div>
+  </div>
+</blockquote>
+
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/adriens/about-the-collatz-conjecture-neo4j-cypher-184h" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(s,n,a,e,t){return a.type_of="article",a.id=814880,a.title="About the Collatz conjecture, Neo4J & cypher",a.description="Intro   I'm a fan of Mathematics story telling, and a fidel follower of...",a.readable_publish_date="Sep 7 '21",a.slug="about-the-collatz-conjecture-neo4j-cypher-184h",a.path="/adriens/about-the-collatz-conjecture-neo4j-cypher-184h",a.url=e,a.comments_count=2,a.public_reactions_count=5,a.collection_id=18184,a.published_timestamp=t,a.positive_reactions_count=5,a.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--SPOG40Oq--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/bmaaxu8digrm2xtlscdv.png",a.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--lX0EAwlA--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/bmaaxu8digrm2xtlscdv.png",a.canonical_url=e,a.created_at="2021-09-06T08:54:43Z",a.edited_at="2022-05-19T02:57:57Z",a.crossposted_at=s,a.published_at=t,a.last_comment_at="2022-05-22T22:37:48Z",a.reading_time_minutes=6,a.tag_list="cypher, neo4j, graph, tutorial",a.tags=["cypher","neo4j","graph","tutorial"],a.body_html='<h2>\n  <a name="intro" href="#intro">\n  </a>\n  Intro\n</h2>\n\n<p>I\'m a fan of Mathematics story telling, and a fidel follower of <a href="https://www.youtube.com/channel/UCoxcjq-8xIDTYp3uz647V5A">Numberphile</a>.<br>\nRecently Youtube recommended me the following appealing content :</p>\n\n<p><iframe width="710" height="399" src="https://www.youtube.com/embed/094y1Z2wpJg" allowfullscreen loading="lazy">\n</iframe>\n</p>\n\n<p>I was discovering the <a href="https://en.wikipedia.org/wiki/Collatz_conjecture">Collatz conjecture</a>, and that was already fascinating me.</p>\n\n<p>The following things kept my attention :</p>\n\n<ol>\n<li>The structure looks like a graph where each node is a number <code>LINKED_TO</code> (or not) to an another one</li>\n<li>If we stay on positive numbers, they all are connected to a same tree... linked to the number one (that\'s the essence of the Collatz conjecture)</li>\n<li>If we play with negative number, islands of communities should appear</li>\n</ol>\n\n<p>Immediately, questions came to me :</p>\n\n<ul>\n<li>What does the graph look like ?</li>\n<li>How big are the islands ?</li>\n<li>How could I interact with the graph ?</li>\n</ul>\n\n<p>These are the questions I\'ll cover shortly in this post.</p>\n\n<h2>\n  <a name="the-underlying-universe" href="#the-underlying-universe">\n  </a>\n  The underlying universe\n</h2>\n\n<p>The most exciting thing is that this time, the social data is generated from maths, juste the following simple rule does the whole thing :</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--R4mOh8kf--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/formula.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--R4mOh8kf--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/formula.png" alt="Collatz formula" loading="lazy" width="776" height="259"></a></p>\n\n<p>Then comes the following <strong><a href="https://en.wikipedia.org/wiki/List_of_unsolved_problems_in_mathematics">Unsolved problem in mathematics</a></strong>:</p>\n\n<blockquote>\n<p><em>"Does the Collatz sequence eventually reach 1 for all positive integer initial values?"</em></p>\n</blockquote>\n\n<p>This simple formula is embedding a whole universe.</p>\n\n<h2>\n  <a name="generate-the-universe" href="#generate-the-universe">\n  </a>\n  Generate the Universe\n</h2>\n\n<p>To generate the data for the universe, I created a quick program that creates two kind of files :</p>\n\n<ul>\n<li>\n<a href="http://graphml.graphdrawing.org/primer/graphml-primer.html">graphml</a> file so the graph can be imported by drawing/analysis tools like yEd or <a href="https://gephi.org/">Gephi</a>\n</li>\n<li>\n<code>NODES.csv</code> which contains all the nodes of the graph, and <code>RELATIONS.csv</code> that contain all relations between nodes</li>\n</ul>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--gwWWimlC--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/carbon.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--gwWWimlC--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/carbon.png" alt="Alt text of image" loading="lazy" width="880" height="557"></a></p>\n\n<p>The program takes two arguments : the lower (<code>-l</code>) and upper (<code>-u</code>) bounds of the seeds. Then, for each seed, compute nodes and relationships around them.</p>\n\n<h2>\n  <a name="load-the-graph" href="#load-the-graph">\n  </a>\n  Load the graph\n</h2>\n\n<p>If it\'s a graph, why not playing with it through <a href="https://neo4j.com/developer/intro-videos/">Neo4J</a>, the graph database ?</p>\n\n<p>Therefore, simply :<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight cypher"><code><span class="c1">// Load nodes</span>\n<span class="k">LOAD</span> <span class="k">CSV</span> <span class="k">WITH</span> <span class="k">HEADERS</span> <span class="k">FROM</span> <span class="s1">\'file:///NODES.csv\'</span>\n<span class="k">AS</span> <span class="n">line</span>\n<span class="k">CREATE</span><span class="w"> </span><span class="ss">(</span><span class="nc">:Number</span> <span class="ss">{</span>\n     <span class="py">id:</span> <span class="n">line.id</span>\n    <span class="ss">});</span>\n<span class="k">MATCH</span><span class="w"> </span><span class="ss">(</span><span class="py">n:</span><span class="n">Number</span><span class="ss">)</span>\n<span class="k">RETURN</span> <span class="n">n</span><span class="ss">;</span>\n\n<span class="c1">// Add unicity constraint, index nodes</span>\n<span class="k">CREATE</span> <span class="k">CONSTRAINT</span> <span class="n">uniqueNumber</span> <span class="n">IF</span> <span class="ow">NOT</span> <span class="ow">EXISTS</span>\n<span class="k">ON</span><span class="w"> </span><span class="ss">(</span><span class="py">n:</span><span class="n">Number</span><span class="ss">)</span>\n<span class="k">ASSERT</span> <span class="n">n.id</span> <span class="k">IS</span> <span class="k">UNIQUE</span><span class="ss">;</span>\n\n<span class="c1">// Link nodes with edges</span>\n<span class="c1">// Increment weight between node each time</span>\n<span class="c1">// they get a new connection</span>\n<span class="k">LOAD</span> <span class="k">CSV</span> <span class="k">WITH</span> <span class="k">HEADERS</span> <span class="k">FROM</span> <span class="s2">"file:///RELATIONS.csv"</span> <span class="k">AS</span> <span class="n">row</span>\n<span class="k">MATCH</span><span class="w"> </span><span class="ss">(</span><span class="py">i:</span><span class="n">Number</span><span class="ss">),</span> <span class="ss">(</span><span class="py">j:</span><span class="n">Number</span><span class="ss">)</span>\n<span class="k">WHERE</span>\n    <span class="n">i.id</span> <span class="o">=</span> <span class="n">row.source</span> <span class="ow">AND</span>\n    <span class="n">j.id</span> <span class="o">=</span> <span class="n">row.target</span>\n<span class="k">MERGE</span><span class="w"> </span><span class="ss">(</span><span class="n">i</span><span class="ss">)</span><span class="o">-</span><span class="ss">[</span><span class="py">r:</span><span class="n">LINKED_TO</span><span class="ss">]</span><span class="o">-&gt;</span><span class="ss">(</span><span class="n">j</span><span class="ss">)</span>\n<span class="k">ON</span> <span class="k">CREATE</span> <span class="k">SET</span> <span class="n">r.weight</span> <span class="o">=</span> <span class="mi">1</span>\n<span class="k">ON</span> <span class="k">MATCH</span> <span class="k">SET</span> <span class="n">r.weight</span> <span class="o">=</span> <span class="n">r.weight</span> <span class="o">+</span> <span class="mi">1</span>\n<span class="k">RETURN</span> <span class="n">r</span><span class="ss">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>The data is in.</p>\n\n<p>Notice that the more nodes are connected, the heavier is the link between them, thanks to the <code>weight</code> attribute of the <code>LINKED_TO</code> relation.</p>\n\n<p>We can play with it, first, check is we visually retrieve the infinite loop around <code>4</code>, <code>2</code> and <code>1</code> nodes:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--dVxhMxrQ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/loop-421.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--dVxhMxrQ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/loop-421.png" alt="Neo4J 4,2,1 loop" loading="lazy" width="880" height="446"></a></p>\n\n<p>Also, let\'s take a look at the whole picture while loading the graphml in <a href="https://www.yworks.com/products/yed">yEd</a> :</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--sXh4MVKI--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/yed_islands.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--sXh4MVKI--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/yed_islands.png" alt="yEd islands" loading="lazy" width="880" height="595"></a></p>\n\n<p>The two tools provide different perspectives. The second one puts in evidence the presence of islands (or cities with roads), not connected to others.</p>\n\n<p>The first one makes it easier to make more analytics queries to explore this universe, thanks to the dedicated <a href="https://neo4j.com/product/graph-data-science-library/">GraphDataScience library</a> :</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--k_hstngU--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/gds.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k_hstngU--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/gds.png" alt="yEd islands" loading="lazy" width="880" height="609"></a></p>\n<h2>\n  <a name="detect-subgraphs-aka-islands-or-communities" href="#detect-subgraphs-aka-islands-or-communities">\n  </a>\n  Detect subgraphs (aka. islands or communities)\n</h2>\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight cypher"><code><span class="k">CALL</span> <span class="n">gds.graph.create</span><span class="ss">(</span>\n  <span class="s1">\'Collatz\'</span><span class="ss">,</span>\n  <span class="s1">\'Number\'</span><span class="ss">,</span>\n  <span class="s1">\'LINKED_TO\'</span><span class="ss">,</span>\n  <span class="ss">{</span>\n    <span class="py">relationshipProperties:</span> <span class="s1">\'weight\'</span>\n  <span class="ss">}</span>\n<span class="ss">);</span>\n\n<span class="c1">// Count subgraphs</span>\n<span class="k">CALL</span> <span class="n">gds.wcc.stats</span><span class="ss">(</span><span class="s1">\'Collatz\'</span><span class="ss">)</span>\n<span class="k">YIELD</span> <span class="n">componentCount</span><span class="ss">;</span>\n\n<span class="c1">// Tag components</span>\n<span class="k">CALL</span> <span class="n">gds.wcc.mutate</span><span class="ss">(</span><span class="s1">\'Collatz\'</span><span class="ss">,</span>\n<span class="ss">{</span> <span class="py">mutateProperty:</span> <span class="s1">\'componentId\'</span> <span class="ss">})</span>\n<span class="k">YIELD</span> <span class="n">nodePropertiesWritten</span><span class="ss">,</span> <span class="n">componentCount</span><span class="ss">;</span>\n\n<span class="c1">// Put compoentId on each node to flag them</span>\n<span class="c1">// as part of the same component</span>\n<span class="k">CALL</span> <span class="n">gds.wcc.write</span><span class="ss">(</span><span class="s1">\'Collatz\'</span><span class="ss">,</span>\n<span class="ss">{</span> <span class="py">writeProperty:</span> <span class="s1">\'componentId\'</span> <span class="ss">})</span>\n<span class="k">YIELD</span> <span class="n">nodePropertiesWritten</span><span class="ss">,</span> <span class="n">componentCount</span><span class="ss">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>Then each node has a new property called <code>componentId</code> that tells to which subraph each node belongs to.</p>\n\n<p>How are positive nodes organized ?<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight cypher"><code><span class="c1">// Different componentId from positive nodes</span>\n<span class="k">MATCH</span><span class="w"> </span><span class="ss">(</span><span class="py">n:</span><span class="n">Number</span><span class="ss">)</span>\n    <span class="k">where</span> <span class="nf">toInteger</span><span class="ss">(</span><span class="n">n.id</span><span class="ss">)</span> <span class="o">&gt;=</span> <span class="mi">0</span>\n<span class="k">RETURN</span> <span class="k">DISTINCT</span> <span class="n">n.componentId</span><span class="ss">,</span> <span class="nf">count</span><span class="ss">(</span><span class="o">*</span><span class="ss">);</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>Will return :<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>n.componentId  count(*)\n2              2228\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>Well, all positive numbers are part of a same huge subgraph.</p>\n\n<p>What about negative integers ?<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight cypher"><code><span class="k">MATCH</span><span class="w"> </span><span class="ss">(</span><span class="py">n:</span><span class="n">Number</span><span class="ss">)</span>\n    <span class="k">where</span> <span class="nf">toInteger</span><span class="ss">(</span><span class="n">n.id</span><span class="ss">)</span> <span class="o">&lt;</span> <span class="mi">0</span>\n<span class="k">RETURN</span> <span class="k">DISTINCT</span> <span class="n">n.componentId</span><span class="ss">,</span> <span class="nf">count</span><span class="ss">(</span><span class="o">*</span><span class="ss">);</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>will return<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>n.componentId  count(*)\n0              702\n7              677\n32             783\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>This time there are many subgraphs, the one we were previously seing as islands.</p>\n<h2>\n  <a name="local-clustering-coefficient" href="#local-clustering-coefficient">\n  </a>\n  Local clustering coefficient\n</h2>\n\n<blockquote>\n<p>The <a href="https://neo4j.com/docs/graph-data-science/current/algorithms/local-clustering-coefficient/">Local Clustering Coefficient</a> algorithm computes the local clustering coefficient for each node in the graph. The local clustering coefficient Cn of a node n describes the likelihood that the neighbours of n are also connected.<br>\n</p>\n</blockquote>\n<div class="highlight js-code-highlight">\n<pre class="highlight cypher"><code><span class="k">CALL</span> <span class="n">gds.graph.create</span><span class="ss">(</span>\n  <span class="s1">\'ClusterCoeff\'</span><span class="ss">,</span>\n  <span class="s1">\'Number\'</span><span class="ss">,</span>\n  <span class="ss">{</span>\n    <span class="py">LINKED_TO:</span> <span class="ss">{</span>\n      <span class="py">orientation:</span> <span class="s1">\'UNDIRECTED\'</span>\n    <span class="ss">}</span>\n  <span class="ss">}</span>\n<span class="ss">);</span>\n<span class="k">CALL</span> <span class="n">gds.localClusteringCoefficient.write</span><span class="ss">(</span><span class="s1">\'ClusterCoeff\'</span><span class="ss">,</span> <span class="ss">{</span>\n  <span class="py">writeProperty:</span> <span class="s1">\'localClusteringCoefficient\'</span>\n<span class="ss">})</span>\n<span class="k">YIELD</span> <span class="n">averageClusteringCoefficient</span><span class="ss">,</span> <span class="n">nodeCount</span><span class="ss">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n<h2>\n  <a name="pagerank" href="#pagerank">\n  </a>\n  PageRank\n</h2>\n\n<blockquote>\n<p>The <a href="https://neo4j.com/docs/graph-data-science/current/algorithms/page-rank/">PageRank algorithm</a> measures the importance of each node within the graph, based on the number incoming relationships and the importance of the corresponding source nodes.<br>\n</p>\n</blockquote>\n<div class="highlight js-code-highlight">\n<pre class="highlight cypher"><code><span class="k">CALL</span> <span class="n">gds.graph.create</span><span class="ss">(</span>\n  <span class="s1">\'pageRank\'</span><span class="ss">,</span>\n  <span class="s1">\'Number\'</span><span class="ss">,</span>\n  <span class="s1">\'LINKED_TO\'</span><span class="ss">,</span>\n  <span class="ss">{</span>\n    <span class="py">relationshipProperties:</span> <span class="s1">\'weight\'</span>\n  <span class="ss">}</span>\n<span class="ss">);</span>\n\n<span class="k">CALL</span> <span class="n">gds.pageRank.write</span><span class="ss">(</span><span class="s1">\'pageRank\'</span><span class="ss">,</span> <span class="ss">{</span>\n  <span class="nl">maxIterations</span><span class="dl">:</span><span class="w"> </span><span class="m">20</span><span class="ss">,</span>\n  <span class="nl">dampingFactor</span><span class="dl">:</span><span class="w"> </span><span class="m">0.85</span><span class="ss">,</span>\n  <span class="py">writeProperty:</span> <span class="s1">\'pagerank\'</span>\n<span class="ss">})</span>\n<span class="k">YIELD</span> <span class="n">nodePropertiesWritten</span><span class="ss">,</span> <span class="n">ranIterations</span><span class="ss">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>What are the most important nodes of the structure ?<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight cypher"><code><span class="k">MATCH</span><span class="w"> </span><span class="ss">(</span><span class="py">n:</span><span class="n">Number</span><span class="ss">)</span> \n<span class="k">RETURN</span> <span class="n">n.id</span><span class="ss">,</span> <span class="n">n.pagerank</span>\n<span class="k">order</span> <span class="k">by</span> <span class="n">n.pagerank</span> <span class="k">desc</span>\n<span class="k">limit</span> <span class="mi">20</span><span class="ss">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>We get the following result, not surprised to see <code>4</code> almost at the top, also <code>-14</code> is quite interesting:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>n.id    n.pagerank\n"-2"    9.92905827432867\n"4"     9.319116539911938\n"-14"   8.316335296925851\n"-1"    8.13621301949055\n"-20"   7.764817040114742\n"2"     7.629390404561685\n"-7"    6.922374589590439\n"-10"   6.4826537196143805\n"40"    6.373381127872719\n"1"     6.22800676749003\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>Also, check that <code>-14</code> is part of a cycle :</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--zikQHgqF--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/cycle_-14.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--zikQHgqF--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/cycle_-14.png" alt="-14 cycle" loading="lazy" width="794" height="527"></a></p>\n<h2>\n  <a name="get-the-top-20-heavily-linked-nodes" href="#get-the-top-20-heavily-linked-nodes">\n  </a>\n  Get the top 20 heavily linked nodes\n</h2>\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight cypher"><code><span class="k">MATCH</span><span class="w"> </span><span class="ss">(</span><span class="py">i:</span><span class="n">Number</span><span class="ss">)</span><span class="o">-</span><span class="ss">[</span><span class="py">r:</span><span class="n">LINKED_TO</span><span class="ss">]</span><span class="o">-&gt;</span><span class="ss">(</span><span class="py">j:</span><span class="n">Number</span><span class="ss">)</span>\n<span class="k">RETURN</span> <span class="n">r.weight</span><span class="ss">,</span><span class="n">i</span><span class="ss">,</span><span class="n">j</span>\n<span class="k">order</span> <span class="k">by</span> <span class="n">r.weight</span> <span class="k">desc</span> <span class="k">limit</span> <span class="mi">20</span><span class="ss">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--PtEs9RlJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/top-20-most-linked-nodes.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--PtEs9RlJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/top-20-most-linked-nodes.png" alt="top 20 heavily linked nodes" loading="lazy" width="790" height="738"></a></p>\n<h2>\n  <a name="degree-centrality-find-bifurcations" href="#degree-centrality-find-bifurcations">\n  </a>\n  Degree Centrality : find "bifurcations"\n</h2>\n\n<p>The <a href="https://neo4j.com/docs/graph-data-science/current/algorithms/degree-centrality/">Degree Centrality algorithm</a></p>\n\n<blockquote>\n<p>can be used to find popular nodes within a graph. Degree centrality measures the number of incoming or outgoing (or both) relationships from a node, depending on the orientation of a relationship projection.<br>\n</p>\n</blockquote>\n<div class="highlight js-code-highlight">\n<pre class="highlight cypher"><code><span class="k">CALL</span> <span class="n">gds.graph.create</span><span class="ss">(</span>\n  <span class="s1">\'CollatzDegree\'</span><span class="ss">,</span>\n  <span class="s1">\'Number\'</span><span class="ss">,</span>\n  <span class="ss">{</span>\n    <span class="py">LINKED_TO:</span> <span class="ss">{</span>\n      <span class="py">orientation:</span> <span class="s1">\'REVERSE\'</span><span class="ss">,</span>\n      <span class="py">properties:</span> <span class="ss">[</span><span class="s1">\'weight\'</span><span class="ss">]</span>\n    <span class="ss">}</span>\n  <span class="ss">}</span>\n<span class="ss">);</span>\n\n<span class="k">CALL</span> <span class="n">gds.degree.write</span><span class="ss">(</span><span class="s1">\'CollatzDegree\'</span><span class="ss">,</span>\n<span class="ss">{</span> <span class="py">writeProperty:</span> <span class="s1">\'degree\'</span> <span class="ss">})</span>\n<span class="k">YIELD</span> <span class="n">centralityDistribution</span><span class="ss">,</span>\n<span class="n">nodePropertiesWritten</span>\n<span class="k">RETURN</span> <span class="n">centralityDistribution.min</span> <span class="k">AS</span> <span class="n">minimumScore</span><span class="ss">,</span>\n<span class="n">centralityDistribution.mean</span> <span class="k">AS</span> <span class="n">meanScore</span><span class="ss">,</span>\n<span class="n">nodePropertiesWritten</span><span class="ss">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>Finally, the biggest bifurcations<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight cypher"><code><span class="k">MATCH</span><span class="w"> </span><span class="ss">(</span><span class="py">n:</span><span class="n">Number</span><span class="ss">)</span>\n<span class="k">RETURN</span> <span class="n">n.id</span><span class="ss">,</span> <span class="n">n.degree</span>\n<span class="k">order</span> <span class="k">by</span> <span class="n">n.degree</span> <span class="k">desc</span> <span class="k">limit</span> <span class="mi">10</span><span class="ss">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>2 is the maximum incoming amount of edges to<br>\nany node (and <code>4</code> is one of them) :<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>n.id    n.degree\n"16"    2.0\n"-26"   2.0\n"-8"    2.0\n...\n"4"     2.0\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>Or this way if you rather drill down afterwards :<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight cypher"><code><span class="k">MATCH</span><span class="w"> </span><span class="ss">(</span><span class="py">n:</span><span class="n">Number</span><span class="ss">)</span>\n<span class="k">where</span> <span class="n">n.degree</span> <span class="o">&gt;</span> <span class="mi">1</span>\n<span class="k">RETURN</span> <span class="n">n</span><span class="ss">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n<h2>\n  <a name="size-of-the-biggest-island-component" href="#size-of-the-biggest-island-component">\n  </a>\n  Size of the biggest island (component)\n</h2>\n\n<p>Get components, elect a number of the island then get its size :<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight cypher"><code><span class="k">MATCH</span><span class="w"> </span><span class="ss">(</span><span class="py">n:</span><span class="n">Number</span><span class="ss">)</span> \n<span class="k">RETURN</span> <span class="n">n.componentId</span><span class="ss">,</span> <span class="nf">min</span><span class="ss">(</span><span class="nf">toInteger</span><span class="ss">(</span><span class="n">n.id</span><span class="ss">)),</span>\n<span class="nf">count</span><span class="ss">(</span><span class="o">*</span><span class="ss">)</span> <span class="k">as</span> <span class="n">component_size</span>\n<span class="k">order</span> <span class="k">by</span> <span class="n">component_size</span> <span class="k">desc</span><span class="ss">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>Gives back :<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>n.componentId   min(toInteger(n.id))    component_size\n2               1                       2228\n32              -132860                 783\n0               -113240                 702\n7               -45200                  677\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p><strong>Notice that the "positive" island is by far the biggest one,... at least for this dataset.</strong></p>\n<h2>\n  <a name="explore-loops" href="#explore-loops">\n  </a>\n  Explore loops\n</h2>\n\n<p>Finally, one of the funniest thing in the Collatz dataset : the cycles, ... or loops.<br>\nWhen you manually compute them on a paperboard, this is a really cool experience ! </p>\n\n<p>But how to discover them on such a huge dataset ?</p>\n\n<p>Let\'s find out :<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight cypher"><code><span class="k">MATCH</span><span class="w">\n  </span><span class="ss">(</span><span class="py">m1:</span><span class="n">Number</span><span class="ss">)</span><span class="o">-</span><span class="ss">[</span><span class="nc">:LINKED_TO</span><span class="ss">]</span><span class="o">-&gt;</span><span class="ss">(</span><span class="py">m2:</span><span class="n">Number</span><span class="ss">),</span>\n  <span class="n">cyclePath</span><span class="o">=</span><span class="nf">shortestPath</span><span class="ss">((</span><span class="n">m2</span><span class="ss">)</span><span class="o">-</span><span class="ss">[</span><span class="nc">:LINKED_TO</span><span class="o">*</span><span class="ss">]</span><span class="o">-&gt;</span><span class="ss">(</span><span class="n">m1</span><span class="ss">))</span>\n<span class="k">WITH</span>\n  <span class="n">m1</span><span class="ss">,</span> <span class="nf">nodes</span><span class="ss">(</span><span class="n">cyclePath</span><span class="ss">)</span> <span class="k">as</span> <span class="n">cycle</span>\n<span class="k">WHERE</span> <span class="nf">id</span><span class="ss">(</span><span class="n">m1</span><span class="ss">)</span> <span class="o">=</span> <span class="n">apoc.coll.max</span><span class="ss">([</span><span class="n">node</span> <span class="ow">in</span> <span class="n">cycle</span> <span class="o">|</span> <span class="nf">id</span><span class="ss">(</span><span class="n">node</span><span class="ss">)])</span>\n<span class="k">RETURN</span> <span class="n">m1</span><span class="ss">,</span> <span class="n">cycle</span><span class="ss">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>And we discover the cycles :</p>\n\n<ul>\n<li>the well known <code>1-&gt;4-&gt;2-&gt;1</code>\n</li>\n<li>the funny two state one <code>(-2)-&gt;(-1)-&gt;(-2)</code>\n</li>\n<li>but also a much bigger (and unexpected) cycle that "contains" the seed <code>-17</code>:</li>\n</ul>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--7SvIP3x3--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/cycles.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--7SvIP3x3--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://raw.githubusercontent.com/adriens/JCollatz/main/img/cycles.png" alt="Cycles" loading="lazy" width="837" height="729"></a></p>\n<h2>\n  <a name="going-futrther-whats-next-" href="#going-futrther-whats-next-">\n  </a>\n  Going futrther : what\'s next ?\n</h2>\n\n<p>Keep pushing boundaries of seeds and :</p>\n\n<ul>\n<li>Generate really huge datasets and upgrade the Generator accordingly (better algorithm, better types or datastructures)</li>\n<li>Tune Neo4J instance to support huge datasets</li>\n<li>Look for more porwerful workstations to run analysis on them</li>\n<li>Discover if the number of islands is stable or if we discover new ones : are they bigger or smaller ?</li>\n<li>Discover if there are even bigger cycles on negative numbers</li>\n<li>Make digital art on top of these datasets</li>\n</ul>\n<h2>\n  <a name="other-algorithms-to-play-with" href="#other-algorithms-to-play-with">\n  </a>\n  Other algorithms to play with\n</h2>\n\n<ul>\n<li><a href="https://neo4j.com/docs/graph-data-science/current/algorithms/linkprediction/">Link Prediction algorithms</a></li>\n<li><a href="https://neo4j.com/docs/graph-data-science/current/algorithms/node-embeddings/">Node embeddings</a></li>\n<li><a href="https://neo4j.com/docs/graph-data-science/current/alpha-algorithms/minimum-weight-spanning-tree/">Minimum Weight Spanning Tree</a></li>\n</ul>\n<h2>\n  <a name="resources" href="#resources">\n  </a>\n  Resources\n</h2>\n\n<p>Generator repo (with <a href="https://github.com/adriens/JCollatz/tree/main/samples">ready to use samples</a>), feel free to report ideas or feature requests, or even better pull requests :</p>\n\n\n<div class="ltag-github-readme-tag">\n  <div class="readme-overview">\n    <h2>\n      <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--566lAguM--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/github-logo-5a155e1f9a670af7944dd5e12375bc76ed542ea80224905ecaf878b9157cdefc.svg" alt="GitHub logo" loading="lazy">\n      <a href="https://github.com/adriens">\n        adriens\n      </a> / <a style="font-weight: 600;" href="https://github.com/adriens/JCollatz">\n        JCollatz\n      </a>\n    </h2>\n    <h3>\n      \n    </h3>\n  </div>\n  <div class="ltag-github-body">\n    \n<div id="readme" class="md" data-path="README.md"><article class="markdown-body entry-content container-lg" itemprop="text"><h1 dir="auto">\n<g-emoji class="g-emoji" alias="grey_question" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/2754.png">❔</g-emoji>About</h1>\n<p dir="auto">This repo has been created to generate ready to use data files around the Collatz Conjecture. As I\nwanted to learn more about these patterns, I needed to generate some custom files.</p>\n<p dir="auto">Finally I quickly developed a first draft, a generator that makes the job at least for my first experimentations.</p>\n<h1 dir="auto">\n<g-emoji class="g-emoji" alias="point_right" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f449.png">👉</g-emoji>Usage</h1>\n<p dir="auto">To play with these files, you have two options :</p>\n<ul dir="auto">\n<li>use ready to use samples</li>\n<li>generate your owns</li>\n</ul>\n<h2 dir="auto">\n<g-emoji class="g-emoji" alias="open_file_folder" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4c2.png">📂</g-emoji>Ready to use samples</h2>\n<p dir="auto">Ready to use samples are stored in <code>samples</code> directory. The directorories are organized\nas follow : <code>${lower-bound}_${upper_bound}</code>.</p>\n<p dir="auto">So, the <code>-1000_1000</code> directory contains sample where seeds are between <code>-1000</code> and <code>1000</code>.</p>\n<h2 dir="auto">\n<g-emoji class="g-emoji" alias="rocket" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f680.png">🚀</g-emoji>Generate your own samples</h2>\n<p dir="auto">The code is organized as a JBang script, so all you have to do to install :</p>\n<h3 dir="auto">\n<g-emoji class="g-emoji" alias="bomb" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f4a3.png">💣</g-emoji>Install JBang</h3>\n<p dir="auto">Linux :</p>\n<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="sdk install jbang\nchoco install jbang"><pre class="notranslate"><code>sdk install jbang\nchoco install jbang\n</code></pre></div>\n<p dir="auto">Windows :</p>\n<div class="snippet-clipboard-content notranslate position-relative overflow-auto" data-snippet-clipboard-copy-content="choco install jbang"><pre class="notranslate"><code>choco install jbang\n</code></pre></div>\n<h3 dir="auto">\n<g-emoji class="g-emoji" alias="joystick" fallback-src="https://github.githubassets.com/images/icons/emoji/unicode/1f579.png">🕹️</g-emoji>Generate</h3>…</article></div>\n  </div>\n  <div class="gh-btn-container"><a class="gh-btn" href="https://github.com/adriens/JCollatz">View on GitHub</a></div>\n</div>\n\n\n\n<ul>\n<li><a href="https://youtu.be/5mFpVDpKX70">Collatz Conjecture on NumberPhile</a></li>\n<li><a href="https://youtu.be/EYLWxwo1Ed8">Dedicated Coding Train episode</a></li>\n<li><a href="https://neo4j.com/product/graph-data-science-library/">Graph Data Science Library</a></li>\n<li><a href="https://youtu.be/GJDz4kQqTV4">Extend Collatz Conjecture to fractal approach with complex numbers</a></li>\n</ul>\n\n<h2>\n  <a name="feedbacks" href="#feedbacks">\n  </a>\n  Feedbacks\n</h2>\n\n\n<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/neo4j/status/1444655240368775168">\n    <div class="ltag__twitter-tweet__media ltag__twitter-tweet__media__two-pics">\n      <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--JyLVGniI--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/media/FAxySGgWQAId_YQ.png" alt="unknown tweet media content" loading="lazy">\n    </div>\n\n  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/neo4j/status/1444655240368775168">\n    <div class="ltag__twitter-tweet__header">\n      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--XiUHi0F_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/1385615645002326021/Zm5Xd5_2_normal.jpg" alt="Neo4j profile image" loading="lazy">\n      <div class="ltag__twitter-tweet__full-name">\n        Neo4j\n      </div>\n      <div class="ltag__twitter-tweet__username">\n        @neo4j\n      </div>\n      <div class="ltag__twitter-tweet__twitter-logo">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">\n      </div>\n    </div>\n    <div class="ltag__twitter-tweet__body">\n      . <a href="https://twitter.com/rastadidi">@rastadidi</a> explores using graphs to visualize the Collatz Conjecture mathematical problem. <br><br><a href="https://t.co/rDp4Ic5ZJz">okt.to/SQ7Y6f</a><br><br> <a href="https://twitter.com/hashtag/twin4j">#twin4j</a>,  <a href="https://twitter.com/hashtag/neo4j">#neo4j</a> <a href="https://twitter.com/hashtag/mathematics">#mathematics</a> <a href="https://twitter.com/hashtag/collatzconjecture">#collatzconjecture</a> <a href="https://twitter.com/hashtag/graphalgorithms">#graphalgorithms</a> \n    </div>\n    <div class="ltag__twitter-tweet__date">\n      13:27 PM - 03 Oct 2021\n    </div>\n\n\n    <div class="ltag__twitter-tweet__actions">\n      <a href="https://twitter.com/intent/tweet?in_reply_to=1444655240368775168" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/retweet?tweet_id=1444655240368775168" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/like?tweet_id=1444655240368775168" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">\n      </a>\n    </div>\n  </div>\n</blockquote>\n\n\n',a.body_markdown="## Intro\n\nI'm a fan of Mathematics story telling, and a fidel follower of [Numberphile](https://www.youtube.com/channel/UCoxcjq-8xIDTYp3uz647V5A).\nRecently Youtube recommended me the following appealing content :\n\n{% youtube 094y1Z2wpJg %}\n\nI was discovering the [Collatz conjecture](https://en.wikipedia.org/wiki/Collatz_conjecture), and that was already fascinating me.\n\nThe following things kept my attention :\n\n1. The structure looks like a graph where each node is a number `LINKED_TO` (or not) to an another one\n2. If we stay on positive numbers, they all are connected to a same tree... linked to the number one (that's the essence of the Collatz conjecture)\n3. If we play with negative number, islands of communities should appear\n\nImmediately, questions came to me :\n\n- What does the graph look like ?\n- How big are the islands ?\n- How could I interact with the graph ?\n\nThese are the questions I'll cover shortly in this post.\n\n## The underlying universe\n\nThe most exciting thing is that this time, the social data is generated from maths, juste the following simple rule does the whole thing :\n\n![Collatz formula](https://raw.githubusercontent.com/adriens/JCollatz/main/img/formula.png)\n\nThen comes the following **[Unsolved problem in mathematics](https://en.wikipedia.org/wiki/List_of_unsolved_problems_in_mathematics)**:\n\n>*\"Does the Collatz sequence eventually reach 1 for all positive integer initial values?\"*\n\nThis simple formula is embedding a whole universe.\n\n## Generate the Universe\n\nTo generate the data for the universe, I created a quick program that creates two kind of files :\n\n- [graphml](http://graphml.graphdrawing.org/primer/graphml-primer.html) file so the graph can be imported by drawing/analysis tools like yEd or [Gephi](https://gephi.org/)\n- `NODES.csv` which contains all the nodes of the graph, and `RELATIONS.csv` that contain all relations between nodes\n\n![Alt text of image](https://raw.githubusercontent.com/adriens/JCollatz/main/img/carbon.png)\n\nThe program takes two arguments : the lower (`-l`) and upper (`-u`) bounds of the seeds. Then, for each seed, compute nodes and relationships around them.\n\n## Load the graph\n\nIf it's a graph, why not playing with it through [Neo4J](https://neo4j.com/developer/intro-videos/), the graph database ?\n\nTherefore, simply :\n\n```cypher\n// Load nodes\nLOAD CSV WITH HEADERS FROM 'file:///NODES.csv'\nAS line\nCREATE (:Number {\n     id: line.id\n    });\nMATCH (n:Number)\nRETURN n;\n\n// Add unicity constraint, index nodes\nCREATE CONSTRAINT uniqueNumber IF NOT EXISTS\nON (n:Number)\nASSERT n.id IS UNIQUE;\n\n// Link nodes with edges\n// Increment weight between node each time\n// they get a new connection\nLOAD CSV WITH HEADERS FROM \"file:///RELATIONS.csv\" AS row\nMATCH (i:Number), (j:Number)\nWHERE\n    i.id = row.source AND\n    j.id = row.target\nMERGE (i)-[r:LINKED_TO]->(j)\nON CREATE SET r.weight = 1\nON MATCH SET r.weight = r.weight + 1\nRETURN r;\n```\n\nThe data is in.\n\nNotice that the more nodes are connected, the heavier is the link between them, thanks to the `weight` attribute of the `LINKED_TO` relation.\n\nWe can play with it, first, check is we visually retrieve the infinite loop around `4`, `2` and `1` nodes:\n\n![Neo4J 4,2,1 loop](https://raw.githubusercontent.com/adriens/JCollatz/main/img/loop-421.png)\n\nAlso, let's take a look at the whole picture while loading the graphml in [yEd](https://www.yworks.com/products/yed) :\n\n![yEd islands](https://raw.githubusercontent.com/adriens/JCollatz/main/img/yed_islands.png)\n\nThe two tools provide different perspectives. The second one puts in evidence the presence of islands (or cities with roads), not connected to others.\n\nThe first one makes it easier to make more analytics queries to explore this universe, thanks to the dedicated [GraphDataScience library](https://neo4j.com/product/graph-data-science-library/) :\n\n![yEd islands](https://raw.githubusercontent.com/adriens/JCollatz/main/img/gds.png)\n\n## Detect subgraphs (aka. islands or communities)\n\n```cypher\nCALL gds.graph.create(\n  'Collatz',\n  'Number',\n  'LINKED_TO',\n  {\n    relationshipProperties: 'weight'\n  }\n);\n\n// Count subgraphs\nCALL gds.wcc.stats('Collatz')\nYIELD componentCount;\n\n// Tag components\nCALL gds.wcc.mutate('Collatz',\n{ mutateProperty: 'componentId' })\nYIELD nodePropertiesWritten, componentCount;\n\n// Put compoentId on each node to flag them\n// as part of the same component\nCALL gds.wcc.write('Collatz',\n{ writeProperty: 'componentId' })\nYIELD nodePropertiesWritten, componentCount;\n```\n\nThen each node has a new property called `componentId` that tells to which subraph each node belongs to.\n\nHow are positive nodes organized ?\n\n```cypher\n// Different componentId from positive nodes\nMATCH (n:Number)\n    where toInteger(n.id) >= 0\nRETURN DISTINCT n.componentId, count(*);\n```\n\nWill return :\n\n```\nn.componentId  count(*)\n2              2228\n```\n\nWell, all positive numbers are part of a same huge subgraph.\n\nWhat about negative integers ?\n\n```cypher\nMATCH (n:Number)\n    where toInteger(n.id) < 0\nRETURN DISTINCT n.componentId, count(*);\n```\n\nwill return\n\n```\nn.componentId  count(*)\n0              702\n7              677\n32             783\n```\n\nThis time there are many subgraphs, the one we were previously seing as islands.\n\n## Local clustering coefficient\n\n> The [Local Clustering Coefficient](https://neo4j.com/docs/graph-data-science/current/algorithms/local-clustering-coefficient/) algorithm computes the local clustering coefficient for each node in the graph. The local clustering coefficient Cn of a node n describes the likelihood that the neighbours of n are also connected.\n\n```cypher\nCALL gds.graph.create(\n  'ClusterCoeff',\n  'Number',\n  {\n    LINKED_TO: {\n      orientation: 'UNDIRECTED'\n    }\n  }\n);\nCALL gds.localClusteringCoefficient.write('ClusterCoeff', {\n  writeProperty: 'localClusteringCoefficient'\n})\nYIELD averageClusteringCoefficient, nodeCount;\n```\n\n## PageRank\n\n> The [PageRank algorithm](https://neo4j.com/docs/graph-data-science/current/algorithms/page-rank/) measures the importance of each node within the graph, based on the number incoming relationships and the importance of the corresponding source nodes. \n\n```cypher\nCALL gds.graph.create(\n  'pageRank',\n  'Number',\n  'LINKED_TO',\n  {\n    relationshipProperties: 'weight'\n  }\n);\n\nCALL gds.pageRank.write('pageRank', {\n  maxIterations: 20,\n  dampingFactor: 0.85,\n  writeProperty: 'pagerank'\n})\nYIELD nodePropertiesWritten, ranIterations;\n```\nWhat are the most important nodes of the structure ?\n\n```cypher\nMATCH (n:Number) \nRETURN n.id, n.pagerank\norder by n.pagerank desc\nlimit 20;\n```\n\nWe get the following result, not surprised to see `4` almost at the top, also `-14` is quite interesting:\n\n```\nn.id    n.pagerank\n\"-2\"    9.92905827432867\n\"4\"     9.319116539911938\n\"-14\"   8.316335296925851\n\"-1\"    8.13621301949055\n\"-20\"   7.764817040114742\n\"2\"     7.629390404561685\n\"-7\"    6.922374589590439\n\"-10\"   6.4826537196143805\n\"40\"    6.373381127872719\n\"1\"     6.22800676749003\n```\n\nAlso, check that `-14` is part of a cycle :\n\n![-14 cycle](https://raw.githubusercontent.com/adriens/JCollatz/main/img/cycle_-14.png)\n\n## Get the top 20 heavily linked nodes\n\n```cypher\nMATCH (i:Number)-[r:LINKED_TO]->(j:Number)\nRETURN r.weight,i,j\norder by r.weight desc limit 20;\n```\n![top 20 heavily linked nodes](https://raw.githubusercontent.com/adriens/JCollatz/main/img/top-20-most-linked-nodes.png\n)\n\n## Degree Centrality : find \"bifurcations\"\n\nThe [Degree Centrality algorithm](https://neo4j.com/docs/graph-data-science/current/algorithms/degree-centrality/)\n> can be used to find popular nodes within a graph. Degree centrality measures the number of incoming or outgoing (or both) relationships from a node, depending on the orientation of a relationship projection. \n\n```cypher\nCALL gds.graph.create(\n  'CollatzDegree',\n  'Number',\n  {\n    LINKED_TO: {\n      orientation: 'REVERSE',\n      properties: ['weight']\n    }\n  }\n);\n\nCALL gds.degree.write('CollatzDegree',\n{ writeProperty: 'degree' })\nYIELD centralityDistribution,\nnodePropertiesWritten\nRETURN centralityDistribution.min AS minimumScore,\ncentralityDistribution.mean AS meanScore,\nnodePropertiesWritten;\n```\n\nFinally, the biggest bifurcations\n\n```cypher\nMATCH (n:Number)\nRETURN n.id, n.degree\norder by n.degree desc limit 10;\n```\n2 is the maximum incoming amount of edges to\nany node (and `4` is one of them) :\n\n```\nn.id    n.degree\n\"16\"    2.0\n\"-26\"   2.0\n\"-8\"    2.0\n...\n\"4\"     2.0\n```\nOr this way if you rather drill down afterwards :\n\n```cypher\nMATCH (n:Number)\nwhere n.degree > 1\nRETURN n;\n```\n\n## Size of the biggest island (component)\n\nGet components, elect a number of the island then get its size :\n\n```cypher\nMATCH (n:Number) \nRETURN n.componentId, min(toInteger(n.id)),\ncount(*) as component_size\norder by component_size desc;\n```\n\nGives back :\n\n```\nn.componentId   min(toInteger(n.id))    component_size\n2               1                       2228\n32              -132860                 783\n0               -113240                 702\n7               -45200                  677\n```\n\n**Notice that the \"positive\" island is by far the biggest one,... at least for this dataset.**\n\n\n## Explore loops\n\nFinally, one of the funniest thing in the Collatz dataset : the cycles, ... or loops.\nWhen you manually compute them on a paperboard, this is a really cool experience ! \n\nBut how to discover them on such a huge dataset ?\n\nLet's find out :\n\n```cypher\nMATCH\n  (m1:Number)-[:LINKED_TO]->(m2:Number),\n  cyclePath=shortestPath((m2)-[:LINKED_TO*]->(m1))\nWITH\n  m1, nodes(cyclePath) as cycle\nWHERE id(m1) = apoc.coll.max([node in cycle | id(node)])\nRETURN m1, cycle;\n```\n\nAnd we discover the cycles :\n\n- the well known `1->4->2->1`\n- the funny two state one `(-2)->(-1)->(-2)`\n- but also a much bigger (and unexpected) cycle that \"contains\" the seed `-17`:\n\n![Cycles](https://raw.githubusercontent.com/adriens/JCollatz/main/img/cycles.png)\n\n## Going futrther : what's next ?\n\nKeep pushing boundaries of seeds and :\n\n- Generate really huge datasets and upgrade the Generator accordingly (better algorithm, better types or datastructures)\n- Tune Neo4J instance to support huge datasets\n- Look for more porwerful workstations to run analysis on them\n- Discover if the number of islands is stable or if we discover new ones : are they bigger or smaller ?\n- Discover if there are even bigger cycles on negative numbers\n- Make digital art on top of these datasets\n\n## Other algorithms to play with\n\n- [Link Prediction algorithms](https://neo4j.com/docs/graph-data-science/current/algorithms/linkprediction/)\n- [Node embeddings](https://neo4j.com/docs/graph-data-science/current/algorithms/node-embeddings/)\n- [Minimum Weight Spanning Tree](https://neo4j.com/docs/graph-data-science/current/alpha-algorithms/minimum-weight-spanning-tree/)\n\n## Resources\n\nGenerator repo (with [ready to use samples](https://github.com/adriens/JCollatz/tree/main/samples)), feel free to report ideas or feature requests, or even better pull requests :\n\n{% github adriens/JCollatz %}\n\n- [Collatz Conjecture on NumberPhile](https://youtu.be/5mFpVDpKX70)\n- [Dedicated Coding Train episode](https://youtu.be/EYLWxwo1Ed8)\n- [Graph Data Science Library](https://neo4j.com/product/graph-data-science-library/)\n- [Extend Collatz Conjecture to fractal approach with complex numbers](https://youtu.be/GJDz4kQqTV4)\n\n## Feedbacks\n\n{% twitter 1444655240368775168 %}",a.user={name:n,username:n,twitter_username:"rastadidi",github_username:n,website_url:"https://www.linkedin.com/in/adrien-sales/",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--4kmtHlO2--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/446871/3e9ded5c-f368-4906-a277-35e56c9f97a7.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--XhP-Ld9q--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/446871/3e9ded5c-f368-4906-a277-35e56c9f97a7.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:a}},error:s,state:{currentArticle:a},serverRendered:!0,routePath:"/adriens/814880",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:s}}}}(null,"adriens",{},"https://dev.to/adriens/about-the-collatz-conjecture-neo4j-cypher-184h","2021-09-07T20:13:27Z")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

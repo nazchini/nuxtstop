@@ -1,0 +1,951 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>A Complete Beginner's Guide to GraphQL</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>A Complete Beginner's Guide to GraphQL</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/graphql" class="tag" data-v-70afb46a>
+          #graphql
+        </a><a href="/nuxtstop/t/javascript" class="tag" data-v-70afb46a>
+          #javascript
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--NdsLQlEA--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/z5ghu78d0lkdz5dsao1h.png" alt="A Complete Beginner's Guide to GraphQL" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            352
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            9
+          </span></div> <time data-v-70afb46a>Aug 31 '21</time></div></header> <div class="content" data-v-70afb46a><p>I first used GraphQL on a project right after its launch in 2015, and to be honest I didn't understand why we were using it. Over the years, I've grown to love GraphQL - you can quickly create APIs with managed services such as AWS AppSync and Hasura, and it lessens the friction between frontend and backend development. In this post, we'll chat about what GraphQL is, why to use it as well as when it may not be the best option, and then create a full recipe app using a GraphQL API.</p>
+
+<p><strong>Please note that I work as a Developer Advocate on the AWS Amplify team, if you have any feedback or questions about it, please reach out to me or ask on our discord - discord.gg/amplify!</strong></p>
+
+<p><iframe width="710" height="399" src="https://www.youtube.com/embed/c2fJ7T0N1Sk" allowfullscreen loading="lazy">
+</iframe>
+</p>
+
+<p>If you're new to APIs, I would recommend reading <a href="https://www.freecodecamp.org/news/what-is-an-api-in-english-please-b880a3214a82/">this</a> blog post about them first! If you're new to the idea of REST, I'd also recommend reading <a href="https://www.redhat.com/en/topics/api/what-is-a-rest-api">this</a> first; this post will often compare GraphQL to REST. I'll also be using <a href="https://welearncode.com/beginners-guide-react-2020/">React</a> for some pieces of the frontend -- I'd recommend skimming a tutorial on that before this post.</p>
+
+<p>Also, a few vocabulary terms we'll be using throughout this post:</p>
+
+<ul>
+<li>Schema: this is a representation of how data is structured.</li>
+<li>Fields: these are attributes associated with a piece of data.</li>
+</ul>
+
+<h2>
+  <a name="what-is-graphql" href="#what-is-graphql">
+  </a>
+  What is GraphQL?
+</h2>
+
+<p>According to its <a href="https://graphql.org/learn/">documentation</a>, "GraphQL is a query language for your API, and a server-side runtime for executing queries using a type system you define for your data." GraphQL itself is a specification, meaning that there's a document outlining what GraphQL queries look like and how client-server interaction works with it; however, it can be used with any programming language or data layer for your app.</p>
+
+<p>In practice, this allows frontend developers to send queries asking for the data they need -- including nested data -- to the backend. This allows backend developers to create one endpoint instead of the many needed for a REST API. You can send mutations to change data and queries to retrieve data all to one place.</p>
+
+<h2>
+  <a name="why-use-graphql" href="#why-use-graphql">
+  </a>
+  Why use GraphQL?
+</h2>
+
+<p>There are a lot of reasons why GraphQL is popular. The first is that it simplifies the communication between frontend and backend developers much less difficult -- instead of frontend developers needing to ask for a new endpoint once their requirements change, they can instead just update their GraphQL query. This becomes even more helpful if you have multiple frontends requiring the same backend data. Frontend developers can get exactly the data they need -- no under or over fetching of fields or items.</p>
+
+<p>Since frontend developers can request nested data using one query, network requests are also minimized -- for example if you query for a blog post, you can also get that post's comments in that one query instead of doing a second request to get them. This also may reduce the amount of frontend code needed and make that code easier to understand.</p>
+
+<p>GraphQL also enforces a typed data schema, so each item's fields will have to match those types. This makes data more consistent and manageable -- instead of having to loop through blog posts and figure out if each title is a string or a boolean, GraphQL will enforce that each title is a string.</p>
+
+<h2>
+  <a name="when-is-graphql-not-so-good" href="#when-is-graphql-not-so-good">
+  </a>
+  When is GraphQL not so good?
+</h2>
+
+<p>As with anything in software engineering, there are also drawbacks to using GraphQL. Firstly, I started using GraphQL way back when it came out in around 2015, and I hated it. I was a fullstack engineer on a small team, and building the backend was more work and the frontend needed to be more verbose. GraphQL queries are often long, whereas with many REST APIs you can just provide a url. In addition, many backend frameworks and languages have much less mature support for GraphQL APIs compared to REST. You may have to do more work and navigate through a less used library to get your GraphQL Api. If you're the one creating the endpoints and consuming them, building a REST API may be quicker -- especially if you're using a programming language or framework with less mature GraphQL support.</p>
+
+<p>GraphQL shines with larger teams where a frontend team is developing the client side and a separate team is developing the server. In addition, there have been more and more managed GraphQL services, like Hasura and AWS AppSync. These allow you to generate a GraphQL backend using their services and then consume it on the frontend -- this usually speeds up the rate of backend development considerably when compared to writing a GraphQL server from scratch.</p>
+
+<p>Finally, many developers are taught how to use and create a REST API from early on in their careers and may have less institutional knowledge around GraphQL. Getting a full team up to speed may be an investment that you need to consider.</p>
+
+<h2>
+  <a name="create-a-graphql-api" href="#create-a-graphql-api">
+  </a>
+  Create a GraphQL API
+</h2>
+
+<p>Now for the fun part, let's write some code! We're going to use AWS Amplify to create a GraphQL backend -- this will speed up the process and allow us to just focus on the GraphQL rather than the rest of backend development.</p>
+
+<p>First, I'll create a React app -- there isn't much React code in here, but the setup will be quicker than creating a Vanilla JS app with a bundler.</p>
+
+<p>In your terminal, run:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>npx create-react-app graphql-playground
+<span class="nb">cd </span>graphql-playground
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Note: you'll need <a href="https://nodejs.org/en/">Node</a> installed for this step.</p>
+
+<p>Next, we'll initialize Amplify in our project.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>amplify init
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Note: you'll need <a href="https://docs.amplify.aws/cli/start/install/">Amplify</a> installed for this step.</p>
+
+<p>Then, you'll be prompted to answer a few questions. You can type in "y" to get the default React configuration, and then choose your AWS profile (see the above tutorial if you don't have one!)<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>Project information
+| Name: graphqldemo
+| Environment: dev
+| Default editor: Visual Studio Code
+| App <span class="nb">type</span>: javascript
+| Javascript @framework: react
+| Source Directory Path: src
+| Distribution Directory Path: dist
+| Build Command: npm run-script build
+| Start Command: npm run-script start
+
+? Initialize the project with the above configuration? Yes
+Using default provider awscloudformation
+? Select the authentication method you want to use: AWS profile
+
+For more information on AWS Profiles, see:
+https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html
+
+? Please choose the profile you want to use default
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now, we'll create a GraphQL API. Run:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>amplify add api
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You'll again be asked a few questions! First, select GraphQL, then name your API, for example graphql demo. You can then press enter twice to accept the defaults for API keys. Then, you can select no for the GraphQL API and no for the GraphQL schema. Choose the "One-to-many relationship" template and yes to editing the schema now.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>? Please <span class="k">select </span>from one of the below mentioned services: GraphQL
+? Provide API name: graphqldemo
+? Choose the default authorization <span class="nb">type </span><span class="k">for </span>the API API key
+? Enter a description <span class="k">for </span>the API key:
+? After how many days from now the API key should expire <span class="o">(</span>1-365<span class="o">)</span>: 7
+? Do you want to configure advanced settings <span class="k">for </span>the GraphQL API No, I am <span class="k">done</span><span class="nb">.</span>
+? Do you have an annotated GraphQL schema? No
+? Choose a schema template: One-to-many relationship <span class="o">(</span>e.g., “Blogs” with “Posts” and “Comments”<span class="o">)</span>
+? Do you want to edit the schema now? Yes
+? Choose your default editor: Visual Studio Code
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You'll see a pre-generated schema pop up, let's talk about the Blog model.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>type Blog @model {
+  id: ID!
+  name: String!
+  posts: [Post] @connection(keyName: "byBlog", fields: ["id"])
+}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>TODO: add list of scalar types</p>
+
+<p><code>type</code> - The word <code>type</code> is used to represent a type of object you may get back from your API -- in this case a blog!</p>
+
+<p><code>Blog</code> - This is the name of the type</p>
+
+<p><code>@model</code> - The <code>@</code> sign in GraphQl defines a directive, which means that a field or type has custom logic associated with it. Amplify <a href="https://docs.amplify.aws/cli/graphql-transformer/directives/">provides quite a few</a> of these you can use. The <code>@model</code> directive makes it so that the data for the Blog is stored in our database.</p>
+
+<p><code>id</code>, <code>name</code>, and <code>posts</code> - these are fields or pieces of data that each blog will have</p>
+
+<p><code>ID</code> and <code>String</code> - these are types, they define that <code>id</code>'s will be of the type <code>id</code> and <code>name</code>s will be strings. These fields are <code>scalar</code> which means that they are singular pieces of data -- one id and one name rather than having a collection of names for each blog post.</p>
+
+<p><code>!</code> - The exclamation point after types means that the field is non-nullable, or you always need to provide a value for that field. In this case every blog must have an id and name!</p>
+
+<p><code>[Post]</code> - Firstly, the <code>[]</code> make it so that it's an array field. Each blog can have an array of posts associated with it. You can also do this with the scalar types as well, so <code>[String]</code> would allow for an array of strings. In this case, we're referring to the <code>Post</code> model which is also declared in this file, so the two data types are related to one another.</p>
+
+<p><code>@connection</code> - this is another directive, in this case it allows us to relate one model to another. You'll need to provide some data to it, in this case <code>keyName</code> and <code>fields</code></p>
+
+<p><code>keyName</code> - This is the name of the index that should be queried to get the related posts. You'll notice on the <code>Post</code> model that a <code>@key</code> directive is defined with a name. The name of that key will match the <code>keyName</code> here. You'll need to define a <code>@key</code> whenever you have a one to many field in Amplify and then use the <code>keyName</code> to reference it.</p>
+
+<p><code>fields</code> - This is the field that can be queried to get connected objects.</p>
+
+<p>Now let's trade this out for our schema. We'll create a recipe book of sorts. Let's first create three models, <code>Recipe</code>, <code>Ingredient</code>, and <code>Instruction</code>.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>type Recipe @model {
+}
+
+type Ingredient @model {
+}
+
+type Instruction @model {
+}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now, let's add fields to each. Each model will need an <code>id</code>, which will be a mandatory <code>ID</code> field. Then, we'll add <code>name</code>s to <code>Recipe</code> and <code>Ingredient</code>. <code>Ingredient</code> will also have a quantity and <code>Instruction</code> will have <code>info</code>.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>type Recipe @model {
+  id: ID!
+  name: String!
+}
+
+type Ingredient @model {
+  id: ID!
+  name: String!
+  quantity: String!
+}
+
+type Instruction @model{
+  id: ID!
+  info: String!
+}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now, we need to connect our models. First, we'll add <code>@key</code> directives to both of our child models - <code>Ingredient</code> and <code>Instruction</code> since <code>Recipe</code>s will have both! We want to be able to access <code>Ingredient</code>s and <code>Instruction</code>s by which recipe each belongs to. Each will have a <code>recipeID</code> which will refer to the recipe each belongs to. Then we'll create a connection to the <code>Recipe</code> model based on that <code>recipeID</code>. Finally, we'll set up a <code>@key</code> on each model that will allow us to access the group of ingredients or instructions that belongs to a recipe.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>type Ingredient @model @key(name: "byRecipe", fields: ["recipeID"]) {
+  id: ID!
+  name: String!
+  quantity: String!
+  recipeID: ID!
+  recipe: Recipe @connection(fields: ["recipeID"])
+}
+
+type Instruction @model @key(name: "byRecipe", fields: ["recipeID"]) {
+  id: ID!
+  info: String!
+  recipeID: ID!
+  recipe: Recipe @connection(fields: ["recipeID"])
+}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Finally, we'll add connections from the <code>Recipe</code> model to each of the ingredients and instructions.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>type Recipe @model {
+  id: ID!
+  name: String!
+  ingredients: [Ingredient] @connection(keyName: "byRecipe", fields: ["id"])
+  instructions: [Instruction] @connection(keyName: "byRecipe", fields: ["id"])
+}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now, we need to deploy our data! Running <code>amplify push</code> will create a GraphQL API in the cloud for us.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>amplify push <span class="nt">-y</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="queries-and-mutations" href="#queries-and-mutations">
+  </a>
+  Queries and Mutations!
+</h2>
+
+<p>Okay, we've setup a GraphQL. Now let's interact with it! We'll create data using <code>mutations</code>. We'll also retrieve our data using <code>queries</code>.</p>
+
+<p>From your command line, run:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>amplify console api
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Then choose graphql. AWS AppSync's console will open in the browser. AppSync is the underlying service we're using to create our GraphQL API, and using its console we can test out queries using a visual interface.</p>
+
+<p>Once you're in the AppSync interface, choose <code>Mutation</code> in drop down, then click the plus button.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--yY3t2I9P--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://welearncode.com/beginners-guide-graphql/mutation.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--yY3t2I9P--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://welearncode.com/beginners-guide-graphql/mutation.png" alt="Interface showing the mutation drop down and the plus sign" loading="lazy"></a></p>
+
+<p>Underneath, you'll see some actions to choose from. Select "createRecipe" and then click the checkbox next to <code>name</code> under input.</p>
+
+<p>Type in a name for your recipe. I chose <code>mac n cheese</code>!</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--1bHyLJUD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://welearncode.com/beginners-guide-graphql/create-recipe.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--1bHyLJUD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://welearncode.com/beginners-guide-graphql/create-recipe.png" alt="screenshot of the interface showing the options and checkbox" loading="lazy"></a></p>
+
+<p>Press the orange run button, and you'll have a recipe ✨! You can create a few different ones if you'd like -- change the name of the recipe and press the orange button for each recipe you'd like to make.</p>
+
+<p>Now let's see the recipes we created. Switch the dropdown back to <code>Query</code> instead of <code>Mutation</code>. Then choose <code>listRecipes</code> below it. Select the attributes you'd like to see, like <code>name</code> under <code>items</code>. Also note that you can</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--kEElrrM0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://welearncode.com/beginners-guide-graphql/list-recipes.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--kEElrrM0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://welearncode.com/beginners-guide-graphql/list-recipes.png" alt="Display of the final query" loading="lazy"></a></p>
+
+<p>Repeat the same processes you used to create a <code>Recipe</code> to create a few ingredients and instructions. Use your recipe's id for the <code>recipeID</code> (hint: you can get this using the <code>listRecipes</code> query!) You can also create a Recipe with ingredients and instructions in one mutation if you select their fields and populate them as well!</p>
+
+<p>Now, rerun the <code>listRecipes</code> query with the <code>ingredients</code> and <code>instructions</code> and you'll see everything connected. This is the beauty of GraphQL -- you can get whatever data you need back without changing an endpoint, you can just change the fields you interact with!</p>
+
+<h3>
+  <a name="the-anatomy-of-a-graphql-query" href="#the-anatomy-of-a-graphql-query">
+  </a>
+  The Anatomy of a GraphQL Query
+</h3>
+
+<p>We've written GraphQL queries and mutations using this visual interface, but let's also dive into their syntax so you can write and understand them from scratch.</p>
+
+<p>Here's an example query we could use on our API.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>query MyQuery {
+  # This is a comment!
+  listRecipes {
+    items {
+      name
+      id
+      createdAt
+      instructions {
+        items {
+          id
+          info
+        }
+      }
+      ingredients {
+        items {
+          id
+          name
+          quantity
+        }
+      }
+    }
+  }
+}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><code>query</code> - This is the type of operation we're performing with our data.<code>query</code> is to retrieve data, <code>mutation</code> is to change data, and <code>subscription</code> is to listen for changes in our data. We'll use all three in the rest of this tutorial!</p>
+
+<p><code>MyQuery</code> - This is the name of the query, ideally these would be descriptive like <code>ListRecipes</code></p>
+
+<p><code>listRecipes</code> - AppSync generates <a href="https://graphql.org/learn/execution/">GraphQL resolvers</a> which allow us to get data.</p>
+
+<p><code>items</code> - this syntactically represents that we get multiple recipes back</p>
+
+<p><code>name</code>, <code>id</code>, <code>createdAt</code> - fields we want to get back about our data. <code>createdAt</code> and <code>updatedAt</code> are added automatically for us.</p>
+
+<p><code>instructions</code> and <code>ingredients</code> - we also want to get the data about the related instructions and ingredients back! Then their fields are inside their queries to get these back.</p>
+
+<p>You can add or remove whichever fields you want to in the query!</p>
+
+<p>Some queries will also require <code>arguments</code>. For example, if you want to get just one Recipe, you may provide the id of the one you want. The same is true for mutations.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>query GetRecipe($id: ID!) {
+  getRecipe(id: $id) {
+    id
+    name
+  }
+}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now, let's query our newly created API in our app!</p>
+
+<h2>
+  <a name="how-to-run-those-queries-on-a-frontend" href="#how-to-run-those-queries-on-a-frontend">
+  </a>
+  How to run those queries on a frontend
+</h2>
+
+<p>Now we've tried out mutations and queries, how do we integrate these into our app? First, let's try this out without using any libraries. We can use a normal Fetch request that we'd use for a REST API call.</p>
+
+<p>Go to your <code>App.js</code> component. First, import the object from the <code>aws-exports.js</code> file. You can go in and check out that file, but it essentially has all the configuration information your frontend will need about your Amplify-generated backend. Also, import <code>useEffect</code> from React.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">import</span> <span class="nx">config</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./aws-exports</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">useEffect</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now, we'll create a <a href="https://reactjs.org/docs/hooks-effect.html">useEffect</a> hook that will make a fetch request on page load (if you were using vanilla JavaScript you'd most likely write this same code without the useEffect inside a page load event).</p>
+
+<p>Inside the fetch request, we'll need to specify the endpoint, which we can get from the <code>aws-exports</code> object. Then we'll need to customize the request by adding the request method <code>POST</code>. We'll also provide the API key from the <code>aws-exports</code> file. Then the request body will contain the query that we used before! We'll need to use the <code>JSON.stringify</code> method to convert our object to a string. Just like with any other <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch">fetch request</a> we'll need to convert the data to JSON, then you can view it!<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">useEffect</span><span class="p">(()</span> <span class="o">=></span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">pullData</span> <span class="o">=</span> <span class="k">async</span> <span class="p">()</span> <span class="o">=></span> <span class="p">{</span>
+      <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">fetch</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">aws_appsync_graphqlEndpoint</span><span class="p">,</span> <span class="p">{</span>
+        <span class="na">method</span><span class="p">:</span> <span class="dl">'</span><span class="s1">POST</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+          <span class="dl">'</span><span class="s1">Content-Type</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/json</span><span class="dl">'</span><span class="p">,</span>
+          <span class="na">Accept</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/json</span><span class="dl">'</span><span class="p">,</span>
+          <span class="dl">'</span><span class="s1">X-Api-Key</span><span class="dl">'</span><span class="p">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">aws_appsync_apiKey</span>
+        <span class="p">},</span>
+        <span class="na">body</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>
+          <span class="na">query</span><span class="p">:</span> <span class="s2">`query MyQuery {
+          listRecipes {
+            items {
+              name
+              id
+              createdAt
+              instructions {
+                items {
+                  id
+                  info
+                }
+              }
+              ingredients {
+                items {
+                  id
+                  name
+                  quantity
+                }
+              }
+            }
+          }
+        }
+        `</span>
+        <span class="p">})</span>
+      <span class="p">})</span>
+      <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">data</span><span class="p">.</span><span class="nx">json</span><span class="p">()</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nx">pullData</span><span class="p">()</span>
+  <span class="p">},</span> <span class="p">[])</span>
+
+  <span class="k">return</span> <span class="o">&lt;</span><span class="nx">h1</span><span class="o">></span><span class="nx">Hello</span> <span class="nx">GraphQL</span><span class="o">!&lt;</span><span class="sr">/h1</span><span class="err">>
+</span><span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Okay so now we can get data from our API, but this is a little clunky and a lot of code. If you go into your <code>graphql/</code> directory that was generated by Amplify, you'll see files that have subscriptions, queries, and mutations in them for all common operations! We'll import these and use them in our code. Also, Amplify provides helper functions to abstract away the HTTP request.</p>
+
+<p>In the root of your project, run:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>npm i aws-amplify
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This will install the Amplify libraries which will help out with making the GraphQL queries more concise.</p>
+
+<p>We'll configure Amplify tying our frontend and backend together in the <code>index.js</code> file. Add this in at the top:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="c1">// index.js</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Amplify</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">aws-amplify</span><span class="dl">'</span>
+<span class="k">import</span> <span class="nx">config</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./aws-exports</span><span class="dl">'</span>
+
+<span class="nx">Amplify</span><span class="p">.</span><span class="nx">configure</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now, head back to the <code>App.js</code> file. We'll import a few things from the <code>aws-amplify</code> libraries.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">API</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">aws-amplify</span><span class="dl">'</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We'll also import the <code>listRecipes</code> query from the Amplify generated queries. You can check out the code for it in the 'graphql/queries.js' file.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">listRecipes</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./graphql/queries</span><span class="dl">'</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Let's revise our <code>useEffect</code> code. Replace your <code>pullData</code> function with the following:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">useEffect</span><span class="p">(()</span> <span class="o">=></span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">pullData</span> <span class="o">=</span> <span class="k">async</span> <span class="p">()</span> <span class="o">=></span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">API</span><span class="p">.</span><span class="nx">graphql</span><span class="p">({</span> <span class="na">query</span><span class="p">:</span> <span class="nx">listRecipes</span> <span class="p">})</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="nx">pullData</span><span class="p">()</span>
+<span class="p">},</span> <span class="p">[])</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The <code>API.graphql()</code> method runs an API request to our app's configured GraphQL API. We'll pass the query in an object as the argument. Much less code than before!</p>
+
+<p>Now, we'll run a mutation to create a new recipe when a button is clicked. We'll also prompt the user to input the recipe's name. Replace your <code>return</code> statement in the <code>App.js</code> component with the following, a button that runs an event listener on click.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">return</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="dl">'</span><span class="s1">App</span><span class="dl">'</span><span class="o">></span>
+    <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="nx">createNewRecipe</span><span class="p">}</span><span class="o">></span><span class="nx">create</span> <span class="nx">recipe</span><span class="o">&lt;</span><span class="sr">/button</span><span class="err">>
+</span>  <span class="o">&lt;</span><span class="sr">/div</span><span class="err">>
+</span><span class="p">)</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Make sure to import the mutation we'll need:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">createRecipe</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./graphql/mutations</span><span class="dl">'</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now, we'll implement the <code>createNewRecipe</code> function. Add this to your component. We'll first ask the user to name the recipe. Then we'll run a GraphQL request, this time with the <code>createRecipe</code> mutation. This mutation also takes variables: in this case the name of the recipe. We'll provide that in an object as well!<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="kd">const</span> <span class="nx">createNewRecipe</span> <span class="o">=</span> <span class="k">async</span> <span class="p">()</span> <span class="o">=></span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">name</span> <span class="o">=</span> <span class="nx">prompt</span><span class="p">(</span><span class="dl">'</span><span class="s1">what is the recipe name?</span><span class="dl">'</span><span class="p">)</span>
+  <span class="kd">const</span> <span class="nx">newRecipe</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">API</span><span class="p">.</span><span class="nx">graphql</span><span class="p">({</span> <span class="na">query</span><span class="p">:</span> <span class="nx">createRecipe</span><span class="p">,</span> <span class="na">variables</span><span class="p">:</span> <span class="p">{</span> <span class="na">input</span><span class="p">:</span> <span class="p">{</span> <span class="nx">name</span> <span class="p">}</span> <span class="p">}}))</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">newRecipe</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>If you refresh the page, you'll now see that your array of recipes has the new one you created! But how can we make it so the query reruns automatically whenever a new recipe is created? Subscriptions!</p>
+
+<h2>
+  <a name="subscriptions" href="#subscriptions">
+  </a>
+  Subscriptions
+</h2>
+
+<p>Subscriptions allow you to "subscribe" to events via GraphQL, so whenever your data updates you can run code. In our case, we'll make it so that we refetch all the recipes whenever a new one is created.</p>
+
+<p>First, import the subscription:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">onCreateRecipe</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./graphql/subscriptions</span><span class="dl">'</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Then, we'll update our <code>useEffect</code>. Keep the first few lines that pull the recipes from the API. Below that create a subscription. This looks similar to the other API requests we've made, but in this case we'll add the <code>.subscribe</code> method onto it. We'll pass an object with <code>next</code> and <code>error</code>. Error will run if there's an error with the subscription. <code>Next</code> will run after the subscription triggers. In our case we want to re-run <code>pullData</code>!</p>
+
+<p>Finally, make sure to unsubscribe from updates by returning a function that cleans up the subscription.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">useEffect</span><span class="p">(()</span> <span class="o">=></span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">pullData</span> <span class="o">=</span> <span class="k">async</span> <span class="p">()</span> <span class="o">=></span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">API</span><span class="p">.</span><span class="nx">graphql</span><span class="p">(</span><span class="nx">graphqlOperation</span><span class="p">(</span><span class="nx">listRecipes</span><span class="p">))</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="nx">pullData</span><span class="p">()</span>
+
+  <span class="kd">const</span> <span class="nx">subscription</span> <span class="o">=</span> <span class="nx">API</span><span class="p">.</span><span class="nx">graphql</span><span class="p">(</span>
+    <span class="p">{</span> <span class="na">query</span><span class="p">:</span> <span class="nx">onCreateRecipe</span> <span class="p">}</span>
+  <span class="p">).</span><span class="nx">subscribe</span><span class="p">({</span>
+    <span class="na">next</span><span class="p">:</span> <span class="p">(</span><span class="nx">recipeData</span><span class="p">)</span> <span class="o">=></span> <span class="p">{</span>
+      <span class="nx">pullData</span><span class="p">()</span>
+    <span class="p">},</span>
+    <span class="na">error</span><span class="p">:</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="o">=></span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">})</span>
+
+  <span class="k">return</span> <span class="p">()</span> <span class="o">=></span> <span class="nx">subscription</span><span class="p">.</span><span class="nx">unsubscribe</span><span class="p">()</span>
+<span class="p">},</span> <span class="p">[])</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="conclusion" href="#conclusion">
+  </a>
+  Conclusion
+</h2>
+
+<p>In this post we learned about GraphQL and it's benefits as well as why you may not want to use it! We also created an API and then used it in a frontend app. If you want to take down your API you can run <code>amplify delete</code> from your CLI and your code will persist locally but it will no longer be deployed to the cloud!</p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/aspittel/a-complete-beginner-s-guide-to-graphql-32df" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(e,n,a,s){return n.type_of="article",n.id=808330,n.title="A Complete Beginner's Guide to GraphQL",n.description="I first used GraphQL on a project right after its launch in 2015, and to be honest I didn't...",n.readable_publish_date="Aug 31 '21",n.slug="a-complete-beginner-s-guide-to-graphql-32df",n.path="/aspittel/a-complete-beginner-s-guide-to-graphql-32df",n.url="https://dev.to/aspittel/a-complete-beginner-s-guide-to-graphql-32df",n.comments_count=9,n.public_reactions_count=352,n.collection_id=e,n.published_timestamp=a,n.positive_reactions_count=352,n.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--NdsLQlEA--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/z5ghu78d0lkdz5dsao1h.png",n.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--VYQt0ZHJ--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/z5ghu78d0lkdz5dsao1h.png",n.canonical_url="https://welearncode.com/beginners-guide-graphql/",n.created_at="2021-08-30T21:23:07Z",n.edited_at="2021-09-01T17:23:51Z",n.crossposted_at=a,n.published_at="2021-08-30T00:00:00Z",n.last_comment_at="2021-12-04T13:44:39Z",n.reading_time_minutes=14,n.tag_list="graphql, javascript",n.tags=["graphql","javascript"],n.body_html='<p>I first used GraphQL on a project right after its launch in 2015, and to be honest I didn\'t understand why we were using it. Over the years, I\'ve grown to love GraphQL - you can quickly create APIs with managed services such as AWS AppSync and Hasura, and it lessens the friction between frontend and backend development. In this post, we\'ll chat about what GraphQL is, why to use it as well as when it may not be the best option, and then create a full recipe app using a GraphQL API.</p>\n\n<p><strong>Please note that I work as a Developer Advocate on the AWS Amplify team, if you have any feedback or questions about it, please reach out to me or ask on our discord - discord.gg/amplify!</strong></p>\n\n<p><iframe width="710" height="399" src="https://www.youtube.com/embed/c2fJ7T0N1Sk" allowfullscreen loading="lazy">\n</iframe>\n</p>\n\n<p>If you\'re new to APIs, I would recommend reading <a href="https://www.freecodecamp.org/news/what-is-an-api-in-english-please-b880a3214a82/">this</a> blog post about them first! If you\'re new to the idea of REST, I\'d also recommend reading <a href="https://www.redhat.com/en/topics/api/what-is-a-rest-api">this</a> first; this post will often compare GraphQL to REST. I\'ll also be using <a href="https://welearncode.com/beginners-guide-react-2020/">React</a> for some pieces of the frontend -- I\'d recommend skimming a tutorial on that before this post.</p>\n\n<p>Also, a few vocabulary terms we\'ll be using throughout this post:</p>\n\n<ul>\n<li>Schema: this is a representation of how data is structured.</li>\n<li>Fields: these are attributes associated with a piece of data.</li>\n</ul>\n\n<h2>\n  <a name="what-is-graphql" href="#what-is-graphql">\n  </a>\n  What is GraphQL?\n</h2>\n\n<p>According to its <a href="https://graphql.org/learn/">documentation</a>, "GraphQL is a query language for your API, and a server-side runtime for executing queries using a type system you define for your data." GraphQL itself is a specification, meaning that there\'s a document outlining what GraphQL queries look like and how client-server interaction works with it; however, it can be used with any programming language or data layer for your app.</p>\n\n<p>In practice, this allows frontend developers to send queries asking for the data they need -- including nested data -- to the backend. This allows backend developers to create one endpoint instead of the many needed for a REST API. You can send mutations to change data and queries to retrieve data all to one place.</p>\n\n<h2>\n  <a name="why-use-graphql" href="#why-use-graphql">\n  </a>\n  Why use GraphQL?\n</h2>\n\n<p>There are a lot of reasons why GraphQL is popular. The first is that it simplifies the communication between frontend and backend developers much less difficult -- instead of frontend developers needing to ask for a new endpoint once their requirements change, they can instead just update their GraphQL query. This becomes even more helpful if you have multiple frontends requiring the same backend data. Frontend developers can get exactly the data they need -- no under or over fetching of fields or items.</p>\n\n<p>Since frontend developers can request nested data using one query, network requests are also minimized -- for example if you query for a blog post, you can also get that post\'s comments in that one query instead of doing a second request to get them. This also may reduce the amount of frontend code needed and make that code easier to understand.</p>\n\n<p>GraphQL also enforces a typed data schema, so each item\'s fields will have to match those types. This makes data more consistent and manageable -- instead of having to loop through blog posts and figure out if each title is a string or a boolean, GraphQL will enforce that each title is a string.</p>\n\n<h2>\n  <a name="when-is-graphql-not-so-good" href="#when-is-graphql-not-so-good">\n  </a>\n  When is GraphQL not so good?\n</h2>\n\n<p>As with anything in software engineering, there are also drawbacks to using GraphQL. Firstly, I started using GraphQL way back when it came out in around 2015, and I hated it. I was a fullstack engineer on a small team, and building the backend was more work and the frontend needed to be more verbose. GraphQL queries are often long, whereas with many REST APIs you can just provide a url. In addition, many backend frameworks and languages have much less mature support for GraphQL APIs compared to REST. You may have to do more work and navigate through a less used library to get your GraphQL Api. If you\'re the one creating the endpoints and consuming them, building a REST API may be quicker -- especially if you\'re using a programming language or framework with less mature GraphQL support.</p>\n\n<p>GraphQL shines with larger teams where a frontend team is developing the client side and a separate team is developing the server. In addition, there have been more and more managed GraphQL services, like Hasura and AWS AppSync. These allow you to generate a GraphQL backend using their services and then consume it on the frontend -- this usually speeds up the rate of backend development considerably when compared to writing a GraphQL server from scratch.</p>\n\n<p>Finally, many developers are taught how to use and create a REST API from early on in their careers and may have less institutional knowledge around GraphQL. Getting a full team up to speed may be an investment that you need to consider.</p>\n\n<h2>\n  <a name="create-a-graphql-api" href="#create-a-graphql-api">\n  </a>\n  Create a GraphQL API\n</h2>\n\n<p>Now for the fun part, let\'s write some code! We\'re going to use AWS Amplify to create a GraphQL backend -- this will speed up the process and allow us to just focus on the GraphQL rather than the rest of backend development.</p>\n\n<p>First, I\'ll create a React app -- there isn\'t much React code in here, but the setup will be quicker than creating a Vanilla JS app with a bundler.</p>\n\n<p>In your terminal, run:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>npx create-react-app graphql-playground\n<span class="nb">cd </span>graphql-playground\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Note: you\'ll need <a href="https://nodejs.org/en/">Node</a> installed for this step.</p>\n\n<p>Next, we\'ll initialize Amplify in our project.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>amplify init\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Note: you\'ll need <a href="https://docs.amplify.aws/cli/start/install/">Amplify</a> installed for this step.</p>\n\n<p>Then, you\'ll be prompted to answer a few questions. You can type in "y" to get the default React configuration, and then choose your AWS profile (see the above tutorial if you don\'t have one!)<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>Project information\n| Name: graphqldemo\n| Environment: dev\n| Default editor: Visual Studio Code\n| App <span class="nb">type</span>: javascript\n| Javascript @framework: react\n| Source Directory Path: src\n| Distribution Directory Path: dist\n| Build Command: npm run-script build\n| Start Command: npm run-script start\n\n? Initialize the project with the above configuration? Yes\nUsing default provider awscloudformation\n? Select the authentication method you want to use: AWS profile\n\nFor more information on AWS Profiles, see:\nhttps://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html\n\n? Please choose the profile you want to use default\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now, we\'ll create a GraphQL API. Run:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>amplify add api\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You\'ll again be asked a few questions! First, select GraphQL, then name your API, for example graphql demo. You can then press enter twice to accept the defaults for API keys. Then, you can select no for the GraphQL API and no for the GraphQL schema. Choose the "One-to-many relationship" template and yes to editing the schema now.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>? Please <span class="k">select </span>from one of the below mentioned services: GraphQL\n? Provide API name: graphqldemo\n? Choose the default authorization <span class="nb">type </span><span class="k">for </span>the API API key\n? Enter a description <span class="k">for </span>the API key:\n? After how many days from now the API key should expire <span class="o">(</span>1-365<span class="o">)</span>: 7\n? Do you want to configure advanced settings <span class="k">for </span>the GraphQL API No, I am <span class="k">done</span><span class="nb">.</span>\n? Do you have an annotated GraphQL schema? No\n? Choose a schema template: One-to-many relationship <span class="o">(</span>e.g., “Blogs” with “Posts” and “Comments”<span class="o">)</span>\n? Do you want to edit the schema now? Yes\n? Choose your default editor: Visual Studio Code\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You\'ll see a pre-generated schema pop up, let\'s talk about the Blog model.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>type Blog @model {\n  id: ID!\n  name: String!\n  posts: [Post] @connection(keyName: "byBlog", fields: ["id"])\n}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>TODO: add list of scalar types</p>\n\n<p><code>type</code> - The word <code>type</code> is used to represent a type of object you may get back from your API -- in this case a blog!</p>\n\n<p><code>Blog</code> - This is the name of the type</p>\n\n<p><code>@model</code> - The <code>@</code> sign in GraphQl defines a directive, which means that a field or type has custom logic associated with it. Amplify <a href="https://docs.amplify.aws/cli/graphql-transformer/directives/">provides quite a few</a> of these you can use. The <code>@model</code> directive makes it so that the data for the Blog is stored in our database.</p>\n\n<p><code>id</code>, <code>name</code>, and <code>posts</code> - these are fields or pieces of data that each blog will have</p>\n\n<p><code>ID</code> and <code>String</code> - these are types, they define that <code>id</code>\'s will be of the type <code>id</code> and <code>name</code>s will be strings. These fields are <code>scalar</code> which means that they are singular pieces of data -- one id and one name rather than having a collection of names for each blog post.</p>\n\n<p><code>!</code> - The exclamation point after types means that the field is non-nullable, or you always need to provide a value for that field. In this case every blog must have an id and name!</p>\n\n<p><code>[Post]</code> - Firstly, the <code>[]</code> make it so that it\'s an array field. Each blog can have an array of posts associated with it. You can also do this with the scalar types as well, so <code>[String]</code> would allow for an array of strings. In this case, we\'re referring to the <code>Post</code> model which is also declared in this file, so the two data types are related to one another.</p>\n\n<p><code>@connection</code> - this is another directive, in this case it allows us to relate one model to another. You\'ll need to provide some data to it, in this case <code>keyName</code> and <code>fields</code></p>\n\n<p><code>keyName</code> - This is the name of the index that should be queried to get the related posts. You\'ll notice on the <code>Post</code> model that a <code>@key</code> directive is defined with a name. The name of that key will match the <code>keyName</code> here. You\'ll need to define a <code>@key</code> whenever you have a one to many field in Amplify and then use the <code>keyName</code> to reference it.</p>\n\n<p><code>fields</code> - This is the field that can be queried to get connected objects.</p>\n\n<p>Now let\'s trade this out for our schema. We\'ll create a recipe book of sorts. Let\'s first create three models, <code>Recipe</code>, <code>Ingredient</code>, and <code>Instruction</code>.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>type Recipe @model {\n}\n\ntype Ingredient @model {\n}\n\ntype Instruction @model {\n}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now, let\'s add fields to each. Each model will need an <code>id</code>, which will be a mandatory <code>ID</code> field. Then, we\'ll add <code>name</code>s to <code>Recipe</code> and <code>Ingredient</code>. <code>Ingredient</code> will also have a quantity and <code>Instruction</code> will have <code>info</code>.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>type Recipe @model {\n  id: ID!\n  name: String!\n}\n\ntype Ingredient @model {\n  id: ID!\n  name: String!\n  quantity: String!\n}\n\ntype Instruction @model{\n  id: ID!\n  info: String!\n}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now, we need to connect our models. First, we\'ll add <code>@key</code> directives to both of our child models - <code>Ingredient</code> and <code>Instruction</code> since <code>Recipe</code>s will have both! We want to be able to access <code>Ingredient</code>s and <code>Instruction</code>s by which recipe each belongs to. Each will have a <code>recipeID</code> which will refer to the recipe each belongs to. Then we\'ll create a connection to the <code>Recipe</code> model based on that <code>recipeID</code>. Finally, we\'ll set up a <code>@key</code> on each model that will allow us to access the group of ingredients or instructions that belongs to a recipe.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>type Ingredient @model @key(name: "byRecipe", fields: ["recipeID"]) {\n  id: ID!\n  name: String!\n  quantity: String!\n  recipeID: ID!\n  recipe: Recipe @connection(fields: ["recipeID"])\n}\n\ntype Instruction @model @key(name: "byRecipe", fields: ["recipeID"]) {\n  id: ID!\n  info: String!\n  recipeID: ID!\n  recipe: Recipe @connection(fields: ["recipeID"])\n}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Finally, we\'ll add connections from the <code>Recipe</code> model to each of the ingredients and instructions.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>type Recipe @model {\n  id: ID!\n  name: String!\n  ingredients: [Ingredient] @connection(keyName: "byRecipe", fields: ["id"])\n  instructions: [Instruction] @connection(keyName: "byRecipe", fields: ["id"])\n}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now, we need to deploy our data! Running <code>amplify push</code> will create a GraphQL API in the cloud for us.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>amplify push <span class="nt">-y</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="queries-and-mutations" href="#queries-and-mutations">\n  </a>\n  Queries and Mutations!\n</h2>\n\n<p>Okay, we\'ve setup a GraphQL. Now let\'s interact with it! We\'ll create data using <code>mutations</code>. We\'ll also retrieve our data using <code>queries</code>.</p>\n\n<p>From your command line, run:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>amplify console api\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Then choose graphql. AWS AppSync\'s console will open in the browser. AppSync is the underlying service we\'re using to create our GraphQL API, and using its console we can test out queries using a visual interface.</p>\n\n<p>Once you\'re in the AppSync interface, choose <code>Mutation</code> in drop down, then click the plus button.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--yY3t2I9P--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://welearncode.com/beginners-guide-graphql/mutation.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--yY3t2I9P--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://welearncode.com/beginners-guide-graphql/mutation.png" alt="Interface showing the mutation drop down and the plus sign" loading="lazy"></a></p>\n\n<p>Underneath, you\'ll see some actions to choose from. Select "createRecipe" and then click the checkbox next to <code>name</code> under input.</p>\n\n<p>Type in a name for your recipe. I chose <code>mac n cheese</code>!</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--1bHyLJUD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://welearncode.com/beginners-guide-graphql/create-recipe.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--1bHyLJUD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://welearncode.com/beginners-guide-graphql/create-recipe.png" alt="screenshot of the interface showing the options and checkbox" loading="lazy"></a></p>\n\n<p>Press the orange run button, and you\'ll have a recipe ✨! You can create a few different ones if you\'d like -- change the name of the recipe and press the orange button for each recipe you\'d like to make.</p>\n\n<p>Now let\'s see the recipes we created. Switch the dropdown back to <code>Query</code> instead of <code>Mutation</code>. Then choose <code>listRecipes</code> below it. Select the attributes you\'d like to see, like <code>name</code> under <code>items</code>. Also note that you can</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--kEElrrM0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://welearncode.com/beginners-guide-graphql/list-recipes.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--kEElrrM0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://welearncode.com/beginners-guide-graphql/list-recipes.png" alt="Display of the final query" loading="lazy"></a></p>\n\n<p>Repeat the same processes you used to create a <code>Recipe</code> to create a few ingredients and instructions. Use your recipe\'s id for the <code>recipeID</code> (hint: you can get this using the <code>listRecipes</code> query!) You can also create a Recipe with ingredients and instructions in one mutation if you select their fields and populate them as well!</p>\n\n<p>Now, rerun the <code>listRecipes</code> query with the <code>ingredients</code> and <code>instructions</code> and you\'ll see everything connected. This is the beauty of GraphQL -- you can get whatever data you need back without changing an endpoint, you can just change the fields you interact with!</p>\n\n<h3>\n  <a name="the-anatomy-of-a-graphql-query" href="#the-anatomy-of-a-graphql-query">\n  </a>\n  The Anatomy of a GraphQL Query\n</h3>\n\n<p>We\'ve written GraphQL queries and mutations using this visual interface, but let\'s also dive into their syntax so you can write and understand them from scratch.</p>\n\n<p>Here\'s an example query we could use on our API.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>query MyQuery {\n  # This is a comment!\n  listRecipes {\n    items {\n      name\n      id\n      createdAt\n      instructions {\n        items {\n          id\n          info\n        }\n      }\n      ingredients {\n        items {\n          id\n          name\n          quantity\n        }\n      }\n    }\n  }\n}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><code>query</code> - This is the type of operation we\'re performing with our data.<code>query</code> is to retrieve data, <code>mutation</code> is to change data, and <code>subscription</code> is to listen for changes in our data. We\'ll use all three in the rest of this tutorial!</p>\n\n<p><code>MyQuery</code> - This is the name of the query, ideally these would be descriptive like <code>ListRecipes</code></p>\n\n<p><code>listRecipes</code> - AppSync generates <a href="https://graphql.org/learn/execution/">GraphQL resolvers</a> which allow us to get data.</p>\n\n<p><code>items</code> - this syntactically represents that we get multiple recipes back</p>\n\n<p><code>name</code>, <code>id</code>, <code>createdAt</code> - fields we want to get back about our data. <code>createdAt</code> and <code>updatedAt</code> are added automatically for us.</p>\n\n<p><code>instructions</code> and <code>ingredients</code> - we also want to get the data about the related instructions and ingredients back! Then their fields are inside their queries to get these back.</p>\n\n<p>You can add or remove whichever fields you want to in the query!</p>\n\n<p>Some queries will also require <code>arguments</code>. For example, if you want to get just one Recipe, you may provide the id of the one you want. The same is true for mutations.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>query GetRecipe($id: ID!) {\n  getRecipe(id: $id) {\n    id\n    name\n  }\n}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now, let\'s query our newly created API in our app!</p>\n\n<h2>\n  <a name="how-to-run-those-queries-on-a-frontend" href="#how-to-run-those-queries-on-a-frontend">\n  </a>\n  How to run those queries on a frontend\n</h2>\n\n<p>Now we\'ve tried out mutations and queries, how do we integrate these into our app? First, let\'s try this out without using any libraries. We can use a normal Fetch request that we\'d use for a REST API call.</p>\n\n<p>Go to your <code>App.js</code> component. First, import the object from the <code>aws-exports.js</code> file. You can go in and check out that file, but it essentially has all the configuration information your frontend will need about your Amplify-generated backend. Also, import <code>useEffect</code> from React.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">import</span> <span class="nx">config</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">./aws-exports</span><span class="dl">\'</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">useEffect</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">react</span><span class="dl">\'</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now, we\'ll create a <a href="https://reactjs.org/docs/hooks-effect.html">useEffect</a> hook that will make a fetch request on page load (if you were using vanilla JavaScript you\'d most likely write this same code without the useEffect inside a page load event).</p>\n\n<p>Inside the fetch request, we\'ll need to specify the endpoint, which we can get from the <code>aws-exports</code> object. Then we\'ll need to customize the request by adding the request method <code>POST</code>. We\'ll also provide the API key from the <code>aws-exports</code> file. Then the request body will contain the query that we used before! We\'ll need to use the <code>JSON.stringify</code> method to convert our object to a string. Just like with any other <a href="https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch">fetch request</a> we\'ll need to convert the data to JSON, then you can view it!<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>\n  <span class="nx">useEffect</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>\n    <span class="kd">const</span> <span class="nx">pullData</span> <span class="o">=</span> <span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>\n      <span class="kd">let</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">fetch</span><span class="p">(</span><span class="nx">config</span><span class="p">.</span><span class="nx">aws_appsync_graphqlEndpoint</span><span class="p">,</span> <span class="p">{</span>\n        <span class="na">method</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">POST</span><span class="dl">\'</span><span class="p">,</span>\n        <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>\n          <span class="dl">\'</span><span class="s1">Content-Type</span><span class="dl">\'</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">application/json</span><span class="dl">\'</span><span class="p">,</span>\n          <span class="na">Accept</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">application/json</span><span class="dl">\'</span><span class="p">,</span>\n          <span class="dl">\'</span><span class="s1">X-Api-Key</span><span class="dl">\'</span><span class="p">:</span> <span class="nx">config</span><span class="p">.</span><span class="nx">aws_appsync_apiKey</span>\n        <span class="p">},</span>\n        <span class="na">body</span><span class="p">:</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">({</span>\n          <span class="na">query</span><span class="p">:</span> <span class="s2">`query MyQuery {\n          listRecipes {\n            items {\n              name\n              id\n              createdAt\n              instructions {\n                items {\n                  id\n                  info\n                }\n              }\n              ingredients {\n                items {\n                  id\n                  name\n                  quantity\n                }\n              }\n            }\n          }\n        }\n        `</span>\n        <span class="p">})</span>\n      <span class="p">})</span>\n      <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">data</span><span class="p">.</span><span class="nx">json</span><span class="p">()</span>\n      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>\n    <span class="p">}</span>\n    <span class="nx">pullData</span><span class="p">()</span>\n  <span class="p">},</span> <span class="p">[])</span>\n\n  <span class="k">return</span> <span class="o">&lt;</span><span class="nx">h1</span><span class="o">&gt;</span><span class="nx">Hello</span> <span class="nx">GraphQL</span><span class="o">!&lt;</span><span class="sr">/h1</span><span class="err">&gt;\n</span><span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Okay so now we can get data from our API, but this is a little clunky and a lot of code. If you go into your <code>graphql/</code> directory that was generated by Amplify, you\'ll see files that have subscriptions, queries, and mutations in them for all common operations! We\'ll import these and use them in our code. Also, Amplify provides helper functions to abstract away the HTTP request.</p>\n\n<p>In the root of your project, run:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>npm i aws-amplify\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This will install the Amplify libraries which will help out with making the GraphQL queries more concise.</p>\n\n<p>We\'ll configure Amplify tying our frontend and backend together in the <code>index.js</code> file. Add this in at the top:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="c1">// index.js</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">Amplify</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">aws-amplify</span><span class="dl">\'</span>\n<span class="k">import</span> <span class="nx">config</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">./aws-exports</span><span class="dl">\'</span>\n\n<span class="nx">Amplify</span><span class="p">.</span><span class="nx">configure</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now, head back to the <code>App.js</code> file. We\'ll import a few things from the <code>aws-amplify</code> libraries.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">API</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">aws-amplify</span><span class="dl">\'</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>We\'ll also import the <code>listRecipes</code> query from the Amplify generated queries. You can check out the code for it in the \'graphql/queries.js\' file.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">listRecipes</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">./graphql/queries</span><span class="dl">\'</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Let\'s revise our <code>useEffect</code> code. Replace your <code>pullData</code> function with the following:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">useEffect</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>\n  <span class="kd">const</span> <span class="nx">pullData</span> <span class="o">=</span> <span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>\n    <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">API</span><span class="p">.</span><span class="nx">graphql</span><span class="p">({</span> <span class="na">query</span><span class="p">:</span> <span class="nx">listRecipes</span> <span class="p">})</span>\n    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>\n  <span class="p">}</span>\n  <span class="nx">pullData</span><span class="p">()</span>\n<span class="p">},</span> <span class="p">[])</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The <code>API.graphql()</code> method runs an API request to our app\'s configured GraphQL API. We\'ll pass the query in an object as the argument. Much less code than before!</p>\n\n<p>Now, we\'ll run a mutation to create a new recipe when a button is clicked. We\'ll also prompt the user to input the recipe\'s name. Replace your <code>return</code> statement in the <code>App.js</code> component with the following, a button that runs an event listener on click.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">return</span> <span class="p">(</span>\n  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="dl">\'</span><span class="s1">App</span><span class="dl">\'</span><span class="o">&gt;</span>\n    <span class="o">&lt;</span><span class="nx">button</span> <span class="nx">onClick</span><span class="o">=</span><span class="p">{</span><span class="nx">createNewRecipe</span><span class="p">}</span><span class="o">&gt;</span><span class="nx">create</span> <span class="nx">recipe</span><span class="o">&lt;</span><span class="sr">/button</span><span class="err">&gt;\n</span>  <span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;\n</span><span class="p">)</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Make sure to import the mutation we\'ll need:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">createRecipe</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">./graphql/mutations</span><span class="dl">\'</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now, we\'ll implement the <code>createNewRecipe</code> function. Add this to your component. We\'ll first ask the user to name the recipe. Then we\'ll run a GraphQL request, this time with the <code>createRecipe</code> mutation. This mutation also takes variables: in this case the name of the recipe. We\'ll provide that in an object as well!<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="kd">const</span> <span class="nx">createNewRecipe</span> <span class="o">=</span> <span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>\n  <span class="kd">const</span> <span class="nx">name</span> <span class="o">=</span> <span class="nx">prompt</span><span class="p">(</span><span class="dl">\'</span><span class="s1">what is the recipe name?</span><span class="dl">\'</span><span class="p">)</span>\n  <span class="kd">const</span> <span class="nx">newRecipe</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">API</span><span class="p">.</span><span class="nx">graphql</span><span class="p">({</span> <span class="na">query</span><span class="p">:</span> <span class="nx">createRecipe</span><span class="p">,</span> <span class="na">variables</span><span class="p">:</span> <span class="p">{</span> <span class="na">input</span><span class="p">:</span> <span class="p">{</span> <span class="nx">name</span> <span class="p">}</span> <span class="p">}}))</span>\n  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">newRecipe</span><span class="p">)</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>If you refresh the page, you\'ll now see that your array of recipes has the new one you created! But how can we make it so the query reruns automatically whenever a new recipe is created? Subscriptions!</p>\n\n<h2>\n  <a name="subscriptions" href="#subscriptions">\n  </a>\n  Subscriptions\n</h2>\n\n<p>Subscriptions allow you to "subscribe" to events via GraphQL, so whenever your data updates you can run code. In our case, we\'ll make it so that we refetch all the recipes whenever a new one is created.</p>\n\n<p>First, import the subscription:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">onCreateRecipe</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">./graphql/subscriptions</span><span class="dl">\'</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Then, we\'ll update our <code>useEffect</code>. Keep the first few lines that pull the recipes from the API. Below that create a subscription. This looks similar to the other API requests we\'ve made, but in this case we\'ll add the <code>.subscribe</code> method onto it. We\'ll pass an object with <code>next</code> and <code>error</code>. Error will run if there\'s an error with the subscription. <code>Next</code> will run after the subscription triggers. In our case we want to re-run <code>pullData</code>!</p>\n\n<p>Finally, make sure to unsubscribe from updates by returning a function that cleans up the subscription.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">useEffect</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>\n  <span class="kd">const</span> <span class="nx">pullData</span> <span class="o">=</span> <span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>\n    <span class="kd">const</span> <span class="nx">data</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">API</span><span class="p">.</span><span class="nx">graphql</span><span class="p">(</span><span class="nx">graphqlOperation</span><span class="p">(</span><span class="nx">listRecipes</span><span class="p">))</span>\n    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">)</span>\n  <span class="p">}</span>\n  <span class="nx">pullData</span><span class="p">()</span>\n\n  <span class="kd">const</span> <span class="nx">subscription</span> <span class="o">=</span> <span class="nx">API</span><span class="p">.</span><span class="nx">graphql</span><span class="p">(</span>\n    <span class="p">{</span> <span class="na">query</span><span class="p">:</span> <span class="nx">onCreateRecipe</span> <span class="p">}</span>\n  <span class="p">).</span><span class="nx">subscribe</span><span class="p">({</span>\n    <span class="na">next</span><span class="p">:</span> <span class="p">(</span><span class="nx">recipeData</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>\n      <span class="nx">pullData</span><span class="p">()</span>\n    <span class="p">},</span>\n    <span class="na">error</span><span class="p">:</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>\n      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>\n    <span class="p">}</span>\n  <span class="p">})</span>\n\n  <span class="k">return</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="nx">subscription</span><span class="p">.</span><span class="nx">unsubscribe</span><span class="p">()</span>\n<span class="p">},</span> <span class="p">[])</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="conclusion" href="#conclusion">\n  </a>\n  Conclusion\n</h2>\n\n<p>In this post we learned about GraphQL and it\'s benefits as well as why you may not want to use it! We also created an API and then used it in a frontend app. If you want to take down your API you can run <code>amplify delete</code> from your CLI and your code will persist locally but it will no longer be deployed to the cloud!</p>\n\n',n.body_markdown="---\ntitle: A Complete Beginner's Guide to GraphQL\npublished: true\ndate: 2021-08-30 00:00:00 UTC\ntags: graphql, javascript,\ncanonical_url: https://welearncode.com/beginners-guide-graphql/\ncover_image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/z5ghu78d0lkdz5dsao1h.png\n---\n\nI first used GraphQL on a project right after its launch in 2015, and to be honest I didn't understand why we were using it. Over the years, I've grown to love GraphQL - you can quickly create APIs with managed services such as AWS AppSync and Hasura, and it lessens the friction between frontend and backend development. In this post, we'll chat about what GraphQL is, why to use it as well as when it may not be the best option, and then create a full recipe app using a GraphQL API.\n\n**Please note that I work as a Developer Advocate on the AWS Amplify team, if you have any feedback or questions about it, please reach out to me or ask on our discord - discord.gg/amplify!**\n\n{% youtube c2fJ7T0N1Sk %}\n\nIf you're new to APIs, I would recommend reading [this](https://www.freecodecamp.org/news/what-is-an-api-in-english-please-b880a3214a82/) blog post about them first! If you're new to the idea of REST, I'd also recommend reading [this](https://www.redhat.com/en/topics/api/what-is-a-rest-api) first; this post will often compare GraphQL to REST. I'll also be using [React](https://welearncode.com/beginners-guide-react-2020/) for some pieces of the frontend -- I'd recommend skimming a tutorial on that before this post.\n\nAlso, a few vocabulary terms we'll be using throughout this post:\n\n- Schema: this is a representation of how data is structured.\n- Fields: these are attributes associated with a piece of data.\n\n## What is GraphQL?\n\nAccording to its [documentation](https://graphql.org/learn/), \"GraphQL is a query language for your API, and a server-side runtime for executing queries using a type system you define for your data.\" GraphQL itself is a specification, meaning that there's a document outlining what GraphQL queries look like and how client-server interaction works with it; however, it can be used with any programming language or data layer for your app.\n\nIn practice, this allows frontend developers to send queries asking for the data they need -- including nested data -- to the backend. This allows backend developers to create one endpoint instead of the many needed for a REST API. You can send mutations to change data and queries to retrieve data all to one place.\n\n## Why use GraphQL?\n\nThere are a lot of reasons why GraphQL is popular. The first is that it simplifies the communication between frontend and backend developers much less difficult -- instead of frontend developers needing to ask for a new endpoint once their requirements change, they can instead just update their GraphQL query. This becomes even more helpful if you have multiple frontends requiring the same backend data. Frontend developers can get exactly the data they need -- no under or over fetching of fields or items.\n\nSince frontend developers can request nested data using one query, network requests are also minimized -- for example if you query for a blog post, you can also get that post's comments in that one query instead of doing a second request to get them. This also may reduce the amount of frontend code needed and make that code easier to understand.\n\nGraphQL also enforces a typed data schema, so each item's fields will have to match those types. This makes data more consistent and manageable -- instead of having to loop through blog posts and figure out if each title is a string or a boolean, GraphQL will enforce that each title is a string.\n\n## When is GraphQL not so good?\n\nAs with anything in software engineering, there are also drawbacks to using GraphQL. Firstly, I started using GraphQL way back when it came out in around 2015, and I hated it. I was a fullstack engineer on a small team, and building the backend was more work and the frontend needed to be more verbose. GraphQL queries are often long, whereas with many REST APIs you can just provide a url. In addition, many backend frameworks and languages have much less mature support for GraphQL APIs compared to REST. You may have to do more work and navigate through a less used library to get your GraphQL Api. If you're the one creating the endpoints and consuming them, building a REST API may be quicker -- especially if you're using a programming language or framework with less mature GraphQL support.\n\nGraphQL shines with larger teams where a frontend team is developing the client side and a separate team is developing the server. In addition, there have been more and more managed GraphQL services, like Hasura and AWS AppSync. These allow you to generate a GraphQL backend using their services and then consume it on the frontend -- this usually speeds up the rate of backend development considerably when compared to writing a GraphQL server from scratch.\n\nFinally, many developers are taught how to use and create a REST API from early on in their careers and may have less institutional knowledge around GraphQL. Getting a full team up to speed may be an investment that you need to consider.\n\n## Create a GraphQL API\n\nNow for the fun part, let's write some code! We're going to use AWS Amplify to create a GraphQL backend -- this will speed up the process and allow us to just focus on the GraphQL rather than the rest of backend development.\n\nFirst, I'll create a React app -- there isn't much React code in here, but the setup will be quicker than creating a Vanilla JS app with a bundler.\n\nIn your terminal, run:\n\n```sh\nnpx create-react-app graphql-playground\ncd graphql-playground\n```\n\nNote: you'll need [Node](https://nodejs.org/en/) installed for this step.\n\nNext, we'll initialize Amplify in our project.\n\n```sh\namplify init\n```\n\nNote: you'll need [Amplify](https://docs.amplify.aws/cli/start/install/) installed for this step.\n\nThen, you'll be prompted to answer a few questions. You can type in \"y\" to get the default React configuration, and then choose your AWS profile (see the above tutorial if you don't have one!)\n\n```sh\nProject information\n| Name: graphqldemo\n| Environment: dev\n| Default editor: Visual Studio Code\n| App type: javascript\n| Javascript @framework: react\n| Source Directory Path: src\n| Distribution Directory Path: dist\n| Build Command: npm run-script build\n| Start Command: npm run-script start\n\n? Initialize the project with the above configuration? Yes\nUsing default provider awscloudformation\n? Select the authentication method you want to use: AWS profile\n\nFor more information on AWS Profiles, see:\nhttps://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html\n\n? Please choose the profile you want to use default\n```\n\nNow, we'll create a GraphQL API. Run:\n\n```sh\namplify add api\n```\n\nYou'll again be asked a few questions! First, select GraphQL, then name your API, for example graphql demo. You can then press enter twice to accept the defaults for API keys. Then, you can select no for the GraphQL API and no for the GraphQL schema. Choose the \"One-to-many relationship\" template and yes to editing the schema now.\n\n```sh\n? Please select from one of the below mentioned services: GraphQL\n? Provide API name: graphqldemo\n? Choose the default authorization type for the API API key\n? Enter a description for the API key:\n? After how many days from now the API key should expire (1-365): 7\n? Do you want to configure advanced settings for the GraphQL API No, I am done.\n? Do you have an annotated GraphQL schema? No\n? Choose a schema template: One-to-many relationship (e.g., “Blogs” with “Posts” and “Comments”)\n? Do you want to edit the schema now? Yes\n? Choose your default editor: Visual Studio Code\n```\n\nYou'll see a pre-generated schema pop up, let's talk about the Blog model.\n\n```gql\ntype Blog @model {\n  id: ID!\n  name: String!\n  posts: [Post] @connection(keyName: \"byBlog\", fields: [\"id\"])\n}\n```\n\nTODO: add list of scalar types\n\n`type` - The word `type` is used to represent a type of object you may get back from your API -- in this case a blog!\n\n`Blog` - This is the name of the type\n\n`@model` - The `@` sign in GraphQl defines a directive, which means that a field or type has custom logic associated with it. Amplify [provides quite a few](https://docs.amplify.aws/cli/graphql-transformer/directives/) of these you can use. The `@model` directive makes it so that the data for the Blog is stored in our database.\n\n`id`, `name`, and `posts` - these are fields or pieces of data that each blog will have\n\n`ID` and `String` - these are types, they define that `id`'s will be of the type `id` and `name`s will be strings. These fields are `scalar` which means that they are singular pieces of data -- one id and one name rather than having a collection of names for each blog post.\n\n`!` - The exclamation point after types means that the field is non-nullable, or you always need to provide a value for that field. In this case every blog must have an id and name!\n\n`[Post]` - Firstly, the `[]` make it so that it's an array field. Each blog can have an array of posts associated with it. You can also do this with the scalar types as well, so `[String]` would allow for an array of strings. In this case, we're referring to the `Post` model which is also declared in this file, so the two data types are related to one another.\n\n`@connection` - this is another directive, in this case it allows us to relate one model to another. You'll need to provide some data to it, in this case `keyName` and `fields`\n\n`keyName` - This is the name of the index that should be queried to get the related posts. You'll notice on the `Post` model that a `@key` directive is defined with a name. The name of that key will match the `keyName` here. You'll need to define a `@key` whenever you have a one to many field in Amplify and then use the `keyName` to reference it.\n\n`fields` - This is the field that can be queried to get connected objects.\n\nNow let's trade this out for our schema. We'll create a recipe book of sorts. Let's first create three models, `Recipe`, `Ingredient`, and `Instruction`.\n\n```gql\ntype Recipe @model {\n}\n\ntype Ingredient @model {\n}\n\ntype Instruction @model {\n}\n```\n\nNow, let's add fields to each. Each model will need an `id`, which will be a mandatory `ID` field. Then, we'll add `name`s to `Recipe` and `Ingredient`. `Ingredient` will also have a quantity and `Instruction` will have `info`.\n\n```gql\ntype Recipe @model {\n  id: ID!\n  name: String!\n}\n\ntype Ingredient @model {\n  id: ID!\n  name: String!\n  quantity: String!\n}\n\ntype Instruction @model{\n  id: ID!\n  info: String!\n}\n```\n\nNow, we need to connect our models. First, we'll add `@key` directives to both of our child models - `Ingredient` and `Instruction` since `Recipe`s will have both! We want to be able to access `Ingredient`s and `Instruction`s by which recipe each belongs to. Each will have a `recipeID` which will refer to the recipe each belongs to. Then we'll create a connection to the `Recipe` model based on that `recipeID`. Finally, we'll set up a `@key` on each model that will allow us to access the group of ingredients or instructions that belongs to a recipe.\n\n```gql\ntype Ingredient @model @key(name: \"byRecipe\", fields: [\"recipeID\"]) {\n  id: ID!\n  name: String!\n  quantity: String!\n  recipeID: ID!\n  recipe: Recipe @connection(fields: [\"recipeID\"])\n}\n\ntype Instruction @model @key(name: \"byRecipe\", fields: [\"recipeID\"]) {\n  id: ID!\n  info: String!\n  recipeID: ID!\n  recipe: Recipe @connection(fields: [\"recipeID\"])\n}\n```\n\nFinally, we'll add connections from the `Recipe` model to each of the ingredients and instructions.\n\n```gql\ntype Recipe @model {\n  id: ID!\n  name: String!\n  ingredients: [Ingredient] @connection(keyName: \"byRecipe\", fields: [\"id\"])\n  instructions: [Instruction] @connection(keyName: \"byRecipe\", fields: [\"id\"])\n}\n```\n\nNow, we need to deploy our data! Running `amplify push` will create a GraphQL API in the cloud for us.\n\n```sh\namplify push -y\n```\n\n## Queries and Mutations!\n\nOkay, we've setup a GraphQL. Now let's interact with it! We'll create data using `mutations`. We'll also retrieve our data using `queries`.\n\nFrom your command line, run:\n\n```sh\namplify console api\n```\n\nThen choose graphql. AWS AppSync's console will open in the browser. AppSync is the underlying service we're using to create our GraphQL API, and using its console we can test out queries using a visual interface.\n\nOnce you're in the AppSync interface, choose `Mutation` in drop down, then click the plus button.\n\n![Interface showing the mutation drop down and the plus sign](https://welearncode.com/beginners-guide-graphql/mutation.png)\n\nUnderneath, you'll see some actions to choose from. Select \"createRecipe\" and then click the checkbox next to `name` under input.\n\nType in a name for your recipe. I chose `mac n cheese`!\n\n![screenshot of the interface showing the options and checkbox](https://welearncode.com/beginners-guide-graphql/create-recipe.png)\n\nPress the orange run button, and you'll have a recipe ✨! You can create a few different ones if you'd like -- change the name of the recipe and press the orange button for each recipe you'd like to make.\n\nNow let's see the recipes we created. Switch the dropdown back to `Query` instead of `Mutation`. Then choose `listRecipes` below it. Select the attributes you'd like to see, like `name` under `items`. Also note that you can\n\n![Display of the final query](https://welearncode.com/beginners-guide-graphql/list-recipes.png)\n\nRepeat the same processes you used to create a `Recipe` to create a few ingredients and instructions. Use your recipe's id for the `recipeID` (hint: you can get this using the `listRecipes` query!) You can also create a Recipe with ingredients and instructions in one mutation if you select their fields and populate them as well!\n\nNow, rerun the `listRecipes` query with the `ingredients` and `instructions` and you'll see everything connected. This is the beauty of GraphQL -- you can get whatever data you need back without changing an endpoint, you can just change the fields you interact with!\n\n### The Anatomy of a GraphQL Query\n\nWe've written GraphQL queries and mutations using this visual interface, but let's also dive into their syntax so you can write and understand them from scratch.\n\nHere's an example query we could use on our API.\n\n```gql\nquery MyQuery {\n  # This is a comment!\n  listRecipes {\n    items {\n      name\n      id\n      createdAt\n      instructions {\n        items {\n          id\n          info\n        }\n      }\n      ingredients {\n        items {\n          id\n          name\n          quantity\n        }\n      }\n    }\n  }\n}\n```\n\n`query` - This is the type of operation we're performing with our data.`query` is to retrieve data, `mutation` is to change data, and `subscription` is to listen for changes in our data. We'll use all three in the rest of this tutorial!\n\n`MyQuery` - This is the name of the query, ideally these would be descriptive like `ListRecipes`\n\n`listRecipes` - AppSync generates [GraphQL resolvers](https://graphql.org/learn/execution/) which allow us to get data.\n\n`items` - this syntactically represents that we get multiple recipes back\n\n`name`, `id`, `createdAt` - fields we want to get back about our data. `createdAt` and `updatedAt` are added automatically for us.\n\n`instructions` and `ingredients` - we also want to get the data about the related instructions and ingredients back! Then their fields are inside their queries to get these back.\n\nYou can add or remove whichever fields you want to in the query!\n\nSome queries will also require `arguments`. For example, if you want to get just one Recipe, you may provide the id of the one you want. The same is true for mutations.\n\n```gql\nquery GetRecipe($id: ID!) {\n  getRecipe(id: $id) {\n    id\n    name\n  }\n}\n```\n\nNow, let's query our newly created API in our app!\n\n## How to run those queries on a frontend\n\nNow we've tried out mutations and queries, how do we integrate these into our app? First, let's try this out without using any libraries. We can use a normal Fetch request that we'd use for a REST API call.\n\nGo to your `App.js` component. First, import the object from the `aws-exports.js` file. You can go in and check out that file, but it essentially has all the configuration information your frontend will need about your Amplify-generated backend. Also, import `useEffect` from React.\n\n```js\nimport config from './aws-exports'\nimport { useEffect } from 'react'\n```\n\nNow, we'll create a [useEffect](https://reactjs.org/docs/hooks-effect.html) hook that will make a fetch request on page load (if you were using vanilla JavaScript you'd most likely write this same code without the useEffect inside a page load event).\n\nInside the fetch request, we'll need to specify the endpoint, which we can get from the `aws-exports` object. Then we'll need to customize the request by adding the request method `POST`. We'll also provide the API key from the `aws-exports` file. Then the request body will contain the query that we used before! We'll need to use the `JSON.stringify` method to convert our object to a string. Just like with any other [fetch request](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch) we'll need to convert the data to JSON, then you can view it!\n\n```js\nfunction App() {\n  useEffect(() => {\n    const pullData = async () => {\n      let data = await fetch(config.aws_appsync_graphqlEndpoint, {\n        method: 'POST',\n        headers: {\n          'Content-Type': 'application/json',\n          Accept: 'application/json',\n          'X-Api-Key': config.aws_appsync_apiKey\n        },\n        body: JSON.stringify({\n          query: `query MyQuery {\n          listRecipes {\n            items {\n              name\n              id\n              createdAt\n              instructions {\n                items {\n                  id\n                  info\n                }\n              }\n              ingredients {\n                items {\n                  id\n                  name\n                  quantity\n                }\n              }\n            }\n          }\n        }\n        `\n        })\n      })\n      data = await data.json()\n      console.log(data)\n    }\n    pullData()\n  }, [])\n\n  return <h1>Hello GraphQL!</h1>\n}\n```\n\nOkay so now we can get data from our API, but this is a little clunky and a lot of code. If you go into your `graphql/` directory that was generated by Amplify, you'll see files that have subscriptions, queries, and mutations in them for all common operations! We'll import these and use them in our code. Also, Amplify provides helper functions to abstract away the HTTP request.\n\nIn the root of your project, run:\n\n```sh\nnpm i aws-amplify\n```\n\nThis will install the Amplify libraries which will help out with making the GraphQL queries more concise.\n\nWe'll configure Amplify tying our frontend and backend together in the `index.js` file. Add this in at the top:\n\n```js\n// index.js\nimport { Amplify } from 'aws-amplify'\nimport config from './aws-exports'\n\nAmplify.configure(config)\n```\n\nNow, head back to the `App.js` file. We'll import a few things from the `aws-amplify` libraries.\n\n```js\nimport { API } from 'aws-amplify'\n```\n\nWe'll also import the `listRecipes` query from the Amplify generated queries. You can check out the code for it in the 'graphql/queries.js' file.\n\n```js\nimport { listRecipes } from './graphql/queries'\n```\n\nLet's revise our `useEffect` code. Replace your `pullData` function with the following:\n\n```js\nuseEffect(() => {\n  const pullData = async () => {\n    const data = await API.graphql({ query: listRecipes })\n    console.log(data)\n  }\n  pullData()\n}, [])\n```\n\nThe `API.graphql()` method runs an API request to our app's configured GraphQL API. We'll pass the query in an object as the argument. Much less code than before!\n\nNow, we'll run a mutation to create a new recipe when a button is clicked. We'll also prompt the user to input the recipe's name. Replace your `return` statement in the `App.js` component with the following, a button that runs an event listener on click.\n\n```js\nreturn (\n  <div className='App'>\n    <button onClick={createNewRecipe}>create recipe</button>\n  </div>\n)\n```\n\nMake sure to import the mutation we'll need:\n\n```js\nimport { createRecipe } from './graphql/mutations'\n```\n\nNow, we'll implement the `createNewRecipe` function. Add this to your component. We'll first ask the user to name the recipe. Then we'll run a GraphQL request, this time with the `createRecipe` mutation. This mutation also takes variables: in this case the name of the recipe. We'll provide that in an object as well!\n\n```js\nconst createNewRecipe = async () => {\n  const name = prompt('what is the recipe name?')\n  const newRecipe = await API.graphql({ query: createRecipe, variables: { input: { name } }}))\n  console.log(newRecipe)\n}\n```\n\nIf you refresh the page, you'll now see that your array of recipes has the new one you created! But how can we make it so the query reruns automatically whenever a new recipe is created? Subscriptions!\n\n## Subscriptions\n\nSubscriptions allow you to \"subscribe\" to events via GraphQL, so whenever your data updates you can run code. In our case, we'll make it so that we refetch all the recipes whenever a new one is created.\n\nFirst, import the subscription:\n\n```js\nimport { onCreateRecipe } from './graphql/subscriptions'\n```\n\nThen, we'll update our `useEffect`. Keep the first few lines that pull the recipes from the API. Below that create a subscription. This looks similar to the other API requests we've made, but in this case we'll add the `.subscribe` method onto it. We'll pass an object with `next` and `error`. Error will run if there's an error with the subscription. `Next` will run after the subscription triggers. In our case we want to re-run `pullData`!\n\nFinally, make sure to unsubscribe from updates by returning a function that cleans up the subscription.\n\n```js\nuseEffect(() => {\n  const pullData = async () => {\n    const data = await API.graphql(graphqlOperation(listRecipes))\n    console.log(data)\n  }\n  pullData()\n\n  const subscription = API.graphql(\n    { query: onCreateRecipe }\n  ).subscribe({\n    next: (recipeData) => {\n      pullData()\n    },\n    error: (err) => {\n      console.log(err)\n    }\n  })\n\n  return () => subscription.unsubscribe()\n}, [])\n```\n\n## Conclusion\n\nIn this post we learned about GraphQL and it's benefits as well as why you may not want to use it! We also created an API and then used it in a frontend app. If you want to take down your API you can run `amplify delete` from your CLI and your code will persist locally but it will no longer be deployed to the cloud!",n.user={name:"Ali Spittel",username:s,twitter_username:"ASpittel",github_username:s,website_url:"https://welearncode.com",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--0sk2vdiT--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/38627/77a2a5e7-603e-41b4-afcc-f7aff468ae2f.jpg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--zf3CjIGl--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/38627/77a2a5e7-603e-41b4-afcc-f7aff468ae2f.jpg"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:n}},error:e,state:{currentArticle:n},serverRendered:!0,routePath:"/aspittel/808330",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:e}}}}(null,{},"2021-08-31T14:33:02Z","aspittel")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

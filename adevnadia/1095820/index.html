@@ -1,0 +1,1037 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>React project structure for scale: decomposition, layers and hierarchy</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>React project structure for scale: decomposition, layers and hierarchy</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/javascript" class="tag" data-v-70afb46a>
+          #javascript
+        </a><a href="/nuxtstop/t/webdev" class="tag" data-v-70afb46a>
+          #webdev
+        </a><a href="/nuxtstop/t/react" class="tag" data-v-70afb46a>
+          #react
+        </a><a href="/nuxtstop/t/architecture" class="tag" data-v-70afb46a>
+          #architecture
+        </a></div> <!----> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            283
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            8
+          </span></div> <time data-v-70afb46a>May 25</time></div></header> <div class="content" data-v-70afb46a><p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--YOBuVY7B--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rq5u5fxsnhpqy5w9zoqw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--YOBuVY7B--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rq5u5fxsnhpqy5w9zoqw.png" alt="Image description" loading="lazy" width="880" height="563"></a></p>
+
+<p>Originally published at <a href="https://www.developerway.com">https://www.developerway.com</a>. The website has more articles like this 😉</p>
+
+<p>...</p>
+
+<p>How to structure React apps “the right way” seems to be the hot topic <del>recently</del> for as long as React existed. React’s official opinion on it is that it <a href="https://reactjs.org/docs/faq-structure.html#is-there-a-recommended-way-to-structure-react-projects">“doesn’t have opinions”</a>. This is great, it gives us total freedom to do whatever we want. And also it’s bad. It leads to so many fundamentally different and very strong opinions about the proper React app structure, that even the most experienced developers sometimes feel lost, overwhelmed and the need to cry in a dark corner because of it.</p>
+
+<p>I, of course, also have a strong opinion on the topic 😈. And it’s not even going to be “it depends” this time 😅 (almost). What I want to share today is the system, that I’ve seen working pretty well in:</p>
+
+<ul>
+<li>an environment with dozens of loosely connected teams in the same repository working on the same product</li>
+<li>in a fast-paced environment of a small startup with just a few engineers</li>
+<li>or even for one-person projects (yeah, I use it all the time for my personal stuff)</li>
+</ul>
+
+<p>Just remember, same as the <a href="https://youtu.be/k9ojK9Q_ARE?t=42">Pirate’s Code</a>, all of this is more what you'd call "guidelines" than actual rules.</p>
+
+<h2>
+  <a name="what-do-we-need-from-the-project-structure-convention" href="#what-do-we-need-from-the-project-structure-convention">
+  </a>
+  What do we need from the project structure convention
+</h2>
+
+<p>I don’t want to go into details on why we need conventions like this in the first place: if you landed on this article you probably already decided that you need it. What I want to talk about a little bit though, before jumping into solutions, is what makes a project structure convention great.</p>
+
+<h3>
+  <a name="replicability" href="#replicability">
+  </a>
+  Replicability
+</h3>
+
+<p>Code convention should be understandable and easy enough to reproduce by any member of the team, including a recently joined intern with minimal React experience. If the way of working in your repo requires a PhD, a few months of training and deeply philosophical debates over every second PR… Well, it’s probably going to be a really beautiful system, but it won’t exist anywhere other than on paper.</p>
+
+<h3>
+  <a name="inferrability" href="#inferrability">
+  </a>
+  Inferrability
+</h3>
+
+<p>You can write a book and shoot a few movies on “The way of working in our repo”. You can probably even convince everyone on the team to read and watch it (although you probably won't). The fact remains: most people are not going to memorise every word of it, if at all. For the convention to actually work, it should be so obvious and intuitive, so that people in the team ideally are able to reverse-engineer it by just reading the code. In the perfect world, same as with code comments, you wouldn’t even need to write it down anywhere - the code and structure itself would be your documentation.</p>
+
+<h3>
+  <a name="independence" href="#independence">
+  </a>
+  Independence
+</h3>
+
+<p>One of the most important requirements from coding structure guidelines for multiple people, and especially multiple teams, is to solidify a way for developers to operate independently. The last thing that you want is multiple developers working on the same file, or teams constantly invading each other's areas of responsibility.</p>
+
+<p>Therefore, our coding structure guidelines should provide such a structure, where teams are able to peacefully co-exist within the same repository.</p>
+
+<h3>
+  <a name="optimised-for-refactoring" href="#optimised-for-refactoring">
+  </a>
+  Optimised for refactoring
+</h3>
+
+<p>Last one, but in the modern frontend world, it’s the most important one. Frontend today is incredibly fluid. Patterns, frameworks, and best practices are changing constantly. On top of that, we are expected to deliver features fast nowadays. No, FAST. And then re-write it completely after a month. And then maybe re-write it again.</p>
+
+<p>So it becomes very important for our coding convention to not force us to “glue” the code in some permanent place with no way to move it around. It should organize things in such a way that refactoring is something that is performed casually on a daily basis. The worst thing a convention can do is to make refactoring so hard and time-consuming that everyone is terrified of it. Instead, it should be as simple as breathing.</p>
+
+<p>...</p>
+
+<p>Now, that we have our general requirements for the project structure convention, time to go into details. Let’s start with the big picture, and then drill down into the details.</p>
+
+<h2>
+  <a name="organising-the-project-itself-decomposition" href="#organising-the-project-itself-decomposition">
+  </a>
+  Organising the project itself: decomposition
+</h2>
+
+<p>The first and the most important part of organizing a large project that is aligned with the principles we defined above is “decomposition”: instead of thinking of it as a monolithic project, it can be thought of as a composition of more or less independent features. Good old “monolith” vs “microservices” discussion, only within one React application. With this approach every feature is essentially a “nanoservice” in a way, that is isolated from the rest of the features and communicates with them through an external “API” (usually just React props).</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--1vabJZKy--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cea5u7cx5acm4qkufpr0.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--1vabJZKy--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cea5u7cx5acm4qkufpr0.png" alt="Image description" loading="lazy" width="880" height="310"></a></p>
+
+<p>Even just following this mindset, compared to the more traditional “React project” approach, will give you pretty much everything from our list above: teams/people will be able to work independently on features in parallel if they implement them as a bunch of “black boxes” plugged into each other. If the set-up is right, it should be pretty obvious for anyone as well, just would require a bit of practice to adjust to the mind shift. If you need to remove a feature you can just “un-plug” it, or replace it with another feature. Or if you need to refactor the internals of a feature, you can do it. And as long as the public “API” of it stays functional no one outside will even notice it.</p>
+
+<p>I’m describing a React component, isn’t it? 😅 Well, the concept is the same, and this makes React perfect for this mindset. I would define a “feature”, to distinguish it from a “component”, as “a bunch of components and other elements tied together in a complete from an end-user perspective functionality”.</p>
+
+<p>Now, how to organise this for a single project? Especially considering, that compare to microservices, it should come with much less plumbing: in a project with hundreds of features, extracting them all into actual microservices will be close to impossible. What we can do instead, is to use <a href="https://monorepo.tools/">multi-package monorepo</a> architecture: it’s perfect for organizing and isolating independent features as packages. A package is a concept that should be already familiar to anyone who installed anything from npm. And a monorepo - is just a repo, where you have source code of multiple packages living together in harmony, sharing tools, scripts, dependencies and sometimes each other.</p>
+
+<p>So the concept is simple: React project → split it into independent features → place those features into packages.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--0vH7ht78--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/0rj12qg7z1a134gbgpbi.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--0vH7ht78--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/0rj12qg7z1a134gbgpbi.png" alt="Image description" loading="lazy" width="880" height="452"></a></p>
+
+<p>If you never worked with locally set up monorepo and now, after I mentioned “package” and “npm”, feel uneasy about the idea of publishing your private project: don’t be. Neither publishing nor open-source are a requirement for a monorepo to exist and for developers to get the benefits out of it. From the code perspective, a package is just a folder, that has <code>package.json</code> file with some properties. That folder is then linked via Node’s <a href="https://en.wikipedia.org/wiki/Symbolic_link">symlinks</a> to <code>node_modules</code> folder, where "traditional" packages are installed. This linking is performed by tools like <a href="https://classic.yarnpkg.com/lang/en/docs/workspaces/">Yarn</a> or <a href="https://docs.npmjs.com/cli/v8/using-npm/workspaces">Npm</a> themselves: it’s called “workspaces”, and both of them support it. And they make packages accessible in your local code as any other package downloaded from npm.</p>
+
+<p>It would look like this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight tsx"><code><span class="sr">/package</span><span class="err">s
+</span>  <span class="o">/</span><span class="nx">my</span><span class="o">-</span><span class="nx">feature</span>
+    <span class="o">/</span><span class="nx">some</span><span class="o">-</span><span class="nx">folders</span><span class="o">-</span><span class="k">in</span><span class="o">-</span><span class="nx">feature</span>
+    <span class="nx">index</span><span class="p">.</span><span class="nx">ts</span>
+    <span class="kr">package</span><span class="p">.</span><span class="nx">json</span> <span class="c1">// this is what defines the my-feature package</span>
+  <span class="o">/</span><span class="nx">another</span><span class="o">-</span><span class="nx">feature</span>
+    <span class="o">/</span><span class="nx">some</span><span class="o">-</span><span class="nx">folders</span><span class="o">-</span><span class="k">in</span><span class="o">-</span><span class="nx">feature</span>
+    <span class="nx">index</span><span class="p">.</span><span class="nx">ts</span>
+    <span class="kr">package</span><span class="p">.</span><span class="nx">json</span> <span class="c1">// this is what defines the another-feature package</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>and in package.json I would have those two important fields:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@project/my-feature"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"main"</span><span class="p">:</span><span class="w"> </span><span class="s2">"index.ts"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Where the “name” field is, obviously, the name of the package - basically the alias to this folder, through which it will be accessible to the code in the repo. And “main” is the main entry point to the package, i.e. which file is going to be imported when I write something like<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight tsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Something</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@project/my-feature</span><span class="dl">'</span><span class="p">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>There are quite a few public repositories of well-known projects that use the multi-packages monorepo approach: <a href="https://github.com/babel/babel/tree/master/packages">Babel</a>, <a href="https://github.com/facebook/react/tree/main/packages">React</a>, <a href="https://github.com/facebook/jest/tree/main/packages">Jest</a> to name a few.</p>
+
+<h3>
+  <a name="why-packages-rather-than-just-folders" href="#why-packages-rather-than-just-folders">
+  </a>
+  Why packages rather than just folders
+</h3>
+
+<p>At first sight, the packages' approach looks like “just split your features into folders, what’s the big deal” and doesn’t seem that groundbreaking. There are, however, a few interesting things packages can give us, that simple folders can’t.</p>
+
+<p><strong>Aliasing</strong>. With packages, you can refer to your feature by its name, not by its location. Compare this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight tsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Button</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@project/button</span><span class="dl">'</span><span class="p">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>with this more “traditional” approach:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight tsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Button</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../../components/button</span><span class="dl">'</span><span class="p">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>In the first import, it’s obvious - I’m using a generic “button” component of my project, my version of design systems.</p>
+
+<p>In the second one, it’s not that clear - what is this button? Is it the generic “design systems” button? Or maybe part of this feature? Or a feature “above”? Can I even use it here, maybe it was written for some very specific use case that is not going to work in my new feature?</p>
+
+<p>It gets even worst if you have multiple “utils” or “common” folders in your repo. My worst code-nightmare looks like this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight tsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">bla</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../../../common</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">blabla</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../../common</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">blablabla</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../common</span><span class="dl">'</span><span class="p">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>With packages it could look something like this instead:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight tsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">bla</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@project/button/common</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">blabla</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@project/something/common</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">blablabla</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@project/my-feature/common</span><span class="dl">'</span><span class="p">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Instantly obvious what comes from where, and what belongs where. And chances are, the “my-feature” “common” code was written just for the feature’s internal use, was never meant to be used outside of the feature, and re-using it somewhere else is a bad idea. With packages, you’ll see it right away.</p>
+
+<p><strong><em>Separation of concerns</em></strong>. Considering that we all are used to the packages from npm and what they represent, it becomes much easier to think about your feature as an isolated module with its own public API when it is written as a “package” right away.</p>
+
+<p>Take a look at this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight tsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">dateTimeConverter</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../../../../button/something/common/date-time-converter</span><span class="dl">'</span><span class="p">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>vs this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight tsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">dateTimeConverter</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@project/button</span><span class="dl">'</span><span class="p">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The first one will likely be lost in all the imports around it and slip unnoticed, turning your code into <a href="https://blog.codinghorror.com/the-big-ball-of-mud-and-other-architectural-disasters/">The Big Ball of Mud</a>. The second will instantly and naturally raise a few eyebrows: a date-time converter? From a button? Really? Which will naturally force more clear boundaries between different features/packages.</p>
+
+<p><strong>Built-in support</strong>. You don’t need to invent anything, most of the modern tools, like IDE, typescript, linting or bundlers support packages out-of-the-box.</p>
+
+<p><strong>Refactoring is a breeze</strong>. With features separated into packages refactoring becomes enjoyable. Want to refactor the content of your package? Go ahead, you can re-write it fully, as long as you keep the entry’s API the same the rest of the repo won’t even notice it. Want to move your package to another location? It’s just drag-and-drop of a folder if you don’t rename it, the rest of the repo is not affected. Want to re-name the package? Just search & replace a string in the project, nothing more.</p>
+
+<p><strong>Explicit entry points</strong>. You can be very specific about what exactly from a package is available to the outside consumers if you want to truly embrace the “only public API for the consumers” mindset. For example, you can restrict all the “deep” imports, make things like <code>@project/button/some/deep/path</code> impossible and force everyone to only use explicitly defined public API in index.ts file. Take a look at <a href="https://nodejs.org/api/packages.html#package-entry-points">Package entry points</a> and <a href="https://webpack.js.org/guides/package-exports/">Package exports</a> docs for examples of how it works.</p>
+
+<h3>
+  <a name="how-to-split-code-into-packages" href="#how-to-split-code-into-packages">
+  </a>
+  How to split code into packages
+</h3>
+
+<p>The biggest thing that people struggle with in multi-package architecture, is what is the right time to extract code into a package? Should every small feature be one? Or maybe packages are only for big things like a whole page or even an app?</p>
+
+<p>In my experience, there is a balance here. You don’t want to extract every little thing into a package: you’ll end up with just a flat list of hundreds of one-file only tiny packages with no structure, which kinda defeats the purpose of introducing them in the first place. At the same time, you wouldn’t want your package to become too big: you’ll hit all the problems that we’re trying to solve here, only within that package.</p>
+
+<p>Here are some boundaries that I usually use:</p>
+
+<ul>
+<li>“design system” type of things like buttons, modal dialogs, layouts, tooltips, etc, all should should be packages</li>
+<li>features in some “natural” UI boundaries are good candidates for a package - i.e. something that lives in a modal dialog, in a drawer, in a slide-in panel, etc</li>
+<li>“shareable” features - those that can be used in multiple places</li>
+<li>something that you can describe as an isolated “feature” with clear boundaries, logical and ideally visible in the UI</li>
+</ul>
+
+<p>Also, same as in the previous article about <a href="https://www.developerway.com/posts/components-composition-how-to-get-it-right">how to split code into components</a>, it’s very important for a package to be responsible only for one conceptual thing. A package, that exports a <code>Button</code>, <code>CreateIssueDialog</code> and <code>DateTimeConverter</code> does too many things at once and needs to be split up.</p>
+
+<h3>
+  <a name="how-to-organize-packages" href="#how-to-organize-packages">
+  </a>
+  How to organize packages
+</h3>
+
+<p>Although it is possible to just create a flat list of all the packages, and for certain types of projects it would work, for large UI-heavy products it likely won’t be enough. Seeing something like “tooltip” and “settings page” packages sitting together makes me cringe. Or worse - if you have “backend” and “frontend” packages together. This is not only messy but also dangerous: the last thing that you want is to accidentally pull some “backend” code into your frontend bundle.</p>
+
+<p>The actual repo structure would heavily depend on what exactly is the product you’re implementing (or even how many products are there), do you have backend or frontend only, and likely will change and evolve significantly over time. Fortunately, this is the huge advantage of packages: the actual structure is completely independent of code, you can drag-and-drop and re-structure them once a week without any consequences if there is a need.</p>
+
+<p>Considering that the cost of “mistake” in the structure is quite low, there is no need to over-think it, at least at the beginning. If your project is frontend-only, you can even start with a flat list:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>/packages
+  /button
+  ...
+  /footer
+  /settings
+  ...
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>and evolve it over time into something like this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>/packages
+  /core
+    /button
+    /modal
+    /tooltip
+    ...
+  /product-one
+    /footer
+    /settings
+    ...
+  /product-two
+    ...
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Or, if you have a backend, it could be something like this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>/packages
+  /frontend
+    ... // the same as above
+  /backend
+    ... // some backend-specific packages
+  /common
+    ... // some packages that are shared between frontend and backend
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Where in “common” you’d put some code that is shared between frontend and backend. Typically it will be some configs, constants, lodash-like utils, shared types.</p>
+
+<h2>
+  <a name="how-to-structure-a-package-itself" href="#how-to-structure-a-package-itself">
+  </a>
+  How to structure a package itself
+</h2>
+
+<p>To summarise the big section above: “use monorepo, extract features into packages”. 🙂 Now to the next part - how to organize the package itself. Three things are important here for me: naming convention, separating the package into distinct layers, and strict hierarchy.</p>
+
+<h3>
+  <a name="naming-convention" href="#naming-convention">
+  </a>
+  Naming convention
+</h3>
+
+<p>Everyone love naming things and debating over how bad others are at naming things, isn’t it? To reduce time wasted on endless GitHub comments threads and calm down poor geeks with code-related OCD like me, it’s better to just agree on a naming convention once for everyone.</p>
+
+<p>Which one to use doesn’t really matter in my opinion, as long as it's followed throughout the project consistently. If you have <code>ReactFeatureHere.ts</code> and <code>react-feature-here.ts</code> in the same repo, a kitten cries somewhere 😿. I usually use this one:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>/my-feature-name
+  /assets     // if I have some images, then they go into their own folder
+    logo.svg
+  index.tsx   // main feature code
+  test.tsx    // tests for the feature if needed
+  stories.tsx // stories for storybooks if I use them
+  styles.(tsx|scss) // I like to separate styles from component's logic
+  types.ts    // if types are shared between different files within the feature
+  utils.ts    // very simple utils that are used *only* in this feature
+  hooks.tsx   // small hooks that I use *only* in this feature
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>If a feature has a few smaller components that are imported directly into <code>index.tsx</code>, they would look like this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>/my-feature-name
+  ... // the same as before
+  header.tsx
+  header.test.tsx
+  header.styles.tsx
+  ... // etc
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>or, more likely, I would extract them into folders right away and they would look like this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>/my-feature-name
+  ... // index the same as before
+  /header
+    index.tsx
+    ... // etc, exactly the same naming here
+  /footer
+    index.tsx
+    ... // etc, exactly the same naming here
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Folders approach is much more optimized for copy-paste driven development 😊: when creating a new feature by copy-pasting structure from the feature nearby, all you’d need to do is to rename only one folder. All the files will be named exactly the same. Plus it’s easier to create a mental model of the package, to refactor and move code around (on that in the next section).</p>
+
+<h3>
+  <a name="layers-within-a-package" href="#layers-within-a-package">
+  </a>
+  Layers within a package
+</h3>
+
+<p>A typical package with a complicated feature would have a few distinct “layers”: at least “UI” layer and “Data” layer. While it’s probably possible to mix everything together, I would still recommend against that: rendering buttons and fetching data from the backend are vastly different concerns. Separating them will give the package more structure and predictability.</p>
+
+<p>And in order for the project to stay relatively healthy architecture- and code-wise, the crucial thing is to be able to clearly identify those layers that are important for your app, map the relationship between them, and organise all of this in a way that is aligned with whatever tools and frameworks are used.</p>
+
+<p>If I was implementing a React project from scratch today, with Graphql for data manipulations and pure React state for state management (i.e. no Redux or any other library), I would have the following layers:</p>
+
+<ul>
+<li>
+<strong>“data”</strong> layer - queries, mutation and other things that are responsible for connecting to the external data sources and transforming it. Used only by UI layer, doesn’t depend on any other layers.</li>
+<li>
+<strong>“shared”</strong> layer - various utils, functions, hooks, mini-components, types and constants that are used across the entire package by all other layers. Doesn’t depend on any other layers.</li>
+<li>
+<strong>“ui”</strong> layer - the actual feature implementation. Depends on “data” and “shared” layers, no-one depends on it</li>
+</ul>
+
+<p>That’s it!</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--9IpJoURf--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/99rwnd4qaub1npn98x7g.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--9IpJoURf--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/99rwnd4qaub1npn98x7g.png" alt="Image description" loading="lazy" width="880" height="709"></a></p>
+
+<p>If I was using some external state management library, I would probably add “state” layer as well. That one would likely be a bridge between “data” and “ui”, and therefore would use “shared” and “data” layers and “UI” would use “state” instead of “data”.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ZzLZ2Y6c--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5b5doucr662bgg698sqa.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ZzLZ2Y6c--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5b5doucr662bgg698sqa.png" alt="Image description" loading="lazy" width="880" height="618"></a></p>
+
+<p>And from the implementation details point of view, all layers are top-level folders in a package:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>/my-feature-package
+  /shared
+  /ui
+  /data
+  index.ts
+  package.json
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>With every “layer” using the same naming convention described above. So your “data” layer would look something like this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>/data
+  index.ts
+  get-some-data.ts
+  get-some-data.test.ts
+  update-some-data.ts
+  update-some-data.test.ts
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>For more complicated packages, I might split those layers apart, while preserving their purpose and the characteristics. “Data” layer could be split into “queries” (“getters”) and “mutations” (“setters”) for example, and those can either live still in the “data” folder or move up:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>/my-feature-package
+  /shared
+  /ui
+  /queries
+  /mutations
+  index.ts
+  package.json
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--FEYMKaCC--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rj22ti2rppx9a6p6i4sm.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--FEYMKaCC--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rj22ti2rppx9a6p6i4sm.png" alt="Image description" loading="lazy" width="880" height="714"></a></p>
+
+<p>Or you could extract a few sub-layers from the “shared” layer, like “types” and “shared UI components” (which would instantly turn this sub-layer into “UI” type btw, since no one other than “UI” can use UI components).<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>/my-feature-package
+  /shared-ui
+  /ui
+  /queries
+  /mutations
+  /types
+  index.ts
+  package.json
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--8gVzT8n9--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h1g30kli1atfj2k0wer9.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--8gVzT8n9--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h1g30kli1atfj2k0wer9.png" alt="Image description" loading="lazy" width="880" height="828"></a></p>
+
+<p>As long as you are can clearly define what’s every “sub-layer” purpose is, clear about which “sub-layer” belongs to which “layer” and can visualise and explain it to everyone in the team - everything works!</p>
+
+<h3>
+  <a name="strict-hierarchy-within-layers" href="#strict-hierarchy-within-layers">
+  </a>
+  Strict hierarchy within layers
+</h3>
+
+<p>The final piece of the puzzle, which makes this architecture predictable and maintainable, is a strict hierarchy within the layers. This is going to be especially visible in the UI layer since in React apps it usually is the most complicated one.</p>
+
+<p>Let’s start, for example, scaffolding a simple page, with a header and a footer. We’d have “index.ts” file - the main file, where the page comes together, and “header.ts” and “footer.ts” components.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>/my-page
+  index.ts
+  header.ts
+  footer.ts
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now, all of them will have their own components that I'd want to put in their own files. “Header”, for example, will have “Search bar” and “Send feedback” components. In the “traditional” flat way to organize apps we’d put them next to each other, isn’t it? Would be something like this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>/my-page
+  index.ts
+  header.ts
+  footer.ts
+  search-bar.ts
+  send-feedback.ts
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>And then, if I want to add the same “send-feedback” button to the footer component, I’d again just import it to “footer.ts” from “send-feedback.ts”, right? After all, it’s nearby and seems natural.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ci4-M31r--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/bj91bsthvurm9o6gz9mn.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ci4-M31r--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/bj91bsthvurm9o6gz9mn.png" alt="Image description" loading="lazy" width="880" height="258"></a></p>
+
+<p>Unfortunately, what just happened, is we violated the boundaries between our layers (“UI” and “shared”) without even noticing it. If I keed adding more and more components to this flat structure, and I probably will, real applications tend to be quite complicated, I’ll likely violate them a few times more. This will turn this folder into its own tiny <a href="https://blog.codinghorror.com/the-big-ball-of-mud-and-other-architectural-disasters/">“Ball Of Mud”</a>, where it’s completely unpredictable which component depends on which. And as a result, untangling all of this and extracting something out of this folder, when the refactoring time comes, might turn into a very head-scratchy exercise.</p>
+
+<p>Instead, we can structure this layer in a hierarchical way. The rules are:</p>
+
+<ul>
+<li>only main files (i.e. “index.ts”) in a folder can have sub-components (sub-modules) and can import them</li>
+<li>you can import only from the “children”, not from “neighbours”</li>
+<li>you can not skip a level and can only import from direct children</li>
+</ul>
+
+<p>Or, if you prefer visual, it’s just a tree:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Ml8WFc91--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/d5xafhug2ypqwtgnyjfs.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Ml8WFc91--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/d5xafhug2ypqwtgnyjfs.png" alt="Image description" loading="lazy" width="880" height="823"></a></p>
+
+<p>And if you need to share some code between different levels of this hierarchy (like our send-feedback component), you’d instantly see that you’re violating the rules of hierarchy, since wherever you put it, you’d have to import it either from parents or from neighbours. So instead, it would be extracted into the “shared” layer and imported from there.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--5vOQqUju--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/s26ivfkc6sw38abjq2u2.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--5vOQqUju--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/s26ivfkc6sw38abjq2u2.png" alt="Image description" loading="lazy" width="880" height="669"></a></p>
+
+<p>Would look like this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>/my-page
+  /shared
+    send-feedback.ts
+  /ui
+    index.ts
+    /header
+      index.ts
+      search-bar.ts
+    /footer
+      index.ts
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>That way the UI layer (or any layer where that rule applies) just turns into a tree structure, where every branch is independent of any other branch. Extracting anything from this package is now a breeze: all you need to do is to drag and drop a folder into a new place. And you know for sure, that not a single component in the UI tree will be affected by it except the one that actually uses it. The only thing that you might need to deal with additionally is the “shared” layer.</p>
+
+<p>The full app with data layer would then look like this:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--jOhZgjPO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/dhbomxrfhjzwm6abhl4n.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--jOhZgjPO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/dhbomxrfhjzwm6abhl4n.png" alt="Image description" loading="lazy" width="880" height="494"></a></p>
+
+<p>A few clearly defined layers, that are completely encapsulated and predictable.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>/my-page
+  /shared
+    send-feedback.ts
+  /data
+    get-something.ts
+    send-something.ts
+  /ui
+    index.ts
+    /header
+      index.ts
+      search-bar.ts
+    /footer
+      index.ts
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="react-recommends-against-nesting" href="#react-recommends-against-nesting">
+  </a>
+  React recommends against nesting
+</h2>
+
+<p>If you read React docs on recommended project structure, you’ll see that React actually recommends <a href="https://reactjs.org/docs/faq-structure.html#avoid-too-much-nesting">against too much nesting</a>. The official recommendation is “consider limiting yourself to a maximum of three or four nested folders within a single project”. And this recommendation is very relevant for this approach as well: if your package becomes too nested, it’s a clear sign that you might need to think about splitting it into smaller packages. 3-4 levels of nesting, in my experience, is enough even for very complicated features.</p>
+
+<p>The beauty of packages architecture though, is that you can organize your packages with as much nesting as you need without being bound by this restriction - you never refer to another package via its relative path, only by its name. A package by the name <code>@project/change-setting-dialog</code> that lives at the path <code>packages/change-settings-dialog</code> or is hidden inside <code>/packages/product/features/settings-page/change-setting-dialog</code>, will be referred to as <code>@project/change-setting-dialog</code> regardless of its physical location.</p>
+
+<h2>
+  <a name="monorepo-management-tool" href="#monorepo-management-tool">
+  </a>
+  Monorepo management tool
+</h2>
+
+<p>It’s impossible to talk about multi-packages monorepo for your architecture without touching at least a little bit on monorepo management tools. The biggest problem is usually dependency management within it. Imagine, if some of your monorepo packages use an external dependency, <code>lodash</code> for example.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>/my-feature-one
+  package.json // this one uses lodash@3.4.5
+/my-other-feature
+  package.json // this one uses lodash@3.4.5
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now lodash releases a new version, <code>lodash@4.0.0</code>, and you want to move your project to it. You would need to update it everywhere at the same time: the last thing that you want is for some of the packages remaining on the old version, while some using the new one. If you’re on <code>npm</code> or old <code>yarn</code>, that would be a disaster: they would install multiple copies (<a href="https://www.developerway.com/posts/webpack-and-yarn-magic-against-duplicates-in-bundles">not two, multiple</a>) of <code>lodash</code> in your system, which will result in increasing install and build times, and your bundle sizes going through the roof. Not to mention the fun of developing a new feature when you’re using two different versions of the same library all over the project.</p>
+
+<p>I’m not going to touch on what to use if your project is going to be published on <code>npm</code> and open-sourced: probably something like <a href="https://github.com/lerna/lerna">Lerna</a> would be enough, but that is a completely different topic.</p>
+
+<p>If, however, your repo is <strong>private</strong>, things are getting more interesting. Because all that you actually need in order for this architecture to work is packages “aliasing”, nothing more. I.e. just basic symlinking that both <a href="https://classic.yarnpkg.com/lang/en/docs/workspaces/">Yarn</a> and <a href="https://docs.npmjs.com/cli/v8/using-npm/workspaces">Npm</a> provide through the idea of workspaces. It looks like this. You have the “root” <code>package.json</code> file, where you declare where workspaces (i.e. your local packages):<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"private"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"workspaces"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"packages/**"</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>And then next time you run <code>yarn install</code> all packages from the folder packages will turn into “proper” packages and will be available in your project via their name. That’s the whole monorepo setup!</p>
+
+<p>As for dependencies. What will happen, if you have the same dependency in a few packages?<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>/packages
+  /my-feature-one
+    package.json // this one uses lodash@3.4.5
+  /my-other-feature
+    package.json // this one uses lodash@3.4.5
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>When you run <code>yarn install</code> it will “hoist” that package to the root <code>node_modules</code>:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>/node_modules
+  lodash@3.4.5
+/packages
+  /my-feature-one
+    package.json // this one uses lodash@3.4.5
+  /my-other-feature
+    package.json // this one uses lodash@3.4.5
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This is <em>exactly</em> the same situation as if you just declare <code>lodash@3.4.5</code> in the root <code>package.json</code> only. What I’m saying is, and I will probably be buried alive by the purists of the internet for that, including myself two years ago: you don’t need to declare any of the dependencies in your local packages. Everything can just go to the root <code>package.json</code>. And your <code>package.json</code> files in local packages will be just very lightweight <code>json</code> files, that only specify “name” and “main” fields.</p>
+
+<p>Much easier set-up to manage, especially if you’re just starting.</p>
+
+<h2>
+  <a name="react-project-structure-for-scale-final-overview" href="#react-project-structure-for-scale-final-overview">
+  </a>
+  React project structure for scale: final overview
+</h2>
+
+<p>Huh, that was a lot of text. And even that is just a short overview: so many more things can be said on the topic! Let’s recap what has already been said at least:</p>
+
+<p><strong>Decomposition</strong> is the key to successfully scaling your react app. Think of your project not as a monolithic “project”, but as a combination of independent black-box like “features” with their own public API for the consumers to use. The same discussion as “monolith” vs “microservices” really.</p>
+
+<p><strong>Monorepo architecture</strong> is perfect for that. Extract your features into packages; organise your packages in the way that works best for your project.</p>
+
+<p><strong>Layers</strong> within one package are important to give it some structure. You’ll probably have at least “data” layer, “UI” layer and “shared” layer. Can introduce more, depending on your needs, just need to have clear boundaries between them.</p>
+
+<p><strong>Hierarchical structure</strong> of a package is cool. It makes refactoring easier, forces you to have clearer boundaries between layers, and forces you to split your package into smaller ones when it becomes too big.</p>
+
+<p><strong>Dependency management</strong> in a monorepo is a complicated topic, but if your project is private you don’t need to actually worry about it. Just declare all your dependencies in the root package.json and keep all local packages free from them.</p>
+
+<p>You can take a look at the implementation of this architecture in this example repo: <a href="https://github.com/developerway/example-react-project"></a><a href="https://github.com/developerway/example-react-project">https://github.com/developerway/example-react-project</a>. This is just a basic example to demonstrate the principles described in the article, so don’t be scared by tiny packages with just one index.ts: in a real app they will be much bigger.</p>
+
+<p>That is all for today. Hope you’ll be able to apply some of those principles (or even all of them!) to your apps and see improvements in your day-to-day development right away! ✌🏼</p>
+
+<p>...</p>
+
+<p>Originally published at <a href="https://www.developerway.com">https://www.developerway.com</a>. The website has more articles like this 😉</p>
+
+<p><a href="https://www.developerway.com">Subscribe to the newsletter</a>, <a href="https://www.linkedin.com/in/adevnadia/">connect on LinkedIn</a> or <a href="https://twitter.com/adevnadia">follow on Twitter</a> to get notified as soon as the next article comes out.</p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/adevnadia/react-project-structure-for-scale-decomposition-layers-and-hierarchy-4ioa" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(e,t,n,a){return n.type_of="article",n.id=1095820,n.title="React project structure for scale: decomposition, layers and hierarchy",n.description="Originally published at https://www.developerway.com. The website has more articles like this...",n.readable_publish_date="May 25",n.slug="react-project-structure-for-scale-decomposition-layers-and-hierarchy-4ioa",n.path="/adevnadia/react-project-structure-for-scale-decomposition-layers-and-hierarchy-4ioa",n.url="https://dev.to/adevnadia/react-project-structure-for-scale-decomposition-layers-and-hierarchy-4ioa",n.comments_count=8,n.public_reactions_count=283,n.collection_id=e,n.published_timestamp=a,n.positive_reactions_count=283,n.cover_image=e,n.social_image="https://dev.to/social_previews/article/1095820.png",n.canonical_url="https://www.developerway.com/posts/react-project-structure",n.created_at="2022-05-25T17:14:21Z",n.edited_at="2022-05-31T17:07:20Z",n.crossposted_at=e,n.published_at=a,n.last_comment_at="2022-06-01T08:28:54Z",n.reading_time_minutes=20,n.tag_list="javascript, webdev, react, architecture",n.tags=["javascript","webdev","react","architecture"],n.body_html='<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--YOBuVY7B--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rq5u5fxsnhpqy5w9zoqw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--YOBuVY7B--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rq5u5fxsnhpqy5w9zoqw.png" alt="Image description" loading="lazy" width="880" height="563"></a></p>\n\n<p>Originally published at <a href="https://www.developerway.com">https://www.developerway.com</a>. The website has more articles like this 😉</p>\n\n<p>...</p>\n\n<p>How to structure React apps “the right way” seems to be the hot topic <del>recently</del> for as long as React existed. React’s official opinion on it is that it <a href="https://reactjs.org/docs/faq-structure.html#is-there-a-recommended-way-to-structure-react-projects">“doesn’t have opinions”</a>. This is great, it gives us total freedom to do whatever we want. And also it’s bad. It leads to so many fundamentally different and very strong opinions about the proper React app structure, that even the most experienced developers sometimes feel lost, overwhelmed and the need to cry in a dark corner because of it.</p>\n\n<p>I, of course, also have a strong opinion on the topic 😈. And it’s not even going to be “it depends” this time 😅 (almost). What I want to share today is the system, that I’ve seen working pretty well in:</p>\n\n<ul>\n<li>an environment with dozens of loosely connected teams in the same repository working on the same product</li>\n<li>in a fast-paced environment of a small startup with just a few engineers</li>\n<li>or even for one-person projects (yeah, I use it all the time for my personal stuff)</li>\n</ul>\n\n<p>Just remember, same as the <a href="https://youtu.be/k9ojK9Q_ARE?t=42">Pirate’s Code</a>, all of this is more what you\'d call "guidelines" than actual rules.</p>\n\n<h2>\n  <a name="what-do-we-need-from-the-project-structure-convention" href="#what-do-we-need-from-the-project-structure-convention">\n  </a>\n  What do we need from the project structure convention\n</h2>\n\n<p>I don’t want to go into details on why we need conventions like this in the first place: if you landed on this article you probably already decided that you need it. What I want to talk about a little bit though, before jumping into solutions, is what makes a project structure convention great.</p>\n\n<h3>\n  <a name="replicability" href="#replicability">\n  </a>\n  Replicability\n</h3>\n\n<p>Code convention should be understandable and easy enough to reproduce by any member of the team, including a recently joined intern with minimal React experience. If the way of working in your repo requires a PhD, a few months of training and deeply philosophical debates over every second PR… Well, it’s probably going to be a really beautiful system, but it won’t exist anywhere other than on paper.</p>\n\n<h3>\n  <a name="inferrability" href="#inferrability">\n  </a>\n  Inferrability\n</h3>\n\n<p>You can write a book and shoot a few movies on “The way of working in our repo”. You can probably even convince everyone on the team to read and watch it (although you probably won\'t). The fact remains: most people are not going to memorise every word of it, if at all. For the convention to actually work, it should be so obvious and intuitive, so that people in the team ideally are able to reverse-engineer it by just reading the code. In the perfect world, same as with code comments, you wouldn’t even need to write it down anywhere - the code and structure itself would be your documentation.</p>\n\n<h3>\n  <a name="independence" href="#independence">\n  </a>\n  Independence\n</h3>\n\n<p>One of the most important requirements from coding structure guidelines for multiple people, and especially multiple teams, is to solidify a way for developers to operate independently. The last thing that you want is multiple developers working on the same file, or teams constantly invading each other\'s areas of responsibility.</p>\n\n<p>Therefore, our coding structure guidelines should provide such a structure, where teams are able to peacefully co-exist within the same repository.</p>\n\n<h3>\n  <a name="optimised-for-refactoring" href="#optimised-for-refactoring">\n  </a>\n  Optimised for refactoring\n</h3>\n\n<p>Last one, but in the modern frontend world, it’s the most important one. Frontend today is incredibly fluid. Patterns, frameworks, and best practices are changing constantly. On top of that, we are expected to deliver features fast nowadays. No, FAST. And then re-write it completely after a month. And then maybe re-write it again.</p>\n\n<p>So it becomes very important for our coding convention to not force us to “glue” the code in some permanent place with no way to move it around. It should organize things in such a way that refactoring is something that is performed casually on a daily basis. The worst thing a convention can do is to make refactoring so hard and time-consuming that everyone is terrified of it. Instead, it should be as simple as breathing.</p>\n\n<p>...</p>\n\n<p>Now, that we have our general requirements for the project structure convention, time to go into details. Let’s start with the big picture, and then drill down into the details.</p>\n\n<h2>\n  <a name="organising-the-project-itself-decomposition" href="#organising-the-project-itself-decomposition">\n  </a>\n  Organising the project itself: decomposition\n</h2>\n\n<p>The first and the most important part of organizing a large project that is aligned with the principles we defined above is “decomposition”: instead of thinking of it as a monolithic project, it can be thought of as a composition of more or less independent features. Good old “monolith” vs “microservices” discussion, only within one React application. With this approach every feature is essentially a “nanoservice” in a way, that is isolated from the rest of the features and communicates with them through an external “API” (usually just React props).</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--1vabJZKy--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cea5u7cx5acm4qkufpr0.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--1vabJZKy--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cea5u7cx5acm4qkufpr0.png" alt="Image description" loading="lazy" width="880" height="310"></a></p>\n\n<p>Even just following this mindset, compared to the more traditional “React project” approach, will give you pretty much everything from our list above: teams/people will be able to work independently on features in parallel if they implement them as a bunch of “black boxes” plugged into each other. If the set-up is right, it should be pretty obvious for anyone as well, just would require a bit of practice to adjust to the mind shift. If you need to remove a feature you can just “un-plug” it, or replace it with another feature. Or if you need to refactor the internals of a feature, you can do it. And as long as the public “API” of it stays functional no one outside will even notice it.</p>\n\n<p>I’m describing a React component, isn’t it? 😅 Well, the concept is the same, and this makes React perfect for this mindset. I would define a “feature”, to distinguish it from a “component”, as “a bunch of components and other elements tied together in a complete from an end-user perspective functionality”.</p>\n\n<p>Now, how to organise this for a single project? Especially considering, that compare to microservices, it should come with much less plumbing: in a project with hundreds of features, extracting them all into actual microservices will be close to impossible. What we can do instead, is to use <a href="https://monorepo.tools/">multi-package monorepo</a> architecture: it’s perfect for organizing and isolating independent features as packages. A package is a concept that should be already familiar to anyone who installed anything from npm. And a monorepo - is just a repo, where you have source code of multiple packages living together in harmony, sharing tools, scripts, dependencies and sometimes each other.</p>\n\n<p>So the concept is simple: React project → split it into independent features → place those features into packages.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--0vH7ht78--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/0rj12qg7z1a134gbgpbi.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--0vH7ht78--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/0rj12qg7z1a134gbgpbi.png" alt="Image description" loading="lazy" width="880" height="452"></a></p>\n\n<p>If you never worked with locally set up monorepo and now, after I mentioned “package” and “npm”, feel uneasy about the idea of publishing your private project: don’t be. Neither publishing nor open-source are a requirement for a monorepo to exist and for developers to get the benefits out of it. From the code perspective, a package is just a folder, that has <code>package.json</code> file with some properties. That folder is then linked via Node’s <a href="https://en.wikipedia.org/wiki/Symbolic_link">symlinks</a> to <code>node_modules</code> folder, where "traditional" packages are installed. This linking is performed by tools like <a href="https://classic.yarnpkg.com/lang/en/docs/workspaces/">Yarn</a> or <a href="https://docs.npmjs.com/cli/v8/using-npm/workspaces">Npm</a> themselves: it’s called “workspaces”, and both of them support it. And they make packages accessible in your local code as any other package downloaded from npm.</p>\n\n<p>It would look like this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight tsx"><code><span class="sr">/package</span><span class="err">s\n</span>  <span class="o">/</span><span class="nx">my</span><span class="o">-</span><span class="nx">feature</span>\n    <span class="o">/</span><span class="nx">some</span><span class="o">-</span><span class="nx">folders</span><span class="o">-</span><span class="k">in</span><span class="o">-</span><span class="nx">feature</span>\n    <span class="nx">index</span><span class="p">.</span><span class="nx">ts</span>\n    <span class="kr">package</span><span class="p">.</span><span class="nx">json</span> <span class="c1">// this is what defines the my-feature package</span>\n  <span class="o">/</span><span class="nx">another</span><span class="o">-</span><span class="nx">feature</span>\n    <span class="o">/</span><span class="nx">some</span><span class="o">-</span><span class="nx">folders</span><span class="o">-</span><span class="k">in</span><span class="o">-</span><span class="nx">feature</span>\n    <span class="nx">index</span><span class="p">.</span><span class="nx">ts</span>\n    <span class="kr">package</span><span class="p">.</span><span class="nx">json</span> <span class="c1">// this is what defines the another-feature package</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>and in package.json I would have those two important fields:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight json"><code><span class="p">{</span><span class="w">\n  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"@project/my-feature"</span><span class="p">,</span><span class="w">\n  </span><span class="nl">"main"</span><span class="p">:</span><span class="w"> </span><span class="s2">"index.ts"</span><span class="w">\n</span><span class="p">}</span><span class="w">\n</span></code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Where the “name” field is, obviously, the name of the package - basically the alias to this folder, through which it will be accessible to the code in the repo. And “main” is the main entry point to the package, i.e. which file is going to be imported when I write something like<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight tsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Something</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">@project/my-feature</span><span class="dl">\'</span><span class="p">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>There are quite a few public repositories of well-known projects that use the multi-packages monorepo approach: <a href="https://github.com/babel/babel/tree/master/packages">Babel</a>, <a href="https://github.com/facebook/react/tree/main/packages">React</a>, <a href="https://github.com/facebook/jest/tree/main/packages">Jest</a> to name a few.</p>\n\n<h3>\n  <a name="why-packages-rather-than-just-folders" href="#why-packages-rather-than-just-folders">\n  </a>\n  Why packages rather than just folders\n</h3>\n\n<p>At first sight, the packages\' approach looks like “just split your features into folders, what’s the big deal” and doesn’t seem that groundbreaking. There are, however, a few interesting things packages can give us, that simple folders can’t.</p>\n\n<p><strong>Aliasing</strong>. With packages, you can refer to your feature by its name, not by its location. Compare this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight tsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Button</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">@project/button</span><span class="dl">\'</span><span class="p">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>with this more “traditional” approach:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight tsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Button</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">../../components/button</span><span class="dl">\'</span><span class="p">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>In the first import, it’s obvious - I’m using a generic “button” component of my project, my version of design systems.</p>\n\n<p>In the second one, it’s not that clear - what is this button? Is it the generic “design systems” button? Or maybe part of this feature? Or a feature “above”? Can I even use it here, maybe it was written for some very specific use case that is not going to work in my new feature?</p>\n\n<p>It gets even worst if you have multiple “utils” or “common” folders in your repo. My worst code-nightmare looks like this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight tsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">bla</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">../../../common</span><span class="dl">\'</span><span class="p">;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">blabla</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">../../common</span><span class="dl">\'</span><span class="p">;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">blablabla</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">../common</span><span class="dl">\'</span><span class="p">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>With packages it could look something like this instead:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight tsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">bla</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">@project/button/common</span><span class="dl">\'</span><span class="p">;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">blabla</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">@project/something/common</span><span class="dl">\'</span><span class="p">;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">blablabla</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">@project/my-feature/common</span><span class="dl">\'</span><span class="p">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Instantly obvious what comes from where, and what belongs where. And chances are, the “my-feature” “common” code was written just for the feature’s internal use, was never meant to be used outside of the feature, and re-using it somewhere else is a bad idea. With packages, you’ll see it right away.</p>\n\n<p><strong><em>Separation of concerns</em></strong>. Considering that we all are used to the packages from npm and what they represent, it becomes much easier to think about your feature as an isolated module with its own public API when it is written as a “package” right away.</p>\n\n<p>Take a look at this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight tsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">dateTimeConverter</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">../../../../button/something/common/date-time-converter</span><span class="dl">\'</span><span class="p">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>vs this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight tsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">dateTimeConverter</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">@project/button</span><span class="dl">\'</span><span class="p">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The first one will likely be lost in all the imports around it and slip unnoticed, turning your code into <a href="https://blog.codinghorror.com/the-big-ball-of-mud-and-other-architectural-disasters/">The Big Ball of Mud</a>. The second will instantly and naturally raise a few eyebrows: a date-time converter? From a button? Really? Which will naturally force more clear boundaries between different features/packages.</p>\n\n<p><strong>Built-in support</strong>. You don’t need to invent anything, most of the modern tools, like IDE, typescript, linting or bundlers support packages out-of-the-box.</p>\n\n<p><strong>Refactoring is a breeze</strong>. With features separated into packages refactoring becomes enjoyable. Want to refactor the content of your package? Go ahead, you can re-write it fully, as long as you keep the entry’s API the same the rest of the repo won’t even notice it. Want to move your package to another location? It’s just drag-and-drop of a folder if you don’t rename it, the rest of the repo is not affected. Want to re-name the package? Just search &amp; replace a string in the project, nothing more.</p>\n\n<p><strong>Explicit entry points</strong>. You can be very specific about what exactly from a package is available to the outside consumers if you want to truly embrace the “only public API for the consumers” mindset. For example, you can restrict all the “deep” imports, make things like <code>@project/button/some/deep/path</code> impossible and force everyone to only use explicitly defined public API in index.ts file. Take a look at <a href="https://nodejs.org/api/packages.html#package-entry-points">Package entry points</a> and <a href="https://webpack.js.org/guides/package-exports/">Package exports</a> docs for examples of how it works.</p>\n\n<h3>\n  <a name="how-to-split-code-into-packages" href="#how-to-split-code-into-packages">\n  </a>\n  How to split code into packages\n</h3>\n\n<p>The biggest thing that people struggle with in multi-package architecture, is what is the right time to extract code into a package? Should every small feature be one? Or maybe packages are only for big things like a whole page or even an app?</p>\n\n<p>In my experience, there is a balance here. You don’t want to extract every little thing into a package: you’ll end up with just a flat list of hundreds of one-file only tiny packages with no structure, which kinda defeats the purpose of introducing them in the first place. At the same time, you wouldn’t want your package to become too big: you’ll hit all the problems that we’re trying to solve here, only within that package.</p>\n\n<p>Here are some boundaries that I usually use:</p>\n\n<ul>\n<li>“design system” type of things like buttons, modal dialogs, layouts, tooltips, etc, all should should be packages</li>\n<li>features in some “natural” UI boundaries are good candidates for a package - i.e. something that lives in a modal dialog, in a drawer, in a slide-in panel, etc</li>\n<li>“shareable” features - those that can be used in multiple places</li>\n<li>something that you can describe as an isolated “feature” with clear boundaries, logical and ideally visible in the UI</li>\n</ul>\n\n<p>Also, same as in the previous article about <a href="https://www.developerway.com/posts/components-composition-how-to-get-it-right">how to split code into components</a>, it’s very important for a package to be responsible only for one conceptual thing. A package, that exports a <code>Button</code>, <code>CreateIssueDialog</code> and <code>DateTimeConverter</code> does too many things at once and needs to be split up.</p>\n\n<h3>\n  <a name="how-to-organize-packages" href="#how-to-organize-packages">\n  </a>\n  How to organize packages\n</h3>\n\n<p>Although it is possible to just create a flat list of all the packages, and for certain types of projects it would work, for large UI-heavy products it likely won’t be enough. Seeing something like “tooltip” and “settings page” packages sitting together makes me cringe. Or worse - if you have “backend” and “frontend” packages together. This is not only messy but also dangerous: the last thing that you want is to accidentally pull some “backend” code into your frontend bundle.</p>\n\n<p>The actual repo structure would heavily depend on what exactly is the product you’re implementing (or even how many products are there), do you have backend or frontend only, and likely will change and evolve significantly over time. Fortunately, this is the huge advantage of packages: the actual structure is completely independent of code, you can drag-and-drop and re-structure them once a week without any consequences if there is a need.</p>\n\n<p>Considering that the cost of “mistake” in the structure is quite low, there is no need to over-think it, at least at the beginning. If your project is frontend-only, you can even start with a flat list:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>/packages\n  /button\n  ...\n  /footer\n  /settings\n  ...\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>and evolve it over time into something like this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>/packages\n  /core\n    /button\n    /modal\n    /tooltip\n    ...\n  /product-one\n    /footer\n    /settings\n    ...\n  /product-two\n    ...\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Or, if you have a backend, it could be something like this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>/packages\n  /frontend\n    ... // the same as above\n  /backend\n    ... // some backend-specific packages\n  /common\n    ... // some packages that are shared between frontend and backend\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Where in “common” you’d put some code that is shared between frontend and backend. Typically it will be some configs, constants, lodash-like utils, shared types.</p>\n\n<h2>\n  <a name="how-to-structure-a-package-itself" href="#how-to-structure-a-package-itself">\n  </a>\n  How to structure a package itself\n</h2>\n\n<p>To summarise the big section above: “use monorepo, extract features into packages”. 🙂 Now to the next part - how to organize the package itself. Three things are important here for me: naming convention, separating the package into distinct layers, and strict hierarchy.</p>\n\n<h3>\n  <a name="naming-convention" href="#naming-convention">\n  </a>\n  Naming convention\n</h3>\n\n<p>Everyone love naming things and debating over how bad others are at naming things, isn’t it? To reduce time wasted on endless GitHub comments threads and calm down poor geeks with code-related OCD like me, it’s better to just agree on a naming convention once for everyone.</p>\n\n<p>Which one to use doesn’t really matter in my opinion, as long as it\'s followed throughout the project consistently. If you have <code>ReactFeatureHere.ts</code> and <code>react-feature-here.ts</code> in the same repo, a kitten cries somewhere 😿. I usually use this one:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>/my-feature-name\n  /assets     // if I have some images, then they go into their own folder\n    logo.svg\n  index.tsx   // main feature code\n  test.tsx    // tests for the feature if needed\n  stories.tsx // stories for storybooks if I use them\n  styles.(tsx|scss) // I like to separate styles from component\'s logic\n  types.ts    // if types are shared between different files within the feature\n  utils.ts    // very simple utils that are used *only* in this feature\n  hooks.tsx   // small hooks that I use *only* in this feature\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>If a feature has a few smaller components that are imported directly into <code>index.tsx</code>, they would look like this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>/my-feature-name\n  ... // the same as before\n  header.tsx\n  header.test.tsx\n  header.styles.tsx\n  ... // etc\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>or, more likely, I would extract them into folders right away and they would look like this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>/my-feature-name\n  ... // index the same as before\n  /header\n    index.tsx\n    ... // etc, exactly the same naming here\n  /footer\n    index.tsx\n    ... // etc, exactly the same naming here\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Folders approach is much more optimized for copy-paste driven development 😊: when creating a new feature by copy-pasting structure from the feature nearby, all you’d need to do is to rename only one folder. All the files will be named exactly the same. Plus it’s easier to create a mental model of the package, to refactor and move code around (on that in the next section).</p>\n\n<h3>\n  <a name="layers-within-a-package" href="#layers-within-a-package">\n  </a>\n  Layers within a package\n</h3>\n\n<p>A typical package with a complicated feature would have a few distinct “layers”: at least “UI” layer and “Data” layer. While it’s probably possible to mix everything together, I would still recommend against that: rendering buttons and fetching data from the backend are vastly different concerns. Separating them will give the package more structure and predictability.</p>\n\n<p>And in order for the project to stay relatively healthy architecture- and code-wise, the crucial thing is to be able to clearly identify those layers that are important for your app, map the relationship between them, and organise all of this in a way that is aligned with whatever tools and frameworks are used.</p>\n\n<p>If I was implementing a React project from scratch today, with Graphql for data manipulations and pure React state for state management (i.e. no Redux or any other library), I would have the following layers:</p>\n\n<ul>\n<li>\n<strong>“data”</strong> layer - queries, mutation and other things that are responsible for connecting to the external data sources and transforming it. Used only by UI layer, doesn’t depend on any other layers.</li>\n<li>\n<strong>“shared”</strong> layer - various utils, functions, hooks, mini-components, types and constants that are used across the entire package by all other layers. Doesn’t depend on any other layers.</li>\n<li>\n<strong>“ui”</strong> layer - the actual feature implementation. Depends on “data” and “shared” layers, no-one depends on it</li>\n</ul>\n\n<p>That’s it!</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--9IpJoURf--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/99rwnd4qaub1npn98x7g.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--9IpJoURf--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/99rwnd4qaub1npn98x7g.png" alt="Image description" loading="lazy" width="880" height="709"></a></p>\n\n<p>If I was using some external state management library, I would probably add “state” layer as well. That one would likely be a bridge between “data” and “ui”, and therefore would use “shared” and “data” layers and “UI” would use “state” instead of “data”.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ZzLZ2Y6c--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5b5doucr662bgg698sqa.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ZzLZ2Y6c--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5b5doucr662bgg698sqa.png" alt="Image description" loading="lazy" width="880" height="618"></a></p>\n\n<p>And from the implementation details point of view, all layers are top-level folders in a package:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>/my-feature-package\n  /shared\n  /ui\n  /data\n  index.ts\n  package.json\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>With every “layer” using the same naming convention described above. So your “data” layer would look something like this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>/data\n  index.ts\n  get-some-data.ts\n  get-some-data.test.ts\n  update-some-data.ts\n  update-some-data.test.ts\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>For more complicated packages, I might split those layers apart, while preserving their purpose and the characteristics. “Data” layer could be split into “queries” (“getters”) and “mutations” (“setters”) for example, and those can either live still in the “data” folder or move up:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>/my-feature-package\n  /shared\n  /ui\n  /queries\n  /mutations\n  index.ts\n  package.json\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--FEYMKaCC--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rj22ti2rppx9a6p6i4sm.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--FEYMKaCC--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rj22ti2rppx9a6p6i4sm.png" alt="Image description" loading="lazy" width="880" height="714"></a></p>\n\n<p>Or you could extract a few sub-layers from the “shared” layer, like “types” and “shared UI components” (which would instantly turn this sub-layer into “UI” type btw, since no one other than “UI” can use UI components).<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>/my-feature-package\n  /shared-ui\n  /ui\n  /queries\n  /mutations\n  /types\n  index.ts\n  package.json\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--8gVzT8n9--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h1g30kli1atfj2k0wer9.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--8gVzT8n9--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h1g30kli1atfj2k0wer9.png" alt="Image description" loading="lazy" width="880" height="828"></a></p>\n\n<p>As long as you are can clearly define what’s every “sub-layer” purpose is, clear about which “sub-layer” belongs to which “layer” and can visualise and explain it to everyone in the team - everything works!</p>\n\n<h3>\n  <a name="strict-hierarchy-within-layers" href="#strict-hierarchy-within-layers">\n  </a>\n  Strict hierarchy within layers\n</h3>\n\n<p>The final piece of the puzzle, which makes this architecture predictable and maintainable, is a strict hierarchy within the layers. This is going to be especially visible in the UI layer since in React apps it usually is the most complicated one.</p>\n\n<p>Let’s start, for example, scaffolding a simple page, with a header and a footer. We’d have “index.ts” file - the main file, where the page comes together, and “header.ts” and “footer.ts” components.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>/my-page\n  index.ts\n  header.ts\n  footer.ts\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now, all of them will have their own components that I\'d want to put in their own files. “Header”, for example, will have “Search bar” and “Send feedback” components. In the “traditional” flat way to organize apps we’d put them next to each other, isn’t it? Would be something like this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>/my-page\n  index.ts\n  header.ts\n  footer.ts\n  search-bar.ts\n  send-feedback.ts\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>And then, if I want to add the same “send-feedback” button to the footer component, I’d again just import it to “footer.ts” from “send-feedback.ts”, right? After all, it’s nearby and seems natural.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ci4-M31r--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/bj91bsthvurm9o6gz9mn.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ci4-M31r--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/bj91bsthvurm9o6gz9mn.png" alt="Image description" loading="lazy" width="880" height="258"></a></p>\n\n<p>Unfortunately, what just happened, is we violated the boundaries between our layers (“UI” and “shared”) without even noticing it. If I keed adding more and more components to this flat structure, and I probably will, real applications tend to be quite complicated, I’ll likely violate them a few times more. This will turn this folder into its own tiny <a href="https://blog.codinghorror.com/the-big-ball-of-mud-and-other-architectural-disasters/">“Ball Of Mud”</a>, where it’s completely unpredictable which component depends on which. And as a result, untangling all of this and extracting something out of this folder, when the refactoring time comes, might turn into a very head-scratchy exercise.</p>\n\n<p>Instead, we can structure this layer in a hierarchical way. The rules are:</p>\n\n<ul>\n<li>only main files (i.e. “index.ts”) in a folder can have sub-components (sub-modules) and can import them</li>\n<li>you can import only from the “children”, not from “neighbours”</li>\n<li>you can not skip a level and can only import from direct children</li>\n</ul>\n\n<p>Or, if you prefer visual, it’s just a tree:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Ml8WFc91--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/d5xafhug2ypqwtgnyjfs.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Ml8WFc91--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/d5xafhug2ypqwtgnyjfs.png" alt="Image description" loading="lazy" width="880" height="823"></a></p>\n\n<p>And if you need to share some code between different levels of this hierarchy (like our send-feedback component), you’d instantly see that you’re violating the rules of hierarchy, since wherever you put it, you’d have to import it either from parents or from neighbours. So instead, it would be extracted into the “shared” layer and imported from there.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--5vOQqUju--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/s26ivfkc6sw38abjq2u2.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--5vOQqUju--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/s26ivfkc6sw38abjq2u2.png" alt="Image description" loading="lazy" width="880" height="669"></a></p>\n\n<p>Would look like this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>/my-page\n  /shared\n    send-feedback.ts\n  /ui\n    index.ts\n    /header\n      index.ts\n      search-bar.ts\n    /footer\n      index.ts\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>That way the UI layer (or any layer where that rule applies) just turns into a tree structure, where every branch is independent of any other branch. Extracting anything from this package is now a breeze: all you need to do is to drag and drop a folder into a new place. And you know for sure, that not a single component in the UI tree will be affected by it except the one that actually uses it. The only thing that you might need to deal with additionally is the “shared” layer.</p>\n\n<p>The full app with data layer would then look like this:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--jOhZgjPO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/dhbomxrfhjzwm6abhl4n.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--jOhZgjPO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/dhbomxrfhjzwm6abhl4n.png" alt="Image description" loading="lazy" width="880" height="494"></a></p>\n\n<p>A few clearly defined layers, that are completely encapsulated and predictable.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>/my-page\n  /shared\n    send-feedback.ts\n  /data\n    get-something.ts\n    send-something.ts\n  /ui\n    index.ts\n    /header\n      index.ts\n      search-bar.ts\n    /footer\n      index.ts\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="react-recommends-against-nesting" href="#react-recommends-against-nesting">\n  </a>\n  React recommends against nesting\n</h2>\n\n<p>If you read React docs on recommended project structure, you’ll see that React actually recommends <a href="https://reactjs.org/docs/faq-structure.html#avoid-too-much-nesting">against too much nesting</a>. The official recommendation is “consider limiting yourself to a maximum of three or four nested folders within a single project”. And this recommendation is very relevant for this approach as well: if your package becomes too nested, it’s a clear sign that you might need to think about splitting it into smaller packages. 3-4 levels of nesting, in my experience, is enough even for very complicated features.</p>\n\n<p>The beauty of packages architecture though, is that you can organize your packages with as much nesting as you need without being bound by this restriction - you never refer to another package via its relative path, only by its name. A package by the name <code>@project/change-setting-dialog</code> that lives at the path <code>packages/change-settings-dialog</code> or is hidden inside <code>/packages/product/features/settings-page/change-setting-dialog</code>, will be referred to as <code>@project/change-setting-dialog</code> regardless of its physical location.</p>\n\n<h2>\n  <a name="monorepo-management-tool" href="#monorepo-management-tool">\n  </a>\n  Monorepo management tool\n</h2>\n\n<p>It’s impossible to talk about multi-packages monorepo for your architecture without touching at least a little bit on monorepo management tools. The biggest problem is usually dependency management within it. Imagine, if some of your monorepo packages use an external dependency, <code>lodash</code> for example.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>/my-feature-one\n  package.json // this one uses lodash@3.4.5\n/my-other-feature\n  package.json // this one uses lodash@3.4.5\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now lodash releases a new version, <code>lodash@4.0.0</code>, and you want to move your project to it. You would need to update it everywhere at the same time: the last thing that you want is for some of the packages remaining on the old version, while some using the new one. If you’re on <code>npm</code> or old <code>yarn</code>, that would be a disaster: they would install multiple copies (<a href="https://www.developerway.com/posts/webpack-and-yarn-magic-against-duplicates-in-bundles">not two, multiple</a>) of <code>lodash</code> in your system, which will result in increasing install and build times, and your bundle sizes going through the roof. Not to mention the fun of developing a new feature when you’re using two different versions of the same library all over the project.</p>\n\n<p>I’m not going to touch on what to use if your project is going to be published on <code>npm</code> and open-sourced: probably something like <a href="https://github.com/lerna/lerna">Lerna</a> would be enough, but that is a completely different topic.</p>\n\n<p>If, however, your repo is <strong>private</strong>, things are getting more interesting. Because all that you actually need in order for this architecture to work is packages “aliasing”, nothing more. I.e. just basic symlinking that both <a href="https://classic.yarnpkg.com/lang/en/docs/workspaces/">Yarn</a> and <a href="https://docs.npmjs.com/cli/v8/using-npm/workspaces">Npm</a> provide through the idea of workspaces. It looks like this. You have the “root” <code>package.json</code> file, where you declare where workspaces (i.e. your local packages):<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight json"><code><span class="p">{</span><span class="w">\n  </span><span class="nl">"private"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">\n  </span><span class="nl">"workspaces"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"packages/**"</span><span class="p">]</span><span class="w">\n</span><span class="p">}</span><span class="w">\n</span></code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>And then next time you run <code>yarn install</code> all packages from the folder packages will turn into “proper” packages and will be available in your project via their name. That’s the whole monorepo setup!</p>\n\n<p>As for dependencies. What will happen, if you have the same dependency in a few packages?<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>/packages\n  /my-feature-one\n    package.json // this one uses lodash@3.4.5\n  /my-other-feature\n    package.json // this one uses lodash@3.4.5\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>When you run <code>yarn install</code> it will “hoist” that package to the root <code>node_modules</code>:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>/node_modules\n  lodash@3.4.5\n/packages\n  /my-feature-one\n    package.json // this one uses lodash@3.4.5\n  /my-other-feature\n    package.json // this one uses lodash@3.4.5\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This is <em>exactly</em> the same situation as if you just declare <code>lodash@3.4.5</code> in the root <code>package.json</code> only. What I’m saying is, and I will probably be buried alive by the purists of the internet for that, including myself two years ago: you don’t need to declare any of the dependencies in your local packages. Everything can just go to the root <code>package.json</code>. And your <code>package.json</code> files in local packages will be just very lightweight <code>json</code> files, that only specify “name” and “main” fields.</p>\n\n<p>Much easier set-up to manage, especially if you’re just starting.</p>\n\n<h2>\n  <a name="react-project-structure-for-scale-final-overview" href="#react-project-structure-for-scale-final-overview">\n  </a>\n  React project structure for scale: final overview\n</h2>\n\n<p>Huh, that was a lot of text. And even that is just a short overview: so many more things can be said on the topic! Let’s recap what has already been said at least:</p>\n\n<p><strong>Decomposition</strong> is the key to successfully scaling your react app. Think of your project not as a monolithic “project”, but as a combination of independent black-box like “features” with their own public API for the consumers to use. The same discussion as “monolith” vs “microservices” really.</p>\n\n<p><strong>Monorepo architecture</strong> is perfect for that. Extract your features into packages; organise your packages in the way that works best for your project.</p>\n\n<p><strong>Layers</strong> within one package are important to give it some structure. You’ll probably have at least “data” layer, “UI” layer and “shared” layer. Can introduce more, depending on your needs, just need to have clear boundaries between them.</p>\n\n<p><strong>Hierarchical structure</strong> of a package is cool. It makes refactoring easier, forces you to have clearer boundaries between layers, and forces you to split your package into smaller ones when it becomes too big.</p>\n\n<p><strong>Dependency management</strong> in a monorepo is a complicated topic, but if your project is private you don’t need to actually worry about it. Just declare all your dependencies in the root package.json and keep all local packages free from them.</p>\n\n<p>You can take a look at the implementation of this architecture in this example repo: <a href="https://github.com/developerway/example-react-project"></a><a href="https://github.com/developerway/example-react-project">https://github.com/developerway/example-react-project</a>. This is just a basic example to demonstrate the principles described in the article, so don’t be scared by tiny packages with just one index.ts: in a real app they will be much bigger.</p>\n\n<p>That is all for today. Hope you’ll be able to apply some of those principles (or even all of them!) to your apps and see improvements in your day-to-day development right away! ✌🏼</p>\n\n<p>...</p>\n\n<p>Originally published at <a href="https://www.developerway.com">https://www.developerway.com</a>. The website has more articles like this 😉</p>\n\n<p><a href="https://www.developerway.com">Subscribe to the newsletter</a>, <a href="https://www.linkedin.com/in/adevnadia/">connect on LinkedIn</a> or <a href="https://twitter.com/adevnadia">follow on Twitter</a> to get notified as soon as the next article comes out.</p>\n\n',n.body_markdown='\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rq5u5fxsnhpqy5w9zoqw.png)\n\nOriginally published at [https://www.developerway.com](https://www.developerway.com). The website has more articles like this 😉\n\n...\n\nHow to structure React apps “the right way” seems to be the hot topic ~~recently~~ for as long as React existed. React’s official opinion on it is that it <a href="https://reactjs.org/docs/faq-structure.html#is-there-a-recommended-way-to-structure-react-projects">“doesn’t have opinions”</a>. This is great, it gives us total freedom to do whatever we want. And also it’s bad. It leads to so many fundamentally different and very strong opinions about the proper React app structure, that even the most experienced developers sometimes feel lost, overwhelmed and the need to cry in a dark corner because of it.\n\nI, of course, also have a strong opinion on the topic 😈. And it’s not even going to be “it depends” this time 😅 (almost). What I want to share today is the system, that I’ve seen working pretty well in:\n\n- an environment with dozens of loosely connected teams in the same repository working on the same product\n- in a fast-paced environment of a small startup with just a few engineers\n- or even for one-person projects (yeah, I use it all the time for my personal stuff)\n\nJust remember, same as the <a href="https://youtu.be/k9ojK9Q_ARE?t=42">Pirate’s Code</a>, all of this is more what you\'d call "guidelines" than actual rules.\n\n## What do we need from the project structure convention\n\nI don’t want to go into details on why we need conventions like this in the first place: if you landed on this article you probably already decided that you need it. What I want to talk about a little bit though, before jumping into solutions, is what makes a project structure convention great.\n\n### Replicability\n\nCode convention should be understandable and easy enough to reproduce by any member of the team, including a recently joined intern with minimal React experience. If the way of working in your repo requires a PhD, a few months of training and deeply philosophical debates over every second PR… Well, it’s probably going to be a really beautiful system, but it won’t exist anywhere other than on paper.\n\n### Inferrability\n\nYou can write a book and shoot a few movies on “The way of working in our repo”. You can probably even convince everyone on the team to read and watch it (although you probably won\'t). The fact remains: most people are not going to memorise every word of it, if at all. For the convention to actually work, it should be so obvious and intuitive, so that people in the team ideally are able to reverse-engineer it by just reading the code. In the perfect world, same as with code comments, you wouldn’t even need to write it down anywhere - the code and structure itself would be your documentation.\n\n### Independence\n\nOne of the most important requirements from coding structure guidelines for multiple people, and especially multiple teams, is to solidify a way for developers to operate independently. The last thing that you want is multiple developers working on the same file, or teams constantly invading each other\'s areas of responsibility.\n\nTherefore, our coding structure guidelines should provide such a structure, where teams are able to peacefully co-exist within the same repository.\n\n### Optimised for refactoring\n\nLast one, but in the modern frontend world, it’s the most important one. Frontend today is incredibly fluid. Patterns, frameworks, and best practices are changing constantly. On top of that, we are expected to deliver features fast nowadays. No, FAST. And then re-write it completely after a month. And then maybe re-write it again.\n\nSo it becomes very important for our coding convention to not force us to “glue” the code in some permanent place with no way to move it around. It should organize things in such a way that refactoring is something that is performed casually on a daily basis. The worst thing a convention can do is to make refactoring so hard and time-consuming that everyone is terrified of it. Instead, it should be as simple as breathing.\n\n...\n\nNow, that we have our general requirements for the project structure convention, time to go into details. Let’s start with the big picture, and then drill down into the details.\n\n## Organising the project itself: decomposition\n\nThe first and the most important part of organizing a large project that is aligned with the principles we defined above is “decomposition”: instead of thinking of it as a monolithic project, it can be thought of as a composition of more or less independent features. Good old “monolith” vs “microservices” discussion, only within one React application. With this approach every feature is essentially a “nanoservice” in a way, that is isolated from the rest of the features and communicates with them through an external “API” (usually just React props).\n\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cea5u7cx5acm4qkufpr0.png)\n\n\nEven just following this mindset, compared to the more traditional “React project” approach, will give you pretty much everything from our list above: teams/people will be able to work independently on features in parallel if they implement them as a bunch of “black boxes” plugged into each other. If the set-up is right, it should be pretty obvious for anyone as well, just would require a bit of practice to adjust to the mind shift. If you need to remove a feature you can just “un-plug” it, or replace it with another feature. Or if you need to refactor the internals of a feature, you can do it. And as long as the public “API” of it stays functional no one outside will even notice it.\n\nI’m describing a React component, isn’t it? 😅 Well, the concept is the same, and this makes React perfect for this mindset. I would define a “feature”, to distinguish it from a “component”, as “a bunch of components and other elements tied together in a complete from an end-user perspective functionality”.\n\nNow, how to organise this for a single project? Especially considering, that compare to microservices, it should come with much less plumbing: in a project with hundreds of features, extracting them all into actual microservices will be close to impossible. What we can do instead, is to use <a href="https://monorepo.tools/">multi-package monorepo</a> architecture: it’s perfect for organizing and isolating independent features as packages. A package is a concept that should be already familiar to anyone who installed anything from npm. And a monorepo - is just a repo, where you have source code of multiple packages living together in harmony, sharing tools, scripts, dependencies and sometimes each other.\n\nSo the concept is simple: React project → split it into independent features → place those features into packages.\n\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/0rj12qg7z1a134gbgpbi.png)\n\n\nIf you never worked with locally set up monorepo and now, after I mentioned “package” and “npm”, feel uneasy about the idea of publishing your private project: don’t be. Neither publishing nor open-source are a requirement for a monorepo to exist and for developers to get the benefits out of it. From the code perspective, a package is just a folder, that has `package.json` file with some properties. That folder is then linked via Node’s <a href="https://en.wikipedia.org/wiki/Symbolic_link">symlinks</a> to `node_modules` folder, where "traditional" packages are installed. This linking is performed by tools like <a href="https://classic.yarnpkg.com/lang/en/docs/workspaces/">Yarn</a> or <a href="https://docs.npmjs.com/cli/v8/using-npm/workspaces">Npm</a> themselves: it’s called “workspaces”, and both of them support it. And they make packages accessible in your local code as any other package downloaded from npm.\n\nIt would look like this:\n\n```tsx\n/packages\n  /my-feature\n    /some-folders-in-feature\n    index.ts\n    package.json // this is what defines the my-feature package\n  /another-feature\n    /some-folders-in-feature\n    index.ts\n    package.json // this is what defines the another-feature package\n```\n\nand in package.json I would have those two important fields:\n\n```json\n{\n  "name": "@project/my-feature",\n  "main": "index.ts"\n}\n```\n\nWhere the “name” field is, obviously, the name of the package - basically the alias to this folder, through which it will be accessible to the code in the repo. And “main” is the main entry point to the package, i.e. which file is going to be imported when I write something like\n\n```tsx\nimport { Something } from \'@project/my-feature\';\n```\n\nThere are quite a few public repositories of well-known projects that use the multi-packages monorepo approach: <a href="https://github.com/babel/babel/tree/master/packages">Babel</a>, <a href="https://github.com/facebook/react/tree/main/packages">React</a>, <a href="https://github.com/facebook/jest/tree/main/packages">Jest</a> to name a few.\n\n### Why packages rather than just folders\n\nAt first sight, the packages\' approach looks like “just split your features into folders, what’s the big deal” and doesn’t seem that groundbreaking. There are, however, a few interesting things packages can give us, that simple folders can’t.\n\n**Aliasing**. With packages, you can refer to your feature by its name, not by its location. Compare this:\n\n```tsx\nimport { Button } from \'@project/button\';\n```\n\nwith this more “traditional” approach:\n\n```tsx\nimport { Button } from \'../../components/button\';\n```\n\nIn the first import, it’s obvious - I’m using a generic “button” component of my project, my version of design systems.\n\nIn the second one, it’s not that clear - what is this button? Is it the generic “design systems” button? Or maybe part of this feature? Or a feature “above”? Can I even use it here, maybe it was written for some very specific use case that is not going to work in my new feature?\n\nIt gets even worst if you have multiple “utils” or “common” folders in your repo. My worst code-nightmare looks like this:\n\n```tsx\nimport { bla } from \'../../../common\';\nimport { blabla } from \'../../common\';\nimport { blablabla } from \'../common\';\n```\n\nWith packages it could look something like this instead:\n\n```tsx\nimport { bla } from \'@project/button/common\';\nimport { blabla } from \'@project/something/common\';\nimport { blablabla } from \'@project/my-feature/common\';\n```\n\nInstantly obvious what comes from where, and what belongs where. And chances are, the “my-feature” “common” code was written just for the feature’s internal use, was never meant to be used outside of the feature, and re-using it somewhere else is a bad idea. With packages, you’ll see it right away.\n\n**_Separation of concerns_**. Considering that we all are used to the packages from npm and what they represent, it becomes much easier to think about your feature as an isolated module with its own public API when it is written as a “package” right away.\n\nTake a look at this:\n\n```tsx\nimport { dateTimeConverter } from \'../../../../button/something/common/date-time-converter\';\n```\n\nvs this:\n\n```tsx\nimport { dateTimeConverter } from \'@project/button\';\n```\n\nThe first one will likely be lost in all the imports around it and slip unnoticed, turning your code into <a href="https://blog.codinghorror.com/the-big-ball-of-mud-and-other-architectural-disasters/">The Big Ball of Mud</a>. The second will instantly and naturally raise a few eyebrows: a date-time converter? From a button? Really? Which will naturally force more clear boundaries between different features/packages.\n\n**Built-in support**. You don’t need to invent anything, most of the modern tools, like IDE, typescript, linting or bundlers support packages out-of-the-box.\n\n**Refactoring is a breeze**. With features separated into packages refactoring becomes enjoyable. Want to refactor the content of your package? Go ahead, you can re-write it fully, as long as you keep the entry’s API the same the rest of the repo won’t even notice it. Want to move your package to another location? It’s just drag-and-drop of a folder if you don’t rename it, the rest of the repo is not affected. Want to re-name the package? Just search & replace a string in the project, nothing more.\n\n**Explicit entry points**. You can be very specific about what exactly from a package is available to the outside consumers if you want to truly embrace the “only public API for the consumers” mindset. For example, you can restrict all the “deep” imports, make things like `@project/button/some/deep/path` impossible and force everyone to only use explicitly defined public API in index.ts file. Take a look at <a href="https://nodejs.org/api/packages.html#package-entry-points">Package entry points</a> and <a href="https://webpack.js.org/guides/package-exports/">Package exports</a> docs for examples of how it works.\n\n### How to split code into packages\n\nThe biggest thing that people struggle with in multi-package architecture, is what is the right time to extract code into a package? Should every small feature be one? Or maybe packages are only for big things like a whole page or even an app?\n\nIn my experience, there is a balance here. You don’t want to extract every little thing into a package: you’ll end up with just a flat list of hundreds of one-file only tiny packages with no structure, which kinda defeats the purpose of introducing them in the first place. At the same time, you wouldn’t want your package to become too big: you’ll hit all the problems that we’re trying to solve here, only within that package.\n\nHere are some boundaries that I usually use:\n\n- “design system” type of things like buttons, modal dialogs, layouts, tooltips, etc, all should should be packages\n- features in some “natural” UI boundaries are good candidates for a package - i.e. something that lives in a modal dialog, in a drawer, in a slide-in panel, etc\n- “shareable” features - those that can be used in multiple places\n- something that you can describe as an isolated “feature” with clear boundaries, logical and ideally visible in the UI\n\nAlso, same as in the previous article about <a href="https://www.developerway.com/posts/components-composition-how-to-get-it-right">how to split code into components</a>, it’s very important for a package to be responsible only for one conceptual thing. A package, that exports a `Button`, `CreateIssueDialog` and `DateTimeConverter` does too many things at once and needs to be split up.\n\n### How to organize packages\n\nAlthough it is possible to just create a flat list of all the packages, and for certain types of projects it would work, for large UI-heavy products it likely won’t be enough. Seeing something like “tooltip” and “settings page” packages sitting together makes me cringe. Or worse - if you have “backend” and “frontend” packages together. This is not only messy but also dangerous: the last thing that you want is to accidentally pull some “backend” code into your frontend bundle.\n\nThe actual repo structure would heavily depend on what exactly is the product you’re implementing (or even how many products are there), do you have backend or frontend only, and likely will change and evolve significantly over time. Fortunately, this is the huge advantage of packages: the actual structure is completely independent of code, you can drag-and-drop and re-structure them once a week without any consequences if there is a need.\n\nConsidering that the cost of “mistake” in the structure is quite low, there is no need to over-think it, at least at the beginning. If your project is frontend-only, you can even start with a flat list:\n\n```\n/packages\n  /button\n  ...\n  /footer\n  /settings\n  ...\n```\n\nand evolve it over time into something like this:\n\n```\n/packages\n  /core\n    /button\n    /modal\n    /tooltip\n    ...\n  /product-one\n    /footer\n    /settings\n    ...\n  /product-two\n    ...\n```\n\nOr, if you have a backend, it could be something like this:\n\n```\n/packages\n  /frontend\n    ... // the same as above\n  /backend\n    ... // some backend-specific packages\n  /common\n    ... // some packages that are shared between frontend and backend\n```\n\nWhere in “common” you’d put some code that is shared between frontend and backend. Typically it will be some configs, constants, lodash-like utils, shared types.\n\n## How to structure a package itself\n\nTo summarise the big section above: “use monorepo, extract features into packages”. 🙂 Now to the next part - how to organize the package itself. Three things are important here for me: naming convention, separating the package into distinct layers, and strict hierarchy.\n\n### Naming convention\n\nEveryone love naming things and debating over how bad others are at naming things, isn’t it? To reduce time wasted on endless GitHub comments threads and calm down poor geeks with code-related OCD like me, it’s better to just agree on a naming convention once for everyone.\n\nWhich one to use doesn’t really matter in my opinion, as long as it\'s followed throughout the project consistently. If you have `ReactFeatureHere.ts` and `react-feature-here.ts` in the same repo, a kitten cries somewhere 😿. I usually use this one:\n\n```\n/my-feature-name\n  /assets     // if I have some images, then they go into their own folder\n    logo.svg\n  index.tsx   // main feature code\n  test.tsx    // tests for the feature if needed\n  stories.tsx // stories for storybooks if I use them\n  styles.(tsx|scss) // I like to separate styles from component\'s logic\n  types.ts    // if types are shared between different files within the feature\n  utils.ts    // very simple utils that are used *only* in this feature\n  hooks.tsx   // small hooks that I use *only* in this feature\n```\n\nIf a feature has a few smaller components that are imported directly into `index.tsx`, they would look like this:\n\n```\n/my-feature-name\n  ... // the same as before\n  header.tsx\n  header.test.tsx\n  header.styles.tsx\n  ... // etc\n```\n\nor, more likely, I would extract them into folders right away and they would look like this:\n\n```\n/my-feature-name\n  ... // index the same as before\n  /header\n    index.tsx\n    ... // etc, exactly the same naming here\n  /footer\n    index.tsx\n    ... // etc, exactly the same naming here\n```\n\nFolders approach is much more optimized for copy-paste driven development 😊: when creating a new feature by copy-pasting structure from the feature nearby, all you’d need to do is to rename only one folder. All the files will be named exactly the same. Plus it’s easier to create a mental model of the package, to refactor and move code around (on that in the next section).\n\n### Layers within a package\n\nA typical package with a complicated feature would have a few distinct “layers”: at least “UI” layer and “Data” layer. While it’s probably possible to mix everything together, I would still recommend against that: rendering buttons and fetching data from the backend are vastly different concerns. Separating them will give the package more structure and predictability.\n\nAnd in order for the project to stay relatively healthy architecture- and code-wise, the crucial thing is to be able to clearly identify those layers that are important for your app, map the relationship between them, and organise all of this in a way that is aligned with whatever tools and frameworks are used.\n\nIf I was implementing a React project from scratch today, with Graphql for data manipulations and pure React state for state management (i.e. no Redux or any other library), I would have the following layers:\n\n- **“data”** layer - queries, mutation and other things that are responsible for connecting to the external data sources and transforming it. Used only by UI layer, doesn’t depend on any other layers.\n- **“shared”** layer - various utils, functions, hooks, mini-components, types and constants that are used across the entire package by all other layers. Doesn’t depend on any other layers.\n- **“ui”** layer - the actual feature implementation. Depends on “data” and “shared” layers, no-one depends on it\n\nThat’s it!\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/99rwnd4qaub1npn98x7g.png)\n\nIf I was using some external state management library, I would probably add “state” layer as well. That one would likely be a bridge between “data” and “ui”, and therefore would use “shared” and “data” layers and “UI” would use “state” instead of “data”.\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5b5doucr662bgg698sqa.png)\n\n\nAnd from the implementation details point of view, all layers are top-level folders in a package:\n\n```\n/my-feature-package\n  /shared\n  /ui\n  /data\n  index.ts\n  package.json\n```\n\nWith every “layer” using the same naming convention described above. So your “data” layer would look something like this:\n\n```\n/data\n  index.ts\n  get-some-data.ts\n  get-some-data.test.ts\n  update-some-data.ts\n  update-some-data.test.ts\n```\n\nFor more complicated packages, I might split those layers apart, while preserving their purpose and the characteristics. “Data” layer could be split into “queries” (“getters”) and “mutations” (“setters”) for example, and those can either live still in the “data” folder or move up:\n\n```\n/my-feature-package\n  /shared\n  /ui\n  /queries\n  /mutations\n  index.ts\n  package.json\n```\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rj22ti2rppx9a6p6i4sm.png)\n\n\nOr you could extract a few sub-layers from the “shared” layer, like “types” and “shared UI components” (which would instantly turn this sub-layer into “UI” type btw, since no one other than “UI” can use UI components).\n\n```\n/my-feature-package\n  /shared-ui\n  /ui\n  /queries\n  /mutations\n  /types\n  index.ts\n  package.json\n```\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h1g30kli1atfj2k0wer9.png)\n\n\nAs long as you are can clearly define what’s every “sub-layer” purpose is, clear about which “sub-layer” belongs to which “layer” and can visualise and explain it to everyone in the team - everything works!\n\n### Strict hierarchy within layers\n\nThe final piece of the puzzle, which makes this architecture predictable and maintainable, is a strict hierarchy within the layers. This is going to be especially visible in the UI layer since in React apps it usually is the most complicated one.\n\nLet’s start, for example, scaffolding a simple page, with a header and a footer. We’d have “index.ts” file - the main file, where the page comes together, and “header.ts” and “footer.ts” components.\n\n```\n/my-page\n  index.ts\n  header.ts\n  footer.ts\n```\n\nNow, all of them will have their own components that I\'d want to put in their own files. “Header”, for example, will have “Search bar” and “Send feedback” components. In the “traditional” flat way to organize apps we’d put them next to each other, isn’t it? Would be something like this:\n\n```\n/my-page\n  index.ts\n  header.ts\n  footer.ts\n  search-bar.ts\n  send-feedback.ts\n```\n\nAnd then, if I want to add the same “send-feedback” button to the footer component, I’d again just import it to “footer.ts” from “send-feedback.ts”, right? After all, it’s nearby and seems natural.\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/bj91bsthvurm9o6gz9mn.png)\n\n\nUnfortunately, what just happened, is we violated the boundaries between our layers (“UI” and “shared”) without even noticing it. If I keed adding more and more components to this flat structure, and I probably will, real applications tend to be quite complicated, I’ll likely violate them a few times more. This will turn this folder into its own tiny <a href="https://blog.codinghorror.com/the-big-ball-of-mud-and-other-architectural-disasters/">“Ball Of Mud”</a>, where it’s completely unpredictable which component depends on which. And as a result, untangling all of this and extracting something out of this folder, when the refactoring time comes, might turn into a very head-scratchy exercise.\n\nInstead, we can structure this layer in a hierarchical way. The rules are:\n\n- only main files (i.e. “index.ts”) in a folder can have sub-components (sub-modules) and can import them\n- you can import only from the “children”, not from “neighbours”\n- you can not skip a level and can only import from direct children\n\nOr, if you prefer visual, it’s just a tree:\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/d5xafhug2ypqwtgnyjfs.png)\n\n\nAnd if you need to share some code between different levels of this hierarchy (like our send-feedback component), you’d instantly see that you’re violating the rules of hierarchy, since wherever you put it, you’d have to import it either from parents or from neighbours. So instead, it would be extracted into the “shared” layer and imported from there.\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/s26ivfkc6sw38abjq2u2.png)\n\n\nWould look like this:\n\n```\n/my-page\n  /shared\n    send-feedback.ts\n  /ui\n    index.ts\n    /header\n      index.ts\n      search-bar.ts\n    /footer\n      index.ts\n```\n\nThat way the UI layer (or any layer where that rule applies) just turns into a tree structure, where every branch is independent of any other branch. Extracting anything from this package is now a breeze: all you need to do is to drag and drop a folder into a new place. And you know for sure, that not a single component in the UI tree will be affected by it except the one that actually uses it. The only thing that you might need to deal with additionally is the “shared” layer.\n\nThe full app with data layer would then look like this:\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/dhbomxrfhjzwm6abhl4n.png)\n\n\nA few clearly defined layers, that are completely encapsulated and predictable.\n\n```\n/my-page\n  /shared\n    send-feedback.ts\n  /data\n    get-something.ts\n    send-something.ts\n  /ui\n    index.ts\n    /header\n      index.ts\n      search-bar.ts\n    /footer\n      index.ts\n```\n\n## React recommends against nesting\n\nIf you read React docs on recommended project structure, you’ll see that React actually recommends <a href="https://reactjs.org/docs/faq-structure.html#avoid-too-much-nesting">against too much nesting</a>. The official recommendation is “consider limiting yourself to a maximum of three or four nested folders within a single project”. And this recommendation is very relevant for this approach as well: if your package becomes too nested, it’s a clear sign that you might need to think about splitting it into smaller packages. 3-4 levels of nesting, in my experience, is enough even for very complicated features.\n\nThe beauty of packages architecture though, is that you can organize your packages with as much nesting as you need without being bound by this restriction - you never refer to another package via its relative path, only by its name. A package by the name `@project/change-setting-dialog` that lives at the path `packages/change-settings-dialog` or is hidden inside `/packages/product/features/settings-page/change-setting-dialog`, will be referred to as `@project/change-setting-dialog` regardless of its physical location.\n\n## Monorepo management tool\n\nIt’s impossible to talk about multi-packages monorepo for your architecture without touching at least a little bit on monorepo management tools. The biggest problem is usually dependency management within it. Imagine, if some of your monorepo packages use an external dependency, `lodash` for example.\n\n```\n/my-feature-one\n  package.json // this one uses lodash@3.4.5\n/my-other-feature\n  package.json // this one uses lodash@3.4.5\n```\n\nNow lodash releases a new version, `lodash@4.0.0`, and you want to move your project to it. You would need to update it everywhere at the same time: the last thing that you want is for some of the packages remaining on the old version, while some using the new one. If you’re on `npm` or old `yarn`, that would be a disaster: they would install multiple copies (<a href="https://www.developerway.com/posts/webpack-and-yarn-magic-against-duplicates-in-bundles">not two, multiple</a>) of `lodash` in your system, which will result in increasing install and build times, and your bundle sizes going through the roof. Not to mention the fun of developing a new feature when you’re using two different versions of the same library all over the project.\n\nI’m not going to touch on what to use if your project is going to be published on `npm` and open-sourced: probably something like <a href="https://github.com/lerna/lerna">Lerna</a> would be enough, but that is a completely different topic.\n\nIf, however, your repo is **private**, things are getting more interesting. Because all that you actually need in order for this architecture to work is packages “aliasing”, nothing more. I.e. just basic symlinking that both <a href="https://classic.yarnpkg.com/lang/en/docs/workspaces/">Yarn</a> and <a href="https://docs.npmjs.com/cli/v8/using-npm/workspaces">Npm</a> provide through the idea of workspaces. It looks like this. You have the “root” `package.json` file, where you declare where workspaces (i.e. your local packages):\n\n```json\n{\n  "private": true,\n  "workspaces": ["packages/**"]\n}\n```\n\nAnd then next time you run `yarn install` all packages from the folder packages will turn into “proper” packages and will be available in your project via their name. That’s the whole monorepo setup!\n\nAs for dependencies. What will happen, if you have the same dependency in a few packages?\n\n```\n/packages\n  /my-feature-one\n    package.json // this one uses lodash@3.4.5\n  /my-other-feature\n    package.json // this one uses lodash@3.4.5\n```\n\nWhen you run `yarn install` it will “hoist” that package to the root `node_modules`:\n\n```\n/node_modules\n  lodash@3.4.5\n/packages\n  /my-feature-one\n    package.json // this one uses lodash@3.4.5\n  /my-other-feature\n    package.json // this one uses lodash@3.4.5\n```\n\nThis is _exactly_ the same situation as if you just declare `lodash@3.4.5` in the root `package.json` only. What I’m saying is, and I will probably be buried alive by the purists of the internet for that, including myself two years ago: you don’t need to declare any of the dependencies in your local packages. Everything can just go to the root `package.json`. And your `package.json` files in local packages will be just very lightweight `json` files, that only specify “name” and “main” fields.\n\nMuch easier set-up to manage, especially if you’re just starting.\n\n## React project structure for scale: final overview\n\nHuh, that was a lot of text. And even that is just a short overview: so many more things can be said on the topic! Let’s recap what has already been said at least:\n\n**Decomposition** is the key to successfully scaling your react app. Think of your project not as a monolithic “project”, but as a combination of independent black-box like “features” with their own public API for the consumers to use. The same discussion as “monolith” vs “microservices” really.\n\n**Monorepo architecture** is perfect for that. Extract your features into packages; organise your packages in the way that works best for your project.\n\n**Layers** within one package are important to give it some structure. You’ll probably have at least “data” layer, “UI” layer and “shared” layer. Can introduce more, depending on your needs, just need to have clear boundaries between them.\n\n**Hierarchical structure** of a package is cool. It makes refactoring easier, forces you to have clearer boundaries between layers, and forces you to split your package into smaller ones when it becomes too big.\n\n**Dependency management** in a monorepo is a complicated topic, but if your project is private you don’t need to actually worry about it. Just declare all your dependencies in the root package.json and keep all local packages free from them.\n\nYou can take a look at the implementation of this architecture in this example repo: <a href="https://github.com/developerway/example-react-project">https://github.com/developerway/example-react-project</a>. This is just a basic example to demonstrate the principles described in the article, so don’t be scared by tiny packages with just one index.ts: in a real app they will be much bigger.\n\nThat is all for today. Hope you’ll be able to apply some of those principles (or even all of them!) to your apps and see improvements in your day-to-day development right away! ✌🏼\n\n...\n\nOriginally published at [https://www.developerway.com](https://www.developerway.com). The website has more articles like this 😉\n\n[Subscribe to the newsletter](https://www.developerway.com), [connect on LinkedIn](https://www.linkedin.com/in/adevnadia/) or [follow on Twitter](https://twitter.com/adevnadia) to get notified as soon as the next article comes out.\n',n.user={name:"Nadia Makarevich",username:t,twitter_username:t,github_username:t,website_url:"https://www.developerway.com",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--JnKvtJkQ--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/762035/1f7fe6e4-1e60-4c01-80cc-532142263682.jpg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--j3FZXwJO--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/762035/1f7fe6e4-1e60-4c01-80cc-532142263682.jpg"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:n}},error:e,state:{currentArticle:n},serverRendered:!0,routePath:"/adevnadia/1095820",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:e}}}}(null,"adevnadia",{},"2022-05-25T17:17:06Z")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

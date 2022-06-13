@@ -1,0 +1,776 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Advanced JavaScript Design Patterns</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Advanced JavaScript Design Patterns</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/showdev" class="tag" data-v-70afb46a>
+          #showdev
+        </a><a href="/nuxtstop/t/javascript" class="tag" data-v-70afb46a>
+          #javascript
+        </a><a href="/nuxtstop/t/react" class="tag" data-v-70afb46a>
+          #react
+        </a><a href="/nuxtstop/t/design" class="tag" data-v-70afb46a>
+          #design
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--_SCyoKQz--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nu1vuucpfvhkblml2af2.jpeg" alt="Advanced JavaScript Design Patterns" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            1429
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            14
+          </span></div> <time data-v-70afb46a>Nov 24 '21</time></div></header> <div class="content" data-v-70afb46a><p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--UsmJqeRB--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2560/1%2AYk1WFP5PSBOEhATlSk1GFw.jpeg" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--UsmJqeRB--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2560/1%2AYk1WFP5PSBOEhATlSk1GFw.jpeg" alt="" loading="lazy" width="880" height="488"></a></p>
+
+<h2>
+  <a name="overview" href="#overview">
+  </a>
+  Overview
+</h2>
+
+<blockquote>
+<p>I have covered here 20+ design patterns explanations in javascript. We will be discussing all these design patterns using Javascript es6 classes.</p>
+</blockquote>
+
+<h2>
+  <a name="about-me" href="#about-me">
+  </a>
+  <strong>About Me</strong>
+</h2>
+
+<p>I am a react.js developer at <a href="https://www.dhiwise.com/?utm_campaign=Ravi%20Sojitra&utm_source=Infl">DhiWise</a>, which is a ProCode platform that helps you build clean, scalable, and customizable Node.js(Open-source), Android(Kotlin), iOS, Laravel, Flutter and React code. Focus on what matters as a programmer and let <a href="">DhiWise </a>do the rest.<br>
+<a href="https://www.dhiwise.com/?utm_campaign=Dev.to&utm_source=Dev.to">https://www.dhiwise.com/?utm_campaign=Dev.to&utm_source=Dev.to</a><br>
+Also, If you wish to learn </p>
+
+<ul>
+<li>Advanced react component patterns, <a href="https://medium.com/dhiwise/react-component-patterns-805a60b88dba">please find it here.</a>
+</li>
+<li>Advanced React Roadmap, <a href="https://medium.com/dhiwise/advanced-roadmap-for-react-js-developers-3a40ce4174b9">please find it here.</a>
+</li>
+</ul>
+
+<h2>
+  <a name="what-are-design-patterns" href="#what-are-design-patterns">
+  </a>
+  🚀 What are Design Patterns?
+</h2>
+
+<p>Design Patterns are the solutions to commonly occurring problems in software design. These patterns are easily re-usable and are expressive.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>In software engineering, a software design pattern is a general reusable solution to a commonly occurring problem within a given context in software design. It is not a finished design that can be transformed directly into source or machine code. It is a description or template for how to solve a problem that can be used in many different situations.</p>
+</blockquote>
+
+<h3>
+  <a name="types-of-design-patterns" href="#types-of-design-patterns">
+  </a>
+  Types of Design Patterns
+</h3>
+
+<ul>
+<li><p>Creational</p></li>
+<li><p>Structural</p></li>
+<li><p>Behavioral</p></li>
+</ul>
+
+<h2>
+  <a name="creational-design-patterns" href="#creational-design-patterns">
+  </a>
+  Creational Design Patterns
+</h2>
+
+<p>Creational Design Patterns will create objects for you instead of instantiating an object directly.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>In software engineering, creational design patterns are design patterns that deal with object creation mechanisms, trying to create objects in a manner suitable to the situation. The basic form of object creation could result in design problems or added complexity to the design. Creational design patterns solve this problem by somehow controlling this object creation.</p>
+</blockquote>
+
+<ul>
+<li><p>Factory Method</p></li>
+<li><p>Abstract Factory</p></li>
+<li><p>Builder</p></li>
+<li><p>Prototype</p></li>
+<li><p>Singleton</p></li>
+</ul>
+
+<p><strong>Factory Method</strong><br>
+It defines an interface for creating a single object and lets child classes decide which class to instantiate.</p>
+
+<p>According to Wikipedia:</p>
+
+<blockquote>
+<p>In class-based programming, the factory method pattern is a creational pattern that uses factory methods to deal with the problem of creating objects without having to specify the exact class of the object that will be created. This is done by creating objects by calling a factory method — either specified in an interface and implemented by child classes, or implemented in a base class and optionally overridden by derived classes — rather than by calling a constructor.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>Let’s take an example of a point. We have a class of points and we have to create a Cartesian point and a Polar point. We will define a Point factory that will do this work</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--jcyiRbN---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AKGRgeJFiEx7xNorAnSrjUw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--jcyiRbN---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AKGRgeJFiEx7xNorAnSrjUw.png" alt="Javascript factory pattern" loading="lazy" width="496" height="476"></a></p>
+
+<p>Now we will create Point Factory and we will use our factory now,</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--RCyUQQIF--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A-48_4nsv2CGhSYGfRvi9cg.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--RCyUQQIF--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A-48_4nsv2CGhSYGfRvi9cg.png" alt="" loading="lazy" width="709" height="500"></a></p>
+
+<h2>
+  <a name="abstract-factory" href="#abstract-factory">
+  </a>
+  Abstract Factory
+</h2>
+
+<p>It creates families or groups of common objects without specifying their concrete classes.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>The abstract factory pattern provides a way to encapsulate a group of individual factories that have a common theme without specifying their concrete classes</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>We will be using the example of a Drink and Drink making machine.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ARlDsIpK--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ANvbnGgPLcLReI_X94ZBY5w.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ARlDsIpK--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ANvbnGgPLcLReI_X94ZBY5w.png" alt="" loading="lazy" width="638" height="476"></a></p>
+
+<p>Making Drink Factory</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--3IfH3s-h--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AxYEHHzyxOeYTjoII1A9e2w.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--3IfH3s-h--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AxYEHHzyxOeYTjoII1A9e2w.png" alt="" loading="lazy" width="659" height="644"></a></p>
+
+<h2>
+  <a name="builder" href="#builder">
+  </a>
+  Builder
+</h2>
+
+<p>It constructs complex objects from simple objects.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>The builder pattern is a design pattern designed to provide a flexible solution to various object creation problems in object-oriented programming.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>We will be using ab example of a person class that stores a Person’s information.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--GQLO-pIa--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AQjKwshWAgjmhuFuFz0luiw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--GQLO-pIa--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AQjKwshWAgjmhuFuFz0luiw.png" alt="" loading="lazy" width="659" height="487"></a></p>
+
+<p>Now we will create Person Builder, Person Job Builder, and Person Address Builder.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--o3UwbE1b--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2Au-snCihmFBhoFbnSqMeyvw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--o3UwbE1b--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2Au-snCihmFBhoFbnSqMeyvw.png" alt="Javascript class factory pattern" loading="lazy" width="709" height="1364"></a></p>
+
+<p>Now we will use our builder,</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--wV5CKi9H--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ArQaLzULJPGHM2m_mQhPV0Q.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--wV5CKi9H--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ArQaLzULJPGHM2m_mQhPV0Q.png" alt="Javascript factory pattern" loading="lazy" width="496" height="356"></a></p>
+
+<h2>
+  <a name="prototype" href="#prototype">
+  </a>
+  Prototype
+</h2>
+
+<p>It creates new objects from the existing objects.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>The prototype pattern is a creational design pattern in software development. It is used when the type of objects to create is determined by a prototypical instance, which is cloned to produce new objects.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>We will be using the example of a car.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--eT84I-92--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A1CV1aVKZt_hG_-h8t4PmQw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--eT84I-92--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A1CV1aVKZt_hG_-h8t4PmQw.png" alt="Object prototype class" loading="lazy" width="496" height="572"></a></p>
+
+<h2>
+  <a name="singleton" href="#singleton">
+  </a>
+  Singleton
+</h2>
+
+<p>It ensures that there’s only one object created for a particular class.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>In software engineering, the singleton pattern is a software design pattern that restricts the instantiation of a class to one “single” instance. This is useful when exactly one object is needed to coordinate actions across the system.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>Creating a Singleton class,</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--e3ryZ-ZQ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AuiEANTJKRFBRhiCHuZuLYg.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--e3ryZ-ZQ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AuiEANTJKRFBRhiCHuZuLYg.png" alt="Javascript singleton class pattern" loading="lazy" width="638" height="572"></a></p>
+
+<h2>
+  <a name="structural-design-patterns" href="#structural-design-patterns">
+  </a>
+  Structural Design Patterns
+</h2>
+
+<p>These patterns concern class and object composition. They use inheritance to compose interfaces.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>In software engineering, structural design patterns are design patterns that ease the design by identifying a simple way to realize relationships among entities.</p>
+</blockquote>
+
+<ul>
+<li><p>Adapter</p></li>
+<li><p>Bridge</p></li>
+<li><p>Composite</p></li>
+<li><p>Decorator</p></li>
+<li><p>Facade</p></li>
+<li><p>Flyweight</p></li>
+<li><p>Proxy</p></li>
+</ul>
+
+<h2>
+  <a name="adapter" href="#adapter">
+  </a>
+  Adapter
+</h2>
+
+<p>This pattern allows classes with incompatible interfaces to work together by wrapping their own interface around existing class</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>In software engineering, the adapter pattern is a software design pattern that allows the interface of an existing class to be used as another interface. It is often used to make existing classes work with others without modifying their source code.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>We are using an example of a calculator. Calculator1 is an old interface and Calculator2 is a new interface. We will be building an adapter that will wrap up the new interface and will give us results using its new methods,</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--0N5w1h_Z--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A78Bo6i_oePTMU7z0jVOS4g.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--0N5w1h_Z--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A78Bo6i_oePTMU7z0jVOS4g.png" alt="Javascript adapter pattern" loading="lazy" width="588" height="1124"></a></p>
+
+<h2>
+  <a name="bridge" href="#bridge">
+  </a>
+  Bridge
+</h2>
+
+<p>It separates the abstraction from the implementation so that the two can vary independently.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>Bridge is a structural design pattern that lets you split a large class or a set of closely related classes into two separate hierarchies — abstraction and implementation — which can be developed independently of each other.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>We will be creating Renderer classes for rendering multiple shapes,</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--l4eNEQze--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AddyEIyKCsjYbwMhbdnJXjA.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--l4eNEQze--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AddyEIyKCsjYbwMhbdnJXjA.png" alt="Javascript Bridge structural design pattern" loading="lazy" width="729" height="980"></a></p>
+
+<h2>
+  <a name="composite" href="#composite">
+  </a>
+  Composite
+</h2>
+
+<p>It composes objects so that they can be manipulated as single objects.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>The composite pattern describes a group of objects that are treated the same way as a single instance of the same type of object.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>We will be using job examples,</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--JKRtWsr_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AkT3gPPgM3hQSxJrmsA2jYg.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--JKRtWsr_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AkT3gPPgM3hQSxJrmsA2jYg.png" alt="Composite class pattern" loading="lazy" width="679" height="812"></a></p>
+
+<h2>
+  <a name="decorator" href="#decorator">
+  </a>
+  Decorator
+</h2>
+
+<p>It dynamically adds or overrides the behavior of an object.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>The decorator pattern is a design pattern that allows behavior to be added to an individual object, dynamically, without affecting the behavior of other objects from the same class.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>We will be taking the example of color and shapes. If we have to draw a circle we will create methods and will draw a circle. If we have to draw a red circle. Now the behavior is added to an object and the Decorator pattern will help me in that.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--66X-Vrrj--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AVpOs0_AG4f5j_Ofzudwt8Q.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--66X-Vrrj--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AVpOs0_AG4f5j_Ofzudwt8Q.png" alt="Javascript decorator pattern" loading="lazy" width="811" height="980"></a></p>
+
+<h2>
+  <a name="facade" href="#facade">
+  </a>
+  Facade
+</h2>
+
+<p>It provides a simplified interface to complex code.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>The facade pattern (also spelled façade) is a software-design pattern commonly used in object-oriented programming. Analogous to a facade in architecture, a facade is an object that serves as a front-facing interface masking more complex underlying or structural code.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>Let’s take an example of a client interacts with the computer.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--F1FYosnx--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ADHlLlzyZiMTcz1MTTt6DvQ.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--F1FYosnx--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ADHlLlzyZiMTcz1MTTt6DvQ.png" alt="Javascript facade pattern" loading="lazy" width="811" height="836"></a></p>
+
+<h2>
+  <a name="flyweight" href="#flyweight">
+  </a>
+  Flyweight
+</h2>
+
+<p>It reduces the memory cost of creating similar objects.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>A flyweight is an object that minimizes memory usage by sharing as much data as possible with other similar objects.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>Let’s take the example of a user. Let’s have multiple users with the same name. We can save our memory by storing a name and give it a reference to the users having the same names.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Np40xq8q--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ABUuIR-7B4gOSaYHT-_agtQ.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Np40xq8q--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ABUuIR-7B4gOSaYHT-_agtQ.png" alt="Flyweight for reducing memory in javascript" loading="lazy" width="699" height="884"></a></p>
+
+<p>That’s how we will use this.<br>
+Now we will make memory comparsion without Flyweight and with Flyweight, by making 10k users.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--vvf-NBvQ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AB62P7fQI79Pa8VNADuK7CQ.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--vvf-NBvQ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AB62P7fQI79Pa8VNADuK7CQ.png" alt="Flayweight pattern example" loading="lazy" width="638" height="644"></a></p>
+
+<h2>
+  <a name="proxy" href="#proxy">
+  </a>
+  Proxy
+</h2>
+
+<p>By using Proxy, a class can represent the functionality of another class.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>The proxy pattern is a software design pattern. A proxy, in its most general form, is a class functioning as an interface to something else.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>Let’s take the example of value proxy.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--JZJhtfLh--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ASTVhb9BXAWZ3t0jKaHJQ_A.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--JZJhtfLh--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ASTVhb9BXAWZ3t0jKaHJQ_A.png" alt="Proxy class pattern" loading="lazy" width="588" height="500"></a></p>
+
+<h2>
+  <a name="behavioral-design-patterns" href="#behavioral-design-patterns">
+  </a>
+  Behavioral Design Patterns
+</h2>
+
+<p>Behavioral Design Patterns are specifically concerned with communication between objects.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>In software engineering, behavioral design patterns are design patterns that identify common communication patterns among objects. By doing so, these patterns increase flexibility in carrying out communication.</p>
+</blockquote>
+
+<ul>
+<li><p>Chain of Responsibility</p></li>
+<li><p>Command</p></li>
+<li><p>Iterator</p></li>
+<li><p>Mediator</p></li>
+<li><p>Memento</p></li>
+<li><p>Observer</p></li>
+<li><p>Visitor</p></li>
+<li><p>Strategy</p></li>
+<li><p>State</p></li>
+<li><p>Template Method</p></li>
+</ul>
+
+<h2>
+  <a name="chain-of-responsibility" href="#chain-of-responsibility">
+  </a>
+  Chain of Responsibility
+</h2>
+
+<p>It creates a chain of objects. Starting from a point, it stops until it finds a certain condition.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>In object-oriented design, the chain-of-responsibility pattern is a design pattern consisting of a source of command objects and a series of processing objects.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>We will be using an example of a game having a creature. The creature will increase its defense and attack when it reaches a certain point. It will create a chain and attack and defense will increase and decrease.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--5kP6vF7g--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A8cm9fGDBIkdZR4jpmULXlA.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--5kP6vF7g--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A8cm9fGDBIkdZR4jpmULXlA.png" alt="Chain of Responsibility" loading="lazy" width="699" height="860"></a></p>
+
+<p>Increase attack,</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--WYU5VXIc--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AdEjCYvcKZMrTB2dRa4LBvg.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--WYU5VXIc--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AdEjCYvcKZMrTB2dRa4LBvg.png" alt="" loading="lazy" width="679" height="356"></a></p>
+
+<p>Increase defense</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--jJXeOPIx--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AY6aZO0FhWellpAU69l8dBw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--jJXeOPIx--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AY6aZO0FhWellpAU69l8dBw.png" alt="" loading="lazy" width="709" height="404"></a></p>
+
+<p>That’s how we will use this,</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--k_AWKHot--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A9Ki9KTtYnoHq2b4klj0sgQ.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k_AWKHot--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A9Ki9KTtYnoHq2b4klj0sgQ.png" alt="" loading="lazy" width="668" height="372"></a></p>
+
+<h2>
+  <a name="command" href="#command">
+  </a>
+  Command
+</h2>
+
+<p>It creates objects which encapsulate actions in objects.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>In object-oriented programming, the command pattern is a behavioral design pattern in which an object is used to encapsulate all information needed to perform an action or trigger an event at a later time. This information includes the method name, the object that owns the method and values for the method parameters.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>We will be taking a simple example of a bank account in which we give a command if we have to deposit or withdraw a certain amount of money.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--zCKHjNXG--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AAMX7jFmRU8pfSWahIna0nw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--zCKHjNXG--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AAMX7jFmRU8pfSWahIna0nw.png" alt="" loading="lazy" width="699" height="572"></a></p>
+
+<p>Creating our commands,</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Fr90LbFN--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2Ad9DB5jurww1gHAeWTqPA3A.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Fr90LbFN--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2Ad9DB5jurww1gHAeWTqPA3A.png" alt="" loading="lazy" width="496" height="860"></a></p>
+
+<p>That’s how we will use this,</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s---DcMYWQg--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AhAkHDT-vCVQQ3qehtzlblw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s---DcMYWQg--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AhAkHDT-vCVQQ3qehtzlblw.png" alt="" loading="lazy" width="729" height="308"></a></p>
+
+<h2>
+  <a name="iterator" href="#iterator">
+  </a>
+  Iterator
+</h2>
+
+<p>Iterator accesses the elements of an object without exposing its underlying representation.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>In object-oriented programming, the iterator pattern is a design pattern in which an iterator is used to traverse a container and access the container’s elements.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>We will be taking an example of an array in which we print the values of an array and then by using an iterator we print its value backwords.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--mNPzSaN0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AsPEIzN3bG5Tu_7mZBSw7zg.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--mNPzSaN0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AsPEIzN3bG5Tu_7mZBSw7zg.png" alt="" loading="lazy" width="638" height="908"></a></p>
+
+<p>That’s how we will use this,</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--kf89TQCH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ALZ52nqI4yECLDHXbA98Qfw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--kf89TQCH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ALZ52nqI4yECLDHXbA98Qfw.png" alt="" loading="lazy" width="598" height="500"></a></p>
+
+<h2>
+  <a name="mediator" href="#mediator">
+  </a>
+  Mediator
+</h2>
+
+<p>The mediator pattern adds a third-party object to control the interaction between two objects. It allows loose coupling between classes by being the only class that has detailed knowledge of their methods.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>The mediator pattern defines an object that encapsulates how a set of objects interact. This pattern is considered to be a behavioral pattern due to the way it can alter the program’s running behavior. In object-oriented programming, programs often consist of many classes.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>We will be using an example of a person using a chat room. Here, a chatroom acts as a mediator between two people communicating.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Y7YpmdSO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AQ--ZXvEwOCT17AJtCjiucg.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Y7YpmdSO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AQ--ZXvEwOCT17AJtCjiucg.png" alt="" loading="lazy" width="618" height="524"></a></p>
+
+<p>Creating chat room,</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ZEG2BSI---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AK0NUHUqM4qwM1YAJ_kB0FQ.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ZEG2BSI---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AK0NUHUqM4qwM1YAJ_kB0FQ.png" alt="" loading="lazy" width="689" height="572"></a></p>
+
+<p>That’s how we will use this,</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--pfl5T-d4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2Azc79g7X0CVnZ65mx7latQw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--pfl5T-d4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2Azc79g7X0CVnZ65mx7latQw.png" alt="" loading="lazy" width="496" height="404"></a></p>
+
+<h2>
+  <a name="memento" href="#memento">
+  </a>
+  Memento
+</h2>
+
+<p>Memento restores an object to its previous state.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>The memento pattern is a software design pattern that provides the ability to restore an object to its previous state. The memento pattern is implemented with three objects: the originator, a caretaker and a memento.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>We will be taking an example of a bank account in which we store our previous state and will have the functionality of undoing.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--HpqEqyF3--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A-CMBPsWAYSJPpL2EMbEF0g.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--HpqEqyF3--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A-CMBPsWAYSJPpL2EMbEF0g.png" alt="" loading="lazy" width="496" height="860"></a></p>
+
+<h2>
+  <a name="observer" href="#observer">
+  </a>
+  Observer
+</h2>
+
+<p>It allows a number of observer objects to see an event.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>The observer pattern is a software design pattern in which an object, named the subject, maintains a list of its dependents, called observers, and notifies them automatically of any state changes, usually by calling one of their methods.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>We will be taking an example of a person in which if a person falls ill, it will display a notification.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--TPlO2JzV--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AkBDW9662fuqeqO-YuQb--A.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--TPlO2JzV--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AkBDW9662fuqeqO-YuQb--A.png" alt="" loading="lazy" width="719" height="884"></a></p>
+
+<p>That’s how we will use this,</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--LlhTNpm0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ABRV5QPo1YTtJ5BEa5xc1Xw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--LlhTNpm0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ABRV5QPo1YTtJ5BEa5xc1Xw.png" alt="" loading="lazy" width="729" height="356"></a></p>
+
+<h2>
+  <a name="visitor" href="#visitor">
+  </a>
+  Visitor
+</h2>
+
+<p>It adds operations to objects without having to modify them.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>The visitor design pattern is a way of separating an algorithm from an object structure on which it operates. A practical result of this separation is the ability to add new operations to existing object structures without modifying the structures.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>We will be taking an example of NumberExpression in which it gives us the result of the given expression.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--LGXlPWCM--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ABou9I22pEs7VEVQ8_vW94Q.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--LGXlPWCM--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ABou9I22pEs7VEVQ8_vW94Q.png" alt="" loading="lazy" width="740" height="1004"></a></p>
+
+<h2>
+  <a name="strategy" href="#strategy">
+  </a>
+  Strategy
+</h2>
+
+<p>It allows one of the algorithms to be selected in certain situations.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>The strategy pattern is a behavioral software design pattern that enables selecting an algorithm at runtime. Instead of implementing a single algorithm directly, code receives run-time instructions as to which in a family of algorithms to use.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>We will take an example in which we have a text processor that will display data based on strategy(HTML or Markdown).</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--fQJkG0o2--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AsrPMULYDx_SYqskVw7hF1A.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fQJkG0o2--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AsrPMULYDx_SYqskVw7hF1A.png" alt="" loading="lazy" width="770" height="716"></a></p>
+
+<p>Creating TextProcessor class,</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ft0ys4dN--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AXVD1CNa-ucE11CqOKwyp7A.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ft0ys4dN--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AXVD1CNa-ucE11CqOKwyp7A.png" alt="" loading="lazy" width="851" height="831"></a></p>
+
+<p>That’s how we will use this,</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--dF7uSwja--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AGd-EIrVZpdFEJyYkOPidSQ.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--dF7uSwja--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AGd-EIrVZpdFEJyYkOPidSQ.png" alt="" loading="lazy" width="577" height="356"></a></p>
+
+<h2>
+  <a name="state" href="#state">
+  </a>
+  State
+</h2>
+
+<p>It alters the behavior of an object when its internal state changes.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>The state pattern is a behavioral software design pattern that allows an object to alter its behavior when its internal state changes. This pattern is close to the concept of finite-state machines.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>We will be taking an example of a light switch in which if we turn on or off the switch, its state changes.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--b-qcKhoS--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2Ad7Jq--ZVu5VQ3tSrCNaLBA.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--b-qcKhoS--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2Ad7Jq--ZVu5VQ3tSrCNaLBA.png" alt="" loading="lazy" width="598" height="620"></a></p>
+
+<p>Let’s create a Switch class to use these On/Off state</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--H7nRUxex--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2APyT5K_SzCOdUh7y6bGRhrA.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--H7nRUxex--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2APyT5K_SzCOdUh7y6bGRhrA.png" alt="" loading="lazy" width="659" height="884"></a></p>
+
+<h2>
+  <a name="template-method" href="#template-method">
+  </a>
+  Template Method
+</h2>
+
+<p>It defines the skeleton of an algorithm as an abstract class, that how should it be performed.</p>
+
+<p>According to Wikipedia</p>
+
+<blockquote>
+<p>Template Method is a method in a superclass, usually an abstract superclass, and defines the skeleton of an operation in terms of a number of high-level steps.</p>
+</blockquote>
+
+<h3>
+  <a name="example" href="#example">
+  </a>
+  Example
+</h3>
+
+<p>We will be taking an example of a chess game,</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--cuxe_xO4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A3hmYhXppUvKE0hBd3ocW1Q.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--cuxe_xO4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A3hmYhXppUvKE0hBd3ocW1Q.png" alt="" loading="lazy" width="679" height="524"></a></p>
+
+<p>Creating our chess class,</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--mRdVBRQK--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AiAINr2tOntV_p7Ax9y0Anw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--mRdVBRQK--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AiAINr2tOntV_p7Ax9y0Anw.png" alt="" loading="lazy" width="790" height="812"></a></p>
+
+<p>That’s how we will use this,</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--vmWpDjIa--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AIWizizeeXuw2zPraRIlZXg.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--vmWpDjIa--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AIWizizeeXuw2zPraRIlZXg.png" alt="" loading="lazy" width="496" height="164"></a></p>
+
+<h2>
+  <a name="overview" href="#overview">
+  </a>
+  Overview
+</h2>
+
+<p>As we have seen all these patterns are widely used all over big organizations. Hope you might find it useful in your own adventurous project.</p>
+
+<h2>
+  <a name="reference" href="#reference">
+  </a>
+  Reference
+</h2>
+
+<p><a href="https://www.udemy.com/course/design-patterns-javascript/">Design Patterns in JavaScript</a> on <a href="https://www.udemy.com/">Udemy</a> by Dmitri Nesteruk.</p>
+
+<ul>
+<li>By Ravi Sojitra
+(Tech Lead | DhiWise)</li>
+</ul>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/dhiwise/advanced-javascript-design-patterns-4k8l" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(e,a,t,n,i,s){return t.type_of="article",t.id=907412,t.title="Advanced JavaScript Design Patterns",t.description="Overview    I have covered here 20+ design patterns explanations in javascript. We will be...",t.readable_publish_date="Nov 24 '21",t.slug="advanced-javascript-design-patterns-4k8l",t.path="/dhiwise/advanced-javascript-design-patterns-4k8l",t.url=n,t.comments_count=14,t.public_reactions_count=1429,t.collection_id=e,t.published_timestamp=a,t.positive_reactions_count=1429,t.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--_SCyoKQz--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nu1vuucpfvhkblml2af2.jpeg",t.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--AOO8MChB--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nu1vuucpfvhkblml2af2.jpeg",t.canonical_url=n,t.created_at=a,t.edited_at="2022-02-18T10:47:26Z",t.crossposted_at=e,t.published_at=a,t.last_comment_at="2022-04-09T20:22:53Z",t.reading_time_minutes=11,t.tag_list="showdev, javascript, react, design",t.tags=[i,"javascript","react","design"],t.body_html='<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--UsmJqeRB--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2560/1%2AYk1WFP5PSBOEhATlSk1GFw.jpeg" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--UsmJqeRB--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2560/1%2AYk1WFP5PSBOEhATlSk1GFw.jpeg" alt="" loading="lazy" width="880" height="488"></a></p>\n\n<h2>\n  <a name="overview" href="#overview">\n  </a>\n  Overview\n</h2>\n\n<blockquote>\n<p>I have covered here 20+ design patterns explanations in javascript. We will be discussing all these design patterns using Javascript es6 classes.</p>\n</blockquote>\n\n<h2>\n  <a name="about-me" href="#about-me">\n  </a>\n  <strong>About Me</strong>\n</h2>\n\n<p>I am a react.js developer at <a href="https://www.dhiwise.com/?utm_campaign=Ravi%20Sojitra&amp;utm_source=Infl">DhiWise</a>, which is a ProCode platform that helps you build clean, scalable, and customizable Node.js(Open-source), Android(Kotlin), iOS, Laravel, Flutter and React code. Focus on what matters as a programmer and let <a href="">DhiWise </a>do the rest.<br>\n<a href="https://www.dhiwise.com/?utm_campaign=Dev.to&amp;utm_source=Dev.to">https://www.dhiwise.com/?utm_campaign=Dev.to&amp;utm_source=Dev.to</a><br>\nAlso, If you wish to learn </p>\n\n<ul>\n<li>Advanced react component patterns, <a href="https://medium.com/dhiwise/react-component-patterns-805a60b88dba">please find it here.</a>\n</li>\n<li>Advanced React Roadmap, <a href="https://medium.com/dhiwise/advanced-roadmap-for-react-js-developers-3a40ce4174b9">please find it here.</a>\n</li>\n</ul>\n\n<h2>\n  <a name="what-are-design-patterns" href="#what-are-design-patterns">\n  </a>\n  🚀 What are Design Patterns?\n</h2>\n\n<p>Design Patterns are the solutions to commonly occurring problems in software design. These patterns are easily re-usable and are expressive.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>In software engineering, a software design pattern is a general reusable solution to a commonly occurring problem within a given context in software design. It is not a finished design that can be transformed directly into source or machine code. It is a description or template for how to solve a problem that can be used in many different situations.</p>\n</blockquote>\n\n<h3>\n  <a name="types-of-design-patterns" href="#types-of-design-patterns">\n  </a>\n  Types of Design Patterns\n</h3>\n\n<ul>\n<li><p>Creational</p></li>\n<li><p>Structural</p></li>\n<li><p>Behavioral</p></li>\n</ul>\n\n<h2>\n  <a name="creational-design-patterns" href="#creational-design-patterns">\n  </a>\n  Creational Design Patterns\n</h2>\n\n<p>Creational Design Patterns will create objects for you instead of instantiating an object directly.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>In software engineering, creational design patterns are design patterns that deal with object creation mechanisms, trying to create objects in a manner suitable to the situation. The basic form of object creation could result in design problems or added complexity to the design. Creational design patterns solve this problem by somehow controlling this object creation.</p>\n</blockquote>\n\n<ul>\n<li><p>Factory Method</p></li>\n<li><p>Abstract Factory</p></li>\n<li><p>Builder</p></li>\n<li><p>Prototype</p></li>\n<li><p>Singleton</p></li>\n</ul>\n\n<p><strong>Factory Method</strong><br>\nIt defines an interface for creating a single object and lets child classes decide which class to instantiate.</p>\n\n<p>According to Wikipedia:</p>\n\n<blockquote>\n<p>In class-based programming, the factory method pattern is a creational pattern that uses factory methods to deal with the problem of creating objects without having to specify the exact class of the object that will be created. This is done by creating objects by calling a factory method — either specified in an interface and implemented by child classes, or implemented in a base class and optionally overridden by derived classes — rather than by calling a constructor.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>Let’s take an example of a point. We have a class of points and we have to create a Cartesian point and a Polar point. We will define a Point factory that will do this work</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--jcyiRbN---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AKGRgeJFiEx7xNorAnSrjUw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--jcyiRbN---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AKGRgeJFiEx7xNorAnSrjUw.png" alt="Javascript factory pattern" loading="lazy" width="496" height="476"></a></p>\n\n<p>Now we will create Point Factory and we will use our factory now,</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--RCyUQQIF--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A-48_4nsv2CGhSYGfRvi9cg.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--RCyUQQIF--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A-48_4nsv2CGhSYGfRvi9cg.png" alt="" loading="lazy" width="709" height="500"></a></p>\n\n<h2>\n  <a name="abstract-factory" href="#abstract-factory">\n  </a>\n  Abstract Factory\n</h2>\n\n<p>It creates families or groups of common objects without specifying their concrete classes.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>The abstract factory pattern provides a way to encapsulate a group of individual factories that have a common theme without specifying their concrete classes</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>We will be using the example of a Drink and Drink making machine.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ARlDsIpK--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ANvbnGgPLcLReI_X94ZBY5w.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ARlDsIpK--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ANvbnGgPLcLReI_X94ZBY5w.png" alt="" loading="lazy" width="638" height="476"></a></p>\n\n<p>Making Drink Factory</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--3IfH3s-h--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AxYEHHzyxOeYTjoII1A9e2w.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--3IfH3s-h--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AxYEHHzyxOeYTjoII1A9e2w.png" alt="" loading="lazy" width="659" height="644"></a></p>\n\n<h2>\n  <a name="builder" href="#builder">\n  </a>\n  Builder\n</h2>\n\n<p>It constructs complex objects from simple objects.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>The builder pattern is a design pattern designed to provide a flexible solution to various object creation problems in object-oriented programming.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>We will be using ab example of a person class that stores a Person’s information.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--GQLO-pIa--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AQjKwshWAgjmhuFuFz0luiw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--GQLO-pIa--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AQjKwshWAgjmhuFuFz0luiw.png" alt="" loading="lazy" width="659" height="487"></a></p>\n\n<p>Now we will create Person Builder, Person Job Builder, and Person Address Builder.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--o3UwbE1b--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2Au-snCihmFBhoFbnSqMeyvw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--o3UwbE1b--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2Au-snCihmFBhoFbnSqMeyvw.png" alt="Javascript class factory pattern" loading="lazy" width="709" height="1364"></a></p>\n\n<p>Now we will use our builder,</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--wV5CKi9H--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ArQaLzULJPGHM2m_mQhPV0Q.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--wV5CKi9H--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ArQaLzULJPGHM2m_mQhPV0Q.png" alt="Javascript factory pattern" loading="lazy" width="496" height="356"></a></p>\n\n<h2>\n  <a name="prototype" href="#prototype">\n  </a>\n  Prototype\n</h2>\n\n<p>It creates new objects from the existing objects.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>The prototype pattern is a creational design pattern in software development. It is used when the type of objects to create is determined by a prototypical instance, which is cloned to produce new objects.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>We will be using the example of a car.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--eT84I-92--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A1CV1aVKZt_hG_-h8t4PmQw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--eT84I-92--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A1CV1aVKZt_hG_-h8t4PmQw.png" alt="Object prototype class" loading="lazy" width="496" height="572"></a></p>\n\n<h2>\n  <a name="singleton" href="#singleton">\n  </a>\n  Singleton\n</h2>\n\n<p>It ensures that there’s only one object created for a particular class.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>In software engineering, the singleton pattern is a software design pattern that restricts the instantiation of a class to one “single” instance. This is useful when exactly one object is needed to coordinate actions across the system.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>Creating a Singleton class,</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--e3ryZ-ZQ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AuiEANTJKRFBRhiCHuZuLYg.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--e3ryZ-ZQ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AuiEANTJKRFBRhiCHuZuLYg.png" alt="Javascript singleton class pattern" loading="lazy" width="638" height="572"></a></p>\n\n<h2>\n  <a name="structural-design-patterns" href="#structural-design-patterns">\n  </a>\n  Structural Design Patterns\n</h2>\n\n<p>These patterns concern class and object composition. They use inheritance to compose interfaces.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>In software engineering, structural design patterns are design patterns that ease the design by identifying a simple way to realize relationships among entities.</p>\n</blockquote>\n\n<ul>\n<li><p>Adapter</p></li>\n<li><p>Bridge</p></li>\n<li><p>Composite</p></li>\n<li><p>Decorator</p></li>\n<li><p>Facade</p></li>\n<li><p>Flyweight</p></li>\n<li><p>Proxy</p></li>\n</ul>\n\n<h2>\n  <a name="adapter" href="#adapter">\n  </a>\n  Adapter\n</h2>\n\n<p>This pattern allows classes with incompatible interfaces to work together by wrapping their own interface around existing class</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>In software engineering, the adapter pattern is a software design pattern that allows the interface of an existing class to be used as another interface. It is often used to make existing classes work with others without modifying their source code.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>We are using an example of a calculator. Calculator1 is an old interface and Calculator2 is a new interface. We will be building an adapter that will wrap up the new interface and will give us results using its new methods,</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--0N5w1h_Z--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A78Bo6i_oePTMU7z0jVOS4g.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--0N5w1h_Z--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A78Bo6i_oePTMU7z0jVOS4g.png" alt="Javascript adapter pattern" loading="lazy" width="588" height="1124"></a></p>\n\n<h2>\n  <a name="bridge" href="#bridge">\n  </a>\n  Bridge\n</h2>\n\n<p>It separates the abstraction from the implementation so that the two can vary independently.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>Bridge is a structural design pattern that lets you split a large class or a set of closely related classes into two separate hierarchies — abstraction and implementation — which can be developed independently of each other.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>We will be creating Renderer classes for rendering multiple shapes,</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--l4eNEQze--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AddyEIyKCsjYbwMhbdnJXjA.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--l4eNEQze--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AddyEIyKCsjYbwMhbdnJXjA.png" alt="Javascript Bridge structural design pattern" loading="lazy" width="729" height="980"></a></p>\n\n<h2>\n  <a name="composite" href="#composite">\n  </a>\n  Composite\n</h2>\n\n<p>It composes objects so that they can be manipulated as single objects.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>The composite pattern describes a group of objects that are treated the same way as a single instance of the same type of object.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>We will be using job examples,</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--JKRtWsr_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AkT3gPPgM3hQSxJrmsA2jYg.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--JKRtWsr_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AkT3gPPgM3hQSxJrmsA2jYg.png" alt="Composite class pattern" loading="lazy" width="679" height="812"></a></p>\n\n<h2>\n  <a name="decorator" href="#decorator">\n  </a>\n  Decorator\n</h2>\n\n<p>It dynamically adds or overrides the behavior of an object.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>The decorator pattern is a design pattern that allows behavior to be added to an individual object, dynamically, without affecting the behavior of other objects from the same class.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>We will be taking the example of color and shapes. If we have to draw a circle we will create methods and will draw a circle. If we have to draw a red circle. Now the behavior is added to an object and the Decorator pattern will help me in that.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--66X-Vrrj--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AVpOs0_AG4f5j_Ofzudwt8Q.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--66X-Vrrj--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AVpOs0_AG4f5j_Ofzudwt8Q.png" alt="Javascript decorator pattern" loading="lazy" width="811" height="980"></a></p>\n\n<h2>\n  <a name="facade" href="#facade">\n  </a>\n  Facade\n</h2>\n\n<p>It provides a simplified interface to complex code.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>The facade pattern (also spelled façade) is a software-design pattern commonly used in object-oriented programming. Analogous to a facade in architecture, a facade is an object that serves as a front-facing interface masking more complex underlying or structural code.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>Let’s take an example of a client interacts with the computer.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--F1FYosnx--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ADHlLlzyZiMTcz1MTTt6DvQ.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--F1FYosnx--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ADHlLlzyZiMTcz1MTTt6DvQ.png" alt="Javascript facade pattern" loading="lazy" width="811" height="836"></a></p>\n\n<h2>\n  <a name="flyweight" href="#flyweight">\n  </a>\n  Flyweight\n</h2>\n\n<p>It reduces the memory cost of creating similar objects.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>A flyweight is an object that minimizes memory usage by sharing as much data as possible with other similar objects.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>Let’s take the example of a user. Let’s have multiple users with the same name. We can save our memory by storing a name and give it a reference to the users having the same names.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Np40xq8q--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ABUuIR-7B4gOSaYHT-_agtQ.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Np40xq8q--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ABUuIR-7B4gOSaYHT-_agtQ.png" alt="Flyweight for reducing memory in javascript" loading="lazy" width="699" height="884"></a></p>\n\n<p>That’s how we will use this.<br>\nNow we will make memory comparsion without Flyweight and with Flyweight, by making 10k users.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--vvf-NBvQ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AB62P7fQI79Pa8VNADuK7CQ.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--vvf-NBvQ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AB62P7fQI79Pa8VNADuK7CQ.png" alt="Flayweight pattern example" loading="lazy" width="638" height="644"></a></p>\n\n<h2>\n  <a name="proxy" href="#proxy">\n  </a>\n  Proxy\n</h2>\n\n<p>By using Proxy, a class can represent the functionality of another class.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>The proxy pattern is a software design pattern. A proxy, in its most general form, is a class functioning as an interface to something else.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>Let’s take the example of value proxy.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--JZJhtfLh--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ASTVhb9BXAWZ3t0jKaHJQ_A.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--JZJhtfLh--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ASTVhb9BXAWZ3t0jKaHJQ_A.png" alt="Proxy class pattern" loading="lazy" width="588" height="500"></a></p>\n\n<h2>\n  <a name="behavioral-design-patterns" href="#behavioral-design-patterns">\n  </a>\n  Behavioral Design Patterns\n</h2>\n\n<p>Behavioral Design Patterns are specifically concerned with communication between objects.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>In software engineering, behavioral design patterns are design patterns that identify common communication patterns among objects. By doing so, these patterns increase flexibility in carrying out communication.</p>\n</blockquote>\n\n<ul>\n<li><p>Chain of Responsibility</p></li>\n<li><p>Command</p></li>\n<li><p>Iterator</p></li>\n<li><p>Mediator</p></li>\n<li><p>Memento</p></li>\n<li><p>Observer</p></li>\n<li><p>Visitor</p></li>\n<li><p>Strategy</p></li>\n<li><p>State</p></li>\n<li><p>Template Method</p></li>\n</ul>\n\n<h2>\n  <a name="chain-of-responsibility" href="#chain-of-responsibility">\n  </a>\n  Chain of Responsibility\n</h2>\n\n<p>It creates a chain of objects. Starting from a point, it stops until it finds a certain condition.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>In object-oriented design, the chain-of-responsibility pattern is a design pattern consisting of a source of command objects and a series of processing objects.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>We will be using an example of a game having a creature. The creature will increase its defense and attack when it reaches a certain point. It will create a chain and attack and defense will increase and decrease.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--5kP6vF7g--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A8cm9fGDBIkdZR4jpmULXlA.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--5kP6vF7g--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A8cm9fGDBIkdZR4jpmULXlA.png" alt="Chain of Responsibility" loading="lazy" width="699" height="860"></a></p>\n\n<p>Increase attack,</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--WYU5VXIc--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AdEjCYvcKZMrTB2dRa4LBvg.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--WYU5VXIc--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AdEjCYvcKZMrTB2dRa4LBvg.png" alt="" loading="lazy" width="679" height="356"></a></p>\n\n<p>Increase defense</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--jJXeOPIx--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AY6aZO0FhWellpAU69l8dBw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--jJXeOPIx--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AY6aZO0FhWellpAU69l8dBw.png" alt="" loading="lazy" width="709" height="404"></a></p>\n\n<p>That’s how we will use this,</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--k_AWKHot--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A9Ki9KTtYnoHq2b4klj0sgQ.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k_AWKHot--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A9Ki9KTtYnoHq2b4klj0sgQ.png" alt="" loading="lazy" width="668" height="372"></a></p>\n\n<h2>\n  <a name="command" href="#command">\n  </a>\n  Command\n</h2>\n\n<p>It creates objects which encapsulate actions in objects.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>In object-oriented programming, the command pattern is a behavioral design pattern in which an object is used to encapsulate all information needed to perform an action or trigger an event at a later time. This information includes the method name, the object that owns the method and values for the method parameters.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>We will be taking a simple example of a bank account in which we give a command if we have to deposit or withdraw a certain amount of money.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--zCKHjNXG--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AAMX7jFmRU8pfSWahIna0nw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--zCKHjNXG--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AAMX7jFmRU8pfSWahIna0nw.png" alt="" loading="lazy" width="699" height="572"></a></p>\n\n<p>Creating our commands,</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Fr90LbFN--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2Ad9DB5jurww1gHAeWTqPA3A.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Fr90LbFN--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2Ad9DB5jurww1gHAeWTqPA3A.png" alt="" loading="lazy" width="496" height="860"></a></p>\n\n<p>That’s how we will use this,</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s---DcMYWQg--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AhAkHDT-vCVQQ3qehtzlblw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s---DcMYWQg--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AhAkHDT-vCVQQ3qehtzlblw.png" alt="" loading="lazy" width="729" height="308"></a></p>\n\n<h2>\n  <a name="iterator" href="#iterator">\n  </a>\n  Iterator\n</h2>\n\n<p>Iterator accesses the elements of an object without exposing its underlying representation.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>In object-oriented programming, the iterator pattern is a design pattern in which an iterator is used to traverse a container and access the container’s elements.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>We will be taking an example of an array in which we print the values of an array and then by using an iterator we print its value backwords.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--mNPzSaN0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AsPEIzN3bG5Tu_7mZBSw7zg.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--mNPzSaN0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AsPEIzN3bG5Tu_7mZBSw7zg.png" alt="" loading="lazy" width="638" height="908"></a></p>\n\n<p>That’s how we will use this,</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--kf89TQCH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ALZ52nqI4yECLDHXbA98Qfw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--kf89TQCH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ALZ52nqI4yECLDHXbA98Qfw.png" alt="" loading="lazy" width="598" height="500"></a></p>\n\n<h2>\n  <a name="mediator" href="#mediator">\n  </a>\n  Mediator\n</h2>\n\n<p>The mediator pattern adds a third-party object to control the interaction between two objects. It allows loose coupling between classes by being the only class that has detailed knowledge of their methods.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>The mediator pattern defines an object that encapsulates how a set of objects interact. This pattern is considered to be a behavioral pattern due to the way it can alter the program’s running behavior. In object-oriented programming, programs often consist of many classes.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>We will be using an example of a person using a chat room. Here, a chatroom acts as a mediator between two people communicating.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Y7YpmdSO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AQ--ZXvEwOCT17AJtCjiucg.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Y7YpmdSO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AQ--ZXvEwOCT17AJtCjiucg.png" alt="" loading="lazy" width="618" height="524"></a></p>\n\n<p>Creating chat room,</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ZEG2BSI---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AK0NUHUqM4qwM1YAJ_kB0FQ.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ZEG2BSI---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AK0NUHUqM4qwM1YAJ_kB0FQ.png" alt="" loading="lazy" width="689" height="572"></a></p>\n\n<p>That’s how we will use this,</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--pfl5T-d4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2Azc79g7X0CVnZ65mx7latQw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--pfl5T-d4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2Azc79g7X0CVnZ65mx7latQw.png" alt="" loading="lazy" width="496" height="404"></a></p>\n\n<h2>\n  <a name="memento" href="#memento">\n  </a>\n  Memento\n</h2>\n\n<p>Memento restores an object to its previous state.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>The memento pattern is a software design pattern that provides the ability to restore an object to its previous state. The memento pattern is implemented with three objects: the originator, a caretaker and a memento.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>We will be taking an example of a bank account in which we store our previous state and will have the functionality of undoing.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--HpqEqyF3--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A-CMBPsWAYSJPpL2EMbEF0g.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--HpqEqyF3--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A-CMBPsWAYSJPpL2EMbEF0g.png" alt="" loading="lazy" width="496" height="860"></a></p>\n\n<h2>\n  <a name="observer" href="#observer">\n  </a>\n  Observer\n</h2>\n\n<p>It allows a number of observer objects to see an event.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>The observer pattern is a software design pattern in which an object, named the subject, maintains a list of its dependents, called observers, and notifies them automatically of any state changes, usually by calling one of their methods.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>We will be taking an example of a person in which if a person falls ill, it will display a notification.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--TPlO2JzV--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AkBDW9662fuqeqO-YuQb--A.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--TPlO2JzV--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AkBDW9662fuqeqO-YuQb--A.png" alt="" loading="lazy" width="719" height="884"></a></p>\n\n<p>That’s how we will use this,</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--LlhTNpm0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ABRV5QPo1YTtJ5BEa5xc1Xw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--LlhTNpm0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ABRV5QPo1YTtJ5BEa5xc1Xw.png" alt="" loading="lazy" width="729" height="356"></a></p>\n\n<h2>\n  <a name="visitor" href="#visitor">\n  </a>\n  Visitor\n</h2>\n\n<p>It adds operations to objects without having to modify them.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>The visitor design pattern is a way of separating an algorithm from an object structure on which it operates. A practical result of this separation is the ability to add new operations to existing object structures without modifying the structures.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>We will be taking an example of NumberExpression in which it gives us the result of the given expression.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--LGXlPWCM--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ABou9I22pEs7VEVQ8_vW94Q.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--LGXlPWCM--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2ABou9I22pEs7VEVQ8_vW94Q.png" alt="" loading="lazy" width="740" height="1004"></a></p>\n\n<h2>\n  <a name="strategy" href="#strategy">\n  </a>\n  Strategy\n</h2>\n\n<p>It allows one of the algorithms to be selected in certain situations.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>The strategy pattern is a behavioral software design pattern that enables selecting an algorithm at runtime. Instead of implementing a single algorithm directly, code receives run-time instructions as to which in a family of algorithms to use.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>We will take an example in which we have a text processor that will display data based on strategy(HTML or Markdown).</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--fQJkG0o2--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AsrPMULYDx_SYqskVw7hF1A.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fQJkG0o2--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AsrPMULYDx_SYqskVw7hF1A.png" alt="" loading="lazy" width="770" height="716"></a></p>\n\n<p>Creating TextProcessor class,</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ft0ys4dN--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AXVD1CNa-ucE11CqOKwyp7A.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ft0ys4dN--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AXVD1CNa-ucE11CqOKwyp7A.png" alt="" loading="lazy" width="851" height="831"></a></p>\n\n<p>That’s how we will use this,</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--dF7uSwja--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AGd-EIrVZpdFEJyYkOPidSQ.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--dF7uSwja--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AGd-EIrVZpdFEJyYkOPidSQ.png" alt="" loading="lazy" width="577" height="356"></a></p>\n\n<h2>\n  <a name="state" href="#state">\n  </a>\n  State\n</h2>\n\n<p>It alters the behavior of an object when its internal state changes.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>The state pattern is a behavioral software design pattern that allows an object to alter its behavior when its internal state changes. This pattern is close to the concept of finite-state machines.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>We will be taking an example of a light switch in which if we turn on or off the switch, its state changes.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--b-qcKhoS--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2Ad7Jq--ZVu5VQ3tSrCNaLBA.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--b-qcKhoS--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2Ad7Jq--ZVu5VQ3tSrCNaLBA.png" alt="" loading="lazy" width="598" height="620"></a></p>\n\n<p>Let’s create a Switch class to use these On/Off state</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--H7nRUxex--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2APyT5K_SzCOdUh7y6bGRhrA.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--H7nRUxex--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2APyT5K_SzCOdUh7y6bGRhrA.png" alt="" loading="lazy" width="659" height="884"></a></p>\n\n<h2>\n  <a name="template-method" href="#template-method">\n  </a>\n  Template Method\n</h2>\n\n<p>It defines the skeleton of an algorithm as an abstract class, that how should it be performed.</p>\n\n<p>According to Wikipedia</p>\n\n<blockquote>\n<p>Template Method is a method in a superclass, usually an abstract superclass, and defines the skeleton of an operation in terms of a number of high-level steps.</p>\n</blockquote>\n\n<h3>\n  <a name="example" href="#example">\n  </a>\n  Example\n</h3>\n\n<p>We will be taking an example of a chess game,</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--cuxe_xO4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A3hmYhXppUvKE0hBd3ocW1Q.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--cuxe_xO4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2A3hmYhXppUvKE0hBd3ocW1Q.png" alt="" loading="lazy" width="679" height="524"></a></p>\n\n<p>Creating our chess class,</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--mRdVBRQK--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AiAINr2tOntV_p7Ax9y0Anw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--mRdVBRQK--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AiAINr2tOntV_p7Ax9y0Anw.png" alt="" loading="lazy" width="790" height="812"></a></p>\n\n<p>That’s how we will use this,</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--vmWpDjIa--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AIWizizeeXuw2zPraRIlZXg.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--vmWpDjIa--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn-images-1.medium.com/max/2000/1%2AIWizizeeXuw2zPraRIlZXg.png" alt="" loading="lazy" width="496" height="164"></a></p>\n\n<h2>\n  <a name="overview" href="#overview">\n  </a>\n  Overview\n</h2>\n\n<p>As we have seen all these patterns are widely used all over big organizations. Hope you might find it useful in your own adventurous project.</p>\n\n<h2>\n  <a name="reference" href="#reference">\n  </a>\n  Reference\n</h2>\n\n<p><a href="https://www.udemy.com/course/design-patterns-javascript/">Design Patterns in JavaScript</a> on <a href="https://www.udemy.com/">Udemy</a> by Dmitri Nesteruk.</p>\n\n<ul>\n<li>By Ravi Sojitra\n(Tech Lead | DhiWise)</li>\n</ul>\n\n',t.body_markdown="\n\n![](https://cdn-images-1.medium.com/max/2560/1*Yk1WFP5PSBOEhATlSk1GFw.jpeg)\n\n## Overview\n>  I have covered here 20+ design patterns explanations in javascript. We will be discussing all these design patterns using Javascript es6 classes.\n\n## **About Me**\n\nI am a react.js developer at [DhiWise](https://www.dhiwise.com/?utm_campaign=Ravi%20Sojitra&utm_source=Infl), which is a ProCode platform that helps you build clean, scalable, and customizable Node.js(Open-source), Android(Kotlin), iOS, Laravel, Flutter and React code. Focus on what matters as a programmer and let [DhiWise ]()do the rest.\nhttps://www.dhiwise.com/?utm_campaign=Dev.to&utm_source=Dev.to\nAlso, If you wish to learn \n- Advanced react component patterns, [please find it here.](https://medium.com/dhiwise/react-component-patterns-805a60b88dba)\n- Advanced React Roadmap, [please find it here.](https://medium.com/dhiwise/advanced-roadmap-for-react-js-developers-3a40ce4174b9)\n\n## 🚀 What are Design Patterns?\n\nDesign Patterns are the solutions to commonly occurring problems in software design. These patterns are easily re-usable and are expressive.\n\nAccording to Wikipedia\n>  In software engineering, a software design pattern is a general reusable solution to a commonly occurring problem within a given context in software design. It is not a finished design that can be transformed directly into source or machine code. It is a description or template for how to solve a problem that can be used in many different situations.\n\n### Types of Design Patterns\n\n* Creational\n\n* Structural\n\n* Behavioral\n\n## Creational Design Patterns\n\nCreational Design Patterns will create objects for you instead of instantiating an object directly.\n\nAccording to Wikipedia\n>  In software engineering, creational design patterns are design patterns that deal with object creation mechanisms, trying to create objects in a manner suitable to the situation. The basic form of object creation could result in design problems or added complexity to the design. Creational design patterns solve this problem by somehow controlling this object creation.\n\n* Factory Method\n\n* Abstract Factory\n\n* Builder\n\n* Prototype\n\n* Singleton\n\n**Factory Method**\nIt defines an interface for creating a single object and lets child classes decide which class to instantiate.\n\nAccording to Wikipedia:\n>  In class-based programming, the factory method pattern is a creational pattern that uses factory methods to deal with the problem of creating objects without having to specify the exact class of the object that will be created. This is done by creating objects by calling a factory method — either specified in an interface and implemented by child classes, or implemented in a base class and optionally overridden by derived classes — rather than by calling a constructor.\n\n### Example\n\nLet’s take an example of a point. We have a class of points and we have to create a Cartesian point and a Polar point. We will define a Point factory that will do this work\n\n![Javascript factory pattern](https://cdn-images-1.medium.com/max/2000/1*KGRgeJFiEx7xNorAnSrjUw.png)\n\nNow we will create Point Factory and we will use our factory now,\n\n![](https://cdn-images-1.medium.com/max/2000/1*-48_4nsv2CGhSYGfRvi9cg.png)\n\n## Abstract Factory\n\nIt creates families or groups of common objects without specifying their concrete classes.\n\nAccording to Wikipedia\n>  The abstract factory pattern provides a way to encapsulate a group of individual factories that have a common theme without specifying their concrete classes\n\n### Example\n\nWe will be using the example of a Drink and Drink making machine.\n\n![](https://cdn-images-1.medium.com/max/2000/1*NvbnGgPLcLReI_X94ZBY5w.png)\n\nMaking Drink Factory\n\n![](https://cdn-images-1.medium.com/max/2000/1*xYEHHzyxOeYTjoII1A9e2w.png)\n\n## Builder\n\nIt constructs complex objects from simple objects.\n\nAccording to Wikipedia\n>  The builder pattern is a design pattern designed to provide a flexible solution to various object creation problems in object-oriented programming.\n\n### Example\n\nWe will be using ab example of a person class that stores a Person’s information.\n\n![](https://cdn-images-1.medium.com/max/2000/1*QjKwshWAgjmhuFuFz0luiw.png)\n\nNow we will create Person Builder, Person Job Builder, and Person Address Builder.\n\n![Javascript class factory pattern](https://cdn-images-1.medium.com/max/2000/1*u-snCihmFBhoFbnSqMeyvw.png)\n\nNow we will use our builder,\n\n![Javascript factory pattern](https://cdn-images-1.medium.com/max/2000/1*rQaLzULJPGHM2m_mQhPV0Q.png)\n\n## Prototype\n\nIt creates new objects from the existing objects.\n\nAccording to Wikipedia\n>  The prototype pattern is a creational design pattern in software development. It is used when the type of objects to create is determined by a prototypical instance, which is cloned to produce new objects.\n\n### Example\n\nWe will be using the example of a car.\n\n![Object prototype class](https://cdn-images-1.medium.com/max/2000/1*1CV1aVKZt_hG_-h8t4PmQw.png)\n\n## Singleton\n\nIt ensures that there’s only one object created for a particular class.\n\nAccording to Wikipedia\n>  In software engineering, the singleton pattern is a software design pattern that restricts the instantiation of a class to one “single” instance. This is useful when exactly one object is needed to coordinate actions across the system.\n\n### Example\n\nCreating a Singleton class,\n\n![Javascript singleton class pattern](https://cdn-images-1.medium.com/max/2000/1*uiEANTJKRFBRhiCHuZuLYg.png)\n\n## Structural Design Patterns\n\nThese patterns concern class and object composition. They use inheritance to compose interfaces.\n\nAccording to Wikipedia\n>  In software engineering, structural design patterns are design patterns that ease the design by identifying a simple way to realize relationships among entities.\n\n* Adapter\n\n* Bridge\n\n* Composite\n\n* Decorator\n\n* Facade\n\n* Flyweight\n\n* Proxy\n\n## Adapter\n\nThis pattern allows classes with incompatible interfaces to work together by wrapping their own interface around existing class\n\nAccording to Wikipedia\n>  In software engineering, the adapter pattern is a software design pattern that allows the interface of an existing class to be used as another interface. It is often used to make existing classes work with others without modifying their source code.\n\n### Example\n\nWe are using an example of a calculator. Calculator1 is an old interface and Calculator2 is a new interface. We will be building an adapter that will wrap up the new interface and will give us results using its new methods,\n\n![Javascript adapter pattern](https://cdn-images-1.medium.com/max/2000/1*78Bo6i_oePTMU7z0jVOS4g.png)\n\n## Bridge\n\nIt separates the abstraction from the implementation so that the two can vary independently.\n\nAccording to Wikipedia\n>  Bridge is a structural design pattern that lets you split a large class or a set of closely related classes into two separate hierarchies — abstraction and implementation — which can be developed independently of each other.\n\n### Example\n\nWe will be creating Renderer classes for rendering multiple shapes,\n\n![Javascript Bridge structural design pattern](https://cdn-images-1.medium.com/max/2000/1*ddyEIyKCsjYbwMhbdnJXjA.png)\n\n## Composite\n\nIt composes objects so that they can be manipulated as single objects.\n\nAccording to Wikipedia\n>  The composite pattern describes a group of objects that are treated the same way as a single instance of the same type of object.\n\n### Example\n\nWe will be using job examples,\n\n![Composite class pattern](https://cdn-images-1.medium.com/max/2000/1*kT3gPPgM3hQSxJrmsA2jYg.png)\n\n## Decorator\n\nIt dynamically adds or overrides the behavior of an object.\n\nAccording to Wikipedia\n>  The decorator pattern is a design pattern that allows behavior to be added to an individual object, dynamically, without affecting the behavior of other objects from the same class.\n\n### Example\n\nWe will be taking the example of color and shapes. If we have to draw a circle we will create methods and will draw a circle. If we have to draw a red circle. Now the behavior is added to an object and the Decorator pattern will help me in that.\n\n![Javascript decorator pattern](https://cdn-images-1.medium.com/max/2000/1*VpOs0_AG4f5j_Ofzudwt8Q.png)\n\n## Facade\n\nIt provides a simplified interface to complex code.\n\nAccording to Wikipedia\n>  The facade pattern (also spelled façade) is a software-design pattern commonly used in object-oriented programming. Analogous to a facade in architecture, a facade is an object that serves as a front-facing interface masking more complex underlying or structural code.\n\n### Example\n\nLet’s take an example of a client interacts with the computer.\n\n![Javascript facade pattern](https://cdn-images-1.medium.com/max/2000/1*DHlLlzyZiMTcz1MTTt6DvQ.png)\n\n## Flyweight\n\nIt reduces the memory cost of creating similar objects.\n\nAccording to Wikipedia\n>  A flyweight is an object that minimizes memory usage by sharing as much data as possible with other similar objects.\n\n### Example\n\nLet’s take the example of a user. Let’s have multiple users with the same name. We can save our memory by storing a name and give it a reference to the users having the same names.\n\n![Flyweight for reducing memory in javascript](https://cdn-images-1.medium.com/max/2000/1*BUuIR-7B4gOSaYHT-_agtQ.png)\n\nThat’s how we will use this.\nNow we will make memory comparsion without Flyweight and with Flyweight, by making 10k users.\n\n![Flayweight pattern example](https://cdn-images-1.medium.com/max/2000/1*B62P7fQI79Pa8VNADuK7CQ.png)\n\n## Proxy\n\nBy using Proxy, a class can represent the functionality of another class.\n\nAccording to Wikipedia\n>  The proxy pattern is a software design pattern. A proxy, in its most general form, is a class functioning as an interface to something else.\n\n### Example\n\nLet’s take the example of value proxy.\n\n![Proxy class pattern](https://cdn-images-1.medium.com/max/2000/1*STVhb9BXAWZ3t0jKaHJQ_A.png)\n\n## Behavioral Design Patterns\n\nBehavioral Design Patterns are specifically concerned with communication between objects.\n\nAccording to Wikipedia\n>  In software engineering, behavioral design patterns are design patterns that identify common communication patterns among objects. By doing so, these patterns increase flexibility in carrying out communication.\n\n* Chain of Responsibility\n\n* Command\n\n* Iterator\n\n* Mediator\n\n* Memento\n\n* Observer\n\n* Visitor\n\n* Strategy\n\n* State\n\n* Template Method\n\n## Chain of Responsibility\n\nIt creates a chain of objects. Starting from a point, it stops until it finds a certain condition.\n\nAccording to Wikipedia\n>  In object-oriented design, the chain-of-responsibility pattern is a design pattern consisting of a source of command objects and a series of processing objects.\n\n### Example\n\nWe will be using an example of a game having a creature. The creature will increase its defense and attack when it reaches a certain point. It will create a chain and attack and defense will increase and decrease.\n\n![Chain of Responsibility](https://cdn-images-1.medium.com/max/2000/1*8cm9fGDBIkdZR4jpmULXlA.png)\n\nIncrease attack,\n\n![](https://cdn-images-1.medium.com/max/2000/1*dEjCYvcKZMrTB2dRa4LBvg.png)\n\nIncrease defense\n\n![](https://cdn-images-1.medium.com/max/2000/1*Y6aZO0FhWellpAU69l8dBw.png)\n\nThat’s how we will use this,\n\n![](https://cdn-images-1.medium.com/max/2000/1*9Ki9KTtYnoHq2b4klj0sgQ.png)\n\n## Command\n\nIt creates objects which encapsulate actions in objects.\n\nAccording to Wikipedia\n>  In object-oriented programming, the command pattern is a behavioral design pattern in which an object is used to encapsulate all information needed to perform an action or trigger an event at a later time. This information includes the method name, the object that owns the method and values for the method parameters.\n\n### Example\n\nWe will be taking a simple example of a bank account in which we give a command if we have to deposit or withdraw a certain amount of money.\n\n![](https://cdn-images-1.medium.com/max/2000/1*AMX7jFmRU8pfSWahIna0nw.png)\n\nCreating our commands,\n\n![](https://cdn-images-1.medium.com/max/2000/1*d9DB5jurww1gHAeWTqPA3A.png)\n\nThat’s how we will use this,\n\n![](https://cdn-images-1.medium.com/max/2000/1*hAkHDT-vCVQQ3qehtzlblw.png)\n\n## Iterator\n\nIterator accesses the elements of an object without exposing its underlying representation.\n\nAccording to Wikipedia\n>  In object-oriented programming, the iterator pattern is a design pattern in which an iterator is used to traverse a container and access the container’s elements.\n\n### Example\n\nWe will be taking an example of an array in which we print the values of an array and then by using an iterator we print its value backwords.\n\n![](https://cdn-images-1.medium.com/max/2000/1*sPEIzN3bG5Tu_7mZBSw7zg.png)\n\nThat’s how we will use this,\n\n![](https://cdn-images-1.medium.com/max/2000/1*LZ52nqI4yECLDHXbA98Qfw.png)\n\n## Mediator\n\nThe mediator pattern adds a third-party object to control the interaction between two objects. It allows loose coupling between classes by being the only class that has detailed knowledge of their methods.\n\nAccording to Wikipedia\n>  The mediator pattern defines an object that encapsulates how a set of objects interact. This pattern is considered to be a behavioral pattern due to the way it can alter the program’s running behavior. In object-oriented programming, programs often consist of many classes.\n\n### Example\n\nWe will be using an example of a person using a chat room. Here, a chatroom acts as a mediator between two people communicating.\n\n![](https://cdn-images-1.medium.com/max/2000/1*Q--ZXvEwOCT17AJtCjiucg.png)\n\nCreating chat room,\n\n![](https://cdn-images-1.medium.com/max/2000/1*K0NUHUqM4qwM1YAJ_kB0FQ.png)\n\nThat’s how we will use this,\n\n![](https://cdn-images-1.medium.com/max/2000/1*zc79g7X0CVnZ65mx7latQw.png)\n\n## Memento\n\nMemento restores an object to its previous state.\n\nAccording to Wikipedia\n>  The memento pattern is a software design pattern that provides the ability to restore an object to its previous state. The memento pattern is implemented with three objects: the originator, a caretaker and a memento.\n\n### Example\n\nWe will be taking an example of a bank account in which we store our previous state and will have the functionality of undoing.\n\n![](https://cdn-images-1.medium.com/max/2000/1*-CMBPsWAYSJPpL2EMbEF0g.png)\n\n## Observer\n\nIt allows a number of observer objects to see an event.\n\nAccording to Wikipedia\n>  The observer pattern is a software design pattern in which an object, named the subject, maintains a list of its dependents, called observers, and notifies them automatically of any state changes, usually by calling one of their methods.\n\n### Example\n\nWe will be taking an example of a person in which if a person falls ill, it will display a notification.\n\n![](https://cdn-images-1.medium.com/max/2000/1*kBDW9662fuqeqO-YuQb--A.png)\n\nThat’s how we will use this,\n\n![](https://cdn-images-1.medium.com/max/2000/1*BRV5QPo1YTtJ5BEa5xc1Xw.png)\n\n## Visitor\n\nIt adds operations to objects without having to modify them.\n\nAccording to Wikipedia\n>  The visitor design pattern is a way of separating an algorithm from an object structure on which it operates. A practical result of this separation is the ability to add new operations to existing object structures without modifying the structures.\n\n### Example\n\nWe will be taking an example of NumberExpression in which it gives us the result of the given expression.\n\n![](https://cdn-images-1.medium.com/max/2000/1*Bou9I22pEs7VEVQ8_vW94Q.png)\n\n## Strategy\n\nIt allows one of the algorithms to be selected in certain situations.\n\nAccording to Wikipedia\n>  The strategy pattern is a behavioral software design pattern that enables selecting an algorithm at runtime. Instead of implementing a single algorithm directly, code receives run-time instructions as to which in a family of algorithms to use.\n\n### Example\n\nWe will take an example in which we have a text processor that will display data based on strategy(HTML or Markdown).\n\n![](https://cdn-images-1.medium.com/max/2000/1*srPMULYDx_SYqskVw7hF1A.png)\n\nCreating TextProcessor class,\n\n![](https://cdn-images-1.medium.com/max/2000/1*XVD1CNa-ucE11CqOKwyp7A.png)\n\nThat’s how we will use this,\n\n![](https://cdn-images-1.medium.com/max/2000/1*Gd-EIrVZpdFEJyYkOPidSQ.png)\n\n## State\n\nIt alters the behavior of an object when its internal state changes.\n\nAccording to Wikipedia\n>  The state pattern is a behavioral software design pattern that allows an object to alter its behavior when its internal state changes. This pattern is close to the concept of finite-state machines.\n\n### Example\n\nWe will be taking an example of a light switch in which if we turn on or off the switch, its state changes.\n\n![](https://cdn-images-1.medium.com/max/2000/1*d7Jq--ZVu5VQ3tSrCNaLBA.png)\n\nLet’s create a Switch class to use these On/Off state\n\n![](https://cdn-images-1.medium.com/max/2000/1*PyT5K_SzCOdUh7y6bGRhrA.png)\n\n## Template Method\n\nIt defines the skeleton of an algorithm as an abstract class, that how should it be performed.\n\nAccording to Wikipedia\n>  Template Method is a method in a superclass, usually an abstract superclass, and defines the skeleton of an operation in terms of a number of high-level steps.\n\n### Example\n\nWe will be taking an example of a chess game,\n\n![](https://cdn-images-1.medium.com/max/2000/1*3hmYhXppUvKE0hBd3ocW1Q.png)\n\nCreating our chess class,\n\n![](https://cdn-images-1.medium.com/max/2000/1*iAINr2tOntV_p7Ax9y0Anw.png)\n\nThat’s how we will use this,\n\n![](https://cdn-images-1.medium.com/max/2000/1*IWizizeeXuw2zPraRIlZXg.png)\n\n## Overview\n\nAs we have seen all these patterns are widely used all over big organizations. Hope you might find it useful in your own adventurous project.\n\n## Reference\n\n[Design Patterns in JavaScript](https://www.udemy.com/course/design-patterns-javascript/) on [Udemy](https://www.udemy.com/) by Dmitri Nesteruk.\n\n- By Ravi Sojitra\n(Tech Lead | DhiWise)\n",t.user={name:"DhiWise",username:s,twitter_username:s,github_username:e,website_url:"https://www.dhiwise.com",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--hu_Vv50F--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/697091/f5746fba-abc2-4cb3-a987-7347dee9c087.jpg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--b8XCQlC6--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/697091/f5746fba-abc2-4cb3-a987-7347dee9c087.jpg"},t.flare_tag={name:i,bg_color_hex:"#091b47",text_color_hex:"#b2ffe1"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:t}},error:e,state:{currentArticle:t},serverRendered:!0,routePath:"/dhiwise/907412",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:e}}}}(null,"2021-11-24T06:03:57Z",{},"https://dev.to/dhiwise/advanced-javascript-design-patterns-4k8l","showdev","dhiwise")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

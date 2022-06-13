@@ -1,0 +1,447 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>What are policies and how do you use them with CloudQuery?</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>What are policies and how do you use them with CloudQuery?</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/security" class="tag" data-v-70afb46a>
+          #security
+        </a><a href="/nuxtstop/t/infrastructure" class="tag" data-v-70afb46a>
+          #infrastructure
+        </a><a href="/nuxtstop/t/tutorial" class="tag" data-v-70afb46a>
+          #tutorial
+        </a></div> <!----> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            5
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Feb 21</time></div></header> <div class="content" data-v-70afb46a><p>Policy is a very broad term and in this blog we’ll be explaining what policies are, how we implement them at CloudQuery, and how you can use this in the security & compliance of your applications.</p>
+
+<p>We have a good definition of what a policy is within our <a href="https://docs.cloudquery.io/docs/glossary#policy">documentation</a>, and it reads as so</p>
+
+<blockquote>
+<p>Policy compliance is a broad term and can refer to any kind of policy, from internal standards to regulatory requirements. A CloudQuery Policy is a codified form of this that is written with HCL as the logic layer and SQL as the query layer.</p>
+</blockquote>
+
+<p>Simplified this means a policy is a set of rules to be followed, for example, a password policy requiring you to</p>
+
+<ul>
+<li>Be alphanumeric</li>
+<li>Have a special character</li>
+<li>Have a number</li>
+<li>Changed every 4 weeks</li>
+<li>No repeat password for 13 weeks</li>
+</ul>
+
+<p>This is a really basic policy that is standard for a lot of applications or organisations.</p>
+
+<p>In the wild various vendors have policies, and various standards bodies have varying policies that your applications may have to validate against to be classified as safe for certain usage. Even huge providers like AWS have made themselves compliant with <a href="https://aws.amazon.com/compliance/iso-27001-faqs/">ISO 27001</a> and a whole <a href="https://aws.amazon.com/compliance/">gamut of others</a>.</p>
+
+<h2>
+  <a name="what-are-the-common-policies" href="#what-are-the-common-policies">
+  </a>
+  What are the common policies?
+</h2>
+
+<p>A few of the most common policies you can come across are things like HIPAA (US healthcare) which has a full summary of <a href="https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html">security rules</a> to follow. But for most of us in the software industry, we are going to come into contact with these two, CIS (<a href="https://www.cisecurity.org/cis-benchmarks/">Center for Internet Security</a>) and PCI DSS (<a href="https://www.pcisecuritystandards.org/">Payment Card Industry Data Security Standard</a>)</p>
+
+<h2>
+  <a name="how-does-cloudquery-work-with-policies" href="#how-does-cloudquery-work-with-policies">
+  </a>
+  How does CloudQuery work with policies?
+</h2>
+
+<p>CloudQuery is an open-source cloud asset inventory powered by SQL, so a policy to the tool is simply an HCL configuration file that references SQL queries. How this works is by CloudQuery ingesting the data from your cloud provider, such as AWS or Azure, and then the policy executes the SQL statements against that data as if it were a test suite. Our co-founder <a href="https://twitter.com/yevgenypats">Yevgeny</a> recently wrote an amazing piece on running the <a href="https://www.cloudquery.io/blog/running-aws-pci-dss-with-cloudquery-policies">PCI DSS policy against AWS</a>. If you are curious about the multitude of policies currently available you can check them out at <a href="https://hub.cloudquery.io/">https://hub.cloudquery.io/</a> which is our centrally available and searchable source for publicly available policies.</p>
+
+<h2>
+  <a name="how-to-use-policies" href="#how-to-use-policies">
+  </a>
+  How to use policies?
+</h2>
+
+<p>As an example, we shall use AWS to check for compliance. Initially, you will need to install CloudQuery, to do this follow the instructions available in the <a href="https://docs.cloudquery.io/docs/getting-started/getting-started-with-aws/">Getting Started</a> section of our documentation for your given operating system.</p>
+
+<p>Now that you have CloudQuery installed you will need to create the configuration, with the provider you wish to connect it to which in our case is AWS<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>cloudquery init aws
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This will create the <code>config.hcl</code> relative to where you ran this command, for a breakdown of how this is structured it’s available here <a href="https://docs.cloudquery.io/docs/configuration/overview">https://docs.cloudquery.io/docs/configuration/overview</a>.</p>
+
+<p>If you don’t already have a Postgres instance running for the data (you will need to change the <code>connection</code> block of the <code>config.hcl</code> if you do) then run the following command<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>docker run <span class="nt">-p</span> 5432:5432 <span class="nt">-e</span> <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>pass <span class="nt">-d</span> postgres
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Once this is started you can run the following command to start the process of getting the data from AWS<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>cloudquery fetch
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now that you have the asset configuration available you can run policies against them. If you’d like to download them in advance you can execute<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>cloudquery policy download aws
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This downloads the policy configuration and SQL to use later within the <code>.cq</code> directory, it also returns a block that you can add to your <code>config.hcl</code> that may look similar to<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight hcl"><code><span class="nx">policy</span> <span class="s2">"aws"</span> <span class="p">{</span>
+  <span class="nx">source</span> <span class="p">=</span> <span class="s2">"aws"</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>If you would like to skip the download step, you could execute the following commands to review and execute the policies:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight hcl"><code><span class="c1"># execute the whole policy pack (cis, pci dss, etc)</span>
+<span class="nx">cloudquery</span> <span class="nx">policy</span> <span class="nx">run</span> <span class="nx">aws</span>
+
+<span class="c1"># execute specific policy pack</span>
+<span class="nx">cloudquery</span> <span class="nx">policy</span> <span class="nx">run</span> <span class="nx">aws</span><span class="c1">//pci_dss_v3.2.1</span>
+
+<span class="c1"># execute specific section in PCI DSS</span>
+<span class="nx">cloudquery</span> <span class="nx">policy</span> <span class="nx">run</span> <span class="nx">aws</span><span class="c1">//pci_dss_v3.2.1/autoscaling/1</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>It’s that simple and you will get a PASS/FAIL return list from all these existing policy statements.</p>
+
+<h2>
+  <a name="making-a-custom-policy" href="#making-a-custom-policy">
+  </a>
+  Making a custom policy?
+</h2>
+
+<p>If you want to make a policy to automate some of your checks rather than writing the SQL repeatedly or storing them as a stored procedure, then it’s relatively easy.</p>
+
+<p>For a full tutorial on creating policies, please follow the <a href="https://docs.cloudquery.io/docs/tutorials/policies/policies-overview">tutorial in our documentation</a>, but for a quick guide keep reading.</p>
+
+<p>The first step to a custom policy is to allow <code>cloudquery</code> to find it, the easiest way to do that is to add a policy block to the <code>config.hcl</code> and this can look like so<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight hcl"><code><span class="nx">policy</span> <span class="s2">"my-custom-policy"</span> <span class="p">{</span>
+  <span class="nx">source</span> <span class="p">=</span> <span class="s2">"./path/to/policy/directory"</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Inside your new policy you will need a <code>policy.hcl</code> to define what your policy is, a simple example can be just like so:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight hcl"><code><span class="nx">policy</span> <span class="s2">"my-custom-policy"</span> <span class="p">{</span>
+  <span class="nx">title</span> <span class="p">=</span> <span class="s2">"This is a test policy"</span>
+  <span class="nx">doc</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(“</span><span class="nx">README</span><span class="err">.</span><span class="nx">md</span><span class="err">”)</span>
+  <span class="nx">configuration</span> <span class="p">{</span>
+    <span class="nx">provider</span> <span class="s2">"theprovideritusesname"</span> <span class="p">{</span>
+      <span class="nx">version</span> <span class="p">=</span> <span class="s2">">= 1.0"</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+  <span class="err">…</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>After defining what the policy is, and its prerequisites for data such as the <code>provider</code> or documentation, you need to define the actual policy definitions<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight hcl"><code><span class="nx">policy</span> <span class="s2">"my-custom-policy"</span> <span class="p">{</span>
+  <span class="nx">title</span> <span class="p">=</span> <span class="s2">"This is a custom test policy"</span>
+  <span class="nx">doc</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(“</span><span class="nx">README</span><span class="err">.</span><span class="nx">md</span><span class="err">”)</span>
+  <span class="nx">configuration</span> <span class="p">{</span>
+    <span class="nx">provider</span> <span class="s2">"theprovideritusesname"</span> <span class="p">{</span>
+      <span class="nx">version</span> <span class="p">=</span> <span class="s2">">= 1.0"</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="nx">policy</span> <span class="s2">"nested-policy-peter"</span> <span class="p">{</span>
+    <span class="nx">title</span> <span class="p">=</span> <span class="s2">"A policy about Peter"</span>
+    <span class="nx">source</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"peter/policy.hcl"</span><span class="err">)</span>
+  <span class="p">}</span>
+
+  <span class="nx">policy</span> <span class="s2">"nested-policy-james"</span> <span class="p">{</span>
+    <span class="nx">title</span> <span class="p">=</span> <span class="s2">"A policy about James"</span>
+    <span class="nx">source</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"james/policy.hcl"</span><span class="err">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now for the policy itself, or the sub-policy in this case, we have out <code>my-custom-policy</code> and we are now creating the “peter” sub-policy. This should look like so:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight hcl"><code><span class="nx">policy</span> <span class="s2">"peter"</span> <span class="p">{</span>
+  <span class="nx">title</span> <span class="p">=</span> <span class="s2">"Policy specifically for Peter"</span>
+  <span class="nx">doc</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"peter/README.md"</span><span class="err">)</span>
+  <span class="nx">configuration</span> <span class="p">{</span>
+    <span class="nx">provider</span> <span class="s2">"theprovideritusesname"</span> <span class="p">{</span>
+      <span class="nx">version</span> <span class="p">=</span> <span class="s2">"> 1.0"</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+
+  <span class="nx">policy</span> <span class="s2">"meal"</span> <span class="p">{</span>
+    <span class="nx">source</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"peter/meal.hcl"</span><span class="err">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You can see that this sub-policy defines the prerequisites, like the provider that supplies its data etc, as the initial policy did before. And as before the <code>policy</code> block here references another <code>hcl</code>, but this one contains the query to execute and looks like so:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight hcl"><code><span class="err">​​</span><span class="nx">policy</span> <span class="s2">"meal"</span> <span class="p">{</span>
+  <span class="nx">title</span> <span class="p">=</span> <span class="s2">"Section Meal: Information regarding Peter’s meals"</span>
+  <span class="nx">doc</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"peter/docs/meals.md"</span><span class="err">)</span>
+  <span class="nx">check</span> <span class="s2">"breakfast"</span> <span class="p">{</span>
+    <span class="nx">title</span> <span class="p">=</span> <span class="s2">"What does Peter have to breakfast"</span>
+    <span class="nx">doc</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"peter/docs/breakfast.md"</span><span class="err">)</span>
+    <span class="nx">query</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"queries/meals/breakfast_eaten.sql"</span><span class="err">)</span>
+  <span class="p">}</span>
+
+  <span class="nx">check</span> <span class="s2">"lunch"</span> <span class="p">{</span>
+    <span class="nx">title</span> <span class="p">=</span> <span class="s2">"What does Peter have to lunch"</span>
+    <span class="nx">doc</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"peter/docs/lunch.md"</span><span class="err">)</span>
+    <span class="nx">query</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"queries/meals/lunch_eaten.sql"</span><span class="err">)</span>
+  <span class="p">}</span>
+
+  <span class="nx">check</span> <span class="s2">"dinner"</span> <span class="p">{</span>
+    <span class="nx">title</span> <span class="p">=</span> <span class="s2">"What does Peter have to dinner"</span>
+    <span class="nx">doc</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"peter/docs/dinner.md"</span><span class="err">)</span>
+    <span class="nx">query</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"queries/meals/dinner_eaten.sql"</span><span class="err">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now you can see the policy specifically for Peters meals, and we aren’t going to another nested level, instead we have the <code>check</code> block. This block contains the <code>title</code> of the check, any <code>doc</code> concerning it, and a reference to the SQL <code>query</code> that’s contained in a <code>.sql</code> file (NOTE: you can just write the SQL into the query block-like `query = “SELECT 1;”, but we don’t advise that for query reuse).</p>
+
+<p><code></code><code>tip<br>
+All the</code>file<code>includes are from the root directory that you set the first</code>policy.hcl` in, leaving you with a directory structure a little like so:</p>
+
+<ul>
+<li>policy.hcl</li>
+<li>peter
+
+<ul>
+<li>Docs
+
+<ul>
+<li>Meals.md</li>
+<li>Breakfast.md</li>
+<li>Lunch.md</li>
+<li>dinner.md</li>
+</ul>
+
+
+</li>
+<li>policy.hcl</li>
+<li>meals.hcl</li>
+</ul>
+</li>
+<li>queries
+
+<ul>
+<li>meals
+
+<ul>
+<li>breakfast_eaten.sql</li>
+<li>lunch_eaten.sql</li>
+<li>dinner_eaten.sql
+`<code></code>
+</li>
+</ul>
+
+
+</li>
+</ul>
+</li>
+</ul>
+
+<p>And with this, you can create policies to automate the checks, or your internal organisation policies, against your assets in the cloud. If you’d like more documentation on policies, you can check out the <a href="https://docs.cloudquery.io/docs/cli/policy/overview">policy documentation</a> or the <a href="https://hub.cloudquery.io/policies">hubs policy page</a>.</p>
+
+<p>If you are looking for an open-source cloud asset inventory powered by SQL, check out our <a href="https://github.com/cloudquery/cloudquery">GitHub</a>.</p>
+
+<p>Also, Feel free to join our <a href="https://cloudquery.io/discord">Discord</a> if you run into any bugs/issues, or just want to chat.</p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/ukmadlz/what-are-policies-and-how-do-you-use-them-with-cloudquery-2o1i" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(s,n,e,a,t,i){return a.type_of="article",a.id=996124,a.title="What are policies and how do you use them with CloudQuery?",a.description="Policy is a very broad term and in this blog we’ll be explaining what policies are, how we implement...",a.readable_publish_date="Feb 21",a.slug="what-are-policies-and-how-do-you-use-them-with-cloudquery-2o1i",a.path="/cloudquery/what-are-policies-and-how-do-you-use-them-with-cloudquery-2o1i",a.url=t,a.comments_count=0,a.public_reactions_count=5,a.collection_id=s,a.published_timestamp=n,a.positive_reactions_count=5,a.cover_image=s,a.social_image="https://dev.to/social_previews/article/996124.png",a.canonical_url=t,a.created_at="2022-02-21T10:21:45Z",a.edited_at="2022-02-21T20:21:29Z",a.crossposted_at=s,a.published_at=n,a.last_comment_at=n,a.reading_time_minutes=6,a.tag_list="security, infrastructure, tutorial",a.tags=["security","infrastructure","tutorial"],a.body_html='<p>Policy is a very broad term and in this blog we’ll be explaining what policies are, how we implement them at CloudQuery, and how you can use this in the security &amp; compliance of your applications.</p>\n\n<p>We have a good definition of what a policy is within our <a href="https://docs.cloudquery.io/docs/glossary#policy">documentation</a>, and it reads as so</p>\n\n<blockquote>\n<p>Policy compliance is a broad term and can refer to any kind of policy, from internal standards to regulatory requirements. A CloudQuery Policy is a codified form of this that is written with HCL as the logic layer and SQL as the query layer.</p>\n</blockquote>\n\n<p>Simplified this means a policy is a set of rules to be followed, for example, a password policy requiring you to</p>\n\n<ul>\n<li>Be alphanumeric</li>\n<li>Have a special character</li>\n<li>Have a number</li>\n<li>Changed every 4 weeks</li>\n<li>No repeat password for 13 weeks</li>\n</ul>\n\n<p>This is a really basic policy that is standard for a lot of applications or organisations.</p>\n\n<p>In the wild various vendors have policies, and various standards bodies have varying policies that your applications may have to validate against to be classified as safe for certain usage. Even huge providers like AWS have made themselves compliant with <a href="https://aws.amazon.com/compliance/iso-27001-faqs/">ISO 27001</a> and a whole <a href="https://aws.amazon.com/compliance/">gamut of others</a>.</p>\n\n<h2>\n  <a name="what-are-the-common-policies" href="#what-are-the-common-policies">\n  </a>\n  What are the common policies?\n</h2>\n\n<p>A few of the most common policies you can come across are things like HIPAA (US healthcare) which has a full summary of <a href="https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html">security rules</a> to follow. But for most of us in the software industry, we are going to come into contact with these two, CIS (<a href="https://www.cisecurity.org/cis-benchmarks/">Center for Internet Security</a>) and PCI DSS (<a href="https://www.pcisecuritystandards.org/">Payment Card Industry Data Security Standard</a>)</p>\n\n<h2>\n  <a name="how-does-cloudquery-work-with-policies" href="#how-does-cloudquery-work-with-policies">\n  </a>\n  How does CloudQuery work with policies?\n</h2>\n\n<p>CloudQuery is an open-source cloud asset inventory powered by SQL, so a policy to the tool is simply an HCL configuration file that references SQL queries. How this works is by CloudQuery ingesting the data from your cloud provider, such as AWS or Azure, and then the policy executes the SQL statements against that data as if it were a test suite. Our co-founder <a href="https://twitter.com/yevgenypats">Yevgeny</a> recently wrote an amazing piece on running the <a href="https://www.cloudquery.io/blog/running-aws-pci-dss-with-cloudquery-policies">PCI DSS policy against AWS</a>. If you are curious about the multitude of policies currently available you can check them out at <a href="https://hub.cloudquery.io/">https://hub.cloudquery.io/</a> which is our centrally available and searchable source for publicly available policies.</p>\n\n<h2>\n  <a name="how-to-use-policies" href="#how-to-use-policies">\n  </a>\n  How to use policies?\n</h2>\n\n<p>As an example, we shall use AWS to check for compliance. Initially, you will need to install CloudQuery, to do this follow the instructions available in the <a href="https://docs.cloudquery.io/docs/getting-started/getting-started-with-aws/">Getting Started</a> section of our documentation for your given operating system.</p>\n\n<p>Now that you have CloudQuery installed you will need to create the configuration, with the provider you wish to connect it to which in our case is AWS<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>cloudquery init aws\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This will create the <code>config.hcl</code> relative to where you ran this command, for a breakdown of how this is structured it’s available here <a href="https://docs.cloudquery.io/docs/configuration/overview">https://docs.cloudquery.io/docs/configuration/overview</a>.</p>\n\n<p>If you don’t already have a Postgres instance running for the data (you will need to change the <code>connection</code> block of the <code>config.hcl</code> if you do) then run the following command<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>docker run <span class="nt">-p</span> 5432:5432 <span class="nt">-e</span> <span class="nv">POSTGRES_PASSWORD</span><span class="o">=</span>pass <span class="nt">-d</span> postgres\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Once this is started you can run the following command to start the process of getting the data from AWS<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>cloudquery fetch\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now that you have the asset configuration available you can run policies against them. If you’d like to download them in advance you can execute<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>cloudquery policy download aws\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This downloads the policy configuration and SQL to use later within the <code>.cq</code> directory, it also returns a block that you can add to your <code>config.hcl</code> that may look similar to<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight hcl"><code><span class="nx">policy</span> <span class="s2">"aws"</span> <span class="p">{</span>\n  <span class="nx">source</span> <span class="p">=</span> <span class="s2">"aws"</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>If you would like to skip the download step, you could execute the following commands to review and execute the policies:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight hcl"><code><span class="c1"># execute the whole policy pack (cis, pci dss, etc)</span>\n<span class="nx">cloudquery</span> <span class="nx">policy</span> <span class="nx">run</span> <span class="nx">aws</span>\n\n<span class="c1"># execute specific policy pack</span>\n<span class="nx">cloudquery</span> <span class="nx">policy</span> <span class="nx">run</span> <span class="nx">aws</span><span class="c1">//pci_dss_v3.2.1</span>\n\n<span class="c1"># execute specific section in PCI DSS</span>\n<span class="nx">cloudquery</span> <span class="nx">policy</span> <span class="nx">run</span> <span class="nx">aws</span><span class="c1">//pci_dss_v3.2.1/autoscaling/1</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>It’s that simple and you will get a PASS/FAIL return list from all these existing policy statements.</p>\n\n<h2>\n  <a name="making-a-custom-policy" href="#making-a-custom-policy">\n  </a>\n  Making a custom policy?\n</h2>\n\n<p>If you want to make a policy to automate some of your checks rather than writing the SQL repeatedly or storing them as a stored procedure, then it’s relatively easy.</p>\n\n<p>For a full tutorial on creating policies, please follow the <a href="https://docs.cloudquery.io/docs/tutorials/policies/policies-overview">tutorial in our documentation</a>, but for a quick guide keep reading.</p>\n\n<p>The first step to a custom policy is to allow <code>cloudquery</code> to find it, the easiest way to do that is to add a policy block to the <code>config.hcl</code> and this can look like so<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight hcl"><code><span class="nx">policy</span> <span class="s2">"my-custom-policy"</span> <span class="p">{</span>\n  <span class="nx">source</span> <span class="p">=</span> <span class="s2">"./path/to/policy/directory"</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Inside your new policy you will need a <code>policy.hcl</code> to define what your policy is, a simple example can be just like so:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight hcl"><code><span class="nx">policy</span> <span class="s2">"my-custom-policy"</span> <span class="p">{</span>\n  <span class="nx">title</span> <span class="p">=</span> <span class="s2">"This is a test policy"</span>\n  <span class="nx">doc</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(“</span><span class="nx">README</span><span class="err">.</span><span class="nx">md</span><span class="err">”)</span>\n  <span class="nx">configuration</span> <span class="p">{</span>\n    <span class="nx">provider</span> <span class="s2">"theprovideritusesname"</span> <span class="p">{</span>\n      <span class="nx">version</span> <span class="p">=</span> <span class="s2">"&gt;= 1.0"</span>\n    <span class="p">}</span>\n  <span class="p">}</span>\n  <span class="err">…</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>After defining what the policy is, and its prerequisites for data such as the <code>provider</code> or documentation, you need to define the actual policy definitions<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight hcl"><code><span class="nx">policy</span> <span class="s2">"my-custom-policy"</span> <span class="p">{</span>\n  <span class="nx">title</span> <span class="p">=</span> <span class="s2">"This is a custom test policy"</span>\n  <span class="nx">doc</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(“</span><span class="nx">README</span><span class="err">.</span><span class="nx">md</span><span class="err">”)</span>\n  <span class="nx">configuration</span> <span class="p">{</span>\n    <span class="nx">provider</span> <span class="s2">"theprovideritusesname"</span> <span class="p">{</span>\n      <span class="nx">version</span> <span class="p">=</span> <span class="s2">"&gt;= 1.0"</span>\n    <span class="p">}</span>\n  <span class="p">}</span>\n\n  <span class="nx">policy</span> <span class="s2">"nested-policy-peter"</span> <span class="p">{</span>\n    <span class="nx">title</span> <span class="p">=</span> <span class="s2">"A policy about Peter"</span>\n    <span class="nx">source</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"peter/policy.hcl"</span><span class="err">)</span>\n  <span class="p">}</span>\n\n  <span class="nx">policy</span> <span class="s2">"nested-policy-james"</span> <span class="p">{</span>\n    <span class="nx">title</span> <span class="p">=</span> <span class="s2">"A policy about James"</span>\n    <span class="nx">source</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"james/policy.hcl"</span><span class="err">)</span>\n  <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now for the policy itself, or the sub-policy in this case, we have out <code>my-custom-policy</code> and we are now creating the “peter” sub-policy. This should look like so:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight hcl"><code><span class="nx">policy</span> <span class="s2">"peter"</span> <span class="p">{</span>\n  <span class="nx">title</span> <span class="p">=</span> <span class="s2">"Policy specifically for Peter"</span>\n  <span class="nx">doc</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"peter/README.md"</span><span class="err">)</span>\n  <span class="nx">configuration</span> <span class="p">{</span>\n    <span class="nx">provider</span> <span class="s2">"theprovideritusesname"</span> <span class="p">{</span>\n      <span class="nx">version</span> <span class="p">=</span> <span class="s2">"&gt; 1.0"</span>\n    <span class="p">}</span>\n  <span class="p">}</span>\n\n  <span class="nx">policy</span> <span class="s2">"meal"</span> <span class="p">{</span>\n    <span class="nx">source</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"peter/meal.hcl"</span><span class="err">)</span>\n  <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You can see that this sub-policy defines the prerequisites, like the provider that supplies its data etc, as the initial policy did before. And as before the <code>policy</code> block here references another <code>hcl</code>, but this one contains the query to execute and looks like so:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight hcl"><code><span class="err">​​</span><span class="nx">policy</span> <span class="s2">"meal"</span> <span class="p">{</span>\n  <span class="nx">title</span> <span class="p">=</span> <span class="s2">"Section Meal: Information regarding Peter’s meals"</span>\n  <span class="nx">doc</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"peter/docs/meals.md"</span><span class="err">)</span>\n  <span class="nx">check</span> <span class="s2">"breakfast"</span> <span class="p">{</span>\n    <span class="nx">title</span> <span class="p">=</span> <span class="s2">"What does Peter have to breakfast"</span>\n    <span class="nx">doc</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"peter/docs/breakfast.md"</span><span class="err">)</span>\n    <span class="nx">query</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"queries/meals/breakfast_eaten.sql"</span><span class="err">)</span>\n  <span class="p">}</span>\n\n  <span class="nx">check</span> <span class="s2">"lunch"</span> <span class="p">{</span>\n    <span class="nx">title</span> <span class="p">=</span> <span class="s2">"What does Peter have to lunch"</span>\n    <span class="nx">doc</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"peter/docs/lunch.md"</span><span class="err">)</span>\n    <span class="nx">query</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"queries/meals/lunch_eaten.sql"</span><span class="err">)</span>\n  <span class="p">}</span>\n\n  <span class="nx">check</span> <span class="s2">"dinner"</span> <span class="p">{</span>\n    <span class="nx">title</span> <span class="p">=</span> <span class="s2">"What does Peter have to dinner"</span>\n    <span class="nx">doc</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"peter/docs/dinner.md"</span><span class="err">)</span>\n    <span class="nx">query</span> <span class="p">=</span> <span class="nx">file</span><span class="err">(</span><span class="s2">"queries/meals/dinner_eaten.sql"</span><span class="err">)</span>\n  <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now you can see the policy specifically for Peters meals, and we aren’t going to another nested level, instead we have the <code>check</code> block. This block contains the <code>title</code> of the check, any <code>doc</code> concerning it, and a reference to the SQL <code>query</code> that’s contained in a <code>.sql</code> file (NOTE: you can just write the SQL into the query block-like `query = “SELECT 1;”, but we don’t advise that for query reuse).</p>\n\n<p><code></code><code>tip<br>\nAll the</code>file<code>includes are from the root directory that you set the first</code>policy.hcl` in, leaving you with a directory structure a little like so:</p>\n\n<ul>\n<li>policy.hcl</li>\n<li>peter\n\n<ul>\n<li>Docs\n\n<ul>\n<li>Meals.md</li>\n<li>Breakfast.md</li>\n<li>Lunch.md</li>\n<li>dinner.md</li>\n</ul>\n\n\n</li>\n<li>policy.hcl</li>\n<li>meals.hcl</li>\n</ul>\n</li>\n<li>queries\n\n<ul>\n<li>meals\n\n<ul>\n<li>breakfast_eaten.sql</li>\n<li>lunch_eaten.sql</li>\n<li>dinner_eaten.sql\n`<code></code>\n</li>\n</ul>\n\n\n</li>\n</ul>\n</li>\n</ul>\n\n<p>And with this, you can create policies to automate the checks, or your internal organisation policies, against your assets in the cloud. If you’d like more documentation on policies, you can check out the <a href="https://docs.cloudquery.io/docs/cli/policy/overview">policy documentation</a> or the <a href="https://hub.cloudquery.io/policies">hubs policy page</a>.</p>\n\n<p>If you are looking for an open-source cloud asset inventory powered by SQL, check out our <a href="https://github.com/cloudquery/cloudquery">GitHub</a>.</p>\n\n<p>Also, Feel free to join our <a href="https://cloudquery.io/discord">Discord</a> if you run into any bugs/issues, or just want to chat.</p>\n\n',a.body_markdown='Policy is a very broad term and in this blog we’ll be explaining what policies are, how we implement them at CloudQuery, and how you can use this in the security & compliance of your applications.\n\nWe have a good definition of what a policy is within our [documentation](https://docs.cloudquery.io/docs/glossary#policy), and it reads as so\n\n> Policy compliance is a broad term and can refer to any kind of policy, from internal standards to regulatory requirements. A CloudQuery Policy is a codified form of this that is written with HCL as the logic layer and SQL as the query layer.\n> \n\nSimplified this means a policy is a set of rules to be followed, for example, a password policy requiring you to\n\n- Be alphanumeric\n- Have a special character\n- Have a number\n- Changed every 4 weeks\n- No repeat password for 13 weeks\n\nThis is a really basic policy that is standard for a lot of applications or organisations.\n\nIn the wild various vendors have policies, and various standards bodies have varying policies that your applications may have to validate against to be classified as safe for certain usage. Even huge providers like AWS have made themselves compliant with [ISO 27001](https://aws.amazon.com/compliance/iso-27001-faqs/) and a whole [gamut of others](https://aws.amazon.com/compliance/).\n\n## What are the common policies?\n\nA few of the most common policies you can come across are things like HIPAA (US healthcare) which has a full summary of [security rules](https://www.hhs.gov/hipaa/for-professionals/security/laws-regulations/index.html) to follow. But for most of us in the software industry, we are going to come into contact with these two, CIS ([Center for Internet Security](https://www.cisecurity.org/cis-benchmarks/)) and PCI DSS ([Payment Card Industry Data Security Standard](https://www.pcisecuritystandards.org/))\n\n## How does CloudQuery work with policies?\n\nCloudQuery is an open-source cloud asset inventory powered by SQL, so a policy to the tool is simply an HCL configuration file that references SQL queries. How this works is by CloudQuery ingesting the data from your cloud provider, such as AWS or Azure, and then the policy executes the SQL statements against that data as if it were a test suite. Our co-founder [Yevgeny](https://twitter.com/yevgenypats) recently wrote an amazing piece on running the [PCI DSS policy against AWS](https://www.cloudquery.io/blog/running-aws-pci-dss-with-cloudquery-policies). If you are curious about the multitude of policies currently available you can check them out at [https://hub.cloudquery.io/](https://hub.cloudquery.io/) which is our centrally available and searchable source for publicly available policies.\n\n## How to use policies?\n\nAs an example, we shall use AWS to check for compliance. Initially, you will need to install CloudQuery, to do this follow the instructions available in the [Getting Started](https://docs.cloudquery.io/docs/getting-started/getting-started-with-aws/) section of our documentation for your given operating system.\n\nNow that you have CloudQuery installed you will need to create the configuration, with the provider you wish to connect it to which in our case is AWS\n\n```bash\ncloudquery init aws\n```\n\nThis will create the `config.hcl` relative to where you ran this command, for a breakdown of how this is structured it’s available here [https://docs.cloudquery.io/docs/configuration/overview](https://docs.cloudquery.io/docs/configuration/overview).\n\nIf you don’t already have a Postgres instance running for the data (you will need to change the `connection` block of the `config.hcl` if you do) then run the following command\n\n```bash\ndocker run -p 5432:5432 -e POSTGRES_PASSWORD=pass -d postgres\n```\n\nOnce this is started you can run the following command to start the process of getting the data from AWS\n\n```bash\ncloudquery fetch\n```\n\nNow that you have the asset configuration available you can run policies against them. If you’d like to download them in advance you can execute\n\n```bash\ncloudquery policy download aws\n```\n\nThis downloads the policy configuration and SQL to use later within the `.cq` directory, it also returns a block that you can add to your `config.hcl` that may look similar to\n\n```hcl\npolicy "aws" {\n  source = "aws"\n}\n```\n\nIf you would like to skip the download step, you could execute the following commands to review and execute the policies:\n\n```hcl\n# execute the whole policy pack (cis, pci dss, etc)\ncloudquery policy run aws\n\n# execute specific policy pack\ncloudquery policy run aws//pci_dss_v3.2.1\n\n# execute specific section in PCI DSS\ncloudquery policy run aws//pci_dss_v3.2.1/autoscaling/1\n```\n\nIt’s that simple and you will get a PASS/FAIL return list from all these existing policy statements.\n\n## Making a custom policy?\n\nIf you want to make a policy to automate some of your checks rather than writing the SQL repeatedly or storing them as a stored procedure, then it’s relatively easy.\n\nFor a full tutorial on creating policies, please follow the [tutorial in our documentation](https://docs.cloudquery.io/docs/tutorials/policies/policies-overview), but for a quick guide keep reading.\n\nThe first step to a custom policy is to allow `cloudquery` to find it, the easiest way to do that is to add a policy block to the `config.hcl` and this can look like so\n\n```hcl\npolicy "my-custom-policy" {\n  source = "./path/to/policy/directory"\n}\n```\n\nInside your new policy you will need a `policy.hcl` to define what your policy is, a simple example can be just like so:\n\n```hcl\npolicy "my-custom-policy" {\n  title = "This is a test policy"\n  doc = file(“README.md”)\n  configuration {\n    provider "theprovideritusesname" {\n      version = ">= 1.0"\n    }\n  }\n  …\n}\n```\n\nAfter defining what the policy is, and its prerequisites for data such as the `provider` or documentation, you need to define the actual policy definitions\n\n```hcl\npolicy "my-custom-policy" {\n  title = "This is a custom test policy"\n  doc = file(“README.md”)\n  configuration {\n    provider "theprovideritusesname" {\n      version = ">= 1.0"\n    }\n  }\n\n  policy "nested-policy-peter" {\n    title = "A policy about Peter"\n    source = file("peter/policy.hcl")\n  }\n\n  policy "nested-policy-james" {\n    title = "A policy about James"\n    source = file("james/policy.hcl")\n  }\n}\n```\n\nNow for the policy itself, or the sub-policy in this case, we have out `my-custom-policy` and we are now creating the “peter” sub-policy. This should look like so:\n\n```hcl\npolicy "peter" {\n  title = "Policy specifically for Peter"\n  doc = file("peter/README.md")\n  configuration {\n    provider "theprovideritusesname" {\n      version = "> 1.0"\n    }\n  }\n\n  policy "meal" {\n    source = file("peter/meal.hcl")\n  }\n}\n```\n\nYou can see that this sub-policy defines the prerequisites, like the provider that supplies its data etc, as the initial policy did before. And as before the `policy` block here references another `hcl`, but this one contains the query to execute and looks like so:\n\n```hcl\n​​policy "meal" {\n  title = "Section Meal: Information regarding Peter’s meals"\n  doc = file("peter/docs/meals.md")\n  check "breakfast" {\n    title = "What does Peter have to breakfast"\n    doc = file("peter/docs/breakfast.md")\n    query = file("queries/meals/breakfast_eaten.sql")\n  }\n\n  check "lunch" {\n    title = "What does Peter have to lunch"\n    doc = file("peter/docs/lunch.md")\n    query = file("queries/meals/lunch_eaten.sql")\n  }\n\n  check "dinner" {\n    title = "What does Peter have to dinner"\n    doc = file("peter/docs/dinner.md")\n    query = file("queries/meals/dinner_eaten.sql")\n  }\n}\n```\n\nNow you can see the policy specifically for Peters meals, and we aren’t going to another nested level, instead we have the `check` block. This block contains the `title` of the check, any `doc` concerning it, and a reference to the SQL `query` that’s contained in a `.sql` file (NOTE: you can just write the SQL into the query block-like `query = “SELECT 1;”, but we don’t advise that for query reuse).\n\n```tip\nAll the `file` includes are from the root directory that you set the first `policy.hcl` in, leaving you with a directory structure a little like so:\n\n- policy.hcl\n- peter\n    - Docs\n        - Meals.md\n        - Breakfast.md\n        - Lunch.md\n        - dinner.md\n    - policy.hcl\n    - meals.hcl\n- queries\n    - meals\n        - breakfast_eaten.sql\n        - lunch_eaten.sql\n        - dinner_eaten.sql\n```\n\nAnd with this, you can create policies to automate the checks, or your internal organisation policies, against your assets in the cloud. If you’d like more documentation on policies, you can check out the [policy documentation](https://docs.cloudquery.io/docs/cli/policy/overview) or the [hubs policy page](https://hub.cloudquery.io/policies).\n\nIf you are looking for an open-source cloud asset inventory powered by SQL, check out our [GitHub](https://github.com/cloudquery/cloudquery).\n\nAlso, Feel free to join our [Discord](https://cloudquery.io/discord) if you run into any bugs/issues, or just want to chat.',a.user={name:"Mike Elsmore",username:e,twitter_username:e,github_username:e,website_url:"https://elsmore.me",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--t_YbosUk--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/504284/c4bc1cec-ce08-48da-9552-d9a032329042.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--CbG6iE69--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/504284/c4bc1cec-ce08-48da-9552-d9a032329042.png"},a.organization={name:"CloudQuery",username:i,slug:i,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--PIbFKgi3--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/3828/84d34db1-372a-4699-8707-91a4667ff8a0.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--wf7n15pI--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/3828/84d34db1-372a-4699-8707-91a4667ff8a0.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:a}},error:s,state:{currentArticle:a},serverRendered:!0,routePath:"/ukmadlz/996124",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:s}}}}(null,"2022-02-21T13:00:10Z","ukmadlz",{},"https://dev.to/cloudquery/what-are-policies-and-how-do-you-use-them-with-cloudquery-2o1i","cloudquery")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

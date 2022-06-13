@@ -1,0 +1,828 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Building Twitter Post Scheduler With React, NodeJS, and Fauna (Part 1)</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Building Twitter Post Scheduler With React, NodeJS, and Fauna (Part 1)</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/fauna" class="tag" data-v-70afb46a>
+          #fauna
+        </a><a href="/nuxtstop/t/react" class="tag" data-v-70afb46a>
+          #react
+        </a><a href="/nuxtstop/t/node" class="tag" data-v-70afb46a>
+          #node
+        </a><a href="/nuxtstop/t/webdev" class="tag" data-v-70afb46a>
+          #webdev
+        </a></div> <!----> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            24
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Aug 21 '21</time></div></header> <div class="content" data-v-70afb46a><p>Today we are going to build a Twitter Post Scheduler application. Let’s call it Twittler.</p>
+
+<h2>
+  <a name="tools" href="#tools">
+  </a>
+  Tools
+</h2>
+
+<p>Before we start, make sure you have</p>
+
+<ol>
+<li>Node and NPM on your computer. You can download both at <a href="https://nodejs.org/">nodejs.org</a>.</li>
+<li>A code editor. I prefer VSCode. You can download it at <a href="https://code.visualstudio.com/">code.visualstudio.com</a>.</li>
+</ol>
+
+<h2>
+  <a name="twittler-highlevel-architecture" href="#twittler-highlevel-architecture">
+  </a>
+  Twittler High-Level Architecture
+</h2>
+
+<p>Here’s a quick overview of how our application will work.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--nAKRzJK_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/v20gekqci01tmazyo93b.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--nAKRzJK_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/v20gekqci01tmazyo93b.png" alt="Twittler High-Level Architecture" loading="lazy"></a></p>
+
+<p>Client part:</p>
+
+<ol>
+<li>Users write a tweet, choose a time when they want to schedule it, and click send.</li>
+<li>A tweet goes into the database and is stored there.</li>
+</ol>
+
+<p>Server part:</p>
+
+<ol>
+<li>NodeJS calls the database every minute to retrieve all the tweets that need to be sent out that minute.</li>
+<li>Then NodeJS posts these tweets on Twitter.</li>
+</ol>
+
+<h2>
+  <a name="twittler-tech-stack" href="#twittler-tech-stack">
+  </a>
+  Twittler Tech Stack
+</h2>
+
+<p>To build Twittler, we will use:</p>
+
+<ul>
+<li>NodeJS (on the server)</li>
+<li>ReactJS (on the client)</li>
+<li>Fauna (as our database)</li>
+</ul>
+
+<p>But before we dig into the code, first, we need to create a Twitter developer account to get access to Twitter API to start posting on Twitter.</p>
+
+<h2>
+  <a name="twitter-developer-account" href="#twitter-developer-account">
+  </a>
+  Twitter Developer Account
+</h2>
+
+<p>Here’s how to create a Twitter developer account:</p>
+
+<ol>
+<li>Go to <a href="https://developer.twitter.com/en/apply-for-access">https://developer.twitter.com/en/apply-for-access</a>
+</li>
+<li>
+<p>Click the “Apply for a developer account” button</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--SCjT4kKv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/tf39kt9ldyehdxe19fyq.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SCjT4kKv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/tf39kt9ldyehdxe19fyq.png" alt="twitter developer account" loading="lazy"></a></p>
+</li>
+<li>
+<p>Choose why you want to get access to Twitter API (I chose to explore)</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ZEp_VTvm--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vjfklhwwdsm8s5iiyh5h.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ZEp_VTvm--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vjfklhwwdsm8s5iiyh5h.png" alt="twitter api" loading="lazy"></a></p>
+</li>
+<li>
+<p>Complete all of the following steps, answer questions and submit your application.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--eMnH2Ct8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/8fzpagf93fbbrj233wn3.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--eMnH2Ct8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/8fzpagf93fbbrj233wn3.png" alt="Twitter questions" loading="lazy"></a></p>
+</li>
+<li><p>Wait until the Twitter team finishes reviewing your application and gives you access to the API (It may not take more than a couple of days)</p></li>
+<li>
+<p>After the Twitter team will approve your application, go to <a href="https://developer.twitter.com/en/portal/dashboard">your dashboard</a> and create a new project.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--v6-W3YGd--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/100eszx007tz7vz8qmso.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--v6-W3YGd--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/100eszx007tz7vz8qmso.png" alt="twitter api dashboard" loading="lazy"></a></p>
+</li>
+<li>
+<p>Then copy and save a Bearer Token. We will need it to access the Twitter API.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--zQuhTJZ7--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uinaxl8jlqjof1worqr6.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--zQuhTJZ7--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uinaxl8jlqjof1worqr6.png" alt="twitter api" loading="lazy"></a></p>
+</li>
+</ol>
+
+<p>Now, let’s set up our database.</p>
+
+<h2>
+  <a name="fauna" href="#fauna">
+  </a>
+  Fauna
+</h2>
+
+<p>For the database, we will use Fauna. It is a serverless database that gives you ubiquitous, low latency access to app data without sacrificing data correctness.</p>
+
+<ol>
+<li>Log in or sign up at your Fauna account <a href="https://fauna.com/">here</a>.</li>
+<li>
+<p>Click on “Create database.”</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--5eCK5oMv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hnlqcikg1nmgs2tg3u9t.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--5eCK5oMv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hnlqcikg1nmgs2tg3u9t.png" alt="fauna Create database" loading="lazy"></a></p>
+</li>
+<li>
+<p>Choose name and region</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--7OXtokih--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5da0qrx8agtnrb40yh21.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--7OXtokih--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5da0qrx8agtnrb40yh21.png" alt="fauna dashboard" loading="lazy"></a></p>
+</li>
+<li>
+<p>Click on “New collection.”</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--yayts5dU--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nmfh23he1un7900o0smf.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--yayts5dU--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nmfh23he1un7900o0smf.png" alt="fauna collection" loading="lazy"></a></p>
+</li>
+<li>
+<p>Choose collection name and click “Save.”</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--qtmHtya0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uchaoyfjfueiifue8z4o.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--qtmHtya0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uchaoyfjfueiifue8z4o.png" alt="faunadb collection" loading="lazy"></a></p>
+</li>
+</ol>
+
+<p>We just created a new database called "twittler" and our collection "tweets" where we're going to store our tweets.</p>
+
+<p>What does “<a href="https://docs.fauna.com/fauna/current/api/fql/collections">collection</a>” mean for Fauna?</p>
+
+<p>Collections are sets of data records, called documents. In our case, a set of tweets. If you are familiar with relational databases, collections are analogous to tables in them.</p>
+
+<p>Now we need to generate API keys and put them in our application so that our server can access the database to retrieve tweets from it. Here’s how to do it:</p>
+
+<ol>
+<li>
+<p>Go to the “Security” tab and click on “New Key.”</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--UCUB-LKD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vop1kf7927elc5smz823.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--UCUB-LKD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vop1kf7927elc5smz823.png" alt="fauna security" loading="lazy"></a></p>
+</li>
+<li>
+<p>Type a key name and click on “Save”</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--gZ8GrDwN--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/49h41k9fbgwb2kyegvxq.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--gZ8GrDwN--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/49h41k9fbgwb2kyegvxq.png" alt="fauna key" loading="lazy"></a></p>
+</li>
+<li>
+<p>Our API key was generated.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--s4YcJdwv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vey27jebsx7hqkuxmsww.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--s4YcJdwv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vey27jebsx7hqkuxmsww.png" alt="fauna api" loading="lazy"></a></p>
+</li>
+<li><p>Save the key somewhere. We will need it later to access Fauna from our application.</p></li>
+</ol>
+
+<p>And the last thing we should do is create an <a href="https://docs.fauna.com/fauna/current/api/fql/indexes">index</a>.</p>
+
+<p><a href="https://docs.fauna.com/fauna/current/api/fql/indexes">Indexes</a> in Fauna allow us to retrieve documents by attributes other than their <a href="https://docs.fauna.com/fauna/current/api/fql/functions/ref?lang=javascript">Reference</a>. They act as a lookup table that improves the performance of finding documents. Instead of reading every document to find the one(s) you are interested in, you query an index to find those documents.We will use the Index to get all tweets from a specific date range.</p>
+
+<p>To create it, go to “Indexes” tab:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Fuqcj33Z--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/am0eokmc198k672rsclt.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Fuqcj33Z--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/am0eokmc198k672rsclt.png" alt="fauna indexes" loading="lazy"></a></p>
+
+<p>And create a new index, “tweetsByDate”</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--4yq6lSks--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/1c6fl4kzmikkliqb5dc9.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--4yq6lSks--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/1c6fl4kzmikkliqb5dc9.png" alt="fauna new index" loading="lazy"></a></p>
+
+<p>Click the “Save” button, and let’s start to code our client.</p>
+
+<h2>
+  <a name="client" href="#client">
+  </a>
+  Client
+</h2>
+
+<p>To create our client application, we will use ReactJS, and we can quickly install it using <a href="https://reactjs.org/docs/create-a-new-react-app.html">create-react-app</a>.</p>
+
+<p>Open your terminal and install create-react-app by using the following command:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>npx create-react-app twittler
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Then go to the created folder and initialize our project:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>cd twittler && npm i
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now, let’s install Fauna package that we will use in our application to get access to the database from our client:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>npm i fauna
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>And also, we need to add the Fauna secret key that we have created in the Fauna security tab. To do this crate <code>.env.local</code> file in the root folder of our project and put your Fauna secret key there:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>// .env.local
+
+REACT_APP_FAUNADB_SECRET=your-secret-key
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The last thing we need to add is <a href="https://tailwindcss.com/">TailwindCSS</a>. It’s a utility-oriented CSS framework to help us quickly design and build our application without writing any CSS. To do it go to public/index.html and add a link to TailwindCSS css file.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>// public/index.html
+
+&lt;html lang="en">
+ &lt;head>
+   &lt;meta charset="utf-8" />
+   &lt;link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+   &lt;meta name="viewport" content="width=device-width, initial-scale=1" />
+   &lt;meta name="theme-color" content="#000000" />
+   &lt;meta
+     name="description"
+     content="Web site created using create-react-app"
+   />
+   &lt;link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+   &lt;link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+
+   &lt;link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+   &lt;title>Twittler&lt;/title>
+ &lt;/head>
+ &lt;body>
+   &lt;noscript>You need to enable JavaScript to run this app.&lt;/noscript>
+   &lt;div id="root">&lt;/div>
+ &lt;/body>
+&lt;/html>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This is not the best way to add TailwindCSS to applications, but we remove extra installation steps required when installing "correctly" with npm. In real-world applications, we would <a href="https://tailwindcss.com/docs/guides/create-react-app">install Tailwind using npm</a>.</p>
+
+<p>Now that everything is set up, time to write some code. Let’s start with creating our UI.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--D63LCkO_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/s92xtjntf71ptfieaq0t.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--D63LCkO_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/s92xtjntf71ptfieaq0t.png" alt="twittler ui" loading="lazy"></a></p>
+
+<p>Open src/App.js and add this code:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>// src/App.js
+
+import React, {useCallback, useState} from 'react'
+import Fauna from 'Fauna'
+
+const currentDate = new Date().toISOString().substr(0, 10)
+
+const FaunaClient = new Fauna.Client({
+ secret: process.env.REACT_APP_FAUNADB_SECRET,
+})
+const q = Fauna.query
+
+function App() {
+ const [tweet, setTweet] = useState('')
+ const [date, setDate] = useState(currentDate)
+ const [time, setTime] = useState(
+   new Date().getHours() + ':' + new Date().getMinutes()
+ )
+
+ const sendTweet = useCallback(
+   async (event) => {
+     event.preventDefault()
+
+     console.log(new Date(`${date} ${time}`).getTime())
+     console.log(new Date(`${date} ${time}`))
+
+     try {
+       FaunaClient.query(
+         q.Create(q.Collection('tweets'), {
+           data: {
+             tweet,
+             date: new Date(`${date} ${time}`).getTime(),
+           },
+         })
+       )
+
+       setTweet('')
+     } catch (error) {
+       console.log(error)
+     }
+   },
+   [date, time, tweet]
+ )
+
+ return (
+   &lt;form
+     onSubmit={sendTweet}
+     className="flex flex-col max-w-lg m-auto min-h-screen justify-center"
+   >
+     &lt;h2 className="mb-6 text-center text-3xl font-extrabold text-gray-900">
+       Your Tweet
+     &lt;/h2>
+     &lt;textarea
+       required
+       maxLength="280"
+       rows="5"
+       className="mb-6 focus:ring-indigo-500 focus:border-indigo-500 border-2 w-full p-4 sm:text-sm border-gray-300 rounded-md"
+       placeholder="I don't understand pineapple pizza"
+       value={tweet}
+       onChange={(event) => setTweet(event.target.value)}
+     />
+     &lt;div className="flex items-center mb-8">
+       &lt;input
+         required
+         type="date"
+         min={currentDate}
+         value={date}
+         onChange={(event) => setDate(event.target.value)}
+         className="focus:ring-indigo-500 focus:border-indigo-500 border-2 w-full p-4 sm:text-sm border-gray-300 rounded-md mx-4"
+       />
+       &lt;input
+         required
+         type="time"
+         value={time}
+         onChange={(event) => setTime(event.target.value)}
+         className="focus:ring-indigo-500 focus:border-indigo-500 border-2 w-full p-4 sm:text-sm border-gray-300 rounded-md mx-4"
+       />
+     &lt;/div>
+     &lt;button
+       type="submit"
+       className="flex justify-center py-4 px-4 border border-transparent font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+     >
+       Schedule Tweet
+     &lt;/button>
+   &lt;/form>
+ )
+}
+
+export default App
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>So what’s happening here?</p>
+
+<p>Using <code>Fauna.Client</code>, we create a Fauna client function with a secret key as a parameter to access the Fauna API.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>const FaunaClient = new Fauna.Client({
+
+ secret: process.env.REACT_APP_FAUNADB_SECRET,
+
+})
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Using <code>FaunaClient.query</code>, we send a request to Fauna to create a new document with <code>tweet</code> and <code>date</code> parameters.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>       FaunaClient.query(
+
+         q.Create(q.Collection('tweets'), {
+
+           data: {
+
+             tweet,
+
+             date: new Date(`${date} ${time}`).getTime(),
+
+           },
+
+         })
+
+       )
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>To test this code yourself, open the terminal and type the following command:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>npm start
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>And try to write a tweet like “I don’t understand pineapple pizza” (tell the truth), pick a date, time and click on the “Schedule Tweet” button. If the request succeeds, then you have created a new document in the collection <code>tweets</code>.</p>
+
+<p>You can view the result in your Fauna dashboard:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--GLjXj1KD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/6j05f3uqgug4zkloksbl.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--GLjXj1KD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/6j05f3uqgug4zkloksbl.png" alt="fauna dashboard" loading="lazy"></a></p>
+
+<p>The client part is done, now let's write our server.</p>
+
+<h2>
+  <a name="server" href="#server">
+  </a>
+  Server
+</h2>
+
+<p>Our server will live in the <code>server</code> folder in the root folder of our application. Create the folder and place a single file, <code>index.js,</code> out of which we'll run our server.</p>
+
+<p>To create our server, we will use a popular NodeJS framework <a href="https://expressjs.com/">ExpressJS</a> (we could only use NodeJS for our application, but with ExpressJS, we will create API routes and extend our functionality application in the future).</p>
+
+<p>To install ExpressJS, run the following command in the root folder of your project in the terminal:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>npm i express
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>After, we need to install the <a href="https://www.npmjs.com/package/node-cron">cron-job</a> package so that our server can request Fauna every minute. To do it run the following command in your terminal:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>npm i node-cron
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Also, we need to install the <a href="https://www.npmjs.com/package/dotenv">dotenv</a> package. It will load environment variables from a <code>.env.local</code> file into <code>process.env.</code> This way, we can access the <code>REACT_APP_FAUNADB_SECRET</code> variable from our server code.</p>
+
+<p>To do it, run the following command in your terminal:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>npm i dotenv
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The last package we need to install is the <a href="https://www.npmjs.com/package/twitter-api-v2">twitter-api-v2</a>. It will help us to post tweets on Twitter.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>npm i twitter-api-v2
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Before we start coding, we need to add the Twitter API bearer token we saved in the previous steps. To do this, open the file <code>.env.local</code> and add your Twitter bearer token under the <code>REACT_APP_FAUNADB_SECRET</code>:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>// .env.local
+
+REACT_APP_FAUNADB_SECRET=your-secret-key
+
+TWITTER_BEARER_TOKEN=your-twitter-bearer-token
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now, let’s write the server itself. Open <code>server/index.js</code> and add this server code:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>// server/index.js
+
+const express = require('express')
+const cron = require('node-cron')
+const Fauna = require('Fauna')
+const {TwitterApi} = require('twitter-api-v2')
+
+const twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN)
+
+const q = Fauna.query
+
+const faunaClient = new Fauna.Client({
+ secret: process.env.REACT_APP_FAUNADB_SECRET,
+})
+
+// run every minute
+cron.schedule('* * * * *', async () => {
+ const now = new Date()
+ now.setSeconds(0)
+ now.setMilliseconds(0)
+
+ try {
+   // get all tweets from Now - 1 minute to Now
+   const {data} = await faunaClient.query(
+     q.Map(
+       q.Paginate(q.Match(q.Index('tweetsByDate'), now.getTime())),
+       q.Lambda(['date', 'ref'], q.Get(q.Var('ref')))
+     )
+   )
+
+   // post all tweets from date range on twitter
+   data.forEach(async ({data: {tweet}}) => {
+     try {
+       console.log(tweet)
+       await twitterClient.v1.tweet(tweet)
+     } catch (error) {
+       console.log(error)
+     }
+   })
+ } catch (error) {
+   console.log(error)
+ }
+})
+
+const app = express()
+
+app.listen(3001, async () => {
+ console.log(`Server listening on ${3001}`)
+})
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Let’s see what is interesting happening here.</p>
+
+<p>The <code>cron.schedule</code> calls every minute the function responsible for publishing tweets to Twitter.</p>
+
+<p>Using <code>faunaClient,</code> we get all tweets in the range of current time and a minute earlier.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>   const {data} = await faunaClient.query(
+     q.Map(
+       q.Paginate(
+         q.Range(
+           q.Match(q.Index('tweetsByDate')),
+           minuteAgo.toISOString(),
+           now.toISOString()
+         )
+       ),
+       q.Lambda(['date', 'ref'], q.Get(q.Var('ref')))
+     )
+   )
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>And using <code>twitterClient.v1.tweet(tweet)</code> we post them on Twitter. </p>
+
+<p>Our application is ready. Now, let's test everything.</p>
+
+<h2>
+  <a name="run-application" href="#run-application">
+  </a>
+  Run Application
+</h2>
+
+<p>First, create a script in <code>package.json</code> file that will start our web server when we run the command <code>npm start server</code> in our console:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>// package.json
+...
+
+"scripts": {
+  "server": "node -r dotenv/config ./server/index.js dotenv_config_path=./.env.local",
+  ...
+}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Then open a terminal and run <code>npm start server</code> in one window to start our web server, and in another window, run <code>npm start</code> to start our client.</p>
+
+<p>The Twitter Post Scheduler app is ready!</p>
+
+<p>You can find a repository with the final example <a href="https://github.com/abraztsov/twittler/commit/e040751fc7798b15f45753edee60fbb93babe07a">here</a>.</p>
+
+<p>In the part 2 we will deploy our application to <a href="https://vercel.com/">Vercel</a>.</p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/nickbulljs/building-twitter-post-scheduler-with-react-nodejs-and-fauna-part-1-4332" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(e,t,n,a){return n.type_of="article",n.id=799070,n.title="Building Twitter Post Scheduler With React, NodeJS, and Fauna (Part 1)",n.description="Today we are going to build a Twitter Post Scheduler application. Let’s call it Twittler.          ...",n.readable_publish_date="Aug 21 '21",n.slug="building-twitter-post-scheduler-with-react-nodejs-and-fauna-part-1-4332",n.path="/nickbulljs/building-twitter-post-scheduler-with-react-nodejs-and-fauna-part-1-4332",n.url=a,n.comments_count=0,n.public_reactions_count=24,n.collection_id=e,n.published_timestamp=t,n.positive_reactions_count=24,n.cover_image=e,n.social_image="https://dev.to/social_previews/article/799070.png",n.canonical_url=a,n.created_at=t,n.edited_at=e,n.crossposted_at=e,n.published_at=t,n.last_comment_at=t,n.reading_time_minutes=9,n.tag_list="fauna, react, node, webdev",n.tags=["fauna","react","node","webdev"],n.body_html='<p>Today we are going to build a Twitter Post Scheduler application. Let’s call it Twittler.</p>\n\n<h2>\n  <a name="tools" href="#tools">\n  </a>\n  Tools\n</h2>\n\n<p>Before we start, make sure you have</p>\n\n<ol>\n<li>Node and NPM on your computer. You can download both at <a href="https://nodejs.org/">nodejs.org</a>.</li>\n<li>A code editor. I prefer VSCode. You can download it at <a href="https://code.visualstudio.com/">code.visualstudio.com</a>.</li>\n</ol>\n\n<h2>\n  <a name="twittler-highlevel-architecture" href="#twittler-highlevel-architecture">\n  </a>\n  Twittler High-Level Architecture\n</h2>\n\n<p>Here’s a quick overview of how our application will work.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--nAKRzJK_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/v20gekqci01tmazyo93b.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--nAKRzJK_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/v20gekqci01tmazyo93b.png" alt="Twittler High-Level Architecture" loading="lazy"></a></p>\n\n<p>Client part:</p>\n\n<ol>\n<li>Users write a tweet, choose a time when they want to schedule it, and click send.</li>\n<li>A tweet goes into the database and is stored there.</li>\n</ol>\n\n<p>Server part:</p>\n\n<ol>\n<li>NodeJS calls the database every minute to retrieve all the tweets that need to be sent out that minute.</li>\n<li>Then NodeJS posts these tweets on Twitter.</li>\n</ol>\n\n<h2>\n  <a name="twittler-tech-stack" href="#twittler-tech-stack">\n  </a>\n  Twittler Tech Stack\n</h2>\n\n<p>To build Twittler, we will use:</p>\n\n<ul>\n<li>NodeJS (on the server)</li>\n<li>ReactJS (on the client)</li>\n<li>Fauna (as our database)</li>\n</ul>\n\n<p>But before we dig into the code, first, we need to create a Twitter developer account to get access to Twitter API to start posting on Twitter.</p>\n\n<h2>\n  <a name="twitter-developer-account" href="#twitter-developer-account">\n  </a>\n  Twitter Developer Account\n</h2>\n\n<p>Here’s how to create a Twitter developer account:</p>\n\n<ol>\n<li>Go to <a href="https://developer.twitter.com/en/apply-for-access">https://developer.twitter.com/en/apply-for-access</a>\n</li>\n<li>\n<p>Click the “Apply for a developer account” button</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--SCjT4kKv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/tf39kt9ldyehdxe19fyq.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SCjT4kKv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/tf39kt9ldyehdxe19fyq.png" alt="twitter developer account" loading="lazy"></a></p>\n</li>\n<li>\n<p>Choose why you want to get access to Twitter API (I chose to explore)</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ZEp_VTvm--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vjfklhwwdsm8s5iiyh5h.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ZEp_VTvm--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vjfklhwwdsm8s5iiyh5h.png" alt="twitter api" loading="lazy"></a></p>\n</li>\n<li>\n<p>Complete all of the following steps, answer questions and submit your application.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--eMnH2Ct8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/8fzpagf93fbbrj233wn3.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--eMnH2Ct8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/8fzpagf93fbbrj233wn3.png" alt="Twitter questions" loading="lazy"></a></p>\n</li>\n<li><p>Wait until the Twitter team finishes reviewing your application and gives you access to the API (It may not take more than a couple of days)</p></li>\n<li>\n<p>After the Twitter team will approve your application, go to <a href="https://developer.twitter.com/en/portal/dashboard">your dashboard</a> and create a new project.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--v6-W3YGd--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/100eszx007tz7vz8qmso.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--v6-W3YGd--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/100eszx007tz7vz8qmso.png" alt="twitter api dashboard" loading="lazy"></a></p>\n</li>\n<li>\n<p>Then copy and save a Bearer Token. We will need it to access the Twitter API.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--zQuhTJZ7--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uinaxl8jlqjof1worqr6.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--zQuhTJZ7--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uinaxl8jlqjof1worqr6.png" alt="twitter api" loading="lazy"></a></p>\n</li>\n</ol>\n\n<p>Now, let’s set up our database.</p>\n\n<h2>\n  <a name="fauna" href="#fauna">\n  </a>\n  Fauna\n</h2>\n\n<p>For the database, we will use Fauna. It is a serverless database that gives you ubiquitous, low latency access to app data without sacrificing data correctness.</p>\n\n<ol>\n<li>Log in or sign up at your Fauna account <a href="https://fauna.com/">here</a>.</li>\n<li>\n<p>Click on “Create database.”</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--5eCK5oMv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hnlqcikg1nmgs2tg3u9t.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--5eCK5oMv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hnlqcikg1nmgs2tg3u9t.png" alt="fauna Create database" loading="lazy"></a></p>\n</li>\n<li>\n<p>Choose name and region</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--7OXtokih--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5da0qrx8agtnrb40yh21.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--7OXtokih--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5da0qrx8agtnrb40yh21.png" alt="fauna dashboard" loading="lazy"></a></p>\n</li>\n<li>\n<p>Click on “New collection.”</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--yayts5dU--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nmfh23he1un7900o0smf.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--yayts5dU--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nmfh23he1un7900o0smf.png" alt="fauna collection" loading="lazy"></a></p>\n</li>\n<li>\n<p>Choose collection name and click “Save.”</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--qtmHtya0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uchaoyfjfueiifue8z4o.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--qtmHtya0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uchaoyfjfueiifue8z4o.png" alt="faunadb collection" loading="lazy"></a></p>\n</li>\n</ol>\n\n<p>We just created a new database called "twittler" and our collection "tweets" where we\'re going to store our tweets.</p>\n\n<p>What does “<a href="https://docs.fauna.com/fauna/current/api/fql/collections">collection</a>” mean for Fauna?</p>\n\n<p>Collections are sets of data records, called documents. In our case, a set of tweets. If you are familiar with relational databases, collections are analogous to tables in them.</p>\n\n<p>Now we need to generate API keys and put them in our application so that our server can access the database to retrieve tweets from it. Here’s how to do it:</p>\n\n<ol>\n<li>\n<p>Go to the “Security” tab and click on “New Key.”</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--UCUB-LKD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vop1kf7927elc5smz823.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--UCUB-LKD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vop1kf7927elc5smz823.png" alt="fauna security" loading="lazy"></a></p>\n</li>\n<li>\n<p>Type a key name and click on “Save”</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--gZ8GrDwN--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/49h41k9fbgwb2kyegvxq.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--gZ8GrDwN--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/49h41k9fbgwb2kyegvxq.png" alt="fauna key" loading="lazy"></a></p>\n</li>\n<li>\n<p>Our API key was generated.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--s4YcJdwv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vey27jebsx7hqkuxmsww.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--s4YcJdwv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vey27jebsx7hqkuxmsww.png" alt="fauna api" loading="lazy"></a></p>\n</li>\n<li><p>Save the key somewhere. We will need it later to access Fauna from our application.</p></li>\n</ol>\n\n<p>And the last thing we should do is create an <a href="https://docs.fauna.com/fauna/current/api/fql/indexes">index</a>.</p>\n\n<p><a href="https://docs.fauna.com/fauna/current/api/fql/indexes">Indexes</a> in Fauna allow us to retrieve documents by attributes other than their <a href="https://docs.fauna.com/fauna/current/api/fql/functions/ref?lang=javascript">Reference</a>. They act as a lookup table that improves the performance of finding documents. Instead of reading every document to find the one(s) you are interested in, you query an index to find those documents.We will use the Index to get all tweets from a specific date range.</p>\n\n<p>To create it, go to “Indexes” tab:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Fuqcj33Z--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/am0eokmc198k672rsclt.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Fuqcj33Z--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/am0eokmc198k672rsclt.png" alt="fauna indexes" loading="lazy"></a></p>\n\n<p>And create a new index, “tweetsByDate”</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--4yq6lSks--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/1c6fl4kzmikkliqb5dc9.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--4yq6lSks--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/1c6fl4kzmikkliqb5dc9.png" alt="fauna new index" loading="lazy"></a></p>\n\n<p>Click the “Save” button, and let’s start to code our client.</p>\n\n<h2>\n  <a name="client" href="#client">\n  </a>\n  Client\n</h2>\n\n<p>To create our client application, we will use ReactJS, and we can quickly install it using <a href="https://reactjs.org/docs/create-a-new-react-app.html">create-react-app</a>.</p>\n\n<p>Open your terminal and install create-react-app by using the following command:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>npx create-react-app twittler\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Then go to the created folder and initialize our project:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>cd twittler &amp;&amp; npm i\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now, let’s install Fauna package that we will use in our application to get access to the database from our client:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>npm i fauna\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>And also, we need to add the Fauna secret key that we have created in the Fauna security tab. To do this crate <code>.env.local</code> file in the root folder of our project and put your Fauna secret key there:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>// .env.local\n\nREACT_APP_FAUNADB_SECRET=your-secret-key\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The last thing we need to add is <a href="https://tailwindcss.com/">TailwindCSS</a>. It’s a utility-oriented CSS framework to help us quickly design and build our application without writing any CSS. To do it go to public/index.html and add a link to TailwindCSS css file.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>// public/index.html\n\n&lt;html lang="en"&gt;\n &lt;head&gt;\n   &lt;meta charset="utf-8" /&gt;\n   &lt;link rel="icon" href="%PUBLIC_URL%/favicon.ico" /&gt;\n   &lt;meta name="viewport" content="width=device-width, initial-scale=1" /&gt;\n   &lt;meta name="theme-color" content="#000000" /&gt;\n   &lt;meta\n     name="description"\n     content="Web site created using create-react-app"\n   /&gt;\n   &lt;link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" /&gt;\n   &lt;link rel="manifest" href="%PUBLIC_URL%/manifest.json" /&gt;\n\n   &lt;link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet"&gt;\n   &lt;title&gt;Twittler&lt;/title&gt;\n &lt;/head&gt;\n &lt;body&gt;\n   &lt;noscript&gt;You need to enable JavaScript to run this app.&lt;/noscript&gt;\n   &lt;div id="root"&gt;&lt;/div&gt;\n &lt;/body&gt;\n&lt;/html&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This is not the best way to add TailwindCSS to applications, but we remove extra installation steps required when installing "correctly" with npm. In real-world applications, we would <a href="https://tailwindcss.com/docs/guides/create-react-app">install Tailwind using npm</a>.</p>\n\n<p>Now that everything is set up, time to write some code. Let’s start with creating our UI.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--D63LCkO_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/s92xtjntf71ptfieaq0t.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--D63LCkO_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/s92xtjntf71ptfieaq0t.png" alt="twittler ui" loading="lazy"></a></p>\n\n<p>Open src/App.js and add this code:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>// src/App.js\n\nimport React, {useCallback, useState} from \'react\'\nimport Fauna from \'Fauna\'\n\nconst currentDate = new Date().toISOString().substr(0, 10)\n\nconst FaunaClient = new Fauna.Client({\n secret: process.env.REACT_APP_FAUNADB_SECRET,\n})\nconst q = Fauna.query\n\nfunction App() {\n const [tweet, setTweet] = useState(\'\')\n const [date, setDate] = useState(currentDate)\n const [time, setTime] = useState(\n   new Date().getHours() + \':\' + new Date().getMinutes()\n )\n\n const sendTweet = useCallback(\n   async (event) =&gt; {\n     event.preventDefault()\n\n     console.log(new Date(`${date} ${time}`).getTime())\n     console.log(new Date(`${date} ${time}`))\n\n     try {\n       FaunaClient.query(\n         q.Create(q.Collection(\'tweets\'), {\n           data: {\n             tweet,\n             date: new Date(`${date} ${time}`).getTime(),\n           },\n         })\n       )\n\n       setTweet(\'\')\n     } catch (error) {\n       console.log(error)\n     }\n   },\n   [date, time, tweet]\n )\n\n return (\n   &lt;form\n     onSubmit={sendTweet}\n     className="flex flex-col max-w-lg m-auto min-h-screen justify-center"\n   &gt;\n     &lt;h2 className="mb-6 text-center text-3xl font-extrabold text-gray-900"&gt;\n       Your Tweet\n     &lt;/h2&gt;\n     &lt;textarea\n       required\n       maxLength="280"\n       rows="5"\n       className="mb-6 focus:ring-indigo-500 focus:border-indigo-500 border-2 w-full p-4 sm:text-sm border-gray-300 rounded-md"\n       placeholder="I don\'t understand pineapple pizza"\n       value={tweet}\n       onChange={(event) =&gt; setTweet(event.target.value)}\n     /&gt;\n     &lt;div className="flex items-center mb-8"&gt;\n       &lt;input\n         required\n         type="date"\n         min={currentDate}\n         value={date}\n         onChange={(event) =&gt; setDate(event.target.value)}\n         className="focus:ring-indigo-500 focus:border-indigo-500 border-2 w-full p-4 sm:text-sm border-gray-300 rounded-md mx-4"\n       /&gt;\n       &lt;input\n         required\n         type="time"\n         value={time}\n         onChange={(event) =&gt; setTime(event.target.value)}\n         className="focus:ring-indigo-500 focus:border-indigo-500 border-2 w-full p-4 sm:text-sm border-gray-300 rounded-md mx-4"\n       /&gt;\n     &lt;/div&gt;\n     &lt;button\n       type="submit"\n       className="flex justify-center py-4 px-4 border border-transparent font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"\n     &gt;\n       Schedule Tweet\n     &lt;/button&gt;\n   &lt;/form&gt;\n )\n}\n\nexport default App\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>So what’s happening here?</p>\n\n<p>Using <code>Fauna.Client</code>, we create a Fauna client function with a secret key as a parameter to access the Fauna API.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>const FaunaClient = new Fauna.Client({\n\n secret: process.env.REACT_APP_FAUNADB_SECRET,\n\n})\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Using <code>FaunaClient.query</code>, we send a request to Fauna to create a new document with <code>tweet</code> and <code>date</code> parameters.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>       FaunaClient.query(\n\n         q.Create(q.Collection(\'tweets\'), {\n\n           data: {\n\n             tweet,\n\n             date: new Date(`${date} ${time}`).getTime(),\n\n           },\n\n         })\n\n       )\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>To test this code yourself, open the terminal and type the following command:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>npm start\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>And try to write a tweet like “I don’t understand pineapple pizza” (tell the truth), pick a date, time and click on the “Schedule Tweet” button. If the request succeeds, then you have created a new document in the collection <code>tweets</code>.</p>\n\n<p>You can view the result in your Fauna dashboard:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--GLjXj1KD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/6j05f3uqgug4zkloksbl.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--GLjXj1KD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/6j05f3uqgug4zkloksbl.png" alt="fauna dashboard" loading="lazy"></a></p>\n\n<p>The client part is done, now let\'s write our server.</p>\n\n<h2>\n  <a name="server" href="#server">\n  </a>\n  Server\n</h2>\n\n<p>Our server will live in the <code>server</code> folder in the root folder of our application. Create the folder and place a single file, <code>index.js,</code> out of which we\'ll run our server.</p>\n\n<p>To create our server, we will use a popular NodeJS framework <a href="https://expressjs.com/">ExpressJS</a> (we could only use NodeJS for our application, but with ExpressJS, we will create API routes and extend our functionality application in the future).</p>\n\n<p>To install ExpressJS, run the following command in the root folder of your project in the terminal:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>npm i express\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>After, we need to install the <a href="https://www.npmjs.com/package/node-cron">cron-job</a> package so that our server can request Fauna every minute. To do it run the following command in your terminal:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>npm i node-cron\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Also, we need to install the <a href="https://www.npmjs.com/package/dotenv">dotenv</a> package. It will load environment variables from a <code>.env.local</code> file into <code>process.env.</code> This way, we can access the <code>REACT_APP_FAUNADB_SECRET</code> variable from our server code.</p>\n\n<p>To do it, run the following command in your terminal:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>npm i dotenv\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The last package we need to install is the <a href="https://www.npmjs.com/package/twitter-api-v2">twitter-api-v2</a>. It will help us to post tweets on Twitter.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>npm i twitter-api-v2\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Before we start coding, we need to add the Twitter API bearer token we saved in the previous steps. To do this, open the file <code>.env.local</code> and add your Twitter bearer token under the <code>REACT_APP_FAUNADB_SECRET</code>:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>// .env.local\n\nREACT_APP_FAUNADB_SECRET=your-secret-key\n\nTWITTER_BEARER_TOKEN=your-twitter-bearer-token\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now, let’s write the server itself. Open <code>server/index.js</code> and add this server code:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>// server/index.js\n\nconst express = require(\'express\')\nconst cron = require(\'node-cron\')\nconst Fauna = require(\'Fauna\')\nconst {TwitterApi} = require(\'twitter-api-v2\')\n\nconst twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN)\n\nconst q = Fauna.query\n\nconst faunaClient = new Fauna.Client({\n secret: process.env.REACT_APP_FAUNADB_SECRET,\n})\n\n// run every minute\ncron.schedule(\'* * * * *\', async () =&gt; {\n const now = new Date()\n now.setSeconds(0)\n now.setMilliseconds(0)\n\n try {\n   // get all tweets from Now - 1 minute to Now\n   const {data} = await faunaClient.query(\n     q.Map(\n       q.Paginate(q.Match(q.Index(\'tweetsByDate\'), now.getTime())),\n       q.Lambda([\'date\', \'ref\'], q.Get(q.Var(\'ref\')))\n     )\n   )\n\n   // post all tweets from date range on twitter\n   data.forEach(async ({data: {tweet}}) =&gt; {\n     try {\n       console.log(tweet)\n       await twitterClient.v1.tweet(tweet)\n     } catch (error) {\n       console.log(error)\n     }\n   })\n } catch (error) {\n   console.log(error)\n }\n})\n\nconst app = express()\n\napp.listen(3001, async () =&gt; {\n console.log(`Server listening on ${3001}`)\n})\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Let’s see what is interesting happening here.</p>\n\n<p>The <code>cron.schedule</code> calls every minute the function responsible for publishing tweets to Twitter.</p>\n\n<p>Using <code>faunaClient,</code> we get all tweets in the range of current time and a minute earlier.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>   const {data} = await faunaClient.query(\n     q.Map(\n       q.Paginate(\n         q.Range(\n           q.Match(q.Index(\'tweetsByDate\')),\n           minuteAgo.toISOString(),\n           now.toISOString()\n         )\n       ),\n       q.Lambda([\'date\', \'ref\'], q.Get(q.Var(\'ref\')))\n     )\n   )\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>And using <code>twitterClient.v1.tweet(tweet)</code> we post them on Twitter. </p>\n\n<p>Our application is ready. Now, let\'s test everything.</p>\n\n<h2>\n  <a name="run-application" href="#run-application">\n  </a>\n  Run Application\n</h2>\n\n<p>First, create a script in <code>package.json</code> file that will start our web server when we run the command <code>npm start server</code> in our console:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>// package.json\n...\n\n"scripts": {\n  "server": "node -r dotenv/config ./server/index.js dotenv_config_path=./.env.local",\n  ...\n}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Then open a terminal and run <code>npm start server</code> in one window to start our web server, and in another window, run <code>npm start</code> to start our client.</p>\n\n<p>The Twitter Post Scheduler app is ready!</p>\n\n<p>You can find a repository with the final example <a href="https://github.com/abraztsov/twittler/commit/e040751fc7798b15f45753edee60fbb93babe07a">here</a>.</p>\n\n<p>In the part 2 we will deploy our application to <a href="https://vercel.com/">Vercel</a>.</p>\n\n',n.body_markdown='Today we are going to build a Twitter Post Scheduler application. Let’s call it Twittler.\n\n\n## Tools\n\nBefore we start, make sure you have\n\n1. Node and NPM on your computer. You can download both at [nodejs.org](https://nodejs.org/).\n2. A code editor. I prefer VSCode. You can download it at [code.visualstudio.com](https://code.visualstudio.com/).\n\n\n## Twittler High-Level Architecture\n\nHere’s a quick overview of how our application will work.\n\n![Twittler High-Level Architecture](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/v20gekqci01tmazyo93b.png)\n\nClient part:\n\n\n\n1. Users write a tweet, choose a time when they want to schedule it, and click send.\n2. A tweet goes into the database and is stored there.\n\nServer part:\n\n\n\n1. NodeJS calls the database every minute to retrieve all the tweets that need to be sent out that minute.\n2. Then NodeJS posts these tweets on Twitter.\n\n\n## Twittler Tech Stack\n\nTo build Twittler, we will use:\n\n\n\n* NodeJS (on the server)\n* ReactJS (on the client)\n* Fauna (as our database)\n\nBut before we dig into the code, first, we need to create a Twitter developer account to get access to Twitter API to start posting on Twitter.\n\n\n## Twitter Developer Account\n\nHere’s how to create a Twitter developer account:\n\n\n\n1. Go to [https://developer.twitter.com/en/apply-for-access](https://developer.twitter.com/en/apply-for-access)\n2. Click the “Apply for a developer account” button\n\n    ![twitter developer account](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/tf39kt9ldyehdxe19fyq.png)\n\n3. Choose why you want to get access to Twitter API (I chose to explore)\n\n    ![twitter api](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vjfklhwwdsm8s5iiyh5h.png)\n\n4. Complete all of the following steps, answer questions and submit your application.\n\n    ![Twitter questions](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/8fzpagf93fbbrj233wn3.png)\n\n5. Wait until the Twitter team finishes reviewing your application and gives you access to the API (It may not take more than a couple of days)\n6. After the Twitter team will approve your application, go to [your dashboard](https://developer.twitter.com/en/portal/dashboard) and create a new project.\n\n    ![twitter api dashboard](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/100eszx007tz7vz8qmso.png)\n\n7. Then copy and save a Bearer Token. We will need it to access the Twitter API.\n\n    ![twitter api](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uinaxl8jlqjof1worqr6.png)\n\nNow, let’s set up our database.\n\n\n## Fauna\n\nFor the database, we will use Fauna. It is a serverless database that gives you ubiquitous, low latency access to app data without sacrificing data correctness.\n\n\n1. Log in or sign up at your Fauna account [here](https://fauna.com/).\n2. Click on “Create database.”\n\n    ![fauna Create database](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hnlqcikg1nmgs2tg3u9t.png)\n\n3. Choose name and region\n\n    ![fauna dashboard](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5da0qrx8agtnrb40yh21.png)\n\n4. Click on “New collection.”\n\n    ![fauna collection](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nmfh23he1un7900o0smf.png)\n\n5. Choose collection name and click “Save.”\n\n    ![faunadb collection](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/uchaoyfjfueiifue8z4o.png)\n\nWe just created a new database called "twittler" and our collection "tweets" where we\'re going to store our tweets.\n\nWhat does “[collection](https://docs.fauna.com/fauna/current/api/fql/collections)” mean for Fauna?\n\nCollections are sets of data records, called documents. In our case, a set of tweets. If you are familiar with relational databases, collections are analogous to tables in them.\n\nNow we need to generate API keys and put them in our application so that our server can access the database to retrieve tweets from it. Here’s how to do it:\n\n\n\n1. Go to the “Security” tab and click on “New Key.”\n\n    ![fauna security](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vop1kf7927elc5smz823.png)\n\n2. Type a key name and click on “Save”\n\n    ![fauna key](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/49h41k9fbgwb2kyegvxq.png)\n\n3. Our API key was generated.\n\n    ![fauna api](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vey27jebsx7hqkuxmsww.png)\n\n4. Save the key somewhere. We will need it later to access Fauna from our application.\n\nAnd the last thing we should do is create an [index](https://docs.fauna.com/fauna/current/api/fql/indexes).\n\n[Indexes](https://docs.fauna.com/fauna/current/api/fql/indexes) in Fauna allow us to retrieve documents by attributes other than their [Reference](https://docs.fauna.com/fauna/current/api/fql/functions/ref?lang=javascript). They act as a lookup table that improves the performance of finding documents. Instead of reading every document to find the one(s) you are interested in, you query an index to find those documents.We will use the Index to get all tweets from a specific date range.\n\nTo create it, go to “Indexes” tab:\n\n![fauna indexes](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/am0eokmc198k672rsclt.png)\n\nAnd create a new index, “tweetsByDate”\n\n![fauna new index](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/1c6fl4kzmikkliqb5dc9.png)\n\nClick the “Save” button, and let’s start to code our client.\n\n\n## Client\n\nTo create our client application, we will use ReactJS, and we can quickly install it using [create-react-app](https://reactjs.org/docs/create-a-new-react-app.html).\n\nOpen your terminal and install create-react-app by using the following command:\n\n```\nnpx create-react-app twittler\n```\n\nThen go to the created folder and initialize our project:\n\n```\ncd twittler && npm i\n```\n\nNow, let’s install Fauna package that we will use in our application to get access to the database from our client:\n\n```\nnpm i fauna\n```\n\nAnd also, we need to add the Fauna secret key that we have created in the Fauna security tab. To do this crate `.env.local` file in the root folder of our project and put your Fauna secret key there:\n\n```\n// .env.local\n\nREACT_APP_FAUNADB_SECRET=your-secret-key\n```\n\nThe last thing we need to add is [TailwindCSS](https://tailwindcss.com/). It’s a utility-oriented CSS framework to help us quickly design and build our application without writing any CSS. To do it go to public/index.html and add a link to TailwindCSS css file.\n\n```\n// public/index.html\n\n<html lang="en">\n <head>\n   <meta charset="utf-8" />\n   <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />\n   <meta name="viewport" content="width=device-width, initial-scale=1" />\n   <meta name="theme-color" content="#000000" />\n   <meta\n     name="description"\n     content="Web site created using create-react-app"\n   />\n   <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />\n   <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />\n\n   <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">\n   <title>Twittler</title>\n </head>\n <body>\n   <noscript>You need to enable JavaScript to run this app.</noscript>\n   <div id="root"></div>\n </body>\n</html>\n```\n\nThis is not the best way to add TailwindCSS to applications, but we remove extra installation steps required when installing "correctly" with npm. In real-world applications, we would [install Tailwind using npm](https://tailwindcss.com/docs/guides/create-react-app).\n\n\t\n\nNow that everything is set up, time to write some code. Let’s start with creating our UI.\n\n![twittler ui](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/s92xtjntf71ptfieaq0t.png)\n\nOpen src/App.js and add this code:\n\n```\n// src/App.js\n\nimport React, {useCallback, useState} from \'react\'\nimport Fauna from \'Fauna\'\n\nconst currentDate = new Date().toISOString().substr(0, 10)\n\nconst FaunaClient = new Fauna.Client({\n secret: process.env.REACT_APP_FAUNADB_SECRET,\n})\nconst q = Fauna.query\n\nfunction App() {\n const [tweet, setTweet] = useState(\'\')\n const [date, setDate] = useState(currentDate)\n const [time, setTime] = useState(\n   new Date().getHours() + \':\' + new Date().getMinutes()\n )\n\n const sendTweet = useCallback(\n   async (event) => {\n     event.preventDefault()\n\n     console.log(new Date(`${date} ${time}`).getTime())\n     console.log(new Date(`${date} ${time}`))\n\n     try {\n       FaunaClient.query(\n         q.Create(q.Collection(\'tweets\'), {\n           data: {\n             tweet,\n             date: new Date(`${date} ${time}`).getTime(),\n           },\n         })\n       )\n\n       setTweet(\'\')\n     } catch (error) {\n       console.log(error)\n     }\n   },\n   [date, time, tweet]\n )\n\n return (\n   <form\n     onSubmit={sendTweet}\n     className="flex flex-col max-w-lg m-auto min-h-screen justify-center"\n   >\n     <h2 className="mb-6 text-center text-3xl font-extrabold text-gray-900">\n       Your Tweet\n     </h2>\n     <textarea\n       required\n       maxLength="280"\n       rows="5"\n       className="mb-6 focus:ring-indigo-500 focus:border-indigo-500 border-2 w-full p-4 sm:text-sm border-gray-300 rounded-md"\n       placeholder="I don\'t understand pineapple pizza"\n       value={tweet}\n       onChange={(event) => setTweet(event.target.value)}\n     />\n     <div className="flex items-center mb-8">\n       <input\n         required\n         type="date"\n         min={currentDate}\n         value={date}\n         onChange={(event) => setDate(event.target.value)}\n         className="focus:ring-indigo-500 focus:border-indigo-500 border-2 w-full p-4 sm:text-sm border-gray-300 rounded-md mx-4"\n       />\n       <input\n         required\n         type="time"\n         value={time}\n         onChange={(event) => setTime(event.target.value)}\n         className="focus:ring-indigo-500 focus:border-indigo-500 border-2 w-full p-4 sm:text-sm border-gray-300 rounded-md mx-4"\n       />\n     </div>\n     <button\n       type="submit"\n       className="flex justify-center py-4 px-4 border border-transparent font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"\n     >\n       Schedule Tweet\n     </button>\n   </form>\n )\n}\n\nexport default App\n\n```\n\nSo what’s happening here?\n\nUsing `Fauna.Client`, we create a Fauna client function with a secret key as a parameter to access the Fauna API.\n\n```\nconst FaunaClient = new Fauna.Client({\n\n secret: process.env.REACT_APP_FAUNADB_SECRET,\n\n})\n```\n\nUsing `FaunaClient.query`, we send a request to Fauna to create a new document with `tweet` and `date` parameters.\n\n```\n       FaunaClient.query(\n\n         q.Create(q.Collection(\'tweets\'), {\n\n           data: {\n\n             tweet,\n\n             date: new Date(`${date} ${time}`).getTime(),\n\n           },\n\n         })\n\n       )\n```\n\nTo test this code yourself, open the terminal and type the following command:\n\n```\nnpm start\n```\n\nAnd try to write a tweet like “I don’t understand pineapple pizza” (tell the truth), pick a date, time and click on the “Schedule Tweet” button. If the request succeeds, then you have created a new document in the collection `tweets`.\n\nYou can view the result in your Fauna dashboard:\n\n![fauna dashboard](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/6j05f3uqgug4zkloksbl.png)\n\nThe client part is done, now let\'s write our server.\n\n\n## Server\n\nOur server will live in the `server` folder in the root folder of our application. Create the folder and place a single file, `index.js,` out of which we\'ll run our server.\n\nTo create our server, we will use a popular NodeJS framework [ExpressJS](https://expressjs.com/) (we could only use NodeJS for our application, but with ExpressJS, we will create API routes and extend our functionality application in the future).\n\nTo install ExpressJS, run the following command in the root folder of your project in the terminal:\n\n```\nnpm i express\n```\n\nAfter, we need to install the [cron-job](https://www.npmjs.com/package/node-cron) package so that our server can request Fauna every minute. To do it run the following command in your terminal:\n\n```\nnpm i node-cron\n```\n\nAlso, we need to install the [dotenv](https://www.npmjs.com/package/dotenv) package. It will load environment variables from a `.env.local` file into `process.env.` This way, we can access the `REACT_APP_FAUNADB_SECRET` variable from our server code.\n\nTo do it, run the following command in your terminal:\n\n```\nnpm i dotenv\n```\n\nThe last package we need to install is the [twitter-api-v2](https://www.npmjs.com/package/twitter-api-v2). It will help us to post tweets on Twitter.\n\n```\nnpm i twitter-api-v2\n```\n\nBefore we start coding, we need to add the Twitter API bearer token we saved in the previous steps. To do this, open the file `.env.local` and add your Twitter bearer token under the `REACT_APP_FAUNADB_SECRET`:\n\n```\n// .env.local\n\nREACT_APP_FAUNADB_SECRET=your-secret-key\n\nTWITTER_BEARER_TOKEN=your-twitter-bearer-token\n```\n\nNow, let’s write the server itself. Open `server/index.js` and add this server code:\n\n```\n// server/index.js\n\nconst express = require(\'express\')\nconst cron = require(\'node-cron\')\nconst Fauna = require(\'Fauna\')\nconst {TwitterApi} = require(\'twitter-api-v2\')\n\nconst twitterClient = new TwitterApi(process.env.TWITTER_BEARER_TOKEN)\n\nconst q = Fauna.query\n\nconst faunaClient = new Fauna.Client({\n secret: process.env.REACT_APP_FAUNADB_SECRET,\n})\n\n// run every minute\ncron.schedule(\'* * * * *\', async () => {\n const now = new Date()\n now.setSeconds(0)\n now.setMilliseconds(0)\n\n try {\n   // get all tweets from Now - 1 minute to Now\n   const {data} = await faunaClient.query(\n     q.Map(\n       q.Paginate(q.Match(q.Index(\'tweetsByDate\'), now.getTime())),\n       q.Lambda([\'date\', \'ref\'], q.Get(q.Var(\'ref\')))\n     )\n   )\n\n   // post all tweets from date range on twitter\n   data.forEach(async ({data: {tweet}}) => {\n     try {\n       console.log(tweet)\n       await twitterClient.v1.tweet(tweet)\n     } catch (error) {\n       console.log(error)\n     }\n   })\n } catch (error) {\n   console.log(error)\n }\n})\n\nconst app = express()\n\napp.listen(3001, async () => {\n console.log(`Server listening on ${3001}`)\n})\n```\n\nLet’s see what is interesting happening here.\n\nThe `cron.schedule` calls every minute the function responsible for publishing tweets to Twitter.\n\nUsing `faunaClient,` we get all tweets in the range of current time and a minute earlier.\n\n```\n   const {data} = await faunaClient.query(\n     q.Map(\n       q.Paginate(\n         q.Range(\n           q.Match(q.Index(\'tweetsByDate\')),\n           minuteAgo.toISOString(),\n           now.toISOString()\n         )\n       ),\n       q.Lambda([\'date\', \'ref\'], q.Get(q.Var(\'ref\')))\n     )\n   )\n```\n\nAnd using `twitterClient.v1.tweet(tweet)` we post them on Twitter. \n\nOur application is ready. Now, let\'s test everything.\n\n\n## Run Application\n\nFirst, create a script in `package.json` file that will start our web server when we run the command `npm start server` in our console:\n\n```\n// package.json\n...\n\n"scripts": {\n  "server": "node -r dotenv/config ./server/index.js dotenv_config_path=./.env.local",\n  ...\n}\n```\n\nThen open a terminal and run `npm start server` in one window to start our web server, and in another window, run `npm start` to start our client.\n\nThe Twitter Post Scheduler app is ready!\n\nYou can find a repository with the final example [here](https://github.com/abraztsov/twittler/commit/e040751fc7798b15f45753edee60fbb93babe07a).\n\nIn the part 2 we will deploy our application to [Vercel](https://vercel.com/).\n',n.user={name:"Nikita Kryzhanouski",username:"nickbulljs",twitter_username:"bulljsdev",github_username:e,website_url:"https://nickbulljs.com/",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--Kc7ExLiL--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/438696/c570424b-52a5-40ce-9a93-b2e258fdffac.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--oURQg_xL--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/438696/c570424b-52a5-40ce-9a93-b2e258fdffac.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:n}},error:e,state:{currentArticle:n},serverRendered:!0,routePath:"/nickbulljs/799070",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:e}}}}(null,"2021-08-21T11:51:44Z",{},"https://dev.to/nickbulljs/building-twitter-post-scheduler-with-react-nodejs-and-fauna-part-1-4332")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

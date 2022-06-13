@@ -1,0 +1,797 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Advanced Kotlin Collection Functionality</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Advanced Kotlin Collection Functionality</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/kotlin" class="tag" data-v-70afb46a>
+          #kotlin
+        </a><a href="/nuxtstop/t/programming" class="tag" data-v-70afb46a>
+          #programming
+        </a><a href="/nuxtstop/t/android" class="tag" data-v-70afb46a>
+          #android
+        </a><a href="/nuxtstop/t/productivity" class="tag" data-v-70afb46a>
+          #productivity
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--AobtYJ6t--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vx9olpb872wcrpavcdnm.jpeg" alt="Advanced Kotlin Collection Functionality" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            52
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Jun 14 '21</time></div></header> <div class="content" data-v-70afb46a><p>This blog post accompanies a video from our <strong>YouTube series</strong> which you can find on our <a href="https://kotl.in/video">Kotlin YouTube channel</a>, or <strong>watch here</strong> directly!</p>
+
+<p><iframe width="710" height="399" src="https://www.youtube.com/embed/N4CpLxGJlq0" allowfullscreen loading="lazy">
+</iframe>
+</p>
+
+<p>Today, we are learning about advanced functions that we can use to work with and manipulate all kinds of Kotlin collections!</p>
+
+<h2>
+  <a name="checking-predicates-raw-any-endraw-raw-none-endraw-and-raw-all-endraw-" href="#checking-predicates-raw-any-endraw-raw-none-endraw-and-raw-all-endraw-">
+  </a>
+  Checking predicates: <code>any</code>, <code>none</code> and <code>all</code>
+</h2>
+
+<p>Let’s warm up by having a look at a selection of functions that allow us to check conditions for our collection elements.</p>
+
+<p>They’re called <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/any.html"><code>any</code></a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/none.html"><code>none</code></a>, and <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/all.html"><code>all</code></a>. Each of them takes a <em>predicate</em> – so a function that returns <code>true</code> or <code>false</code> – and checks whether the collection fits this predicate.</p>
+
+<p>Let’s say we have a group of friends (which is really just a <code>List&lt;Person></code>, each featuring a <code>name</code>, <code>age</code>, and maybe a <code>driversLicense</code>):<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">data class</span> <span class="nc">Person</span><span class="p">(</span><span class="kd">val</span> <span class="py">name</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span> <span class="kd">val</span> <span class="py">age</span><span class="p">:</span> <span class="nc">Int</span><span class="p">,</span> <span class="kd">val</span> <span class="py">driversLicense</span><span class="p">:</span> <span class="nc">Boolean</span> <span class="p">=</span> <span class="k">false</span><span class="p">)</span>
+
+<span class="kd">val</span> <span class="py">friendGroup</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span>
+    <span class="nc">Person</span><span class="p">(</span><span class="s">"Jo"</span><span class="p">,</span> <span class="mi">19</span><span class="p">),</span>
+    <span class="nc">Person</span><span class="p">(</span><span class="s">"Mic"</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span>
+    <span class="nc">Person</span><span class="p">(</span><span class="s">"Hay"</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="k">true</span><span class="p">),</span>
+    <span class="nc">Person</span><span class="p">(</span><span class="s">"Cal"</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>
+<span class="p">)</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>When we want to check if the group can travel by car, we want to check if <em>any</em> of them have a driver's license – so we use the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/any.html"><code>any</code></a> function. It returns <code>true</code> if there is <em>at least one element</em> in our collection for which the predicate returns <code>true</code>.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">groupCanTravel</span> <span class="p">=</span> <span class="n">friendGroup</span><span class="p">.</span><span class="nf">any</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">driversLicense</span> <span class="p">}</span>
+<span class="c1">// true</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>As another example, let’s say we want to check if this group of friends is allowed to enter a club – for this, we would need to make sure that <em>none</em> of the folks in the group are underage!</p>
+
+<p>Here, we can use the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/none.html"><code>none</code></a> function, which only returns <code>true</code> when there is <em>not a single element in our collection</em> that holds true for our predicate:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">groupGetsInClub</span> <span class="p">=</span> <span class="n">friendGroup</span><span class="p">.</span><span class="nf">none</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">age</span> <span class="p">&lt;</span> <span class="mi">18</span> <span class="p">}</span>
+<span class="c1">// false</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The third function in the bunch is the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/all.html"><code>all</code></a> function. At this point, you can probably spot the pattern – <code>all</code> returns <code>true</code>, if each and every element in our collection matches our predicate. We could use it to check whether all names in our friend group are short:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">groupHasShortNames</span> <span class="p">=</span> <span class="n">friendGroup</span><span class="p">.</span><span class="nf">all</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">name</span><span class="p">.</span><span class="n">length</span> <span class="p">&lt;</span> <span class="mi">4</span> <span class="p">}</span>
+<span class="c1">// true</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="predicates-for-empty-collections" href="#predicates-for-empty-collections">
+  </a>
+  Predicates for empty collections
+</h3>
+
+<p>While on the topic, let's have a little brain teaser: How do <code>any</code>, <code>none</code>, and <code>all</code> behave for <em>empty collections</em>?<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">nobody</span> <span class="p">=</span> <span class="n">emptyList</span><span class="p">&lt;</span><span class="nc">Person</span><span class="p">>()</span>
+<span class="c1">// what happens here?</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Let’s look at <code>any</code> first. There is no element that can satisfy the predicate, so it returns <code>false</code>:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="n">nobody</span><span class="p">.</span><span class="nf">any</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">driversLicense</span> <span class="p">}</span>
+<span class="c1">// false</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The same goes for <code>none</code> – there is no function that can violate our predicate, so it returns true:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="n">nobody</span><span class="p">.</span><span class="nf">none</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">age</span> <span class="p">&lt;</span> <span class="mi">18</span> <span class="p">}</span>
+<span class="c1">// true</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The <code>all</code> function, however, returns <code>true</code> with an empty collection. This may surprise you in the first moment:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="n">nobody</span><span class="p">.</span><span class="nf">all</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">name</span><span class="p">.</span><span class="nf">count</span><span class="p">()</span> <span class="p">&lt;</span> <span class="mi">4</span> <span class="p">}</span> 
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>But this is quite intentional and sound: You can't name an element that <em>violates</em> the predicate. Therefore, the predicate has to be true for <em>all elements in the collection</em> – even if there are <em>none</em>!</p>
+
+<p>This might feel a bit mind-bending to think about at first, but you’ll find that this concept, which is called the <a href="https://en.wikipedia.org/wiki/Vacuous_truth">vacuous truth</a>, actually plays very well with checking conditions, and expressing logic in program code.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--L5zdjSFo--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/thg07e0ao215ck2lwm1z.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--L5zdjSFo--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/thg07e0ao215ck2lwm1z.png" alt='"Vacuous truth" on Wikipedia' loading="lazy"></a></p>
+
+<h2>
+  <a name="collection-parts-raw-chunked-endraw-and-raw-windowed-endraw-" href="#collection-parts-raw-chunked-endraw-and-raw-windowed-endraw-">
+  </a>
+  Collection parts: <code>chunked</code> and <code>windowed</code>
+</h2>
+
+<p>With our brain freshly teased, let’s move on to the next topic, and learn about how to break collections into parts!</p>
+
+<h3>
+  <a name="the-raw-chunked-endraw-function" href="#the-raw-chunked-endraw-function">
+  </a>
+  The <code>chunked</code> function
+</h3>
+
+<p>If we have a collection that just contains a bunch of items, we can cut up the list into individual chunks of a certain size by using the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/chunked.html"><code>chunked</code></a> function. What we get back is a list of lists, where each element is a _chunk _of our original list:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">objects</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"🌱"</span><span class="p">,</span> <span class="s">"🚀"</span><span class="p">,</span> <span class="s">"💡"</span><span class="p">,</span> <span class="s">"🐧"</span><span class="p">,</span> <span class="s">"⚙️"</span><span class="p">,</span> <span class="s">"🤖"</span><span class="p">,</span> <span class="s">"📚"</span><span class="p">)</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">objects</span><span class="p">.</span><span class="nf">chunked</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="c1">// [[🌱, 🚀, 💡], [🐧, ⚙️, 🤖], [📚]]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>In the example above, we break our list of random objects (represented with emojis) apart, using a chunk size of 3.</p>
+
+<ul>
+<li><p>The first <em>element</em> in our result is in itself a <em>list</em> which contains our first three objects – <code>[🌱, 🚀, 💡]</code>.</p></li>
+<li><p>The second element is once again a chunk, and contains the three elements that follow after that – <code>[🐧, ⚙️, 🤖]</code>.</p></li>
+<li><p>The last element is also a chunk – but since we ran out of elements to fill it with three items, it only contains the book stack - <code>[📚]</code>.</p></li>
+</ul>
+
+<p>In typical standard library fashion, the <code>chunked</code> function also provides a little bit of extra power. To immediately transform the chunks we just created, we can apply a <em>transformation function</em>. For example, we can reverse the order of elements in the resulting lists, without having to do another <code>map</code> call separately:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="nf">println</span><span class="p">(</span><span class="n">objects</span><span class="p">.</span><span class="nf">chunked</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="nf">reversed</span><span class="p">()</span> <span class="p">})</span>
+<span class="c1">// [[💡, 🚀, 🌱], [🤖, ⚙️, 🐧], [📚]]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>To summarize: the <code>chunked</code> function cuts our original collection into lists of lists, where each list has the specified size.</p>
+
+<h3>
+  <a name="the-raw-windowed-endraw-function" href="#the-raw-windowed-endraw-function">
+  </a>
+  The <code>windowed</code> function
+</h3>
+
+<p>Closely related is the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/windowed.html"><code>windowed</code></a> function. It also returns a list of lists from our collection. Instead of cutting it up into pieces, however, this function generates a “sliding window” of our collection:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="nf">println</span><span class="p">(</span><span class="n">objects</span><span class="p">.</span><span class="nf">windowed</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>
+<span class="c1">// [[🌱, 🚀, 💡], [🚀, 💡, 🐧], [💡, 🐧, ⚙️], [🐧, ⚙️, 🤖], [⚙️, 🤖, 📚]]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<ul>
+<li>The first window is once again the first three elements – <code>[🌱, 🚀, 💡]</code>.</li>
+<li>The next window is <code>[🚀, 💡, 🐧]</code> – we simply “moved” our window of size 3 over by one, which includes some overlap.</li>
+</ul>
+
+<p>The <code>windowed</code> function can also be customized. We can change both <em>window</em> and <em>step</em> size, the latter being the number of elements that the window should “slide along” for each step:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="nf">println</span><span class="p">(</span><span class="n">objects</span><span class="p">.</span><span class="nf">windowed</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">partialWindows</span> <span class="p">=</span> <span class="k">true</span><span class="p">))</span>
+<span class="c1">// [[🌱, 🚀, 💡, 🐧], [💡, 🐧, ⚙️, 🤖], [⚙️, 🤖, 📚], [📚]]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>As you can see in the example above, we can also control whether our result should contain <em>partial windows</em>. This changes the behavior when we’ve reached the end of our input collection, and we’re running out of elements.</p>
+
+<p>With partial windows enabled, we just <em>keep sliding</em>, and we get the last elements trickling in, in the form of smaller windows, until we get a window which once again only contains the last element from our input collection – <code>[⚙️, 🤖, 📚], [📚]</code>.</p>
+
+<p><code>windowed</code> also allows us to perform an additional transformation at the end, which can modify the individual windows directly:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="nf">println</span><span class="p">(</span><span class="n">objects</span><span class="p">.</span><span class="nf">windowed</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">it</span><span class="p">.</span><span class="nf">reversed</span><span class="p">()</span>
+<span class="p">})</span>
+<span class="c1">// [[🐧, 💡, 🚀, 🌱], [🤖, ⚙️, 🐧, 💡], [📚, 🤖, ⚙️], [📚]]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="unnesting-collections-flatten-and-flatmap" href="#unnesting-collections-flatten-and-flatmap">
+  </a>
+  Un-nesting Collections: Flatten and Flatmap
+</h2>
+
+<p>The <code>chunked</code> and <code>windowed</code> functions, along with some others all return nested collections – lists of lists. What if we want to <em>un-nest</em> these, turning them back into flat lists of elements? As usual, we do not need to fear, because the standard library has got us covered.</p>
+
+<p>We can call the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/flatten.html"><code>flatten</code></a> function on a collection of collections. As you may suspect, the result is a single list of all the elements that were originally contained inside of our nested collections:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">objects</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"🌱"</span><span class="p">,</span> <span class="s">"🚀"</span><span class="p">,</span> <span class="s">"💡"</span><span class="p">,</span> <span class="s">"🐧"</span><span class="p">,</span> <span class="s">"⚙️"</span><span class="p">,</span> <span class="s">"🤖"</span><span class="p">,</span> <span class="s">"📚"</span><span class="p">)</span>
+<span class="n">objects</span><span class="p">.</span><span class="nf">windowed</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">it</span><span class="p">.</span><span class="nf">reversed</span><span class="p">()</span>
+<span class="p">}.</span><span class="nf">flatten</span><span class="p">()</span>
+<span class="c1">// [🐧, 💡, 🚀, 🌱, 🤖, ⚙️, 🐧, 💡, 📚, 🤖, ⚙️, 📚]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This is also a good point to talk about the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/flat-map.html"><code>flatMap</code></a> function. <code>flatMap</code> is like a combination of first using <code>map</code>, and then using <code>flatten</code> – It takes a lambda which generates a <em>collection</em> from each of the elements in our input collection:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">lettersInNames</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"Lou"</span><span class="p">,</span> <span class="s">"Mel"</span><span class="p">,</span> <span class="s">"Cyn"</span><span class="p">).</span><span class="nf">flatMap</span> <span class="p">{</span>
+    <span class="n">it</span><span class="p">.</span><span class="nf">toList</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">lettersInNames</span><span class="p">)</span>
+<span class="c1">// [L, o, u, M, e, l, C, y, n]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>In the example above, the function that we provide creates a <em>list</em> for each element in our input collection, containing the letters of the original string. Next, that collection of collections gets flattened. As desired, we end up with a plain list of elements – the list of characters from the names of the original collection.</p>
+
+<p>If you are doing an operation on a list, which in turn generates a collection for each one of the input elements, consider if <code>flatMap</code> can help you simplify your code!</p>
+
+<h2>
+  <a name="combining-collections-raw-zip-endraw-and-raw-unzip-endraw-" href="#combining-collections-raw-zip-endraw-and-raw-unzip-endraw-">
+  </a>
+  Combining collections: <code>zip</code> and <code>unzip</code>
+</h2>
+
+<p>So far, we have always looked at a single collection, and what we can do with it. Let's learn about a way to combine two collections, and create a new one from them – it's time to <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/zip.html"><code>zip</code></a>!</p>
+
+<h3>
+  <a name="the-raw-zip-endraw-function" href="#the-raw-zip-endraw-function">
+  </a>
+  The <code>zip</code> function
+</h3>
+
+<p>Assume we have two collections, where the elements at each index are somehow related. For example, this could be a list of cities in Germany, and we have another list of German license plates that correspond to those cities:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">germanCities</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span>
+    <span class="s">"Aachen"</span><span class="p">,</span>
+    <span class="s">"Bielefeld"</span><span class="p">,</span>
+    <span class="s">"München"</span>
+<span class="p">)</span>
+
+<span class="kd">val</span> <span class="py">germanLicensePlates</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span>
+    <span class="s">"AC"</span><span class="p">,</span>
+    <span class="s">"BI"</span><span class="p">,</span>
+    <span class="s">"M"</span>
+<span class="p">)</span>
+
+<span class="nf">println</span><span class="p">(</span><span class="n">germanCities</span><span class="p">.</span><span class="nf">zip</span><span class="p">(</span><span class="n">germanLicensePlates</span><span class="p">))</span>
+<span class="c1">// [(Aachen, AC), (Bielefeld, BI), (München, M)]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>As you can see, by zipping these two collections, we get a <em>list of pairs</em>, where each pair contains the elements with the same index from the original two collections.</p>
+
+<p>Metaphorically, this is similar to a zipper on a jacket, where the teeth match up one by one. We zip together the elements of our collection, and we get pairs of each city and its corresponding license plate.</p>
+
+<p>For an extra bit of flair, we can also call the <code>zip</code> function using infix notation:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="nf">println</span><span class="p">(</span><span class="n">germanCities</span> <span class="n">zip</span> <span class="n">germanLicensePlates</span><span class="p">)</span>
+<span class="c1">// [(Aachen, AC), (Bielefeld, BI), (München, M)]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><code>zip</code> can also take a transformation function. We can pass a lambda that receives the values of the individual zipped pairs, and we can apply a transformation:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="nf">println</span><span class="p">(</span><span class="n">germanCities</span><span class="p">.</span><span class="nf">zip</span><span class="p">(</span><span class="n">germanLicensePlates</span><span class="p">)</span> <span class="p">{</span> <span class="n">city</span><span class="p">,</span> <span class="n">plate</span> <span class="p">-></span>
+    <span class="n">city</span><span class="p">.</span><span class="nf">uppercase</span><span class="p">()</span> <span class="n">to</span> <span class="n">plate</span><span class="p">.</span><span class="nf">lowercase</span><span class="p">()</span>
+<span class="p">})</span>
+<span class="c1">// [(AACHEN, ac), (BIELEFELD, bi), (MÜNCHEN, m)]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="the-raw-unzip-endraw-function" href="#the-raw-unzip-endraw-function">
+  </a>
+  The <code>unzip</code> function
+</h3>
+
+<p>The standard library also contains the inverse function, called <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/unzip.html"><code>unzip</code></a>, which takes a list of pairs, and splits them back into a pair of two separate lists:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">citiesToPlates</span> <span class="p">=</span> <span class="n">germanCities</span><span class="p">.</span><span class="nf">zip</span><span class="p">(</span><span class="n">germanLicensePlates</span><span class="p">)</span> <span class="p">{</span> <span class="n">city</span><span class="p">,</span> <span class="n">plate</span> <span class="p">-></span>
+    <span class="n">city</span><span class="p">.</span><span class="nf">uppercase</span><span class="p">()</span> <span class="n">to</span> <span class="n">plate</span><span class="p">.</span><span class="nf">lowercase</span><span class="p">()</span>
+<span class="p">}</span>
+<span class="kd">val</span> <span class="p">(</span><span class="py">cities</span><span class="p">,</span> <span class="py">plates</span><span class="p">)</span> <span class="p">=</span> <span class="n">citiesToPlates</span><span class="p">.</span><span class="nf">unzip</span><span class="p">()</span>
+
+<span class="nf">println</span><span class="p">(</span><span class="n">cities</span><span class="p">)</span>
+<span class="c1">// [AACHEN, BIELEFELD, MÜNCHEN]</span>
+
+<span class="nf">println</span><span class="p">(</span><span class="n">plates</span><span class="p">)</span>
+<span class="c1">// [ac, bi, m]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The example above uses a destructuring declaration to easily access both of them.</p>
+
+<h3>
+  <a name="the-raw-zipwithnext-endraw-function" href="#the-raw-zipwithnext-endraw-function">
+  </a>
+  The <code>zipWithNext</code> function
+</h3>
+
+<p>In a way, <code>zipWithNext</code> is really a specialized case of the <code>windowed</code> function we got to know today: Instead instead of zipping together two separate lists element by element, this function takes one collection, and zips each of its items with the one that follows it:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">random</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">random</span><span class="p">.</span><span class="nf">zipWithNext</span><span class="p">())</span>
+<span class="c1">// [(3, 1), (1, 4), (4, 1), (1, 5), (5, 9), (9, 2), (2, 6), (6, 5), (5, 4)]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>In the example above, we're zipping together a list of numbers. If we want to check the “change” – how much the value increments or decrements each step – we can express this quite elegantly using <code>zipWithNext</code>. We provide a lambda that receives a pair of one number and the one that follows immediately after:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">random</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+
+<span class="kd">val</span> <span class="py">changes</span> <span class="p">=</span> <span class="n">random</span><span class="p">.</span><span class="nf">zipWithNext</span> <span class="p">{</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="p">-></span> <span class="n">b</span> <span class="p">-</span> <span class="n">a</span> <span class="p">}</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">changes</span><span class="p">)</span>
+<span class="c1">// [-2, 3, -3, 4, 4, -7, 4, -1, -1]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="custom-aggregations-raw-reduce-endraw-and-raw-fold-endraw-" href="#custom-aggregations-raw-reduce-endraw-and-raw-fold-endraw-">
+  </a>
+  Custom aggregations: <code>reduce</code> and <code>fold</code>
+</h2>
+
+<p>We have finally arrived at the <em>grand finale</em> for this post – functions that help us build custom aggregations.</p>
+
+<h3>
+  <a name="the-raw-reduce-endraw-function" href="#the-raw-reduce-endraw-function">
+  </a>
+  The <code>reduce</code> function
+</h3>
+
+<p>Let’s set the scene with a small callback – in the <a href="https://dev.to/kotlin/diving-into-kotlin-collections-587o">previous post</a>, we learned about functions like <code>sum</code>, <code>average</code>, <code>count</code>, and functions to receive the minimum and maximum elements inside a collection. All of these <em>reduce</em> our collection to a single value.</p>
+
+<p>It's possible that we find ourselves in a situation where there’s no out-of-the-box function for how we want to generate a single value for our collection. For example, we may want to multiply all numbers in a list, instead of summing them.</p>
+
+<p>In this case, we can rely on the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reduce.html"><code>reduce</code></a> function as a more generic version for aggregating a collection:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">random</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="kd">val</span> <span class="py">multiplicativeAggregate</span> <span class="p">=</span> <span class="n">random</span><span class="p">.</span><span class="nf">reduce</span> <span class="p">{</span> <span class="n">acc</span><span class="p">,</span> <span class="n">value</span> <span class="p">-></span> <span class="n">acc</span> <span class="p">*</span> <span class="n">value</span> <span class="p">}</span>
+
+<span class="nf">println</span><span class="p">(</span><span class="n">multiplicativeAggregate</span><span class="p">)</span>
+<span class="c1">// 129600</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>As seen in the example above, we call the reduce function with a lambda block which receives two parameters:</p>
+
+<ul>
+<li>An accumulator, which has the same type as our collection, and</li>
+<li>An individual item from our collection.</li>
+</ul>
+
+<p>The task of the lambda function is to <em>return a new accumulator</em>. Each invocation, one after the other, receives not only the <em>current element</em>, but also the <em>result of the previous calculation</em>, inside the accumulator.</p>
+
+<ul>
+<li>The function starts with the first element of our collection in the accumulator.</li>
+<li>Then it runs our operation – in this example, we multiply the accumulator (which right now is the first number) with the current element (which is the second number).</li>
+<li>We’ve calculated a new value, which will be stored in the accumulator, and used when our function is called once more with the third element</li>
+</ul>
+
+<p>This cycle repeats, and we continue to gradually build up the final result in our accumulator. One might even say we’re <em>accumulating</em> that result!</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--M9mpIw42--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ri4o64h51mzhg2cwe4g2.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--M9mpIw42--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ri4o64h51mzhg2cwe4g2.png" alt="image" loading="lazy"></a></p>
+
+<p>Once we’ve gone through all the elements in our collection, <code>reduce</code> returns the final value that’s inside the accumulator.</p>
+
+<p>As you can see, with <code>reduce</code>, we can hide a lot of mechanics for aggregating our collection behind one function call, and stay true to Kotlin’s concise nature.</p>
+
+<h3>
+  <a name="the-raw-fold-endraw-function" href="#the-raw-fold-endraw-function">
+  </a>
+  The <code>fold</code> function
+</h3>
+
+<p>But we can actually go beyond this, and can take this versatility one step further – with the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/fold.html"><code>fold</code></a> operation. Remember – when we used <code>reduce</code>, the iteration starts with the first element of our input collection in the accumulator. </p>
+
+<p>With the <code>fold</code> function, we get to specify our own accumulator – and in fact, it can even have a different type than the items in our input collection! As an example, we can take a list of words, and multiply the number of their characters together using <code>fold</code>:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">fruits</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"apple"</span><span class="p">,</span> <span class="s">"cherry"</span><span class="p">,</span> <span class="s">"banana"</span><span class="p">,</span> <span class="s">"orange"</span><span class="p">)</span>
+<span class="kd">val</span> <span class="py">multiplied</span> <span class="p">=</span> <span class="n">fruits</span><span class="p">.</span><span class="nf">fold</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="n">acc</span><span class="p">,</span> <span class="n">value</span> <span class="p">-></span>
+    <span class="n">acc</span> <span class="p">*</span> <span class="n">value</span><span class="p">.</span><span class="n">length</span>
+<span class="p">}</span>
+<span class="nf">println</span><span class="p">(</span><span class="n">multiplied</span><span class="p">)</span> <span class="c1">// 1080</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The underlying mechanism is the same – the lambda passed to the <code>fold</code> function gets called with an accumulator and a value, and calculates a new accumulator. The difference is that we specify the initial value of the accumulator ourselves.</p>
+
+<p>(<em>Note that we pass <code>1</code> as an initial value for our accumulator, and not <code>0</code>. That’s because for multiplication, 1 is the <a href="https://en.wikipedia.org/wiki/Identity_element">neutral element</a></em>)</p>
+
+<p>Both <code>fold</code> and <code>reduce</code> come in a number of other flavors, as well:</p>
+
+<p>– the sibling functions <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reduce-right.html"><code>reduceRight</code></a> and <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/fold-right.html"><code>foldRight</code></a> change the order of iteration</p>
+
+<ul>
+<li>
+<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reduce-or-null.html"><code>reduceOrNull</code></a> allows you to work with empty collections without throwing exceptions.</li>
+<li>
+<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/running-fold.html"><code>runningFold</code></a> and <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/running-reduce.html"><code>runningReduce</code></a> don’t just return a single value representing the final state of the accumulator, but instead return a list of all the intermediate accumulator values as well.</li>
+</ul>
+
+<h2>
+  <a name="thats-it" href="#thats-it">
+  </a>
+  That's it!
+</h2>
+
+<p>This concludes my overview of some advanced collection operations in Kotlin – I hope you found this post useful, and have learned something new!</p>
+
+<p>Maybe you can find a point in your code where a predicate, some zipping, chunking or windowing could come in handy! Or maybe you want to explore by defining your own aggregations functions based on the <code>reduce</code> or <code>fold</code> functions.</p>
+
+<p>To get reminded when new Kotlin content is released, follow us here on <a href="https://dev.to/kotlin">dev.to/kotlin</a>, and make sure to follow me on Twitter <a href="https://twitter.com/sebi_io">@sebi_io</a>.</p>
+
+<p>Also, use this opportunity sure to find the subscribe button and notification bell on our <a href="https://kotl.in/video">YouTube channel</a>!</p>
+
+<p>Take care!</p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/sebastianaigner/advanced-kotlin-collection-functionality-5e90" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(n,s,a,e,t){return e.type_of="article",e.id=728064,e.title="Advanced Kotlin Collection Functionality",e.description="Level up your Kotlin collection skills, and learn about advanced functionality that helps you be more productive when writing Kotlin code working with lists, sets, and collections in general!",e.readable_publish_date="Jun 14 '21",e.slug="advanced-kotlin-collection-functionality-5e90",e.path="/kotlin/advanced-kotlin-collection-functionality-5e90",e.url=t,e.comments_count=0,e.public_reactions_count=52,e.collection_id=10997,e.published_timestamp=s,e.positive_reactions_count=52,e.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--AobtYJ6t--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vx9olpb872wcrpavcdnm.jpeg",e.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--l-RXR-Cg--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vx9olpb872wcrpavcdnm.jpeg",e.canonical_url=t,e.created_at="2021-06-14T16:25:47Z",e.edited_at=n,e.crossposted_at=n,e.published_at=s,e.last_comment_at=s,e.reading_time_minutes=10,e.tag_list="kotlin, programming, android, productivity",e.tags=[a,"programming","android","productivity"],e.body_html='<p>This blog post accompanies a video from our <strong>YouTube series</strong> which you can find on our <a href="https://kotl.in/video">Kotlin YouTube channel</a>, or <strong>watch here</strong> directly!</p>\n\n<p><iframe width="710" height="399" src="https://www.youtube.com/embed/N4CpLxGJlq0" allowfullscreen loading="lazy">\n</iframe>\n</p>\n\n<p>Today, we are learning about advanced functions that we can use to work with and manipulate all kinds of Kotlin collections!</p>\n\n<h2>\n  <a name="checking-predicates-raw-any-endraw-raw-none-endraw-and-raw-all-endraw-" href="#checking-predicates-raw-any-endraw-raw-none-endraw-and-raw-all-endraw-">\n  </a>\n  Checking predicates: <code>any</code>, <code>none</code> and <code>all</code>\n</h2>\n\n<p>Let’s warm up by having a look at a selection of functions that allow us to check conditions for our collection elements.</p>\n\n<p>They’re called <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/any.html"><code>any</code></a>, <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/none.html"><code>none</code></a>, and <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/all.html"><code>all</code></a>. Each of them takes a <em>predicate</em> – so a function that returns <code>true</code> or <code>false</code> – and checks whether the collection fits this predicate.</p>\n\n<p>Let’s say we have a group of friends (which is really just a <code>List&lt;Person&gt;</code>, each featuring a <code>name</code>, <code>age</code>, and maybe a <code>driversLicense</code>):<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">data class</span> <span class="nc">Person</span><span class="p">(</span><span class="kd">val</span> <span class="py">name</span><span class="p">:</span> <span class="nc">String</span><span class="p">,</span> <span class="kd">val</span> <span class="py">age</span><span class="p">:</span> <span class="nc">Int</span><span class="p">,</span> <span class="kd">val</span> <span class="py">driversLicense</span><span class="p">:</span> <span class="nc">Boolean</span> <span class="p">=</span> <span class="k">false</span><span class="p">)</span>\n\n<span class="kd">val</span> <span class="py">friendGroup</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span>\n    <span class="nc">Person</span><span class="p">(</span><span class="s">"Jo"</span><span class="p">,</span> <span class="mi">19</span><span class="p">),</span>\n    <span class="nc">Person</span><span class="p">(</span><span class="s">"Mic"</span><span class="p">,</span> <span class="mi">15</span><span class="p">),</span>\n    <span class="nc">Person</span><span class="p">(</span><span class="s">"Hay"</span><span class="p">,</span> <span class="mi">33</span><span class="p">,</span> <span class="k">true</span><span class="p">),</span>\n    <span class="nc">Person</span><span class="p">(</span><span class="s">"Cal"</span><span class="p">,</span> <span class="mi">25</span><span class="p">)</span>\n<span class="p">)</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>When we want to check if the group can travel by car, we want to check if <em>any</em> of them have a driver\'s license – so we use the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/any.html"><code>any</code></a> function. It returns <code>true</code> if there is <em>at least one element</em> in our collection for which the predicate returns <code>true</code>.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">groupCanTravel</span> <span class="p">=</span> <span class="n">friendGroup</span><span class="p">.</span><span class="nf">any</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">driversLicense</span> <span class="p">}</span>\n<span class="c1">// true</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>As another example, let’s say we want to check if this group of friends is allowed to enter a club – for this, we would need to make sure that <em>none</em> of the folks in the group are underage!</p>\n\n<p>Here, we can use the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/none.html"><code>none</code></a> function, which only returns <code>true</code> when there is <em>not a single element in our collection</em> that holds true for our predicate:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">groupGetsInClub</span> <span class="p">=</span> <span class="n">friendGroup</span><span class="p">.</span><span class="nf">none</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">age</span> <span class="p">&lt;</span> <span class="mi">18</span> <span class="p">}</span>\n<span class="c1">// false</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The third function in the bunch is the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/all.html"><code>all</code></a> function. At this point, you can probably spot the pattern – <code>all</code> returns <code>true</code>, if each and every element in our collection matches our predicate. We could use it to check whether all names in our friend group are short:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">groupHasShortNames</span> <span class="p">=</span> <span class="n">friendGroup</span><span class="p">.</span><span class="nf">all</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">name</span><span class="p">.</span><span class="n">length</span> <span class="p">&lt;</span> <span class="mi">4</span> <span class="p">}</span>\n<span class="c1">// true</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="predicates-for-empty-collections" href="#predicates-for-empty-collections">\n  </a>\n  Predicates for empty collections\n</h3>\n\n<p>While on the topic, let\'s have a little brain teaser: How do <code>any</code>, <code>none</code>, and <code>all</code> behave for <em>empty collections</em>?<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">nobody</span> <span class="p">=</span> <span class="n">emptyList</span><span class="p">&lt;</span><span class="nc">Person</span><span class="p">&gt;()</span>\n<span class="c1">// what happens here?</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Let’s look at <code>any</code> first. There is no element that can satisfy the predicate, so it returns <code>false</code>:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="n">nobody</span><span class="p">.</span><span class="nf">any</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">driversLicense</span> <span class="p">}</span>\n<span class="c1">// false</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The same goes for <code>none</code> – there is no function that can violate our predicate, so it returns true:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="n">nobody</span><span class="p">.</span><span class="nf">none</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">age</span> <span class="p">&lt;</span> <span class="mi">18</span> <span class="p">}</span>\n<span class="c1">// true</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The <code>all</code> function, however, returns <code>true</code> with an empty collection. This may surprise you in the first moment:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="n">nobody</span><span class="p">.</span><span class="nf">all</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="n">name</span><span class="p">.</span><span class="nf">count</span><span class="p">()</span> <span class="p">&lt;</span> <span class="mi">4</span> <span class="p">}</span> \n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>But this is quite intentional and sound: You can\'t name an element that <em>violates</em> the predicate. Therefore, the predicate has to be true for <em>all elements in the collection</em> – even if there are <em>none</em>!</p>\n\n<p>This might feel a bit mind-bending to think about at first, but you’ll find that this concept, which is called the <a href="https://en.wikipedia.org/wiki/Vacuous_truth">vacuous truth</a>, actually plays very well with checking conditions, and expressing logic in program code.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--L5zdjSFo--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/thg07e0ao215ck2lwm1z.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--L5zdjSFo--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/thg07e0ao215ck2lwm1z.png" alt=\'"Vacuous truth" on Wikipedia\' loading="lazy"></a></p>\n\n<h2>\n  <a name="collection-parts-raw-chunked-endraw-and-raw-windowed-endraw-" href="#collection-parts-raw-chunked-endraw-and-raw-windowed-endraw-">\n  </a>\n  Collection parts: <code>chunked</code> and <code>windowed</code>\n</h2>\n\n<p>With our brain freshly teased, let’s move on to the next topic, and learn about how to break collections into parts!</p>\n\n<h3>\n  <a name="the-raw-chunked-endraw-function" href="#the-raw-chunked-endraw-function">\n  </a>\n  The <code>chunked</code> function\n</h3>\n\n<p>If we have a collection that just contains a bunch of items, we can cut up the list into individual chunks of a certain size by using the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/chunked.html"><code>chunked</code></a> function. What we get back is a list of lists, where each element is a _chunk _of our original list:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">objects</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"🌱"</span><span class="p">,</span> <span class="s">"🚀"</span><span class="p">,</span> <span class="s">"💡"</span><span class="p">,</span> <span class="s">"🐧"</span><span class="p">,</span> <span class="s">"⚙️"</span><span class="p">,</span> <span class="s">"🤖"</span><span class="p">,</span> <span class="s">"📚"</span><span class="p">)</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">objects</span><span class="p">.</span><span class="nf">chunked</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>\n<span class="c1">// [[🌱, 🚀, 💡], [🐧, ⚙️, 🤖], [📚]]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>In the example above, we break our list of random objects (represented with emojis) apart, using a chunk size of 3.</p>\n\n<ul>\n<li><p>The first <em>element</em> in our result is in itself a <em>list</em> which contains our first three objects – <code>[🌱, 🚀, 💡]</code>.</p></li>\n<li><p>The second element is once again a chunk, and contains the three elements that follow after that – <code>[🐧, ⚙️, 🤖]</code>.</p></li>\n<li><p>The last element is also a chunk – but since we ran out of elements to fill it with three items, it only contains the book stack - <code>[📚]</code>.</p></li>\n</ul>\n\n<p>In typical standard library fashion, the <code>chunked</code> function also provides a little bit of extra power. To immediately transform the chunks we just created, we can apply a <em>transformation function</em>. For example, we can reverse the order of elements in the resulting lists, without having to do another <code>map</code> call separately:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="nf">println</span><span class="p">(</span><span class="n">objects</span><span class="p">.</span><span class="nf">chunked</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span> <span class="p">{</span> <span class="n">it</span><span class="p">.</span><span class="nf">reversed</span><span class="p">()</span> <span class="p">})</span>\n<span class="c1">// [[💡, 🚀, 🌱], [🤖, ⚙️, 🐧], [📚]]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>To summarize: the <code>chunked</code> function cuts our original collection into lists of lists, where each list has the specified size.</p>\n\n<h3>\n  <a name="the-raw-windowed-endraw-function" href="#the-raw-windowed-endraw-function">\n  </a>\n  The <code>windowed</code> function\n</h3>\n\n<p>Closely related is the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/windowed.html"><code>windowed</code></a> function. It also returns a list of lists from our collection. Instead of cutting it up into pieces, however, this function generates a “sliding window” of our collection:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="nf">println</span><span class="p">(</span><span class="n">objects</span><span class="p">.</span><span class="nf">windowed</span><span class="p">(</span><span class="mi">3</span><span class="p">))</span>\n<span class="c1">// [[🌱, 🚀, 💡], [🚀, 💡, 🐧], [💡, 🐧, ⚙️], [🐧, ⚙️, 🤖], [⚙️, 🤖, 📚]]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<ul>\n<li>The first window is once again the first three elements – <code>[🌱, 🚀, 💡]</code>.</li>\n<li>The next window is <code>[🚀, 💡, 🐧]</code> – we simply “moved” our window of size 3 over by one, which includes some overlap.</li>\n</ul>\n\n<p>The <code>windowed</code> function can also be customized. We can change both <em>window</em> and <em>step</em> size, the latter being the number of elements that the window should “slide along” for each step:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="nf">println</span><span class="p">(</span><span class="n">objects</span><span class="p">.</span><span class="nf">windowed</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">partialWindows</span> <span class="p">=</span> <span class="k">true</span><span class="p">))</span>\n<span class="c1">// [[🌱, 🚀, 💡, 🐧], [💡, 🐧, ⚙️, 🤖], [⚙️, 🤖, 📚], [📚]]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>As you can see in the example above, we can also control whether our result should contain <em>partial windows</em>. This changes the behavior when we’ve reached the end of our input collection, and we’re running out of elements.</p>\n\n<p>With partial windows enabled, we just <em>keep sliding</em>, and we get the last elements trickling in, in the form of smaller windows, until we get a window which once again only contains the last element from our input collection – <code>[⚙️, 🤖, 📚], [📚]</code>.</p>\n\n<p><code>windowed</code> also allows us to perform an additional transformation at the end, which can modify the individual windows directly:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="nf">println</span><span class="p">(</span><span class="n">objects</span><span class="p">.</span><span class="nf">windowed</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span>\n    <span class="n">it</span><span class="p">.</span><span class="nf">reversed</span><span class="p">()</span>\n<span class="p">})</span>\n<span class="c1">// [[🐧, 💡, 🚀, 🌱], [🤖, ⚙️, 🐧, 💡], [📚, 🤖, ⚙️], [📚]]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="unnesting-collections-flatten-and-flatmap" href="#unnesting-collections-flatten-and-flatmap">\n  </a>\n  Un-nesting Collections: Flatten and Flatmap\n</h2>\n\n<p>The <code>chunked</code> and <code>windowed</code> functions, along with some others all return nested collections – lists of lists. What if we want to <em>un-nest</em> these, turning them back into flat lists of elements? As usual, we do not need to fear, because the standard library has got us covered.</p>\n\n<p>We can call the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/flatten.html"><code>flatten</code></a> function on a collection of collections. As you may suspect, the result is a single list of all the elements that were originally contained inside of our nested collections:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">objects</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"🌱"</span><span class="p">,</span> <span class="s">"🚀"</span><span class="p">,</span> <span class="s">"💡"</span><span class="p">,</span> <span class="s">"🐧"</span><span class="p">,</span> <span class="s">"⚙️"</span><span class="p">,</span> <span class="s">"🤖"</span><span class="p">,</span> <span class="s">"📚"</span><span class="p">)</span>\n<span class="n">objects</span><span class="p">.</span><span class="nf">windowed</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="k">true</span><span class="p">)</span> <span class="p">{</span>\n    <span class="n">it</span><span class="p">.</span><span class="nf">reversed</span><span class="p">()</span>\n<span class="p">}.</span><span class="nf">flatten</span><span class="p">()</span>\n<span class="c1">// [🐧, 💡, 🚀, 🌱, 🤖, ⚙️, 🐧, 💡, 📚, 🤖, ⚙️, 📚]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This is also a good point to talk about the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/flat-map.html"><code>flatMap</code></a> function. <code>flatMap</code> is like a combination of first using <code>map</code>, and then using <code>flatten</code> – It takes a lambda which generates a <em>collection</em> from each of the elements in our input collection:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">lettersInNames</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"Lou"</span><span class="p">,</span> <span class="s">"Mel"</span><span class="p">,</span> <span class="s">"Cyn"</span><span class="p">).</span><span class="nf">flatMap</span> <span class="p">{</span>\n    <span class="n">it</span><span class="p">.</span><span class="nf">toList</span><span class="p">()</span>\n<span class="p">}</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">lettersInNames</span><span class="p">)</span>\n<span class="c1">// [L, o, u, M, e, l, C, y, n]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>In the example above, the function that we provide creates a <em>list</em> for each element in our input collection, containing the letters of the original string. Next, that collection of collections gets flattened. As desired, we end up with a plain list of elements – the list of characters from the names of the original collection.</p>\n\n<p>If you are doing an operation on a list, which in turn generates a collection for each one of the input elements, consider if <code>flatMap</code> can help you simplify your code!</p>\n\n<h2>\n  <a name="combining-collections-raw-zip-endraw-and-raw-unzip-endraw-" href="#combining-collections-raw-zip-endraw-and-raw-unzip-endraw-">\n  </a>\n  Combining collections: <code>zip</code> and <code>unzip</code>\n</h2>\n\n<p>So far, we have always looked at a single collection, and what we can do with it. Let\'s learn about a way to combine two collections, and create a new one from them – it\'s time to <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/zip.html"><code>zip</code></a>!</p>\n\n<h3>\n  <a name="the-raw-zip-endraw-function" href="#the-raw-zip-endraw-function">\n  </a>\n  The <code>zip</code> function\n</h3>\n\n<p>Assume we have two collections, where the elements at each index are somehow related. For example, this could be a list of cities in Germany, and we have another list of German license plates that correspond to those cities:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">germanCities</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span>\n    <span class="s">"Aachen"</span><span class="p">,</span>\n    <span class="s">"Bielefeld"</span><span class="p">,</span>\n    <span class="s">"München"</span>\n<span class="p">)</span>\n\n<span class="kd">val</span> <span class="py">germanLicensePlates</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span>\n    <span class="s">"AC"</span><span class="p">,</span>\n    <span class="s">"BI"</span><span class="p">,</span>\n    <span class="s">"M"</span>\n<span class="p">)</span>\n\n<span class="nf">println</span><span class="p">(</span><span class="n">germanCities</span><span class="p">.</span><span class="nf">zip</span><span class="p">(</span><span class="n">germanLicensePlates</span><span class="p">))</span>\n<span class="c1">// [(Aachen, AC), (Bielefeld, BI), (München, M)]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>As you can see, by zipping these two collections, we get a <em>list of pairs</em>, where each pair contains the elements with the same index from the original two collections.</p>\n\n<p>Metaphorically, this is similar to a zipper on a jacket, where the teeth match up one by one. We zip together the elements of our collection, and we get pairs of each city and its corresponding license plate.</p>\n\n<p>For an extra bit of flair, we can also call the <code>zip</code> function using infix notation:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="nf">println</span><span class="p">(</span><span class="n">germanCities</span> <span class="n">zip</span> <span class="n">germanLicensePlates</span><span class="p">)</span>\n<span class="c1">// [(Aachen, AC), (Bielefeld, BI), (München, M)]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><code>zip</code> can also take a transformation function. We can pass a lambda that receives the values of the individual zipped pairs, and we can apply a transformation:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="nf">println</span><span class="p">(</span><span class="n">germanCities</span><span class="p">.</span><span class="nf">zip</span><span class="p">(</span><span class="n">germanLicensePlates</span><span class="p">)</span> <span class="p">{</span> <span class="n">city</span><span class="p">,</span> <span class="n">plate</span> <span class="p">-&gt;</span>\n    <span class="n">city</span><span class="p">.</span><span class="nf">uppercase</span><span class="p">()</span> <span class="n">to</span> <span class="n">plate</span><span class="p">.</span><span class="nf">lowercase</span><span class="p">()</span>\n<span class="p">})</span>\n<span class="c1">// [(AACHEN, ac), (BIELEFELD, bi), (MÜNCHEN, m)]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="the-raw-unzip-endraw-function" href="#the-raw-unzip-endraw-function">\n  </a>\n  The <code>unzip</code> function\n</h3>\n\n<p>The standard library also contains the inverse function, called <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/unzip.html"><code>unzip</code></a>, which takes a list of pairs, and splits them back into a pair of two separate lists:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">citiesToPlates</span> <span class="p">=</span> <span class="n">germanCities</span><span class="p">.</span><span class="nf">zip</span><span class="p">(</span><span class="n">germanLicensePlates</span><span class="p">)</span> <span class="p">{</span> <span class="n">city</span><span class="p">,</span> <span class="n">plate</span> <span class="p">-&gt;</span>\n    <span class="n">city</span><span class="p">.</span><span class="nf">uppercase</span><span class="p">()</span> <span class="n">to</span> <span class="n">plate</span><span class="p">.</span><span class="nf">lowercase</span><span class="p">()</span>\n<span class="p">}</span>\n<span class="kd">val</span> <span class="p">(</span><span class="py">cities</span><span class="p">,</span> <span class="py">plates</span><span class="p">)</span> <span class="p">=</span> <span class="n">citiesToPlates</span><span class="p">.</span><span class="nf">unzip</span><span class="p">()</span>\n\n<span class="nf">println</span><span class="p">(</span><span class="n">cities</span><span class="p">)</span>\n<span class="c1">// [AACHEN, BIELEFELD, MÜNCHEN]</span>\n\n<span class="nf">println</span><span class="p">(</span><span class="n">plates</span><span class="p">)</span>\n<span class="c1">// [ac, bi, m]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The example above uses a destructuring declaration to easily access both of them.</p>\n\n<h3>\n  <a name="the-raw-zipwithnext-endraw-function" href="#the-raw-zipwithnext-endraw-function">\n  </a>\n  The <code>zipWithNext</code> function\n</h3>\n\n<p>In a way, <code>zipWithNext</code> is really a specialized case of the <code>windowed</code> function we got to know today: Instead instead of zipping together two separate lists element by element, this function takes one collection, and zips each of its items with the one that follows it:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">random</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">random</span><span class="p">.</span><span class="nf">zipWithNext</span><span class="p">())</span>\n<span class="c1">// [(3, 1), (1, 4), (4, 1), (1, 5), (5, 9), (9, 2), (2, 6), (6, 5), (5, 4)]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>In the example above, we\'re zipping together a list of numbers. If we want to check the “change” – how much the value increments or decrements each step – we can express this quite elegantly using <code>zipWithNext</code>. We provide a lambda that receives a pair of one number and the one that follows immediately after:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">random</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>\n\n<span class="kd">val</span> <span class="py">changes</span> <span class="p">=</span> <span class="n">random</span><span class="p">.</span><span class="nf">zipWithNext</span> <span class="p">{</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="p">-&gt;</span> <span class="n">b</span> <span class="p">-</span> <span class="n">a</span> <span class="p">}</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">changes</span><span class="p">)</span>\n<span class="c1">// [-2, 3, -3, 4, 4, -7, 4, -1, -1]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="custom-aggregations-raw-reduce-endraw-and-raw-fold-endraw-" href="#custom-aggregations-raw-reduce-endraw-and-raw-fold-endraw-">\n  </a>\n  Custom aggregations: <code>reduce</code> and <code>fold</code>\n</h2>\n\n<p>We have finally arrived at the <em>grand finale</em> for this post – functions that help us build custom aggregations.</p>\n\n<h3>\n  <a name="the-raw-reduce-endraw-function" href="#the-raw-reduce-endraw-function">\n  </a>\n  The <code>reduce</code> function\n</h3>\n\n<p>Let’s set the scene with a small callback – in the <a href="https://dev.to/kotlin/diving-into-kotlin-collections-587o">previous post</a>, we learned about functions like <code>sum</code>, <code>average</code>, <code>count</code>, and functions to receive the minimum and maximum elements inside a collection. All of these <em>reduce</em> our collection to a single value.</p>\n\n<p>It\'s possible that we find ourselves in a situation where there’s no out-of-the-box function for how we want to generate a single value for our collection. For example, we may want to multiply all numbers in a list, instead of summing them.</p>\n\n<p>In this case, we can rely on the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reduce.html"><code>reduce</code></a> function as a more generic version for aggregating a collection:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">random</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>\n<span class="kd">val</span> <span class="py">multiplicativeAggregate</span> <span class="p">=</span> <span class="n">random</span><span class="p">.</span><span class="nf">reduce</span> <span class="p">{</span> <span class="n">acc</span><span class="p">,</span> <span class="n">value</span> <span class="p">-&gt;</span> <span class="n">acc</span> <span class="p">*</span> <span class="n">value</span> <span class="p">}</span>\n\n<span class="nf">println</span><span class="p">(</span><span class="n">multiplicativeAggregate</span><span class="p">)</span>\n<span class="c1">// 129600</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>As seen in the example above, we call the reduce function with a lambda block which receives two parameters:</p>\n\n<ul>\n<li>An accumulator, which has the same type as our collection, and</li>\n<li>An individual item from our collection.</li>\n</ul>\n\n<p>The task of the lambda function is to <em>return a new accumulator</em>. Each invocation, one after the other, receives not only the <em>current element</em>, but also the <em>result of the previous calculation</em>, inside the accumulator.</p>\n\n<ul>\n<li>The function starts with the first element of our collection in the accumulator.</li>\n<li>Then it runs our operation – in this example, we multiply the accumulator (which right now is the first number) with the current element (which is the second number).</li>\n<li>We’ve calculated a new value, which will be stored in the accumulator, and used when our function is called once more with the third element</li>\n</ul>\n\n<p>This cycle repeats, and we continue to gradually build up the final result in our accumulator. One might even say we’re <em>accumulating</em> that result!</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--M9mpIw42--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ri4o64h51mzhg2cwe4g2.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--M9mpIw42--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ri4o64h51mzhg2cwe4g2.png" alt="image" loading="lazy"></a></p>\n\n<p>Once we’ve gone through all the elements in our collection, <code>reduce</code> returns the final value that’s inside the accumulator.</p>\n\n<p>As you can see, with <code>reduce</code>, we can hide a lot of mechanics for aggregating our collection behind one function call, and stay true to Kotlin’s concise nature.</p>\n\n<h3>\n  <a name="the-raw-fold-endraw-function" href="#the-raw-fold-endraw-function">\n  </a>\n  The <code>fold</code> function\n</h3>\n\n<p>But we can actually go beyond this, and can take this versatility one step further – with the <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/fold.html"><code>fold</code></a> operation. Remember – when we used <code>reduce</code>, the iteration starts with the first element of our input collection in the accumulator. </p>\n\n<p>With the <code>fold</code> function, we get to specify our own accumulator – and in fact, it can even have a different type than the items in our input collection! As an example, we can take a list of words, and multiply the number of their characters together using <code>fold</code>:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="kd">val</span> <span class="py">fruits</span> <span class="p">=</span> <span class="nf">listOf</span><span class="p">(</span><span class="s">"apple"</span><span class="p">,</span> <span class="s">"cherry"</span><span class="p">,</span> <span class="s">"banana"</span><span class="p">,</span> <span class="s">"orange"</span><span class="p">)</span>\n<span class="kd">val</span> <span class="py">multiplied</span> <span class="p">=</span> <span class="n">fruits</span><span class="p">.</span><span class="nf">fold</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span> <span class="n">acc</span><span class="p">,</span> <span class="n">value</span> <span class="p">-&gt;</span>\n    <span class="n">acc</span> <span class="p">*</span> <span class="n">value</span><span class="p">.</span><span class="n">length</span>\n<span class="p">}</span>\n<span class="nf">println</span><span class="p">(</span><span class="n">multiplied</span><span class="p">)</span> <span class="c1">// 1080</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The underlying mechanism is the same – the lambda passed to the <code>fold</code> function gets called with an accumulator and a value, and calculates a new accumulator. The difference is that we specify the initial value of the accumulator ourselves.</p>\n\n<p>(<em>Note that we pass <code>1</code> as an initial value for our accumulator, and not <code>0</code>. That’s because for multiplication, 1 is the <a href="https://en.wikipedia.org/wiki/Identity_element">neutral element</a></em>)</p>\n\n<p>Both <code>fold</code> and <code>reduce</code> come in a number of other flavors, as well:</p>\n\n<p>– the sibling functions <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reduce-right.html"><code>reduceRight</code></a> and <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/fold-right.html"><code>foldRight</code></a> change the order of iteration</p>\n\n<ul>\n<li>\n<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reduce-or-null.html"><code>reduceOrNull</code></a> allows you to work with empty collections without throwing exceptions.</li>\n<li>\n<a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/running-fold.html"><code>runningFold</code></a> and <a href="https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/running-reduce.html"><code>runningReduce</code></a> don’t just return a single value representing the final state of the accumulator, but instead return a list of all the intermediate accumulator values as well.</li>\n</ul>\n\n<h2>\n  <a name="thats-it" href="#thats-it">\n  </a>\n  That\'s it!\n</h2>\n\n<p>This concludes my overview of some advanced collection operations in Kotlin – I hope you found this post useful, and have learned something new!</p>\n\n<p>Maybe you can find a point in your code where a predicate, some zipping, chunking or windowing could come in handy! Or maybe you want to explore by defining your own aggregations functions based on the <code>reduce</code> or <code>fold</code> functions.</p>\n\n<p>To get reminded when new Kotlin content is released, follow us here on <a href="https://dev.to/kotlin">dev.to/kotlin</a>, and make sure to follow me on Twitter <a href="https://twitter.com/sebi_io">@sebi_io</a>.</p>\n\n<p>Also, use this opportunity sure to find the subscribe button and notification bell on our <a href="https://kotl.in/video">YouTube channel</a>!</p>\n\n<p>Take care!</p>\n\n',e.body_markdown='---\ntitle: Advanced Kotlin Collection Functionality\npublished: true\ndescription: Level up your Kotlin collection skills, and learn about advanced functionality that helps you be more productive when writing Kotlin code working with lists, sets, and collections in general!\ntags: kotlin, programming, android, productivity\ncover_image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/vx9olpb872wcrpavcdnm.jpeg\nseries: Kotlin Standard Library Safari\n---\n\nThis blog post accompanies a video from our **YouTube series** which you can find on our [Kotlin YouTube channel](https://kotl.in/video), or **watch here** directly!\n\n{% youtube N4CpLxGJlq0 %}\n\nToday, we are learning about advanced functions that we can use to work with and manipulate all kinds of Kotlin collections!\n\n## Checking predicates: `any`, `none` and `all`\n\nLet’s warm up by having a look at a selection of functions that allow us to check conditions for our collection elements.\n\nThey’re called [`any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/any.html), [`none`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/none.html), and [`all`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/all.html). Each of them takes a _predicate_ – so a function that returns `true` or `false` – and checks whether the collection fits this predicate.\n\n\nLet’s say we have a group of friends (which is really just a `List<Person>`, each featuring a `name`, `age`, and maybe a `driversLicense`):\n\n```kotlin\ndata class Person(val name: String, val age: Int, val driversLicense: Boolean = false)\n\nval friendGroup = listOf(\n    Person("Jo", 19),\n    Person("Mic", 15),\n    Person("Hay", 33, true),\n    Person("Cal", 25)\n)\n```\n\nWhen we want to check if the group can travel by car, we want to check if _any_ of them have a driver\'s license – so we use the [`any`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/any.html) function. It returns `true` if there is _at least one element_ in our collection for which the predicate returns `true`.\n\n```kotlin\nval groupCanTravel = friendGroup.any { it.driversLicense }\n// true\n```\n\nAs another example, let’s say we want to check if this group of friends is allowed to enter a club – for this, we would need to make sure that _none_ of the folks in the group are underage!\n\nHere, we can use the [`none`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/none.html) function, which only returns `true` when there is _not a single element in our collection_ that holds true for our predicate:\n\n```kotlin\nval groupGetsInClub = friendGroup.none { it.age < 18 }\n// false\n```\n\nThe third function in the bunch is the [`all`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/all.html) function. At this point, you can probably spot the pattern – `all` returns `true`, if each and every element in our collection matches our predicate. We could use it to check whether all names in our friend group are short:\n\n```kotlin\nval groupHasShortNames = friendGroup.all { it.name.length < 4 }\n// true\n```\n\n### Predicates for empty collections\n\nWhile on the topic, let\'s have a little brain teaser: How do `any`, `none`, and `all` behave for _empty collections_?\n\n```kotlin\nval nobody = emptyList<Person>()\n// what happens here?\n```\n\nLet’s look at `any` first. There is no element that can satisfy the predicate, so it returns `false`:\n\n```kotlin\nnobody.any { it.driversLicense }\n// false\n```\n\nThe same goes for `none` – there is no function that can violate our predicate, so it returns true:\n\n```kotlin\nnobody.none { it.age < 18 }\n// true\n```\n\nThe `all` function, however, returns `true` with an empty collection. This may surprise you in the first moment:\n\n```kotlin\nnobody.all { it.name.count() < 4 } \n```\n\nBut this is quite intentional and sound: You can\'t name an element that _violates_ the predicate. Therefore, the predicate has to be true for _all elements in the collection_ – even if there are _none_!\n\nThis might feel a bit mind-bending to think about at first, but you’ll find that this concept, which is called the [vacuous truth](https://en.wikipedia.org/wiki/Vacuous_truth), actually plays very well with checking conditions, and expressing logic in program code.\n\n!["Vacuous truth" on Wikipedia](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/thg07e0ao215ck2lwm1z.png)\n \n\n## Collection parts: `chunked` and `windowed`\n\nWith our brain freshly teased, let’s move on to the next topic, and learn about how to break collections into parts!\n\n### The `chunked` function\n\nIf we have a collection that just contains a bunch of items, we can cut up the list into individual chunks of a certain size by using the [`chunked`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/chunked.html) function. What we get back is a list of lists, where each element is a _chunk _of our original list:\n\n```kotlin\nval objects = listOf("🌱", "🚀", "💡", "🐧", "⚙️", "🤖", "📚")\nprintln(objects.chunked(3))\n// [[🌱, 🚀, 💡], [🐧, ⚙️, 🤖], [📚]]\n```\n\nIn the example above, we break our list of random objects (represented with emojis) apart, using a chunk size of 3.\n\n- The first _element_ in our result is in itself a _list_ which contains our first three objects – `[🌱, 🚀, 💡]`.\n\n- The second element is once again a chunk, and contains the three elements that follow after that – `[🐧, ⚙️, 🤖]`.\n\n- The last element is also a chunk – but since we ran out of elements to fill it with three items, it only contains the book stack - `[📚]`.\n\nIn typical standard library fashion, the `chunked` function also provides a little bit of extra power. To immediately transform the chunks we just created, we can apply a _transformation function_. For example, we can reverse the order of elements in the resulting lists, without having to do another `map` call separately:\n\n```kotlin\nprintln(objects.chunked(3) { it.reversed() })\n// [[💡, 🚀, 🌱], [🤖, ⚙️, 🐧], [📚]]\n```\n\nTo summarize: the `chunked` function cuts our original collection into lists of lists, where each list has the specified size.\n\n### The `windowed` function\n\nClosely related is the [`windowed`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/windowed.html) function. It also returns a list of lists from our collection. Instead of cutting it up into pieces, however, this function generates a “sliding window” of our collection:\n\n```kotlin\nprintln(objects.windowed(3))\n// [[🌱, 🚀, 💡], [🚀, 💡, 🐧], [💡, 🐧, ⚙️], [🐧, ⚙️, 🤖], [⚙️, 🤖, 📚]]\n```\n\n- The first window is once again the first three elements – `[🌱, 🚀, 💡]`.\n- The next window is `[🚀, 💡, 🐧]` – we simply “moved” our window of size 3 over by one, which includes some overlap.\n\nThe `windowed` function can also be customized. We can change both _window_ and _step_ size, the latter being the number of elements that the window should “slide along” for each step:\n\n```kotlin\nprintln(objects.windowed(4, 2, partialWindows = true))\n// [[🌱, 🚀, 💡, 🐧], [💡, 🐧, ⚙️, 🤖], [⚙️, 🤖, 📚], [📚]]\n```\n\nAs you can see in the example above, we can also control whether our result should contain _partial windows_. This changes the behavior when we’ve reached the end of our input collection, and we’re running out of elements.\n\nWith partial windows enabled, we just _keep sliding_, and we get the last elements trickling in, in the form of smaller windows, until we get a window which once again only contains the last element from our input collection – `[⚙️, 🤖, 📚], [📚]`.\n\n`windowed` also allows us to perform an additional transformation at the end, which can modify the individual windows directly:\n\n```kotlin\nprintln(objects.windowed(4, 2, true) {\n    it.reversed()\n})\n// [[🐧, 💡, 🚀, 🌱], [🤖, ⚙️, 🐧, 💡], [📚, 🤖, ⚙️], [📚]]\n```\n\n## Un-nesting Collections: Flatten and Flatmap\n\nThe `chunked` and `windowed` functions, along with some others all return nested collections – lists of lists. What if we want to _un-nest_ these, turning them back into flat lists of elements? As usual, we do not need to fear, because the standard library has got us covered.\n\nWe can call the [`flatten`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/flatten.html) function on a collection of collections. As you may suspect, the result is a single list of all the elements that were originally contained inside of our nested collections:\n\n```kotlin\nval objects = listOf("🌱", "🚀", "💡", "🐧", "⚙️", "🤖", "📚")\nobjects.windowed(4, 2, true) {\n    it.reversed()\n}.flatten()\n// [🐧, 💡, 🚀, 🌱, 🤖, ⚙️, 🐧, 💡, 📚, 🤖, ⚙️, 📚]\n```\n\nThis is also a good point to talk about the [`flatMap`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/flat-map.html) function. `flatMap` is like a combination of first using `map`, and then using `flatten` – It takes a lambda which generates a _collection_ from each of the elements in our input collection:\n\n```kotlin\nval lettersInNames = listOf("Lou", "Mel", "Cyn").flatMap {\n    it.toList()\n}\nprintln(lettersInNames)\n// [L, o, u, M, e, l, C, y, n]\n```\n\nIn the example above, the function that we provide creates a _list_ for each element in our input collection, containing the letters of the original string. Next, that collection of collections gets flattened. As desired, we end up with a plain list of elements – the list of characters from the names of the original collection.\n\nIf you are doing an operation on a list, which in turn generates a collection for each one of the input elements, consider if `flatMap` can help you simplify your code!\n\n## Combining collections: `zip` and `unzip`\n\nSo far, we have always looked at a single collection, and what we can do with it. Let\'s learn about a way to combine two collections, and create a new one from them – it\'s time to [`zip`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/zip.html)!\n\n### The `zip` function\n\nAssume we have two collections, where the elements at each index are somehow related. For example, this could be a list of cities in Germany, and we have another list of German license plates that correspond to those cities:\n\n```kotlin\nval germanCities = listOf(\n    "Aachen",\n    "Bielefeld",\n    "München"\n)\n\nval germanLicensePlates = listOf(\n    "AC",\n    "BI",\n    "M"\n)\n\nprintln(germanCities.zip(germanLicensePlates))\n// [(Aachen, AC), (Bielefeld, BI), (München, M)]\n```\n\nAs you can see, by zipping these two collections, we get a _list of pairs_, where each pair contains the elements with the same index from the original two collections.\n\nMetaphorically, this is similar to a zipper on a jacket, where the teeth match up one by one. We zip together the elements of our collection, and we get pairs of each city and its corresponding license plate.\n\nFor an extra bit of flair, we can also call the `zip` function using infix notation:\n\n```kotlin\nprintln(germanCities zip germanLicensePlates)\n// [(Aachen, AC), (Bielefeld, BI), (München, M)]\n```\n\n`zip` can also take a transformation function. We can pass a lambda that receives the values of the individual zipped pairs, and we can apply a transformation:\n\n\n```kotlin\nprintln(germanCities.zip(germanLicensePlates) { city, plate ->\n    city.uppercase() to plate.lowercase()\n})\n// [(AACHEN, ac), (BIELEFELD, bi), (MÜNCHEN, m)]\n```\n\n### The `unzip` function\n\nThe standard library also contains the inverse function, called [`unzip`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/unzip.html), which takes a list of pairs, and splits them back into a pair of two separate lists:\n\n```kotlin\nval citiesToPlates = germanCities.zip(germanLicensePlates) { city, plate ->\n    city.uppercase() to plate.lowercase()\n}\nval (cities, plates) = citiesToPlates.unzip()\n\nprintln(cities)\n// [AACHEN, BIELEFELD, MÜNCHEN]\n\nprintln(plates)\n// [ac, bi, m]\n```\nThe example above uses a destructuring declaration to easily access both of them.\n\n### The `zipWithNext` function\n\nIn a way, `zipWithNext` is really a specialized case of the `windowed` function we got to know today: Instead instead of zipping together two separate lists element by element, this function takes one collection, and zips each of its items with the one that follows it:\n\n```kotlin\nval random = listOf(3, 1, 4, 1, 5, 9, 2, 6, 5, 4)\nprintln(random.zipWithNext())\n// [(3, 1), (1, 4), (4, 1), (1, 5), (5, 9), (9, 2), (2, 6), (6, 5), (5, 4)]\n```\n\nIn the example above, we\'re zipping together a list of numbers. If we want to check the “change” – how much the value increments or decrements each step – we can express this quite elegantly using `zipWithNext`. We provide a lambda that receives a pair of one number and the one that follows immediately after:\n\n```kotlin\nval random = listOf(3, 1, 4, 1, 5, 9, 2, 6, 5, 4)\n\nval changes = random.zipWithNext { a, b -> b - a }\nprintln(changes)\n// [-2, 3, -3, 4, 4, -7, 4, -1, -1]\n```\n\n## Custom aggregations: `reduce` and `fold`\n\nWe have finally arrived at the _grand finale_ for this post – functions that help us build custom aggregations.\n\n### The `reduce` function\n\nLet’s set the scene with a small callback – in the [previous post](https://dev.to/kotlin/diving-into-kotlin-collections-587o), we learned about functions like `sum`, `average`, `count`, and functions to receive the minimum and maximum elements inside a collection. All of these _reduce_ our collection to a single value.\n\nIt\'s possible that we find ourselves in a situation where there’s no out-of-the-box function for how we want to generate a single value for our collection. For example, we may want to multiply all numbers in a list, instead of summing them.\n\nIn this case, we can rely on the [`reduce`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reduce.html) function as a more generic version for aggregating a collection:\n\n```kotlin\nval random = listOf(3, 1, 4, 1, 5, 9, 2, 6, 5, 4)\nval multiplicativeAggregate = random.reduce { acc, value -> acc * value }\n\nprintln(multiplicativeAggregate)\n// 129600\n```\n\nAs seen in the example above, we call the reduce function with a lambda block which receives two parameters:\n\n- An accumulator, which has the same type as our collection, and\n- An individual item from our collection.\n\nThe task of the lambda function is to _return a new accumulator_. Each invocation, one after the other, receives not only the _current element_, but also the _result of the previous calculation_, inside the accumulator.\n\n- The function starts with the first element of our collection in the accumulator.\n- Then it runs our operation – in this example, we multiply the accumulator (which right now is the first number) with the current element (which is the second number).\n- We’ve calculated a new value, which will be stored in the accumulator, and used when our function is called once more with the third element\n\nThis cycle repeats, and we continue to gradually build up the final result in our accumulator. One might even say we’re _accumulating_ that result!\n\n![image](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ri4o64h51mzhg2cwe4g2.png)\n \nOnce we’ve gone through all the elements in our collection, `reduce` returns the final value that’s inside the accumulator.\n\nAs you can see, with `reduce`, we can hide a lot of mechanics for aggregating our collection behind one function call, and stay true to Kotlin’s concise nature.\n\n### The `fold` function\n\nBut we can actually go beyond this, and can take this versatility one step further – with the [`fold`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/fold.html) operation. Remember – when we used `reduce`, the iteration starts with the first element of our input collection in the accumulator. \n\nWith the `fold` function, we get to specify our own accumulator – and in fact, it can even have a different type than the items in our input collection! As an example, we can take a list of words, and multiply the number of their characters together using `fold`:\n\n```kotlin\nval fruits = listOf("apple", "cherry", "banana", "orange")\nval multiplied = fruits.fold(1) { acc, value ->\n    acc * value.length\n}\nprintln(multiplied) // 1080\n```\n\nThe underlying mechanism is the same – the lambda passed to the `fold` function gets called with an accumulator and a value, and calculates a new accumulator. The difference is that we specify the initial value of the accumulator ourselves.\n\n(_Note that we pass `1` as an initial value for our accumulator, and not `0`. That’s because for multiplication, 1 is the [neutral element](https://en.wikipedia.org/wiki/Identity_element)_)\n\nBoth `fold` and `reduce` come in a number of other flavors, as well:\n\n– the sibling functions [`reduceRight`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reduce-right.html) and [`foldRight`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/fold-right.html) change the order of iteration\n- [`reduceOrNull`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/reduce-or-null.html) allows you to work with empty collections without throwing exceptions.\n- [`runningFold`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/running-fold.html) and [`runningReduce`](https://kotlinlang.org/api/latest/jvm/stdlib/kotlin.collections/running-reduce.html) don’t just return a single value representing the final state of the accumulator, but instead return a list of all the intermediate accumulator values as well.\n\n## That\'s it!\n\nThis concludes my overview of some advanced collection operations in Kotlin – I hope you found this post useful, and have learned something new!\n\nMaybe you can find a point in your code where a predicate, some zipping, chunking or windowing could come in handy! Or maybe you want to explore by defining your own aggregations functions based on the `reduce` or `fold` functions.\n\nTo get reminded when new Kotlin content is released, follow us here on [dev.to/kotlin](https://dev.to/kotlin), and make sure to follow me on Twitter [@sebi_io](https://twitter.com/sebi_io).\n\nAlso, use this opportunity sure to find the subscribe button and notification bell on our [YouTube channel](https://kotl.in/video)!\n\nTake care!',e.user={name:"Sebastian Aigner",username:"sebastianaigner",twitter_username:n,github_username:"SebastianAigner",website_url:n,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--YLRiYsK3--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/26006/58280da5-1e32-4986-be77-79297aaf1175.jpg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--t5nj9WhA--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/26006/58280da5-1e32-4986-be77-79297aaf1175.jpg"},e.organization={name:"Kotlin",username:a,slug:a,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--RelZBNTQ--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/2485/80d41bc3-7f05-444c-a32e-ceb190e486b1.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--9JRO94jQ--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/2485/80d41bc3-7f05-444c-a32e-ceb190e486b1.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:e}},error:n,state:{currentArticle:e},serverRendered:!0,routePath:"/sebastianaigner/728064",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:n}}}}(null,"2021-06-14T17:49:10Z","kotlin",{},"https://dev.to/kotlin/advanced-kotlin-collection-functionality-5e90")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,527 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Azure Bicep - Deploy Function Apps with KeyVault references</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Azure Bicep - Deploy Function Apps with KeyVault references</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/azure" class="tag" data-v-70afb46a>
+          #azure
+        </a><a href="/nuxtstop/t/bicep" class="tag" data-v-70afb46a>
+          #bicep
+        </a><a href="/nuxtstop/t/infrastructure" class="tag" data-v-70afb46a>
+          #infrastructure
+        </a></div> <!----> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            6
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Dec 31 '21</time></div></header> <div class="content" data-v-70afb46a><p>One of the things you often yourself doing when starting a new project, module, or component, is having to define the infrastructure that it is going to run on. In the world of Azure often what you find is that many will just drop into the portal and create the items that they need directly, this obviously isn't good as a repeatable pattern but works for throw-away tests. Others might be braver and fire up the console to use the <a href="https://docs.microsoft.com/cli/azure/">Azure CLI</a> tool, much better for repeating steps if you remember to script it.</p>
+
+<p>Better yet are those who take that little extra time and generate the environment using templates. Repeatable, consistent, and they give the option of parametrising them so that you can change the scale of components as they're deployed to different environments.</p>
+
+<p>What I want to do in this post is show doing exactly this, by deploying the following components, but also by setting up managed identities, adding RBAC permissions in, and hooking them up all from the same template. By putting in that little bit extra you can go from zero to fully configured platform in minutes, in a consistent and repeatable way.</p>
+
+<p>I'm going to do this using <a href="https://docs.microsoft.com/azure/azure-resource-manager/bicep">Bicep</a> which is Microsoft's DSL for deploying resources to Azure. Don't be fooled by the 0.4 version number, this is a more than capable language which should take centre stage of your deployment scripts. Unlike ARM templates before it also supports modules, allowing you to break apart your templates without the need for a public end-point to bring them all back together again. But for this post we're only going to need a single template.</p>
+
+<h2>
+  <a name="the-infrastructure" href="#the-infrastructure">
+  </a>
+  The infrastructure
+</h2>
+
+<p>So what are we deploying? Well for this post the core of the platform is going to be the Azure Function app, but it's going to need some support. We're also going to assume that the platform is going to collect data from an external service, so the secret we want will be an API key passed in to the template. So the full platform will be:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--GtrdtXxe--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/n1hk8r5en2zgtum99k0x.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--GtrdtXxe--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/n1hk8r5en2zgtum99k0x.png" alt="Overview of Infrastructure" loading="lazy" width="356" height="369"></a></p>
+
+<ul>
+<li>Azure Function App with System Assigned managed identity and app settings for:
+
+<ul>
+<li>API Key from KeyVault using KeyVault references</li>
+<li>Storage account name</li>
+<li>Container name</li>
+<li>Key from Application Insights</li>
+</ul>
+
+
+</li>
+<li>Azure Storage Account with container for future use
+
+<ul>
+<li>Also with data contributor permissions assigned to the Function App at the storage account level</li>
+</ul>
+
+
+</li>
+<li>Azure KeyVault
+
+<ul>
+<li>Deployed using RBAC for authentication instead of using Access Control Lists</li>
+<li>With secret for the API key</li>
+<li>Secret User permissions assigned to the Function App</li>
+</ul>
+
+
+</li>
+<li>Application Insights</li>
+<li>Azure Log Analytics to back the Application Insights instance</li>
+</ul>
+
+<p>And whilst we're at it lets make sure we add some basic security steps like HTTPS only traffic and setting TLS 1.2 as the minimum permitted TLS version.</p>
+
+<h2>
+  <a name="creating-the-template" href="#creating-the-template">
+  </a>
+  Creating the template
+</h2>
+
+<p>The best way to get started with Azure Bicep is to use <a href="https://code.visualstudio.com">Visual Studio Code</a> with the Bicep extension which includes language server support and some other nice features. But the language server support giving us highlighting, template outlines, auto-complete etc... is the real nice to have feature.</p>
+
+<p>The template is available in full on <a href="https://gist.github.com/dazfuller/7a61bf3dbf7be1b977c9fa54e7cdf17d">Github</a>.</p>
+
+<h3>
+  <a name="parameters" href="#parameters">
+  </a>
+  Parameters
+</h3>
+
+<p>For this demo template I want to make 3 things configurable.</p>
+
+<ol>
+<li>The prefix for all of the resources (but defaulted to "demo")</li>
+<li>The Storage Account SKU (defaulted to Standard LRS)</li>
+<li>The API key for the external service</li>
+</ol>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--IVz8rIQG--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kc36ilt7d65ge4bz8g1p.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--IVz8rIQG--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kc36ilt7d65ge4bz8g1p.png" alt="Template parameters" loading="lazy" width="880" height="506"></a></p>
+
+<p>In this we have defined the prefix as a string and restrict it's length to a minimum of 3 and a maximum of 6 and default it to "demo". We give the storage account SKU a set of values it needs to be restricted to and default it to "Standard_LRS". Finally we define the API key as a string, but annotate the template to make it a secure parameter. Making this a secure parameter means that we're not going to accidentally leak the value to anyone who can see the template deployment history.</p>
+
+<h3>
+  <a name="variable" href="#variable">
+  </a>
+  Variable
+</h3>
+
+<p>Next up are the variables. The bulk of these are defining things like locations and names. I'm using a naming convention of <code>&lt;prefix>-&lt;service name>-&lt;unique id></code>. This lets multiple instances be deployed without (hopefully) hitting any naming conflict issues. The only variation in this is the storage account name as we can't use hyphens, only alpha-numeric characters.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--hGxG52O3--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/in45hrw9u8p6yg3issui.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--hGxG52O3--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/in45hrw9u8p6yg3issui.png" alt="Template variables" loading="lazy" width="880" height="134"></a></p>
+
+<p>The <code>storageConnectionString</code> is used later on in the template and is only defined here so I don't repeat myself later.</p>
+
+<p>The <code>storageBlobDataContributorRole</code> and <code>keyVaultSecretsUserRole</code> are the role definition values for the built in <code>Storage Blob Data Contributor</code> and <code>Key Vault Secrets User</code> built-in roles which you can find in the <a href="https://docs.microsoft.com/azure/role-based-access-control/built-in-roles">Azure documentation</a>.</p>
+
+<h3>
+  <a name="resources" href="#resources">
+  </a>
+  Resources
+</h3>
+
+<p>Right, on to the fun stuff. We've got our parameters and variables, now it's time to put them to good use.</p>
+
+<h4>
+  <a name="storage-account" href="#storage-account">
+  </a>
+  Storage account
+</h4>
+
+<p>Azure Storage is typically the beating heart of any platform, and so it's normally the first resource I start with.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>resource storage 'Microsoft.Storage/storageAccounts@2021-06-01' = {
+  name: storageAccountName
+  location: location
+  sku: {
+    name: storageSkuName
+  }
+  kind: 'StorageV2'
+  properties: {
+    supportsHttpsTrafficOnly: true
+    minimumTlsVersion: 'TLS1_2'
+    encryption: {
+      keySource: 'Microsoft.Storage'
+      services: {
+        blob: {
+          enabled: true
+        }
+        file: {
+          enabled: true
+        }
+        queue: {
+          enabled: true
+        }
+        table: {
+          enabled: true
+        }
+      }
+    }
+  }
+
+  resource blobService 'blobServices' = {
+    name: 'default'
+
+    resource content 'containers' = {
+      name: 'content'
+    }
+  }
+}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Out of the box here we're setting the minimum TLS version to 1.2 and enabling HTTPS only traffic. There really should be very very few reasons as to why these are not in every template we produce. We're also turning on encryption of data in all storage services by default.</p>
+
+<p>We have a couple of nested resources which are how we create our containers. In this case I'm creating a container called "content".</p>
+
+<h4>
+  <a name="log-analytics-and-application-insights" href="#log-analytics-and-application-insights">
+  </a>
+  Log Analytics and Application Insights
+</h4>
+
+<p>Next up we want to deploy an Application Insights instance which will be used by our Azure Function app. It's a couple of years away at the time of writing, but Microsoft will be requiring that all instances are backed by a Log Analytics workspace. This makes a huge amount of sense really as it gives a single place to monitor your application and generate alerts based on health conditions.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>resource logAnalytics 'Microsoft.OperationalInsights/workspaces@2021-06-01' = {
+  name: logAnalyticsName
+  location: location
+  properties: {
+    sku: {
+      name: 'PerGB2018'
+    }
+    retentionInDays: 30
+    features: {
+      enableLogAccessUsingOnlyResourcePermissions: true
+    }
+    workspaceCapping: {
+      dailyQuotaGb: 1
+    }
+    publicNetworkAccessForIngestion: 'Enabled'
+    publicNetworkAccessForQuery: 'Enabled'
+  }
+}
+
+resource appInsights 'Microsoft.Insights/components@2020-02-02' = {
+  name: appInsightsName
+  location: location
+  kind: 'web'
+  properties: {
+    Application_Type: 'web'
+    publicNetworkAccessForIngestion: 'Enabled'
+    publicNetworkAccessForQuery: 'Enabled'
+    WorkspaceResourceId: logAnalytics.id
+  }
+}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>If you're familiar with ARM templates you might be noticing the lack of <code>dependsOn</code> entries. This is because in Bicep, where we use a resource reference to get a value (e.g. <code>logAnalytics.id</code>) this adds an automatic dependency in for us. The use of the <code>id</code> at this point sets the workspace resource instance backing the Application Insights instance. This is a pretty simple setup of the services and I won't dive in any further at this point.</p>
+
+<h4>
+  <a name="keyvault" href="#keyvault">
+  </a>
+  KeyVault
+</h4>
+
+<p>Okay, next up, KeyVault. This is core to accessing secrets on the platform in a secure manner. One of the things we're going to do here is enable the RBAC permissions instead of using Access Control Lists (ACLs). Normally when using ACLs we would give dependent services Get and List permissions over Secrets, with RBAC we can instead use the <code>Key Vault Secret User</code> built-in role. This makes the management of secrets a lot easier and means we can view permissions in a single place.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>resource kv 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {
+  name: keyVaultName
+  location: location
+  properties: {
+    sku: {
+      family: 'A'
+      name: 'standard'
+    }
+    tenantId: subscription().tenantId
+    enableRbacAuthorization: true
+    enabledForDeployment: false
+    enabledForDiskEncryption: true
+    enabledForTemplateDeployment: false
+  }
+
+  resource storageNameSecret 'secrets' = {
+    name: 'ExternalServiceApiKey'
+    properties: {
+      contentType: 'text/plain'
+      value: apiKey
+    }
+  }
+}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The <code>enableRbacAuthorization</code> setting is key for us to enable RBAC permissions. Otherwise we're setting up a fairly standard instance. We're also create a new secret as a nested resource using our <em>secure</em> API key parameter. Maybe pick a better secret name than I have, but it works for a demo.</p>
+
+<h4>
+  <a name="function-app" href="#function-app">
+  </a>
+  Function app
+</h4>
+
+<p>Last up for resources is the Azure Function application.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>resource plan 'Microsoft.Web/serverfarms@2021-02-01' = {
+  name: appServicePlanName
+  location: location
+  kind: 'functionapp'
+  sku: {
+    name: 'Y1'
+  }
+  properties: {
+  }
+}
+
+resource funcApp 'Microsoft.Web/sites@2021-02-01' = {
+  name: functionAppName
+  location: location
+  kind: 'functionapp'
+  identity: {
+    type: 'SystemAssigned'
+  }
+  properties: {
+    httpsOnly: true
+    serverFarmId: plan.id
+    siteConfig: {
+      ftpsState: 'Disabled'
+      minTlsVersion: '1.2'
+      netFrameworkVersion: 'v6.0'
+      appSettings: [
+        {
+          name: 'AzureWebJobsStorage'
+          value: storageConnectionString
+        }
+        {
+          name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'
+          value: storageConnectionString
+        }
+        {
+          name: 'APPINSIGHTS_INSTRUMENTATIONKEY'
+          value: appInsights.properties.InstrumentationKey
+        }
+        {
+          name: 'FUNCTIONS_WORKER_RUNTIME'
+          value: 'dotnet'
+        }
+        {
+          name: 'FUNCTIONS_EXTENSION_VERSION'
+          value: '~4'
+        }
+        {
+          name: 'ApiKey'
+          value: '@Microsoft.KeyVault(VaultName=${kv.name};SecretName=${kv::storageNameSecret.name})'
+        }
+        {
+          name: 'ContentStorageAccount'
+          value: storage.name
+        }
+        {
+          name: 'ContentContainer'
+          value: storage::blobService::content.name
+        }
+      ]
+    }
+  }
+}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This is deployed under a consumption plan (mostly to keep the template a bit simpler), but it's the <code>appSettings</code> where things start to get more interesting.</p>
+
+<p>In here we're creating the <code>AzureWebJobsStorage</code> and <code>WEBSITE_CONTENTAZUREFILECONNECTIONSTRING</code> settings using the connection string we defined earlier in the variables section.</p>
+
+<p>The <code>APPINSIGHTS_INSTRUMENTATIONKEY</code> setting is being set using the instrumentation key of the yet-to-be-deployed Application Insights resource which we're accessing just using dot notation.</p>
+
+<p>For <code>ApiKey</code> we're creating our KeyVault reference. We could do this using the URL format, but I'm using this format as I think it's easier to read. I'm also not using the secret version as I want to get the latest key each time. Because the secret itself is a nest resource we have to use the double-semi-colon notation <code>::</code> to access it's values.</p>
+
+<h4>
+  <a name="setting-up-permissions" href="#setting-up-permissions">
+  </a>
+  Setting up permissions
+</h4>
+
+<p>Having the KeyVault reference is great, but if we deploy this now it will fail. This is because the Function App doesn't have permissions to read secrets, so lets set that up as well.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>resource storageFunctionAppPermissions 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
+  name: guid(storage.id, funcApp.name, storageBlobDataContributorRole)
+  scope: storage
+  properties: {
+    principalId: funcApp.identity.principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: storageBlobDataContributorRole
+  }
+}
+
+resource kvFunctionAppPermissions 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {
+  name: guid(kv.id, funcApp.name, keyVaultSecretsUserRole)
+  scope: kv
+  properties: {
+    principalId: funcApp.identity.principalId
+    principalType: 'ServicePrincipal'
+    roleDefinitionId: keyVaultSecretsUserRole
+  }
+}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>There's a lot happening here, so lets break it down a bit.</p>
+
+<p>We have 2 <code>roleAssignments</code> resources here. The first is assigning permissions to the storage account so that later on (if we want) the function app can read and write data to the storage account. This isn't needed for our example, but I added it for demonstration purposes. The second role assignment assigns secret user permissions to the Azure Function app.</p>
+
+<p>Inside of both we're creating a name by generating a guid. This has to be something which is known at deployment time so we can't use values like the principal id as that's only known after the resource deployment. Which values you provide is largely up to you, but I like the format of <code>target/source/role</code> as it makes sense when reading it back later.</p>
+
+<p>In the properties we have to say which principal needs access, what role we're giving it, and that it's type is <code>ServicePrincipal</code> (for our managed identities). This last point is important, the deployment will work without it but might occasionally throw a <code>PrincipalNotFound</code> error as the identity might not have been created before we try assigning permissions. By adding this property we should be waiting for the identity to be created first.</p>
+
+<h2>
+  <a name="deploying" href="#deploying">
+  </a>
+  Deploying
+</h2>
+
+<p>This is the easy part of the process. Assuming you've installed the Azure CLI and have bicep installed you can simply run the following (changing the location and resource group name to suit you)<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>az group create <span class="nt">--name</span> func-app-demo <span class="nt">--location</span> northeurope
+
+az deployment group create <span class="nt">--resource-group</span> func-app-demo <span class="nt">--template-file</span> <span class="k">function</span><span class="nt">-app</span>.bicep <span class="nt">--parameters</span> <span class="nv">apiKey</span><span class="o">=</span>abc123
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The above command skips the storage account SKU and resource prefix so the defaults are used.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--FxmcG1Wj--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/daq7q3scdqhcavyxn35a.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--FxmcG1Wj--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/daq7q3scdqhcavyxn35a.png" alt="Deployed resources" loading="lazy" width="880" height="235"></a></p>
+
+<p>You can check that permissions have been assigned by looking in the access control section of the KeyVault instance.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--HjJwrNjd--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/13bp8p7jo1vds4z2uru4.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--HjJwrNjd--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/13bp8p7jo1vds4z2uru4.png" alt="Assigned permissions" loading="lazy" width="880" height="139"></a></p>
+
+<p>And we can see the KeyVault reference in the Azure Function configuration.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--IUOwSeQa--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/eu6ycpgv2xjemif4gqzg.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--IUOwSeQa--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/eu6ycpgv2xjemif4gqzg.png" alt="KeyVault reference" loading="lazy" width="880" height="330"></a></p>
+
+<p>And that's it. We can now deploy our functions and make use of the app settings already created. And when we're ready we can take this template and deploy out to all of our other environments.</p>
+
+<p>If you get intrigued you can always see what the ARM equivalent of the template might have looked like by running the following.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>az bicep build <span class="nt">-f</span> <span class="k">function</span><span class="nt">-app</span>.bicep
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This will generate a <code>function-app.json</code> ARM template file in which you will see of the dependencies added in, and what the shortcuts like <code>listKeys()</code> have done for us. I'm sure you'll agree that the bicep is much nicer to read and maintain.</p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/dazfuller/azure-bicep-deploy-function-apps-with-keyvault-references-36o1" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(e,n,t,a,i){return a.type_of="article",a.id=941327,a.title="Azure Bicep - Deploy Function Apps with KeyVault references",a.description="One of the things you often yourself doing when starting a new project, module, or component, is...",a.readable_publish_date="Dec 31 '21",a.slug="azure-bicep-deploy-function-apps-with-keyvault-references-36o1",a.path="/dazfuller/azure-bicep-deploy-function-apps-with-keyvault-references-36o1",a.url=i,a.comments_count=0,a.public_reactions_count=6,a.collection_id=e,a.published_timestamp=n,a.positive_reactions_count=6,a.cover_image=e,a.social_image="https://dev.to/social_previews/article/941327.png",a.canonical_url=i,a.created_at="2021-12-31T14:28:14Z",a.edited_at=e,a.crossposted_at=e,a.published_at=n,a.last_comment_at=n,a.reading_time_minutes=9,a.tag_list="azure, bicep, infrastructure",a.tags=["azure","bicep","infrastructure"],a.body_html='<p>One of the things you often yourself doing when starting a new project, module, or component, is having to define the infrastructure that it is going to run on. In the world of Azure often what you find is that many will just drop into the portal and create the items that they need directly, this obviously isn\'t good as a repeatable pattern but works for throw-away tests. Others might be braver and fire up the console to use the <a href="https://docs.microsoft.com/cli/azure/">Azure CLI</a> tool, much better for repeating steps if you remember to script it.</p>\n\n<p>Better yet are those who take that little extra time and generate the environment using templates. Repeatable, consistent, and they give the option of parametrising them so that you can change the scale of components as they\'re deployed to different environments.</p>\n\n<p>What I want to do in this post is show doing exactly this, by deploying the following components, but also by setting up managed identities, adding RBAC permissions in, and hooking them up all from the same template. By putting in that little bit extra you can go from zero to fully configured platform in minutes, in a consistent and repeatable way.</p>\n\n<p>I\'m going to do this using <a href="https://docs.microsoft.com/azure/azure-resource-manager/bicep">Bicep</a> which is Microsoft\'s DSL for deploying resources to Azure. Don\'t be fooled by the 0.4 version number, this is a more than capable language which should take centre stage of your deployment scripts. Unlike ARM templates before it also supports modules, allowing you to break apart your templates without the need for a public end-point to bring them all back together again. But for this post we\'re only going to need a single template.</p>\n\n<h2>\n  <a name="the-infrastructure" href="#the-infrastructure">\n  </a>\n  The infrastructure\n</h2>\n\n<p>So what are we deploying? Well for this post the core of the platform is going to be the Azure Function app, but it\'s going to need some support. We\'re also going to assume that the platform is going to collect data from an external service, so the secret we want will be an API key passed in to the template. So the full platform will be:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--GtrdtXxe--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/n1hk8r5en2zgtum99k0x.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--GtrdtXxe--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/n1hk8r5en2zgtum99k0x.png" alt="Overview of Infrastructure" loading="lazy" width="356" height="369"></a></p>\n\n<ul>\n<li>Azure Function App with System Assigned managed identity and app settings for:\n\n<ul>\n<li>API Key from KeyVault using KeyVault references</li>\n<li>Storage account name</li>\n<li>Container name</li>\n<li>Key from Application Insights</li>\n</ul>\n\n\n</li>\n<li>Azure Storage Account with container for future use\n\n<ul>\n<li>Also with data contributor permissions assigned to the Function App at the storage account level</li>\n</ul>\n\n\n</li>\n<li>Azure KeyVault\n\n<ul>\n<li>Deployed using RBAC for authentication instead of using Access Control Lists</li>\n<li>With secret for the API key</li>\n<li>Secret User permissions assigned to the Function App</li>\n</ul>\n\n\n</li>\n<li>Application Insights</li>\n<li>Azure Log Analytics to back the Application Insights instance</li>\n</ul>\n\n<p>And whilst we\'re at it lets make sure we add some basic security steps like HTTPS only traffic and setting TLS 1.2 as the minimum permitted TLS version.</p>\n\n<h2>\n  <a name="creating-the-template" href="#creating-the-template">\n  </a>\n  Creating the template\n</h2>\n\n<p>The best way to get started with Azure Bicep is to use <a href="https://code.visualstudio.com">Visual Studio Code</a> with the Bicep extension which includes language server support and some other nice features. But the language server support giving us highlighting, template outlines, auto-complete etc... is the real nice to have feature.</p>\n\n<p>The template is available in full on <a href="https://gist.github.com/dazfuller/7a61bf3dbf7be1b977c9fa54e7cdf17d">Github</a>.</p>\n\n<h3>\n  <a name="parameters" href="#parameters">\n  </a>\n  Parameters\n</h3>\n\n<p>For this demo template I want to make 3 things configurable.</p>\n\n<ol>\n<li>The prefix for all of the resources (but defaulted to "demo")</li>\n<li>The Storage Account SKU (defaulted to Standard LRS)</li>\n<li>The API key for the external service</li>\n</ol>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--IVz8rIQG--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kc36ilt7d65ge4bz8g1p.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--IVz8rIQG--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kc36ilt7d65ge4bz8g1p.png" alt="Template parameters" loading="lazy" width="880" height="506"></a></p>\n\n<p>In this we have defined the prefix as a string and restrict it\'s length to a minimum of 3 and a maximum of 6 and default it to "demo". We give the storage account SKU a set of values it needs to be restricted to and default it to "Standard_LRS". Finally we define the API key as a string, but annotate the template to make it a secure parameter. Making this a secure parameter means that we\'re not going to accidentally leak the value to anyone who can see the template deployment history.</p>\n\n<h3>\n  <a name="variable" href="#variable">\n  </a>\n  Variable\n</h3>\n\n<p>Next up are the variables. The bulk of these are defining things like locations and names. I\'m using a naming convention of <code>&lt;prefix&gt;-&lt;service name&gt;-&lt;unique id&gt;</code>. This lets multiple instances be deployed without (hopefully) hitting any naming conflict issues. The only variation in this is the storage account name as we can\'t use hyphens, only alpha-numeric characters.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--hGxG52O3--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/in45hrw9u8p6yg3issui.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--hGxG52O3--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/in45hrw9u8p6yg3issui.png" alt="Template variables" loading="lazy" width="880" height="134"></a></p>\n\n<p>The <code>storageConnectionString</code> is used later on in the template and is only defined here so I don\'t repeat myself later.</p>\n\n<p>The <code>storageBlobDataContributorRole</code> and <code>keyVaultSecretsUserRole</code> are the role definition values for the built in <code>Storage Blob Data Contributor</code> and <code>Key Vault Secrets User</code> built-in roles which you can find in the <a href="https://docs.microsoft.com/azure/role-based-access-control/built-in-roles">Azure documentation</a>.</p>\n\n<h3>\n  <a name="resources" href="#resources">\n  </a>\n  Resources\n</h3>\n\n<p>Right, on to the fun stuff. We\'ve got our parameters and variables, now it\'s time to put them to good use.</p>\n\n<h4>\n  <a name="storage-account" href="#storage-account">\n  </a>\n  Storage account\n</h4>\n\n<p>Azure Storage is typically the beating heart of any platform, and so it\'s normally the first resource I start with.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>resource storage \'Microsoft.Storage/storageAccounts@2021-06-01\' = {\n  name: storageAccountName\n  location: location\n  sku: {\n    name: storageSkuName\n  }\n  kind: \'StorageV2\'\n  properties: {\n    supportsHttpsTrafficOnly: true\n    minimumTlsVersion: \'TLS1_2\'\n    encryption: {\n      keySource: \'Microsoft.Storage\'\n      services: {\n        blob: {\n          enabled: true\n        }\n        file: {\n          enabled: true\n        }\n        queue: {\n          enabled: true\n        }\n        table: {\n          enabled: true\n        }\n      }\n    }\n  }\n\n  resource blobService \'blobServices\' = {\n    name: \'default\'\n\n    resource content \'containers\' = {\n      name: \'content\'\n    }\n  }\n}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Out of the box here we\'re setting the minimum TLS version to 1.2 and enabling HTTPS only traffic. There really should be very very few reasons as to why these are not in every template we produce. We\'re also turning on encryption of data in all storage services by default.</p>\n\n<p>We have a couple of nested resources which are how we create our containers. In this case I\'m creating a container called "content".</p>\n\n<h4>\n  <a name="log-analytics-and-application-insights" href="#log-analytics-and-application-insights">\n  </a>\n  Log Analytics and Application Insights\n</h4>\n\n<p>Next up we want to deploy an Application Insights instance which will be used by our Azure Function app. It\'s a couple of years away at the time of writing, but Microsoft will be requiring that all instances are backed by a Log Analytics workspace. This makes a huge amount of sense really as it gives a single place to monitor your application and generate alerts based on health conditions.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>resource logAnalytics \'Microsoft.OperationalInsights/workspaces@2021-06-01\' = {\n  name: logAnalyticsName\n  location: location\n  properties: {\n    sku: {\n      name: \'PerGB2018\'\n    }\n    retentionInDays: 30\n    features: {\n      enableLogAccessUsingOnlyResourcePermissions: true\n    }\n    workspaceCapping: {\n      dailyQuotaGb: 1\n    }\n    publicNetworkAccessForIngestion: \'Enabled\'\n    publicNetworkAccessForQuery: \'Enabled\'\n  }\n}\n\nresource appInsights \'Microsoft.Insights/components@2020-02-02\' = {\n  name: appInsightsName\n  location: location\n  kind: \'web\'\n  properties: {\n    Application_Type: \'web\'\n    publicNetworkAccessForIngestion: \'Enabled\'\n    publicNetworkAccessForQuery: \'Enabled\'\n    WorkspaceResourceId: logAnalytics.id\n  }\n}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>If you\'re familiar with ARM templates you might be noticing the lack of <code>dependsOn</code> entries. This is because in Bicep, where we use a resource reference to get a value (e.g. <code>logAnalytics.id</code>) this adds an automatic dependency in for us. The use of the <code>id</code> at this point sets the workspace resource instance backing the Application Insights instance. This is a pretty simple setup of the services and I won\'t dive in any further at this point.</p>\n\n<h4>\n  <a name="keyvault" href="#keyvault">\n  </a>\n  KeyVault\n</h4>\n\n<p>Okay, next up, KeyVault. This is core to accessing secrets on the platform in a secure manner. One of the things we\'re going to do here is enable the RBAC permissions instead of using Access Control Lists (ACLs). Normally when using ACLs we would give dependent services Get and List permissions over Secrets, with RBAC we can instead use the <code>Key Vault Secret User</code> built-in role. This makes the management of secrets a lot easier and means we can view permissions in a single place.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>resource kv \'Microsoft.KeyVault/vaults@2021-06-01-preview\' = {\n  name: keyVaultName\n  location: location\n  properties: {\n    sku: {\n      family: \'A\'\n      name: \'standard\'\n    }\n    tenantId: subscription().tenantId\n    enableRbacAuthorization: true\n    enabledForDeployment: false\n    enabledForDiskEncryption: true\n    enabledForTemplateDeployment: false\n  }\n\n  resource storageNameSecret \'secrets\' = {\n    name: \'ExternalServiceApiKey\'\n    properties: {\n      contentType: \'text/plain\'\n      value: apiKey\n    }\n  }\n}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The <code>enableRbacAuthorization</code> setting is key for us to enable RBAC permissions. Otherwise we\'re setting up a fairly standard instance. We\'re also create a new secret as a nested resource using our <em>secure</em> API key parameter. Maybe pick a better secret name than I have, but it works for a demo.</p>\n\n<h4>\n  <a name="function-app" href="#function-app">\n  </a>\n  Function app\n</h4>\n\n<p>Last up for resources is the Azure Function application.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>resource plan \'Microsoft.Web/serverfarms@2021-02-01\' = {\n  name: appServicePlanName\n  location: location\n  kind: \'functionapp\'\n  sku: {\n    name: \'Y1\'\n  }\n  properties: {\n  }\n}\n\nresource funcApp \'Microsoft.Web/sites@2021-02-01\' = {\n  name: functionAppName\n  location: location\n  kind: \'functionapp\'\n  identity: {\n    type: \'SystemAssigned\'\n  }\n  properties: {\n    httpsOnly: true\n    serverFarmId: plan.id\n    siteConfig: {\n      ftpsState: \'Disabled\'\n      minTlsVersion: \'1.2\'\n      netFrameworkVersion: \'v6.0\'\n      appSettings: [\n        {\n          name: \'AzureWebJobsStorage\'\n          value: storageConnectionString\n        }\n        {\n          name: \'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING\'\n          value: storageConnectionString\n        }\n        {\n          name: \'APPINSIGHTS_INSTRUMENTATIONKEY\'\n          value: appInsights.properties.InstrumentationKey\n        }\n        {\n          name: \'FUNCTIONS_WORKER_RUNTIME\'\n          value: \'dotnet\'\n        }\n        {\n          name: \'FUNCTIONS_EXTENSION_VERSION\'\n          value: \'~4\'\n        }\n        {\n          name: \'ApiKey\'\n          value: \'@Microsoft.KeyVault(VaultName=${kv.name};SecretName=${kv::storageNameSecret.name})\'\n        }\n        {\n          name: \'ContentStorageAccount\'\n          value: storage.name\n        }\n        {\n          name: \'ContentContainer\'\n          value: storage::blobService::content.name\n        }\n      ]\n    }\n  }\n}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This is deployed under a consumption plan (mostly to keep the template a bit simpler), but it\'s the <code>appSettings</code> where things start to get more interesting.</p>\n\n<p>In here we\'re creating the <code>AzureWebJobsStorage</code> and <code>WEBSITE_CONTENTAZUREFILECONNECTIONSTRING</code> settings using the connection string we defined earlier in the variables section.</p>\n\n<p>The <code>APPINSIGHTS_INSTRUMENTATIONKEY</code> setting is being set using the instrumentation key of the yet-to-be-deployed Application Insights resource which we\'re accessing just using dot notation.</p>\n\n<p>For <code>ApiKey</code> we\'re creating our KeyVault reference. We could do this using the URL format, but I\'m using this format as I think it\'s easier to read. I\'m also not using the secret version as I want to get the latest key each time. Because the secret itself is a nest resource we have to use the double-semi-colon notation <code>::</code> to access it\'s values.</p>\n\n<h4>\n  <a name="setting-up-permissions" href="#setting-up-permissions">\n  </a>\n  Setting up permissions\n</h4>\n\n<p>Having the KeyVault reference is great, but if we deploy this now it will fail. This is because the Function App doesn\'t have permissions to read secrets, so lets set that up as well.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>resource storageFunctionAppPermissions \'Microsoft.Authorization/roleAssignments@2020-04-01-preview\' = {\n  name: guid(storage.id, funcApp.name, storageBlobDataContributorRole)\n  scope: storage\n  properties: {\n    principalId: funcApp.identity.principalId\n    principalType: \'ServicePrincipal\'\n    roleDefinitionId: storageBlobDataContributorRole\n  }\n}\n\nresource kvFunctionAppPermissions \'Microsoft.Authorization/roleAssignments@2020-04-01-preview\' = {\n  name: guid(kv.id, funcApp.name, keyVaultSecretsUserRole)\n  scope: kv\n  properties: {\n    principalId: funcApp.identity.principalId\n    principalType: \'ServicePrincipal\'\n    roleDefinitionId: keyVaultSecretsUserRole\n  }\n}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>There\'s a lot happening here, so lets break it down a bit.</p>\n\n<p>We have 2 <code>roleAssignments</code> resources here. The first is assigning permissions to the storage account so that later on (if we want) the function app can read and write data to the storage account. This isn\'t needed for our example, but I added it for demonstration purposes. The second role assignment assigns secret user permissions to the Azure Function app.</p>\n\n<p>Inside of both we\'re creating a name by generating a guid. This has to be something which is known at deployment time so we can\'t use values like the principal id as that\'s only known after the resource deployment. Which values you provide is largely up to you, but I like the format of <code>target/source/role</code> as it makes sense when reading it back later.</p>\n\n<p>In the properties we have to say which principal needs access, what role we\'re giving it, and that it\'s type is <code>ServicePrincipal</code> (for our managed identities). This last point is important, the deployment will work without it but might occasionally throw a <code>PrincipalNotFound</code> error as the identity might not have been created before we try assigning permissions. By adding this property we should be waiting for the identity to be created first.</p>\n\n<h2>\n  <a name="deploying" href="#deploying">\n  </a>\n  Deploying\n</h2>\n\n<p>This is the easy part of the process. Assuming you\'ve installed the Azure CLI and have bicep installed you can simply run the following (changing the location and resource group name to suit you)<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>az group create <span class="nt">--name</span> func-app-demo <span class="nt">--location</span> northeurope\n\naz deployment group create <span class="nt">--resource-group</span> func-app-demo <span class="nt">--template-file</span> <span class="k">function</span><span class="nt">-app</span>.bicep <span class="nt">--parameters</span> <span class="nv">apiKey</span><span class="o">=</span>abc123\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The above command skips the storage account SKU and resource prefix so the defaults are used.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--FxmcG1Wj--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/daq7q3scdqhcavyxn35a.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--FxmcG1Wj--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/daq7q3scdqhcavyxn35a.png" alt="Deployed resources" loading="lazy" width="880" height="235"></a></p>\n\n<p>You can check that permissions have been assigned by looking in the access control section of the KeyVault instance.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--HjJwrNjd--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/13bp8p7jo1vds4z2uru4.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--HjJwrNjd--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/13bp8p7jo1vds4z2uru4.png" alt="Assigned permissions" loading="lazy" width="880" height="139"></a></p>\n\n<p>And we can see the KeyVault reference in the Azure Function configuration.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--IUOwSeQa--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/eu6ycpgv2xjemif4gqzg.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--IUOwSeQa--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/eu6ycpgv2xjemif4gqzg.png" alt="KeyVault reference" loading="lazy" width="880" height="330"></a></p>\n\n<p>And that\'s it. We can now deploy our functions and make use of the app settings already created. And when we\'re ready we can take this template and deploy out to all of our other environments.</p>\n\n<p>If you get intrigued you can always see what the ARM equivalent of the template might have looked like by running the following.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>az bicep build <span class="nt">-f</span> <span class="k">function</span><span class="nt">-app</span>.bicep\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This will generate a <code>function-app.json</code> ARM template file in which you will see of the dependencies added in, and what the shortcuts like <code>listKeys()</code> have done for us. I\'m sure you\'ll agree that the bicep is much nicer to read and maintain.</p>\n\n',a.body_markdown="One of the things you often yourself doing when starting a new project, module, or component, is having to define the infrastructure that it is going to run on. In the world of Azure often what you find is that many will just drop into the portal and create the items that they need directly, this obviously isn't good as a repeatable pattern but works for throw-away tests. Others might be braver and fire up the console to use the [Azure CLI](https://docs.microsoft.com/cli/azure/) tool, much better for repeating steps if you remember to script it.\n\nBetter yet are those who take that little extra time and generate the environment using templates. Repeatable, consistent, and they give the option of parametrising them so that you can change the scale of components as they're deployed to different environments.\n\nWhat I want to do in this post is show doing exactly this, by deploying the following components, but also by setting up managed identities, adding RBAC permissions in, and hooking them up all from the same template. By putting in that little bit extra you can go from zero to fully configured platform in minutes, in a consistent and repeatable way.\n\nI'm going to do this using [Bicep](https://docs.microsoft.com/azure/azure-resource-manager/bicep) which is Microsoft's DSL for deploying resources to Azure. Don't be fooled by the 0.4 version number, this is a more than capable language which should take centre stage of your deployment scripts. Unlike ARM templates before it also supports modules, allowing you to break apart your templates without the need for a public end-point to bring them all back together again. But for this post we're only going to need a single template.\n\n## The infrastructure\n\nSo what are we deploying? Well for this post the core of the platform is going to be the Azure Function app, but it's going to need some support. We're also going to assume that the platform is going to collect data from an external service, so the secret we want will be an API key passed in to the template. So the full platform will be:\n\n![Overview of Infrastructure](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/n1hk8r5en2zgtum99k0x.png)\n\n* Azure Function App with System Assigned managed identity and app settings for:\n  * API Key from KeyVault using KeyVault references\n  * Storage account name\n  * Container name\n  * Key from Application Insights\n* Azure Storage Account with container for future use\n  * Also with data contributor permissions assigned to the Function App at the storage account level\n* Azure KeyVault\n  * Deployed using RBAC for authentication instead of using Access Control Lists\n  * With secret for the API key\n  * Secret User permissions assigned to the Function App\n* Application Insights\n* Azure Log Analytics to back the Application Insights instance\n\nAnd whilst we're at it lets make sure we add some basic security steps like HTTPS only traffic and setting TLS 1.2 as the minimum permitted TLS version.\n\n## Creating the template\n\nThe best way to get started with Azure Bicep is to use [Visual Studio Code](https://code.visualstudio.com) with the Bicep extension which includes language server support and some other nice features. But the language server support giving us highlighting, template outlines, auto-complete etc... is the real nice to have feature.\n\nThe template is available in full on [Github](https://gist.github.com/dazfuller/7a61bf3dbf7be1b977c9fa54e7cdf17d).\n\n### Parameters\n\nFor this demo template I want to make 3 things configurable.\n\n1. The prefix for all of the resources (but defaulted to \"demo\")\n1. The Storage Account SKU (defaulted to Standard LRS)\n1. The API key for the external service\n\n![Template parameters](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kc36ilt7d65ge4bz8g1p.png)\n\nIn this we have defined the prefix as a string and restrict it's length to a minimum of 3 and a maximum of 6 and default it to \"demo\". We give the storage account SKU a set of values it needs to be restricted to and default it to \"Standard_LRS\". Finally we define the API key as a string, but annotate the template to make it a secure parameter. Making this a secure parameter means that we're not going to accidentally leak the value to anyone who can see the template deployment history.\n\n### Variable\n\nNext up are the variables. The bulk of these are defining things like locations and names. I'm using a naming convention of `<prefix>-<service name>-<unique id>`. This lets multiple instances be deployed without (hopefully) hitting any naming conflict issues. The only variation in this is the storage account name as we can't use hyphens, only alpha-numeric characters.\n\n![Template variables](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/in45hrw9u8p6yg3issui.png)\n \nThe `storageConnectionString` is used later on in the template and is only defined here so I don't repeat myself later.\n\nThe `storageBlobDataContributorRole` and `keyVaultSecretsUserRole` are the role definition values for the built in `Storage Blob Data Contributor` and `Key Vault Secrets User` built-in roles which you can find in the [Azure documentation](https://docs.microsoft.com/azure/role-based-access-control/built-in-roles).\n\n### Resources\n\nRight, on to the fun stuff. We've got our parameters and variables, now it's time to put them to good use.\n\n#### Storage account\n\nAzure Storage is typically the beating heart of any platform, and so it's normally the first resource I start with.\n\n```bicep\nresource storage 'Microsoft.Storage/storageAccounts@2021-06-01' = {\n  name: storageAccountName\n  location: location\n  sku: {\n    name: storageSkuName\n  }\n  kind: 'StorageV2'\n  properties: {\n    supportsHttpsTrafficOnly: true\n    minimumTlsVersion: 'TLS1_2'\n    encryption: {\n      keySource: 'Microsoft.Storage'\n      services: {\n        blob: {\n          enabled: true\n        }\n        file: {\n          enabled: true\n        }\n        queue: {\n          enabled: true\n        }\n        table: {\n          enabled: true\n        }\n      }\n    }\n  }\n  \n  resource blobService 'blobServices' = {\n    name: 'default'\n\n    resource content 'containers' = {\n      name: 'content'\n    }\n  }\n}\n```\n\nOut of the box here we're setting the minimum TLS version to 1.2 and enabling HTTPS only traffic. There really should be very very few reasons as to why these are not in every template we produce. We're also turning on encryption of data in all storage services by default.\n\nWe have a couple of nested resources which are how we create our containers. In this case I'm creating a container called \"content\".\n\n#### Log Analytics and Application Insights\n\nNext up we want to deploy an Application Insights instance which will be used by our Azure Function app. It's a couple of years away at the time of writing, but Microsoft will be requiring that all instances are backed by a Log Analytics workspace. This makes a huge amount of sense really as it gives a single place to monitor your application and generate alerts based on health conditions.\n\n```bicep\nresource logAnalytics 'Microsoft.OperationalInsights/workspaces@2021-06-01' = {\n  name: logAnalyticsName\n  location: location\n  properties: {\n    sku: {\n      name: 'PerGB2018'\n    }\n    retentionInDays: 30\n    features: {\n      enableLogAccessUsingOnlyResourcePermissions: true\n    }\n    workspaceCapping: {\n      dailyQuotaGb: 1\n    }\n    publicNetworkAccessForIngestion: 'Enabled'\n    publicNetworkAccessForQuery: 'Enabled'\n  }\n}\n\nresource appInsights 'Microsoft.Insights/components@2020-02-02' = {\n  name: appInsightsName\n  location: location\n  kind: 'web'\n  properties: {\n    Application_Type: 'web'\n    publicNetworkAccessForIngestion: 'Enabled'\n    publicNetworkAccessForQuery: 'Enabled'\n    WorkspaceResourceId: logAnalytics.id\n  }\n}\n```\n\nIf you're familiar with ARM templates you might be noticing the lack of `dependsOn` entries. This is because in Bicep, where we use a resource reference to get a value (e.g. `logAnalytics.id`) this adds an automatic dependency in for us. The use of the `id` at this point sets the workspace resource instance backing the Application Insights instance. This is a pretty simple setup of the services and I won't dive in any further at this point.\n\n#### KeyVault\n\nOkay, next up, KeyVault. This is core to accessing secrets on the platform in a secure manner. One of the things we're going to do here is enable the RBAC permissions instead of using Access Control Lists (ACLs). Normally when using ACLs we would give dependent services Get and List permissions over Secrets, with RBAC we can instead use the `Key Vault Secret User` built-in role. This makes the management of secrets a lot easier and means we can view permissions in a single place.\n\n```bicep\nresource kv 'Microsoft.KeyVault/vaults@2021-06-01-preview' = {\n  name: keyVaultName\n  location: location\n  properties: {\n    sku: {\n      family: 'A'\n      name: 'standard'\n    }\n    tenantId: subscription().tenantId\n    enableRbacAuthorization: true\n    enabledForDeployment: false\n    enabledForDiskEncryption: true\n    enabledForTemplateDeployment: false\n  }\n\n  resource storageNameSecret 'secrets' = {\n    name: 'ExternalServiceApiKey'\n    properties: {\n      contentType: 'text/plain'\n      value: apiKey\n    }\n  }\n}\n```\n\nThe `enableRbacAuthorization` setting is key for us to enable RBAC permissions. Otherwise we're setting up a fairly standard instance. We're also create a new secret as a nested resource using our _secure_ API key parameter. Maybe pick a better secret name than I have, but it works for a demo.\n\n#### Function app\n\nLast up for resources is the Azure Function application.\n\n```bicep\nresource plan 'Microsoft.Web/serverfarms@2021-02-01' = {\n  name: appServicePlanName\n  location: location\n  kind: 'functionapp'\n  sku: {\n    name: 'Y1'\n  }\n  properties: {\n  }\n}\n\nresource funcApp 'Microsoft.Web/sites@2021-02-01' = {\n  name: functionAppName\n  location: location\n  kind: 'functionapp'\n  identity: {\n    type: 'SystemAssigned'\n  }\n  properties: {\n    httpsOnly: true\n    serverFarmId: plan.id\n    siteConfig: {\n      ftpsState: 'Disabled'\n      minTlsVersion: '1.2'\n      netFrameworkVersion: 'v6.0'\n      appSettings: [\n        {\n          name: 'AzureWebJobsStorage'\n          value: storageConnectionString\n        }\n        {\n          name: 'WEBSITE_CONTENTAZUREFILECONNECTIONSTRING'\n          value: storageConnectionString\n        }\n        {\n          name: 'APPINSIGHTS_INSTRUMENTATIONKEY'\n          value: appInsights.properties.InstrumentationKey\n        }\n        {\n          name: 'FUNCTIONS_WORKER_RUNTIME'\n          value: 'dotnet'\n        }\n        {\n          name: 'FUNCTIONS_EXTENSION_VERSION'\n          value: '~4'\n        }\n        {\n          name: 'ApiKey'\n          value: '@Microsoft.KeyVault(VaultName=${kv.name};SecretName=${kv::storageNameSecret.name})'\n        }\n        {\n          name: 'ContentStorageAccount'\n          value: storage.name\n        }\n        {\n          name: 'ContentContainer'\n          value: storage::blobService::content.name\n        }\n      ]\n    }\n  }\n}\n```\n\nThis is deployed under a consumption plan (mostly to keep the template a bit simpler), but it's the `appSettings` where things start to get more interesting.\n\nIn here we're creating the `AzureWebJobsStorage` and `WEBSITE_CONTENTAZUREFILECONNECTIONSTRING` settings using the connection string we defined earlier in the variables section.\n\nThe `APPINSIGHTS_INSTRUMENTATIONKEY` setting is being set using the instrumentation key of the yet-to-be-deployed Application Insights resource which we're accessing just using dot notation.\n\nFor `ApiKey` we're creating our KeyVault reference. We could do this using the URL format, but I'm using this format as I think it's easier to read. I'm also not using the secret version as I want to get the latest key each time. Because the secret itself is a nest resource we have to use the double-semi-colon notation `::` to access it's values.\n\n#### Setting up permissions\n\nHaving the KeyVault reference is great, but if we deploy this now it will fail. This is because the Function App doesn't have permissions to read secrets, so lets set that up as well.\n\n```bicep\nresource storageFunctionAppPermissions 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {\n  name: guid(storage.id, funcApp.name, storageBlobDataContributorRole)\n  scope: storage\n  properties: {\n    principalId: funcApp.identity.principalId\n    principalType: 'ServicePrincipal'\n    roleDefinitionId: storageBlobDataContributorRole\n  }\n}\n\nresource kvFunctionAppPermissions 'Microsoft.Authorization/roleAssignments@2020-04-01-preview' = {\n  name: guid(kv.id, funcApp.name, keyVaultSecretsUserRole)\n  scope: kv\n  properties: {\n    principalId: funcApp.identity.principalId\n    principalType: 'ServicePrincipal'\n    roleDefinitionId: keyVaultSecretsUserRole\n  }\n}\n```\n\nThere's a lot happening here, so lets break it down a bit.\n\nWe have 2 `roleAssignments` resources here. The first is assigning permissions to the storage account so that later on (if we want) the function app can read and write data to the storage account. This isn't needed for our example, but I added it for demonstration purposes. The second role assignment assigns secret user permissions to the Azure Function app.\n\nInside of both we're creating a name by generating a guid. This has to be something which is known at deployment time so we can't use values like the principal id as that's only known after the resource deployment. Which values you provide is largely up to you, but I like the format of `target/source/role` as it makes sense when reading it back later.\n\nIn the properties we have to say which principal needs access, what role we're giving it, and that it's type is `ServicePrincipal` (for our managed identities). This last point is important, the deployment will work without it but might occasionally throw a `PrincipalNotFound` error as the identity might not have been created before we try assigning permissions. By adding this property we should be waiting for the identity to be created first.\n\n## Deploying\n\nThis is the easy part of the process. Assuming you've installed the Azure CLI and have bicep installed you can simply run the following (changing the location and resource group name to suit you)\n\n```bash\naz group create --name func-app-demo --location northeurope\n\naz deployment group create --resource-group func-app-demo --template-file function-app.bicep --parameters apiKey=abc123\n```\n\nThe above command skips the storage account SKU and resource prefix so the defaults are used.\n\n![Deployed resources](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/daq7q3scdqhcavyxn35a.png)\n\nYou can check that permissions have been assigned by looking in the access control section of the KeyVault instance.\n\n![Assigned permissions](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/13bp8p7jo1vds4z2uru4.png)\n\nAnd we can see the KeyVault reference in the Azure Function configuration.\n\n![KeyVault reference](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/eu6ycpgv2xjemif4gqzg.png)\n\nAnd that's it. We can now deploy our functions and make use of the app settings already created. And when we're ready we can take this template and deploy out to all of our other environments.\n\nIf you get intrigued you can always see what the ARM equivalent of the template might have looked like by running the following.\n\n```bash\naz bicep build -f function-app.bicep\n```\n\nThis will generate a `function-app.json` ARM template file in which you will see of the dependencies added in, and what the shortcuts like `listKeys()` have done for us. I'm sure you'll agree that the bicep is much nicer to read and maintain.",a.user={name:"Darren Fuller",username:t,twitter_username:t,github_username:t,website_url:"https://aizoo.info",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--h_GFsHtk--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/396290/45c2c3dd-c045-4d08-8021-59480a43bdef.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--w-te3wh3--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/396290/45c2c3dd-c045-4d08-8021-59480a43bdef.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:a}},error:e,state:{currentArticle:a},serverRendered:!0,routePath:"/dazfuller/941327",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:e}}}}(null,"2021-12-31T15:55:00Z","dazfuller",{},"https://dev.to/dazfuller/azure-bicep-deploy-function-apps-with-keyvault-references-36o1")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

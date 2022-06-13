@@ -1,0 +1,1015 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>How to set up and deploy a Django application on a Linux server</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>How to set up and deploy a Django application on a Linux server</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/linux" class="tag" data-v-70afb46a>
+          #linux
+        </a><a href="/nuxtstop/t/apache" class="tag" data-v-70afb46a>
+          #apache
+        </a><a href="/nuxtstop/t/django" class="tag" data-v-70afb46a>
+          #django
+        </a><a href="/nuxtstop/t/nginx" class="tag" data-v-70afb46a>
+          #nginx
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--y7TBf3aT--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/150w2wq3550s382y1voh.jpg" alt="How to set up and deploy a Django application on a Linux server" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            14
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Jul 28 '21</time></div></header> <div class="content" data-v-70afb46a><p><em>29th July 2021</em></p>
+
+
+<hr>
+
+<h2>
+  <a name="step-1-server-configuration" href="#step-1-server-configuration">
+  </a>
+  Step 1. Server configuration.
+</h2>
+
+<ul>
+<li>Install any linux based distribution(Ubuntu, manjaro ...etc). Update and upgrade your software repositories.</li>
+</ul>
+
+<p>// on any debian based distribution<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">sudo </span>apt update <span class="o">&&</span> <span class="nb">sudo </span>apt upgrade
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<ul>
+<li>server hostname can be set with the <strong>hostnamectl</strong> utility.
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>hostnamectl set-hostname &lt;Host name>
+<span class="c"># to verify</span>
+<span class="nb">hostname</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<ul>
+<li>Map  server hostname with the server IP address by adding the following line in <em>/etc/hosts</em> file.
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>&lt;ip address>    &lt;host name>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><em>( Running commands as the root user is not safe, it's better to login as a regular user with sudo permission)</em> </p>
+
+<ul>
+<li>Add a new user and add him to the sudoers list.
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>adduser &lt;username>
+adduser &lt;username> <span class="nb">sudo</span>
+<span class="c"># Login to the system as the new user</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><em>(Password authentication is not secure, generate and use ssh keys instead)</em></p>
+
+<ul>
+<li><p><strong>ssh-keygen</strong> for key generation (use <strong>ssh-copy-id</strong>  if it is available in your system ).</p></li>
+<li><p>generate ssh keys in local machine  with <code>ssh-keygen -b 4096</code> command.</p></li>
+<li><p>create an empty <em>.ssh</em> directory  inside  home directory of your server . Provide the read,write and execution permissions.</p></li>
+<li><p>Transfer the locally generated ssh keys to the server with <em>scp</em><br>
+</p></li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code> scp &lt;location of the generated key> &lt;username>@ipaddress:~/.ssh/&lt;name given to the keys>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<ul>
+<li>provide read and write permissions for the key.</li>
+<li>For disallowing the root Login and password logins, add the following lines to the <code>/etc/ssh/sshd_config</code> file.
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>PermitRootLogin no
+PasswordAuthentication no
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Restart the <code>sshd</code> service.</p>
+
+<h2>
+  <a name="step2-setting-up-firewall" href="#step2-setting-up-firewall">
+  </a>
+  Step2. Setting up FireWall
+</h2>
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">sudo </span>apt <span class="nb">install </span>ufw
+<span class="c"># Block all incoming and outgoing traffic except ssh </span>
+<span class="nb">sudo </span>ufw default allow outgoing
+<span class="nb">sudo </span>ufw default deny incoming
+<span class="nb">sudo </span>ufw allow ssh
+
+<span class="c">#  allow the port 8000 (Django uses this port run the development server)</span>
+<span class="nb">sudo </span>ufw allow 8000
+<span class="c"># make sure to enable ssh before enabling ufw</span>
+<span class="nb">sudo </span>ufw <span class="nb">enable</span>
+
+<span class="c"># after testing</span>
+<span class="nb">sudo </span>ufw delete allow 8000 <span class="o">&&</span> <span class="nb">sudo </span>ufw allow http/tcp
+<span class="c">#for status</span>
+<span class="nb">sudo </span>ufw status
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="step-3-set-up-the-project-for-production" href="#step-3-set-up-the-project-for-production">
+  </a>
+  Step 3. Set up the project for production.
+</h2>
+
+<h3>
+  <a name="31-generate-the-requirementstxt-file" href="#31-generate-the-requirementstxt-file">
+  </a>
+  3.1 Generate the requirements.txt file
+</h3>
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="c"># in the root directory</span>
+pip freeze <span class="o">></span> requirements.txt
+
+<span class="c"># Django==3.2.5</span>
+<span class="c"># psycopg2==2.9.1</span>
+<span class="c"># pytz==2021.1</span>
+<span class="c"># sqlparse==0.4.1</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="32-transfer-the-project-from-the-local-machine-to-the-serverit-can-be-done-by-using-any-of-the-following-tools" href="#32-transfer-the-project-from-the-local-machine-to-the-serverit-can-be-done-by-using-any-of-the-following-tools">
+  </a>
+  3.2 Transfer the project from the local machine to the server.It can be done by using any of the following tools.
+</h3>
+
+<ul>
+<li>An ftp client like <strong>FileZilla</strong>
+</li>
+<li>
+<strong>scp</strong> to transfer files via ssh.
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="c"># -r for recursive file transfer.</span>
+scp <span class="nt">-r</span> &lt;<span class="nb">local </span>project path> &lt;username>@&lt;ip address>:~/
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<ul>
+<li> <strong>git</strong>
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>git clone &lt;remote repository url>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="step-4-set-up-the-python-virtual-environment" href="#step-4-set-up-the-python-virtual-environment">
+  </a>
+  step 4. Set up the python virtual environment
+</h3>
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">sudo </span>apt <span class="nb">install </span>python3-pip
+<span class="nb">sudo </span>apt <span class="nb">install </span>python3-venv
+<span class="c"># Creating a virtual environment inside the project directory</span>
+python3 <span class="nt">-m</span> venv &lt;projectDirectory>/&lt;virtualEnvName>
+<span class="c"># activation</span>
+<span class="nb">source</span> &lt;projectDirectory>/&lt;virtualEnvName>/bin/activate
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="step-5-install-project-dependencies" href="#step-5-install-project-dependencies">
+  </a>
+  step 5. install project dependencies
+</h3>
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>pip <span class="nb">install</span> <span class="nt">-r</span> requirements.txt
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="step-6-make-changes-to-the-settingspy" href="#step-6-make-changes-to-the-settingspy">
+  </a>
+  step 6. make changes to the settings.py.
+</h3>
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code><span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>
+<span class="n">ALLOWED_HOSTS</span> <span class="o">=</span> <span class="p">[</span><span class="s">'&lt;ipAddress/domainName>'</span><span class="p">]</span>
+<span class="c1"># Static handled differently in production.
+# third party storages or whitenoise requires additional settings
+</span><span class="n">STATIC_ROOT</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span><span class="s">'static'</span><span class="p">)</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>python manage.py collectstatic
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="configuring-postgres-database" href="#configuring-postgres-database">
+  </a>
+  Configuring Postgres Database
+</h2>
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">sudo </span>apt <span class="nb">install </span>postgresql postgresql-contrib
+<span class="nb">sudo</span> <span class="nt">-u</span> postgres psql
+CREATE DATABASE databasename<span class="p">;</span>
+CREATE USER username WITH PASSWORD <span class="s1">'password'</span><span class="p">;</span>
+ALTER ROLE username SET client_encoding TO <span class="s1">'utf8'</span><span class="p">;</span>
+ALTER ROLE username SET default_transaction_isolation TO <span class="s1">'read committed'</span><span class="p">;</span>
+ALTER ROLE username SET timezone TO <span class="s1">'Asia/Kolkata'</span><span class="p">;</span>
+GRANT ALL PRIVILEGES ON DATABASE databasename TO username<span class="p">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="step-7-test-the-application-with-the-dev-server" href="#step-7-test-the-application-with-the-dev-server">
+  </a>
+  step 7. Test the application with the dev server
+</h3>
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="c"># we have opened the port 8000 with ufw</span>
+python manage.py runserver 0.0.0.0:8000
+<span class="c"># and test the application on &lt;ipAddress>:8000</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="step-8-configuring-production-server" href="#step-8-configuring-production-server">
+  </a>
+  step 8. Configuring production server
+</h2>
+
+<p>Django server is only for development purposes,  you should not use it for  production. We can use reliable servers like  <strong>apache with mode_wsgi</strong>  or  <strong>Nginx with gunicorn</strong></p>
+
+<h3>
+  <a name="81-apache-with-modwsgi" href="#81-apache-with-modwsgi">
+  </a>
+  8.1 apache with mod_wsgi
+</h3>
+
+<ul>
+<li>install apache
+<code>sudo apt install apache-2</code>
+</li>
+<li><p>install mod_wsgi<br>
+<code>sudo apt install libapache2-mod-wsgi-py3</code></p></li>
+<li><p><strong>configure apache</strong><br>
+</p></li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">cd</span> /etc/apache2/sites-available
+<span class="c"># duplicate any of the default configuration file to get  started.</span>
+<span class="nb">cp </span>000-default.conf &lt;name_given_to_your_config>.conf
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="-edit-your-config-file-and-add-the-followings" href="#-edit-your-config-file-and-add-the-followings">
+  </a>
+  - edit your config file and add the followings
+</h2>
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight xml"><code><span class="c">&lt;!-- NB: all paths needs to be absolute --></span>
+<span class="nt">&lt;VirtualHost</span> <span class="err">*:80</span><span class="nt">></span>
+
+# The ServerName directive sets the request scheme, hostname and port that
+
+# the server uses to identify itself. This is used when creating
+
+# redirection URLs. In the context of virtual hosts, the ServerName
+
+# specifies what hostname must appear in the request's Host: header to
+
+# match this virtual host. For the default virtual host (this file) this
+
+# value is not decisive as it is used as a last resort host regardless.
+
+# However, you must set it for any further virtual host explicitly.
+
+#ServerName www.example.com
+
+ServerAdmin webmaster@localhost
+
+DocumentRoot /var/www/html
+
+# Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+
+# error, crit, alert, emerg.
+
+# It is also possible to configure the loglevel for particular
+
+# modules, e.g.
+
+#LogLevel info ssl:warn
+
+ErrorLog ${APACHE_LOG_DIR}/error.log
+
+CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+# For most configuration files from conf-available/, which are
+
+# enabled or disabled at a global level, it is possible to
+
+# include a line for only one particular virtual host. For example the
+
+# following line enables the CGI configuration for this host only
+
+# after it has been globally disabled with "a2disconf".
+
+#Include conf-available/serve-cgi-bin.conf
+
+<span class="c">&lt;!-- right before the closing of &lt;/VirtualHost> we need to map Aliases for static and media --></span>
+
+Alias /static /home/YOURUSER/YOURPROJECT/static
+
+<span class="nt">&lt;Directory</span> <span class="err">/home/YOURUSER/YOURPROJECT/static</span><span class="nt">></span>
+
+Require all granted
+
+<span class="nt">&lt;/Directory></span>
+
+Alias /media /home/YOURUSER/YOURPROJECT/media
+
+<span class="nt">&lt;Directory</span> <span class="err">/home/YOURUSER/YOURPROJECT/media</span><span class="nt">></span>
+
+Require all granted
+
+<span class="nt">&lt;/Directory></span>
+
+<span class="nt">&lt;Directory</span> <span class="err">/home/YOURUSER/YOURPROJECT/YOURPROJECT</span><span class="nt">></span>
+
+<span class="nt">&lt;Files</span> <span class="err">wsgi.py</span><span class="nt">></span>
+
+Require all granted
+
+<span class="nt">&lt;/Files></span>
+
+<span class="nt">&lt;/Directory></span>
+
+WSGIScriptAlias / /home/YOURUSER/YOURPROJECT/YOURPROJECT/wsgi.py
+
+WSGIDaemonProcess django_app python-path=/home/YOURUSER/YOURPROJECT python-home=/home/YOURUSER/YOURPROJECT/<span class="nt">&lt;VIRTUALENV></span>
+
+WSGIProcessGroup django_app
+
+<span class="nt">&lt;/VirtualHost></span>
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<ul>
+<li>enable the configuration <code>sudo a2ensite &lt;YourConfiguration></code>
+</li>
+<li> disable the default configuration <code>sudo a2dissite &lt;Default configuration></code> </li>
+<li>reload apache service <code>systemctl reload apache2</code>
+</li>
+</ul>
+
+<p>// Give database access to apache<br>
+$ For sqlite database<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">sudo chown</span> :www-data &lt;Path to your sqlite file>
+<span class="nb">sudo chmod </span>664 &lt;Path to your sqlite file>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">sudo chown</span> :www-data &lt;Path to your Django project>
+<span class="nb">sudo chown</span> <span class="nt">-R</span> :www-data &lt;Path to your media directory>
+<span class="nb">sudo chmod</span> <span class="nt">-R</span> 774 &lt;Path to your media directory>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="82-nginx-with-gunicorn" href="#82-nginx-with-gunicorn">
+  </a>
+  8.2 Nginx with gunicorn
+</h3>
+
+<ul>
+<li>Install nginx and add this to  <code>/etc/nginx/sites-enabled/default</code>
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code><span class="n">server</span> <span class="p">{</span>
+
+  <span class="n">server_name</span> <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span> <span class="n">yourhost</span><span class="o">@</span><span class="n">example</span><span class="p">.</span><span class="n">com</span><span class="p">;</span>
+  <span class="n">access_log</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">domain</span><span class="o">-</span><span class="n">access</span><span class="p">.</span><span class="n">log</span><span class="p">;</span>
+
+  <span class="n">location</span> <span class="o">/</span> <span class="p">{</span>
+    <span class="n">proxy_pass_header</span> <span class="n">Server</span><span class="p">;</span>
+    <span class="n">proxy_set_header</span> <span class="n">Host</span> <span class="err">$</span><span class="n">http_host</span><span class="p">;</span>
+    <span class="n">proxy_redirect</span> <span class="n">off</span><span class="p">;</span>
+    <span class="n">proxy_set_header</span> <span class="n">X</span><span class="o">-</span><span class="n">Forwarded</span><span class="o">-</span><span class="n">For</span>  <span class="err">$</span><span class="n">remote_addr</span><span class="p">;</span>
+    <span class="n">proxy_set_header</span> <span class="n">X</span><span class="o">-</span><span class="n">Scheme</span> <span class="err">$</span><span class="n">scheme</span><span class="p">;</span>
+    <span class="n">proxy_connect_timeout</span> <span class="mi">10</span><span class="p">;</span>
+    <span class="n">proxy_read_timeout</span> <span class="mi">10</span><span class="p">;</span>
+
+    <span class="c1"># This line is important as it tells nginx to channel all requests to port 8000.
+</span>    <span class="c1"># We will later run our wsgi application on this port using gunicorn.
+</span>    <span class="n">proxy_pass</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">8000</span><span class="o">/</span><span class="p">;</span>
+  <span class="p">}</span>
+
+<span class="p">}</span>
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<ul>
+<li>Install gunicorn</li>
+</ul>
+
+<p><code>pip install gunicorn</code></p>
+
+<ul>
+<li>Start your django project using gunicorn and the wsgi.py file
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code><span class="err">$</span> <span class="n">cd</span> <span class="o">&lt;/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">djangoproject_subdirectory_with_wsgi</span><span class="p">.</span><span class="n">py</span><span class="o">></span>
+
+<span class="err">$</span> <span class="n">gunicorn</span> <span class="n">wsgi</span> <span class="o">-</span><span class="n">b</span> <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">8000</span> <span class="o">--</span><span class="n">pid</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">gunicorn</span><span class="p">.</span><span class="n">pid</span> <span class="o">--</span><span class="n">daemon</span>
+
+<span class="c1"># --daemon parameter tells gunicorn to run in the background
+# So that gunicorn continues to run even if you close your ssh session
+# (You cannot remain ssh-ed into your server all the time right!)
+</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Please do not use "wsgi.py"; you just have to use wsgi without the ".py" extension when calling gunicorn. This will start your wsgi application in the background.</p>
+
+<p>--Visit "<a href="mailto:yourhost@example.com">yourhost@example.com</a>" in your browser</p>
+
+<p>Now your application must be up and running on your instance. Visit:</p>
+
+<p><a href="http://yourhost@example.com/">http://yourhost@example.com/</a></p>
+
+<p>and see if your application is running. Do not forget to replce  <em><a href="mailto:yourhost@example.com">yourhost@example.com</a></em>  in the above and in the nginx configuration file before.</p>
+
+<p>--(Optional) Additional Notes</p>
+
+<ul>
+<li><p>In Step 1, if confused; remove all existing lines from the  <code>/etc/nginx/sites-enabled/default</code>  file and put the above code inside it. (Or delete and create a new blank file and add the code)</p></li>
+<li><p>If you are using virtualenv, and you did a<code>pip install gunicorn</code>  inside the virtualenv in Step 2, then run the Step 3 command with respective virtualenv activated.</p></li>
+<li><p>The pid of the gunicorn process is stored in /tmp/gunicorn.pid; incase you want to kill the existing gunicorn process and restart it.</p></li>
+<li><p><code>supervisord</code>  might be used in conjunction, which helps in restarting the gunicorn daemon automatically in case it dies due to some reason. This is useful in production environments.</p></li>
+</ul>
+
+<h3>
+  <a name="step-9-environment-variables" href="#step-9-environment-variables">
+  </a>
+  step 9. Environment variables
+</h3>
+
+<h4>
+  <a name="91-passing-apache-environment-variables-to-django-via-modwsgi" href="#91-passing-apache-environment-variables-to-django-via-modwsgi">
+  </a>
+  9.1 Passing Apache Environment Variables to Django via mod_wsgi.
+</h4>
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="c">#add the env variables to the apache configuration</span>
+     SetEnv DB_NAME mydatabase
+     SetEnv DB_USER mydbuser
+     SetEnv DB_PASSWD sekrit
+     SetEnv DB_HOST localhost
+<span class="c"># reload and restart apache secrvice</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>// <br>
+edit the wsgi file so that mode_wsgi can pass vars to the application.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">os</span><span class="p">,</span> <span class="n">site</span><span class="p">,</span> <span class="n">sys</span>
+
+<span class="n">site</span><span class="p">.</span><span class="n">addsitedir</span><span class="p">(</span><span class="s">'/usr/local/virtualenvs/MYAPP-VIRTUALENV/lib/python2.7/site-packages'</span><span class="p">)</span>
+
+<span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span>
+<span class="n">sys</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s">'..'</span><span class="p">))</span>
+
+<span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">"DJANGO_SETTINGS_MODULE"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"myapp.settings"</span>  <span class="c1"># see footnote [2]
+</span>
+<span class="kn">from</span> <span class="nn">django.core.wsgi</span> <span class="kn">import</span> <span class="n">get_wsgi_application</span>
+<span class="n">_application</span> <span class="o">=</span> <span class="n">get_wsgi_application</span><span class="p">()</span>
+
+<span class="n">env_variables_to_pass</span> <span class="o">=</span> <span class="p">[</span><span class="s">'DB_NAME'</span><span class="p">,</span> <span class="s">'DB_USER'</span><span class="p">,</span> <span class="s">'DB_PASSWD'</span><span class="p">,</span> <span class="s">'DB_HOST'</span><span class="p">,</span> <span class="p">]</span>
+<span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>
+    <span class="c1"># pass the WSGI environment variables on through to os.environ
+</span>    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">env_variables_to_pass</span><span class="p">:</span>
+        <span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">environ</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="s">''</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_application</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="92-we-can-use-a-config-file" href="#92-we-can-use-a-config-file">
+  </a>
+  9.2 we can use a config file.
+</h3>
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">sudo touch</span> /etc/config.json
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>config.json<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+    </span><span class="nl">"SECRET_KEY"</span><span class="p">:</span><span class="s2">"sncalsjkn@#545jnsjkcn"</span><span class="p">,</span><span class="w">
+    </span><span class="err">#other</span><span class="w"> </span><span class="err">keys</span><span class="w"> </span><span class="err">goes</span><span class="w"> </span><span class="err">here</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<ul>
+<li>update the settings.py file
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">json</span>
+<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">'/etc/config.json'</span><span class="p">)</span> <span class="k">as</span> <span class="n">configFile</span><span class="p">:</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">configFile</span><span class="p">)</span>
+<span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"SECRET_KEY"</span><span class="p">)</span>
+
+<span class="c1"># OTHER SETTINGS....
+</span></code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="restart-and-run-the-server" href="#restart-and-run-the-server">
+  </a>
+  Restart and run the server
+</h3>
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">sudo </span>systemctl restart apache2
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/ajithklepsydra/how-to-set-up-and-deploy-a-django-application-on-a-linux-server-2dff" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(n,s,a,e){return a.type_of="article",a.id=774355,a.title="How to set up and deploy a Django application on a Linux server",a.description="29th July 2021              Step 1. Server configuration.    Install any linux based...",a.readable_publish_date="Jul 28 '21",a.slug="how-to-set-up-and-deploy-a-django-application-on-a-linux-server-2dff",a.path="/ajithklepsydra/how-to-set-up-and-deploy-a-django-application-on-a-linux-server-2dff",a.url=e,a.comments_count=0,a.public_reactions_count=14,a.collection_id=n,a.published_timestamp=s,a.positive_reactions_count=14,a.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--y7TBf3aT--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/150w2wq3550s382y1voh.jpg",a.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--PwKC9M-b--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/150w2wq3550s382y1voh.jpg",a.canonical_url=e,a.created_at=s,a.edited_at=n,a.crossposted_at=n,a.published_at=s,a.last_comment_at=s,a.reading_time_minutes=6,a.tag_list="linux, apache, django, nginx",a.tags=["linux","apache","django","nginx"],a.body_html='<p><em>29th July 2021</em></p>\n\n\n<hr>\n\n<h2>\n  <a name="step-1-server-configuration" href="#step-1-server-configuration">\n  </a>\n  Step 1. Server configuration.\n</h2>\n\n<ul>\n<li>Install any linux based distribution(Ubuntu, manjaro ...etc). Update and upgrade your software repositories.</li>\n</ul>\n\n<p>// on any debian based distribution<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">sudo </span>apt update <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>apt upgrade\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<ul>\n<li>server hostname can be set with the <strong>hostnamectl</strong> utility.\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>hostnamectl set-hostname &lt;Host name&gt;\n<span class="c"># to verify</span>\n<span class="nb">hostname</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<ul>\n<li>Map  server hostname with the server IP address by adding the following line in <em>/etc/hosts</em> file.\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>&lt;ip address&gt;    &lt;host name&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><em>( Running commands as the root user is not safe, it\'s better to login as a regular user with sudo permission)</em> </p>\n\n<ul>\n<li>Add a new user and add him to the sudoers list.\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>adduser &lt;username&gt;\nadduser &lt;username&gt; <span class="nb">sudo</span>\n<span class="c"># Login to the system as the new user</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><em>(Password authentication is not secure, generate and use ssh keys instead)</em></p>\n\n<ul>\n<li><p><strong>ssh-keygen</strong> for key generation (use <strong>ssh-copy-id</strong>  if it is available in your system ).</p></li>\n<li><p>generate ssh keys in local machine  with <code>ssh-keygen -b 4096</code> command.</p></li>\n<li><p>create an empty <em>.ssh</em> directory  inside  home directory of your server . Provide the read,write and execution permissions.</p></li>\n<li><p>Transfer the locally generated ssh keys to the server with <em>scp</em><br>\n</p></li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code> scp &lt;location of the generated key&gt; &lt;username&gt;@ipaddress:~/.ssh/&lt;name given to the keys&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<ul>\n<li>provide read and write permissions for the key.</li>\n<li>For disallowing the root Login and password logins, add the following lines to the <code>/etc/ssh/sshd_config</code> file.\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>PermitRootLogin no\nPasswordAuthentication no\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Restart the <code>sshd</code> service.</p>\n\n<h2>\n  <a name="step2-setting-up-firewall" href="#step2-setting-up-firewall">\n  </a>\n  Step2. Setting up FireWall\n</h2>\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">sudo </span>apt <span class="nb">install </span>ufw\n<span class="c"># Block all incoming and outgoing traffic except ssh </span>\n<span class="nb">sudo </span>ufw default allow outgoing\n<span class="nb">sudo </span>ufw default deny incoming\n<span class="nb">sudo </span>ufw allow ssh\n\n<span class="c">#  allow the port 8000 (Django uses this port run the development server)</span>\n<span class="nb">sudo </span>ufw allow 8000\n<span class="c"># make sure to enable ssh before enabling ufw</span>\n<span class="nb">sudo </span>ufw <span class="nb">enable</span>\n\n<span class="c"># after testing</span>\n<span class="nb">sudo </span>ufw delete allow 8000 <span class="o">&amp;&amp;</span> <span class="nb">sudo </span>ufw allow http/tcp\n<span class="c">#for status</span>\n<span class="nb">sudo </span>ufw status\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="step-3-set-up-the-project-for-production" href="#step-3-set-up-the-project-for-production">\n  </a>\n  Step 3. Set up the project for production.\n</h2>\n\n<h3>\n  <a name="31-generate-the-requirementstxt-file" href="#31-generate-the-requirementstxt-file">\n  </a>\n  3.1 Generate the requirements.txt file\n</h3>\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="c"># in the root directory</span>\npip freeze <span class="o">&gt;</span> requirements.txt\n\n<span class="c"># Django==3.2.5</span>\n<span class="c"># psycopg2==2.9.1</span>\n<span class="c"># pytz==2021.1</span>\n<span class="c"># sqlparse==0.4.1</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="32-transfer-the-project-from-the-local-machine-to-the-serverit-can-be-done-by-using-any-of-the-following-tools" href="#32-transfer-the-project-from-the-local-machine-to-the-serverit-can-be-done-by-using-any-of-the-following-tools">\n  </a>\n  3.2 Transfer the project from the local machine to the server.It can be done by using any of the following tools.\n</h3>\n\n<ul>\n<li>An ftp client like <strong>FileZilla</strong>\n</li>\n<li>\n<strong>scp</strong> to transfer files via ssh.\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="c"># -r for recursive file transfer.</span>\nscp <span class="nt">-r</span> &lt;<span class="nb">local </span>project path&gt; &lt;username&gt;@&lt;ip address&gt;:~/\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<ul>\n<li> <strong>git</strong>\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>git clone &lt;remote repository url&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="step-4-set-up-the-python-virtual-environment" href="#step-4-set-up-the-python-virtual-environment">\n  </a>\n  step 4. Set up the python virtual environment\n</h3>\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">sudo </span>apt <span class="nb">install </span>python3-pip\n<span class="nb">sudo </span>apt <span class="nb">install </span>python3-venv\n<span class="c"># Creating a virtual environment inside the project directory</span>\npython3 <span class="nt">-m</span> venv &lt;projectDirectory&gt;/&lt;virtualEnvName&gt;\n<span class="c"># activation</span>\n<span class="nb">source</span> &lt;projectDirectory&gt;/&lt;virtualEnvName&gt;/bin/activate\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="step-5-install-project-dependencies" href="#step-5-install-project-dependencies">\n  </a>\n  step 5. install project dependencies\n</h3>\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>pip <span class="nb">install</span> <span class="nt">-r</span> requirements.txt\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="step-6-make-changes-to-the-settingspy" href="#step-6-make-changes-to-the-settingspy">\n  </a>\n  step 6. make changes to the settings.py.\n</h3>\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code><span class="n">DEBUG</span> <span class="o">=</span> <span class="bp">False</span>\n<span class="n">ALLOWED_HOSTS</span> <span class="o">=</span> <span class="p">[</span><span class="s">\'&lt;ipAddress/domainName&gt;\'</span><span class="p">]</span>\n<span class="c1"># Static handled differently in production.\n# third party storages or whitenoise requires additional settings\n</span><span class="n">STATIC_ROOT</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span><span class="s">\'static\'</span><span class="p">)</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>python manage.py collectstatic\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="configuring-postgres-database" href="#configuring-postgres-database">\n  </a>\n  Configuring Postgres Database\n</h2>\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">sudo </span>apt <span class="nb">install </span>postgresql postgresql-contrib\n<span class="nb">sudo</span> <span class="nt">-u</span> postgres psql\nCREATE DATABASE databasename<span class="p">;</span>\nCREATE USER username WITH PASSWORD <span class="s1">\'password\'</span><span class="p">;</span>\nALTER ROLE username SET client_encoding TO <span class="s1">\'utf8\'</span><span class="p">;</span>\nALTER ROLE username SET default_transaction_isolation TO <span class="s1">\'read committed\'</span><span class="p">;</span>\nALTER ROLE username SET timezone TO <span class="s1">\'Asia/Kolkata\'</span><span class="p">;</span>\nGRANT ALL PRIVILEGES ON DATABASE databasename TO username<span class="p">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="step-7-test-the-application-with-the-dev-server" href="#step-7-test-the-application-with-the-dev-server">\n  </a>\n  step 7. Test the application with the dev server\n</h3>\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="c"># we have opened the port 8000 with ufw</span>\npython manage.py runserver 0.0.0.0:8000\n<span class="c"># and test the application on &lt;ipAddress&gt;:8000</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="step-8-configuring-production-server" href="#step-8-configuring-production-server">\n  </a>\n  step 8. Configuring production server\n</h2>\n\n<p>Django server is only for development purposes,  you should not use it for  production. We can use reliable servers like  <strong>apache with mode_wsgi</strong>  or  <strong>Nginx with gunicorn</strong></p>\n\n<h3>\n  <a name="81-apache-with-modwsgi" href="#81-apache-with-modwsgi">\n  </a>\n  8.1 apache with mod_wsgi\n</h3>\n\n<ul>\n<li>install apache\n<code>sudo apt install apache-2</code>\n</li>\n<li><p>install mod_wsgi<br>\n<code>sudo apt install libapache2-mod-wsgi-py3</code></p></li>\n<li><p><strong>configure apache</strong><br>\n</p></li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">cd</span> /etc/apache2/sites-available\n<span class="c"># duplicate any of the default configuration file to get  started.</span>\n<span class="nb">cp </span>000-default.conf &lt;name_given_to_your_config&gt;.conf\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="-edit-your-config-file-and-add-the-followings" href="#-edit-your-config-file-and-add-the-followings">\n  </a>\n  - edit your config file and add the followings\n</h2>\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight xml"><code><span class="c">&lt;!-- NB: all paths needs to be absolute --&gt;</span>\n<span class="nt">&lt;VirtualHost</span> <span class="err">*:80</span><span class="nt">&gt;</span>\n\n# The ServerName directive sets the request scheme, hostname and port that\n\n# the server uses to identify itself. This is used when creating\n\n# redirection URLs. In the context of virtual hosts, the ServerName\n\n# specifies what hostname must appear in the request\'s Host: header to\n\n# match this virtual host. For the default virtual host (this file) this\n\n# value is not decisive as it is used as a last resort host regardless.\n\n# However, you must set it for any further virtual host explicitly.\n\n#ServerName www.example.com\n\nServerAdmin webmaster@localhost\n\nDocumentRoot /var/www/html\n\n# Available loglevels: trace8, ..., trace1, debug, info, notice, warn,\n\n# error, crit, alert, emerg.\n\n# It is also possible to configure the loglevel for particular\n\n# modules, e.g.\n\n#LogLevel info ssl:warn\n\nErrorLog ${APACHE_LOG_DIR}/error.log\n\nCustomLog ${APACHE_LOG_DIR}/access.log combined\n\n# For most configuration files from conf-available/, which are\n\n# enabled or disabled at a global level, it is possible to\n\n# include a line for only one particular virtual host. For example the\n\n# following line enables the CGI configuration for this host only\n\n# after it has been globally disabled with "a2disconf".\n\n#Include conf-available/serve-cgi-bin.conf\n\n<span class="c">&lt;!-- right before the closing of &lt;/VirtualHost&gt; we need to map Aliases for static and media --&gt;</span>\n\nAlias /static /home/YOURUSER/YOURPROJECT/static\n\n<span class="nt">&lt;Directory</span> <span class="err">/home/YOURUSER/YOURPROJECT/static</span><span class="nt">&gt;</span>\n\nRequire all granted\n\n<span class="nt">&lt;/Directory&gt;</span>\n\nAlias /media /home/YOURUSER/YOURPROJECT/media\n\n<span class="nt">&lt;Directory</span> <span class="err">/home/YOURUSER/YOURPROJECT/media</span><span class="nt">&gt;</span>\n\nRequire all granted\n\n<span class="nt">&lt;/Directory&gt;</span>\n\n<span class="nt">&lt;Directory</span> <span class="err">/home/YOURUSER/YOURPROJECT/YOURPROJECT</span><span class="nt">&gt;</span>\n\n<span class="nt">&lt;Files</span> <span class="err">wsgi.py</span><span class="nt">&gt;</span>\n\nRequire all granted\n\n<span class="nt">&lt;/Files&gt;</span>\n\n<span class="nt">&lt;/Directory&gt;</span>\n\nWSGIScriptAlias / /home/YOURUSER/YOURPROJECT/YOURPROJECT/wsgi.py\n\nWSGIDaemonProcess django_app python-path=/home/YOURUSER/YOURPROJECT python-home=/home/YOURUSER/YOURPROJECT/<span class="nt">&lt;VIRTUALENV&gt;</span>\n\nWSGIProcessGroup django_app\n\n<span class="nt">&lt;/VirtualHost&gt;</span>\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<ul>\n<li>enable the configuration <code>sudo a2ensite &lt;YourConfiguration&gt;</code>\n</li>\n<li> disable the default configuration <code>sudo a2dissite &lt;Default configuration&gt;</code> </li>\n<li>reload apache service <code>systemctl reload apache2</code>\n</li>\n</ul>\n\n<p>// Give database access to apache<br>\n$ For sqlite database<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">sudo chown</span> :www-data &lt;Path to your sqlite file&gt;\n<span class="nb">sudo chmod </span>664 &lt;Path to your sqlite file&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">sudo chown</span> :www-data &lt;Path to your Django project&gt;\n<span class="nb">sudo chown</span> <span class="nt">-R</span> :www-data &lt;Path to your media directory&gt;\n<span class="nb">sudo chmod</span> <span class="nt">-R</span> 774 &lt;Path to your media directory&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="82-nginx-with-gunicorn" href="#82-nginx-with-gunicorn">\n  </a>\n  8.2 Nginx with gunicorn\n</h3>\n\n<ul>\n<li>Install nginx and add this to  <code>/etc/nginx/sites-enabled/default</code>\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code><span class="n">server</span> <span class="p">{</span>\n\n  <span class="n">server_name</span> <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span> <span class="n">yourhost</span><span class="o">@</span><span class="n">example</span><span class="p">.</span><span class="n">com</span><span class="p">;</span>\n  <span class="n">access_log</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">log</span><span class="o">/</span><span class="n">nginx</span><span class="o">/</span><span class="n">domain</span><span class="o">-</span><span class="n">access</span><span class="p">.</span><span class="n">log</span><span class="p">;</span>\n\n  <span class="n">location</span> <span class="o">/</span> <span class="p">{</span>\n    <span class="n">proxy_pass_header</span> <span class="n">Server</span><span class="p">;</span>\n    <span class="n">proxy_set_header</span> <span class="n">Host</span> <span class="err">$</span><span class="n">http_host</span><span class="p">;</span>\n    <span class="n">proxy_redirect</span> <span class="n">off</span><span class="p">;</span>\n    <span class="n">proxy_set_header</span> <span class="n">X</span><span class="o">-</span><span class="n">Forwarded</span><span class="o">-</span><span class="n">For</span>  <span class="err">$</span><span class="n">remote_addr</span><span class="p">;</span>\n    <span class="n">proxy_set_header</span> <span class="n">X</span><span class="o">-</span><span class="n">Scheme</span> <span class="err">$</span><span class="n">scheme</span><span class="p">;</span>\n    <span class="n">proxy_connect_timeout</span> <span class="mi">10</span><span class="p">;</span>\n    <span class="n">proxy_read_timeout</span> <span class="mi">10</span><span class="p">;</span>\n\n    <span class="c1"># This line is important as it tells nginx to channel all requests to port 8000.\n</span>    <span class="c1"># We will later run our wsgi application on this port using gunicorn.\n</span>    <span class="n">proxy_pass</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">8000</span><span class="o">/</span><span class="p">;</span>\n  <span class="p">}</span>\n\n<span class="p">}</span>\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<ul>\n<li>Install gunicorn</li>\n</ul>\n\n<p><code>pip install gunicorn</code></p>\n\n<ul>\n<li>Start your django project using gunicorn and the wsgi.py file\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code><span class="err">$</span> <span class="n">cd</span> <span class="o">&lt;/</span><span class="n">path</span><span class="o">/</span><span class="n">to</span><span class="o">/</span><span class="n">djangoproject_subdirectory_with_wsgi</span><span class="p">.</span><span class="n">py</span><span class="o">&gt;</span>\n\n<span class="err">$</span> <span class="n">gunicorn</span> <span class="n">wsgi</span> <span class="o">-</span><span class="n">b</span> <span class="mf">127.0</span><span class="p">.</span><span class="mf">0.1</span><span class="p">:</span><span class="mi">8000</span> <span class="o">--</span><span class="n">pid</span> <span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">gunicorn</span><span class="p">.</span><span class="n">pid</span> <span class="o">--</span><span class="n">daemon</span>\n\n<span class="c1"># --daemon parameter tells gunicorn to run in the background\n# So that gunicorn continues to run even if you close your ssh session\n# (You cannot remain ssh-ed into your server all the time right!)\n</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Please do not use "wsgi.py"; you just have to use wsgi without the ".py" extension when calling gunicorn. This will start your wsgi application in the background.</p>\n\n<p>--Visit "<a href="mailto:yourhost@example.com">yourhost@example.com</a>" in your browser</p>\n\n<p>Now your application must be up and running on your instance. Visit:</p>\n\n<p><a href="http://yourhost@example.com/">http://yourhost@example.com/</a></p>\n\n<p>and see if your application is running. Do not forget to replce  <em><a href="mailto:yourhost@example.com">yourhost@example.com</a></em>  in the above and in the nginx configuration file before.</p>\n\n<p>--(Optional) Additional Notes</p>\n\n<ul>\n<li><p>In Step 1, if confused; remove all existing lines from the  <code>/etc/nginx/sites-enabled/default</code>  file and put the above code inside it. (Or delete and create a new blank file and add the code)</p></li>\n<li><p>If you are using virtualenv, and you did a<code>pip install gunicorn</code>  inside the virtualenv in Step 2, then run the Step 3 command with respective virtualenv activated.</p></li>\n<li><p>The pid of the gunicorn process is stored in /tmp/gunicorn.pid; incase you want to kill the existing gunicorn process and restart it.</p></li>\n<li><p><code>supervisord</code>  might be used in conjunction, which helps in restarting the gunicorn daemon automatically in case it dies due to some reason. This is useful in production environments.</p></li>\n</ul>\n\n<h3>\n  <a name="step-9-environment-variables" href="#step-9-environment-variables">\n  </a>\n  step 9. Environment variables\n</h3>\n\n<h4>\n  <a name="91-passing-apache-environment-variables-to-django-via-modwsgi" href="#91-passing-apache-environment-variables-to-django-via-modwsgi">\n  </a>\n  9.1 Passing Apache Environment Variables to Django via mod_wsgi.\n</h4>\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="c">#add the env variables to the apache configuration</span>\n     SetEnv DB_NAME mydatabase\n     SetEnv DB_USER mydbuser\n     SetEnv DB_PASSWD sekrit\n     SetEnv DB_HOST localhost\n<span class="c"># reload and restart apache secrvice</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>// <br>\nedit the wsgi file so that mode_wsgi can pass vars to the application.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">os</span><span class="p">,</span> <span class="n">site</span><span class="p">,</span> <span class="n">sys</span>\n\n<span class="n">site</span><span class="p">.</span><span class="n">addsitedir</span><span class="p">(</span><span class="s">\'/usr/local/virtualenvs/MYAPP-VIRTUALENV/lib/python2.7/site-packages\'</span><span class="p">)</span>\n\n<span class="n">BASE_DIR</span> <span class="o">=</span> <span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">__file__</span><span class="p">))</span>\n<span class="n">sys</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">os</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">join</span><span class="p">(</span><span class="n">BASE_DIR</span><span class="p">,</span> <span class="s">\'..\'</span><span class="p">))</span>\n\n<span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="s">"DJANGO_SETTINGS_MODULE"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"myapp.settings"</span>  <span class="c1"># see footnote [2]\n</span>\n<span class="kn">from</span> <span class="nn">django.core.wsgi</span> <span class="kn">import</span> <span class="n">get_wsgi_application</span>\n<span class="n">_application</span> <span class="o">=</span> <span class="n">get_wsgi_application</span><span class="p">()</span>\n\n<span class="n">env_variables_to_pass</span> <span class="o">=</span> <span class="p">[</span><span class="s">\'DB_NAME\'</span><span class="p">,</span> <span class="s">\'DB_USER\'</span><span class="p">,</span> <span class="s">\'DB_PASSWD\'</span><span class="p">,</span> <span class="s">\'DB_HOST\'</span><span class="p">,</span> <span class="p">]</span>\n<span class="k">def</span> <span class="nf">application</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">):</span>\n    <span class="c1"># pass the WSGI environment variables on through to os.environ\n</span>    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">env_variables_to_pass</span><span class="p">:</span>\n        <span class="n">os</span><span class="p">.</span><span class="n">environ</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">environ</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">var</span><span class="p">,</span> <span class="s">\'\'</span><span class="p">)</span>\n    <span class="k">return</span> <span class="n">_application</span><span class="p">(</span><span class="n">environ</span><span class="p">,</span> <span class="n">start_response</span><span class="p">)</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="92-we-can-use-a-config-file" href="#92-we-can-use-a-config-file">\n  </a>\n  9.2 we can use a config file.\n</h3>\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">sudo touch</span> /etc/config.json\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>config.json<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight json"><code><span class="p">{</span><span class="w">\n    </span><span class="nl">"SECRET_KEY"</span><span class="p">:</span><span class="s2">"sncalsjkn@#545jnsjkcn"</span><span class="p">,</span><span class="w">\n    </span><span class="err">#other</span><span class="w"> </span><span class="err">keys</span><span class="w"> </span><span class="err">goes</span><span class="w"> </span><span class="err">here</span><span class="w">\n</span><span class="p">}</span><span class="w">\n</span></code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<ul>\n<li>update the settings.py file\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code><span class="kn">import</span> <span class="nn">json</span>\n<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s">\'/etc/config.json\'</span><span class="p">)</span> <span class="k">as</span> <span class="n">configFile</span><span class="p">:</span>\n    <span class="n">config</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">loads</span><span class="p">(</span><span class="n">configFile</span><span class="p">)</span>\n<span class="n">SECRET_KEY</span> <span class="o">=</span> <span class="n">config</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"SECRET_KEY"</span><span class="p">)</span>\n\n<span class="c1"># OTHER SETTINGS....\n</span></code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="restart-and-run-the-server" href="#restart-and-run-the-server">\n  </a>\n  Restart and run the server\n</h3>\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">sudo </span>systemctl restart apache2\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n',a.body_markdown="\n*29th July 2021*\n***\n\n\n## Step 1. Server configuration.\n- Install any linux based distribution(Ubuntu, manjaro ...etc). Update and upgrade your software repositories.\n\n// on any debian based distribution \n```bash\nsudo apt update && sudo apt upgrade\n```\n- server hostname can be set with the **hostnamectl** utility.\n```bash\nhostnamectl set-hostname <Host name>\n# to verify\nhostname\n```\n- Map  server hostname with the server IP address by adding the following line in */etc/hosts* file.\n```bash\n<ip address>\t<host name>\n```\n*( Running commands as the root user is not safe, it's better to login as a regular user with sudo permission)* \n\n- Add a new user and add him to the sudoers list.\n```bash\nadduser <username>\nadduser <username> sudo\n# Login to the system as the new user\n```\n\n*(Password authentication is not secure, generate and use ssh keys instead)*\n\n- **ssh-keygen** for key generation (use **ssh-copy-id**  if it is available in your system ).\n\n- generate ssh keys in local machine  with `ssh-keygen -b 4096` command.\n\n- create an empty *.ssh* directory  inside  home directory of your server . Provide the read,write and execution permissions.\n\n- Transfer the locally generated ssh keys to the server with *scp*\n\n```bash\n scp <location of the generated key> <username>@ipaddress:~/.ssh/<name given to the keys>\n```\n- provide read and write permissions for the key.\n- For disallowing the root Login and password logins, add the following lines to the `/etc/ssh/sshd_config` file.\n```bash\nPermitRootLogin no\nPasswordAuthentication no\n```\nRestart the `sshd` service.\n\t\n## Step2. Setting up FireWall\n\n```bash\nsudo apt install ufw\n# Block all incoming and outgoing traffic except ssh \nsudo ufw default allow outgoing\nsudo ufw default deny incoming\nsudo ufw allow ssh\n\n#  allow the port 8000 (Django uses this port run the development server)\nsudo ufw allow 8000\n# make sure to enable ssh before enabling ufw\nsudo ufw enable\n\n# after testing\nsudo ufw delete allow 8000 && sudo ufw allow http/tcp\n#for status\nsudo ufw status\n\n```\n## Step 3. Set up the project for production.\n\t\n### 3.1 Generate the requirements.txt file\n```bash\n# in the root directory\npip freeze > requirements.txt\n\n# Django==3.2.5\n# psycopg2==2.9.1\n# pytz==2021.1\n# sqlparse==0.4.1\n```\n\n### 3.2 Transfer the project from the local machine to the server.It can be done by using any of the following tools.\n- An ftp client like **FileZilla**\n- **scp** to transfer files via ssh.\n```bash\n# -r for recursive file transfer.\nscp -r <local project path> <username>@<ip address>:~/\n```\n-  **git**\n```bash\ngit clone <remote repository url>\n```\n### step 4. Set up the python virtual environment\n```bash\nsudo apt install python3-pip\nsudo apt install python3-venv\n# Creating a virtual environment inside the project directory\npython3 -m venv <projectDirectory>/<virtualEnvName>\n# activation\nsource <projectDirectory>/<virtualEnvName>/bin/activate\n```\n### step 5. install project dependencies\n```bash\npip install -r requirements.txt\n```\n### step 6. make changes to the settings.py.\n\n```python\nDEBUG = False\nALLOWED_HOSTS = ['<ipAddress/domainName>']\n# Static handled differently in production.\n# third party storages or whitenoise requires additional settings\nSTATIC_ROOT = os.path.join(BASE_DIR,'static')\n```\n\n```bash\npython manage.py collectstatic\n```\n\n## Configuring Postgres Database\n```bash\nsudo apt install postgresql postgresql-contrib\nsudo -u postgres psql\nCREATE DATABASE databasename;\nCREATE USER username WITH PASSWORD 'password';\nALTER ROLE username SET client_encoding TO 'utf8';\nALTER ROLE username SET default_transaction_isolation TO 'read committed';\nALTER ROLE username SET timezone TO 'Asia/Kolkata';\nGRANT ALL PRIVILEGES ON DATABASE databasename TO username;\n```\n\n### step 7. Test the application with the dev server\n```bash\n# we have opened the port 8000 with ufw\npython manage.py runserver 0.0.0.0:8000\n# and test the application on <ipAddress>:8000\n```\n## step 8. Configuring production server\nDjango server is only for development purposes,  you should not use it for  production. We can use reliable servers like  **apache with mode_wsgi**  or  **Nginx with gunicorn**\n\n### 8.1 apache with mod_wsgi\n- install apache\n`sudo apt install apache-2`\n- install mod_wsgi\n`sudo apt install libapache2-mod-wsgi-py3`\n\n-  **configure apache**\n```bash\ncd /etc/apache2/sites-available\n# duplicate any of the default configuration file to get  started.\ncp 000-default.conf <name_given_to_your_config>.conf\n```\n- edit your config file and add the followings\n- \n```xml\n\x3c!-- NB: all paths needs to be absolute --\x3e\n<VirtualHost *:80>\n\n# The ServerName directive sets the request scheme, hostname and port that\n\n# the server uses to identify itself. This is used when creating\n\n# redirection URLs. In the context of virtual hosts, the ServerName\n\n# specifies what hostname must appear in the request's Host: header to\n\n# match this virtual host. For the default virtual host (this file) this\n\n# value is not decisive as it is used as a last resort host regardless.\n\n# However, you must set it for any further virtual host explicitly.\n\n#ServerName www.example.com\n\nServerAdmin webmaster@localhost\n\nDocumentRoot /var/www/html\n\n# Available loglevels: trace8, ..., trace1, debug, info, notice, warn,\n\n# error, crit, alert, emerg.\n\n# It is also possible to configure the loglevel for particular\n\n# modules, e.g.\n\n#LogLevel info ssl:warn\n\nErrorLog ${APACHE_LOG_DIR}/error.log\n\nCustomLog ${APACHE_LOG_DIR}/access.log combined\n\n# For most configuration files from conf-available/, which are\n\n# enabled or disabled at a global level, it is possible to\n\n# include a line for only one particular virtual host. For example the\n\n# following line enables the CGI configuration for this host only\n\n# after it has been globally disabled with \"a2disconf\".\n\n#Include conf-available/serve-cgi-bin.conf\n\n\x3c!-- right before the closing of </VirtualHost> we need to map Aliases for static and media --\x3e\n\nAlias /static /home/YOURUSER/YOURPROJECT/static\n\n<Directory /home/YOURUSER/YOURPROJECT/static>\n\nRequire all granted\n\n</Directory>\n\nAlias /media /home/YOURUSER/YOURPROJECT/media\n\n<Directory /home/YOURUSER/YOURPROJECT/media>\n\nRequire all granted\n\n</Directory>\n\n<Directory /home/YOURUSER/YOURPROJECT/YOURPROJECT>\n\n<Files wsgi.py>\n\nRequire all granted\n\n</Files>\n\n</Directory>\n\nWSGIScriptAlias / /home/YOURUSER/YOURPROJECT/YOURPROJECT/wsgi.py\n\nWSGIDaemonProcess django_app python-path=/home/YOURUSER/YOURPROJECT python-home=/home/YOURUSER/YOURPROJECT/<VIRTUALENV>\n\nWSGIProcessGroup django_app\n\n</VirtualHost>\n\n```\n- enable the configuration `sudo a2ensite <YourConfiguration>`\n-  disable the default configuration `sudo a2dissite <Default configuration>` \n- reload apache service `systemctl reload apache2`\n\n// Give database access to apache\n$ For sqlite database\n```bash\nsudo chown :www-data <Path to your sqlite file>\nsudo chmod 664 <Path to your sqlite file>\n```\n```bash\nsudo chown :www-data <Path to your Django project>\nsudo chown -R :www-data <Path to your media directory>\nsudo chmod -R 774 <Path to your media directory>\n```\n\n### 8.2 Nginx with gunicorn\n- Install nginx and add this to  `/etc/nginx/sites-enabled/default`\n\n```python\nserver {\n\n  server_name 127.0.0.1 yourhost@example.com;\n  access_log /var/log/nginx/domain-access.log;\n\n  location / {\n    proxy_pass_header Server;\n    proxy_set_header Host $http_host;\n    proxy_redirect off;\n    proxy_set_header X-Forwarded-For  $remote_addr;\n    proxy_set_header X-Scheme $scheme;\n    proxy_connect_timeout 10;\n    proxy_read_timeout 10;\n\n    # This line is important as it tells nginx to channel all requests to port 8000.\n    # We will later run our wsgi application on this port using gunicorn.\n    proxy_pass http://127.0.0.1:8000/;\n  }\n\n}\n\n```\n\n- Install gunicorn\n\n` pip install gunicorn`\n\n- Start your django project using gunicorn and the wsgi.py file\n\n```python\n$ cd </path/to/djangoproject_subdirectory_with_wsgi.py>\n\n$ gunicorn wsgi -b 127.0.0.1:8000 --pid /tmp/gunicorn.pid --daemon\n\n# --daemon parameter tells gunicorn to run in the background\n# So that gunicorn continues to run even if you close your ssh session\n# (You cannot remain ssh-ed into your server all the time right!)\n\n```\n\nPlease do not use \"wsgi.py\"; you just have to use wsgi without the \".py\" extension when calling gunicorn. This will start your wsgi application in the background.\n\n--Visit \"yourhost@example.com\" in your browser\n\nNow your application must be up and running on your instance. Visit:\n\n[http://yourhost@example.com/](http://yourhost@example.com/)\n\nand see if your application is running. Do not forget to replce  _yourhost@example.com_  in the above and in the nginx configuration file before.\n\n--(Optional) Additional Notes\n\n-   In Step 1, if confused; remove all existing lines from the  `/etc/nginx/sites-enabled/default`  file and put the above code inside it. (Or delete and create a new blank file and add the code)\n    \n-   If you are using virtualenv, and you did a`pip install gunicorn`  inside the virtualenv in Step 2, then run the Step 3 command with respective virtualenv activated.\n    \n-   The pid of the gunicorn process is stored in /tmp/gunicorn.pid; incase you want to kill the existing gunicorn process and restart it.\n    \n-   `supervisord`  might be used in conjunction, which helps in restarting the gunicorn daemon automatically in case it dies due to some reason. This is useful in production environments.\n\n### step 9. Environment variables\n\n#### 9.1 Passing Apache Environment Variables to Django via mod_wsgi.\n```bash\n#add the env variables to the apache configuration\n     SetEnv DB_NAME mydatabase\n     SetEnv DB_USER mydbuser\n     SetEnv DB_PASSWD sekrit\n     SetEnv DB_HOST localhost\n# reload and restart apache secrvice\n```\n// \nedit the wsgi file so that mode_wsgi can pass vars to the application.\n```python\nimport os, site, sys\n\nsite.addsitedir('/usr/local/virtualenvs/MYAPP-VIRTUALENV/lib/python2.7/site-packages')\n\nBASE_DIR = os.path.dirname(os.path.abspath(__file__))\nsys.path.append(os.path.join(BASE_DIR, '..'))\n\nos.environ[\"DJANGO_SETTINGS_MODULE\"] = \"myapp.settings\"  # see footnote [2]\n\nfrom django.core.wsgi import get_wsgi_application\n_application = get_wsgi_application()\n\nenv_variables_to_pass = ['DB_NAME', 'DB_USER', 'DB_PASSWD', 'DB_HOST', ]\ndef application(environ, start_response):\n    # pass the WSGI environment variables on through to os.environ\n    for var in env_variables_to_pass:\n        os.environ[var] = environ.get(var, '')\n    return _application(environ, start_response)\n```\n\n### 9.2 we can use a config file.\n```bash\nsudo touch /etc/config.json\n```\nconfig.json\n```json\n{\n\t\"SECRET_KEY\":\"sncalsjkn@#545jnsjkcn\",\n\t#other keys goes here\n}\n```\n- update the settings.py file\n```python\nimport json\nwith open('/etc/config.json') as configFile:\n\tconfig = json.loads(configFile)\nSECRET_KEY = config.get(\"SECRET_KEY\")\n\n# OTHER SETTINGS....\n```\n\n### Restart and run the server\n```bash\nsudo systemctl restart apache2\n```\n",a.user={name:"Ajith-Klep",username:"ajithklepsydra",twitter_username:n,github_username:"AJITH-klepsydra",website_url:"https://ajith-kumar.ninja/",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--I1e_uTGB--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/675711/7eca8948-fd8b-41cc-b236-1a2593525791.jpg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--8fQj_Adt--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/675711/7eca8948-fd8b-41cc-b236-1a2593525791.jpg"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:a}},error:n,state:{currentArticle:a},serverRendered:!0,routePath:"/ajithklepsydra/774355",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:n}}}}(null,"2021-07-28T14:16:47Z",{},"https://dev.to/ajithklepsydra/how-to-set-up-and-deploy-a-django-application-on-a-linux-server-2dff")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

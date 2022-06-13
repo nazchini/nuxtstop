@@ -1,0 +1,861 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Building GraphQL APIs on Ethereum</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Building GraphQL APIs on Ethereum</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/webdev" class="tag" data-v-70afb46a>
+          #webdev
+        </a><a href="/nuxtstop/t/programming" class="tag" data-v-70afb46a>
+          #programming
+        </a><a href="/nuxtstop/t/tutorial" class="tag" data-v-70afb46a>
+          #tutorial
+        </a><a href="/nuxtstop/t/graphql" class="tag" data-v-70afb46a>
+          #graphql
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--M0B8if5t--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nf95ssg9zl4v9oyapugl.png" alt="Building GraphQL APIs on Ethereum" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            710
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            11
+          </span></div> <time data-v-70afb46a>May 4 '21</time></div></header> <div class="content" data-v-70afb46a><p>The number of production <a href="https://ethereum.org/en/dapps/">dapps</a> continues to explode and <a href="https://twitter.com/FurqanR/status/1389393957126246403?s=20">the demand</a> for <a href="https://twitter.com/CryptoCobain/status/1371901082113351680?s=20">developers building with Solidity</a> and other blockchain languages continues to outpace supply, <a href="https://cryptocurrencyjobs.co/salaries/solidity-developer/">moving wages higher and higher</a>. </p>
+
+<p>As a developer <a href="https://twitter.com/dabit3/status/1379157277660299264">getting into this space</a>, I quickly learned there are a lot of differences in the way that we interact with and build on top of blockchains versus what I was used to in the traditional web. With Ethereum (and other blockchains), data isn’t stored in a format that can efficiently or easily be consumed directly from other applications or front ends. The problem is that you need to have the data indexed and organized for efficient retrieval.</p>
+
+<p>Traditionally, that’s the work that databases do in the centralized tech stack, but that indexing layer was missing in the <a href="https://beta.web3index.org/blog/introducing-the-web3-index">Web3 stack</a>.</p>
+
+<p>In the traditional web stack, databases, servers, and APIs query, filter, sort, paginate, group, and join data before it is returned to an application usually via some type of http request. These types of data transformations are not possible when reading data directly from Ethereum or other blockchains.</p>
+
+<p>In the past, developers were getting around this by building their own centralized indexing servers - pulling data from blockchains, storing it in a database, and exposing it via an API endpoint. This required significant engineering and hardware resources and broke the important security properties required for decentralization.</p>
+
+<p>How can we build an API on top of blockchain data that can easily be deployed to a decentralized web infrastructure? Let's find out.</p>
+
+<h1>
+  <a name="decentralizing-web-infrastructure" href="#decentralizing-web-infrastructure">
+  </a>
+  Decentralizing web infrastructure
+</h1>
+
+<p>The vision of and movement towards a decentralized internet is commonly referred to as <a href="https://ethereum.org/en/developers/docs/web2-vs-web3/">Web3</a>. Web3 enhances the internet as we know it today with these added characteristics:</p>
+
+<ul>
+<li>Decentralized</li>
+<li>Verifiable</li>
+<li>Trustless</li>
+<li>Self governing</li>
+</ul>
+
+<blockquote>
+<p>For a great overview of what Web3 is, check out <a href="https://www.youtube.com/watch?v=KHwVljhq7NQ">this video</a> by <a href="https://twitter.com/juanbenet">Juan Benet</a></p>
+</blockquote>
+
+<p>To achieve decentralization, protocols define networks that offer a range of digital services such as compute, storage, bandwidth, identity, and other pieces of web infrastructure with no intermediaries. These <a href="https://www.youtube.com/watch?v=j2rXJLW_93o">protocols</a> are usually distributed across multiple nodes (servers) that enable the participation of anyone looking to be part of the network and provide the service.</p>
+
+<p>The network participants are <a href="https://www.youtube.com/watch?v=Nurp3Foqf2w">incentivized</a> to provide the highest quality services to anyone consuming them. Rules are also put in place to ensure the security and the integrity of the network itself. This is usually accomplished using a combination of consensus mechanisms programmed into smart contracts implementing various types of game theory and <a href="https://thegraph.com/blog/modeling-cryptoeconomic-protocols-as-complex-systems-part-1">cryptoeconomic design</a>.</p>
+
+<h4>
+  <a name="what-makes-a-service-truly-decentralized" href="#what-makes-a-service-truly-decentralized">
+  </a>
+  What makes a service truly decentralized?
+</h4>
+
+
+<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/yanivgraph/status/1387921317656023041">
+
+  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/yanivgraph/status/1387921317656023041">
+    <div class="ltag__twitter-tweet__header">
+      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--Mbu0QJ-p--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/2853260724/6dad799e1787ac0fbfb3594e5d271026_normal.jpeg" alt="Yaniv Tal profile image" loading="lazy">
+      <div class="ltag__twitter-tweet__full-name">
+        Yaniv Tal
+      </div>
+      <div class="ltag__twitter-tweet__username">
+        @yanivgraph
+      </div>
+      <div class="ltag__twitter-tweet__twitter-logo">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">
+      </div>
+    </div>
+    <div class="ltag__twitter-tweet__body">
+      <a href="https://twitter.com/BernFeitosa">@BernFeitosa</a> 1) It’s operated by a permissionless network of nodes<br>2) The service is verifiable<br>3) Trust minimized<br>4) Market-based pricing<br>5) Censorship resistance
+    </div>
+    <div class="ltag__twitter-tweet__date">
+      00:06 AM - 30 Apr 2021
+    </div>
+
+
+    <div class="ltag__twitter-tweet__actions">
+      <a href="https://twitter.com/intent/tweet?in_reply_to=1387921317656023041" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/retweet?tweet_id=1387921317656023041" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/like?tweet_id=1387921317656023041" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">
+      </a>
+    </div>
+  </div>
+</blockquote>
+
+
+<h3>
+  <a name="building-on-the-graph" href="#building-on-the-graph">
+  </a>
+  Building on The Graph
+</h3>
+
+<p>In this post, we will be looking at one such protocol, <a href="https://thegraph.com/">The Graph</a>, and how to build and deploy our own GraphQL API using data stored in the Ethereum blockchain.</p>
+
+<p>The Graph is an indexing protocol for querying blockchains like Ethereum and networks like <a href="https://ipfs.io/">IPFS</a>. Anyone can build and publish open APIs, called subgraphs, making data easily accessible.</p>
+
+<p>Subgraphs define the data, data sources, and data access patterns that you would like to have made available via a GraphQL API. You as a developer can choose either to use a subgraph <a href="https://thegraph.com/explorer/">already deployed</a> by another developer, or define and deploy your own subgraph and use it.</p>
+
+<p>Developers can create open APIs by deploying their subgraphs either to the hosted service or to the network, enabling them to earn money based on the amount of usage of their API.</p>
+
+<p>Subgraphs are made up of a few main parts:</p>
+
+<h4>
+  <a name="1-graphql-schema" href="#1-graphql-schema">
+  </a>
+  1. GraphQL Schema
+</h4>
+
+<p>The GraphQL Schema defines the data types / entities you would like to save and query for. You can also define configuration like relationships and full text search capabilities in your schema.</p>
+
+<h4>
+  <a name="2-subgraph-manifest-yaml-configuration" href="#2-subgraph-manifest-yaml-configuration">
+  </a>
+  2. Subgraph Manifest (yaml configuration)
+</h4>
+
+<p>(from the docs) The <a href="https://thegraph.com/docs/define-a-subgraph#the-subgraph-manifest">manifest</a> defines the smart contracts your subgraph indexes, their <a href="https://docs.soliditylang.org/en/v0.8.4/abi-spec.html">ABIs</a>, which events from these contracts to pay attention to, and how to map event data to entities that Graph Node stores and allows to query. </p>
+
+<h4>
+  <a name="3-assemblyscript-mappings" href="#3-assemblyscript-mappings">
+  </a>
+  3. AssemblyScript Mappings
+</h4>
+
+<p>AssemblyScript Mappings allow you to save data to be indexed using the entity types defined in your schema. The <a href="https://github.com/graphprotocol/graph-cli">Graph CLI</a> also generates AssemblyScript types using a combination of the subgraph's schema along with a smart contract's ABIs.</p>
+
+<h3>
+  <a name="hosted-service-vs-subgraph-studio" href="#hosted-service-vs-subgraph-studio">
+  </a>
+  Hosted service vs Subgraph Studio
+</h3>
+
+<p>There are two ways to build subgraphs - the <strong>Hosted Service</strong> and <strong>Subgraph Studio</strong>. In this tutorial we'll be building a subgraph for the <strong>Hosted Service</strong>.</p>
+
+<p>The <strong>Hosted Service</strong> is a centralized service, is free, and will exist until the decentralized network is at feature parity with it. You can build a subgraph for the decentralized network by using <strong>Subgraph Studio</strong> and following <a href="https://thegraph.com/blog/building-with-subgraph-studio">this guide</a>.</p>
+
+<p>At some point in the future, the <strong>Subgraph Studio</strong> will be the only way to build subgraphs.</p>
+
+<h2>
+  <a name="lets-start-building" href="#lets-start-building">
+  </a>
+  Let's start building
+</h2>
+
+<p>Now that we have a good understanding of The Graph and how it works, let's start writing some code.</p>
+
+<p>In this tutorial we'll build a subgraph for querying NTF data from the <a href="https://foundation.app/">Foundation</a> smart contract, implementing queries for fetching NFTs as well as their owners, and building relationships between them.</p>
+
+<blockquote>
+<p>Foundation also has a <a href="https://fnd.dev/">developer portal</a> where they have information about their smart contract code as well as links to their own subgraphs.</p>
+</blockquote>
+
+<h3>
+  <a name="prerequisites" href="#prerequisites">
+  </a>
+  Prerequisites
+</h3>
+
+<p>To be successful in this tutorial, you should have <a href="https://nodejs.org/en/">Node.js</a> installed on your machine. These days, I recommend using either <a href="https://github.com/nvm-sh/nvm">nvm</a> or <a href="https://github.com/Schniz/fnm/blob/master/docs/commands.md">fnm</a> to manage Node.js versions.</p>
+
+<h3>
+  <a name="creating-the-graph-project-in-the-graph-explorer" href="#creating-the-graph-project-in-the-graph-explorer">
+  </a>
+  Creating the Graph project in the Graph Explorer
+</h3>
+
+<p>To get started, open the <a href="https://thegraph.com/explorer/dashboard">Graph Explorer</a> and either sign in or create a new account.</p>
+
+<p>Next, go to the <a href="https://thegraph.com/explorer/dashboard">dashboard</a> and click on <strong>Add Subgraph</strong> to create a new subgraph.</p>
+
+<p>Configure your subgraph with the following properties:</p>
+
+<ul>
+<li>Subgraph Name - <strong>Foundationsubgraph</strong>
+</li>
+<li>Subtitle - <strong>A subgraph for querying NFTs</strong>
+</li>
+<li>Optional - Fill the description and GITHUB URL properties</li>
+</ul>
+
+<p>Once the subgraph is created, we will initialize the subgraph locally using the Graph CLI.</p>
+
+<h3>
+  <a name="initializing-a-new-subgraph-using-the-graph-cli" href="#initializing-a-new-subgraph-using-the-graph-cli">
+  </a>
+  Initializing a new subgraph using the Graph CLI
+</h3>
+
+<p>Next, install the Graph CLI:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>npm <span class="nb">install</span> <span class="nt">-g</span> @graphprotocol/graph-cli
+
+<span class="c"># or</span>
+
+<span class="nv">$ </span>yarn global add @graphprotocol/graph-cli
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Once the Graph CLI has been installed you can initialize a new subgraph with the Graph CLI <code>init</code> command.</p>
+
+<p>There are two ways to initialize a new subgraph:</p>
+
+<p>1 - From an example subgraph<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>graph init <span class="nt">--from-example</span> &lt;GITHUB_USERNAME>/&lt;SUBGRAPH_NAME> <span class="o">[</span>&lt;DIRECTORY>]
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>2 - From an existing smart contract</p>
+
+<p>If you already have a smart contract deployed to Ethereum mainnet or one of the testnets, initializing a new subgraph from this contract is an easy way to get up and running.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>graph init <span class="nt">--from-contract</span> &lt;CONTRACT_ADDRESS> <span class="se">\</span>
+  <span class="o">[</span><span class="nt">--network</span> &lt;ETHEREUM_NETWORK>] <span class="se">\</span>
+  <span class="o">[</span><span class="nt">--abi</span> &lt;FILE>] <span class="se">\</span>
+  &lt;GITHUB_USER>/&lt;SUBGRAPH_NAME> <span class="o">[</span>&lt;DIRECTORY>]
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>In our case we'll be starting with the <a href="https://etherscan.io/address/0xc9fe4ffc4be41d93a1a7189975cd360504ee361a#code">Foundation NFT contract</a> so we can initialize from that contract address by passing in the contract address using the <code>--from-contract</code> flag:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>graph init <span class="nt">--from-contract</span> 0xc9fe4ffc4be41d93a1a7189975cd360504ee361a <span class="nt">--network</span> mainnet  <span class="se">\</span>
+<span class="nt">--contract-name</span> Token <span class="nt">--index-events</span>
+
+? Product <span class="k">for </span>which to initialize › hosted-service
+? Subgraph name › your-username/Foundationsubgraph
+? Directory to create the subgraph <span class="k">in</span> › Foundationsubgraph
+? Ethereum network › Mainnet
+? Contract address › 0xc9fe4ffc4be41d93a1a7189975cd360504ee361a
+? Contract Name · Token
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This command will generate a basic subgraph based off of the contract address passed in as the argument to <code>--from-contract</code>. By using this contract address, the CLI will initialize a few things in your project to get you started (including fetching the <code>abis</code> and saving them in the <strong>abis</strong> directory).</p>
+
+<blockquote>
+<p>By passing in <code>--index-events</code> the CLI will automatically populate some code for us both in <strong>schema.graphql</strong> as well as <strong>src/mapping.ts</strong> based on the events emitted from the contract.</p>
+</blockquote>
+
+<p>The main configuration and definition for the subgraph lives in the <strong>subgraph.yaml</strong> file. The subgraph codebase consists of a few files:</p>
+
+<ul>
+<li>
+<strong>subgraph.yaml</strong>: a YAML file containing the subgraph manifest</li>
+<li>
+<strong>schema.graphql</strong>: a GraphQL schema that defines what data is stored for your subgraph, and how to query it via GraphQL</li>
+<li>
+<strong>AssemblyScript Mappings</strong>: AssemblyScript code that translates from the event data in Ethereum to the entities defined in your schema (e.g. mapping.ts in this tutorial)</li>
+</ul>
+
+<p>The entries in <strong>subgraph.yaml</strong> that we will be working with are:</p>
+
+<ul>
+<li>
+<code>description</code> (optional): a human-readable description of what the subgraph is. This description is displayed by the Graph Explorer when the subgraph is deployed to the Hosted Service.</li>
+<li>
+<code>repository</code> (optional): the URL of the repository where the subgraph manifest can be found. This is also displayed by the Graph Explorer.</li>
+<li>
+<code>dataSources.source</code>: the address of the smart contract the subgraph sources, and the abi of the smart contract to use. The address is optional; omitting it allows to index matching events from all contracts.</li>
+<li>
+<code>dataSources.source.startBlock</code> (optional): the number of the block that the data source starts indexing from. In most cases we suggest using the block in which the contract was created.</li>
+<li>
+<code>dataSources.mapping.entities</code> : the entities that the data source writes to the store. The schema for each entity is defined in the the schema.graphql file.</li>
+<li>
+<code>dataSources.mapping.abis</code>: one or more named ABI files for the source contract as well as any other smart contracts that you interact with from within the mappings.</li>
+<li>
+<code>dataSources.mapping.eventHandlers</code>: lists the smart contract events this subgraph reacts to and the handlers in the mapping — <strong>./src/mapping.ts</strong> in the example — that transform these events into entities in the store.</li>
+</ul>
+
+<h3>
+  <a name="defining-the-entities" href="#defining-the-entities">
+  </a>
+  Defining the entities
+</h3>
+
+<p>With The Graph, you define entity types in <strong>schema.graphql</strong>, and Graph Node will generate top level fields for querying single instances and collections of that entity type. Each type that should be an entity is required to be annotated with an <code>@entity</code> directive.</p>
+
+<p>The entities / data we will be indexing are the <code>Token</code> and <code>User</code>. This way we can index the Tokens created by the users as well as the users themselves.</p>
+
+<p>To do this, update <strong>schema.graphql</strong> with the following code:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight graphql"><code><span class="k">type</span><span class="w"> </span><span class="n">Token</span><span class="w"> </span><span class="err">@</span><span class="n">entity</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">
+  </span><span class="n">tokenID</span><span class="p">:</span><span class="w"> </span><span class="n">BigInt</span><span class="p">!</span><span class="w">
+  </span><span class="n">contentURI</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">
+  </span><span class="n">tokenIPFSPath</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">
+  </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+  </span><span class="n">createdAtTimestamp</span><span class="p">:</span><span class="w"> </span><span class="n">BigInt</span><span class="p">!</span><span class="w">
+  </span><span class="n">creator</span><span class="p">:</span><span class="w"> </span><span class="n">User</span><span class="p">!</span><span class="w">
+  </span><span class="n">owner</span><span class="p">:</span><span class="w"> </span><span class="n">User</span><span class="p">!</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="k">type</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="err">@</span><span class="n">entity</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">
+  </span><span class="n">tokens</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Token</span><span class="p">!]!</span><span class="w"> </span><span class="err">@</span><span class="n">derivedFrom</span><span class="p">(</span><span class="n">field</span><span class="p">:</span><span class="w"> </span><span class="err">"</span><span class="n">owner</span><span class="err">"</span><span class="p">)</span><span class="w">
+  </span><span class="n">created</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Token</span><span class="p">!]!</span><span class="w"> </span><span class="err">@</span><span class="n">derivedFrom</span><span class="p">(</span><span class="n">field</span><span class="p">:</span><span class="w"> </span><span class="err">"</span><span class="n">creator</span><span class="err">"</span><span class="p">)</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="on-relationships-via-raw-derivedfrom-endraw-from-the-docs" href="#on-relationships-via-raw-derivedfrom-endraw-from-the-docs">
+  </a>
+  On Relationships via <code>@derivedFrom</code> (from the docs):
+</h3>
+
+<p>Reverse lookups can be defined on an entity through the <code>@derivedFrom</code> field. This creates a virtual field on the entity that may be queried but cannot be set manually through the mappings API. Rather, it is derived from the relationship defined on the other entity. For such relationships, it rarely makes sense to store both sides of the relationship, and both indexing and query performance will be better when only one side is stored and the other is derived.</p>
+
+<p>For one-to-many relationships, the relationship should always be stored on the 'one' side, and the 'many' side should always be derived. Storing the relationship this way, rather than storing an array of entities on the 'many' side, will result in dramatically better performance for both indexing and querying the subgraph. In general, storing arrays of entities should be avoided as much as is practical.</p>
+
+<p>Now that we have created the GraphQL schema for our app, we can generate the entities locally to start using in the <code>mappings</code> created by the CLI:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>graph codegen
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>In order to make working smart contracts, events and entities easy and type-safe, the Graph CLI generates AssemblyScript types from a combination of the subgraph's GraphQL schema and the contract ABIs included in the data sources.</p>
+
+<h2>
+  <a name="updating-the-subgraph-with-the-entities-and-mappings" href="#updating-the-subgraph-with-the-entities-and-mappings">
+  </a>
+  Updating the subgraph with the entities and mappings
+</h2>
+
+<p>Now we can configure the <strong>subgraph.yaml</strong> to use the entities that we have just created and configure their mappings.</p>
+
+<p>To do so, first update the <code>dataSources.mapping.entities</code> field with the <code>User</code> and <code>Token</code> entities:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">entities</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">Token</span>
+  <span class="pi">-</span> <span class="s">User</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Next, update the <code>dataSources.mapping.eventHandlers</code> to include only the following three event handlers:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="pi">-</span> <span class="na">event</span><span class="pi">:</span> <span class="s">TokenIPFSPathUpdated(indexed uint256,indexed string,string)</span>
+  <span class="na">handler</span><span class="pi">:</span> <span class="s">handleTokenIPFSPathUpdated</span>
+<span class="pi">-</span> <span class="na">event</span><span class="pi">:</span> <span class="s">Transfer(indexed address,indexed address,indexed uint256)</span>
+  <span class="na">handler</span><span class="pi">:</span> <span class="s">handleTransfer</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Finally, update the configuration to add the startBlock and change the contract <code>address</code> to the <a href="https://etherscan.io/address/0x3B3ee1931Dc30C1957379FAc9aba94D1C48a5405">main proxy contract</a> address:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">source</span><span class="pi">:</span>
+  <span class="na">address</span><span class="pi">:</span> <span class="s2">"</span><span class="s">0x3B3ee1931Dc30C1957379FAc9aba94D1C48a5405"</span>
+  <span class="na">abi</span><span class="pi">:</span> <span class="s">Token</span>
+  <span class="na">startBlock</span><span class="pi">:</span> <span class="m">11565020</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="assemblyscript-mappings" href="#assemblyscript-mappings">
+  </a>
+  Assemblyscript mappings
+</h2>
+
+<p>Next, open <strong>src/mappings.ts</strong> to write the mappings that we defined in our subgraph subgraph <code>eventHandlers</code>.</p>
+
+<p>Update the file with the following code:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight typescript"><code><span class="k">import</span> <span class="p">{</span>
+  <span class="nx">TokenIPFSPathUpdated</span> <span class="k">as</span> <span class="nx">TokenIPFSPathUpdatedEvent</span><span class="p">,</span>
+  <span class="nx">Transfer</span> <span class="k">as</span> <span class="nx">TransferEvent</span><span class="p">,</span>
+  <span class="nx">Token</span> <span class="k">as</span> <span class="nx">TokenContract</span><span class="p">,</span>
+<span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">../generated/Token/Token</span><span class="dl">"</span>
+
+<span class="k">import</span> <span class="p">{</span>
+  <span class="nx">Token</span><span class="p">,</span> <span class="nx">User</span>
+<span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../generated/schema</span><span class="dl">'</span>
+
+<span class="k">export</span> <span class="kd">function</span> <span class="nx">handleTransfer</span><span class="p">(</span><span class="nx">event</span><span class="p">:</span> <span class="nx">TransferEvent</span><span class="p">):</span> <span class="k">void</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">token</span> <span class="o">=</span> <span class="nx">Token</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">tokenId</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">token</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">token</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Token</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">tokenId</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
+    <span class="nx">token</span><span class="p">.</span><span class="nx">creator</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">to</span><span class="p">.</span><span class="nx">toHexString</span><span class="p">();</span>
+    <span class="nx">token</span><span class="p">.</span><span class="nx">tokenID</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">tokenId</span><span class="p">;</span>
+
+    <span class="kd">let</span> <span class="nx">tokenContract</span> <span class="o">=</span> <span class="nx">TokenContract</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">address</span><span class="p">);</span>
+    <span class="nx">token</span><span class="p">.</span><span class="nx">contentURI</span> <span class="o">=</span> <span class="nx">tokenContract</span><span class="p">.</span><span class="nx">tokenURI</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">tokenId</span><span class="p">);</span>
+    <span class="nx">token</span><span class="p">.</span><span class="nx">tokenIPFSPath</span> <span class="o">=</span> <span class="nx">tokenContract</span><span class="p">.</span><span class="nx">getTokenIPFSPath</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">tokenId</span><span class="p">);</span>
+    <span class="nx">token</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">tokenContract</span><span class="p">.</span><span class="nx">name</span><span class="p">();</span>
+    <span class="nx">token</span><span class="p">.</span><span class="nx">createdAtTimestamp</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">block</span><span class="p">.</span><span class="nx">timestamp</span><span class="p">;</span>
+  <span class="p">}</span>
+  <span class="nx">token</span><span class="p">.</span><span class="nx">owner</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">to</span><span class="p">.</span><span class="nx">toHexString</span><span class="p">();</span>
+  <span class="nx">token</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>
+
+  <span class="kd">let</span> <span class="nx">user</span> <span class="o">=</span> <span class="nx">User</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">to</span><span class="p">.</span><span class="nx">toHexString</span><span class="p">());</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">User</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">to</span><span class="p">.</span><span class="nx">toHexString</span><span class="p">());</span>
+    <span class="nx">user</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="kd">function</span> <span class="nx">handleTokenURIUpdated</span><span class="p">(</span><span class="nx">event</span><span class="p">:</span> <span class="nx">TokenIPFSPathUpdatedEvent</span><span class="p">):</span> <span class="k">void</span> <span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">token</span> <span class="o">=</span> <span class="nx">Token</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">tokenId</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">token</span><span class="p">)</span> <span class="k">return</span>
+  <span class="nx">token</span><span class="p">.</span><span class="nx">tokenIPFSPath</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">tokenIPFSPath</span><span class="p">;</span>
+  <span class="nx">token</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>These mappings will handle events for when a new token is created, transferred, or updated. When these events fire, the mappings will save the data into the subgraph.</p>
+
+<h3>
+  <a name="running-a-build" href="#running-a-build">
+  </a>
+  Running a build
+</h3>
+
+<p>Next, let's run a build to make sure that everything is configured properly. To do so, run the <code>build</code> command:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>graph build
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>If the build is successful, you should see a new <strong>build</strong> folder generated in your root directory.</p>
+
+<h2>
+  <a name="deploying-the-subgraph" href="#deploying-the-subgraph">
+  </a>
+  Deploying the subgraph
+</h2>
+
+<p>To deploy, we can run the <code>deploy</code> command using the Graph CLI. To deploy, you will first need to copy the <strong>Access token</strong> for your account, available in the <a href="https://thegraph.com/explorer/dashboard">Graph Explorer</a>:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--v7zoQMgq--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/820lwqh8yo3iyu7fsbhj.jpg" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--v7zoQMgq--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/820lwqh8yo3iyu7fsbhj.jpg" alt="Graph Explorer" loading="lazy" width="880" height="246"></a></p>
+
+<p>Next, run the following commands:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>graph auth
+✔ Product <span class="k">for </span>which to initialize · hosted-service
+✔ Deploy key · <span class="k">********************************</span>
+
+<span class="nv">$ </span>yarn deploy
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Once the subgraph is deployed, you should see it show up in your dashboard:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Fr3_fw6I--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/q548jeq4kuhgddrjv0dv.jpg" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Fr3_fw6I--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/q548jeq4kuhgddrjv0dv.jpg" alt="Graph Dashboard" loading="lazy" width="880" height="483"></a></p>
+
+<p>When you click on the subgraph, it should open the Graph explorer:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--YslB3h39--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/9qremconu1io72z3g6pa.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--YslB3h39--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/9qremconu1io72z3g6pa.png" alt="The Foundation Subgraph" loading="lazy" width="880" height="491"></a></p>
+
+<h2>
+  <a name="querying-for-data" href="#querying-for-data">
+  </a>
+  Querying for data
+</h2>
+
+<p>Now that we are in the dashboard, we should be able to start querying for data. Run the following query to get a list of tokens and their metadata:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight graphql"><code><span class="p">{</span><span class="w">
+  </span><span class="n">tokens</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="w">
+    </span><span class="n">tokenID</span><span class="w">
+    </span><span class="n">contentURI</span><span class="w">
+    </span><span class="n">tokenIPFSPath</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We can also configure the order direction:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight graphql"><code><span class="p">{</span><span class="w">
+  </span><span class="n">tokens</span><span class="p">(</span><span class="w">
+    </span><span class="n">orderBy</span><span class="p">:</span><span class="n">id</span><span class="p">,</span><span class="w">
+    </span><span class="n">orderDirection</span><span class="p">:</span><span class="w"> </span><span class="n">desc</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="w">
+    </span><span class="n">tokenID</span><span class="w">
+    </span><span class="n">contentURI</span><span class="w">
+    </span><span class="n">tokenIPFSPath</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Or choose to skip forward a certain number of results to implement some basic pagination:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight graphql"><code><span class="p">{</span><span class="w">
+  </span><span class="n">tokens</span><span class="p">(</span><span class="w">
+    </span><span class="n">skip</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">
+    </span><span class="n">orderBy</span><span class="p">:</span><span class="n">id</span><span class="p">,</span><span class="w">
+    </span><span class="n">orderDirection</span><span class="p">:</span><span class="w"> </span><span class="n">desc</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="w">
+    </span><span class="n">tokenID</span><span class="w">
+    </span><span class="n">contentURI</span><span class="w">
+    </span><span class="n">tokenIPFSPath</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Or query for users and their associated content:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight graphql"><code><span class="p">{</span><span class="w">
+  </span><span class="n">users</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="w">
+    </span><span class="n">tokens</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">id</span><span class="w">
+      </span><span class="n">contentURI</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We can also query by timestamp to view the most recently created NFTS:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight graphql"><code><span class="p">{</span><span class="w">
+  </span><span class="n">tokens</span><span class="p">(</span><span class="w">
+    </span><span class="n">orderBy</span><span class="p">:</span><span class="w"> </span><span class="n">createdAtTimestamp</span><span class="p">,</span><span class="w">
+    </span><span class="n">orderDirection</span><span class="p">:</span><span class="w"> </span><span class="n">desc</span><span class="w">
+  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="w">
+    </span><span class="n">tokenID</span><span class="w">
+    </span><span class="n">contentURI</span><span class="w">
+    </span><span class="n">metadataURI</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<blockquote>
+<p>The codebase for this project is located <a href="https://github.com/dabit3/building-a-subgraph-workshop/tree/main/Foundationsubgraph">here</a></p>
+</blockquote>
+
+<h2>
+  <a name="ipfs-metadata" href="#ipfs-metadata">
+  </a>
+  IPFS Metadata
+</h2>
+
+<p>The hosted service also supports an <a href="https://thegraph.com/docs/developer/assemblyscript-api#api-reference">IPFS API</a> that allows you to interact with data stored on the network.</p>
+
+<p>This is especially useful for NFT metadata where you might have additional information about the NFT stored in JSON format.</p>
+
+<p>If you're interested in how this might work, check out my <a href="https://github.com/dabit3/bored-ape-yacht-club-api-and-subgraph">Bored Ape Yacht Club API</a> that leverages this.</p>
+
+<h2>
+  <a name="next-steps" href="#next-steps">
+  </a>
+  Next steps
+</h2>
+
+<p>If you are interested in learning more about Web3, building Dapps, or building subgraphs, check out the following resources:</p>
+
+<p>The Graph on Twitter - <a href="https://twitter.com/graphprotocol">@graphprotocol</a></p>
+
+<p><a href="https://dev.to/dabit3/the-complete-guide-to-full-stack-ethereum-development-3j13">The Complete Guide to Full Stack Ethereum Development</a></p>
+
+<p><a href="//thegraph.com/discord">The Graph Discord</a></p>
+
+<p><a href="https://docs.soliditylang.org/">Solidity Docs</a></p>
+
+<p><a href="https://ethereum.org/en/developers/docs/">Ethereum Developer Documentation</a></p>
+
+<p>Austin Griffith on Twitter <a href="https://twitter.com/austingriffith">@austingriffith</a> & <a href="https://github.com/austintgriffith/scaffold-eth">Scaffold Eth</a></p>
+
+<p><a href="https://cryptozombies.io/">Crypto Zombies</a></p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/dabit3/building-graphql-apis-on-ethereum-4poa" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(n,s,a,e,t,i){return a.type_of="article",a.id=683856,a.title="Building GraphQL APIs on Ethereum",a.description="In this post you'll learn how to build and deploy a GraphQL API using data stored in the Ethereum blockchain.",a.readable_publish_date="May 4 '21",a.slug="building-graphql-apis-on-ethereum-4poa",a.path="/edge-and-node/building-graphql-apis-on-ethereum-4poa",a.url=e,a.comments_count=11,a.public_reactions_count=710,a.collection_id=n,a.published_timestamp=t,a.positive_reactions_count=710,a.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--M0B8if5t--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nf95ssg9zl4v9oyapugl.png",a.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--P_EkUiKa--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nf95ssg9zl4v9oyapugl.png",a.canonical_url=e,a.created_at="2021-04-30T16:33:43Z",a.edited_at="2022-03-09T14:57:15Z",a.crossposted_at=n,a.published_at=t,a.last_comment_at="2022-02-20T13:37:58Z",a.reading_time_minutes=11,a.tag_list="webdev, programming, tutorial, graphql",a.tags=["webdev","programming","tutorial","graphql"],a.body_html='<p>The number of production <a href="https://ethereum.org/en/dapps/">dapps</a> continues to explode and <a href="https://twitter.com/FurqanR/status/1389393957126246403?s=20">the demand</a> for <a href="https://twitter.com/CryptoCobain/status/1371901082113351680?s=20">developers building with Solidity</a> and other blockchain languages continues to outpace supply, <a href="https://cryptocurrencyjobs.co/salaries/solidity-developer/">moving wages higher and higher</a>. </p>\n\n<p>As a developer <a href="https://twitter.com/dabit3/status/1379157277660299264">getting into this space</a>, I quickly learned there are a lot of differences in the way that we interact with and build on top of blockchains versus what I was used to in the traditional web. With Ethereum (and other blockchains), data isn’t stored in a format that can efficiently or easily be consumed directly from other applications or front ends. The problem is that you need to have the data indexed and organized for efficient retrieval.</p>\n\n<p>Traditionally, that’s the work that databases do in the centralized tech stack, but that indexing layer was missing in the <a href="https://beta.web3index.org/blog/introducing-the-web3-index">Web3 stack</a>.</p>\n\n<p>In the traditional web stack, databases, servers, and APIs query, filter, sort, paginate, group, and join data before it is returned to an application usually via some type of http request. These types of data transformations are not possible when reading data directly from Ethereum or other blockchains.</p>\n\n<p>In the past, developers were getting around this by building their own centralized indexing servers - pulling data from blockchains, storing it in a database, and exposing it via an API endpoint. This required significant engineering and hardware resources and broke the important security properties required for decentralization.</p>\n\n<p>How can we build an API on top of blockchain data that can easily be deployed to a decentralized web infrastructure? Let\'s find out.</p>\n\n<h1>\n  <a name="decentralizing-web-infrastructure" href="#decentralizing-web-infrastructure">\n  </a>\n  Decentralizing web infrastructure\n</h1>\n\n<p>The vision of and movement towards a decentralized internet is commonly referred to as <a href="https://ethereum.org/en/developers/docs/web2-vs-web3/">Web3</a>. Web3 enhances the internet as we know it today with these added characteristics:</p>\n\n<ul>\n<li>Decentralized</li>\n<li>Verifiable</li>\n<li>Trustless</li>\n<li>Self governing</li>\n</ul>\n\n<blockquote>\n<p>For a great overview of what Web3 is, check out <a href="https://www.youtube.com/watch?v=KHwVljhq7NQ">this video</a> by <a href="https://twitter.com/juanbenet">Juan Benet</a></p>\n</blockquote>\n\n<p>To achieve decentralization, protocols define networks that offer a range of digital services such as compute, storage, bandwidth, identity, and other pieces of web infrastructure with no intermediaries. These <a href="https://www.youtube.com/watch?v=j2rXJLW_93o">protocols</a> are usually distributed across multiple nodes (servers) that enable the participation of anyone looking to be part of the network and provide the service.</p>\n\n<p>The network participants are <a href="https://www.youtube.com/watch?v=Nurp3Foqf2w">incentivized</a> to provide the highest quality services to anyone consuming them. Rules are also put in place to ensure the security and the integrity of the network itself. This is usually accomplished using a combination of consensus mechanisms programmed into smart contracts implementing various types of game theory and <a href="https://thegraph.com/blog/modeling-cryptoeconomic-protocols-as-complex-systems-part-1">cryptoeconomic design</a>.</p>\n\n<h4>\n  <a name="what-makes-a-service-truly-decentralized" href="#what-makes-a-service-truly-decentralized">\n  </a>\n  What makes a service truly decentralized?\n</h4>\n\n\n<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/yanivgraph/status/1387921317656023041">\n\n  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/yanivgraph/status/1387921317656023041">\n    <div class="ltag__twitter-tweet__header">\n      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--Mbu0QJ-p--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/2853260724/6dad799e1787ac0fbfb3594e5d271026_normal.jpeg" alt="Yaniv Tal profile image" loading="lazy">\n      <div class="ltag__twitter-tweet__full-name">\n        Yaniv Tal\n      </div>\n      <div class="ltag__twitter-tweet__username">\n        @yanivgraph\n      </div>\n      <div class="ltag__twitter-tweet__twitter-logo">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">\n      </div>\n    </div>\n    <div class="ltag__twitter-tweet__body">\n      <a href="https://twitter.com/BernFeitosa">@BernFeitosa</a> 1) It’s operated by a permissionless network of nodes<br>2) The service is verifiable<br>3) Trust minimized<br>4) Market-based pricing<br>5) Censorship resistance\n    </div>\n    <div class="ltag__twitter-tweet__date">\n      00:06 AM - 30 Apr 2021\n    </div>\n\n\n    <div class="ltag__twitter-tweet__actions">\n      <a href="https://twitter.com/intent/tweet?in_reply_to=1387921317656023041" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/retweet?tweet_id=1387921317656023041" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/like?tweet_id=1387921317656023041" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">\n      </a>\n    </div>\n  </div>\n</blockquote>\n\n\n<h3>\n  <a name="building-on-the-graph" href="#building-on-the-graph">\n  </a>\n  Building on The Graph\n</h3>\n\n<p>In this post, we will be looking at one such protocol, <a href="https://thegraph.com/">The Graph</a>, and how to build and deploy our own GraphQL API using data stored in the Ethereum blockchain.</p>\n\n<p>The Graph is an indexing protocol for querying blockchains like Ethereum and networks like <a href="https://ipfs.io/">IPFS</a>. Anyone can build and publish open APIs, called subgraphs, making data easily accessible.</p>\n\n<p>Subgraphs define the data, data sources, and data access patterns that you would like to have made available via a GraphQL API. You as a developer can choose either to use a subgraph <a href="https://thegraph.com/explorer/">already deployed</a> by another developer, or define and deploy your own subgraph and use it.</p>\n\n<p>Developers can create open APIs by deploying their subgraphs either to the hosted service or to the network, enabling them to earn money based on the amount of usage of their API.</p>\n\n<p>Subgraphs are made up of a few main parts:</p>\n\n<h4>\n  <a name="1-graphql-schema" href="#1-graphql-schema">\n  </a>\n  1. GraphQL Schema\n</h4>\n\n<p>The GraphQL Schema defines the data types / entities you would like to save and query for. You can also define configuration like relationships and full text search capabilities in your schema.</p>\n\n<h4>\n  <a name="2-subgraph-manifest-yaml-configuration" href="#2-subgraph-manifest-yaml-configuration">\n  </a>\n  2. Subgraph Manifest (yaml configuration)\n</h4>\n\n<p>(from the docs) The <a href="https://thegraph.com/docs/define-a-subgraph#the-subgraph-manifest">manifest</a> defines the smart contracts your subgraph indexes, their <a href="https://docs.soliditylang.org/en/v0.8.4/abi-spec.html">ABIs</a>, which events from these contracts to pay attention to, and how to map event data to entities that Graph Node stores and allows to query. </p>\n\n<h4>\n  <a name="3-assemblyscript-mappings" href="#3-assemblyscript-mappings">\n  </a>\n  3. AssemblyScript Mappings\n</h4>\n\n<p>AssemblyScript Mappings allow you to save data to be indexed using the entity types defined in your schema. The <a href="https://github.com/graphprotocol/graph-cli">Graph CLI</a> also generates AssemblyScript types using a combination of the subgraph\'s schema along with a smart contract\'s ABIs.</p>\n\n<h3>\n  <a name="hosted-service-vs-subgraph-studio" href="#hosted-service-vs-subgraph-studio">\n  </a>\n  Hosted service vs Subgraph Studio\n</h3>\n\n<p>There are two ways to build subgraphs - the <strong>Hosted Service</strong> and <strong>Subgraph Studio</strong>. In this tutorial we\'ll be building a subgraph for the <strong>Hosted Service</strong>.</p>\n\n<p>The <strong>Hosted Service</strong> is a centralized service, is free, and will exist until the decentralized network is at feature parity with it. You can build a subgraph for the decentralized network by using <strong>Subgraph Studio</strong> and following <a href="https://thegraph.com/blog/building-with-subgraph-studio">this guide</a>.</p>\n\n<p>At some point in the future, the <strong>Subgraph Studio</strong> will be the only way to build subgraphs.</p>\n\n<h2>\n  <a name="lets-start-building" href="#lets-start-building">\n  </a>\n  Let\'s start building\n</h2>\n\n<p>Now that we have a good understanding of The Graph and how it works, let\'s start writing some code.</p>\n\n<p>In this tutorial we\'ll build a subgraph for querying NTF data from the <a href="https://foundation.app/">Foundation</a> smart contract, implementing queries for fetching NFTs as well as their owners, and building relationships between them.</p>\n\n<blockquote>\n<p>Foundation also has a <a href="https://fnd.dev/">developer portal</a> where they have information about their smart contract code as well as links to their own subgraphs.</p>\n</blockquote>\n\n<h3>\n  <a name="prerequisites" href="#prerequisites">\n  </a>\n  Prerequisites\n</h3>\n\n<p>To be successful in this tutorial, you should have <a href="https://nodejs.org/en/">Node.js</a> installed on your machine. These days, I recommend using either <a href="https://github.com/nvm-sh/nvm">nvm</a> or <a href="https://github.com/Schniz/fnm/blob/master/docs/commands.md">fnm</a> to manage Node.js versions.</p>\n\n<h3>\n  <a name="creating-the-graph-project-in-the-graph-explorer" href="#creating-the-graph-project-in-the-graph-explorer">\n  </a>\n  Creating the Graph project in the Graph Explorer\n</h3>\n\n<p>To get started, open the <a href="https://thegraph.com/explorer/dashboard">Graph Explorer</a> and either sign in or create a new account.</p>\n\n<p>Next, go to the <a href="https://thegraph.com/explorer/dashboard">dashboard</a> and click on <strong>Add Subgraph</strong> to create a new subgraph.</p>\n\n<p>Configure your subgraph with the following properties:</p>\n\n<ul>\n<li>Subgraph Name - <strong>Foundationsubgraph</strong>\n</li>\n<li>Subtitle - <strong>A subgraph for querying NFTs</strong>\n</li>\n<li>Optional - Fill the description and GITHUB URL properties</li>\n</ul>\n\n<p>Once the subgraph is created, we will initialize the subgraph locally using the Graph CLI.</p>\n\n<h3>\n  <a name="initializing-a-new-subgraph-using-the-graph-cli" href="#initializing-a-new-subgraph-using-the-graph-cli">\n  </a>\n  Initializing a new subgraph using the Graph CLI\n</h3>\n\n<p>Next, install the Graph CLI:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>npm <span class="nb">install</span> <span class="nt">-g</span> @graphprotocol/graph-cli\n\n<span class="c"># or</span>\n\n<span class="nv">$ </span>yarn global add @graphprotocol/graph-cli\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Once the Graph CLI has been installed you can initialize a new subgraph with the Graph CLI <code>init</code> command.</p>\n\n<p>There are two ways to initialize a new subgraph:</p>\n\n<p>1 - From an example subgraph<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>graph init <span class="nt">--from-example</span> &lt;GITHUB_USERNAME&gt;/&lt;SUBGRAPH_NAME&gt; <span class="o">[</span>&lt;DIRECTORY&gt;]\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>2 - From an existing smart contract</p>\n\n<p>If you already have a smart contract deployed to Ethereum mainnet or one of the testnets, initializing a new subgraph from this contract is an easy way to get up and running.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>graph init <span class="nt">--from-contract</span> &lt;CONTRACT_ADDRESS&gt; <span class="se">\\</span>\n  <span class="o">[</span><span class="nt">--network</span> &lt;ETHEREUM_NETWORK&gt;] <span class="se">\\</span>\n  <span class="o">[</span><span class="nt">--abi</span> &lt;FILE&gt;] <span class="se">\\</span>\n  &lt;GITHUB_USER&gt;/&lt;SUBGRAPH_NAME&gt; <span class="o">[</span>&lt;DIRECTORY&gt;]\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>In our case we\'ll be starting with the <a href="https://etherscan.io/address/0xc9fe4ffc4be41d93a1a7189975cd360504ee361a#code">Foundation NFT contract</a> so we can initialize from that contract address by passing in the contract address using the <code>--from-contract</code> flag:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>graph init <span class="nt">--from-contract</span> 0xc9fe4ffc4be41d93a1a7189975cd360504ee361a <span class="nt">--network</span> mainnet  <span class="se">\\</span>\n<span class="nt">--contract-name</span> Token <span class="nt">--index-events</span>\n\n? Product <span class="k">for </span>which to initialize › hosted-service\n? Subgraph name › your-username/Foundationsubgraph\n? Directory to create the subgraph <span class="k">in</span> › Foundationsubgraph\n? Ethereum network › Mainnet\n? Contract address › 0xc9fe4ffc4be41d93a1a7189975cd360504ee361a\n? Contract Name · Token\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This command will generate a basic subgraph based off of the contract address passed in as the argument to <code>--from-contract</code>. By using this contract address, the CLI will initialize a few things in your project to get you started (including fetching the <code>abis</code> and saving them in the <strong>abis</strong> directory).</p>\n\n<blockquote>\n<p>By passing in <code>--index-events</code> the CLI will automatically populate some code for us both in <strong>schema.graphql</strong> as well as <strong>src/mapping.ts</strong> based on the events emitted from the contract.</p>\n</blockquote>\n\n<p>The main configuration and definition for the subgraph lives in the <strong>subgraph.yaml</strong> file. The subgraph codebase consists of a few files:</p>\n\n<ul>\n<li>\n<strong>subgraph.yaml</strong>: a YAML file containing the subgraph manifest</li>\n<li>\n<strong>schema.graphql</strong>: a GraphQL schema that defines what data is stored for your subgraph, and how to query it via GraphQL</li>\n<li>\n<strong>AssemblyScript Mappings</strong>: AssemblyScript code that translates from the event data in Ethereum to the entities defined in your schema (e.g. mapping.ts in this tutorial)</li>\n</ul>\n\n<p>The entries in <strong>subgraph.yaml</strong> that we will be working with are:</p>\n\n<ul>\n<li>\n<code>description</code> (optional): a human-readable description of what the subgraph is. This description is displayed by the Graph Explorer when the subgraph is deployed to the Hosted Service.</li>\n<li>\n<code>repository</code> (optional): the URL of the repository where the subgraph manifest can be found. This is also displayed by the Graph Explorer.</li>\n<li>\n<code>dataSources.source</code>: the address of the smart contract the subgraph sources, and the abi of the smart contract to use. The address is optional; omitting it allows to index matching events from all contracts.</li>\n<li>\n<code>dataSources.source.startBlock</code> (optional): the number of the block that the data source starts indexing from. In most cases we suggest using the block in which the contract was created.</li>\n<li>\n<code>dataSources.mapping.entities</code> : the entities that the data source writes to the store. The schema for each entity is defined in the the schema.graphql file.</li>\n<li>\n<code>dataSources.mapping.abis</code>: one or more named ABI files for the source contract as well as any other smart contracts that you interact with from within the mappings.</li>\n<li>\n<code>dataSources.mapping.eventHandlers</code>: lists the smart contract events this subgraph reacts to and the handlers in the mapping — <strong>./src/mapping.ts</strong> in the example — that transform these events into entities in the store.</li>\n</ul>\n\n<h3>\n  <a name="defining-the-entities" href="#defining-the-entities">\n  </a>\n  Defining the entities\n</h3>\n\n<p>With The Graph, you define entity types in <strong>schema.graphql</strong>, and Graph Node will generate top level fields for querying single instances and collections of that entity type. Each type that should be an entity is required to be annotated with an <code>@entity</code> directive.</p>\n\n<p>The entities / data we will be indexing are the <code>Token</code> and <code>User</code>. This way we can index the Tokens created by the users as well as the users themselves.</p>\n\n<p>To do this, update <strong>schema.graphql</strong> with the following code:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight graphql"><code><span class="k">type</span><span class="w"> </span><span class="n">Token</span><span class="w"> </span><span class="err">@</span><span class="n">entity</span><span class="w"> </span><span class="p">{</span><span class="w">\n  </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">\n  </span><span class="n">tokenID</span><span class="p">:</span><span class="w"> </span><span class="n">BigInt</span><span class="p">!</span><span class="w">\n  </span><span class="n">contentURI</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">\n  </span><span class="n">tokenIPFSPath</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="w">\n  </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">\n  </span><span class="n">createdAtTimestamp</span><span class="p">:</span><span class="w"> </span><span class="n">BigInt</span><span class="p">!</span><span class="w">\n  </span><span class="n">creator</span><span class="p">:</span><span class="w"> </span><span class="n">User</span><span class="p">!</span><span class="w">\n  </span><span class="n">owner</span><span class="p">:</span><span class="w"> </span><span class="n">User</span><span class="p">!</span><span class="w">\n</span><span class="p">}</span><span class="w">\n\n</span><span class="k">type</span><span class="w"> </span><span class="n">User</span><span class="w"> </span><span class="err">@</span><span class="n">entity</span><span class="w"> </span><span class="p">{</span><span class="w">\n  </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">\n  </span><span class="n">tokens</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Token</span><span class="p">!]!</span><span class="w"> </span><span class="err">@</span><span class="n">derivedFrom</span><span class="p">(</span><span class="n">field</span><span class="p">:</span><span class="w"> </span><span class="err">"</span><span class="n">owner</span><span class="err">"</span><span class="p">)</span><span class="w">\n  </span><span class="n">created</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Token</span><span class="p">!]!</span><span class="w"> </span><span class="err">@</span><span class="n">derivedFrom</span><span class="p">(</span><span class="n">field</span><span class="p">:</span><span class="w"> </span><span class="err">"</span><span class="n">creator</span><span class="err">"</span><span class="p">)</span><span class="w">\n</span><span class="p">}</span><span class="w">\n</span></code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="on-relationships-via-raw-derivedfrom-endraw-from-the-docs" href="#on-relationships-via-raw-derivedfrom-endraw-from-the-docs">\n  </a>\n  On Relationships via <code>@derivedFrom</code> (from the docs):\n</h3>\n\n<p>Reverse lookups can be defined on an entity through the <code>@derivedFrom</code> field. This creates a virtual field on the entity that may be queried but cannot be set manually through the mappings API. Rather, it is derived from the relationship defined on the other entity. For such relationships, it rarely makes sense to store both sides of the relationship, and both indexing and query performance will be better when only one side is stored and the other is derived.</p>\n\n<p>For one-to-many relationships, the relationship should always be stored on the \'one\' side, and the \'many\' side should always be derived. Storing the relationship this way, rather than storing an array of entities on the \'many\' side, will result in dramatically better performance for both indexing and querying the subgraph. In general, storing arrays of entities should be avoided as much as is practical.</p>\n\n<p>Now that we have created the GraphQL schema for our app, we can generate the entities locally to start using in the <code>mappings</code> created by the CLI:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>graph codegen\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>In order to make working smart contracts, events and entities easy and type-safe, the Graph CLI generates AssemblyScript types from a combination of the subgraph\'s GraphQL schema and the contract ABIs included in the data sources.</p>\n\n<h2>\n  <a name="updating-the-subgraph-with-the-entities-and-mappings" href="#updating-the-subgraph-with-the-entities-and-mappings">\n  </a>\n  Updating the subgraph with the entities and mappings\n</h2>\n\n<p>Now we can configure the <strong>subgraph.yaml</strong> to use the entities that we have just created and configure their mappings.</p>\n\n<p>To do so, first update the <code>dataSources.mapping.entities</code> field with the <code>User</code> and <code>Token</code> entities:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">entities</span><span class="pi">:</span>\n  <span class="pi">-</span> <span class="s">Token</span>\n  <span class="pi">-</span> <span class="s">User</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Next, update the <code>dataSources.mapping.eventHandlers</code> to include only the following three event handlers:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="pi">-</span> <span class="na">event</span><span class="pi">:</span> <span class="s">TokenIPFSPathUpdated(indexed uint256,indexed string,string)</span>\n  <span class="na">handler</span><span class="pi">:</span> <span class="s">handleTokenIPFSPathUpdated</span>\n<span class="pi">-</span> <span class="na">event</span><span class="pi">:</span> <span class="s">Transfer(indexed address,indexed address,indexed uint256)</span>\n  <span class="na">handler</span><span class="pi">:</span> <span class="s">handleTransfer</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Finally, update the configuration to add the startBlock and change the contract <code>address</code> to the <a href="https://etherscan.io/address/0x3B3ee1931Dc30C1957379FAc9aba94D1C48a5405">main proxy contract</a> address:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">source</span><span class="pi">:</span>\n  <span class="na">address</span><span class="pi">:</span> <span class="s2">"</span><span class="s">0x3B3ee1931Dc30C1957379FAc9aba94D1C48a5405"</span>\n  <span class="na">abi</span><span class="pi">:</span> <span class="s">Token</span>\n  <span class="na">startBlock</span><span class="pi">:</span> <span class="m">11565020</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="assemblyscript-mappings" href="#assemblyscript-mappings">\n  </a>\n  Assemblyscript mappings\n</h2>\n\n<p>Next, open <strong>src/mappings.ts</strong> to write the mappings that we defined in our subgraph subgraph <code>eventHandlers</code>.</p>\n\n<p>Update the file with the following code:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight typescript"><code><span class="k">import</span> <span class="p">{</span>\n  <span class="nx">TokenIPFSPathUpdated</span> <span class="k">as</span> <span class="nx">TokenIPFSPathUpdatedEvent</span><span class="p">,</span>\n  <span class="nx">Transfer</span> <span class="k">as</span> <span class="nx">TransferEvent</span><span class="p">,</span>\n  <span class="nx">Token</span> <span class="k">as</span> <span class="nx">TokenContract</span><span class="p">,</span>\n<span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">../generated/Token/Token</span><span class="dl">"</span>\n\n<span class="k">import</span> <span class="p">{</span>\n  <span class="nx">Token</span><span class="p">,</span> <span class="nx">User</span>\n<span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">../generated/schema</span><span class="dl">\'</span>\n\n<span class="k">export</span> <span class="kd">function</span> <span class="nx">handleTransfer</span><span class="p">(</span><span class="nx">event</span><span class="p">:</span> <span class="nx">TransferEvent</span><span class="p">):</span> <span class="k">void</span> <span class="p">{</span>\n  <span class="kd">let</span> <span class="nx">token</span> <span class="o">=</span> <span class="nx">Token</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">tokenId</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>\n  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">token</span><span class="p">)</span> <span class="p">{</span>\n    <span class="nx">token</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Token</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">tokenId</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>\n    <span class="nx">token</span><span class="p">.</span><span class="nx">creator</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">to</span><span class="p">.</span><span class="nx">toHexString</span><span class="p">();</span>\n    <span class="nx">token</span><span class="p">.</span><span class="nx">tokenID</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">tokenId</span><span class="p">;</span>\n\n    <span class="kd">let</span> <span class="nx">tokenContract</span> <span class="o">=</span> <span class="nx">TokenContract</span><span class="p">.</span><span class="nx">bind</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">address</span><span class="p">);</span>\n    <span class="nx">token</span><span class="p">.</span><span class="nx">contentURI</span> <span class="o">=</span> <span class="nx">tokenContract</span><span class="p">.</span><span class="nx">tokenURI</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">tokenId</span><span class="p">);</span>\n    <span class="nx">token</span><span class="p">.</span><span class="nx">tokenIPFSPath</span> <span class="o">=</span> <span class="nx">tokenContract</span><span class="p">.</span><span class="nx">getTokenIPFSPath</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">tokenId</span><span class="p">);</span>\n    <span class="nx">token</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">tokenContract</span><span class="p">.</span><span class="nx">name</span><span class="p">();</span>\n    <span class="nx">token</span><span class="p">.</span><span class="nx">createdAtTimestamp</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">block</span><span class="p">.</span><span class="nx">timestamp</span><span class="p">;</span>\n  <span class="p">}</span>\n  <span class="nx">token</span><span class="p">.</span><span class="nx">owner</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">to</span><span class="p">.</span><span class="nx">toHexString</span><span class="p">();</span>\n  <span class="nx">token</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>\n\n  <span class="kd">let</span> <span class="nx">user</span> <span class="o">=</span> <span class="nx">User</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">to</span><span class="p">.</span><span class="nx">toHexString</span><span class="p">());</span>\n  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>\n    <span class="nx">user</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">User</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">to</span><span class="p">.</span><span class="nx">toHexString</span><span class="p">());</span>\n    <span class="nx">user</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>\n  <span class="p">}</span>\n<span class="p">}</span>\n\n<span class="k">export</span> <span class="kd">function</span> <span class="nx">handleTokenURIUpdated</span><span class="p">(</span><span class="nx">event</span><span class="p">:</span> <span class="nx">TokenIPFSPathUpdatedEvent</span><span class="p">):</span> <span class="k">void</span> <span class="p">{</span>\n  <span class="kd">let</span> <span class="nx">token</span> <span class="o">=</span> <span class="nx">Token</span><span class="p">.</span><span class="nx">load</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">tokenId</span><span class="p">.</span><span class="nx">toString</span><span class="p">());</span>\n  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">token</span><span class="p">)</span> <span class="k">return</span>\n  <span class="nx">token</span><span class="p">.</span><span class="nx">tokenIPFSPath</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">params</span><span class="p">.</span><span class="nx">tokenIPFSPath</span><span class="p">;</span>\n  <span class="nx">token</span><span class="p">.</span><span class="nx">save</span><span class="p">();</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>These mappings will handle events for when a new token is created, transferred, or updated. When these events fire, the mappings will save the data into the subgraph.</p>\n\n<h3>\n  <a name="running-a-build" href="#running-a-build">\n  </a>\n  Running a build\n</h3>\n\n<p>Next, let\'s run a build to make sure that everything is configured properly. To do so, run the <code>build</code> command:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>graph build\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>If the build is successful, you should see a new <strong>build</strong> folder generated in your root directory.</p>\n\n<h2>\n  <a name="deploying-the-subgraph" href="#deploying-the-subgraph">\n  </a>\n  Deploying the subgraph\n</h2>\n\n<p>To deploy, we can run the <code>deploy</code> command using the Graph CLI. To deploy, you will first need to copy the <strong>Access token</strong> for your account, available in the <a href="https://thegraph.com/explorer/dashboard">Graph Explorer</a>:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--v7zoQMgq--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/820lwqh8yo3iyu7fsbhj.jpg" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--v7zoQMgq--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/820lwqh8yo3iyu7fsbhj.jpg" alt="Graph Explorer" loading="lazy" width="880" height="246"></a></p>\n\n<p>Next, run the following commands:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>graph auth\n✔ Product <span class="k">for </span>which to initialize · hosted-service\n✔ Deploy key · <span class="k">********************************</span>\n\n<span class="nv">$ </span>yarn deploy\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Once the subgraph is deployed, you should see it show up in your dashboard:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Fr3_fw6I--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/q548jeq4kuhgddrjv0dv.jpg" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Fr3_fw6I--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/q548jeq4kuhgddrjv0dv.jpg" alt="Graph Dashboard" loading="lazy" width="880" height="483"></a></p>\n\n<p>When you click on the subgraph, it should open the Graph explorer:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--YslB3h39--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/9qremconu1io72z3g6pa.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--YslB3h39--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/9qremconu1io72z3g6pa.png" alt="The Foundation Subgraph" loading="lazy" width="880" height="491"></a></p>\n\n<h2>\n  <a name="querying-for-data" href="#querying-for-data">\n  </a>\n  Querying for data\n</h2>\n\n<p>Now that we are in the dashboard, we should be able to start querying for data. Run the following query to get a list of tokens and their metadata:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight graphql"><code><span class="p">{</span><span class="w">\n  </span><span class="n">tokens</span><span class="w"> </span><span class="p">{</span><span class="w">\n    </span><span class="n">id</span><span class="w">\n    </span><span class="n">tokenID</span><span class="w">\n    </span><span class="n">contentURI</span><span class="w">\n    </span><span class="n">tokenIPFSPath</span><span class="w">\n  </span><span class="p">}</span><span class="w">\n</span><span class="p">}</span><span class="w">\n</span></code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>We can also configure the order direction:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight graphql"><code><span class="p">{</span><span class="w">\n  </span><span class="n">tokens</span><span class="p">(</span><span class="w">\n    </span><span class="n">orderBy</span><span class="p">:</span><span class="n">id</span><span class="p">,</span><span class="w">\n    </span><span class="n">orderDirection</span><span class="p">:</span><span class="w"> </span><span class="n">desc</span><span class="w">\n  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">\n    </span><span class="n">id</span><span class="w">\n    </span><span class="n">tokenID</span><span class="w">\n    </span><span class="n">contentURI</span><span class="w">\n    </span><span class="n">tokenIPFSPath</span><span class="w">\n  </span><span class="p">}</span><span class="w">\n</span><span class="p">}</span><span class="w">\n</span></code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Or choose to skip forward a certain number of results to implement some basic pagination:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight graphql"><code><span class="p">{</span><span class="w">\n  </span><span class="n">tokens</span><span class="p">(</span><span class="w">\n    </span><span class="n">skip</span><span class="p">:</span><span class="w"> </span><span class="mi">100</span><span class="p">,</span><span class="w">\n    </span><span class="n">orderBy</span><span class="p">:</span><span class="n">id</span><span class="p">,</span><span class="w">\n    </span><span class="n">orderDirection</span><span class="p">:</span><span class="w"> </span><span class="n">desc</span><span class="w">\n  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">\n    </span><span class="n">id</span><span class="w">\n    </span><span class="n">tokenID</span><span class="w">\n    </span><span class="n">contentURI</span><span class="w">\n    </span><span class="n">tokenIPFSPath</span><span class="w">\n  </span><span class="p">}</span><span class="w">\n</span><span class="p">}</span><span class="w">\n</span></code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Or query for users and their associated content:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight graphql"><code><span class="p">{</span><span class="w">\n  </span><span class="n">users</span><span class="w"> </span><span class="p">{</span><span class="w">\n    </span><span class="n">id</span><span class="w">\n    </span><span class="n">tokens</span><span class="w"> </span><span class="p">{</span><span class="w">\n      </span><span class="n">id</span><span class="w">\n      </span><span class="n">contentURI</span><span class="w">\n    </span><span class="p">}</span><span class="w">\n  </span><span class="p">}</span><span class="w">\n</span><span class="p">}</span><span class="w">\n</span></code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>We can also query by timestamp to view the most recently created NFTS:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight graphql"><code><span class="p">{</span><span class="w">\n  </span><span class="n">tokens</span><span class="p">(</span><span class="w">\n    </span><span class="n">orderBy</span><span class="p">:</span><span class="w"> </span><span class="n">createdAtTimestamp</span><span class="p">,</span><span class="w">\n    </span><span class="n">orderDirection</span><span class="p">:</span><span class="w"> </span><span class="n">desc</span><span class="w">\n  </span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">\n    </span><span class="n">id</span><span class="w">\n    </span><span class="n">tokenID</span><span class="w">\n    </span><span class="n">contentURI</span><span class="w">\n    </span><span class="n">metadataURI</span><span class="w">\n  </span><span class="p">}</span><span class="w">\n</span><span class="p">}</span><span class="w">\n</span></code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<blockquote>\n<p>The codebase for this project is located <a href="https://github.com/dabit3/building-a-subgraph-workshop/tree/main/Foundationsubgraph">here</a></p>\n</blockquote>\n\n<h2>\n  <a name="ipfs-metadata" href="#ipfs-metadata">\n  </a>\n  IPFS Metadata\n</h2>\n\n<p>The hosted service also supports an <a href="https://thegraph.com/docs/developer/assemblyscript-api#api-reference">IPFS API</a> that allows you to interact with data stored on the network.</p>\n\n<p>This is especially useful for NFT metadata where you might have additional information about the NFT stored in JSON format.</p>\n\n<p>If you\'re interested in how this might work, check out my <a href="https://github.com/dabit3/bored-ape-yacht-club-api-and-subgraph">Bored Ape Yacht Club API</a> that leverages this.</p>\n\n<h2>\n  <a name="next-steps" href="#next-steps">\n  </a>\n  Next steps\n</h2>\n\n<p>If you are interested in learning more about Web3, building Dapps, or building subgraphs, check out the following resources:</p>\n\n<p>The Graph on Twitter - <a href="https://twitter.com/graphprotocol">@graphprotocol</a></p>\n\n<p><a href="https://dev.to/dabit3/the-complete-guide-to-full-stack-ethereum-development-3j13">The Complete Guide to Full Stack Ethereum Development</a></p>\n\n<p><a href="//thegraph.com/discord">The Graph Discord</a></p>\n\n<p><a href="https://docs.soliditylang.org/">Solidity Docs</a></p>\n\n<p><a href="https://ethereum.org/en/developers/docs/">Ethereum Developer Documentation</a></p>\n\n<p>Austin Griffith on Twitter <a href="https://twitter.com/austingriffith">@austingriffith</a> &amp; <a href="https://github.com/austintgriffith/scaffold-eth">Scaffold Eth</a></p>\n\n<p><a href="https://cryptozombies.io/">Crypto Zombies</a></p>\n\n',a.body_markdown="---\ntitle: Building GraphQL APIs on Ethereum\npublished: true\ndescription: In this post you'll learn how to build and deploy a GraphQL API using data stored in the Ethereum blockchain.\ntags: webdev, programming, tutorial, graphql\ncover_image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/nf95ssg9zl4v9oyapugl.png\n---\n\nThe number of production [dapps](https://ethereum.org/en/dapps/) continues to explode and [the demand](https://twitter.com/FurqanR/status/1389393957126246403?s=20) for [developers building with Solidity](https://twitter.com/CryptoCobain/status/1371901082113351680?s=20) and other blockchain languages continues to outpace supply, [moving wages higher and higher](https://cryptocurrencyjobs.co/salaries/solidity-developer/). \n\nAs a developer [getting into this space](https://twitter.com/dabit3/status/1379157277660299264), I quickly learned there are a lot of differences in the way that we interact with and build on top of blockchains versus what I was used to in the traditional web. With Ethereum (and other blockchains), data isn’t stored in a format that can efficiently or easily be consumed directly from other applications or front ends. The problem is that you need to have the data indexed and organized for efficient retrieval.\n\nTraditionally, that’s the work that databases do in the centralized tech stack, but that indexing layer was missing in the [Web3 stack](https://beta.web3index.org/blog/introducing-the-web3-index).\n\nIn the traditional web stack, databases, servers, and APIs query, filter, sort, paginate, group, and join data before it is returned to an application usually via some type of http request. These types of data transformations are not possible when reading data directly from Ethereum or other blockchains.\n\nIn the past, developers were getting around this by building their own centralized indexing servers - pulling data from blockchains, storing it in a database, and exposing it via an API endpoint. This required significant engineering and hardware resources and broke the important security properties required for decentralization.\n\nHow can we build an API on top of blockchain data that can easily be deployed to a decentralized web infrastructure? Let's find out.\n\n# Decentralizing web infrastructure\n\nThe vision of and movement towards a decentralized internet is commonly referred to as [Web3](https://ethereum.org/en/developers/docs/web2-vs-web3/). Web3 enhances the internet as we know it today with these added characteristics:\n\n- Decentralized\n- Verifiable\n- Trustless\n- Self governing\n\n> For a great overview of what Web3 is, check out [this video](https://www.youtube.com/watch?v=KHwVljhq7NQ) by [Juan Benet](https://twitter.com/juanbenet)\n\nTo achieve decentralization, protocols define networks that offer a range of digital services such as compute, storage, bandwidth, identity, and other pieces of web infrastructure with no intermediaries. These [protocols](https://www.youtube.com/watch?v=j2rXJLW_93o) are usually distributed across multiple nodes (servers) that enable the participation of anyone looking to be part of the network and provide the service.\n\nThe network participants are [incentivized](https://www.youtube.com/watch?v=Nurp3Foqf2w) to provide the highest quality services to anyone consuming them. Rules are also put in place to ensure the security and the integrity of the network itself. This is usually accomplished using a combination of consensus mechanisms programmed into smart contracts implementing various types of game theory and [cryptoeconomic design](https://thegraph.com/blog/modeling-cryptoeconomic-protocols-as-complex-systems-part-1).\n\n#### What makes a service truly decentralized?\n\n{% twitter 1387921317656023041 %}\n\n### Building on The Graph\n\nIn this post, we will be looking at one such protocol, [The Graph](https://thegraph.com/), and how to build and deploy our own GraphQL API using data stored in the Ethereum blockchain.\n\nThe Graph is an indexing protocol for querying blockchains like Ethereum and networks like [IPFS](https://ipfs.io/). Anyone can build and publish open APIs, called subgraphs, making data easily accessible.\n\nSubgraphs define the data, data sources, and data access patterns that you would like to have made available via a GraphQL API. You as a developer can choose either to use a subgraph [already deployed](https://thegraph.com/explorer/) by another developer, or define and deploy your own subgraph and use it.\n\nDevelopers can create open APIs by deploying their subgraphs either to the hosted service or to the network, enabling them to earn money based on the amount of usage of their API.\n\nSubgraphs are made up of a few main parts:\n\n#### 1. GraphQL Schema\n\nThe GraphQL Schema defines the data types / entities you would like to save and query for. You can also define configuration like relationships and full text search capabilities in your schema.\n\n#### 2. Subgraph Manifest (yaml configuration)\n\n(from the docs) The [manifest](https://thegraph.com/docs/define-a-subgraph#the-subgraph-manifest) defines the smart contracts your subgraph indexes, their [ABIs](https://docs.soliditylang.org/en/v0.8.4/abi-spec.html), which events from these contracts to pay attention to, and how to map event data to entities that Graph Node stores and allows to query. \n\n#### 3. AssemblyScript Mappings\n\nAssemblyScript Mappings allow you to save data to be indexed using the entity types defined in your schema. The [Graph CLI](https://github.com/graphprotocol/graph-cli) also generates AssemblyScript types using a combination of the subgraph's schema along with a smart contract's ABIs.\n\n### Hosted service vs Subgraph Studio\n\nThere are two ways to build subgraphs - the __Hosted Service__ and __Subgraph Studio__. In this tutorial we'll be building a subgraph for the __Hosted Service__.\n\nThe __Hosted Service__ is a centralized service, is free, and will exist until the decentralized network is at feature parity with it. You can build a subgraph for the decentralized network by using __Subgraph Studio__ and following [this guide](https://thegraph.com/blog/building-with-subgraph-studio).\n\nAt some point in the future, the __Subgraph Studio__ will be the only way to build subgraphs.\n\n## Let's start building\n\nNow that we have a good understanding of The Graph and how it works, let's start writing some code.\n\nIn this tutorial we'll build a subgraph for querying NTF data from the [Foundation](https://foundation.app/) smart contract, implementing queries for fetching NFTs as well as their owners, and building relationships between them.\n\n> Foundation also has a [developer portal](https://fnd.dev/) where they have information about their smart contract code as well as links to their own subgraphs.\n\n### Prerequisites\n\nTo be successful in this tutorial, you should have [Node.js](https://nodejs.org/en/) installed on your machine. These days, I recommend using either [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm/blob/master/docs/commands.md) to manage Node.js versions.\n\n### Creating the Graph project in the Graph Explorer\n\nTo get started, open the [Graph Explorer](https://thegraph.com/explorer/dashboard) and either sign in or create a new account.\n\nNext, go to the [dashboard](https://thegraph.com/explorer/dashboard) and click on __Add Subgraph__ to create a new subgraph.\n\nConfigure your subgraph with the following properties:\n\n- Subgraph Name - __Foundationsubgraph__\n- Subtitle - __A subgraph for querying NFTs__\n- Optional - Fill the description and GITHUB URL properties\n\nOnce the subgraph is created, we will initialize the subgraph locally using the Graph CLI.\n\n### Initializing a new subgraph using the Graph CLI\n\nNext, install the Graph CLI:\n\n```sh\n$ npm install -g @graphprotocol/graph-cli\n\n# or\n\n$ yarn global add @graphprotocol/graph-cli\n```\n\nOnce the Graph CLI has been installed you can initialize a new subgraph with the Graph CLI `init` command.\n\nThere are two ways to initialize a new subgraph:\n\n1 - From an example subgraph\n\n```sh\n$ graph init --from-example <GITHUB_USERNAME>/<SUBGRAPH_NAME> [<DIRECTORY>]\n```\n\n2 - From an existing smart contract\n\nIf you already have a smart contract deployed to Ethereum mainnet or one of the testnets, initializing a new subgraph from this contract is an easy way to get up and running.\n\n```sh\n$ graph init --from-contract <CONTRACT_ADDRESS> \\\n  [--network <ETHEREUM_NETWORK>] \\\n  [--abi <FILE>] \\\n  <GITHUB_USER>/<SUBGRAPH_NAME> [<DIRECTORY>]\n```\n\nIn our case we'll be starting with the [Foundation NFT contract](https://etherscan.io/address/0xc9fe4ffc4be41d93a1a7189975cd360504ee361a#code) so we can initialize from that contract address by passing in the contract address using the `--from-contract` flag:\n\n```sh\n$ graph init --from-contract 0xc9fe4ffc4be41d93a1a7189975cd360504ee361a --network mainnet  \\\n--contract-name Token --index-events\n\n? Product for which to initialize › hosted-service\n? Subgraph name › your-username/Foundationsubgraph\n? Directory to create the subgraph in › Foundationsubgraph\n? Ethereum network › Mainnet\n? Contract address › 0xc9fe4ffc4be41d93a1a7189975cd360504ee361a\n? Contract Name · Token\n```\n\nThis command will generate a basic subgraph based off of the contract address passed in as the argument to `--from-contract`. By using this contract address, the CLI will initialize a few things in your project to get you started (including fetching the `abis` and saving them in the __abis__ directory).\n\n> By passing in `--index-events` the CLI will automatically populate some code for us both in __schema.graphql__ as well as __src/mapping.ts__ based on the events emitted from the contract.\n\nThe main configuration and definition for the subgraph lives in the __subgraph.yaml__ file. The subgraph codebase consists of a few files:\n\n- __subgraph.yaml__: a YAML file containing the subgraph manifest\n- __schema.graphql__: a GraphQL schema that defines what data is stored for your subgraph, and how to query it via GraphQL\n- __AssemblyScript Mappings__: AssemblyScript code that translates from the event data in Ethereum to the entities defined in your schema (e.g. mapping.ts in this tutorial)\n\nThe entries in __subgraph.yaml__ that we will be working with are:\n\n- `description` (optional): a human-readable description of what the subgraph is. This description is displayed by the Graph Explorer when the subgraph is deployed to the Hosted Service.\n- `repository` (optional): the URL of the repository where the subgraph manifest can be found. This is also displayed by the Graph Explorer.\n- `dataSources.source`: the address of the smart contract the subgraph sources, and the abi of the smart contract to use. The address is optional; omitting it allows to index matching events from all contracts.\n- `dataSources.source.startBlock` (optional): the number of the block that the data source starts indexing from. In most cases we suggest using the block in which the contract was created.\n- `dataSources.mapping.entities` : the entities that the data source writes to the store. The schema for each entity is defined in the the schema.graphql file.\n- `dataSources.mapping.abis`: one or more named ABI files for the source contract as well as any other smart contracts that you interact with from within the mappings.\n- `dataSources.mapping.eventHandlers`: lists the smart contract events this subgraph reacts to and the handlers in the mapping — __./src/mapping.ts__ in the example — that transform these events into entities in the store.\n\n### Defining the entities\n\nWith The Graph, you define entity types in __schema.graphql__, and Graph Node will generate top level fields for querying single instances and collections of that entity type. Each type that should be an entity is required to be annotated with an `@entity` directive.\n\nThe entities / data we will be indexing are the `Token` and `User`. This way we can index the Tokens created by the users as well as the users themselves.\n\nTo do this, update __schema.graphql__ with the following code:\n\n```graphql\ntype Token @entity {\n  id: ID!\n  tokenID: BigInt!\n  contentURI: String\n  tokenIPFSPath: String\n  name: String!\n  createdAtTimestamp: BigInt!\n  creator: User!\n  owner: User!\n}\n\ntype User @entity {\n  id: ID!\n  tokens: [Token!]! @derivedFrom(field: \"owner\")\n  created: [Token!]! @derivedFrom(field: \"creator\")\n}\n```\n\n### On Relationships via `@derivedFrom` (from the docs):\n\nReverse lookups can be defined on an entity through the `@derivedFrom` field. This creates a virtual field on the entity that may be queried but cannot be set manually through the mappings API. Rather, it is derived from the relationship defined on the other entity. For such relationships, it rarely makes sense to store both sides of the relationship, and both indexing and query performance will be better when only one side is stored and the other is derived.\n\nFor one-to-many relationships, the relationship should always be stored on the 'one' side, and the 'many' side should always be derived. Storing the relationship this way, rather than storing an array of entities on the 'many' side, will result in dramatically better performance for both indexing and querying the subgraph. In general, storing arrays of entities should be avoided as much as is practical.\n\nNow that we have created the GraphQL schema for our app, we can generate the entities locally to start using in the `mappings` created by the CLI:\n\n```sh\ngraph codegen\n```\n\nIn order to make working smart contracts, events and entities easy and type-safe, the Graph CLI generates AssemblyScript types from a combination of the subgraph's GraphQL schema and the contract ABIs included in the data sources.\n\n## Updating the subgraph with the entities and mappings\n\nNow we can configure the __subgraph.yaml__ to use the entities that we have just created and configure their mappings.\n\nTo do so, first update the `dataSources.mapping.entities` field with the `User` and `Token` entities:\n\n```yaml\nentities:\n  - Token\n  - User\n```\n\nNext, update the `dataSources.mapping.eventHandlers` to include only the following three event handlers:\n\n```yaml\n- event: TokenIPFSPathUpdated(indexed uint256,indexed string,string)\n  handler: handleTokenIPFSPathUpdated\n- event: Transfer(indexed address,indexed address,indexed uint256)\n  handler: handleTransfer\n```\n\nFinally, update the configuration to add the startBlock and change the contract `address` to the [main proxy contract](https://etherscan.io/address/0x3B3ee1931Dc30C1957379FAc9aba94D1C48a5405) address:\n\n```yaml\nsource:\n  address: \"0x3B3ee1931Dc30C1957379FAc9aba94D1C48a5405\"\n  abi: Token\n  startBlock: 11565020\n```\n\n## Assemblyscript mappings\n\nNext, open __src/mappings.ts__ to write the mappings that we defined in our subgraph subgraph `eventHandlers`.\n\nUpdate the file with the following code:\n\n```typescript\nimport {\n  TokenIPFSPathUpdated as TokenIPFSPathUpdatedEvent,\n  Transfer as TransferEvent,\n  Token as TokenContract,\n} from \"../generated/Token/Token\"\n\nimport {\n  Token, User\n} from '../generated/schema'\n\nexport function handleTransfer(event: TransferEvent): void {\n  let token = Token.load(event.params.tokenId.toString());\n  if (!token) {\n    token = new Token(event.params.tokenId.toString());\n    token.creator = event.params.to.toHexString();\n    token.tokenID = event.params.tokenId;\n  \n    let tokenContract = TokenContract.bind(event.address);\n    token.contentURI = tokenContract.tokenURI(event.params.tokenId);\n    token.tokenIPFSPath = tokenContract.getTokenIPFSPath(event.params.tokenId);\n    token.name = tokenContract.name();\n    token.createdAtTimestamp = event.block.timestamp;\n  }\n  token.owner = event.params.to.toHexString();\n  token.save();\n    \n  let user = User.load(event.params.to.toHexString());\n  if (!user) {\n    user = new User(event.params.to.toHexString());\n    user.save();\n  }\n}\n\nexport function handleTokenURIUpdated(event: TokenIPFSPathUpdatedEvent): void {\n  let token = Token.load(event.params.tokenId.toString());\n  if (!token) return\n  token.tokenIPFSPath = event.params.tokenIPFSPath;\n  token.save();\n}\n```\n\nThese mappings will handle events for when a new token is created, transferred, or updated. When these events fire, the mappings will save the data into the subgraph.\n\n### Running a build\n\nNext, let's run a build to make sure that everything is configured properly. To do so, run the `build` command:\n\n```sh\n$ graph build\n```\n\nIf the build is successful, you should see a new __build__ folder generated in your root directory.\n\n## Deploying the subgraph\n\nTo deploy, we can run the `deploy` command using the Graph CLI. To deploy, you will first need to copy the __Access token__ for your account, available in the [Graph Explorer](https://thegraph.com/explorer/dashboard):\n\n![Graph Explorer](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/820lwqh8yo3iyu7fsbhj.jpg)\n\nNext, run the following commands:\n\n```sh\n$ graph auth\n✔ Product for which to initialize · hosted-service\n✔ Deploy key · ********************************\n\n$ yarn deploy\n```\n\nOnce the subgraph is deployed, you should see it show up in your dashboard:\n\n![Graph Dashboard](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/q548jeq4kuhgddrjv0dv.jpg)\n\nWhen you click on the subgraph, it should open the Graph explorer:\n\n![The Foundation Subgraph](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/9qremconu1io72z3g6pa.png)\n\n## Querying for data\n\nNow that we are in the dashboard, we should be able to start querying for data. Run the following query to get a list of tokens and their metadata:\n\n```graphql\n{\n  tokens {\n    id\n    tokenID\n    contentURI\n    tokenIPFSPath\n  }\n}\n```\n\nWe can also configure the order direction:\n\n```graphql\n{\n  tokens(\n    orderBy:id,\n    orderDirection: desc\n  ) {\n    id\n    tokenID\n    contentURI\n    tokenIPFSPath\n  }\n}\n```\n\nOr choose to skip forward a certain number of results to implement some basic pagination:\n\n```graphql\n{\n  tokens(\n    skip: 100,\n    orderBy:id,\n    orderDirection: desc\n  ) {\n    id\n    tokenID\n    contentURI\n    tokenIPFSPath\n  }\n}\n```\n\nOr query for users and their associated content:\n\n```graphql\n{\n  users {\n    id\n    tokens {\n      id\n      contentURI\n    }\n  }\n}\n```\n\nWe can also query by timestamp to view the most recently created NFTS:\n\n```graphql\n{\n  tokens(\n    orderBy: createdAtTimestamp,\n    orderDirection: desc\n  ) {\n    id\n    tokenID\n    contentURI\n    metadataURI\n  }\n}\n```\n\n> The codebase for this project is located [here](https://github.com/dabit3/building-a-subgraph-workshop/tree/main/Foundationsubgraph)\n\n## IPFS Metadata\n\nThe hosted service also supports an [IPFS API](https://thegraph.com/docs/developer/assemblyscript-api#api-reference) that allows you to interact with data stored on the network.\n\nThis is especially useful for NFT metadata where you might have additional information about the NFT stored in JSON format.\n\nIf you're interested in how this might work, check out my [Bored Ape Yacht Club API](https://github.com/dabit3/bored-ape-yacht-club-api-and-subgraph) that leverages this.\n\n## Next steps\n\nIf you are interested in learning more about Web3, building Dapps, or building subgraphs, check out the following resources:\n\nThe Graph on Twitter - [@graphprotocol](https://twitter.com/graphprotocol)\n\n[The Complete Guide to Full Stack Ethereum Development](https://dev.to/dabit3/the-complete-guide-to-full-stack-ethereum-development-3j13)\n\n[The Graph Discord](thegraph.com/discord)\n\n[Solidity Docs](https://docs.soliditylang.org/)\n\n[Ethereum Developer Documentation](https://ethereum.org/en/developers/docs/)\n\nAustin Griffith on Twitter [@austingriffith](https://twitter.com/austingriffith) & [Scaffold Eth](https://github.com/austintgriffith/scaffold-eth)\n\n[Crypto Zombies](https://cryptozombies.io/)",a.user={name:"Nader Dabit",username:s,twitter_username:s,github_username:s,website_url:"https://mmm.page/nader.main",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--aNfZvjEi--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/126437/41231eb2-054b-4417-bc35-814e491a2d5d.jpeg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--qYNR4ugk--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/126437/41231eb2-054b-4417-bc35-814e491a2d5d.jpeg"},a.organization={name:"Edge and Node",username:i,slug:i,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--XVvCNUhC--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/5310/ea8cfcbf-e2a2-463d-a7ba-cdaf565222d8.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--xi_iSmfh--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/5310/ea8cfcbf-e2a2-463d-a7ba-cdaf565222d8.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:a}},error:n,state:{currentArticle:a},serverRendered:!0,routePath:"/dabit3/683856",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:n}}}}(null,"dabit3",{},"https://dev.to/edge-and-node/building-graphql-apis-on-ethereum-4poa","2021-05-04T13:16:25Z","edge-and-node")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>
