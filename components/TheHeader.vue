@@ -2,7 +2,10 @@
   <header>
     <nuxt-link to="/" class="logo-wrapper">
       <nuxt-icon />
-      <span class="app-name">Nuxtstop</span>
+      <div class="name-wrapper">
+        <span class="app-name">Nuxtstop</span>
+        <p class="subtitle">For all things nuxt.js</p>
+      </div>
     </nuxt-link>
 
     <nav>
@@ -50,6 +53,7 @@ header {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
   .logo-wrapper {
     display: flex;
     align-items: center;
@@ -59,12 +63,18 @@ header {
       width: 3rem;
       height: 100%;
     }
-    .app-name {
-      font-weight: bold;
+    .name-wrapper {
       margin-left: 0.6em;
-      // font-size: $text-sm;
-      font-size: $text-4xl;
-      line-height: 1.25;
+      .subtitle {
+        font-size: $text-base;
+      }
+      .app-name {
+        font-weight: bold;
+
+        // font-size: $text-sm;
+        font-size: $text-4xl;
+        line-height: 1.25;
+      }
     }
   }
 
