@@ -47,60 +47,60 @@
 </template>
 
 <script>
-import HeartIcon from "@/static/assets/icons/heart.svg?inline";
-import InlineErrorBlock from "@/components/blocks/InlineErrorBlock";
-import CommentsIcon from "@/static/assets/icons/comments.svg?inline";
+import HeartIcon from '@/assets/icons/heart.svg?inline'
+import InlineErrorBlock from '@/components/blocks/InlineErrorBlock'
+import CommentsIcon from '@/assets/icons/comments.svg?inline'
 
 export default {
   components: {
     HeartIcon,
     InlineErrorBlock,
-    CommentsIcon,
+    CommentsIcon
   },
   props: [],
   async fetch() {
     const article = await fetch(
       `https://dev.to/api/articles/${this.$route.params.article}`
-    ).then((res) => res.json());
+    ).then((res) => res.json())
 
     if (article.id && article.user.username === this.$route.params.username) {
-      this.article = article;
-      this.$store.commit("SET_CURRENT_ARTICLE", this.article);
+      this.article = article
+      this.$store.commit('SET_CURRENT_ARTICLE', this.article)
     } else {
       // set status code on server: Note here that we wrap this.$nuxt.context.res.statusCode = 404 around process.server, this is used to set the HTTP status code on the server-side for correct SEO.
       if (process.server) {
-        this.$nuxt.context.res.statusCode = 404;
+        this.$nuxt.context.res.statusCode = 404
       }
-      throw new Error("Article not found");
+      throw new Error('Article not found')
     }
   },
   data() {
     return {
-      article: {},
-    };
+      article: {}
+    }
   },
   // there’s an activated hook that can be used for managing TTL (time to live : Lebenszeit, ist die Gültigkeitsdauer, die Daten in Rechnernetzen mitgegeben wird) of fetch
   activated() {
     // Call fetch again if last fetch more than 60 sec ago
     if (this.$fetchState.timestamp <= Date.now() - 60000) {
-      this.$fetch();
+      this.$fetch()
     }
   },
   methods: {
     scrollToComments() {
-      const el = document.querySelector("#comments");
+      const el = document.querySelector('#comments')
       if (el) {
-        const scrollTo = el.getBoundingClientRect().top;
-        window.scrollBy({ top: scrollTo - 20, left: 0, behavior: "smooth" });
+        const scrollTo = el.getBoundingClientRect().top
+        window.scrollBy({ top: scrollTo - 20, left: 0, behavior: 'smooth' })
       }
-    },
+    }
   },
   head() {
     return {
-      title: this.article.title,
-    };
-  },
-};
+      title: this.article.title
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

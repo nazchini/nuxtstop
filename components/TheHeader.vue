@@ -16,27 +16,27 @@
 </template>
 
 <script>
-import NuxtIcon from "@/static/assets/icons/nuxt.svg?inline";
+import NuxtIcon from '@/assets/icons/nuxt.svg?inline'
 
 export default {
   components: {
-    NuxtIcon,
+    NuxtIcon
   },
   data() {
     return {
       links: [
         {
-          name: "New",
-          slug: "index",
+          name: 'New',
+          slug: 'index'
         },
         {
-          name: "Top",
-          slug: "top",
-        },
-      ],
-    };
-  },
-};
+          name: 'Top',
+          slug: 'top'
+        }
+      ]
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

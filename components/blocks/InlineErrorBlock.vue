@@ -6,19 +6,19 @@
 </template>
 
 <script>
-import WarningIcon from "@/static/assets/icons/warning.svg?inline";
+import WarningIcon from '@/assets/icons/warning.svg?inline'
 
 export default {
   components: {
-    WarningIcon,
+    WarningIcon
   },
   props: {
     error: {
       type: Object,
-      default: () => {},
-    },
-  },
-};
+      default: () => {}
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

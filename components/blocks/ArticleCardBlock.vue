@@ -2,7 +2,7 @@
   <nuxt-link
     :to="{
       name: 'username-article',
-      params: { username: article.user.username, article: article.id },
+      params: { username: article.user.username, article: article.id }
     }"
     tag="article"
   >
@@ -18,7 +18,7 @@
       <nuxt-link
         :to="{
           name: 'username-article',
-          params: { username: article.user.username, article: article.id },
+          params: { username: article.user.username, article: article.id }
         }"
       >
         <h1>{{ article.title }}</h1>
@@ -51,21 +51,21 @@
 </template>
 
 <script>
-import HeartIcon from "@/static/assets/icons/heart.svg?inline";
-import CommentsIcon from "@/static/assets/icons/comments.svg?inline";
+import HeartIcon from '@/assets/icons/heart.svg?inline'
+import CommentsIcon from '@/assets/icons/comments.svg?inline'
 
 export default {
   components: {
     HeartIcon,
-    CommentsIcon,
+    CommentsIcon
   },
   props: {
     article: {
       type: Object,
-      default: null,
-    },
-  },
-};
+      default: null
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

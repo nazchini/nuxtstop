@@ -76,44 +76,44 @@
 </template>
 
 <script>
-import InlineErrorBlock from "@/components/blocks/InlineErrorBlock";
-import TwitterIcon from "~/static/assets/icons/twitter.svg?inline";
-import GithubIcon from "~/static/assets/icons/github.svg?inline";
-import ExternalLinkIcon from "~/static/assets/icons/external-link.svg?inline";
+import InlineErrorBlock from '@/components/blocks/InlineErrorBlock'
+import TwitterIcon from '~/assets/icons/twitter.svg?inline'
+import GithubIcon from '~/assets/icons/github.svg?inline'
+import ExternalLinkIcon from '~/assets/icons/external-link.svg?inline'
 
 export default {
   components: {
     TwitterIcon,
     GithubIcon,
     ExternalLinkIcon,
-    InlineErrorBlock,
+    InlineErrorBlock
   },
   props: [],
   async fetch() {
     const res = await fetch(
       `https://dev.to/api/users/by_username?url=${this.$route.params.username}`
-    );
+    )
 
     if (!res.ok) {
       // set status code on server
       if (process.server) {
-        this.$nuxt.context.res.statusCode = 404;
+        this.$nuxt.context.res.statusCode = 404
       }
-      throw new Error("User not found");
+      throw new Error('User not found')
     }
-    this.user = await res.json();
+    this.user = await res.json()
   },
   data() {
     return {
-      user: {},
-    };
+      user: {}
+    }
   },
   head() {
     return {
-      title: this.user.name,
-    };
-  },
-};
+      title: this.user.name
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

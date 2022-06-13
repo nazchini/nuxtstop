@@ -12,15 +12,15 @@
 </template>
 
 <script>
-import DevToIcon from "@/static/assets/icons/dev-to.svg?inline";
-import NuxtIcon from "@/static/assets/icons/nuxt.svg?inline";
+import DevToIcon from '@/assets/icons/dev-to.svg?inline'
+import NuxtIcon from '@/assets/icons/nuxt.svg?inline'
 
 export default {
   components: {
     DevToIcon,
-    NuxtIcon,
-  },
-};
+    NuxtIcon
+  }
+}
 </script>
 
 <style lang="scss" scoped>

@@ -6,7 +6,7 @@
         <nuxt-link
           :to="{
             name: 'username',
-            params: { username: comment.user.username },
+            params: { username: comment.user.username }
           }"
           class="inner-link"
         >
@@ -51,30 +51,30 @@
 </template>
 
 <script>
-import CommentBlock from "@/components/blocks/CommentBlock";
-import TwitterIcon from "~/static/assets/icons/twitter.svg?inline";
-import GithubIcon from "~/static/assets/icons/github.svg?inline";
-import ExternalLinkIcon from "~/static/assets/icons/external-link.svg?inline";
+import CommentBlock from '@/components/blocks/CommentBlock'
+import TwitterIcon from '~/assets/icons/twitter.svg?inline'
+import GithubIcon from '~/assets/icons/github.svg?inline'
+import ExternalLinkIcon from '~/assets/icons/external-link.svg?inline'
 
 export default {
-  name: "CommentBlock",
+  name: 'CommentBlock',
   components: {
     CommentBlock,
     TwitterIcon,
     GithubIcon,
-    ExternalLinkIcon,
+    ExternalLinkIcon
   },
   props: {
     comment: {
       type: Object,
-      default: null,
+      default: null
     },
     level: {
       type: Number,
-      default: null,
-    },
-  },
-};
+      default: null
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

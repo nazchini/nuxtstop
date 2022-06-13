@@ -32,24 +32,20 @@ export default {
     '~/assets/styles/app.scss'
   ],
   styleResources: {
-    scss: ['~/static/assets/styles/tokens.scss']
+    scss: ['~/assets/styles/tokens.scss']
   },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '~/static/plugins/vue-placeholders.js',
-    '~/static/plugins/vue-observe-visibility.client.js'
+    '~/plugins/vue-placeholders.js',
+    '~/plugins/vue-observe-visibility.client.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: [
-    '@nuxtjs/eslint-module',
-    '@nuxtjs/svg',
-    '@nuxtjs/style-resources'
-  ],
+  buildModules: ['@nuxtjs/svg', '@nuxtjs/style-resources'],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [],
