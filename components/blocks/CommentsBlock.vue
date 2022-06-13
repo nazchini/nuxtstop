@@ -20,32 +20,33 @@
 </template>
 
 <script>
-import CommentBlock from '@/components/blocks/CommentBlock'
+import CommentBlock from "@/components/blocks/CommentBlock";
 
 export default {
   components: {
-    CommentBlock
+    CommentBlock,
   },
   props: [],
   async fetch() {
     this.comments = await fetch(
       `https://dev.to/api/comments?a_id=${this.$route.params.article}`
-    ).then((res) => res.json())
+    ).then((res) => res.json());
   },
+  // There’s also interesting usage of another fetch feature called fetchOnServer. We don’t really want to render this content on the server side, because comments are user generated and could be irrelevant or spammy. We don’t need any SEO for this content block. Now, with the help of mentioned fetchOnServer we have such control.
   fetchOnServer: false,
   data() {
     return {
-      comments: []
-    }
+      comments: [],
+    };
   },
   computed: {
     addCommentLink() {
-      const { slug } = this.$store.state.currentArticle || {}
+      const { slug } = this.$store.state.currentArticle || {};
 
-      return `https://dev.to/${this.$route.params.username}/${slug}`
-    }
-  }
-}
+      return `https://dev.to/${this.$route.params.username}/${slug}`;
+    },
+  },
+};
 </script>
 
 <style lang="scss" scoped>
