@@ -55,6 +55,13 @@ export default {
     ArticleCardBlock,
     InlineErrorBlock,
   },
+  async fetch() {
+    const articles = await fetch(
+      `https://dev.to/api/articles?tag=nuxt&state=rising&page=${this.currentPage}`
+    ).then((res) => res.json());
+
+    this.articles = this.articles.concat(articles);
+  },
   data() {
     return {
       currentPage: 1,
@@ -71,12 +78,10 @@ export default {
       }
     },
   },
-  async fetch() {
-    const articles = await fetch(
-      `https://dev.to/api/articles?tag=nuxt&state=rising&page=${this.currentPage}`
-    ).then((res) => res.json());
-
-    this.articles = this.articles.concat(articles);
+  head() {
+    return {
+      title: "New Nuxt.js articles",
+    };
   },
 };
 </script>
