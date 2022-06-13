@@ -2,7 +2,9 @@
   <header>
     <nuxt-link to="/" class="logo-wrapper">
       <nuxt-icon />
+      <span class="app-name">Nuxtstop</span>
     </nuxt-link>
+
     <nav>
       <ul>
         <li v-for="link in links" :key="link.slug">
@@ -49,12 +51,23 @@ header {
   align-items: center;
   justify-content: space-between;
   .logo-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin: 0 0.5rem;
     svg {
       width: 3rem;
       height: 100%;
     }
+    .app-name {
+      font-weight: bold;
+      margin-left: 0.6em;
+      // font-size: $text-sm;
+      font-size: $text-4xl;
+      line-height: 1.25;
+    }
   }
+
   nav {
     letter-spacing: $-ls2;
     font-weight: $display-font-weight;
