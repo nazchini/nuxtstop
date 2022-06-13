@@ -1,13 +1,14 @@
-# Nuxtstop
+# Nuxtstop - for all things Nuxt.js
 
-> for all things Nuxt.js
+![nuxtstop](https://user-images.githubusercontent.com/89296394/173459979-72083395-993c-43f9-a45f-67abd8885ee1.gif)
+
 
 ### Things I liked about Nuxt.js
 
 This project is my first introduction to Nuxt.js as a framework for Vue.js.
 
 - I really liked how convenient it was to use Nuxt's file based dynamic routes feature to scaffold necessary pages/App URL routes by creating a specific file structure.
-- the fetch hook gived the vue component access to the 'this' context, and is able to mutate component’s data directly.
+- the fetch hook gives the vue component access to the 'this' context, and is able to mutate component’s data directly.
   - It means we can set the component’s local data without having to dispatch Vuex store action or committing mutation from the page component.
   - As a result, Vuex becomes optional, but not impossible. We can still use this.$store as usual to access Vuex store if required.
 - I could use the fetch hook in any Vue component to access API (instead of interacting through the store) This means easier structuring of async API calls and components.
