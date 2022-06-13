@@ -1,4 +1,4 @@
-// latest articles about Nuxt will be listed
+// latest articles about Nuxt will be listed here
 <template>
   <div class="page-wrapper">
     <div class="article-cards-wrapper">

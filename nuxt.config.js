@@ -18,13 +18,13 @@ export default {
   css: [],
 
   styleResources: {
-    scss: ["~/assets/styles/tokens.scss"],
+    scss: ["~/static/assets/styles/tokens.scss"],
   },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    "~/plugins/vue-placeholders.js",
-    "~/plugins/vue-observe-visibility.client.js",
+    "~/static/plugins/vue-placeholders.js",
+    "~/static/plugins/vue-observe-visibility.client.js",
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
