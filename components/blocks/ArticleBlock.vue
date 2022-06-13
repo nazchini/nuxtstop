@@ -67,7 +67,7 @@ export default {
       this.article = article;
       this.$store.commit("SET_CURRENT_ARTICLE", this.article);
     } else {
-      // set status code on server
+      // set status code on server: Note here that we wrap this.$nuxt.context.res.statusCode = 404 around process.server, this is used to set the HTTP status code on the server-side for correct SEO.
       if (process.server) {
         this.$nuxt.context.res.statusCode = 404;
       }

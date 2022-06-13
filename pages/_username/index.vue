@@ -1,10 +1,21 @@
 // user profile page with list of his published articles
 <template>
-  <div class="page-wrapper"></div>
+  <div class="page-wrapper">
+    <username-block />
+    <username-articles-block />
+  </div>
 </template>
 
 <script>
-export default {};
+import UsernameBlock from "@/components/blocks/UsernameBlock";
+import UsernameArticlesBlock from "@/components/blocks/UsernameArticlesBlock";
+
+export default {
+  components: {
+    UsernameBlock,
+    UsernameArticlesBlock,
+  },
+};
 </script>
 
 <style lang="scss" scoped>
