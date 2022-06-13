@@ -1,41 +1,59 @@
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: "nuxt-dev-to-clone",
+    title: 'Dev.to Clone with Nuxt.js',
     htmlAttrs: {
-      lang: "en",
+      lang: 'en'
     },
     meta: [
-      { charset: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "" },
-      { name: "format-detection", content: "telephone=no" },
+      { charset: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      {
+        hid: 'description',
+        name: 'description',
+        content: 'Using Nuxt.js fetch() hook to build dev.to with a new look'
+      },
+      { name: 'format-detection', content: 'telephone=no' }
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
+    link: [
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap'
+      }
+    ]
   },
-
+  loading: false, // disable loading bar
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
-
+  css: [
+    '~/assets/styles/reset.scss',
+    '~/assets/styles/base.scss',
+    '~/assets/styles/highlight.scss',
+    '~/assets/styles/app.scss'
+  ],
   styleResources: {
-    scss: ["~/static/assets/styles/tokens.scss"],
+    scss: ['~/static/assets/styles/tokens.scss']
   },
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    "~/static/plugins/vue-placeholders.js",
-    "~/static/plugins/vue-observe-visibility.client.js",
+    '~/static/plugins/vue-placeholders.js',
+    '~/static/plugins/vue-observe-visibility.client.js'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
 
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
-  buildModules: ["@nuxtjs/svg", "@nuxtjs/style-resources"],
+  buildModules: [
+    '@nuxtjs/eslint-module',
+    '@nuxtjs/svg',
+    '@nuxtjs/style-resources'
+  ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [],
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
-};
+  build: {}
+}
