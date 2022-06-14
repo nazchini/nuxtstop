@@ -1,0 +1,669 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Introduction to workers and why we should use them</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Introduction to workers and why we should use them</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/worker" class="tag" data-v-70afb46a>
+          #worker
+        </a><a href="/nuxtstop/t/performance" class="tag" data-v-70afb46a>
+          #performance
+        </a><a href="/nuxtstop/t/browser" class="tag" data-v-70afb46a>
+          #browser
+        </a></div> <!----> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            5
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Nov 12 '21</time></div></header> <div class="content" data-v-70afb46a><p>As we know that browser runs all the Javascript of a web page in a single thread - the main thread, any excessive Javascript code may block the main thread and makes the page look laggy or even unresponsive.</p>
+
+<p>We may improve this by off-loading some tasks to workers, and turns the single-threaded app into a multi-threaded, higher-performance, and potentially safer app.</p>
+
+<h2>
+  <a name="introduction-of-workers" href="#introduction-of-workers">
+  </a>
+  Introduction of workers
+</h2>
+
+<p>There are 3 kinds of workers in the browser context:</p>
+
+<ol>
+<li>
+<strong>Web worker</strong> - including <strong>dedicated worker</strong>, and <strong>shared worker</strong>
+</li>
+<li><strong>Service worker</strong></li>
+<li>
+<a href="https://developer.mozilla.org/en-US/docs/Web/API/Worklet">Worklet</a>- including <a href="https://developer.mozilla.org/en-US/docs/Web/API/PaintWorklet">PaintWorklet</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioWorklet">AudioWorklet</a>, AnimationWorklet, LayoutWorklet.</li>
+</ol>
+
+<p>I will focus on the web worker and service worker in this post, as worklet is still experimental and designed for more specific usages.</p>
+
+<h3>
+  <a name="web-worker" href="#web-worker">
+  </a>
+  Web worker
+</h3>
+
+<p>Web worker is designed as <strong>the background thread for running scripts</strong>. Web pages are <strong>allow to spawn multiple workers</strong> to do different tasks in an <strong>isolated context</strong>.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--aqirLs0a--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://web-dev.imgix.net/image/tcFciHGuF3MxnTr1y5ue01OGLBn2/ZCC24V8uqi6HfFjRzuPq.png%3Fauto%3Dformat%26w%3D1000" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--aqirLs0a--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://web-dev.imgix.net/image/tcFciHGuF3MxnTr1y5ue01OGLBn2/ZCC24V8uqi6HfFjRzuPq.png%3Fauto%3Dformat%26w%3D1000" alt="" loading="lazy" width="880" height="308"></a></p>
+
+<p>(Image from <a href="https://web.dev/workers-overview/">Workers Overview</a>)</p>
+
+<p>We may create such thread dedicated to a web page via the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Worker/Worker">Worker</a> API:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="kd">const</span> <span class="nx">myWorker</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Worker</span><span class="p">(</span><span class="dl">'</span><span class="s1">worker.js</span><span class="dl">'</span><span class="p">);</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Or sharing the thread among the same origin via the <a href="https://developer.mozilla.org/en-US/docs/Web/API/SharedWorker">SharedWorker</a> API.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="kd">const</span> <span class="nx">mySharedWorker</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SharedWorker</span><span class="p">(</span><span class="dl">'</span><span class="s1">sharedWorker.js</span><span class="dl">'</span><span class="p">);</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Their usage is almost the same but <strong>the connection between the web page and the shared worker is assigned ports</strong>. To communicate with the shared worker, the web page need to go through the port assigned.</p>
+
+<p>In the main thread:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">mySharedWorker</span><span class="p">.</span><span class="nx">port</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">(</span><span class="dl">'</span><span class="s1">Test message to worker.</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">mySharedWorker</span><span class="p">.</span><span class="nx">port</span><span class="p">.</span><span class="nx">onmessage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=></span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Receive data from shared worker:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">e</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+<span class="p">};</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>In the shared worker:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">onconnect</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=></span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">port</span> <span class="o">=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">ports</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+  <span class="nx">port</span><span class="p">.</span><span class="nx">onmessage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=></span> <span class="p">{</span>
+    <span class="nx">port</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hi, I received your message "${e.data}"!`);
+  };
+}
+</span></code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>While communicating with the dedicated worker is more straightforward.</p>
+
+<p>In the main thread:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">myWorker</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">(</span><span class="dl">'</span><span class="s1">Test message to worker.</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">myWorker</span><span class="p">.</span><span class="nx">onMessage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=></span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">Receive data from dedicated worker:</span><span class="dl">'</span><span class="p">,</span> <span class="nx">e</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>
+<span class="p">};</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>In the dedicated worker:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">onmessage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=></span> <span class="p">{</span>
+  <span class="nx">postMessage</span><span class="p">(</span><span class="dl">'</span><span class="s1">Hi, I received your message "${e.data}"!`);
+};
+</span></code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Another difference you may notice is that the dedicated worker is coupled with the web page, hence <strong>it will be terminated once user close the page</strong>.</p>
+
+<h3>
+  <a name="service-worker" href="#service-worker">
+  </a>
+  Service worker
+</h3>
+
+<p>Service worker is designed as an <strong>extra layer working between the web page and the server</strong>.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--toHEH5xa--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://web-dev.imgix.net/image/tcFciHGuF3MxnTr1y5ue01OGLBn2/GmGcVnb2y1yNc4ZIFFQ8.png%3Fauto%3Dformat%26w%3D1248" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--toHEH5xa--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://web-dev.imgix.net/image/tcFciHGuF3MxnTr1y5ue01OGLBn2/GmGcVnb2y1yNc4ZIFFQ8.png%3Fauto%3Dformat%26w%3D1248" alt="" loading="lazy" width="880" height="377"></a></p>
+
+<p>(Image from <a href="https://web.dev/workers-overview/">Workers Overview</a>)</p>
+
+<p>Unlike the web worker, it has a more complicated lifecycle:</p>
+
+<ol>
+<li>Register in main thread via <code>navigator.serviceWorker.register()</code>, and download the script for the service worker;</li>
+<li>Install if the service worker is newly registered, or the script is updated;</li>
+<li>Activate when no "old" service worker is controlling the clients under its scope;</li>
+<li>Redundant when it is out-dated and being replaced.</li>
+</ol>
+
+<p>It is given <a href="https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API#interfaces">a set of APIs and events</a> to achieve things like:</p>
+
+<ul>
+<li>caching data</li>
+<li>intercepting requests</li>
+<li>managing browser push notifications</li>
+</ul>
+
+<p>On top of these capabilities, we do a lot more interesting things. We will discuss these later.</p>
+
+<h3>
+  <a name="their-limitations" href="#their-limitations">
+  </a>
+  Their limitations
+</h3>
+
+<p>Both web worker and service worker are quite powerful, but meanwhile they have various limitations. Including:</p>
+
+<p><strong>No access to DOM, window object and some other APIs like localStorage</strong>. This restriction keeps main thread and worker isolated and not disturbing each other. However, this also means if you would like off-load some heavy jobs like DOM operations, it's not possible with worker.</p>
+
+<p><strong>Messages between the main thread and the worker are cloned</strong> via <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm">the structured clone algorithm</a> which does not work with various data types. And unlike <code>JSON.stringify()</code> simply strip off the data it does not support, passing a data type the structured clone does not support will simply throw an exception.</p>
+
+<p><strong>Experimental and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">limited support</a> for ES modules.</strong> As mordern browsers support ES module better, we could lower down quite some overhead on compiling our scripts, and run ES module directly in the browser. But, that is not quite the case in the workers. </p>
+
+<blockquote>
+<p>As of Mar 1, 2019, only <a href="https://web.dev/module-workers/">Chrome 80+</a> supports this feature, while <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1247687">Firefox has an open feature request</a>. No other browsers are known to have support for production usage of worker scripts written as modules.</p>
+</blockquote>
+
+<p>In these browsers, you may spawn a worker with ES module via:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">new</span> <span class="nx">Worker</span><span class="p">(</span><span class="dl">'</span><span class="s1">worker.js</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">module</span><span class="dl">'</span>
+<span class="p">});</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>However, the ES module syntax <code>import</code> and <code>export</code> may not work well as you expected.</p>
+
+<p><strong>Spawning a worker from a worker almost cannot work</strong>, although some browser claims that we can spawn a sub worker from a dedicated worker. This could be a bit frastrating sometimes as some library (e.g. esbuild-wasm) has built-in worker logics, which prevent us from organizing the tasks properly according to our needs, and have to communicate between the worker in the library and our own worker through the main thread message channel.</p>
+
+<h2>
+  <a name="performance-improvement-with-workers" href="#performance-improvement-with-workers">
+  </a>
+  Performance improvement with workers
+</h2>
+
+<h3>
+  <a name="offloading-heavy-tasks" href="#offloading-heavy-tasks">
+  </a>
+  Off-loading heavy tasks
+</h3>
+
+<p>As introduced previously in "Introduction of workers", we may assign some heavy tasks to workers to avoid blocking the main thread and affecting user experiences.</p>
+
+<p>For example, when we have to group or process the raw data from BE for display, we may spawn a web worker to do this while continuing to render other things.</p>
+
+<p>In the main thread, we spawn a web worker, then instruct the task and wait for the result:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="kd">function</span> <span class="nx">getData</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">myWorker</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Worker</span><span class="p">(</span><span class="dl">'</span><span class="s1">processData.js</span><span class="dl">'</span><span class="p">);</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=></span> <span class="p">{</span>
+    <span class="nx">myWorker</span><span class="p">.</span><span class="nx">onMessage</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">data</span> <span class="p">})</span> <span class="o">=></span> <span class="p">{</span>
+      <span class="nx">resolve</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+      <span class="nx">myWorker</span><span class="p">.</span><span class="nx">terminate</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="nx">myWorker</span><span class="p">.</span><span class="nx">onError</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=></span> <span class="p">{</span>
+      <span class="nx">reject</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>
+      <span class="nx">myWorker</span><span class="p">.</span><span class="nx">terminate</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="nx">myWorker</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">({</span> <span class="na">sortBy</span><span class="p">:</span> <span class="dl">'</span><span class="s1">update_time</span><span class="dl">'</span> <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+
+<span class="nx">getData</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=></span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>In the <code>processData.js</code>:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="kd">function</span> <span class="nx">process</span><span class="p">(</span><span class="nx">rawData</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="nx">processedData</span> <span class="o">=</span> <span class="nx">rawData</span><span class="p">;</span>
+  <span class="c1">// Do the processing</span>
+  <span class="k">return</span> <span class="nx">processedData</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">onmessage</span> <span class="o">=</span> <span class="p">({</span> <span class="na">data</span><span class="p">:</span> <span class="nx">options</span> <span class="p">})</span> <span class="o">=></span> <span class="p">{</span>
+  <span class="nx">fetch</span><span class="p">(</span><span class="dl">'</span><span class="s1">/get_raw_data</span><span class="dl">'</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">res</span> <span class="o">=></span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">rawData</span> <span class="o">=></span> <span class="nx">process</span><span class="p">(</span><span class="nx">rawData</span><span class="p">,</span> <span class="nx">options</span><span class="p">))</span>
+  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=></span> <span class="nx">postMessage</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>
+<span class="p">};</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Another classic use case is to zip/unzip files in the browser. The workers are often integrated within the library, like <a href="https://www.npmjs.com/package/unzipit">unzipit</a>, <a href="https://www.npmjs.com/package/js-untar">js-untar</a>, etc.</p>
+
+<h3>
+  <a name="prefetching-data" href="#prefetching-data">
+  </a>
+  Prefetching data
+</h3>
+
+<p>Service worker provides APIs for caching data, and intercepting requests in the browser. This provide us an opportunity to get some data ready in advance.</p>
+
+<p>In the main thread, we simply register the service worker script:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">if</span> <span class="p">(</span><span class="dl">"</span><span class="s2">serviceWorker</span><span class="dl">"</span> <span class="k">in</span> <span class="nb">navigator</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// do make sure the service worker script is under the right folder as it will only control the requests from the scripts under the same folder</span>
+  <span class="nb">navigator</span><span class="p">.</span><span class="nx">serviceWorker</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="dl">"</span><span class="s2">/sw.js</span><span class="dl">"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>And fetch data as normal:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">fetch</span><span class="p">(</span><span class="dl">'</span><span class="s1">/get_data</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">res</span> <span class="o">=></span> <span class="p">{</span>
+  <span class="c1">// If the service worker is successfully activated and the prefetched data is ready, you shall get the response immediately</span>
+  <span class="c1">// ...</span>
+<span class="p">});</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>In the <code>sw.js</code>, we load data ahead and put into cache:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="kd">const</span> <span class="nx">preFetchUrls</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="dl">'</span><span class="s1">/get_data</span><span class="dl">'</span>
+<span class="p">];</span>
+<span class="nx">caches</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="dl">'</span><span class="s1">prefetchedData</span><span class="dl">'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">prefetchedData</span> <span class="o">=></span> <span class="p">{</span>
+  <span class="nx">preFetchUrls</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">requestUrl</span> <span class="o">=></span> <span class="p">{</span>
+    <span class="nx">fetch</span><span class="p">(</span><span class="nx">requestUrl</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">res</span> <span class="o">=></span> <span class="nx">prefetchedData</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="nx">requestUrl</span><span class="p">,</span><span class="nx">res</span><span class="p">));</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>And intercept the request to replace the response with the cache if it exists:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">addEventlistener</span><span class="p">(</span><span class="dl">'</span><span class="s1">fetch</span><span class="dl">'</span><span class="p">,</span> <span class="nx">e</span> <span class="o">=></span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="p">{</span> <span class="nx">method</span><span class="p">,</span> <span class="nx">url</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">request</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">method</span> <span class="o">!==</span> <span class="dl">'</span><span class="s1">GET</span><span class="dl">'</span> <span class="o">||</span> <span class="o">!</span><span class="nx">preFetchUrls</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">url</span><span class="p">))</span> <span class="k">return</span><span class="p">;</span>
+  <span class="nx">e</span><span class="p">.</span><span class="nx">respondWith</span><span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=></span> <span class="p">{</span>
+        <span class="kd">const</span> <span class="nx">prefetchedData</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">caches</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="dl">'</span><span class="s1">prefetchedData</span><span class="dl">'</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="nx">cachedResponse</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">cache</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">request</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">cachedResponse</span> <span class="o">||</span> <span class="nx">fetch</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">request</span><span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="caching-for-loading-faster-next-time-with-workbox" href="#caching-for-loading-faster-next-time-with-workbox">
+  </a>
+  Caching for loading faster next time with Workbox
+</h3>
+
+<p>In the use case above, we made use of the caching and request intercepting ability of service worker to load some data ahead. We may also use these abilities to help our return user to load page faster by caching the necessary files.</p>
+
+<p>Here I would like to recommend using <a href="https://developers.google.com/web/tools/workbox">Workbox</a>, which will largely simplify the setups and apply different strategies easily.</p>
+
+<p>In the main thread, we will need to register the service worker script as before:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">if</span> <span class="p">(</span><span class="dl">"</span><span class="s2">serviceWorker</span><span class="dl">"</span> <span class="k">in</span> <span class="nb">navigator</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nb">navigator</span><span class="p">.</span><span class="nx">serviceWorker</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="dl">"</span><span class="s2">/sw.js</span><span class="dl">"</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>While in the <code>sw.js</code>, we will import the Workbox libraries this time, which means you will require to bundle this file before use.</p>
+
+<p>The example code from Workbox website is sufficient for most of the use cases:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">registerRoute</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">workbox-routing</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span>
+  <span class="nx">NetworkFirst</span><span class="p">,</span>
+  <span class="nx">StaleWhileRevalidate</span><span class="p">,</span>
+  <span class="nx">CacheFirst</span><span class="p">,</span>
+<span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">workbox-strategies</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">CacheableResponsePlugin</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">workbox-cacheable-response</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">ExpirationPlugin</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">workbox-expiration</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="c1">// Cache page navigations (html) with a Network First strategy</span>
+<span class="nx">registerRoute</span><span class="p">(</span>
+  <span class="p">({</span> <span class="nx">request</span> <span class="p">})</span> <span class="o">=></span> <span class="nx">request</span><span class="p">.</span><span class="nx">mode</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">navigate</span><span class="dl">'</span><span class="p">,</span>
+  <span class="k">new</span> <span class="nx">NetworkFirst</span><span class="p">({</span>
+    <span class="na">cacheName</span><span class="p">:</span> <span class="dl">'</span><span class="s1">pages</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span>
+      <span class="c1">// Ensure that only requests that result in a 200 status are cached</span>
+      <span class="k">new</span> <span class="nx">CacheableResponsePlugin</span><span class="p">({</span>
+        <span class="na">statuses</span><span class="p">:</span> <span class="p">[</span><span class="mi">200</span><span class="p">],</span>
+      <span class="p">}),</span>
+    <span class="p">],</span>
+  <span class="p">}),</span>
+<span class="p">);</span>
+
+<span class="c1">// Cache CSS, JS, and Web Worker requests with a Stale While Revalidate strategy</span>
+<span class="nx">registerRoute</span><span class="p">(</span>
+  <span class="p">({</span> <span class="nx">request</span> <span class="p">})</span> <span class="o">=></span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">destination</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">style</span><span class="dl">'</span> <span class="o">||</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">destination</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">script</span><span class="dl">'</span> <span class="o">||</span>
+    <span class="nx">request</span><span class="p">.</span><span class="nx">destination</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">worker</span><span class="dl">'</span><span class="p">,</span>
+  <span class="k">new</span> <span class="nx">StaleWhileRevalidate</span><span class="p">({</span>
+    <span class="na">cacheName</span><span class="p">:</span> <span class="dl">'</span><span class="s1">assets</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span>
+      <span class="k">new</span> <span class="nx">CacheableResponsePlugin</span><span class="p">({</span>
+        <span class="na">statuses</span><span class="p">:</span> <span class="p">[</span><span class="mi">200</span><span class="p">],</span>
+      <span class="p">}),</span>
+    <span class="p">],</span>
+  <span class="p">}),</span>
+<span class="p">);</span>
+
+<span class="c1">// Cache images with a Cache First strategy</span>
+<span class="nx">registerRoute</span><span class="p">(</span>
+  <span class="p">({</span> <span class="nx">request</span> <span class="p">})</span> <span class="o">=></span> <span class="nx">request</span><span class="p">.</span><span class="nx">destination</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">image</span><span class="dl">'</span><span class="p">,</span>
+  <span class="k">new</span> <span class="nx">CacheFirst</span><span class="p">({</span>
+    <span class="na">cacheName</span><span class="p">:</span> <span class="dl">'</span><span class="s1">images</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span>
+      <span class="k">new</span> <span class="nx">CacheableResponsePlugin</span><span class="p">({</span>
+        <span class="na">statuses</span><span class="p">:</span> <span class="p">[</span><span class="mi">200</span><span class="p">],</span>
+      <span class="p">}),</span>
+      <span class="c1">// Don't cache more than 50 items, and expire them after 30 days</span>
+      <span class="k">new</span> <span class="nx">ExpirationPlugin</span><span class="p">({</span>
+        <span class="na">maxEntries</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>
+        <span class="na">maxAgeSeconds</span><span class="p">:</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">30</span><span class="p">,</span> <span class="c1">// 30 Days</span>
+      <span class="p">}),</span>
+    <span class="p">],</span>
+  <span class="p">}),</span>
+<span class="p">);</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>If these are the only logics you needed in the service worker, you may also simply use a bundler plugin instead of copy paste and configure the bundler. </p>
+
+<p>For Webpack users, check this doc: <a href="https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin">Workbox Webpack plugin</a>.</p>
+
+<p>For Rollup users, you may try the plugin <a href="https://www.npmjs.com/package/rollup-plugin-workbox">rollup-plugin-workbox</a>.</p>
+
+<h2>
+  <a name="other-usages-with-workers" href="#other-usages-with-workers">
+  </a>
+  Other usages with workers
+</h2>
+
+<h3>
+  <a name="mocking-api-without-nodejs-server" href="#mocking-api-without-nodejs-server">
+  </a>
+  Mocking API without Node.js server
+</h3>
+
+<p>Once we have the ability to intercept a request, we may achieve some interesting things like mocking API. <a href="https://mswjs.io/">MSW</a> is an perfect example.</p>
+
+<p>Basically we could:</p>
+
+<ol>
+<li>listen to the "fetch" event;</li>
+<li>check the request matches our rules;</li>
+<li>if it matches, replace with a cached response.</li>
+</ol>
+
+<p>Just like what I demonstrated in the "Prefetching data" use case.</p>
+
+<h3>
+  <a name="as-a-data-processing-layer" href="#as-a-data-processing-layer">
+  </a>
+  As a data processing layer
+</h3>
+
+<p>Another interesting use case is separating a data processing layer from our UI layer. </p>
+
+<p>For example, when we are tracking the usage of an app, the app may throw all the information of a component to the worker. Then the worker selects the required data, and transforms the data into the right format before finally sending them to the server.</p>
+
+<p>The layer isolation keeps the relatively non-critical but probably heavy tracking logics away from affecting the user experience, and crashing the app when there's something wrong.</p>
+
+<h3>
+  <a name="syncing-in-the-background" href="#syncing-in-the-background">
+  </a>
+  Syncing in the background
+</h3>
+
+<p>Have you encounter any super slow data operations such as uploading multiple large files, or simply the BE server respond slowly? In these cases, the user is likely have to wait for the server response before exiting it.</p>
+
+<p>Service worker does not have this limitation! It keeps running as long as the browser is still active. Therefore, we could cache these data somewhere in the browser first (like indexDB), and let the service worker to communicate with server instead to allow the user doing other things while waiting.</p>
+
+<h3>
+  <a name="and-more" href="#and-more">
+  </a>
+  And more
+</h3>
+
+<p>There are a lot more possibilities with workers besides to the stuff mentioned above, like the well-known Progressive Web App, push notifications, code sandbox (without DOM access), etc.  </p>
+
+<p>Let's be creative and bring the web app to the next level!</p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/jennieji/introduction-to-workers-and-why-we-should-use-them-3mn3" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(s,n,a,e){return a.type_of="article",a.id=895872,a.title="Introduction to workers and why we should use them",a.description="As we know that browser runs all the Javascript of a web page in a single thread - the main thread,...",a.readable_publish_date="Nov 12 '21",a.slug="introduction-to-workers-and-why-we-should-use-them-3mn3",a.path="/jennieji/introduction-to-workers-and-why-we-should-use-them-3mn3",a.url=e,a.comments_count=0,a.public_reactions_count=5,a.collection_id=s,a.published_timestamp=n,a.positive_reactions_count=5,a.cover_image=s,a.social_image="https://dev.to/social_previews/article/895872.png",a.canonical_url=e,a.created_at=n,a.edited_at=s,a.crossposted_at=s,a.published_at=n,a.last_comment_at=n,a.reading_time_minutes=8,a.tag_list="worker, performance, browser",a.tags=["worker","performance","browser"],a.body_html='<p>As we know that browser runs all the Javascript of a web page in a single thread - the main thread, any excessive Javascript code may block the main thread and makes the page look laggy or even unresponsive.</p>\n\n<p>We may improve this by off-loading some tasks to workers, and turns the single-threaded app into a multi-threaded, higher-performance, and potentially safer app.</p>\n\n<h2>\n  <a name="introduction-of-workers" href="#introduction-of-workers">\n  </a>\n  Introduction of workers\n</h2>\n\n<p>There are 3 kinds of workers in the browser context:</p>\n\n<ol>\n<li>\n<strong>Web worker</strong> - including <strong>dedicated worker</strong>, and <strong>shared worker</strong>\n</li>\n<li><strong>Service worker</strong></li>\n<li>\n<a href="https://developer.mozilla.org/en-US/docs/Web/API/Worklet">Worklet</a>- including <a href="https://developer.mozilla.org/en-US/docs/Web/API/PaintWorklet">PaintWorklet</a>, <a href="https://developer.mozilla.org/en-US/docs/Web/API/AudioWorklet">AudioWorklet</a>, AnimationWorklet, LayoutWorklet.</li>\n</ol>\n\n<p>I will focus on the web worker and service worker in this post, as worklet is still experimental and designed for more specific usages.</p>\n\n<h3>\n  <a name="web-worker" href="#web-worker">\n  </a>\n  Web worker\n</h3>\n\n<p>Web worker is designed as <strong>the background thread for running scripts</strong>. Web pages are <strong>allow to spawn multiple workers</strong> to do different tasks in an <strong>isolated context</strong>.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--aqirLs0a--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://web-dev.imgix.net/image/tcFciHGuF3MxnTr1y5ue01OGLBn2/ZCC24V8uqi6HfFjRzuPq.png%3Fauto%3Dformat%26w%3D1000" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--aqirLs0a--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://web-dev.imgix.net/image/tcFciHGuF3MxnTr1y5ue01OGLBn2/ZCC24V8uqi6HfFjRzuPq.png%3Fauto%3Dformat%26w%3D1000" alt="" loading="lazy" width="880" height="308"></a></p>\n\n<p>(Image from <a href="https://web.dev/workers-overview/">Workers Overview</a>)</p>\n\n<p>We may create such thread dedicated to a web page via the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Worker/Worker">Worker</a> API:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="kd">const</span> <span class="nx">myWorker</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Worker</span><span class="p">(</span><span class="dl">\'</span><span class="s1">worker.js</span><span class="dl">\'</span><span class="p">);</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Or sharing the thread among the same origin via the <a href="https://developer.mozilla.org/en-US/docs/Web/API/SharedWorker">SharedWorker</a> API.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="kd">const</span> <span class="nx">mySharedWorker</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">SharedWorker</span><span class="p">(</span><span class="dl">\'</span><span class="s1">sharedWorker.js</span><span class="dl">\'</span><span class="p">);</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Their usage is almost the same but <strong>the connection between the web page and the shared worker is assigned ports</strong>. To communicate with the shared worker, the web page need to go through the port assigned.</p>\n\n<p>In the main thread:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">mySharedWorker</span><span class="p">.</span><span class="nx">port</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">(</span><span class="dl">\'</span><span class="s1">Test message to worker.</span><span class="dl">\'</span><span class="p">);</span>\n<span class="nx">mySharedWorker</span><span class="p">.</span><span class="nx">port</span><span class="p">.</span><span class="nx">onmessage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>\n  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">\'</span><span class="s1">Receive data from shared worker:</span><span class="dl">\'</span><span class="p">,</span> <span class="nx">e</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>\n<span class="p">};</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>In the shared worker:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">onconnect</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>\n  <span class="kd">const</span> <span class="nx">port</span> <span class="o">=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">ports</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>\n  <span class="nx">port</span><span class="p">.</span><span class="nx">onmessage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>\n    <span class="nx">port</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">(</span><span class="dl">\'</span><span class="s1">Hi, I received your message "${e.data}"!`);\n  };\n}\n</span></code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>While communicating with the dedicated worker is more straightforward.</p>\n\n<p>In the main thread:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">myWorker</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">(</span><span class="dl">\'</span><span class="s1">Test message to worker.</span><span class="dl">\'</span><span class="p">);</span>\n<span class="nx">myWorker</span><span class="p">.</span><span class="nx">onMessage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>\n  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">\'</span><span class="s1">Receive data from dedicated worker:</span><span class="dl">\'</span><span class="p">,</span> <span class="nx">e</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span>\n<span class="p">};</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>In the dedicated worker:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">onmessage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>\n  <span class="nx">postMessage</span><span class="p">(</span><span class="dl">\'</span><span class="s1">Hi, I received your message "${e.data}"!`);\n};\n</span></code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Another difference you may notice is that the dedicated worker is coupled with the web page, hence <strong>it will be terminated once user close the page</strong>.</p>\n\n<h3>\n  <a name="service-worker" href="#service-worker">\n  </a>\n  Service worker\n</h3>\n\n<p>Service worker is designed as an <strong>extra layer working between the web page and the server</strong>.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--toHEH5xa--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://web-dev.imgix.net/image/tcFciHGuF3MxnTr1y5ue01OGLBn2/GmGcVnb2y1yNc4ZIFFQ8.png%3Fauto%3Dformat%26w%3D1248" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--toHEH5xa--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://web-dev.imgix.net/image/tcFciHGuF3MxnTr1y5ue01OGLBn2/GmGcVnb2y1yNc4ZIFFQ8.png%3Fauto%3Dformat%26w%3D1248" alt="" loading="lazy" width="880" height="377"></a></p>\n\n<p>(Image from <a href="https://web.dev/workers-overview/">Workers Overview</a>)</p>\n\n<p>Unlike the web worker, it has a more complicated lifecycle:</p>\n\n<ol>\n<li>Register in main thread via <code>navigator.serviceWorker.register()</code>, and download the script for the service worker;</li>\n<li>Install if the service worker is newly registered, or the script is updated;</li>\n<li>Activate when no "old" service worker is controlling the clients under its scope;</li>\n<li>Redundant when it is out-dated and being replaced.</li>\n</ol>\n\n<p>It is given <a href="https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API#interfaces">a set of APIs and events</a> to achieve things like:</p>\n\n<ul>\n<li>caching data</li>\n<li>intercepting requests</li>\n<li>managing browser push notifications</li>\n</ul>\n\n<p>On top of these capabilities, we do a lot more interesting things. We will discuss these later.</p>\n\n<h3>\n  <a name="their-limitations" href="#their-limitations">\n  </a>\n  Their limitations\n</h3>\n\n<p>Both web worker and service worker are quite powerful, but meanwhile they have various limitations. Including:</p>\n\n<p><strong>No access to DOM, window object and some other APIs like localStorage</strong>. This restriction keeps main thread and worker isolated and not disturbing each other. However, this also means if you would like off-load some heavy jobs like DOM operations, it\'s not possible with worker.</p>\n\n<p><strong>Messages between the main thread and the worker are cloned</strong> via <a href="https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm">the structured clone algorithm</a> which does not work with various data types. And unlike <code>JSON.stringify()</code> simply strip off the data it does not support, passing a data type the structured clone does not support will simply throw an exception.</p>\n\n<p><strong>Experimental and <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules">limited support</a> for ES modules.</strong> As mordern browsers support ES module better, we could lower down quite some overhead on compiling our scripts, and run ES module directly in the browser. But, that is not quite the case in the workers. </p>\n\n<blockquote>\n<p>As of Mar 1, 2019, only <a href="https://web.dev/module-workers/">Chrome 80+</a> supports this feature, while <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1247687">Firefox has an open feature request</a>. No other browsers are known to have support for production usage of worker scripts written as modules.</p>\n</blockquote>\n\n<p>In these browsers, you may spawn a worker with ES module via:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">new</span> <span class="nx">Worker</span><span class="p">(</span><span class="dl">\'</span><span class="s1">worker.js</span><span class="dl">\'</span><span class="p">,</span> <span class="p">{</span>\n  <span class="na">type</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">module</span><span class="dl">\'</span>\n<span class="p">});</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>However, the ES module syntax <code>import</code> and <code>export</code> may not work well as you expected.</p>\n\n<p><strong>Spawning a worker from a worker almost cannot work</strong>, although some browser claims that we can spawn a sub worker from a dedicated worker. This could be a bit frastrating sometimes as some library (e.g. esbuild-wasm) has built-in worker logics, which prevent us from organizing the tasks properly according to our needs, and have to communicate between the worker in the library and our own worker through the main thread message channel.</p>\n\n<h2>\n  <a name="performance-improvement-with-workers" href="#performance-improvement-with-workers">\n  </a>\n  Performance improvement with workers\n</h2>\n\n<h3>\n  <a name="offloading-heavy-tasks" href="#offloading-heavy-tasks">\n  </a>\n  Off-loading heavy tasks\n</h3>\n\n<p>As introduced previously in "Introduction of workers", we may assign some heavy tasks to workers to avoid blocking the main thread and affecting user experiences.</p>\n\n<p>For example, when we have to group or process the raw data from BE for display, we may spawn a web worker to do this while continuing to render other things.</p>\n\n<p>In the main thread, we spawn a web worker, then instruct the task and wait for the result:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="kd">function</span> <span class="nx">getData</span><span class="p">()</span> <span class="p">{</span>\n  <span class="kd">const</span> <span class="nx">myWorker</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Worker</span><span class="p">(</span><span class="dl">\'</span><span class="s1">processData.js</span><span class="dl">\'</span><span class="p">);</span>\n  <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>\n    <span class="nx">myWorker</span><span class="p">.</span><span class="nx">onMessage</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">data</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">{</span>\n      <span class="nx">resolve</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>\n      <span class="nx">myWorker</span><span class="p">.</span><span class="nx">terminate</span><span class="p">();</span>\n    <span class="p">}</span>\n    <span class="nx">myWorker</span><span class="p">.</span><span class="nx">onError</span> <span class="o">=</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>\n      <span class="nx">reject</span><span class="p">(</span><span class="nx">e</span><span class="p">);</span>\n      <span class="nx">myWorker</span><span class="p">.</span><span class="nx">terminate</span><span class="p">();</span>\n    <span class="p">}</span>\n    <span class="nx">myWorker</span><span class="p">.</span><span class="nx">postMessage</span><span class="p">({</span> <span class="na">sortBy</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">update_time</span><span class="dl">\'</span> <span class="p">});</span>\n  <span class="p">});</span>\n<span class="p">}</span>\n\n<span class="nx">getData</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>In the <code>processData.js</code>:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="kd">function</span> <span class="nx">process</span><span class="p">(</span><span class="nx">rawData</span><span class="p">,</span> <span class="nx">options</span><span class="p">)</span> <span class="p">{</span>\n  <span class="kd">const</span> <span class="nx">processedData</span> <span class="o">=</span> <span class="nx">rawData</span><span class="p">;</span>\n  <span class="c1">// Do the processing</span>\n  <span class="k">return</span> <span class="nx">processedData</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="nx">onmessage</span> <span class="o">=</span> <span class="p">({</span> <span class="na">data</span><span class="p">:</span> <span class="nx">options</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">{</span>\n  <span class="nx">fetch</span><span class="p">(</span><span class="dl">\'</span><span class="s1">/get_raw_data</span><span class="dl">\'</span><span class="p">)</span>\n  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">res</span> <span class="o">=&gt;</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">())</span>\n  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">rawData</span> <span class="o">=&gt;</span> <span class="nx">process</span><span class="p">(</span><span class="nx">rawData</span><span class="p">,</span> <span class="nx">options</span><span class="p">))</span>\n  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">data</span> <span class="o">=&gt;</span> <span class="nx">postMessage</span><span class="p">(</span><span class="nx">data</span><span class="p">));</span>\n<span class="p">};</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Another classic use case is to zip/unzip files in the browser. The workers are often integrated within the library, like <a href="https://www.npmjs.com/package/unzipit">unzipit</a>, <a href="https://www.npmjs.com/package/js-untar">js-untar</a>, etc.</p>\n\n<h3>\n  <a name="prefetching-data" href="#prefetching-data">\n  </a>\n  Prefetching data\n</h3>\n\n<p>Service worker provides APIs for caching data, and intercepting requests in the browser. This provide us an opportunity to get some data ready in advance.</p>\n\n<p>In the main thread, we simply register the service worker script:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">if</span> <span class="p">(</span><span class="dl">"</span><span class="s2">serviceWorker</span><span class="dl">"</span> <span class="k">in</span> <span class="nb">navigator</span><span class="p">)</span> <span class="p">{</span>\n  <span class="c1">// do make sure the service worker script is under the right folder as it will only control the requests from the scripts under the same folder</span>\n  <span class="nb">navigator</span><span class="p">.</span><span class="nx">serviceWorker</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="dl">"</span><span class="s2">/sw.js</span><span class="dl">"</span><span class="p">);</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>And fetch data as normal:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">fetch</span><span class="p">(</span><span class="dl">\'</span><span class="s1">/get_data</span><span class="dl">\'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">res</span> <span class="o">=&gt;</span> <span class="p">{</span>\n  <span class="c1">// If the service worker is successfully activated and the prefetched data is ready, you shall get the response immediately</span>\n  <span class="c1">// ...</span>\n<span class="p">});</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>In the <code>sw.js</code>, we load data ahead and put into cache:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="kd">const</span> <span class="nx">preFetchUrls</span> <span class="o">=</span> <span class="p">[</span>\n  <span class="dl">\'</span><span class="s1">/get_data</span><span class="dl">\'</span>\n<span class="p">];</span>\n<span class="nx">caches</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="dl">\'</span><span class="s1">prefetchedData</span><span class="dl">\'</span><span class="p">).</span><span class="nx">then</span><span class="p">(</span><span class="nx">prefetchedData</span> <span class="o">=&gt;</span> <span class="p">{</span>\n  <span class="nx">preFetchUrls</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">requestUrl</span> <span class="o">=&gt;</span> <span class="p">{</span>\n    <span class="nx">fetch</span><span class="p">(</span><span class="nx">requestUrl</span><span class="p">)</span>\n      <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">res</span> <span class="o">=&gt;</span> <span class="nx">prefetchedData</span><span class="p">.</span><span class="nx">put</span><span class="p">(</span><span class="nx">requestUrl</span><span class="p">,</span><span class="nx">res</span><span class="p">));</span>\n  <span class="p">});</span>\n<span class="p">});</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>And intercept the request to replace the response with the cache if it exists:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">addEventlistener</span><span class="p">(</span><span class="dl">\'</span><span class="s1">fetch</span><span class="dl">\'</span><span class="p">,</span> <span class="nx">e</span> <span class="o">=&gt;</span> <span class="p">{</span>\n  <span class="kd">const</span> <span class="p">{</span> <span class="nx">method</span><span class="p">,</span> <span class="nx">url</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">e</span><span class="p">.</span><span class="nx">request</span><span class="p">;</span>\n  <span class="k">if</span> <span class="p">(</span><span class="nx">method</span> <span class="o">!==</span> <span class="dl">\'</span><span class="s1">GET</span><span class="dl">\'</span> <span class="o">||</span> <span class="o">!</span><span class="nx">preFetchUrls</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">url</span><span class="p">))</span> <span class="k">return</span><span class="p">;</span>\n  <span class="nx">e</span><span class="p">.</span><span class="nx">respondWith</span><span class="p">(</span><span class="k">async</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>\n        <span class="kd">const</span> <span class="nx">prefetchedData</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">caches</span><span class="p">.</span><span class="nx">open</span><span class="p">(</span><span class="dl">\'</span><span class="s1">prefetchedData</span><span class="dl">\'</span><span class="p">);</span>\n    <span class="kd">const</span> <span class="nx">cachedResponse</span> <span class="o">=</span> <span class="k">await</span> <span class="nx">cache</span><span class="p">.</span><span class="nx">match</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">request</span><span class="p">);</span>\n    <span class="k">return</span> <span class="nx">cachedResponse</span> <span class="o">||</span> <span class="nx">fetch</span><span class="p">(</span><span class="nx">event</span><span class="p">.</span><span class="nx">request</span><span class="p">);</span>\n  <span class="p">});</span>\n<span class="p">});</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="caching-for-loading-faster-next-time-with-workbox" href="#caching-for-loading-faster-next-time-with-workbox">\n  </a>\n  Caching for loading faster next time with Workbox\n</h3>\n\n<p>In the use case above, we made use of the caching and request intercepting ability of service worker to load some data ahead. We may also use these abilities to help our return user to load page faster by caching the necessary files.</p>\n\n<p>Here I would like to recommend using <a href="https://developers.google.com/web/tools/workbox">Workbox</a>, which will largely simplify the setups and apply different strategies easily.</p>\n\n<p>In the main thread, we will need to register the service worker script as before:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">if</span> <span class="p">(</span><span class="dl">"</span><span class="s2">serviceWorker</span><span class="dl">"</span> <span class="k">in</span> <span class="nb">navigator</span><span class="p">)</span> <span class="p">{</span>\n  <span class="nb">navigator</span><span class="p">.</span><span class="nx">serviceWorker</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="dl">"</span><span class="s2">/sw.js</span><span class="dl">"</span><span class="p">);</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>While in the <code>sw.js</code>, we will import the Workbox libraries this time, which means you will require to bundle this file before use.</p>\n\n<p>The example code from Workbox website is sufficient for most of the use cases:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">registerRoute</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">workbox-routing</span><span class="dl">\'</span><span class="p">;</span>\n<span class="k">import</span> <span class="p">{</span>\n  <span class="nx">NetworkFirst</span><span class="p">,</span>\n  <span class="nx">StaleWhileRevalidate</span><span class="p">,</span>\n  <span class="nx">CacheFirst</span><span class="p">,</span>\n<span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">workbox-strategies</span><span class="dl">\'</span><span class="p">;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">CacheableResponsePlugin</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">workbox-cacheable-response</span><span class="dl">\'</span><span class="p">;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">ExpirationPlugin</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">workbox-expiration</span><span class="dl">\'</span><span class="p">;</span>\n\n<span class="c1">// Cache page navigations (html) with a Network First strategy</span>\n<span class="nx">registerRoute</span><span class="p">(</span>\n  <span class="p">({</span> <span class="nx">request</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="nx">request</span><span class="p">.</span><span class="nx">mode</span> <span class="o">===</span> <span class="dl">\'</span><span class="s1">navigate</span><span class="dl">\'</span><span class="p">,</span>\n  <span class="k">new</span> <span class="nx">NetworkFirst</span><span class="p">({</span>\n    <span class="na">cacheName</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">pages</span><span class="dl">\'</span><span class="p">,</span>\n    <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span>\n      <span class="c1">// Ensure that only requests that result in a 200 status are cached</span>\n      <span class="k">new</span> <span class="nx">CacheableResponsePlugin</span><span class="p">({</span>\n        <span class="na">statuses</span><span class="p">:</span> <span class="p">[</span><span class="mi">200</span><span class="p">],</span>\n      <span class="p">}),</span>\n    <span class="p">],</span>\n  <span class="p">}),</span>\n<span class="p">);</span>\n\n<span class="c1">// Cache CSS, JS, and Web Worker requests with a Stale While Revalidate strategy</span>\n<span class="nx">registerRoute</span><span class="p">(</span>\n  <span class="p">({</span> <span class="nx">request</span> <span class="p">})</span> <span class="o">=&gt;</span>\n    <span class="nx">request</span><span class="p">.</span><span class="nx">destination</span> <span class="o">===</span> <span class="dl">\'</span><span class="s1">style</span><span class="dl">\'</span> <span class="o">||</span>\n    <span class="nx">request</span><span class="p">.</span><span class="nx">destination</span> <span class="o">===</span> <span class="dl">\'</span><span class="s1">script</span><span class="dl">\'</span> <span class="o">||</span>\n    <span class="nx">request</span><span class="p">.</span><span class="nx">destination</span> <span class="o">===</span> <span class="dl">\'</span><span class="s1">worker</span><span class="dl">\'</span><span class="p">,</span>\n  <span class="k">new</span> <span class="nx">StaleWhileRevalidate</span><span class="p">({</span>\n    <span class="na">cacheName</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">assets</span><span class="dl">\'</span><span class="p">,</span>\n    <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span>\n      <span class="k">new</span> <span class="nx">CacheableResponsePlugin</span><span class="p">({</span>\n        <span class="na">statuses</span><span class="p">:</span> <span class="p">[</span><span class="mi">200</span><span class="p">],</span>\n      <span class="p">}),</span>\n    <span class="p">],</span>\n  <span class="p">}),</span>\n<span class="p">);</span>\n\n<span class="c1">// Cache images with a Cache First strategy</span>\n<span class="nx">registerRoute</span><span class="p">(</span>\n  <span class="p">({</span> <span class="nx">request</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="nx">request</span><span class="p">.</span><span class="nx">destination</span> <span class="o">===</span> <span class="dl">\'</span><span class="s1">image</span><span class="dl">\'</span><span class="p">,</span>\n  <span class="k">new</span> <span class="nx">CacheFirst</span><span class="p">({</span>\n    <span class="na">cacheName</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">images</span><span class="dl">\'</span><span class="p">,</span>\n    <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span>\n      <span class="k">new</span> <span class="nx">CacheableResponsePlugin</span><span class="p">({</span>\n        <span class="na">statuses</span><span class="p">:</span> <span class="p">[</span><span class="mi">200</span><span class="p">],</span>\n      <span class="p">}),</span>\n      <span class="c1">// Don\'t cache more than 50 items, and expire them after 30 days</span>\n      <span class="k">new</span> <span class="nx">ExpirationPlugin</span><span class="p">({</span>\n        <span class="na">maxEntries</span><span class="p">:</span> <span class="mi">50</span><span class="p">,</span>\n        <span class="na">maxAgeSeconds</span><span class="p">:</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">30</span><span class="p">,</span> <span class="c1">// 30 Days</span>\n      <span class="p">}),</span>\n    <span class="p">],</span>\n  <span class="p">}),</span>\n<span class="p">);</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>If these are the only logics you needed in the service worker, you may also simply use a bundler plugin instead of copy paste and configure the bundler. </p>\n\n<p>For Webpack users, check this doc: <a href="https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin">Workbox Webpack plugin</a>.</p>\n\n<p>For Rollup users, you may try the plugin <a href="https://www.npmjs.com/package/rollup-plugin-workbox">rollup-plugin-workbox</a>.</p>\n\n<h2>\n  <a name="other-usages-with-workers" href="#other-usages-with-workers">\n  </a>\n  Other usages with workers\n</h2>\n\n<h3>\n  <a name="mocking-api-without-nodejs-server" href="#mocking-api-without-nodejs-server">\n  </a>\n  Mocking API without Node.js server\n</h3>\n\n<p>Once we have the ability to intercept a request, we may achieve some interesting things like mocking API. <a href="https://mswjs.io/">MSW</a> is an perfect example.</p>\n\n<p>Basically we could:</p>\n\n<ol>\n<li>listen to the "fetch" event;</li>\n<li>check the request matches our rules;</li>\n<li>if it matches, replace with a cached response.</li>\n</ol>\n\n<p>Just like what I demonstrated in the "Prefetching data" use case.</p>\n\n<h3>\n  <a name="as-a-data-processing-layer" href="#as-a-data-processing-layer">\n  </a>\n  As a data processing layer\n</h3>\n\n<p>Another interesting use case is separating a data processing layer from our UI layer. </p>\n\n<p>For example, when we are tracking the usage of an app, the app may throw all the information of a component to the worker. Then the worker selects the required data, and transforms the data into the right format before finally sending them to the server.</p>\n\n<p>The layer isolation keeps the relatively non-critical but probably heavy tracking logics away from affecting the user experience, and crashing the app when there\'s something wrong.</p>\n\n<h3>\n  <a name="syncing-in-the-background" href="#syncing-in-the-background">\n  </a>\n  Syncing in the background\n</h3>\n\n<p>Have you encounter any super slow data operations such as uploading multiple large files, or simply the BE server respond slowly? In these cases, the user is likely have to wait for the server response before exiting it.</p>\n\n<p>Service worker does not have this limitation! It keeps running as long as the browser is still active. Therefore, we could cache these data somewhere in the browser first (like indexDB), and let the service worker to communicate with server instead to allow the user doing other things while waiting.</p>\n\n<h3>\n  <a name="and-more" href="#and-more">\n  </a>\n  And more\n</h3>\n\n<p>There are a lot more possibilities with workers besides to the stuff mentioned above, like the well-known Progressive Web App, push notifications, code sandbox (without DOM access), etc.  </p>\n\n<p>Let\'s be creative and bring the web app to the next level!</p>\n\n',a.body_markdown="As we know that browser runs all the Javascript of a web page in a single thread - the main thread, any excessive Javascript code may block the main thread and makes the page look laggy or even unresponsive.\n\nWe may improve this by off-loading some tasks to workers, and turns the single-threaded app into a multi-threaded, higher-performance, and potentially safer app.\n\n## Introduction of workers\n\nThere are 3 kinds of workers in the browser context:\n\n1. **Web worker** - including **dedicated worker**, and **shared worker**\n2. **Service worker**\n3. [Worklet](https://developer.mozilla.org/en-US/docs/Web/API/Worklet)- including [PaintWorklet](https://developer.mozilla.org/en-US/docs/Web/API/PaintWorklet), [AudioWorklet](https://developer.mozilla.org/en-US/docs/Web/API/AudioWorklet), AnimationWorklet, LayoutWorklet.\n\nI will focus on the web worker and service worker in this post, as worklet is still experimental and designed for more specific usages.\n\n### Web worker\n\nWeb worker is designed as **the background thread for running scripts**. Web pages are **allow to spawn multiple workers** to do different tasks in an **isolated context**.\n\n![](https://web-dev.imgix.net/image/tcFciHGuF3MxnTr1y5ue01OGLBn2/ZCC24V8uqi6HfFjRzuPq.png?auto=format&w=1000)\n\n(Image from [Workers Overview](https://web.dev/workers-overview/))\n\nWe may create such thread dedicated to a web page via the [Worker](https://developer.mozilla.org/en-US/docs/Web/API/Worker/Worker) API:\n\n```javascript\nconst myWorker = new Worker('worker.js');\n```\n\nOr sharing the thread among the same origin via the [SharedWorker](https://developer.mozilla.org/en-US/docs/Web/API/SharedWorker) API.\n\n```javascript\t\nconst mySharedWorker = new SharedWorker('sharedWorker.js');\n```\n\nTheir usage is almost the same but **the connection between the web page and the shared worker is assigned ports**. To communicate with the shared worker, the web page need to go through the port assigned.\n\nIn the main thread:\n\n```javascript\nmySharedWorker.port.postMessage('Test message to worker.');\nmySharedWorker.port.onmessage = (e) => {\n  console.log('Receive data from shared worker:', e.data);\n};\n```\n\nIn the shared worker:\n\n```javascript\nonconnect = (e) => {\n  const port = e.ports[0];\n  port.onmessage = (e) => {\n    port.postMessage('Hi, I received your message \"${e.data}\"!`);\n  };\n}\n```\n\nWhile communicating with the dedicated worker is more straightforward.\n\nIn the main thread:\n\n```Javascript\nmyWorker.postMessage('Test message to worker.');\nmyWorker.onMessage = (e) => {\n  console.log('Receive data from dedicated worker:', e.data);\n};\n```\n\nIn the dedicated worker:\n\n```javascript\nonmessage = (e) => {\n  postMessage('Hi, I received your message \"${e.data}\"!`);\n};\n```\n\nAnother difference you may notice is that the dedicated worker is coupled with the web page, hence **it will be terminated once user close the page**.\n\n### Service worker\n\nService worker is designed as an **extra layer working between the web page and the server**.\n\n![](https://web-dev.imgix.net/image/tcFciHGuF3MxnTr1y5ue01OGLBn2/GmGcVnb2y1yNc4ZIFFQ8.png?auto=format&w=1248)\n\n(Image from [Workers Overview](https://web.dev/workers-overview/))\n\nUnlike the web worker, it has a more complicated lifecycle:\n\n1. Register in main thread via `navigator.serviceWorker.register()`, and download the script for the service worker;\n2. Install if the service worker is newly registered, or the script is updated;\n3. Activate when no \"old\" service worker is controlling the clients under its scope;\n4. Redundant when it is out-dated and being replaced.\n\nIt is given [a set of APIs and events](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API#interfaces) to achieve things like:\n\n- caching data\n- intercepting requests\n- managing browser push notifications\n\nOn top of these capabilities, we do a lot more interesting things. We will discuss these later.\n\n### Their limitations\n\nBoth web worker and service worker are quite powerful, but meanwhile they have various limitations. Including:\n\n**No access to DOM, window object and some other APIs like localStorage**. This restriction keeps main thread and worker isolated and not disturbing each other. However, this also means if you would like off-load some heavy jobs like DOM operations, it's not possible with worker.\n\n**Messages between the main thread and the worker are cloned** via [the structured clone algorithm](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Structured_clone_algorithm) which does not work with various data types. And unlike `JSON.stringify()` simply strip off the data it does not support, passing a data type the structured clone does not support will simply throw an exception.\n\n**Experimental and [limited support](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Modules) for ES modules.** As mordern browsers support ES module better, we could lower down quite some overhead on compiling our scripts, and run ES module directly in the browser. But, that is not quite the case in the workers. \n\n>  As of Mar 1, 2019, only [Chrome 80+](https://web.dev/module-workers/) supports this feature, while [Firefox has an open feature request](https://bugzilla.mozilla.org/show_bug.cgi?id=1247687). No other browsers are known to have support for production usage of worker scripts written as modules.\n\nIn these browsers, you may spawn a worker with ES module via:\n\n```javascript\nnew Worker('worker.js', {\n  type: 'module'\n});\n```\n\nHowever, the ES module syntax `import` and `export` may not work well as you expected.\n\n**Spawning a worker from a worker almost cannot work**, although some browser claims that we can spawn a sub worker from a dedicated worker. This could be a bit frastrating sometimes as some library (e.g. esbuild-wasm) has built-in worker logics, which prevent us from organizing the tasks properly according to our needs, and have to communicate between the worker in the library and our own worker through the main thread message channel.\n\n##Performance improvement with workers\n\n### Off-loading heavy tasks\n\nAs introduced previously in \"Introduction of workers\", we may assign some heavy tasks to workers to avoid blocking the main thread and affecting user experiences.\n\nFor example, when we have to group or process the raw data from BE for display, we may spawn a web worker to do this while continuing to render other things.\n\nIn the main thread, we spawn a web worker, then instruct the task and wait for the result:\n\n```javascript\nfunction getData() {\n  const myWorker = new Worker('processData.js');\n  return new Promise((resolve, reject) => {\n    myWorker.onMessage = ({ data }) => {\n      resolve(data);\n      myWorker.terminate();\n    }\n    myWorker.onError = (e) => {\n      reject(e);\n      myWorker.terminate();\n    }\n    myWorker.postMessage({ sortBy: 'update_time' });\n  });\n}\n\ngetData().then(data => console.log(data));\n```\n\nIn the `processData.js`:\n\n```javascript\nfunction process(rawData, options) {\n  const processedData = rawData;\n  // Do the processing\n  return processedData;\n}\n\nonmessage = ({ data: options }) => {\n  fetch('/get_raw_data')\n  .then(res => res.json())\n  .then(rawData => process(rawData, options))\n  .then(data => postMessage(data));\n};\n```\n\nAnother classic use case is to zip/unzip files in the browser. The workers are often integrated within the library, like [unzipit](https://www.npmjs.com/package/unzipit), [js-untar](https://www.npmjs.com/package/js-untar), etc.\n\n### Prefetching data\n\nService worker provides APIs for caching data, and intercepting requests in the browser. This provide us an opportunity to get some data ready in advance.\n\nIn the main thread, we simply register the service worker script:\n\n```javascript\nif (\"serviceWorker\" in navigator) {\n  // do make sure the service worker script is under the right folder as it will only control the requests from the scripts under the same folder\n  navigator.serviceWorker.register(\"/sw.js\");\n}\n```\n\nAnd fetch data as normal:\n```javascript\nfetch('/get_data').then(res => {\n  // If the service worker is successfully activated and the prefetched data is ready, you shall get the response immediately\n  // ...\n});\n```\n\nIn the `sw.js`, we load data ahead and put into cache:\n\n```javascript\nconst preFetchUrls = [\n  '/get_data'\n];\ncaches.open('prefetchedData').then(prefetchedData => {\n  preFetchUrls.forEach(requestUrl => {\n    fetch(requestUrl)\n      .then(res => prefetchedData.put(requestUrl,res));\n  });\n});\n```\nAnd intercept the request to replace the response with the cache if it exists:\n\n```javascript\naddEventlistener('fetch', e => {\n  const { method, url } = e.request;\n  if (method !== 'GET' || !preFetchUrls.includes(url)) return;\n  e.respondWith(async () => {\n\t\tconst prefetchedData = await caches.open('prefetchedData');\n    const cachedResponse = await cache.match(event.request);\n    return cachedResponse || fetch(event.request);\n  });\n});\n```\n\n### Caching for loading faster next time with Workbox\n\nIn the use case above, we made use of the caching and request intercepting ability of service worker to load some data ahead. We may also use these abilities to help our return user to load page faster by caching the necessary files.\n\nHere I would like to recommend using [Workbox](https://developers.google.com/web/tools/workbox), which will largely simplify the setups and apply different strategies easily.\n\nIn the main thread, we will need to register the service worker script as before:\n\n```javascript\nif (\"serviceWorker\" in navigator) {\n  navigator.serviceWorker.register(\"/sw.js\");\n}\n```\n\nWhile in the `sw.js`, we will import the Workbox libraries this time, which means you will require to bundle this file before use.\n\nThe example code from Workbox website is sufficient for most of the use cases:\n\n```javascript\nimport { registerRoute } from 'workbox-routing';\nimport {\n  NetworkFirst,\n  StaleWhileRevalidate,\n  CacheFirst,\n} from 'workbox-strategies';\nimport { CacheableResponsePlugin } from 'workbox-cacheable-response';\nimport { ExpirationPlugin } from 'workbox-expiration';\n\n// Cache page navigations (html) with a Network First strategy\nregisterRoute(\n  ({ request }) => request.mode === 'navigate',\n  new NetworkFirst({\n    cacheName: 'pages',\n    plugins: [\n      // Ensure that only requests that result in a 200 status are cached\n      new CacheableResponsePlugin({\n        statuses: [200],\n      }),\n    ],\n  }),\n);\n\n// Cache CSS, JS, and Web Worker requests with a Stale While Revalidate strategy\nregisterRoute(\n  ({ request }) =>\n    request.destination === 'style' ||\n    request.destination === 'script' ||\n    request.destination === 'worker',\n  new StaleWhileRevalidate({\n    cacheName: 'assets',\n    plugins: [\n      new CacheableResponsePlugin({\n        statuses: [200],\n      }),\n    ],\n  }),\n);\n\n// Cache images with a Cache First strategy\nregisterRoute(\n  ({ request }) => request.destination === 'image',\n  new CacheFirst({\n    cacheName: 'images',\n    plugins: [\n      new CacheableResponsePlugin({\n        statuses: [200],\n      }),\n      // Don't cache more than 50 items, and expire them after 30 days\n      new ExpirationPlugin({\n        maxEntries: 50,\n        maxAgeSeconds: 60 * 60 * 24 * 30, // 30 Days\n      }),\n    ],\n  }),\n);\n```\n\nIf these are the only logics you needed in the service worker, you may also simply use a bundler plugin instead of copy paste and configure the bundler. \n\nFor Webpack users, check this doc: [Workbox Webpack plugin](https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin).\n\nFor Rollup users, you may try the plugin [rollup-plugin-workbox](https://www.npmjs.com/package/rollup-plugin-workbox).\n\n## Other usages with workers\n\n### Mocking API without Node.js server\n\nOnce we have the ability to intercept a request, we may achieve some interesting things like mocking API. [MSW](https://mswjs.io/) is an perfect example.\n\nBasically we could:\n\n1. listen to the \"fetch\" event;\n2. check the request matches our rules;\n3. if it matches, replace with a cached response.\n\nJust like what I demonstrated in the \"Prefetching data\" use case.\n\n### As a data processing layer\n\nAnother interesting use case is separating a data processing layer from our UI layer. \n\nFor example, when we are tracking the usage of an app, the app may throw all the information of a component to the worker. Then the worker selects the required data, and transforms the data into the right format before finally sending them to the server.\n\nThe layer isolation keeps the relatively non-critical but probably heavy tracking logics away from affecting the user experience, and crashing the app when there's something wrong.\n\n### Syncing in the background\n\nHave you encounter any super slow data operations such as uploading multiple large files, or simply the BE server respond slowly? In these cases, the user is likely have to wait for the server response before exiting it.\n\nService worker does not have this limitation! It keeps running as long as the browser is still active. Therefore, we could cache these data somewhere in the browser first (like indexDB), and let the service worker to communicate with server instead to allow the user doing other things while waiting.\n\n### And more\n\nThere are a lot more possibilities with workers besides to the stuff mentioned above, like the well-known Progressive Web App, push notifications, code sandbox (without DOM access), etc.  \n\nLet's be creative and bring the web app to the next level!",a.user={name:"Jennie",username:"jennieji",twitter_username:"jyee721",github_username:"JennieJi",website_url:"https://github.com/JennieJi",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--j-qC8BBf--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/144179/96d0b595-0c36-4ace-bce3-8129418495f2.jpeg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--lBLADFfj--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/144179/96d0b595-0c36-4ace-bce3-8129418495f2.jpeg"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:a}},error:s,state:{currentArticle:a},serverRendered:!0,routePath:"/jennieji/895872",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:s}}}}(null,"2021-11-12T03:21:21Z",{},"https://dev.to/jennieji/introduction-to-workers-and-why-we-should-use-them-3mn3")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

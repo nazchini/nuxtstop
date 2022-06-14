@@ -1,0 +1,802 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>How to filter querysets using django-filter package</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>How to filter querysets using django-filter package</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/webdev" class="tag" data-v-70afb46a>
+          #webdev
+        </a><a href="/nuxtstop/t/django" class="tag" data-v-70afb46a>
+          #django
+        </a><a href="/nuxtstop/t/search" class="tag" data-v-70afb46a>
+          #search
+        </a><a href="/nuxtstop/t/python" class="tag" data-v-70afb46a>
+          #python
+        </a></div> <!----> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            6
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            1
+          </span></div> <time data-v-70afb46a>Feb 16</time></div></header> <div class="content" data-v-70afb46a><p>While recently working on a personal Django project, I applied a search filter functionality by using the django-filter package. Django filter is a popular package that filters a queryset and displays the search results based on the model’s attributes. </p>
+
+<p>In this article, I will guide you on how to apply the filter functionality in your project. To explain how the package works, I will create a basic Django web project with a model that will apply our filter. Follow up on each step carefully.</p>
+
+<h2>
+  <a name="1-setup-working-environment-and-create-django-project" href="#1-setup-working-environment-and-create-django-project">
+  </a>
+  1. <strong>Setup Working Environment and Create Django Project</strong>
+</h2>
+
+<p>Firstly, you have to create a directory for your project and get inside the directory. The directory is where your project and your environment will be in.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ mkdir myproject 
+$ cd myproject
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Next, create a virtual environment (venv) to store the project's dependencies using the <strong>py -m venv yourenvname</strong> command.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ py -m venv yourenvname
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You have to activate the virtual environment. You'll need to activate the venv each time you open the command prompt.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ yourenvname\scripts\activate.bat
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Inside the venv, you then install django.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ pip install django
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Let's create the project in our directory using django we've just installed.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ django-admin startproject myproject
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Move in to the project directory you have just created to run the server<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ cd myproject
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Run the server using the command below and then visit this url <a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a>. You should see a Django Welcome Page to show you that the project was created successfully.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ py manage.py runserver
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="2-create-an-app-for-the-project" href="#2-create-an-app-for-the-project">
+  </a>
+  2. Create an app for the project
+</h2>
+
+<p>Now let's create an app for the project. In the command line, stop the server by pressing <strong>Control+c</strong>. Then write the command below.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ py manage.py startapp myapp
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>After creating the app, you have to add the app to the "<strong>INSTALLED_APPS</strong>" list in the <strong>myproject/settings.py</strong> file.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    'myapp',
+]
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="3-create-the-model" href="#3-create-the-model">
+  </a>
+  3. Create the Model
+</h2>
+
+<p>Let's create the model that we will use to implement the filter functionality. Name the model <strong>Order</strong> and create it in the file <strong>myapp/models.py</strong>.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>from django.db import models
+
+class Order(models.Model):
+    STATUS = (
+        ('Pending', 'Pending'),
+        ('Out for delivery', 'Out for delivery'),
+        ('Delivered', 'Delivered'),
+    )
+    CATEGORY = (
+        ('Indoor', 'Indoor'),
+        ('Outdoor', 'Outdoor'),
+    )
+    product = models.CharField(max_length=100, null=True)
+    category = models.CharField(max_length=100, null=True, 
+    choices=CATEGORY)
+    status = models.CharField(max_length=100, null=True, 
+    choices=STATUS)
+    date_created = models.DateTimeField(auto_now_add=True, 
+    null=True)
+
+    def __str__(self):
+        return self.product
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Using the following commands, run the migrations to create a database based on the model above.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ py manage.py makemigrations
+$ py manage.py migrate
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Register the model in the <strong>myapp/admin.py</strong> file.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>from django.contrib import admin
+from .models import Order
+
+# Register your models here.
+
+admin.site.register(Order)
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="3-define-the-views" href="#3-define-the-views">
+  </a>
+  3. Define the views.
+</h2>
+
+<p>Let's create a view function in the <strong>myapp/views.py</strong> file. We have to import the Order model from models.py file. The function will retrieve the order objects from the Order model.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>from .models import Order
+
+def index(request):
+    orders = Order.objects.all().order_by('-date_created')
+    context = {
+            'orders': orders,
+    }
+    return render(request, 'index.html', context)
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="4-create-the-url-paths" href="#4-create-the-url-paths">
+  </a>
+  4. Create the url paths
+</h2>
+
+<p>Now we need to configure our url paths. Within the app folder, create a new <strong>urls.py</strong> file.<br>
+<em>myapp/urls.py</em><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.index, name='index)
+]
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Projects with multiple apps are common. The apps need their own dedicated url paths. We then update the main project's <strong>myproject/urls.py</strong> file to include the app's urls.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path('', include('myapp.urls')),
+    path('admin/', admin.site.urls),
+]
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="4-create-the-templates" href="#4-create-the-templates">
+  </a>
+  4. Create the Templates
+</h2>
+
+<p>In the root folder, let's create a directory for our project's <em>HTML</em> template file called <strong>index.html</strong>. The filter form will be in this template.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ mkdir templates
+$ touch templates/index.html
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Next, we must configure the <strong>myproject/settings.py</strong> file to connect Django to our new template directory. Scroll through the file and change the settings in <em>TEMPLATES</em>.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>import os
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [os.path.join(BASE_DIR, 'templates')], #new
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Write the following code in the <em>HTML</em> file.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>        &lt;h5>ORDERS:&lt;/h5>
+        &lt;br>
+        &lt;div class="card card-body ml-3 mr-3">
+            &lt;table class="table table-sm">
+                &lt;tr>
+                    &lt;th>Product&lt;/th>        
+                    &lt;th>Category&lt;/th>
+                    &lt;th>Status&lt;/th>
+                    &lt;th>Date Ordered&lt;/th>
+                &lt;/tr>
+                {% for order in orders %}
+                &lt;tr>
+                    &lt;td>{{ order.product }}&lt;/td>
+                    &lt;td>{{ order.category }}&lt;/td>
+                    &lt;td>{{ order.status }}&lt;/td>
+                    &lt;td>{{ order.date_created}}&lt;/td>
+                &lt;/tr>
+                {% endfor %}
+            &lt;/table>
+        &lt;/div>
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Let's create a superuser who will login to the admin page and add data that will be rendered in the template.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ python manage.py createsuperuser
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The html template will display data added by the superuser  in the admin page.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--DFGy42QL--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/71xvvxxmy8ictu07xhcu.JPG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--DFGy42QL--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/71xvvxxmy8ictu07xhcu.JPG" alt="Orders Table" loading="lazy" width="695" height="291"></a></p>
+
+<h2>
+  <a name="5-installing-djangofilter-to-filter-querysets" href="#5-installing-djangofilter-to-filter-querysets">
+  </a>
+  5. Installing django-filter to Filter Querysets
+</h2>
+
+<p>Let's install the django-filter package by running the following command in your shell or command prompt.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ pip install django-filter
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Add the django-filter package in the <strong>INSTALLED_APPS</strong> list in the <strong>myproject/settings.py</strong> just like we added the project's app before.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+
+    'myapp',
+    'django_filters',
+]
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Next, we create a <strong>filters.py</strong> file in the app directory. The filter will be based on the <strong>Order</strong> model. We will import the following filter arguments.</p>
+
+<ul>
+<li><p><strong>CharFilter</strong> matches the character values passed in the CharField or TextField</p></li>
+<li><p><strong>ChoiceFilter</strong> matches the values that are passed in the <em>choices</em> argument in the model.</p></li>
+<li><p><strong>DateTimeFromToRangeWidget</strong> filters values based on the range between two dates. </p></li>
+</ul>
+
+<p>We are filtering the orders based on the following attributes:</p>
+
+<ul>
+<li><p>product</p></li>
+<li><p>category</p></li>
+<li><p>status</p></li>
+<li><p>date_created<br>
+</p></li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>import django_filters
+from django_filters import DateTimeFromToRangeFilter, ChoiceFilter, CharFilter
+
+from .models import Order
+
+STATUS = (
+    ('Pending', 'Pending'),
+    ('Out for delivery', 'Out for delivery'),
+    ('Delivered', 'Delivered'),
+)
+
+CATEGORY = (
+    ('Indoor', 'Indoor'),
+    ('Outdoor', 'Outdoor'),
+)
+
+
+class OrderFilter(django_filters.FilterSet):
+    product = CharFilter(field_name = 'product', 
+              lookup_expr='icontains')
+    status = ChoiceFilter(choices=STATUS)
+    category = ChoiceFilter(choices=CATEGORY)
+    date_created = DateTimeFromToRangeFilter(
+                  widget=django_filters.widgets.RangeWidget(
+                  attrs={'type': 'date'}
+    ))
+
+    class Meta:
+        model = Order
+        fields = [
+            'product',
+            'category',
+            'status',
+            'date_created'
+        ]
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You will create a filter form by inheriting from  <strong>django_filters.Filterset</strong> similar to creating Model Forms. </p>
+
+<p>CharFilter will filter through the products using the <strong>lookup_expr='icontains'</strong> argument and display the results that match the characters entered in the form. ChoiceFilter will attribute to filtering by choices in the "category" and "status" fields, while DateTimeFromToRangeFilter will display the search results from filtering the orders by "date_created". </p>
+
+<p>Define the logic for the OrderFilter form inside the <strong>myapp/views.py</strong> and then render it in the template. <br>
+We then carryout the following steps in the view:</p>
+
+<ol>
+<li><p>Import the OrderFilter from <em>filters.py</em>.</p></li>
+<li><p>Add a GET request and the orders queryset we are filtering, to the variable <strong>myFilter</strong>. </p></li>
+<li><p>Rename the variable myFilter to <strong>orders</strong> queryset.<br>
+</p></li>
+</ol>
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>from .filters import OrderFilter
+
+def index(request):
+    orders = Order.objects.all().order_by('-date_created')
+    myFilter = OrderFilter(request.GET, queryset=orders)
+    orders = myFilter.qs
+    context = {
+        'orders': orders,
+        'myFilter': myFilter,
+    }
+    return render(request, 'index.html', context)
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>Copy and paste the following code to create a form in <em>index.html</em> that will render the filter form. Note that the <em>form method="GET"</em> because you are sending a GET request for your search queries.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>&lt;div class="row">
+    &lt;div class="col">
+        &lt;div class="card card-body ml-3 mr-3">
+            &lt;form method="GET" action="" class="form-inline">
+                {% csrf_token %}
+                    &lt;div>
+                    {{ myFilter.form }}
+                    &lt;div>
+                        &lt;button type="submit" class="btn btn- 
+                        secondary">SEARCH&lt;/button>
+                    &lt;/div>
+            &lt;/form>
+        &lt;/div>
+    &lt;/div>
+&lt;/div>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Rerun the server and search your queries based on the filter form.  </p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--uF46zJYv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/92rr6crj7z4akq8a62n8.JPG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--uF46zJYv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/92rr6crj7z4akq8a62n8.JPG" alt="FilterForm" loading="lazy" width="880" height="248"></a><br>
+Search for orders based on your filters of choice. </p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Q3JxCUIP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pvp0ufk0mzatlazf50kh.JPG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Q3JxCUIP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pvp0ufk0mzatlazf50kh.JPG" alt="Search Results" loading="lazy" width="880" height="168"></a></p>
+
+<p>The table will now display your search queries.</p>
+
+<p>I hope you find this article helpful to your coding journey. Please share among your coder friends. Incase of any questions, let's chat in the Comments Section. Happy coding.</p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/eugenekwaka/how-to-filter-querysets-using-django-filter-package-5058" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(e,t,n,i,h){return t.type_of="article",t.id=991101,t.title="How to filter querysets using django-filter package",t.description="While recently working on a personal Django project, I applied a search filter functionality by using...",t.readable_publish_date="Feb 16",t.slug="how-to-filter-querysets-using-django-filter-package-5058",t.path="/eugenekwaka/how-to-filter-querysets-using-django-filter-package-5058",t.url=n,t.comments_count=1,t.public_reactions_count=6,t.collection_id=e,t.published_timestamp=i,t.positive_reactions_count=6,t.cover_image=e,t.social_image="https://dev.to/social_previews/article/991101.png",t.canonical_url=n,t.created_at="2022-02-16T09:20:47Z",t.edited_at="2022-02-17T10:29:57Z",t.crossposted_at=e,t.published_at=i,t.last_comment_at="2022-02-21T12:49:03Z",t.reading_time_minutes=6,t.tag_list="webdev, django, search, python",t.tags=["webdev","django","search","python"],t.body_html='<p>While recently working on a personal Django project, I applied a search filter functionality by using the django-filter package. Django filter is a popular package that filters a queryset and displays the search results based on the model’s attributes. </p>\n\n<p>In this article, I will guide you on how to apply the filter functionality in your project. To explain how the package works, I will create a basic Django web project with a model that will apply our filter. Follow up on each step carefully.</p>\n\n<h2>\n  <a name="1-setup-working-environment-and-create-django-project" href="#1-setup-working-environment-and-create-django-project">\n  </a>\n  1. <strong>Setup Working Environment and Create Django Project</strong>\n</h2>\n\n<p>Firstly, you have to create a directory for your project and get inside the directory. The directory is where your project and your environment will be in.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ mkdir myproject \n$ cd myproject\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Next, create a virtual environment (venv) to store the project\'s dependencies using the <strong>py -m venv yourenvname</strong> command.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ py -m venv yourenvname\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You have to activate the virtual environment. You\'ll need to activate the venv each time you open the command prompt.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ yourenvname\\scripts\\activate.bat\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Inside the venv, you then install django.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ pip install django\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Let\'s create the project in our directory using django we\'ve just installed.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ django-admin startproject myproject\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Move in to the project directory you have just created to run the server<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ cd myproject\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Run the server using the command below and then visit this url <a href="http://127.0.0.1:8000/">http://127.0.0.1:8000/</a>. You should see a Django Welcome Page to show you that the project was created successfully.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ py manage.py runserver\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="2-create-an-app-for-the-project" href="#2-create-an-app-for-the-project">\n  </a>\n  2. Create an app for the project\n</h2>\n\n<p>Now let\'s create an app for the project. In the command line, stop the server by pressing <strong>Control+c</strong>. Then write the command below.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ py manage.py startapp myapp\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>After creating the app, you have to add the app to the "<strong>INSTALLED_APPS</strong>" list in the <strong>myproject/settings.py</strong> file.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>INSTALLED_APPS = [\n    \'django.contrib.admin\',\n    \'django.contrib.auth\',\n    \'django.contrib.contenttypes\',\n    \'django.contrib.sessions\',\n    \'django.contrib.messages\',\n    \'django.contrib.staticfiles\',\n\n    \'myapp\',\n]\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="3-create-the-model" href="#3-create-the-model">\n  </a>\n  3. Create the Model\n</h2>\n\n<p>Let\'s create the model that we will use to implement the filter functionality. Name the model <strong>Order</strong> and create it in the file <strong>myapp/models.py</strong>.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>from django.db import models\n\nclass Order(models.Model):\n    STATUS = (\n        (\'Pending\', \'Pending\'),\n        (\'Out for delivery\', \'Out for delivery\'),\n        (\'Delivered\', \'Delivered\'),\n    )\n    CATEGORY = (\n        (\'Indoor\', \'Indoor\'),\n        (\'Outdoor\', \'Outdoor\'),\n    )\n    product = models.CharField(max_length=100, null=True)\n    category = models.CharField(max_length=100, null=True, \n    choices=CATEGORY)\n    status = models.CharField(max_length=100, null=True, \n    choices=STATUS)\n    date_created = models.DateTimeField(auto_now_add=True, \n    null=True)\n\n    def __str__(self):\n        return self.product\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Using the following commands, run the migrations to create a database based on the model above.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ py manage.py makemigrations\n$ py manage.py migrate\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Register the model in the <strong>myapp/admin.py</strong> file.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>from django.contrib import admin\nfrom .models import Order\n\n# Register your models here.\n\nadmin.site.register(Order)\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="3-define-the-views" href="#3-define-the-views">\n  </a>\n  3. Define the views.\n</h2>\n\n<p>Let\'s create a view function in the <strong>myapp/views.py</strong> file. We have to import the Order model from models.py file. The function will retrieve the order objects from the Order model.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>from .models import Order\n\ndef index(request):\n    orders = Order.objects.all().order_by(\'-date_created\')\n    context = {\n            \'orders\': orders,\n    }\n    return render(request, \'index.html\', context)\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="4-create-the-url-paths" href="#4-create-the-url-paths">\n  </a>\n  4. Create the url paths\n</h2>\n\n<p>Now we need to configure our url paths. Within the app folder, create a new <strong>urls.py</strong> file.<br>\n<em>myapp/urls.py</em><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>from django.urls import path\nfrom . import views\n\nurlpatterns = [\n    path(\'\', views.index, name=\'index)\n]\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Projects with multiple apps are common. The apps need their own dedicated url paths. We then update the main project\'s <strong>myproject/urls.py</strong> file to include the app\'s urls.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>from django.contrib import admin\nfrom django.urls import path, include\n\nurlpatterns = [\n    path(\'\', include(\'myapp.urls\')),\n    path(\'admin/\', admin.site.urls),\n]\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="4-create-the-templates" href="#4-create-the-templates">\n  </a>\n  4. Create the Templates\n</h2>\n\n<p>In the root folder, let\'s create a directory for our project\'s <em>HTML</em> template file called <strong>index.html</strong>. The filter form will be in this template.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ mkdir templates\n$ touch templates/index.html\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Next, we must configure the <strong>myproject/settings.py</strong> file to connect Django to our new template directory. Scroll through the file and change the settings in <em>TEMPLATES</em>.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>import os\nTEMPLATES = [\n    {\n        \'BACKEND\': \'django.template.backends.django.DjangoTemplates\',\n        \'DIRS\': [os.path.join(BASE_DIR, \'templates\')], #new\n        \'APP_DIRS\': True,\n        \'OPTIONS\': {\n            \'context_processors\': [\n                \'django.template.context_processors.debug\',\n                \'django.template.context_processors.request\',\n                \'django.contrib.auth.context_processors.auth\',\n                \'django.contrib.messages.context_processors.messages\',\n            ],\n        },\n    },\n]\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Write the following code in the <em>HTML</em> file.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>        &lt;h5&gt;ORDERS:&lt;/h5&gt;\n        &lt;br&gt;\n        &lt;div class="card card-body ml-3 mr-3"&gt;\n            &lt;table class="table table-sm"&gt;\n                &lt;tr&gt;\n                    &lt;th&gt;Product&lt;/th&gt;        \n                    &lt;th&gt;Category&lt;/th&gt;\n                    &lt;th&gt;Status&lt;/th&gt;\n                    &lt;th&gt;Date Ordered&lt;/th&gt;\n                &lt;/tr&gt;\n                {% for order in orders %}\n                &lt;tr&gt;\n                    &lt;td&gt;{{ order.product }}&lt;/td&gt;\n                    &lt;td&gt;{{ order.category }}&lt;/td&gt;\n                    &lt;td&gt;{{ order.status }}&lt;/td&gt;\n                    &lt;td&gt;{{ order.date_created}}&lt;/td&gt;\n                &lt;/tr&gt;\n                {% endfor %}\n            &lt;/table&gt;\n        &lt;/div&gt;\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Let\'s create a superuser who will login to the admin page and add data that will be rendered in the template.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ python manage.py createsuperuser\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The html template will display data added by the superuser  in the admin page.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--DFGy42QL--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/71xvvxxmy8ictu07xhcu.JPG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--DFGy42QL--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/71xvvxxmy8ictu07xhcu.JPG" alt="Orders Table" loading="lazy" width="695" height="291"></a></p>\n\n<h2>\n  <a name="5-installing-djangofilter-to-filter-querysets" href="#5-installing-djangofilter-to-filter-querysets">\n  </a>\n  5. Installing django-filter to Filter Querysets\n</h2>\n\n<p>Let\'s install the django-filter package by running the following command in your shell or command prompt.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ pip install django-filter\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Add the django-filter package in the <strong>INSTALLED_APPS</strong> list in the <strong>myproject/settings.py</strong> just like we added the project\'s app before.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>INSTALLED_APPS = [\n    \'django.contrib.admin\',\n    \'django.contrib.auth\',\n    \'django.contrib.contenttypes\',\n    \'django.contrib.sessions\',\n    \'django.contrib.messages\',\n    \'django.contrib.staticfiles\',\n\n    \'myapp\',\n    \'django_filters\',\n]\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Next, we create a <strong>filters.py</strong> file in the app directory. The filter will be based on the <strong>Order</strong> model. We will import the following filter arguments.</p>\n\n<ul>\n<li><p><strong>CharFilter</strong> matches the character values passed in the CharField or TextField</p></li>\n<li><p><strong>ChoiceFilter</strong> matches the values that are passed in the <em>choices</em> argument in the model.</p></li>\n<li><p><strong>DateTimeFromToRangeWidget</strong> filters values based on the range between two dates. </p></li>\n</ul>\n\n<p>We are filtering the orders based on the following attributes:</p>\n\n<ul>\n<li><p>product</p></li>\n<li><p>category</p></li>\n<li><p>status</p></li>\n<li><p>date_created<br>\n</p></li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>import django_filters\nfrom django_filters import DateTimeFromToRangeFilter, ChoiceFilter, CharFilter\n\nfrom .models import Order\n\nSTATUS = (\n    (\'Pending\', \'Pending\'),\n    (\'Out for delivery\', \'Out for delivery\'),\n    (\'Delivered\', \'Delivered\'),\n)\n\nCATEGORY = (\n    (\'Indoor\', \'Indoor\'),\n    (\'Outdoor\', \'Outdoor\'),\n)\n\n\nclass OrderFilter(django_filters.FilterSet):\n    product = CharFilter(field_name = \'product\', \n              lookup_expr=\'icontains\')\n    status = ChoiceFilter(choices=STATUS)\n    category = ChoiceFilter(choices=CATEGORY)\n    date_created = DateTimeFromToRangeFilter(\n                  widget=django_filters.widgets.RangeWidget(\n                  attrs={\'type\': \'date\'}\n    ))\n\n    class Meta:\n        model = Order\n        fields = [\n            \'product\',\n            \'category\',\n            \'status\',\n            \'date_created\'\n        ]\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You will create a filter form by inheriting from  <strong>django_filters.Filterset</strong> similar to creating Model Forms. </p>\n\n<p>CharFilter will filter through the products using the <strong>lookup_expr=\'icontains\'</strong> argument and display the results that match the characters entered in the form. ChoiceFilter will attribute to filtering by choices in the "category" and "status" fields, while DateTimeFromToRangeFilter will display the search results from filtering the orders by "date_created". </p>\n\n<p>Define the logic for the OrderFilter form inside the <strong>myapp/views.py</strong> and then render it in the template. <br>\nWe then carryout the following steps in the view:</p>\n\n<ol>\n<li><p>Import the OrderFilter from <em>filters.py</em>.</p></li>\n<li><p>Add a GET request and the orders queryset we are filtering, to the variable <strong>myFilter</strong>. </p></li>\n<li><p>Rename the variable myFilter to <strong>orders</strong> queryset.<br>\n</p></li>\n</ol>\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>from .filters import OrderFilter\n\ndef index(request):\n    orders = Order.objects.all().order_by(\'-date_created\')\n    myFilter = OrderFilter(request.GET, queryset=orders)\n    orders = myFilter.qs\n    context = {\n        \'orders\': orders,\n        \'myFilter\': myFilter,\n    }\n    return render(request, \'index.html\', context)\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>Copy and paste the following code to create a form in <em>index.html</em> that will render the filter form. Note that the <em>form method="GET"</em> because you are sending a GET request for your search queries.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>&lt;div class="row"&gt;\n    &lt;div class="col"&gt;\n        &lt;div class="card card-body ml-3 mr-3"&gt;\n            &lt;form method="GET" action="" class="form-inline"&gt;\n                {% csrf_token %}\n                    &lt;div&gt;\n                    {{ myFilter.form }}\n                    &lt;div&gt;\n                        &lt;button type="submit" class="btn btn- \n                        secondary"&gt;SEARCH&lt;/button&gt;\n                    &lt;/div&gt;\n            &lt;/form&gt;\n        &lt;/div&gt;\n    &lt;/div&gt;\n&lt;/div&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Rerun the server and search your queries based on the filter form.  </p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--uF46zJYv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/92rr6crj7z4akq8a62n8.JPG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--uF46zJYv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/92rr6crj7z4akq8a62n8.JPG" alt="FilterForm" loading="lazy" width="880" height="248"></a><br>\nSearch for orders based on your filters of choice. </p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Q3JxCUIP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pvp0ufk0mzatlazf50kh.JPG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Q3JxCUIP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pvp0ufk0mzatlazf50kh.JPG" alt="Search Results" loading="lazy" width="880" height="168"></a></p>\n\n<p>The table will now display your search queries.</p>\n\n<p>I hope you find this article helpful to your coding journey. Please share among your coder friends. Incase of any questions, let\'s chat in the Comments Section. Happy coding.</p>\n\n',t.body_markdown="While recently working on a personal Django project, I applied a search filter functionality by using the django-filter package. Django filter is a popular package that filters a queryset and displays the search results based on the model’s attributes. \n\nIn this article, I will guide you on how to apply the filter functionality in your project. To explain how the package works, I will create a basic Django web project with a model that will apply our filter. Follow up on each step carefully.\n\n## 1. **Setup Working Environment and Create Django Project**\nFirstly, you have to create a directory for your project and get inside the directory. The directory is where your project and your environment will be in.\n\n```\n$ mkdir myproject \n$ cd myproject\n```\nNext, create a virtual environment (venv) to store the project's dependencies using the **py -m venv yourenvname** command.\n```\n$ py -m venv yourenvname\n```\nYou have to activate the virtual environment. You'll need to activate the venv each time you open the command prompt.\n\n```\n$ yourenvname\\scripts\\activate.bat\n```\nInside the venv, you then install django.\n\n```\n$ pip install django\n```\nLet's create the project in our directory using django we've just installed.\n\n```\n$ django-admin startproject myproject\n```\nMove in to the project directory you have just created to run the server\n\n```\n$ cd myproject\n```\nRun the server using the command below and then visit this url [http://127.0.0.1:8000/](http://127.0.0.1:8000/). You should see a Django Welcome Page to show you that the project was created successfully.\n\n```\n$ py manage.py runserver\n```\n\n## 2. Create an app for the project\n\nNow let's create an app for the project. In the command line, stop the server by pressing **Control+c**. Then write the command below.\n\n```\n$ py manage.py startapp myapp\n```\nAfter creating the app, you have to add the app to the \"**INSTALLED_APPS**\" list in the **myproject/settings.py** file.\n\n```\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n\n    'myapp',\n]\n```\n\n## 3. Create the Model\nLet's create the model that we will use to implement the filter functionality. Name the model **Order** and create it in the file **myapp/models.py**.\n\n```\nfrom django.db import models\n\nclass Order(models.Model):\n    STATUS = (\n        ('Pending', 'Pending'),\n        ('Out for delivery', 'Out for delivery'),\n        ('Delivered', 'Delivered'),\n    )\n    CATEGORY = (\n        ('Indoor', 'Indoor'),\n        ('Outdoor', 'Outdoor'),\n    )\n    product = models.CharField(max_length=100, null=True)\n    category = models.CharField(max_length=100, null=True, \n    choices=CATEGORY)\n    status = models.CharField(max_length=100, null=True, \n    choices=STATUS)\n    date_created = models.DateTimeField(auto_now_add=True, \n    null=True)\n\n    def __str__(self):\n        return self.product\n```\nUsing the following commands, run the migrations to create a database based on the model above.\n\n```\n$ py manage.py makemigrations\n$ py manage.py migrate\n```\nRegister the model in the **myapp/admin.py** file.\n\n```\nfrom django.contrib import admin\nfrom .models import Order\n\n# Register your models here.\n\nadmin.site.register(Order)\n```\n\n## 3. Define the views.\nLet's create a view function in the **myapp/views.py** file. We have to import the Order model from models.py file. The function will retrieve the order objects from the Order model. \n\n```\nfrom .models import Order\n\ndef index(request):\n    orders = Order.objects.all().order_by('-date_created')\n    context = {\n            'orders': orders,\n    }\n    return render(request, 'index.html', context)\n\n```\n\n## 4. Create the url paths\nNow we need to configure our url paths. Within the app folder, create a new **urls.py** file.\n_myapp/urls.py_ \n\n```\nfrom django.urls import path\nfrom . import views\n\nurlpatterns = [\n    path('', views.index, name='index)\n]\n```\nProjects with multiple apps are common. The apps need their own dedicated url paths. We then update the main project's **myproject/urls.py** file to include the app's urls.\n\n```\nfrom django.contrib import admin\nfrom django.urls import path, include\n\nurlpatterns = [\n    path('', include('myapp.urls')),\n    path('admin/', admin.site.urls),\n]\n\n```\n\n## 4. Create the Templates\nIn the root folder, let's create a directory for our project's _HTML_ template file called **index.html**. The filter form will be in this template.\n\n```\n$ mkdir templates\n$ touch templates/index.html\n```\nNext, we must configure the **myproject/settings.py** file to connect Django to our new template directory. Scroll through the file and change the settings in _TEMPLATES_.\n\n```\nimport os\nTEMPLATES = [\n    {\n        'BACKEND': 'django.template.backends.django.DjangoTemplates',\n        'DIRS': [os.path.join(BASE_DIR, 'templates')], #new\n        'APP_DIRS': True,\n        'OPTIONS': {\n            'context_processors': [\n                'django.template.context_processors.debug',\n                'django.template.context_processors.request',\n                'django.contrib.auth.context_processors.auth',\n                'django.contrib.messages.context_processors.messages',\n            ],\n        },\n    },\n]\n```\nWrite the following code in the _HTML_ file.\n\n```\n        <h5>ORDERS:</h5>\n        <br>\n        <div class=\"card card-body ml-3 mr-3\">\n            <table class=\"table table-sm\">\n                <tr>\n                    <th>Product</th>        \n                    <th>Category</th>\n                    <th>Status</th>\n                    <th>Date Ordered</th>\n                </tr>\n                {% for order in orders %}\n                <tr>\n                    <td>{{ order.product }}</td>\n                    <td>{{ order.category }}</td>\n                    <td>{{ order.status }}</td>\n                    <td>{{ order.date_created}}</td>\n                </tr>\n                {% endfor %}\n            </table>\n        </div>\n \n```\nLet's create a superuser who will login to the admin page and add data that will be rendered in the template. \n\n```\n$ python manage.py createsuperuser\n```\nThe html template will display data added by the superuser  in the admin page.\n\n\n![Orders Table](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/71xvvxxmy8ictu07xhcu.JPG)\n\n## 5. Installing django-filter to Filter Querysets\nLet's install the django-filter package by running the following command in your shell or command prompt.\n\n```\n$ pip install django-filter\n```\nAdd the django-filter package in the **INSTALLED_APPS** list in the **myproject/settings.py** just like we added the project's app before.\n\n```\nINSTALLED_APPS = [\n    'django.contrib.admin',\n    'django.contrib.auth',\n    'django.contrib.contenttypes',\n    'django.contrib.sessions',\n    'django.contrib.messages',\n    'django.contrib.staticfiles',\n\n    'myapp',\n    'django_filters',\n]\n```\nNext, we create a **filters.py** file in the app directory. The filter will be based on the **Order** model. We will import the following filter arguments.\n\n- **CharFilter** matches the character values passed in the CharField or TextField\n\n- **ChoiceFilter** matches the values that are passed in the _choices_ argument in the model.\n\n- **DateTimeFromToRangeWidget** filters values based on the range between two dates. \n\nWe are filtering the orders based on the following attributes:\n\n- product\n\n- category\n\n- status\n\n- date_created\n\n```\nimport django_filters\nfrom django_filters import DateTimeFromToRangeFilter, ChoiceFilter, CharFilter\n\nfrom .models import Order\n\nSTATUS = (\n    ('Pending', 'Pending'),\n    ('Out for delivery', 'Out for delivery'),\n    ('Delivered', 'Delivered'),\n)\n\nCATEGORY = (\n    ('Indoor', 'Indoor'),\n    ('Outdoor', 'Outdoor'),\n)\n\n\nclass OrderFilter(django_filters.FilterSet):\n    product = CharFilter(field_name = 'product', \n              lookup_expr='icontains')\n    status = ChoiceFilter(choices=STATUS)\n    category = ChoiceFilter(choices=CATEGORY)\n    date_created = DateTimeFromToRangeFilter(\n                  widget=django_filters.widgets.RangeWidget(\n                  attrs={'type': 'date'}\n    ))\n\n    class Meta:\n        model = Order\n        fields = [\n            'product',\n            'category',\n            'status',\n            'date_created'\n        ]\n```\nYou will create a filter form by inheriting from  **django_filters.Filterset** similar to creating Model Forms. \n\nCharFilter will filter through the products using the **lookup_expr='icontains'** argument and display the results that match the characters entered in the form. ChoiceFilter will attribute to filtering by choices in the \"category\" and \"status\" fields, while DateTimeFromToRangeFilter will display the search results from filtering the orders by \"date_created\". \n\nDefine the logic for the OrderFilter form inside the **myapp/views.py** and then render it in the template. \nWe then carryout the following steps in the view:\n\n1. Import the OrderFilter from _filters.py_.\n \n2. Add a GET request and the orders queryset we are filtering, to the variable **myFilter**. \n\n3. Rename the variable myFilter to **orders** queryset.\n\n```\nfrom .filters import OrderFilter\n\ndef index(request):\n    orders = Order.objects.all().order_by('-date_created')\n    myFilter = OrderFilter(request.GET, queryset=orders)\n    orders = myFilter.qs\n    context = {\n        'orders': orders,\n        'myFilter': myFilter,\n    }\n    return render(request, 'index.html', context)\n```\n\nCopy and paste the following code to create a form in _index.html_ that will render the filter form. Note that the _form method=\"GET\"_ because you are sending a GET request for your search queries.\n\n```\n<div class=\"row\">\n    <div class=\"col\">\n        <div class=\"card card-body ml-3 mr-3\">\n            <form method=\"GET\" action=\"\" class=\"form-inline\">\n                {% csrf_token %}\n                    <div>\n                    {{ myFilter.form }}\n                    <div>\n                        <button type=\"submit\" class=\"btn btn- \n                        secondary\">SEARCH</button>\n                    </div>\n            </form>\n        </div>\n    </div>\n</div>\n```\nRerun the server and search your queries based on the filter form.  \n\n\n![FilterForm](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/92rr6crj7z4akq8a62n8.JPG)\nSearch for orders based on your filters of choice. \n\n\n![Search Results](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/pvp0ufk0mzatlazf50kh.JPG)\n\nThe table will now display your search queries.\n\nI hope you find this article helpful to your coding journey. Please share among your coder friends. Incase of any questions, let's chat in the Comments Section. Happy coding.\n",t.user={name:h,username:"eugenekwaka",twitter_username:"createdbyeugene",github_username:h,website_url:e,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--tpv5TpWp--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/580986/5c644dc4-6443-477b-bd0a-17e743b20c2d.jpg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--5lo6fPPt--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/580986/5c644dc4-6443-477b-bd0a-17e743b20c2d.jpg"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:t}},error:e,state:{currentArticle:t},serverRendered:!0,routePath:"/eugenekwaka/991101",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:e}}}}(null,{},"https://dev.to/eugenekwaka/how-to-filter-querysets-using-django-filter-package-5058","2022-02-16T15:21:57Z","Eugene-Kwaka")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

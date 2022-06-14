@@ -1,0 +1,1053 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Learning Vim Regex</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Learning Vim Regex</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/vim" class="tag" data-v-70afb46a>
+          #vim
+        </a><a href="/nuxtstop/t/neovim" class="tag" data-v-70afb46a>
+          #neovim
+        </a><a href="/nuxtstop/t/regex" class="tag" data-v-70afb46a>
+          #regex
+        </a><a href="/nuxtstop/t/search" class="tag" data-v-70afb46a>
+          #search
+        </a></div> <!----> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            21
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Jan 29</time></div></header> <div class="content" data-v-70afb46a><h1>
+  <a name="learning-vim-regex" href="#learning-vim-regex">
+  </a>
+  Learning Vim Regex
+</h1>
+
+<p>Learning regular expressions is like learning latin. It is not pleasant but it is good for your soul. They are incredibly useful but also hard to read. People who master them are hailed as gods. Many desired to learn them but a few actually did.</p>
+
+<p>To a programmer, regex (regular expression) is a tool. It can be learned (and mastered). Learning it is a lifetime investment. Here's why: First, regex is portable. Sure, there are different regex flavors, but the basic principle is the same across all flavors. Regex knowledge in one domain will transfer everywhere. Second, regex is powerful and knowing it can save you a lot of time. Programming is all about creating and updating text. Regex allows you to search and modify texts efficiently. Many powerful programs (like parsers) are built on top of regexes. Third, it is fun (once you get to a certain proficiency).</p>
+
+<p>Regex knowledge boosts your Linux-fu. You'll unlock more powerful commands using programs like sed, awk, grep, find, vim, and more. In this article, we will focus on learning and understanding regexes in Vim. </p>
+
+<p>This article is by no means a complete regex tutorial. In fact, I'll be honest right now, that this article probably contains less than a third of what Vim regex can do. But they are the ones that I find very useful. I call them the good parts.</p>
+
+<p>Many of the regex information you will be learning here is also transferable. Although the syntax may vary slightly in different environments, the principle is the same. If you understand everything in this article, you should be well on your way to use regex in other environments.</p>
+
+<h2>
+  <a name="using-regex-in-vim" href="#using-regex-in-vim">
+  </a>
+  Using Regex in Vim
+</h2>
+
+<p>Many of Vim's search features allow you to use regular expressions. Some of them are:</p>
+
+<ul>
+<li>The search commands (<code>/</code> and <code>?</code>)</li>
+<li>The global and substitute command-line (ex) commands (<code>:g</code> and <code>:s</code>)</li>
+<li>The grep commands (<code>:vimgrep</code> and <code>:grep</code>)</li>
+</ul>
+
+<p>There are other places where you can use regex, but based on my experience, these three are the main places I would use regex in.</p>
+
+<p>Finally, this is not a guide about how to use the global command, or grep, or whatever. This is more of a regex guide than a Vim guide. Think of it as a regex guide that uses Vim. It will show you how to use regex in Vim. </p>
+
+<p>I am going to limit the command to only the search command. Almost everything you see here is done using the search command <code>/</code> (I may release more guides in the future with different commands).</p>
+
+<h2>
+  <a name="to-magic-or-not" href="#to-magic-or-not">
+  </a>
+  To Magic or Not
+</h2>
+
+<p>If you are acquainted with Vim regex, you might be aware of Vim's special "flavor" of Regex. You can read more in <code>:h /magic</code>. </p>
+
+<p>Basically Vim allows you to pass an option where certain characters are treated as literal characters while others as special characters.</p>
+
+<p>In this guide, I won't use any magic option - meaning no <code>\v</code>, <code>\m</code>, <code>\V</code>, or <code>\M</code> (you basically will see a lot of backslashes).</p>
+
+<p>Enough with introductory stuff, let's start!</p>
+
+<h1>
+  <a name="the-good-parts-of-vim-regex" href="#the-good-parts-of-vim-regex">
+  </a>
+  The Good Parts of Vim Regex
+</h1>
+
+<h2>
+  <a name="basic-search-raw-endraw-" href="#basic-search-raw-endraw-">
+  </a>
+  Basic Search <code>/</code>
+</h2>
+
+<p>The most basic search that you could do is to search for a literal word. If you want to search for the string <code>donut</code>, run <code>/donut</code>. Vim will look for a literal word donut. It won't match <code>d0nut</code>, <code>Donut</code>, or <code>DONUT</code> (unless you have <code>'smartsearch'</code> option on, but that's another topic).</p>
+
+<p>In real life, things are not that simple. Maybe you need to look for variations of <code>foo</code> string including <code>food</code>, <code>fool</code>, and <code>foos</code>. Maybe you need to match a phone-number-looking pattern like <code>xxx-xxx-xxxx</code> where x could be <em>any</em> integer. So you want this pattern to match <code>123-123-1234</code> and <code>333-444-5555</code>, but not <code>1234-123-123</code>. </p>
+
+<p>Practically speaking, we often need to search for a <em>pattern</em>, not a literal word. This is where knowing a little bit of regex goes a long way. In fact, just by knowing a handful of regex concepts in this article, you should be able to handle 99% of your searching needs.</p>
+
+<h2>
+  <a name="any-character-raw-endraw-" href="#any-character-raw-endraw-">
+  </a>
+  Any Character <code>.</code>
+</h2>
+
+<p>The most simple, versatile, and almost universal regex pattern is the dot symbol (<code>.</code>). It matches any single character.</p>
+
+<p>For example, if you need to search for a 3-letter string that starts with an n and ends with a t, and you don't care what goes in the middle, you can use the pattern <code>n.t</code>. </p>
+
+<p><code>/n.t</code> will match the strings <code>not</code>, <code>nut</code>, <code>net</code>, <code>n0t</code>, and even <code>n t</code> (space between n and t).</p>
+
+<p>You can also use it multiple times, so <code>/n..b</code> matches any 4 character string that starts with n, followed by any character, followed by any character, and ends with b. So it will match <code>noob</code>, <code>n00b</code>, <code>n3wt</code>. It will not match <code>nob</code> or <code>nooob</code>.</p>
+
+<h2>
+  <a name="the-character-class" href="#the-character-class">
+  </a>
+  The Character Class
+</h2>
+
+<p>The dot syntax is useful, but sometimes you want to classify your search. Recall that <code>/n.t</code> matches any three-lettered word that starts with n, ends with t, and anything goes in the middle. What if we only want alphabetic characters, so it would match <code>not</code>, <code>nut</code>, and <code>net</code> but not <code>n0t</code>, <code>n t</code>, and <code>n?t</code>.</p>
+
+<p>To match only between a set of characters, a character class can help you.</p>
+
+<h3>
+  <a name="character-class-raw-endraw-" href="#character-class-raw-endraw-">
+  </a>
+  Character Class <code>[]</code>
+</h3>
+
+<p>A character class or a collection, is a sequence / set of characters that you can use to match any <em>single</em> character in the collection.</p>
+
+<p>In this case, to match lowercase and uppercase alphabetic characters (a-z and A-Z), we can use <code>/n[a-zA-Z]t</code>. This will match <code>net</code>, <code>nUt</code>, and <code>not</code>.</p>
+
+<p>If you need to match only lowercase alphabets, you can instead use <code>/n[a-z]t</code>. It will now match <code>net</code>, <code>nut</code>, and <code>not</code>, but it won't match <code>nEt</code>, <code>nUt</code>, and <code>nOt</code>.</p>
+
+<p>To match only vowels, use <code>/n[aeiou]t</code>.</p>
+
+<p>To match only numbers, use <code>/n[0-9]t</code>.</p>
+
+<p>To match only numbers 0 to 5, use <code>/n[0-5]t</code>.</p>
+
+<p>To match only uppercase A-F <em>and</em> numbers 0-9, use <code>/n[A-F0-9]t</code>.</p>
+
+<p>You are not limited to alphabets and numbers, if you want it to match either a space, an exclamation mark, and a question mark, you can do something like <code>/n[ !?]t</code>.</p>
+
+<h3>
+  <a name="negated-char-class-raw-endraw-" href="#negated-char-class-raw-endraw-">
+  </a>
+  Negated Char Class <code>[^]</code>
+</h3>
+
+<p>There is a special behavior that you need to know with the character class <code>[]</code>. If you put a caret (<code>^</code>) as the first character in it, it will act as a negation character. <code>[^a]</code> means "not a". <code>[^0-9]</code> means any non-number character. <code>[^aeiou]</code> means any non-vowel character.</p>
+
+<p>The command <code>/n[^ue]t</code> means any non-u or non-e character. It will not match <code>nut</code> and <code>net</code>, but it will match any <code>not</code>, <code>nUt</code>, and <code>n0t</code>.</p>
+
+<h2>
+  <a name="special-characters" href="#special-characters">
+  </a>
+  Special Characters
+</h2>
+
+<p>Vim comes with a predefined special character set. </p>
+
+<p>If you want to match a number, instead of using <code>/[0-9]</code>, you can also do <code>/\d</code> (digit). If you want to match a non-number, instead of using <code>/[^0-9]</code>, you can use <code>/\D</code>.</p>
+
+<p>If you want to match a lowercase alphabet character, instead of using <code>/[a-z]</code>, you can use <code>/\l</code>. If you want to match a non-lowercase, alphabet character, instead of <code>/[^a-z]</code>, you can use <code>/\L</code>. To match an uppercase, use <code>/\u</code>. For the non-uppercase, use <code>/\U</code>.</p>
+
+<p>If you want to match a hex digit, instead of <code>/[0-9A-Fa-f]</code>, you can use <code>/\x</code>. To match a non-hex digit, use <code>/\X</code>. You should see a pattern of using the uppercase letter to indicate the negated version of that special character.</p>
+
+<p>If you want to match a whitespace character (tab and space), use <code>/\s</code>. To match a non-whitespace character, use <code>/\S</code>.</p>
+
+<p>To match a "word" character (lower and uppercase alphabets, numbers, and underscore), use <code>/\w</code>. To match a non-word character, use <code>/\W</code>.</p>
+
+<p>If you know your predefined characters, you can save a few keystrokes (<code>/\d</code> is 3 strokes vs <code>/[0-9]</code> 6 strokes).</p>
+
+<h2>
+  <a name="quantifiers" href="#quantifiers">
+  </a>
+  Quantifiers
+</h2>
+
+<p>Repeating patterns are common when searching. For example, maybe you need to look for repeating digits in a phone number pattern. Nobody wants to type <code>[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]</code> to match 123-123-1234 and 111-222-3333.Instead typing the characters many times, you can use quantifiers to simplify the search.</p>
+
+<h3>
+  <a name="minmax" href="#minmax">
+  </a>
+  Min/Max
+</h3>
+
+<p>The pattern <code>123-123-1234</code> consists of a set of 3 consecutive numbers, followed by a dash, then another set of 3 consecutive numbers, followed by another dash, then another set of 4 consecutive numbers. </p>
+
+<p>You can use the <code>{n}</code> (where n is an integer) quantifiers to do the job. The <code>{n}</code> quantifier expects the preceding character to repeat n times. The <code>{}</code> syntax is a special character and needs to be escaped (without the escape, Vim will treat <code>{3}</code> as a literal {3}. The search command <code>/[0-9]\{3}-[0-9]\{3}-[0-9]\{4}</code> will match the phone number pattern. In the case of <code>/[0-9]\{3}</code>, it expects the digit to be repeated 3 times. It will match <code>123</code> or <code>777</code>, but not <code>12</code> or <code>7</code>.</p>
+
+<p>The search command to find the phone number 123-123-1234 looks like: <code>/[0-9]\{3}-[0-9]\{3}-[0-9]\{4}</code>. That's a lot simpler than typing <code>/[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]</code>.</p>
+
+<p>There are variations in the min/max quantifier:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>{n}
+{n,m}
+{n,}
+{,m}
+{}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h4>
+  <a name="exact-match-raw-n-endraw-" href="#exact-match-raw-n-endraw-">
+  </a>
+  Exact Match <code>{n}</code>
+</h4>
+
+<p>You have already seen the first one, <code>{n}</code>. It means the preceding character is repeated <em>exactly</em> n times. </p>
+
+<p><code>/a\{5}</code> will match <code>aaaaa</code>. <code>/[a-z]\{3}</code> will match <code>abc</code> and <code>zzz</code>.</p>
+
+<h4>
+  <a name="min-max-match-raw-nm-endraw-" href="#min-max-match-raw-nm-endraw-">
+  </a>
+  Min Max Match <code>{n,m}</code>
+</h4>
+
+<p>Let's explore the second one, <code>{n,m}</code>. It expects the preceding character to be repeated a minimum of n times and a max of m times (n and m are integers).</p>
+
+<p>When we search using <code>/[0-9]\{2,4}</code>, it searches for any numbers 0-9 repeated between two and four times. It will match 99, 789, and 1234, but not 9, 78, and 12345 (although it will match the first 4 digits)</p>
+
+<p>The command <code>/fo\{2,5}</code> searches for a string that starts with an f, followed by the letter o repeated 2 to 5 times. It matches foo, foooo, and fooooo, but not fo and foooooo (if will match up to fooooo).</p>
+
+<p>The command <code>/fo\{2,5}d</code> will match food and foooood, but not fooooood. It expects no more than 5 o's between f and d, whereas it finds 6 o's.</p>
+
+<h4>
+  <a name="min-match-raw-n-endraw-" href="#min-match-raw-n-endraw-">
+  </a>
+  Min Match <code>{n,}</code>
+</h4>
+
+<p>The next form, <code>{n,}</code>, expects a minimum of n, up to infinity. </p>
+
+<p>The search <code>/fo\{3,}</code> looks for the letter f, followed by 3 or more o. It matches fooo, foooo, and foooooooooooooooooooo. It won't match fo or foo.</p>
+
+<p>The search <code>/[0-9]\{2,}</code> looks for 2 or more digits. It matches 11, 123, 1234567, and 999999999999999999.</p>
+
+<h4>
+  <a name="max-match-raw-m-endraw-" href="#max-match-raw-m-endraw-">
+  </a>
+  Max Match <code>{,m}</code>
+</h4>
+
+<p>The next form, <code>{,m}</code>, expects a minimum of zero, up to m occurrence. </p>
+
+<p>The search <code>/fo\{,5}</code> looks for the letter f, followed by no o, up to 5 o's. It matches f, fo, foo, and fooooo. It won't match foooooo (it will only the first 5 o's).</p>
+
+<h4>
+  <a name="zero-or-more-match-raw-endraw-" href="#zero-or-more-match-raw-endraw-">
+  </a>
+  Zero or More Match <code>{}</code>
+</h4>
+
+<p>The final variation of the min/max quantifier is <code>{}</code> (or <code>{,}</code>, personally this syntax makes more sense to me). It means zero or more.</p>
+
+<p><code>/fo\{}</code> expects an f, followed by zero o and up to unlimited o's. It will match f, fo, fooooo, fooooooooooooooo.</p>
+
+<h3>
+  <a name="zero-or-more-raw-endraw-" href="#zero-or-more-raw-endraw-">
+  </a>
+  Zero or More <code>*</code>
+</h3>
+
+<p>The zero or more quantifier matches zero or more of the preceding character and is expressed with an asterisk <code>*</code>. It doesn't need to be escaped.</p>
+
+<p>If you run <code>/fo*</code>, Vim looks for the letter f, followed by zero o, up to infinite o's. It will match f, fo, foo, fooooooooooooooo.</p>
+
+<p>If you think about it, it is similar to <code>/fo\{,}</code>, but instead of typing all those brackets, you just type an asterisk.</p>
+
+<h3>
+  <a name="one-or-more-raw-endraw-" href="#one-or-more-raw-endraw-">
+  </a>
+  One or More <code>+</code>
+</h3>
+
+<p>The one or more quantifier matches one or more of the preceding character and is expressed with a plus <code>+</code>. It needs to be escaped, otherwise Vim treats it as a literal plus sign.</p>
+
+<p>If you run <code>/fo\+</code>, Vim looks for the letter f, followed by one or more o's. It will match fo, fooooo, and foooooooooooooo. It won't match an f.</p>
+
+<p>It is also equivalent to <code>/fo\{1,}</code>.</p>
+
+<h3>
+  <a name="zero-or-one-raw-endraw-" href="#zero-or-one-raw-endraw-">
+  </a>
+  Zero or One <code>?</code>
+</h3>
+
+<p>The zero or one quantifier matches either zero or one of the preceding characters. It is expressed with a question mark <code>?</code>. It needs to be escaped, otherwise it would be treated as a literal <code>?</code>.</p>
+
+<p>If you run <code>/fo\?</code>, it will match both f and fo, but not foo.</p>
+
+<p>Its min/max equivalent is <code>/fo\{,1}</code>.</p>
+
+<h2>
+  <a name="greedy-vs-lazy" href="#greedy-vs-lazy">
+  </a>
+  Greedy Vs Lazy
+</h2>
+
+<p>There are two different quantifiers: greedy and lazy. <em>By the way, in regex, there's also a third quantifier type, possessive, but I won't cover that here.</em></p>
+
+<h3>
+  <a name="greedy" href="#greedy">
+  </a>
+  Greedy
+</h3>
+
+<p>You actually have seen greedy quantifier in action. <code>*</code> is one example.</p>
+
+<p>Suppose that you have the following sentence:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>I say, "I use Vim". You say, "I don't use Vim". Uh-oh.
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>In this case, when you do <code>/".*"</code> (a string that starts with a double-quote, then zero or more of any character, then a double quote), Vim finds one match: <code>"I use Vim". You say, "I don't use Vim"</code>. This is because by using a greedy quantifier, you will get the largest possible value.</p>
+
+<p>But what if you want to match for the smallest pattern? You need to use a lazy quantifier.</p>
+
+<h3>
+  <a name="lazy" href="#lazy">
+  </a>
+  Lazy
+</h3>
+
+<p>If you look at lazy quantifiers, they look a lot like the min/max quantifiers, except that they have a <code>-</code>:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>{-}
+{-n,m}
+{-n,}
+{-,m}
+{-n}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Let's go over the first one. Recall that <code>{}</code> has the same effect as <code>*</code>: zero or more of the preceding character, <em>the largest possible match</em>. <code>{-}</code> is the lazy version of <code>{}</code>. It matches zero or more of the preceding character, <em>the smallest possible match</em>.</p>
+
+<p>Going back to our sentence earlier:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>I say, "I use Vim". You say, "I don't use Vim". Uh-oh.
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Let's use the lazy search: <code>/".\{-}"</code>. You will see <em>two</em> matches: "I use Vim" and "I don't use Vim". Cool!</p>
+
+<p>Let's go over the second variation, <code>{-n,m}</code>. If <code>{n,m}</code> matches at least n and at most m of the preceding character, <em>the largest possible match</em>, then <code>{-n,m}</code> matches at least n and at most m of the preceding character, <em>the smallest possible match</em>.</p>
+
+<p>Suppose that you have the following:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>fo
+foo
+fooooo
+foooooooooo
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>If you do <code>/fo\{-2,5}</code>:</p>
+
+<ul>
+<li>On the first string it will find no match, because it doesn't meet the string requirement of at least two o's. </li>
+<li>On the second string, it will match foo, the minimum requirement. - On the third match, instead of matching fooooo, it only matches foo, the least available match (two o's).</li>
+<li>On the fourth string, it also only matches foo, the smallest number of possible match.</li>
+</ul>
+
+<p>I will leave the remaining lazy quantifiers, <code>{-n,}</code>, <code>{-,m}</code>, and <code>{-n}</code>, to you. They behave similar to the greedy quantifiers, but instead of finding the largest number of matches, they find the smallest number of matches.</p>
+
+<h2>
+  <a name="anchors" href="#anchors">
+  </a>
+  Anchors
+</h2>
+
+<p>Sometimes you need to find a match not based on its content, but based on <em>where</em> it is. To search by location, we use anchors.</p>
+
+<h3>
+  <a name="beginning-of-line-raw-endraw-" href="#beginning-of-line-raw-endraw-">
+  </a>
+  Beginning of line <code>^</code>
+</h3>
+
+<p>The caret matches the start of the line.</p>
+
+<p>If you have:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>donut is life
+life is donut
+a donut a day
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>If you do <code>/^donut</code>, it will match "donut is life" because the word donut is at the start of the line. "life is donut" and "a donut a day" do not have a donut at the start of the line, so they won't match.</p>
+
+<h3>
+  <a name="end-of-line-raw-endraw-" href="#end-of-line-raw-endraw-">
+  </a>
+  End of Line <code>$</code>
+</h3>
+
+<p>The opposite of the start-of-the-line anchor is the end-of-the-line anchor, <code>$</code>. If you do <code>/donut$</code>, it will match the donut in "life is donut" because the word donut is at the end of the line.</p>
+
+<h3>
+  <a name="word-boundaries-raw-lt-gt-endraw-" href="#word-boundaries-raw-lt-gt-endraw-">
+  </a>
+  Word Boundaries <code>&lt; ></code>
+</h3>
+
+<p>Another useful anchor is the word boundary anchors.</p>
+
+<p>Given the following sentence:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>Without further ado, I do like donut very much
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>If you do (pun not intended :P) <code>/do</code>, Vim will match the do in: <code>ado</code>, <code>do</code>, and <code>donut</code>. What if you only want to match for the do in the word <code>do</code>, not in <code>ado</code> and <code>donut</code>?</p>
+
+<p>Word boundaries can help. The syntax is <code>&lt; ></code>. <code>&lt;</code> means the start of a word and <code>></code> means the end of a word. You need to escape them, otherwise Vim will match for literal <code>&lt;</code> and <code>></code>. <code>/\&lt;do\></code> will match only the standalone <code>do</code>, and not the do in <code>ado</code> and <code>donut</code>.</p>
+
+<p>If you want to match the do in donut and the word do, then you are looking for the start-of-the-word do, so you can use <code>/\&lt;do</code>. </p>
+
+<p>Likewise, to match the do in ado and the word do, it is the same as looking for the end-of-the-word do, hence you can use <code>/do\></code>.</p>
+
+<h2>
+  <a name="or-raw-endraw-" href="#or-raw-endraw-">
+  </a>
+  Or <code>|</code>
+</h2>
+
+<p>Sometimes you need to look for either A or B or C. In Vim, you can search for alternatives with the OR (bar) syntax <code>|</code>. You need to escape the bar syntax, otherwise Vim will match a literal bar symbol.</p>
+
+<p>If you need to search for either pancake or waffle (part of a tasty breakfast :D), you can do <code>/pancake\|waffle</code>.</p>
+
+<p>If you need to search for a line that starts with either foo or bar, you can do <code>/^foo\|^bar</code>.</p>
+
+<h2>
+  <a name="groups" href="#groups">
+  </a>
+  Groups
+</h2>
+
+<p>Earlier you learned about quantifiers. They can help you search for repeating characters. However, more often than not, you need to look for repeated groups, not individual characters. You can do that with capture groups.</p>
+
+<h3>
+  <a name="capture-group-subexpression-raw-endraw-" href="#capture-group-subexpression-raw-endraw-">
+  </a>
+  Capture Group (Sub-Expression) <code>( )</code>
+</h3>
+
+<p>The capture group is represented by a set of parentheses <code>()</code>. In Vim, they need to be escaped <code>\(\)</code> or they will match literal parentheses.</p>
+
+<p>If I need to look for one or more donuts, like donutdonutdonut, I can use <code>/\(donut\)\+</code>. Recall that way earlier I said that quantifiers like <code>+</code> search for one or more the <em>preceding character</em>. I lied. Technically, it searches for the preceding character <em>or</em> group. In Vim, they are called atoms. </p>
+
+<p>So <code>/fo\+</code> looks for an f, followed by one or more o's, and matches fo, foo, and fooooo. While <code>/\(fo\)\+</code> looks for one or more fo's and will match fo and fofofofo.</p>
+
+<p>Capture groups can be used with quantifiers. <code>/\(foo\)*</code> looks for zero or more foos, <code>/\(foo\)\{3,4}</code> looks for 3 or 4 foo's (greedy), <code>/\(foo\)\{-3}</code> looks for at least 3 foos (lazy).</p>
+
+<p>Let's combine what we've learned together. What kind of string do you think <code>/\(super\|duper\)\{1,2} yummy\( in my tummy\)\?</code> matches? Think about it before you scroll down!</p>
+
+<p>.<br>
+.<br>
+.<br>
+.<br>
+.<br>
+.<br>
+.<br>
+.<br>
+.<br>
+.<br>
+.<br>
+.<br>
+.<br>
+.<br>
+.</p>
+
+<p>Ok, it will match these:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>super yummy
+superduper yummy
+supersuper yummy
+dupersuper yummy in my tummy
+duper yummy in my tummy
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Do you understand why? If you don't, look back at the previous sections and make sure that you understand how they work!</p>
+
+<h3>
+  <a name="backreferences-raw-n-endraw-" href="#backreferences-raw-n-endraw-">
+  </a>
+  Backreferences <code>\n</code>
+</h3>
+
+<p>The capture group sure is very useful. It allows us to construct a pattern group that can be treated as a unit. It works great with quantifiers. But that's not all! Capture groups also work with backreferences.</p>
+
+<p>Back...what?</p>
+
+<p>A backreference lets you match the same text previously matched by a capturing group. You can spot a backreference when you see a backslash followed by a number: <code>\1</code>, <code>\2</code>, <code>\3</code>, ... <code>\9</code>.</p>
+
+<p>For example, when you use <code>/\(foo\).*\1</code> against:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>foobarfoo
+foo bar foo
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>They would match the entire string. How?</p>
+
+<ul>
+<li>The first capture group <code>\(foo\)</code> captures the string foo.</li>
+<li>Then we have zero or more of any character, <code>.*</code>. This matches any string between the first foo and the last foo.</li>
+<li>Finally, <code>\1</code> is a <em>backreference</em> to the first capture group <code>\(foo\)</code>.</li>
+</ul>
+
+<p><code>/\(foo\).*\1</code> is effectively the same as doing <code>/foo.*foo</code>, but using <code>\1</code> gives you far more flexibility as you'll see in a little bit.</p>
+
+<p>You can use multiple backreferences, like <code>/\(foo\)\(bar\).*\2\1\1</code>. Here, the first capture group is foo and is referenced with <code>\1</code>. The second capture group is bar and is referenced with <code>\2</code>. The search above is effectively similar to <code>/foobar.*barfoofoo</code>.</p>
+
+<p>Suppose that you want to match an opening and closing of an XML tag:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>&lt;foo>Hello&lt;/foo>
+&lt;bar>Greetings&lt;/bar>
+&lt;baz>Hello and greetings&lt;/baz>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Since XML opening tags need to match closing tags, we do not want it to match mismatched tags like:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>&lt;foo>Nope&lt;/bar>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You can use: <code>/&lt;\([^>]*\)>.*&lt;\/\1></code>.</p>
+
+<p>Whoa, that got messy and hard-to-read quickly. Let's break it down!</p>
+
+<p>Without escape characters, we actually have <code>&lt;([^>]*)>.*&lt;/\1></code>. A little simpler, but still a lot of symbols. Let's further break it apart into smaller sub-components.</p>
+
+<p>The pattern above is composed of three components: <code>&lt;([^>]*)></code>, <code>.*</code>, and <code>&lt;/\1></code>. Let's investigate each starting from the first one.</p>
+
+<p>In <code>&lt;([^>]*)></code>, the outermost <code>&lt;</code> and <code>></code> are literal angle brackets to match <code>&lt;</code> and <code>></code> in <code>&lt;foo></code> and <code>&lt;bar></code>. The pair of parentheses are the first capture group. So what's that weird <code>[^>]*</code> syntax inside? Recall that <code>[]</code> is a character class and when you have a caret as the first character inside a <code>[]</code>, it means negation. So <code>[^>]</code> means a non-<code>></code> character. Finally you are looking for zero or more of this non-<code>></code> character. <code>[^>]*</code> will match <code>foo</code>, <code>bar</code>, and <code>baz</code>. Overall, this pattern effectively matches <code>&lt;foo></code>, <code>&lt;bar></code>, <code>&lt;baz></code>, etc. The capture group captures the contents <em>inside</em> the <code>&lt; ></code>. It captures and temporarily stores the texts <code>foo</code>, <code>bar</code>, and <code>baz</code>.</p>
+
+<p>The second pattern, <code>.*</code>, is a familiar one: zero or more of any character. This matches any text between the HTML tags.</p>
+
+<p>The third pattern is <code>&lt;/\1></code>. The opening and closing angle brackets <code>&lt;</code> and <code>></code> match literal opening and closing HTML tags. <code>/</code> matches a literal forward slash. Finally, <code>\1</code> is a backreference to the first capture group, which as you recall was the content of the HTML tags: <code>foo</code>, <code>bar</code>, and <code>baz</code>. Putting the capture group and backreference together, this means that your opening XML tag needs to match the closing XML tag. If the starting XML tag was <code>&lt;foo></code>, then the closing HTML tag needs to be <code>&lt;/foo></code>.</p>
+
+<h3>
+  <a name="whole-match-raw-0-endraw-" href="#whole-match-raw-0-endraw-">
+  </a>
+  Whole Match <code>\0</code>
+</h3>
+
+<p>There is one more special backreference in Vim: <code>\0</code>. It represents the whole regex match. So if your search pattern is <code>/foo</code>, then <code>\0</code> is foo. If your search pattern is <code>/foo[0-9]</code> and the string is foo9, then <code>\0</code> is foo9.</p>
+
+<p>This can come in handy in substitution.</p>
+
+<p>Suppose that you have:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>const one = 1;
+const two = 2;
+const ten = 10;
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>If you want to enclose the numbers 1, 2, and 10 in double quotes, the fastest way to do it using the substitute command is <code>:%s/[0-9]\+/"\0"</code></p>
+
+<p>I won't go over how the substitute command works because it is not the scope of this article, but I want to highlight the patterns:</p>
+
+<ul>
+<li>
+<code>[0-9]\+</code>, matches one or more digits (therefore it matches 1, 2, and 10). </li>
+<li>The new substitute pattern, <code>"\0"</code> efficiently encloses all the matches with double-quotes. In the first line, <code>\0</code> is <code>1</code>. <code>"\0"</code> is the same as <code>"1"</code>. In the third line, <code>\0</code> is 10. <code>"\0"</code> then is the same as <code>"10"</code>.</li>
+</ul>
+
+<p>By the way, <code>\0</code> can also be aliased with <code>&</code>. <code>:s/\d/"\0"/g</code> is the same as <code>:s/\d/"&"/g</code>. It is one less character to type, if you prefer <code>&</code> over <code>\0</code>.</p>
+
+<h3>
+  <a name="noncapture-group-raw-endraw-" href="#noncapture-group-raw-endraw-">
+  </a>
+  Non-Capture Group <code>%( )</code>
+</h3>
+
+<p>All capture groups come with the backreference feature. If you don't want the backreference capability, use <code>%()</code> pattern to use a non-capture group instead of the regular capture group <code>()</code>. So <code>/\%(foo\)\+</code> still looks for one or more foo, but you won't be able to backreference it with <code>\1</code>.</p>
+
+<p>So why would anyone want to not backreference it?</p>
+
+<p>Performance. Backreferencing comes at performance cost. If you don't store backreference, you get some performance boosts. However, in my experience, I never really noticed any difference. But it wouldn't hurt to know about it.</p>
+
+<h2>
+  <a name="atoms" href="#atoms">
+  </a>
+  Atoms
+</h2>
+
+<p>Earlier I mentioned about atoms. What on earth are atoms?</p>
+
+<p>In Vim regex, an atom is a unit match. Technically almost everything in this article can be considered as atoms. The <code>a</code> in <code>/a</code> is an atom. The <code>^</code> in <code>/^hello</code> is an atom. The <code>[0-9]</code> in <code>/[0-9]</code> (any single-digit integer) is an atom. The <code>what</code> in <code>/\(what\)\+</code> (group match) is an atom. An atom can be an individual character match, an anchor, or a group match.</p>
+
+<h2>
+  <a name="zerowidth" href="#zerowidth">
+  </a>
+  Zero-Width
+</h2>
+
+<p>"Zero-width" is a regex term. It is also mentioned in Vim help a few times and earned its place as an entry (<code>:h /zero-width</code>).</p>
+
+<p>So what is zero width? A zero-width pattern is a pattern that doesn't actually match any character. If I search for the letter a (<code>/a</code>), it has a width of one. If I search for the letter a followed by any number (<code>/a[0-9]</code>), it has a width of two. The regex engine looks for a literal letter a. Anchors are good examples of zero-width patterns. If I search for the letter a at the start of the line (<code>/^a</code>), although the pattern <code>a</code> looks for a literal match of the letter a, the caret <code>^</code> does not match any character. This makes the caret anchor a zero-width pattern. It is there to specify location, not to match a character.</p>
+
+<p><code>^</code>, <code>$</code>, <code>\&lt;</code> and <code>\></code> are examples of zero-width patterns. There are other zero-width patterns that I haven't mentioned yet: look-arounds.</p>
+
+<h2>
+  <a name="lookarounds" href="#lookarounds">
+  </a>
+  Look-Arounds
+</h2>
+
+<p>So what are look-arounds and why do we need them?</p>
+
+<p>Look-arounds are useful when you have to search for a pattern relative to another pattern. If you need to search for foo <em>only</em> when it is before bar, a look-around can help you.</p>
+
+<p>There are two types of look-arounds: look-aheads and look-behinds.</p>
+
+<h3>
+  <a name="lookaheads" href="#lookaheads">
+  </a>
+  Look-Aheads
+</h3>
+
+<p>Vim's lookahead syntax is <code>\ze</code>. Think of the e as "ending".</p>
+
+<p>To match a foo that is followed by a bar (foobar), you can search <code>/foo\zebar</code>. The way I think about it is, <code>/foo</code> searches and matches for foo. Then you tell Vim to end the match with <code>\ze</code>. But the pattern doesn't stop there. The search continues. There's a bar after that. But you don't want bar to be part of the match. You're really searching for foobar (<code>/foobar</code>). So up to <code>\ze</code>, it will be searched and matched. After <code>\ze</code>, it will still be searched, but won't be matched. Note that in this section, I am making a subtle distinction between a "match" and a "search". A search is a pattern that the regex engine looks out for. A match is what is being selected / highlighted. All searches are matches but not all matches are searches.</p>
+
+<p><code>/foo\zebar</code> matches <code>foobar</code>, but not <code>foobaz</code> or <code>foo</code>.</p>
+
+<p>The look-ahead pattern has another form: <code>\@=</code>. If you are familiar with the Perl regex, this is similar to the <code>(?=pattern)</code>.</p>
+
+<p>When used in Vim, it matches the preceding atom. The syntax works differently from <code>\ze</code>, but the idea is the same.</p>
+
+<p>To search for foo in foobar (but not in foobaz or foo), run <code>/foo\(bar\)\@=</code>. Note that you are using a capture group on bar, <code>\(bar\)</code>.</p>
+
+<p>If the syntax is confusing, don't worry, you're not alone. It took me a while to grasp it when I started to learn about it.</p>
+
+<p>The best way to understand it is, whatever character or capture group that precedes <code>\@=</code> won't be matched or highlighted, but it will still be used as a part of the search pattern. Think of it as a veil that covers it. <code>\(bar\)\@=</code>. It takes a stretch of imagination, but I see <code>\@=</code> as a magician, <code>@=</code> is the head (looks like a duck magician) and <code>\</code> is his left hand. <code>\(bar\)</code> is a veil containing the word "bar". He is covering it so it won't be highlighted. So <code>/foo\(bar\)\@=</code> to me is like a giant text that spells "foobar", whereas a duck-magician person comes and covers up the "bar" part so it won't be visible to the audience... sort-of kind-of... Well, anyway, let's go to the next look-around, look-behinds!</p>
+
+<h3>
+  <a name="lookbehinds" href="#lookbehinds">
+  </a>
+  Look-Behinds
+</h3>
+
+<p>Look-behinds are principally similar to look-aheads, except they work backwards.</p>
+
+<p>In Vim, you can use <code>\zs</code>. Think of the s as "start". If you want to match bar but only if it is followed by foo (foobar), do <code>/foo\zsbar</code>. Again, the search pattern is technically <code>/foobar</code>. However, the matching only start after <code>\zs</code>, hence only bar is highlighted while foo is not.</p>
+
+<p>Both <code>\ze</code> and <code>\zs</code> are Vim inventions. But they both have regex look-ahead and look-behind syntax counterparts. Just like <code>\ze</code> has a <code>\@=</code> regex counterpart, <code>\zs</code> also has a regex counterpart and it is <code>\@&lt;=</code> (it's like <code>\@=</code>, except now it also has an arrow pointing back). The way it works, is that the atom that precedes it won't be matched (highlighted), although it will still be used as a part of the search pattern.</p>
+
+<p>To search for bar in foobar, use <code>/\(foo\)\@&lt;=bar</code>. To search for baz in foobaz, use <code>/\(foo\)\@&lt;=baz</code>.</p>
+
+<p>If the whole look-behind syntax pattern is confusing, I find the duck-magician imagery helps. <code>\(foo\)\@&lt;=</code> is our pattern. <code>@&lt;=</code> looks like a duck magician that shoots a beam. <code>\</code> is his left hand. <code>\(foo\)</code> is the veil that covers up the word foo. Again, whatever word/pattern that the magician veils will be hidden (not highlighted). So I imagine <code>\(foo\)\@&lt;=bar</code> like a giant "foobar" text and this duck-magician guy veils up the word foo so it won't be visible to the audience.</p>
+
+<h2>
+  <a name="lookahead-and-lookbehind" href="#lookahead-and-lookbehind">
+  </a>
+  Look-Ahead and Look-Behind
+</h2>
+
+<p>You can definitely use both look-aheads and look-behinds in a pattern.</p>
+
+<p>If you need to match and highlight the bar only if it comes after foo and before baz (foobarbaz), not in bazbarfoo, foobar, or barbaz, use <code>/foo\zsbar\zebaz</code>. Alternatively, you can also use <code>/\(foo\)\@&lt;=bar\(baz\)\@=</code>.</p>
+
+<h3>
+  <a name="negative-lookaheads" href="#negative-lookaheads">
+  </a>
+  Negative Look-Aheads
+</h3>
+
+<p>Negative look-aheads are the negative version of the look-aheads. The syntax is <code>\@!</code> (as opposed to <code>\@=</code>). </p>
+
+<p>Negative look-aheads search for a match NOT followed by the given pattern. To match foo <em>not</em> followed by baz, run <code>/foo\(baz\)\@!</code>. This will match foo and foobar, not foobaz.</p>
+
+<h3>
+  <a name="negative-lookbehinds" href="#negative-lookbehinds">
+  </a>
+  Negative Look-Behinds
+</h3>
+
+<p>There are also negative look-behinds. The syntax is <code>\@&lt;!</code> (as opposed to <code>\@&lt;=</code>). It finds a match NOT preceded by the pattern.</p>
+
+<p>To match bar not preceded by foo, run <code>/\(foo\)\@&lt;!bar</code>. This will match bazbar and bar, not foobar.</p>
+
+<h2>
+  <a name="more-vim-regex" href="#more-vim-regex">
+  </a>
+  More Vim regex
+</h2>
+
+<p>The following are patterns exclusive in Vim. They are not available in most regex engines outside of Vim.</p>
+
+<h3>
+  <a name="optional-match-raw-endraw-" href="#optional-match-raw-endraw-">
+  </a>
+  Optional Match <code>\%[ ]</code>
+</h3>
+
+<p>You can search for optional, sequential matches with the <code>\%[]</code> pattern. It will match if the string contains, sequentially, any of the characters inside the square brackets.</p>
+
+<p><code>/do%[nut]</code> will match either <code>do</code>, <code>don</code>, <code>donu</code>, and <code>donut</code>.</p>
+
+<h3>
+  <a name="multiple-lines-raw-x-endraw-" href="#multiple-lines-raw-x-endraw-">
+  </a>
+  Multiple Lines <code>\_x</code>
+</h3>
+
+<p>Sometimes you need to search for patterns that may or may not be separated by newlines and/or whitespaces.</p>
+
+<p>If you need to match the chocolate donut string, one separated by a whitespace and another separated by a newline:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>chocolate donut
+
+chocolate
+donut
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You can search with <code>/chocolate\_sdonut</code>.</p>
+
+<p>Recall that <code>\s</code> is a special character for a whitespace character. By adding an underscore, <code>\_s</code> now also includes a newline.</p>
+
+<p>So if you want to match:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>chocolate donut
+
+chocolatedonut
+
+chocolate
+donut
+
+chocolate
+
+
+
+donut
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You can use zero-or-more quantifier (<code>*</code>), <code>/chocolate\_s*donut</code>.</p>
+
+<h3>
+  <a name="start-and-end-of-file-raw-endraw-" href="#start-and-end-of-file-raw-endraw-">
+  </a>
+  Start and End of File <code>\%^ \%$</code>
+</h3>
+
+<p>Sometimes you need to search for a pattern at the start of the file. You can use the <code>\%^</code> pattern. If you need to search for foo that is at the start of the file, use <code>/\%^foo</code>.</p>
+
+<p>To search for a pattern at the end of the file, use <code>\%$</code>. If you need to search for foo at the end of the file, use <code>/foo\%$</code>.</p>
+
+<h3>
+  <a name="start-within-visual-area-raw-v-endraw-" href="#start-within-visual-area-raw-v-endraw-">
+  </a>
+  Start Within Visual Area <code>\%V</code>
+</h3>
+
+<p>Vim has a Visual mode (<code>v</code>, <code>V</code>, or <code>Ctrl-V</code>) that allows you to highlight a certain area of text. I assume that you know what the visual mode is, if not, check out <code>:h visual-mode</code>.</p>
+
+<p>When you are currently highlighting a visual area, you can search for a pattern <em>within</em> that visual area with <code>\%V</code>.</p>
+
+<p>If you have the text:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>barfoobazfoobarfoobazfoobarfoobazfoo
+
+foobarfoobazfoobarfoobazfoobarfoobaz
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>While you are currently Visually highlighting the first line, you can search for foo within the visual highlight if you do <code>/\%Vfoo</code>.</p>
+
+<h3>
+  <a name="magic-and-very-magic-raw-v-m-endraw-" href="#magic-and-very-magic-raw-v-m-endraw-">
+  </a>
+  Magic and Very Magic <code>\v \m</code>
+</h3>
+
+<p>Earlier I mentioned about <code>\v</code>, <code>\V</code>, <code>\m</code>, and <code>\M</code>. Some regex syntaxes require them to be escaped for them to be treated as special characters.</p>
+
+<p>For example, to match one or more foo, normally you would do <code>/\(foo\)\+</code>. Note that the group match <code>()</code> and the one-or-more quantifier <code>+</code> are escaped.</p>
+
+<p>If you don't want to escape them, you can use <code>\v</code>. The <code>v</code> stands for "very magic". Your search would look like this: <code>/\v(foo)+</code>. Vim treats <code>()</code> and <code>+</code> as a special character instead of treating them as literal parentheses and plus signs.</p>
+
+<p>So how do you know which characters no longer need to be escaped and which characters still need to be escaped? The rule of thumb is, all characters except for word characters (digits 0-9, lowercase alphabets a-z, uppercase alphabets A-Z, and underscore _) are treated as special characters. As you've seen earlier, <code>()</code> and <code>+</code> are not word characters, so under very magic, they are treated as special characters. Also, special characters like <code>\d</code> (digits) and <code>\l</code> (lowercase alphabets) still need to be escaped.</p>
+
+<p>Likewise, in very magic mode, since it automatically treats non-word characters as special characters, previously literal characters would need to be escaped if you want to match them literally. So if you need to match a literal parentheses while under very magic mode, like <code>(foo)</code>, then you'd have to escape it: <code>/\v\(foo\)</code>.</p>
+
+<p>"Very magic" has a sibling, "magic". You actually have been acquainted with this magic mode. How so? Because Vim by default uses magic mode! If you run <code>:set magic?</code>, it will return <code>magic</code>. Everything that you've used so far is done under magic mode.</p>
+
+<p>Vim also has two more modes: "no magic" (<code>\M</code>) and "no very magic" (<code>\V</code>). I won't cover them here because I personally think their usage is limited in everyday editing (I could be mistaken). But if you're curious, check out <code>:h /\V</code> and <code>:h /\M</code>.</p>
+
+<h2>
+  <a name="conclusion" href="#conclusion">
+  </a>
+  Conclusion
+</h2>
+
+<p>I think this is a good place to stop. </p>
+
+<p>I hope that you gained valuable insight from this guide. Regex is a lot of fun once you know how to use it. It is an invaluable skill for any programmer. You don't need to master it, you just need to be good enough. Most popular programming languages employ regex to a certain extent. By learning regex in the Vim domain, you will inevitably know how to use it anywhere else. You will also be able to find and edit things much faster. Finally, it simply looks so darn cool.</p>
+
+<p>Take the time reading this. No rush. Make it into your muscle memory. Understanding beats superficial knowledge. Test your knowledge. Have fun with it!</p>
+
+<p>Happy coding!</p>
+
+<p><em>I am already planning to write more about regex in the future, so stay tuned!</em></p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/iggredible/learning-vim-regex-26ep" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(e,o,t,n,a,i){return t.type_of="article",t.id=972010,t.title=n,t.description=n,t.readable_publish_date="Jan 29",t.slug="learning-vim-regex-26ep",t.path="/iggredible/learning-vim-regex-26ep",t.url=a,t.comments_count=0,t.public_reactions_count=21,t.collection_id=e,t.published_timestamp=o,t.positive_reactions_count=21,t.cover_image=e,t.social_image="https://dev.to/social_previews/article/972010.png",t.canonical_url=a,t.created_at="2022-01-29T15:42:52Z",t.edited_at="2022-02-06T00:01:46Z",t.crossposted_at=e,t.published_at=o,t.last_comment_at=o,t.reading_time_minutes=22,t.tag_list="vim, neovim, regex, search",t.tags=["vim","neovim","regex","search"],t.body_html='<h1>\n  <a name="learning-vim-regex" href="#learning-vim-regex">\n  </a>\n  Learning Vim Regex\n</h1>\n\n<p>Learning regular expressions is like learning latin. It is not pleasant but it is good for your soul. They are incredibly useful but also hard to read. People who master them are hailed as gods. Many desired to learn them but a few actually did.</p>\n\n<p>To a programmer, regex (regular expression) is a tool. It can be learned (and mastered). Learning it is a lifetime investment. Here\'s why: First, regex is portable. Sure, there are different regex flavors, but the basic principle is the same across all flavors. Regex knowledge in one domain will transfer everywhere. Second, regex is powerful and knowing it can save you a lot of time. Programming is all about creating and updating text. Regex allows you to search and modify texts efficiently. Many powerful programs (like parsers) are built on top of regexes. Third, it is fun (once you get to a certain proficiency).</p>\n\n<p>Regex knowledge boosts your Linux-fu. You\'ll unlock more powerful commands using programs like sed, awk, grep, find, vim, and more. In this article, we will focus on learning and understanding regexes in Vim. </p>\n\n<p>This article is by no means a complete regex tutorial. In fact, I\'ll be honest right now, that this article probably contains less than a third of what Vim regex can do. But they are the ones that I find very useful. I call them the good parts.</p>\n\n<p>Many of the regex information you will be learning here is also transferable. Although the syntax may vary slightly in different environments, the principle is the same. If you understand everything in this article, you should be well on your way to use regex in other environments.</p>\n\n<h2>\n  <a name="using-regex-in-vim" href="#using-regex-in-vim">\n  </a>\n  Using Regex in Vim\n</h2>\n\n<p>Many of Vim\'s search features allow you to use regular expressions. Some of them are:</p>\n\n<ul>\n<li>The search commands (<code>/</code> and <code>?</code>)</li>\n<li>The global and substitute command-line (ex) commands (<code>:g</code> and <code>:s</code>)</li>\n<li>The grep commands (<code>:vimgrep</code> and <code>:grep</code>)</li>\n</ul>\n\n<p>There are other places where you can use regex, but based on my experience, these three are the main places I would use regex in.</p>\n\n<p>Finally, this is not a guide about how to use the global command, or grep, or whatever. This is more of a regex guide than a Vim guide. Think of it as a regex guide that uses Vim. It will show you how to use regex in Vim. </p>\n\n<p>I am going to limit the command to only the search command. Almost everything you see here is done using the search command <code>/</code> (I may release more guides in the future with different commands).</p>\n\n<h2>\n  <a name="to-magic-or-not" href="#to-magic-or-not">\n  </a>\n  To Magic or Not\n</h2>\n\n<p>If you are acquainted with Vim regex, you might be aware of Vim\'s special "flavor" of Regex. You can read more in <code>:h /magic</code>. </p>\n\n<p>Basically Vim allows you to pass an option where certain characters are treated as literal characters while others as special characters.</p>\n\n<p>In this guide, I won\'t use any magic option - meaning no <code>\\v</code>, <code>\\m</code>, <code>\\V</code>, or <code>\\M</code> (you basically will see a lot of backslashes).</p>\n\n<p>Enough with introductory stuff, let\'s start!</p>\n\n<h1>\n  <a name="the-good-parts-of-vim-regex" href="#the-good-parts-of-vim-regex">\n  </a>\n  The Good Parts of Vim Regex\n</h1>\n\n<h2>\n  <a name="basic-search-raw-endraw-" href="#basic-search-raw-endraw-">\n  </a>\n  Basic Search <code>/</code>\n</h2>\n\n<p>The most basic search that you could do is to search for a literal word. If you want to search for the string <code>donut</code>, run <code>/donut</code>. Vim will look for a literal word donut. It won\'t match <code>d0nut</code>, <code>Donut</code>, or <code>DONUT</code> (unless you have <code>\'smartsearch\'</code> option on, but that\'s another topic).</p>\n\n<p>In real life, things are not that simple. Maybe you need to look for variations of <code>foo</code> string including <code>food</code>, <code>fool</code>, and <code>foos</code>. Maybe you need to match a phone-number-looking pattern like <code>xxx-xxx-xxxx</code> where x could be <em>any</em> integer. So you want this pattern to match <code>123-123-1234</code> and <code>333-444-5555</code>, but not <code>1234-123-123</code>. </p>\n\n<p>Practically speaking, we often need to search for a <em>pattern</em>, not a literal word. This is where knowing a little bit of regex goes a long way. In fact, just by knowing a handful of regex concepts in this article, you should be able to handle 99% of your searching needs.</p>\n\n<h2>\n  <a name="any-character-raw-endraw-" href="#any-character-raw-endraw-">\n  </a>\n  Any Character <code>.</code>\n</h2>\n\n<p>The most simple, versatile, and almost universal regex pattern is the dot symbol (<code>.</code>). It matches any single character.</p>\n\n<p>For example, if you need to search for a 3-letter string that starts with an n and ends with a t, and you don\'t care what goes in the middle, you can use the pattern <code>n.t</code>. </p>\n\n<p><code>/n.t</code> will match the strings <code>not</code>, <code>nut</code>, <code>net</code>, <code>n0t</code>, and even <code>n t</code> (space between n and t).</p>\n\n<p>You can also use it multiple times, so <code>/n..b</code> matches any 4 character string that starts with n, followed by any character, followed by any character, and ends with b. So it will match <code>noob</code>, <code>n00b</code>, <code>n3wt</code>. It will not match <code>nob</code> or <code>nooob</code>.</p>\n\n<h2>\n  <a name="the-character-class" href="#the-character-class">\n  </a>\n  The Character Class\n</h2>\n\n<p>The dot syntax is useful, but sometimes you want to classify your search. Recall that <code>/n.t</code> matches any three-lettered word that starts with n, ends with t, and anything goes in the middle. What if we only want alphabetic characters, so it would match <code>not</code>, <code>nut</code>, and <code>net</code> but not <code>n0t</code>, <code>n t</code>, and <code>n?t</code>.</p>\n\n<p>To match only between a set of characters, a character class can help you.</p>\n\n<h3>\n  <a name="character-class-raw-endraw-" href="#character-class-raw-endraw-">\n  </a>\n  Character Class <code>[]</code>\n</h3>\n\n<p>A character class or a collection, is a sequence / set of characters that you can use to match any <em>single</em> character in the collection.</p>\n\n<p>In this case, to match lowercase and uppercase alphabetic characters (a-z and A-Z), we can use <code>/n[a-zA-Z]t</code>. This will match <code>net</code>, <code>nUt</code>, and <code>not</code>.</p>\n\n<p>If you need to match only lowercase alphabets, you can instead use <code>/n[a-z]t</code>. It will now match <code>net</code>, <code>nut</code>, and <code>not</code>, but it won\'t match <code>nEt</code>, <code>nUt</code>, and <code>nOt</code>.</p>\n\n<p>To match only vowels, use <code>/n[aeiou]t</code>.</p>\n\n<p>To match only numbers, use <code>/n[0-9]t</code>.</p>\n\n<p>To match only numbers 0 to 5, use <code>/n[0-5]t</code>.</p>\n\n<p>To match only uppercase A-F <em>and</em> numbers 0-9, use <code>/n[A-F0-9]t</code>.</p>\n\n<p>You are not limited to alphabets and numbers, if you want it to match either a space, an exclamation mark, and a question mark, you can do something like <code>/n[ !?]t</code>.</p>\n\n<h3>\n  <a name="negated-char-class-raw-endraw-" href="#negated-char-class-raw-endraw-">\n  </a>\n  Negated Char Class <code>[^]</code>\n</h3>\n\n<p>There is a special behavior that you need to know with the character class <code>[]</code>. If you put a caret (<code>^</code>) as the first character in it, it will act as a negation character. <code>[^a]</code> means "not a". <code>[^0-9]</code> means any non-number character. <code>[^aeiou]</code> means any non-vowel character.</p>\n\n<p>The command <code>/n[^ue]t</code> means any non-u or non-e character. It will not match <code>nut</code> and <code>net</code>, but it will match any <code>not</code>, <code>nUt</code>, and <code>n0t</code>.</p>\n\n<h2>\n  <a name="special-characters" href="#special-characters">\n  </a>\n  Special Characters\n</h2>\n\n<p>Vim comes with a predefined special character set. </p>\n\n<p>If you want to match a number, instead of using <code>/[0-9]</code>, you can also do <code>/\\d</code> (digit). If you want to match a non-number, instead of using <code>/[^0-9]</code>, you can use <code>/\\D</code>.</p>\n\n<p>If you want to match a lowercase alphabet character, instead of using <code>/[a-z]</code>, you can use <code>/\\l</code>. If you want to match a non-lowercase, alphabet character, instead of <code>/[^a-z]</code>, you can use <code>/\\L</code>. To match an uppercase, use <code>/\\u</code>. For the non-uppercase, use <code>/\\U</code>.</p>\n\n<p>If you want to match a hex digit, instead of <code>/[0-9A-Fa-f]</code>, you can use <code>/\\x</code>. To match a non-hex digit, use <code>/\\X</code>. You should see a pattern of using the uppercase letter to indicate the negated version of that special character.</p>\n\n<p>If you want to match a whitespace character (tab and space), use <code>/\\s</code>. To match a non-whitespace character, use <code>/\\S</code>.</p>\n\n<p>To match a "word" character (lower and uppercase alphabets, numbers, and underscore), use <code>/\\w</code>. To match a non-word character, use <code>/\\W</code>.</p>\n\n<p>If you know your predefined characters, you can save a few keystrokes (<code>/\\d</code> is 3 strokes vs <code>/[0-9]</code> 6 strokes).</p>\n\n<h2>\n  <a name="quantifiers" href="#quantifiers">\n  </a>\n  Quantifiers\n</h2>\n\n<p>Repeating patterns are common when searching. For example, maybe you need to look for repeating digits in a phone number pattern. Nobody wants to type <code>[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]</code> to match 123-123-1234 and 111-222-3333.Instead typing the characters many times, you can use quantifiers to simplify the search.</p>\n\n<h3>\n  <a name="minmax" href="#minmax">\n  </a>\n  Min/Max\n</h3>\n\n<p>The pattern <code>123-123-1234</code> consists of a set of 3 consecutive numbers, followed by a dash, then another set of 3 consecutive numbers, followed by another dash, then another set of 4 consecutive numbers. </p>\n\n<p>You can use the <code>{n}</code> (where n is an integer) quantifiers to do the job. The <code>{n}</code> quantifier expects the preceding character to repeat n times. The <code>{}</code> syntax is a special character and needs to be escaped (without the escape, Vim will treat <code>{3}</code> as a literal {3}. The search command <code>/[0-9]\\{3}-[0-9]\\{3}-[0-9]\\{4}</code> will match the phone number pattern. In the case of <code>/[0-9]\\{3}</code>, it expects the digit to be repeated 3 times. It will match <code>123</code> or <code>777</code>, but not <code>12</code> or <code>7</code>.</p>\n\n<p>The search command to find the phone number 123-123-1234 looks like: <code>/[0-9]\\{3}-[0-9]\\{3}-[0-9]\\{4}</code>. That\'s a lot simpler than typing <code>/[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]</code>.</p>\n\n<p>There are variations in the min/max quantifier:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>{n}\n{n,m}\n{n,}\n{,m}\n{}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h4>\n  <a name="exact-match-raw-n-endraw-" href="#exact-match-raw-n-endraw-">\n  </a>\n  Exact Match <code>{n}</code>\n</h4>\n\n<p>You have already seen the first one, <code>{n}</code>. It means the preceding character is repeated <em>exactly</em> n times. </p>\n\n<p><code>/a\\{5}</code> will match <code>aaaaa</code>. <code>/[a-z]\\{3}</code> will match <code>abc</code> and <code>zzz</code>.</p>\n\n<h4>\n  <a name="min-max-match-raw-nm-endraw-" href="#min-max-match-raw-nm-endraw-">\n  </a>\n  Min Max Match <code>{n,m}</code>\n</h4>\n\n<p>Let\'s explore the second one, <code>{n,m}</code>. It expects the preceding character to be repeated a minimum of n times and a max of m times (n and m are integers).</p>\n\n<p>When we search using <code>/[0-9]\\{2,4}</code>, it searches for any numbers 0-9 repeated between two and four times. It will match 99, 789, and 1234, but not 9, 78, and 12345 (although it will match the first 4 digits)</p>\n\n<p>The command <code>/fo\\{2,5}</code> searches for a string that starts with an f, followed by the letter o repeated 2 to 5 times. It matches foo, foooo, and fooooo, but not fo and foooooo (if will match up to fooooo).</p>\n\n<p>The command <code>/fo\\{2,5}d</code> will match food and foooood, but not fooooood. It expects no more than 5 o\'s between f and d, whereas it finds 6 o\'s.</p>\n\n<h4>\n  <a name="min-match-raw-n-endraw-" href="#min-match-raw-n-endraw-">\n  </a>\n  Min Match <code>{n,}</code>\n</h4>\n\n<p>The next form, <code>{n,}</code>, expects a minimum of n, up to infinity. </p>\n\n<p>The search <code>/fo\\{3,}</code> looks for the letter f, followed by 3 or more o. It matches fooo, foooo, and foooooooooooooooooooo. It won\'t match fo or foo.</p>\n\n<p>The search <code>/[0-9]\\{2,}</code> looks for 2 or more digits. It matches 11, 123, 1234567, and 999999999999999999.</p>\n\n<h4>\n  <a name="max-match-raw-m-endraw-" href="#max-match-raw-m-endraw-">\n  </a>\n  Max Match <code>{,m}</code>\n</h4>\n\n<p>The next form, <code>{,m}</code>, expects a minimum of zero, up to m occurrence. </p>\n\n<p>The search <code>/fo\\{,5}</code> looks for the letter f, followed by no o, up to 5 o\'s. It matches f, fo, foo, and fooooo. It won\'t match foooooo (it will only the first 5 o\'s).</p>\n\n<h4>\n  <a name="zero-or-more-match-raw-endraw-" href="#zero-or-more-match-raw-endraw-">\n  </a>\n  Zero or More Match <code>{}</code>\n</h4>\n\n<p>The final variation of the min/max quantifier is <code>{}</code> (or <code>{,}</code>, personally this syntax makes more sense to me). It means zero or more.</p>\n\n<p><code>/fo\\{}</code> expects an f, followed by zero o and up to unlimited o\'s. It will match f, fo, fooooo, fooooooooooooooo.</p>\n\n<h3>\n  <a name="zero-or-more-raw-endraw-" href="#zero-or-more-raw-endraw-">\n  </a>\n  Zero or More <code>*</code>\n</h3>\n\n<p>The zero or more quantifier matches zero or more of the preceding character and is expressed with an asterisk <code>*</code>. It doesn\'t need to be escaped.</p>\n\n<p>If you run <code>/fo*</code>, Vim looks for the letter f, followed by zero o, up to infinite o\'s. It will match f, fo, foo, fooooooooooooooo.</p>\n\n<p>If you think about it, it is similar to <code>/fo\\{,}</code>, but instead of typing all those brackets, you just type an asterisk.</p>\n\n<h3>\n  <a name="one-or-more-raw-endraw-" href="#one-or-more-raw-endraw-">\n  </a>\n  One or More <code>+</code>\n</h3>\n\n<p>The one or more quantifier matches one or more of the preceding character and is expressed with a plus <code>+</code>. It needs to be escaped, otherwise Vim treats it as a literal plus sign.</p>\n\n<p>If you run <code>/fo\\+</code>, Vim looks for the letter f, followed by one or more o\'s. It will match fo, fooooo, and foooooooooooooo. It won\'t match an f.</p>\n\n<p>It is also equivalent to <code>/fo\\{1,}</code>.</p>\n\n<h3>\n  <a name="zero-or-one-raw-endraw-" href="#zero-or-one-raw-endraw-">\n  </a>\n  Zero or One <code>?</code>\n</h3>\n\n<p>The zero or one quantifier matches either zero or one of the preceding characters. It is expressed with a question mark <code>?</code>. It needs to be escaped, otherwise it would be treated as a literal <code>?</code>.</p>\n\n<p>If you run <code>/fo\\?</code>, it will match both f and fo, but not foo.</p>\n\n<p>Its min/max equivalent is <code>/fo\\{,1}</code>.</p>\n\n<h2>\n  <a name="greedy-vs-lazy" href="#greedy-vs-lazy">\n  </a>\n  Greedy Vs Lazy\n</h2>\n\n<p>There are two different quantifiers: greedy and lazy. <em>By the way, in regex, there\'s also a third quantifier type, possessive, but I won\'t cover that here.</em></p>\n\n<h3>\n  <a name="greedy" href="#greedy">\n  </a>\n  Greedy\n</h3>\n\n<p>You actually have seen greedy quantifier in action. <code>*</code> is one example.</p>\n\n<p>Suppose that you have the following sentence:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>I say, "I use Vim". You say, "I don\'t use Vim". Uh-oh.\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>In this case, when you do <code>/".*"</code> (a string that starts with a double-quote, then zero or more of any character, then a double quote), Vim finds one match: <code>"I use Vim". You say, "I don\'t use Vim"</code>. This is because by using a greedy quantifier, you will get the largest possible value.</p>\n\n<p>But what if you want to match for the smallest pattern? You need to use a lazy quantifier.</p>\n\n<h3>\n  <a name="lazy" href="#lazy">\n  </a>\n  Lazy\n</h3>\n\n<p>If you look at lazy quantifiers, they look a lot like the min/max quantifiers, except that they have a <code>-</code>:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>{-}\n{-n,m}\n{-n,}\n{-,m}\n{-n}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Let\'s go over the first one. Recall that <code>{}</code> has the same effect as <code>*</code>: zero or more of the preceding character, <em>the largest possible match</em>. <code>{-}</code> is the lazy version of <code>{}</code>. It matches zero or more of the preceding character, <em>the smallest possible match</em>.</p>\n\n<p>Going back to our sentence earlier:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>I say, "I use Vim". You say, "I don\'t use Vim". Uh-oh.\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Let\'s use the lazy search: <code>/".\\{-}"</code>. You will see <em>two</em> matches: "I use Vim" and "I don\'t use Vim". Cool!</p>\n\n<p>Let\'s go over the second variation, <code>{-n,m}</code>. If <code>{n,m}</code> matches at least n and at most m of the preceding character, <em>the largest possible match</em>, then <code>{-n,m}</code> matches at least n and at most m of the preceding character, <em>the smallest possible match</em>.</p>\n\n<p>Suppose that you have the following:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>fo\nfoo\nfooooo\nfoooooooooo\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>If you do <code>/fo\\{-2,5}</code>:</p>\n\n<ul>\n<li>On the first string it will find no match, because it doesn\'t meet the string requirement of at least two o\'s. </li>\n<li>On the second string, it will match foo, the minimum requirement. - On the third match, instead of matching fooooo, it only matches foo, the least available match (two o\'s).</li>\n<li>On the fourth string, it also only matches foo, the smallest number of possible match.</li>\n</ul>\n\n<p>I will leave the remaining lazy quantifiers, <code>{-n,}</code>, <code>{-,m}</code>, and <code>{-n}</code>, to you. They behave similar to the greedy quantifiers, but instead of finding the largest number of matches, they find the smallest number of matches.</p>\n\n<h2>\n  <a name="anchors" href="#anchors">\n  </a>\n  Anchors\n</h2>\n\n<p>Sometimes you need to find a match not based on its content, but based on <em>where</em> it is. To search by location, we use anchors.</p>\n\n<h3>\n  <a name="beginning-of-line-raw-endraw-" href="#beginning-of-line-raw-endraw-">\n  </a>\n  Beginning of line <code>^</code>\n</h3>\n\n<p>The caret matches the start of the line.</p>\n\n<p>If you have:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>donut is life\nlife is donut\na donut a day\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>If you do <code>/^donut</code>, it will match "donut is life" because the word donut is at the start of the line. "life is donut" and "a donut a day" do not have a donut at the start of the line, so they won\'t match.</p>\n\n<h3>\n  <a name="end-of-line-raw-endraw-" href="#end-of-line-raw-endraw-">\n  </a>\n  End of Line <code>$</code>\n</h3>\n\n<p>The opposite of the start-of-the-line anchor is the end-of-the-line anchor, <code>$</code>. If you do <code>/donut$</code>, it will match the donut in "life is donut" because the word donut is at the end of the line.</p>\n\n<h3>\n  <a name="word-boundaries-raw-lt-gt-endraw-" href="#word-boundaries-raw-lt-gt-endraw-">\n  </a>\n  Word Boundaries <code>&lt; &gt;</code>\n</h3>\n\n<p>Another useful anchor is the word boundary anchors.</p>\n\n<p>Given the following sentence:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>Without further ado, I do like donut very much\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>If you do (pun not intended :P) <code>/do</code>, Vim will match the do in: <code>ado</code>, <code>do</code>, and <code>donut</code>. What if you only want to match for the do in the word <code>do</code>, not in <code>ado</code> and <code>donut</code>?</p>\n\n<p>Word boundaries can help. The syntax is <code>&lt; &gt;</code>. <code>&lt;</code> means the start of a word and <code>&gt;</code> means the end of a word. You need to escape them, otherwise Vim will match for literal <code>&lt;</code> and <code>&gt;</code>. <code>/\\&lt;do\\&gt;</code> will match only the standalone <code>do</code>, and not the do in <code>ado</code> and <code>donut</code>.</p>\n\n<p>If you want to match the do in donut and the word do, then you are looking for the start-of-the-word do, so you can use <code>/\\&lt;do</code>. </p>\n\n<p>Likewise, to match the do in ado and the word do, it is the same as looking for the end-of-the-word do, hence you can use <code>/do\\&gt;</code>.</p>\n\n<h2>\n  <a name="or-raw-endraw-" href="#or-raw-endraw-">\n  </a>\n  Or <code>|</code>\n</h2>\n\n<p>Sometimes you need to look for either A or B or C. In Vim, you can search for alternatives with the OR (bar) syntax <code>|</code>. You need to escape the bar syntax, otherwise Vim will match a literal bar symbol.</p>\n\n<p>If you need to search for either pancake or waffle (part of a tasty breakfast :D), you can do <code>/pancake\\|waffle</code>.</p>\n\n<p>If you need to search for a line that starts with either foo or bar, you can do <code>/^foo\\|^bar</code>.</p>\n\n<h2>\n  <a name="groups" href="#groups">\n  </a>\n  Groups\n</h2>\n\n<p>Earlier you learned about quantifiers. They can help you search for repeating characters. However, more often than not, you need to look for repeated groups, not individual characters. You can do that with capture groups.</p>\n\n<h3>\n  <a name="capture-group-subexpression-raw-endraw-" href="#capture-group-subexpression-raw-endraw-">\n  </a>\n  Capture Group (Sub-Expression) <code>( )</code>\n</h3>\n\n<p>The capture group is represented by a set of parentheses <code>()</code>. In Vim, they need to be escaped <code>\\(\\)</code> or they will match literal parentheses.</p>\n\n<p>If I need to look for one or more donuts, like donutdonutdonut, I can use <code>/\\(donut\\)\\+</code>. Recall that way earlier I said that quantifiers like <code>+</code> search for one or more the <em>preceding character</em>. I lied. Technically, it searches for the preceding character <em>or</em> group. In Vim, they are called atoms. </p>\n\n<p>So <code>/fo\\+</code> looks for an f, followed by one or more o\'s, and matches fo, foo, and fooooo. While <code>/\\(fo\\)\\+</code> looks for one or more fo\'s and will match fo and fofofofo.</p>\n\n<p>Capture groups can be used with quantifiers. <code>/\\(foo\\)*</code> looks for zero or more foos, <code>/\\(foo\\)\\{3,4}</code> looks for 3 or 4 foo\'s (greedy), <code>/\\(foo\\)\\{-3}</code> looks for at least 3 foos (lazy).</p>\n\n<p>Let\'s combine what we\'ve learned together. What kind of string do you think <code>/\\(super\\|duper\\)\\{1,2} yummy\\( in my tummy\\)\\?</code> matches? Think about it before you scroll down!</p>\n\n<p>.<br>\n.<br>\n.<br>\n.<br>\n.<br>\n.<br>\n.<br>\n.<br>\n.<br>\n.<br>\n.<br>\n.<br>\n.<br>\n.<br>\n.</p>\n\n<p>Ok, it will match these:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>super yummy\nsuperduper yummy\nsupersuper yummy\ndupersuper yummy in my tummy\nduper yummy in my tummy\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Do you understand why? If you don\'t, look back at the previous sections and make sure that you understand how they work!</p>\n\n<h3>\n  <a name="backreferences-raw-n-endraw-" href="#backreferences-raw-n-endraw-">\n  </a>\n  Backreferences <code>\\n</code>\n</h3>\n\n<p>The capture group sure is very useful. It allows us to construct a pattern group that can be treated as a unit. It works great with quantifiers. But that\'s not all! Capture groups also work with backreferences.</p>\n\n<p>Back...what?</p>\n\n<p>A backreference lets you match the same text previously matched by a capturing group. You can spot a backreference when you see a backslash followed by a number: <code>\\1</code>, <code>\\2</code>, <code>\\3</code>, ... <code>\\9</code>.</p>\n\n<p>For example, when you use <code>/\\(foo\\).*\\1</code> against:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>foobarfoo\nfoo bar foo\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>They would match the entire string. How?</p>\n\n<ul>\n<li>The first capture group <code>\\(foo\\)</code> captures the string foo.</li>\n<li>Then we have zero or more of any character, <code>.*</code>. This matches any string between the first foo and the last foo.</li>\n<li>Finally, <code>\\1</code> is a <em>backreference</em> to the first capture group <code>\\(foo\\)</code>.</li>\n</ul>\n\n<p><code>/\\(foo\\).*\\1</code> is effectively the same as doing <code>/foo.*foo</code>, but using <code>\\1</code> gives you far more flexibility as you\'ll see in a little bit.</p>\n\n<p>You can use multiple backreferences, like <code>/\\(foo\\)\\(bar\\).*\\2\\1\\1</code>. Here, the first capture group is foo and is referenced with <code>\\1</code>. The second capture group is bar and is referenced with <code>\\2</code>. The search above is effectively similar to <code>/foobar.*barfoofoo</code>.</p>\n\n<p>Suppose that you want to match an opening and closing of an XML tag:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>&lt;foo&gt;Hello&lt;/foo&gt;\n&lt;bar&gt;Greetings&lt;/bar&gt;\n&lt;baz&gt;Hello and greetings&lt;/baz&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Since XML opening tags need to match closing tags, we do not want it to match mismatched tags like:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>&lt;foo&gt;Nope&lt;/bar&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You can use: <code>/&lt;\\([^&gt;]*\\)&gt;.*&lt;\\/\\1&gt;</code>.</p>\n\n<p>Whoa, that got messy and hard-to-read quickly. Let\'s break it down!</p>\n\n<p>Without escape characters, we actually have <code>&lt;([^&gt;]*)&gt;.*&lt;/\\1&gt;</code>. A little simpler, but still a lot of symbols. Let\'s further break it apart into smaller sub-components.</p>\n\n<p>The pattern above is composed of three components: <code>&lt;([^&gt;]*)&gt;</code>, <code>.*</code>, and <code>&lt;/\\1&gt;</code>. Let\'s investigate each starting from the first one.</p>\n\n<p>In <code>&lt;([^&gt;]*)&gt;</code>, the outermost <code>&lt;</code> and <code>&gt;</code> are literal angle brackets to match <code>&lt;</code> and <code>&gt;</code> in <code>&lt;foo&gt;</code> and <code>&lt;bar&gt;</code>. The pair of parentheses are the first capture group. So what\'s that weird <code>[^&gt;]*</code> syntax inside? Recall that <code>[]</code> is a character class and when you have a caret as the first character inside a <code>[]</code>, it means negation. So <code>[^&gt;]</code> means a non-<code>&gt;</code> character. Finally you are looking for zero or more of this non-<code>&gt;</code> character. <code>[^&gt;]*</code> will match <code>foo</code>, <code>bar</code>, and <code>baz</code>. Overall, this pattern effectively matches <code>&lt;foo&gt;</code>, <code>&lt;bar&gt;</code>, <code>&lt;baz&gt;</code>, etc. The capture group captures the contents <em>inside</em> the <code>&lt; &gt;</code>. It captures and temporarily stores the texts <code>foo</code>, <code>bar</code>, and <code>baz</code>.</p>\n\n<p>The second pattern, <code>.*</code>, is a familiar one: zero or more of any character. This matches any text between the HTML tags.</p>\n\n<p>The third pattern is <code>&lt;/\\1&gt;</code>. The opening and closing angle brackets <code>&lt;</code> and <code>&gt;</code> match literal opening and closing HTML tags. <code>/</code> matches a literal forward slash. Finally, <code>\\1</code> is a backreference to the first capture group, which as you recall was the content of the HTML tags: <code>foo</code>, <code>bar</code>, and <code>baz</code>. Putting the capture group and backreference together, this means that your opening XML tag needs to match the closing XML tag. If the starting XML tag was <code>&lt;foo&gt;</code>, then the closing HTML tag needs to be <code>&lt;/foo&gt;</code>.</p>\n\n<h3>\n  <a name="whole-match-raw-0-endraw-" href="#whole-match-raw-0-endraw-">\n  </a>\n  Whole Match <code>\\0</code>\n</h3>\n\n<p>There is one more special backreference in Vim: <code>\\0</code>. It represents the whole regex match. So if your search pattern is <code>/foo</code>, then <code>\\0</code> is foo. If your search pattern is <code>/foo[0-9]</code> and the string is foo9, then <code>\\0</code> is foo9.</p>\n\n<p>This can come in handy in substitution.</p>\n\n<p>Suppose that you have:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>const one = 1;\nconst two = 2;\nconst ten = 10;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>If you want to enclose the numbers 1, 2, and 10 in double quotes, the fastest way to do it using the substitute command is <code>:%s/[0-9]\\+/"\\0"</code></p>\n\n<p>I won\'t go over how the substitute command works because it is not the scope of this article, but I want to highlight the patterns:</p>\n\n<ul>\n<li>\n<code>[0-9]\\+</code>, matches one or more digits (therefore it matches 1, 2, and 10). </li>\n<li>The new substitute pattern, <code>"\\0"</code> efficiently encloses all the matches with double-quotes. In the first line, <code>\\0</code> is <code>1</code>. <code>"\\0"</code> is the same as <code>"1"</code>. In the third line, <code>\\0</code> is 10. <code>"\\0"</code> then is the same as <code>"10"</code>.</li>\n</ul>\n\n<p>By the way, <code>\\0</code> can also be aliased with <code>&amp;</code>. <code>:s/\\d/"\\0"/g</code> is the same as <code>:s/\\d/"&amp;"/g</code>. It is one less character to type, if you prefer <code>&amp;</code> over <code>\\0</code>.</p>\n\n<h3>\n  <a name="noncapture-group-raw-endraw-" href="#noncapture-group-raw-endraw-">\n  </a>\n  Non-Capture Group <code>%( )</code>\n</h3>\n\n<p>All capture groups come with the backreference feature. If you don\'t want the backreference capability, use <code>%()</code> pattern to use a non-capture group instead of the regular capture group <code>()</code>. So <code>/\\%(foo\\)\\+</code> still looks for one or more foo, but you won\'t be able to backreference it with <code>\\1</code>.</p>\n\n<p>So why would anyone want to not backreference it?</p>\n\n<p>Performance. Backreferencing comes at performance cost. If you don\'t store backreference, you get some performance boosts. However, in my experience, I never really noticed any difference. But it wouldn\'t hurt to know about it.</p>\n\n<h2>\n  <a name="atoms" href="#atoms">\n  </a>\n  Atoms\n</h2>\n\n<p>Earlier I mentioned about atoms. What on earth are atoms?</p>\n\n<p>In Vim regex, an atom is a unit match. Technically almost everything in this article can be considered as atoms. The <code>a</code> in <code>/a</code> is an atom. The <code>^</code> in <code>/^hello</code> is an atom. The <code>[0-9]</code> in <code>/[0-9]</code> (any single-digit integer) is an atom. The <code>what</code> in <code>/\\(what\\)\\+</code> (group match) is an atom. An atom can be an individual character match, an anchor, or a group match.</p>\n\n<h2>\n  <a name="zerowidth" href="#zerowidth">\n  </a>\n  Zero-Width\n</h2>\n\n<p>"Zero-width" is a regex term. It is also mentioned in Vim help a few times and earned its place as an entry (<code>:h /zero-width</code>).</p>\n\n<p>So what is zero width? A zero-width pattern is a pattern that doesn\'t actually match any character. If I search for the letter a (<code>/a</code>), it has a width of one. If I search for the letter a followed by any number (<code>/a[0-9]</code>), it has a width of two. The regex engine looks for a literal letter a. Anchors are good examples of zero-width patterns. If I search for the letter a at the start of the line (<code>/^a</code>), although the pattern <code>a</code> looks for a literal match of the letter a, the caret <code>^</code> does not match any character. This makes the caret anchor a zero-width pattern. It is there to specify location, not to match a character.</p>\n\n<p><code>^</code>, <code>$</code>, <code>\\&lt;</code> and <code>\\&gt;</code> are examples of zero-width patterns. There are other zero-width patterns that I haven\'t mentioned yet: look-arounds.</p>\n\n<h2>\n  <a name="lookarounds" href="#lookarounds">\n  </a>\n  Look-Arounds\n</h2>\n\n<p>So what are look-arounds and why do we need them?</p>\n\n<p>Look-arounds are useful when you have to search for a pattern relative to another pattern. If you need to search for foo <em>only</em> when it is before bar, a look-around can help you.</p>\n\n<p>There are two types of look-arounds: look-aheads and look-behinds.</p>\n\n<h3>\n  <a name="lookaheads" href="#lookaheads">\n  </a>\n  Look-Aheads\n</h3>\n\n<p>Vim\'s lookahead syntax is <code>\\ze</code>. Think of the e as "ending".</p>\n\n<p>To match a foo that is followed by a bar (foobar), you can search <code>/foo\\zebar</code>. The way I think about it is, <code>/foo</code> searches and matches for foo. Then you tell Vim to end the match with <code>\\ze</code>. But the pattern doesn\'t stop there. The search continues. There\'s a bar after that. But you don\'t want bar to be part of the match. You\'re really searching for foobar (<code>/foobar</code>). So up to <code>\\ze</code>, it will be searched and matched. After <code>\\ze</code>, it will still be searched, but won\'t be matched. Note that in this section, I am making a subtle distinction between a "match" and a "search". A search is a pattern that the regex engine looks out for. A match is what is being selected / highlighted. All searches are matches but not all matches are searches.</p>\n\n<p><code>/foo\\zebar</code> matches <code>foobar</code>, but not <code>foobaz</code> or <code>foo</code>.</p>\n\n<p>The look-ahead pattern has another form: <code>\\@=</code>. If you are familiar with the Perl regex, this is similar to the <code>(?=pattern)</code>.</p>\n\n<p>When used in Vim, it matches the preceding atom. The syntax works differently from <code>\\ze</code>, but the idea is the same.</p>\n\n<p>To search for foo in foobar (but not in foobaz or foo), run <code>/foo\\(bar\\)\\@=</code>. Note that you are using a capture group on bar, <code>\\(bar\\)</code>.</p>\n\n<p>If the syntax is confusing, don\'t worry, you\'re not alone. It took me a while to grasp it when I started to learn about it.</p>\n\n<p>The best way to understand it is, whatever character or capture group that precedes <code>\\@=</code> won\'t be matched or highlighted, but it will still be used as a part of the search pattern. Think of it as a veil that covers it. <code>\\(bar\\)\\@=</code>. It takes a stretch of imagination, but I see <code>\\@=</code> as a magician, <code>@=</code> is the head (looks like a duck magician) and <code>\\</code> is his left hand. <code>\\(bar\\)</code> is a veil containing the word "bar". He is covering it so it won\'t be highlighted. So <code>/foo\\(bar\\)\\@=</code> to me is like a giant text that spells "foobar", whereas a duck-magician person comes and covers up the "bar" part so it won\'t be visible to the audience... sort-of kind-of... Well, anyway, let\'s go to the next look-around, look-behinds!</p>\n\n<h3>\n  <a name="lookbehinds" href="#lookbehinds">\n  </a>\n  Look-Behinds\n</h3>\n\n<p>Look-behinds are principally similar to look-aheads, except they work backwards.</p>\n\n<p>In Vim, you can use <code>\\zs</code>. Think of the s as "start". If you want to match bar but only if it is followed by foo (foobar), do <code>/foo\\zsbar</code>. Again, the search pattern is technically <code>/foobar</code>. However, the matching only start after <code>\\zs</code>, hence only bar is highlighted while foo is not.</p>\n\n<p>Both <code>\\ze</code> and <code>\\zs</code> are Vim inventions. But they both have regex look-ahead and look-behind syntax counterparts. Just like <code>\\ze</code> has a <code>\\@=</code> regex counterpart, <code>\\zs</code> also has a regex counterpart and it is <code>\\@&lt;=</code> (it\'s like <code>\\@=</code>, except now it also has an arrow pointing back). The way it works, is that the atom that precedes it won\'t be matched (highlighted), although it will still be used as a part of the search pattern.</p>\n\n<p>To search for bar in foobar, use <code>/\\(foo\\)\\@&lt;=bar</code>. To search for baz in foobaz, use <code>/\\(foo\\)\\@&lt;=baz</code>.</p>\n\n<p>If the whole look-behind syntax pattern is confusing, I find the duck-magician imagery helps. <code>\\(foo\\)\\@&lt;=</code> is our pattern. <code>@&lt;=</code> looks like a duck magician that shoots a beam. <code>\\</code> is his left hand. <code>\\(foo\\)</code> is the veil that covers up the word foo. Again, whatever word/pattern that the magician veils will be hidden (not highlighted). So I imagine <code>\\(foo\\)\\@&lt;=bar</code> like a giant "foobar" text and this duck-magician guy veils up the word foo so it won\'t be visible to the audience.</p>\n\n<h2>\n  <a name="lookahead-and-lookbehind" href="#lookahead-and-lookbehind">\n  </a>\n  Look-Ahead and Look-Behind\n</h2>\n\n<p>You can definitely use both look-aheads and look-behinds in a pattern.</p>\n\n<p>If you need to match and highlight the bar only if it comes after foo and before baz (foobarbaz), not in bazbarfoo, foobar, or barbaz, use <code>/foo\\zsbar\\zebaz</code>. Alternatively, you can also use <code>/\\(foo\\)\\@&lt;=bar\\(baz\\)\\@=</code>.</p>\n\n<h3>\n  <a name="negative-lookaheads" href="#negative-lookaheads">\n  </a>\n  Negative Look-Aheads\n</h3>\n\n<p>Negative look-aheads are the negative version of the look-aheads. The syntax is <code>\\@!</code> (as opposed to <code>\\@=</code>). </p>\n\n<p>Negative look-aheads search for a match NOT followed by the given pattern. To match foo <em>not</em> followed by baz, run <code>/foo\\(baz\\)\\@!</code>. This will match foo and foobar, not foobaz.</p>\n\n<h3>\n  <a name="negative-lookbehinds" href="#negative-lookbehinds">\n  </a>\n  Negative Look-Behinds\n</h3>\n\n<p>There are also negative look-behinds. The syntax is <code>\\@&lt;!</code> (as opposed to <code>\\@&lt;=</code>). It finds a match NOT preceded by the pattern.</p>\n\n<p>To match bar not preceded by foo, run <code>/\\(foo\\)\\@&lt;!bar</code>. This will match bazbar and bar, not foobar.</p>\n\n<h2>\n  <a name="more-vim-regex" href="#more-vim-regex">\n  </a>\n  More Vim regex\n</h2>\n\n<p>The following are patterns exclusive in Vim. They are not available in most regex engines outside of Vim.</p>\n\n<h3>\n  <a name="optional-match-raw-endraw-" href="#optional-match-raw-endraw-">\n  </a>\n  Optional Match <code>\\%[ ]</code>\n</h3>\n\n<p>You can search for optional, sequential matches with the <code>\\%[]</code> pattern. It will match if the string contains, sequentially, any of the characters inside the square brackets.</p>\n\n<p><code>/do%[nut]</code> will match either <code>do</code>, <code>don</code>, <code>donu</code>, and <code>donut</code>.</p>\n\n<h3>\n  <a name="multiple-lines-raw-x-endraw-" href="#multiple-lines-raw-x-endraw-">\n  </a>\n  Multiple Lines <code>\\_x</code>\n</h3>\n\n<p>Sometimes you need to search for patterns that may or may not be separated by newlines and/or whitespaces.</p>\n\n<p>If you need to match the chocolate donut string, one separated by a whitespace and another separated by a newline:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>chocolate donut\n\nchocolate\ndonut\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You can search with <code>/chocolate\\_sdonut</code>.</p>\n\n<p>Recall that <code>\\s</code> is a special character for a whitespace character. By adding an underscore, <code>\\_s</code> now also includes a newline.</p>\n\n<p>So if you want to match:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>chocolate donut\n\nchocolatedonut\n\nchocolate\ndonut\n\nchocolate\n\n\n\ndonut\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You can use zero-or-more quantifier (<code>*</code>), <code>/chocolate\\_s*donut</code>.</p>\n\n<h3>\n  <a name="start-and-end-of-file-raw-endraw-" href="#start-and-end-of-file-raw-endraw-">\n  </a>\n  Start and End of File <code>\\%^ \\%$</code>\n</h3>\n\n<p>Sometimes you need to search for a pattern at the start of the file. You can use the <code>\\%^</code> pattern. If you need to search for foo that is at the start of the file, use <code>/\\%^foo</code>.</p>\n\n<p>To search for a pattern at the end of the file, use <code>\\%$</code>. If you need to search for foo at the end of the file, use <code>/foo\\%$</code>.</p>\n\n<h3>\n  <a name="start-within-visual-area-raw-v-endraw-" href="#start-within-visual-area-raw-v-endraw-">\n  </a>\n  Start Within Visual Area <code>\\%V</code>\n</h3>\n\n<p>Vim has a Visual mode (<code>v</code>, <code>V</code>, or <code>Ctrl-V</code>) that allows you to highlight a certain area of text. I assume that you know what the visual mode is, if not, check out <code>:h visual-mode</code>.</p>\n\n<p>When you are currently highlighting a visual area, you can search for a pattern <em>within</em> that visual area with <code>\\%V</code>.</p>\n\n<p>If you have the text:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>barfoobazfoobarfoobazfoobarfoobazfoo\n\nfoobarfoobazfoobarfoobazfoobarfoobaz\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>While you are currently Visually highlighting the first line, you can search for foo within the visual highlight if you do <code>/\\%Vfoo</code>.</p>\n\n<h3>\n  <a name="magic-and-very-magic-raw-v-m-endraw-" href="#magic-and-very-magic-raw-v-m-endraw-">\n  </a>\n  Magic and Very Magic <code>\\v \\m</code>\n</h3>\n\n<p>Earlier I mentioned about <code>\\v</code>, <code>\\V</code>, <code>\\m</code>, and <code>\\M</code>. Some regex syntaxes require them to be escaped for them to be treated as special characters.</p>\n\n<p>For example, to match one or more foo, normally you would do <code>/\\(foo\\)\\+</code>. Note that the group match <code>()</code> and the one-or-more quantifier <code>+</code> are escaped.</p>\n\n<p>If you don\'t want to escape them, you can use <code>\\v</code>. The <code>v</code> stands for "very magic". Your search would look like this: <code>/\\v(foo)+</code>. Vim treats <code>()</code> and <code>+</code> as a special character instead of treating them as literal parentheses and plus signs.</p>\n\n<p>So how do you know which characters no longer need to be escaped and which characters still need to be escaped? The rule of thumb is, all characters except for word characters (digits 0-9, lowercase alphabets a-z, uppercase alphabets A-Z, and underscore _) are treated as special characters. As you\'ve seen earlier, <code>()</code> and <code>+</code> are not word characters, so under very magic, they are treated as special characters. Also, special characters like <code>\\d</code> (digits) and <code>\\l</code> (lowercase alphabets) still need to be escaped.</p>\n\n<p>Likewise, in very magic mode, since it automatically treats non-word characters as special characters, previously literal characters would need to be escaped if you want to match them literally. So if you need to match a literal parentheses while under very magic mode, like <code>(foo)</code>, then you\'d have to escape it: <code>/\\v\\(foo\\)</code>.</p>\n\n<p>"Very magic" has a sibling, "magic". You actually have been acquainted with this magic mode. How so? Because Vim by default uses magic mode! If you run <code>:set magic?</code>, it will return <code>magic</code>. Everything that you\'ve used so far is done under magic mode.</p>\n\n<p>Vim also has two more modes: "no magic" (<code>\\M</code>) and "no very magic" (<code>\\V</code>). I won\'t cover them here because I personally think their usage is limited in everyday editing (I could be mistaken). But if you\'re curious, check out <code>:h /\\V</code> and <code>:h /\\M</code>.</p>\n\n<h2>\n  <a name="conclusion" href="#conclusion">\n  </a>\n  Conclusion\n</h2>\n\n<p>I think this is a good place to stop. </p>\n\n<p>I hope that you gained valuable insight from this guide. Regex is a lot of fun once you know how to use it. It is an invaluable skill for any programmer. You don\'t need to master it, you just need to be good enough. Most popular programming languages employ regex to a certain extent. By learning regex in the Vim domain, you will inevitably know how to use it anywhere else. You will also be able to find and edit things much faster. Finally, it simply looks so darn cool.</p>\n\n<p>Take the time reading this. No rush. Make it into your muscle memory. Understanding beats superficial knowledge. Test your knowledge. Have fun with it!</p>\n\n<p>Happy coding!</p>\n\n<p><em>I am already planning to write more about regex in the future, so stay tuned!</em></p>\n\n',t.body_markdown="---\ntitle: Learning Vim Regex\npublished: true\ndescription: Learning Vim Regex\ntags: vim, neovim, regex, search\n//cover_image: https://direct_url_to_image.jpg\n---\n\n# Learning Vim Regex\n\nLearning regular expressions is like learning latin. It is not pleasant but it is good for your soul. They are incredibly useful but also hard to read. People who master them are hailed as gods. Many desired to learn them but a few actually did.\n\nTo a programmer, regex (regular expression) is a tool. It can be learned (and mastered). Learning it is a lifetime investment. Here's why: First, regex is portable. Sure, there are different regex flavors, but the basic principle is the same across all flavors. Regex knowledge in one domain will transfer everywhere. Second, regex is powerful and knowing it can save you a lot of time. Programming is all about creating and updating text. Regex allows you to search and modify texts efficiently. Many powerful programs (like parsers) are built on top of regexes. Third, it is fun (once you get to a certain proficiency).\n\nRegex knowledge boosts your Linux-fu. You'll unlock more powerful commands using programs like sed, awk, grep, find, vim, and more. In this article, we will focus on learning and understanding regexes in Vim. \n\nThis article is by no means a complete regex tutorial. In fact, I'll be honest right now, that this article probably contains less than a third of what Vim regex can do. But they are the ones that I find very useful. I call them the good parts.\n\nMany of the regex information you will be learning here is also transferable. Although the syntax may vary slightly in different environments, the principle is the same. If you understand everything in this article, you should be well on your way to use regex in other environments.\n\n## Using Regex in Vim\n\nMany of Vim's search features allow you to use regular expressions. Some of them are:\n- The search commands (`/` and `?`)\n- The global and substitute command-line (ex) commands (`:g` and `:s`)\n- The grep commands (`:vimgrep` and `:grep`)\n\nThere are other places where you can use regex, but based on my experience, these three are the main places I would use regex in.\n\nFinally, this is not a guide about how to use the global command, or grep, or whatever. This is more of a regex guide than a Vim guide. Think of it as a regex guide that uses Vim. It will show you how to use regex in Vim. \n\nI am going to limit the command to only the search command. Almost everything you see here is done using the search command `/` (I may release more guides in the future with different commands).\n\n## To Magic or Not\n\nIf you are acquainted with Vim regex, you might be aware of Vim's special \"flavor\" of Regex. You can read more in `:h /magic`. \n\nBasically Vim allows you to pass an option where certain characters are treated as literal characters while others as special characters.\n\nIn this guide, I won't use any magic option - meaning no `\\v`, `\\m`, `\\V`, or `\\M` (you basically will see a lot of backslashes).\n\nEnough with introductory stuff, let's start!\n\n# The Good Parts of Vim Regex\n\n## Basic Search `/`\n\nThe most basic search that you could do is to search for a literal word. If you want to search for the string `donut`, run `/donut`. Vim will look for a literal word donut. It won't match `d0nut`, `Donut`, or `DONUT` (unless you have `'smartsearch'` option on, but that's another topic).\n\nIn real life, things are not that simple. Maybe you need to look for variations of `foo` string including `food`, `fool`, and `foos`. Maybe you need to match a phone-number-looking pattern like `xxx-xxx-xxxx` where x could be *any* integer. So you want this pattern to match `123-123-1234` and `333-444-5555`, but not `1234-123-123`. \n\nPractically speaking, we often need to search for a *pattern*, not a literal word. This is where knowing a little bit of regex goes a long way. In fact, just by knowing a handful of regex concepts in this article, you should be able to handle 99% of your searching needs.\n\n## Any Character `.`\n\nThe most simple, versatile, and almost universal regex pattern is the dot symbol (`.`). It matches any single character.\n\nFor example, if you need to search for a 3-letter string that starts with an n and ends with a t, and you don't care what goes in the middle, you can use the pattern `n.t`. \n\n`/n.t` will match the strings `not`, `nut`, `net`, `n0t`, and even `n t` (space between n and t).\n\nYou can also use it multiple times, so `/n..b` matches any 4 character string that starts with n, followed by any character, followed by any character, and ends with b. So it will match `noob`, `n00b`, `n3wt`. It will not match `nob` or `nooob`.\n\n## The Character Class\n\nThe dot syntax is useful, but sometimes you want to classify your search. Recall that `/n.t` matches any three-lettered word that starts with n, ends with t, and anything goes in the middle. What if we only want alphabetic characters, so it would match `not`, `nut`, and `net` but not `n0t`, `n t`, and `n?t`.\n\nTo match only between a set of characters, a character class can help you.\n\n### Character Class `[]`\n\nA character class or a collection, is a sequence / set of characters that you can use to match any *single* character in the collection.\n\nIn this case, to match lowercase and uppercase alphabetic characters (a-z and A-Z), we can use `/n[a-zA-Z]t`. This will match `net`, `nUt`, and `not`.\n\nIf you need to match only lowercase alphabets, you can instead use `/n[a-z]t`. It will now match `net`, `nut`, and `not`, but it won't match `nEt`, `nUt`, and `nOt`.\n\nTo match only vowels, use `/n[aeiou]t`.\n\nTo match only numbers, use `/n[0-9]t`.\n\nTo match only numbers 0 to 5, use `/n[0-5]t`.\n\nTo match only uppercase A-F *and* numbers 0-9, use `/n[A-F0-9]t`.\n\nYou are not limited to alphabets and numbers, if you want it to match either a space, an exclamation mark, and a question mark, you can do something like `/n[ !?]t`.\n\n### Negated Char Class `[^]`\n\nThere is a special behavior that you need to know with the character class `[]`. If you put a caret (`^`) as the first character in it, it will act as a negation character. `[^a]` means \"not a\". `[^0-9]` means any non-number character. `[^aeiou]` means any non-vowel character.\n\nThe command `/n[^ue]t` means any non-u or non-e character. It will not match `nut` and `net`, but it will match any `not`, `nUt`, and `n0t`.\n\n## Special Characters\n\nVim comes with a predefined special character set. \n\nIf you want to match a number, instead of using `/[0-9]`, you can also do `/\\d` (digit). If you want to match a non-number, instead of using `/[^0-9]`, you can use `/\\D`.\n\nIf you want to match a lowercase alphabet character, instead of using `/[a-z]`, you can use `/\\l`. If you want to match a non-lowercase, alphabet character, instead of `/[^a-z]`, you can use `/\\L`. To match an uppercase, use `/\\u`. For the non-uppercase, use `/\\U`.\n\nIf you want to match a hex digit, instead of `/[0-9A-Fa-f]`, you can use `/\\x`. To match a non-hex digit, use `/\\X`. You should see a pattern of using the uppercase letter to indicate the negated version of that special character.\n\nIf you want to match a whitespace character (tab and space), use `/\\s`. To match a non-whitespace character, use `/\\S`.\n\nTo match a \"word\" character (lower and uppercase alphabets, numbers, and underscore), use `/\\w`. To match a non-word character, use `/\\W`.\n\nIf you know your predefined characters, you can save a few keystrokes (`/\\d` is 3 strokes vs `/[0-9]` 6 strokes).\n\n## Quantifiers\n\nRepeating patterns are common when searching. For example, maybe you need to look for repeating digits in a phone number pattern. Nobody wants to type `[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]` to match 123-123-1234 and 111-222-3333.Instead typing the characters many times, you can use quantifiers to simplify the search.\n\n\n### Min/Max\n\nThe pattern `123-123-1234` consists of a set of 3 consecutive numbers, followed by a dash, then another set of 3 consecutive numbers, followed by another dash, then another set of 4 consecutive numbers. \n\nYou can use the `{n}` (where n is an integer) quantifiers to do the job. The `{n}` quantifier expects the preceding character to repeat n times. The `{}` syntax is a special character and needs to be escaped (without the escape, Vim will treat `{3}` as a literal {3}. The search command `/[0-9]\\{3}-[0-9]\\{3}-[0-9]\\{4}` will match the phone number pattern. In the case of `/[0-9]\\{3}`, it expects the digit to be repeated 3 times. It will match `123` or `777`, but not `12` or `7`.\n\nThe search command to find the phone number 123-123-1234 looks like: `/[0-9]\\{3}-[0-9]\\{3}-[0-9]\\{4}`. That's a lot simpler than typing `/[0-9][0-9][0-9]-[0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]`.\n\nThere are variations in the min/max quantifier:\n\n```\n{n}\n{n,m}\n{n,}\n{,m}\n{}\n```\n\n#### Exact Match `{n}`\n\nYou have already seen the first one, `{n}`. It means the preceding character is repeated *exactly* n times. \n\n`/a\\{5}` will match `aaaaa`. `/[a-z]\\{3}` will match `abc` and `zzz`.\n\n#### Min Max Match `{n,m}`\n\nLet's explore the second one, `{n,m}`. It expects the preceding character to be repeated a minimum of n times and a max of m times (n and m are integers).\n\nWhen we search using `/[0-9]\\{2,4}`, it searches for any numbers 0-9 repeated between two and four times. It will match 99, 789, and 1234, but not 9, 78, and 12345 (although it will match the first 4 digits)\n\nThe command `/fo\\{2,5}` searches for a string that starts with an f, followed by the letter o repeated 2 to 5 times. It matches foo, foooo, and fooooo, but not fo and foooooo (if will match up to fooooo).\n\nThe command `/fo\\{2,5}d` will match food and foooood, but not fooooood. It expects no more than 5 o's between f and d, whereas it finds 6 o's.\n\n#### Min Match `{n,}`\n\nThe next form, `{n,}`, expects a minimum of n, up to infinity. \n\nThe search `/fo\\{3,}` looks for the letter f, followed by 3 or more o. It matches fooo, foooo, and foooooooooooooooooooo. It won't match fo or foo.\n\nThe search `/[0-9]\\{2,}` looks for 2 or more digits. It matches 11, 123, 1234567, and 999999999999999999.\n\n#### Max Match `{,m}`\n\nThe next form, `{,m}`, expects a minimum of zero, up to m occurrence. \n\nThe search `/fo\\{,5}` looks for the letter f, followed by no o, up to 5 o's. It matches f, fo, foo, and fooooo. It won't match foooooo (it will only the first 5 o's).\n\n#### Zero or More Match `{}`\n\nThe final variation of the min/max quantifier is `{}` (or `{,}`, personally this syntax makes more sense to me). It means zero or more.\n\n`/fo\\{}` expects an f, followed by zero o and up to unlimited o's. It will match f, fo, fooooo, fooooooooooooooo.\n\n### Zero or More `*`\n\nThe zero or more quantifier matches zero or more of the preceding character and is expressed with an asterisk `*`. It doesn't need to be escaped.\n\nIf you run `/fo*`, Vim looks for the letter f, followed by zero o, up to infinite o's. It will match f, fo, foo, fooooooooooooooo.\n\nIf you think about it, it is similar to `/fo\\{,}`, but instead of typing all those brackets, you just type an asterisk.\n\n### One or More `+`\n\nThe one or more quantifier matches one or more of the preceding character and is expressed with a plus `+`. It needs to be escaped, otherwise Vim treats it as a literal plus sign.\n\nIf you run `/fo\\+`, Vim looks for the letter f, followed by one or more o's. It will match fo, fooooo, and foooooooooooooo. It won't match an f.\n\nIt is also equivalent to `/fo\\{1,}`.\n\n\n### Zero or One `?`\n\nThe zero or one quantifier matches either zero or one of the preceding characters. It is expressed with a question mark `?`. It needs to be escaped, otherwise it would be treated as a literal `?`.\n\nIf you run `/fo\\?`, it will match both f and fo, but not foo.\n\nIts min/max equivalent is `/fo\\{,1}`.\n\n## Greedy Vs Lazy\n\nThere are two different quantifiers: greedy and lazy. *By the way, in regex, there's also a third quantifier type, possessive, but I won't cover that here.*\n\n### Greedy\n\nYou actually have seen greedy quantifier in action. `*` is one example.\n\nSuppose that you have the following sentence:\n\n```\nI say, \"I use Vim\". You say, \"I don't use Vim\". Uh-oh.\n```\n\nIn this case, when you do `/\".*\"` (a string that starts with a double-quote, then zero or more of any character, then a double quote), Vim finds one match: `\"I use Vim\". You say, \"I don't use Vim\"`. This is because by using a greedy quantifier, you will get the largest possible value.\n\nBut what if you want to match for the smallest pattern? You need to use a lazy quantifier.\n\n### Lazy\n\nIf you look at lazy quantifiers, they look a lot like the min/max quantifiers, except that they have a `-`:\n\n```\n{-}\n{-n,m}\n{-n,}\n{-,m}\n{-n}\n```\n\nLet's go over the first one. Recall that `{}` has the same effect as `*`: zero or more of the preceding character, *the largest possible match*. `{-}` is the lazy version of `{}`. It matches zero or more of the preceding character, *the smallest possible match*.\n\nGoing back to our sentence earlier:\n\n```\nI say, \"I use Vim\". You say, \"I don't use Vim\". Uh-oh.\n```\n\nLet's use the lazy search: `/\".\\{-}\"`. You will see *two* matches: \"I use Vim\" and \"I don't use Vim\". Cool!\n\nLet's go over the second variation, `{-n,m}`. If `{n,m}` matches at least n and at most m of the preceding character, *the largest possible match*, then `{-n,m}` matches at least n and at most m of the preceding character, *the smallest possible match*.\n\nSuppose that you have the following:\n\n```\nfo\nfoo\nfooooo\nfoooooooooo\n```\n\nIf you do `/fo\\{-2,5}`:\n- On the first string it will find no match, because it doesn't meet the string requirement of at least two o's. \n- On the second string, it will match foo, the minimum requirement. - On the third match, instead of matching fooooo, it only matches foo, the least available match (two o's).\n- On the fourth string, it also only matches foo, the smallest number of possible match.\n\nI will leave the remaining lazy quantifiers, `{-n,}`, `{-,m}`, and `{-n}`, to you. They behave similar to the greedy quantifiers, but instead of finding the largest number of matches, they find the smallest number of matches.\n\n## Anchors\n\nSometimes you need to find a match not based on its content, but based on *where* it is. To search by location, we use anchors.\n\n### Beginning of line `^`\n\nThe caret matches the start of the line.\n\nIf you have:\n\n```\ndonut is life\nlife is donut\na donut a day\n```\n\nIf you do `/^donut`, it will match \"donut is life\" because the word donut is at the start of the line. \"life is donut\" and \"a donut a day\" do not have a donut at the start of the line, so they won't match.\n\n### End of Line `$`\n\nThe opposite of the start-of-the-line anchor is the end-of-the-line anchor, `$`. If you do `/donut$`, it will match the donut in \"life is donut\" because the word donut is at the end of the line.\n\n### Word Boundaries `< >`\n\nAnother useful anchor is the word boundary anchors.\n\nGiven the following sentence:\n\n```\nWithout further ado, I do like donut very much\n```\n\nIf you do (pun not intended :P) `/do`, Vim will match the do in: `ado`, `do`, and `donut`. What if you only want to match for the do in the word `do`, not in `ado` and `donut`?\n\nWord boundaries can help. The syntax is `< >`. `<` means the start of a word and `>` means the end of a word. You need to escape them, otherwise Vim will match for literal `<` and `>`. `/\\<do\\>` will match only the standalone `do`, and not the do in `ado` and `donut`.\n\nIf you want to match the do in donut and the word do, then you are looking for the start-of-the-word do, so you can use `/\\<do`. \n\nLikewise, to match the do in ado and the word do, it is the same as looking for the end-of-the-word do, hence you can use `/do\\>`.\n\n## Or `|`\n\nSometimes you need to look for either A or B or C. In Vim, you can search for alternatives with the OR (bar) syntax `|`. You need to escape the bar syntax, otherwise Vim will match a literal bar symbol.\n\nIf you need to search for either pancake or waffle (part of a tasty breakfast :D), you can do `/pancake\\|waffle`.\n\nIf you need to search for a line that starts with either foo or bar, you can do `/^foo\\|^bar`.\n\n## Groups\n\nEarlier you learned about quantifiers. They can help you search for repeating characters. However, more often than not, you need to look for repeated groups, not individual characters. You can do that with capture groups.\n\n### Capture Group (Sub-Expression) `( )`\n\nThe capture group is represented by a set of parentheses `()`. In Vim, they need to be escaped `\\(\\)` or they will match literal parentheses.\n\nIf I need to look for one or more donuts, like donutdonutdonut, I can use `/\\(donut\\)\\+`. Recall that way earlier I said that quantifiers like `+` search for one or more the *preceding character*. I lied. Technically, it searches for the preceding character *or* group. In Vim, they are called atoms. \n\nSo `/fo\\+` looks for an f, followed by one or more o's, and matches fo, foo, and fooooo. While `/\\(fo\\)\\+` looks for one or more fo's and will match fo and fofofofo.\n\nCapture groups can be used with quantifiers. `/\\(foo\\)*` looks for zero or more foos, `/\\(foo\\)\\{3,4}` looks for 3 or 4 foo's (greedy), `/\\(foo\\)\\{-3}` looks for at least 3 foos (lazy).\n\nLet's combine what we've learned together. What kind of string do you think `/\\(super\\|duper\\)\\{1,2} yummy\\( in my tummy\\)\\?` matches? Think about it before you scroll down!\n\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n.\n\nOk, it will match these:\n\n```\nsuper yummy\nsuperduper yummy\nsupersuper yummy\ndupersuper yummy in my tummy\nduper yummy in my tummy\n```\n\nDo you understand why? If you don't, look back at the previous sections and make sure that you understand how they work!\n\n### Backreferences `\\n`\n\nThe capture group sure is very useful. It allows us to construct a pattern group that can be treated as a unit. It works great with quantifiers. But that's not all! Capture groups also work with backreferences.\n\nBack...what?\n\nA backreference lets you match the same text previously matched by a capturing group. You can spot a backreference when you see a backslash followed by a number: `\\1`, `\\2`, `\\3`, ... `\\9`.\n\nFor example, when you use `/\\(foo\\).*\\1` against:\n\n```\nfoobarfoo\nfoo bar foo\n```\n\nThey would match the entire string. How?\n- The first capture group `\\(foo\\)` captures the string foo.\n- Then we have zero or more of any character, `.*`. This matches any string between the first foo and the last foo.\n- Finally, `\\1` is a *backreference* to the first capture group `\\(foo\\)`.\n\n`/\\(foo\\).*\\1` is effectively the same as doing `/foo.*foo`, but using `\\1` gives you far more flexibility as you'll see in a little bit.\n\nYou can use multiple backreferences, like `/\\(foo\\)\\(bar\\).*\\2\\1\\1`. Here, the first capture group is foo and is referenced with `\\1`. The second capture group is bar and is referenced with `\\2`. The search above is effectively similar to `/foobar.*barfoofoo`.\n\nSuppose that you want to match an opening and closing of an XML tag:\n\n```\n<foo>Hello</foo>\n<bar>Greetings</bar>\n<baz>Hello and greetings</baz>\n```\n\nSince XML opening tags need to match closing tags, we do not want it to match mismatched tags like:\n\n```\n<foo>Nope</bar>\n```\n\nYou can use: `/<\\([^>]*\\)>.*<\\/\\1>`.\n\nWhoa, that got messy and hard-to-read quickly. Let's break it down!\n\nWithout escape characters, we actually have `<([^>]*)>.*</\\1>`. A little simpler, but still a lot of symbols. Let's further break it apart into smaller sub-components.\n\nThe pattern above is composed of three components: `<([^>]*)>`, `.*`, and `</\\1>`. Let's investigate each starting from the first one.\n\nIn `<([^>]*)>`, the outermost `<` and `>` are literal angle brackets to match `<` and `>` in `<foo>` and `<bar>`. The pair of parentheses are the first capture group. So what's that weird `[^>]*` syntax inside? Recall that `[]` is a character class and when you have a caret as the first character inside a `[]`, it means negation. So `[^>]` means a non-`>` character. Finally you are looking for zero or more of this non-`>` character. `[^>]*` will match `foo`, `bar`, and `baz`. Overall, this pattern effectively matches `<foo>`, `<bar>`, `<baz>`, etc. The capture group captures the contents *inside* the `< >`. It captures and temporarily stores the texts `foo`, `bar`, and `baz`.\n\nThe second pattern, `.*`, is a familiar one: zero or more of any character. This matches any text between the HTML tags.\n\nThe third pattern is `</\\1>`. The opening and closing angle brackets `<` and `>` match literal opening and closing HTML tags. `/` matches a literal forward slash. Finally, `\\1` is a backreference to the first capture group, which as you recall was the content of the HTML tags: `foo`, `bar`, and `baz`. Putting the capture group and backreference together, this means that your opening XML tag needs to match the closing XML tag. If the starting XML tag was `<foo>`, then the closing HTML tag needs to be `</foo>`.\n\n### Whole Match `\\0`\n\nThere is one more special backreference in Vim: `\\0`. It represents the whole regex match. So if your search pattern is `/foo`, then `\\0` is foo. If your search pattern is `/foo[0-9]` and the string is foo9, then `\\0` is foo9.\n\nThis can come in handy in substitution.\n\nSuppose that you have:\n\n```\nconst one = 1;\nconst two = 2;\nconst ten = 10;\n```\n\nIf you want to enclose the numbers 1, 2, and 10 in double quotes, the fastest way to do it using the substitute command is `:%s/[0-9]\\+/\"\\0\"`\n\nI won't go over how the substitute command works because it is not the scope of this article, but I want to highlight the patterns:\n- `[0-9]\\+`, matches one or more digits (therefore it matches 1, 2, and 10). \n- The new substitute pattern, `\"\\0\"` efficiently encloses all the matches with double-quotes. In the first line, `\\0` is `1`. `\"\\0\"` is the same as `\"1\"`. In the third line, `\\0` is 10. `\"\\0\"` then is the same as `\"10\"`.\n\nBy the way, `\\0` can also be aliased with `&`. `:s/\\d/\"\\0\"/g` is the same as `:s/\\d/\"&\"/g`. It is one less character to type, if you prefer `&` over `\\0`.\n\n### Non-Capture Group `%( )`\n\nAll capture groups come with the backreference feature. If you don't want the backreference capability, use `%()` pattern to use a non-capture group instead of the regular capture group `()`. So `/\\%(foo\\)\\+` still looks for one or more foo, but you won't be able to backreference it with `\\1`.\n\nSo why would anyone want to not backreference it?\n\nPerformance. Backreferencing comes at performance cost. If you don't store backreference, you get some performance boosts. However, in my experience, I never really noticed any difference. But it wouldn't hurt to know about it.\n\n## Atoms\n\nEarlier I mentioned about atoms. What on earth are atoms?\n\nIn Vim regex, an atom is a unit match. Technically almost everything in this article can be considered as atoms. The `a` in `/a` is an atom. The `^` in `/^hello` is an atom. The `[0-9]` in `/[0-9]` (any single-digit integer) is an atom. The `what` in `/\\(what\\)\\+` (group match) is an atom. An atom can be an individual character match, an anchor, or a group match.\n\n## Zero-Width\n\n\"Zero-width\" is a regex term. It is also mentioned in Vim help a few times and earned its place as an entry (`:h /zero-width`).\n\nSo what is zero width? A zero-width pattern is a pattern that doesn't actually match any character. If I search for the letter a (`/a`), it has a width of one. If I search for the letter a followed by any number (`/a[0-9]`), it has a width of two. The regex engine looks for a literal letter a. Anchors are good examples of zero-width patterns. If I search for the letter a at the start of the line (`/^a`), although the pattern `a` looks for a literal match of the letter a, the caret `^` does not match any character. This makes the caret anchor a zero-width pattern. It is there to specify location, not to match a character.\n\n`^`, `$`, `\\<` and `\\>` are examples of zero-width patterns. There are other zero-width patterns that I haven't mentioned yet: look-arounds.\n\n## Look-Arounds\n\nSo what are look-arounds and why do we need them?\n\nLook-arounds are useful when you have to search for a pattern relative to another pattern. If you need to search for foo *only* when it is before bar, a look-around can help you.\n\nThere are two types of look-arounds: look-aheads and look-behinds.\n\n### Look-Aheads\n\nVim's lookahead syntax is `\\ze`. Think of the e as \"ending\".\n\nTo match a foo that is followed by a bar (foobar), you can search `/foo\\zebar`. The way I think about it is, `/foo` searches and matches for foo. Then you tell Vim to end the match with `\\ze`. But the pattern doesn't stop there. The search continues. There's a bar after that. But you don't want bar to be part of the match. You're really searching for foobar (`/foobar`). So up to `\\ze`, it will be searched and matched. After `\\ze`, it will still be searched, but won't be matched. Note that in this section, I am making a subtle distinction between a \"match\" and a \"search\". A search is a pattern that the regex engine looks out for. A match is what is being selected / highlighted. All searches are matches but not all matches are searches.\n\n`/foo\\zebar` matches `foobar`, but not `foobaz` or `foo`.\n\nThe look-ahead pattern has another form: `\\@=`. If you are familiar with the Perl regex, this is similar to the `(?=pattern)`.\n\nWhen used in Vim, it matches the preceding atom. The syntax works differently from `\\ze`, but the idea is the same.\n\nTo search for foo in foobar (but not in foobaz or foo), run `/foo\\(bar\\)\\@=`. Note that you are using a capture group on bar, `\\(bar\\)`.\n\nIf the syntax is confusing, don't worry, you're not alone. It took me a while to grasp it when I started to learn about it.\n\nThe best way to understand it is, whatever character or capture group that precedes `\\@=` won't be matched or highlighted, but it will still be used as a part of the search pattern. Think of it as a veil that covers it. `\\(bar\\)\\@=`. It takes a stretch of imagination, but I see `\\@=` as a magician, `@=` is the head (looks like a duck magician) and `\\` is his left hand. `\\(bar\\)` is a veil containing the word \"bar\". He is covering it so it won't be highlighted. So `/foo\\(bar\\)\\@=` to me is like a giant text that spells \"foobar\", whereas a duck-magician person comes and covers up the \"bar\" part so it won't be visible to the audience... sort-of kind-of... Well, anyway, let's go to the next look-around, look-behinds!\n\n### Look-Behinds\n\nLook-behinds are principally similar to look-aheads, except they work backwards.\n\nIn Vim, you can use `\\zs`. Think of the s as \"start\". If you want to match bar but only if it is followed by foo (foobar), do `/foo\\zsbar`. Again, the search pattern is technically `/foobar`. However, the matching only start after `\\zs`, hence only bar is highlighted while foo is not.\n\nBoth `\\ze` and `\\zs` are Vim inventions. But they both have regex look-ahead and look-behind syntax counterparts. Just like `\\ze` has a `\\@=` regex counterpart, `\\zs` also has a regex counterpart and it is `\\@<=` (it's like `\\@=`, except now it also has an arrow pointing back). The way it works, is that the atom that precedes it won't be matched (highlighted), although it will still be used as a part of the search pattern.\n\nTo search for bar in foobar, use `/\\(foo\\)\\@<=bar`. To search for baz in foobaz, use `/\\(foo\\)\\@<=baz`.\n\nIf the whole look-behind syntax pattern is confusing, I find the duck-magician imagery helps. `\\(foo\\)\\@<=` is our pattern. `@<=` looks like a duck magician that shoots a beam. `\\` is his left hand. `\\(foo\\)` is the veil that covers up the word foo. Again, whatever word/pattern that the magician veils will be hidden (not highlighted). So I imagine `\\(foo\\)\\@<=bar` like a giant \"foobar\" text and this duck-magician guy veils up the word foo so it won't be visible to the audience.\n\n\n## Look-Ahead and Look-Behind\n\nYou can definitely use both look-aheads and look-behinds in a pattern.\n\nIf you need to match and highlight the bar only if it comes after foo and before baz (foobarbaz), not in bazbarfoo, foobar, or barbaz, use `/foo\\zsbar\\zebaz`. Alternatively, you can also use `/\\(foo\\)\\@<=bar\\(baz\\)\\@=`.\n\n### Negative Look-Aheads\n\nNegative look-aheads are the negative version of the look-aheads. The syntax is `\\@!` (as opposed to `\\@=`). \n\nNegative look-aheads search for a match NOT followed by the given pattern. To match foo *not* followed by baz, run `/foo\\(baz\\)\\@!`. This will match foo and foobar, not foobaz.\n\n### Negative Look-Behinds\n\nThere are also negative look-behinds. The syntax is `\\@<!` (as opposed to `\\@<=`). It finds a match NOT preceded by the pattern.\n\nTo match bar not preceded by foo, run `/\\(foo\\)\\@<!bar`. This will match bazbar and bar, not foobar.\n\n## More Vim regex\n\nThe following are patterns exclusive in Vim. They are not available in most regex engines outside of Vim.\n\n### Optional Match `\\%[ ]`\n\nYou can search for optional, sequential matches with the `\\%[]` pattern. It will match if the string contains, sequentially, any of the characters inside the square brackets.\n\n`/do%[nut]` will match either `do`, `don`, `donu`, and `donut`.\n\n### Multiple Lines `\\_x`\n\nSometimes you need to search for patterns that may or may not be separated by newlines and/or whitespaces.\n\nIf you need to match the chocolate donut string, one separated by a whitespace and another separated by a newline:\n\n```\nchocolate donut\n\nchocolate\ndonut\n```\n\nYou can search with `/chocolate\\_sdonut`.\n\nRecall that `\\s` is a special character for a whitespace character. By adding an underscore, `\\_s` now also includes a newline.\n\nSo if you want to match:\n```\nchocolate donut\n\nchocolatedonut\n\nchocolate\ndonut\n\nchocolate\n\n\n\ndonut\n```\n\nYou can use zero-or-more quantifier (`*`), `/chocolate\\_s*donut`.\n\n### Start and End of File `\\%^ \\%$`\n\nSometimes you need to search for a pattern at the start of the file. You can use the `\\%^` pattern. If you need to search for foo that is at the start of the file, use `/\\%^foo`.\n\nTo search for a pattern at the end of the file, use `\\%$`. If you need to search for foo at the end of the file, use `/foo\\%$`.\n\n### Start Within Visual Area `\\%V`\n\nVim has a Visual mode (`v`, `V`, or `Ctrl-V`) that allows you to highlight a certain area of text. I assume that you know what the visual mode is, if not, check out `:h visual-mode`.\n\nWhen you are currently highlighting a visual area, you can search for a pattern *within* that visual area with `\\%V`.\n\nIf you have the text:\n```\nbarfoobazfoobarfoobazfoobarfoobazfoo\n\nfoobarfoobazfoobarfoobazfoobarfoobaz\n```\n\nWhile you are currently Visually highlighting the first line, you can search for foo within the visual highlight if you do `/\\%Vfoo`.\n\n### Magic and Very Magic `\\v \\m`\n\nEarlier I mentioned about `\\v`, `\\V`, `\\m`, and `\\M`. Some regex syntaxes require them to be escaped for them to be treated as special characters.\n\nFor example, to match one or more foo, normally you would do `/\\(foo\\)\\+`. Note that the group match `()` and the one-or-more quantifier `+` are escaped.\n\nIf you don't want to escape them, you can use `\\v`. The `v` stands for \"very magic\". Your search would look like this: `/\\v(foo)+`. Vim treats `()` and `+` as a special character instead of treating them as literal parentheses and plus signs.\n\nSo how do you know which characters no longer need to be escaped and which characters still need to be escaped? The rule of thumb is, all characters except for word characters (digits 0-9, lowercase alphabets a-z, uppercase alphabets A-Z, and underscore _) are treated as special characters. As you've seen earlier, `()` and `+` are not word characters, so under very magic, they are treated as special characters. Also, special characters like `\\d` (digits) and `\\l` (lowercase alphabets) still need to be escaped.\n\nLikewise, in very magic mode, since it automatically treats non-word characters as special characters, previously literal characters would need to be escaped if you want to match them literally. So if you need to match a literal parentheses while under very magic mode, like `(foo)`, then you'd have to escape it: `/\\v\\(foo\\)`.\n\n\"Very magic\" has a sibling, \"magic\". You actually have been acquainted with this magic mode. How so? Because Vim by default uses magic mode! If you run `:set magic?`, it will return `magic`. Everything that you've used so far is done under magic mode.\n\nVim also has two more modes: \"no magic\" (`\\M`) and \"no very magic\" (`\\V`). I won't cover them here because I personally think their usage is limited in everyday editing (I could be mistaken). But if you're curious, check out `:h /\\V` and `:h /\\M`.\n\n## Conclusion\n\nI think this is a good place to stop. \n\nI hope that you gained valuable insight from this guide. Regex is a lot of fun once you know how to use it. It is an invaluable skill for any programmer. You don't need to master it, you just need to be good enough. Most popular programming languages employ regex to a certain extent. By learning regex in the Vim domain, you will inevitably know how to use it anywhere else. You will also be able to find and edit things much faster. Finally, it simply looks so darn cool.\n\nTake the time reading this. No rush. Make it into your muscle memory. Understanding beats superficial knowledge. Test your knowledge. Have fun with it!\n\nHappy coding!\n\n*I am already planning to write more about regex in the future, so stay tuned!*\n",t.user={name:"Igor Irianto",username:i,twitter_username:i,github_username:e,website_url:"https://irian.to/",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--HJbFzlQ2--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/161246/dbb2e809-5e9a-4d81-98a3-174bd0788b9a.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--jJNXF79i--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/161246/dbb2e809-5e9a-4d81-98a3-174bd0788b9a.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:t}},error:e,state:{currentArticle:t},serverRendered:!0,routePath:"/iggredible/972010",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:e}}}}(null,"2022-01-29T15:47:56Z",{},"Learning Vim Regex","https://dev.to/iggredible/learning-vim-regex-26ep","iggredible")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

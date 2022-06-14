@@ -1,0 +1,725 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>How to Implement JWT Auth in Laravel 9</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>How to Implement JWT Auth in Laravel 9</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/php" class="tag" data-v-70afb46a>
+          #php
+        </a><a href="/nuxtstop/t/laravel" class="tag" data-v-70afb46a>
+          #laravel
+        </a><a href="/nuxtstop/t/jwt" class="tag" data-v-70afb46a>
+          #jwt
+        </a><a href="/nuxtstop/t/opensource" class="tag" data-v-70afb46a>
+          #opensource
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SE-NcaVL--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kkp0ggylnzfwhc2m2u5u.png" alt="How to Implement JWT Auth in Laravel 9" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            22
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            2
+          </span></div> <time data-v-70afb46a>Mar 23</time></div></header> <div class="content" data-v-70afb46a><h2>
+  <a name="introduction" href="#introduction">
+  </a>
+  Introduction
+</h2>
+
+<p>This is a friendly introduction to Laravel 9 API authentication using JWT. In this tutorial we will learn how to use JSON Web Token (JWT) to secure REST APIs in Laravel 9. We will be using a third-party library called “php-open-source-saver/jwt-auth” to achieve this. Creating authentication in Laravel is very easy as most of the common functionalities needed in a web application are already implemented out of the box.</p>
+
+<h2>
+  <a name="goal" href="#goal">
+  </a>
+  Goal
+</h2>
+
+<p>The reader should be able to create secure REST APIs in Laravel using JWT after going through this tutorial </p>
+
+<h2>
+  <a name="requirement" href="#requirement">
+  </a>
+  Requirement
+</h2>
+
+<ul>
+<li><p>Basic knowledge of the <a href="//laravel.com">Laravel</a> framework is required to take this tutorial as this is not an introduction to Laravel tutorial </p></li>
+<li><p><a href="https://www.apachefriends.org/download.html">XAMPP</a></p></li>
+<li><p><a href="https://getcomposer.org/download/">composer</a></p></li>
+<li><p><a href="https://www.postman.com/downloads/">Postman</a></p></li>
+</ul>
+
+<h2>
+  <a name="what-is-json-web-token" href="#what-is-json-web-token">
+  </a>
+  What is JSON Web Token
+</h2>
+
+<p>JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed. JWTs can be signed using a secret (with the HMAC algorithm) or a public/private key pair using RSA or ECDSA.<br>
+When should you use JSON Web Tokens<br>
+Here are some scenarios where JSON Web Tokens are useful:<br>
+• Authorization: This is the most common scenario for using JWT. Once the user is logged in, each subsequent request will include the JWT, allowing the user to access routes, services, and resources that are permitted with that token. Single Sign-On is a feature that widely uses JWT nowadays, because of its small overhead and its ability to be easily used across different domains.<br>
+• Information Exchange: JSON Web Tokens are a good way of securely transmitting information between parties. Because JWTs can be signed—for example, using public/private key pairs—you can be sure the senders are who they say they are. Additionally, as the signature is calculated using the header and the payload, you can also verify that the content hasn't been tampered with.</p>
+<h2>
+  <a name="what-is-the-json-web-token-structure" href="#what-is-the-json-web-token-structure">
+  </a>
+  What is the JSON Web Token structure?
+</h2>
+
+<p>In its compact form, JSON Web Tokens consist of three parts separated by dots (.), which are:<br>
+• Header<br>
+• Payload<br>
+• Signature<br>
+Therefore, a JWT typically looks like the following.<br>
+xxxxx.yyyyy.zzzzz</p>
+<h2>
+  <a name="how-does-it-work" href="#how-does-it-work">
+  </a>
+  How Does It Work
+</h2>
+
+<p>The simple explanation as to how JWT authentication work is when a user attempt to log in with their correct credentials (i.e email and password), a token is generated and sent back to the client-side, the client-side then stores the token and use it to access protected routes.</p>
+
+<p>Let's Get To It Shall We<br>
+<strong>Table of content</strong> </p>
+
+<ol>
+<li> Fresh Laravel Install</li>
+<li> Create Your Database</li>
+<li> Connect To The Database</li>
+<li> Run Migration To Create User Table</li>
+<li> Install JWT Auth Package</li>
+<li> Configure Auth Guard</li>
+<li> Modify User Model</li>
+<li> Create Controller</li>
+<li> Add API Routes</li>
+<li>Test Endpoints With Postman</li>
+<li>Conclusion</li>
+</ol>
+<h2>
+  <a name="fresh-laravel-install" href="#fresh-laravel-install">
+  </a>
+  Fresh Laravel Install
+</h2>
+
+<p>We will kick things off by installing a new Laravel 9 project<br>
+Run the below commands to install and navigate to your fresh Laravel project<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>composer create-project laravel/laravel laravel-jwt
+cd laravel-jwt
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Create Your Database<br>
+Create a MySQL database with the name laravel-jwt, I am using XAMMP but whatever you are using will work just fine.<br>
+ <a href="https://res.cloudinary.com/practicaldev/image/fetch/s--D3CGsSW8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lmis5jng3og8xywyld1l.PNG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--D3CGsSW8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lmis5jng3og8xywyld1l.PNG" alt="Database connection on php my admin" loading="lazy" width="791" height="86"></a></p>
+<h2>
+  <a name="connect-to-the-database" href="#connect-to-the-database">
+  </a>
+  Connect To The Database
+</h2>
+
+<p>For your Laravel application to be able to interact with the new database you just created you need to establish a connection, add your database credentials to the .env file to connect<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=laravel-jwt
+DB_USERNAME=root
+DB_PASSWORD=
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Run Migration To Create User Table<br>
+Laravel comes with the User table migration all we need to do is to run the migration to create the table in our database, we do not need to create any other table, the user table is sufficient for the scope of this tutorial. Run the command below to create the users table<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    php artisan migrate
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="install-jwt-auth-package" href="#install-jwt-auth-package">
+  </a>
+  Install JWT Auth Package
+</h2>
+
+<p>Now that our database is all set up its time to install and configure the Laravel jwt auth package, will be using “php-open-source-saver/jwt-auth” a fork of  “tymondesign/jwt-auth”, the reason for the choice is simple as “tymondesign/jwt-auth” seems to have been abandoned and is not compatible with Laravel 9<br>
+Run the below command to install the latest version of the package<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>composer require php-open-source-saver/jwt-auth
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Next, we have to publish the package configurations run the below command to copy the jwt configuration file from vendor to confi/jwt.php<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>php artisan vendor:publish --provider="PHPOpenSourceSaver\JWTAuth\Providers\LaravelServiceProvider"
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>a secret key needs to be generated to handle the token encryption run this command to achieve that<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>php artisan jwt:secret
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This will update your .env file with something like<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>JWT_SECRET=foobar
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>It is the key that will be used to sign your tokens</p>
+
+<h2>
+  <a name="configure-auth-guard" href="#configure-auth-guard">
+  </a>
+  Configure Auth Guard
+</h2>
+
+<p>Inside the config/auth.php file you will need to make a few changes to configure Laravel to use the jwt guard to power your application authentication.</p>
+
+<p>Make the following changes to the file:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code> 'defaults' => [
+        'guard' => 'api',
+        'passwords' => 'users',
+    ],
+
+
+    'guards' => [
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
+        'api' => [
+                'driver' => 'jwt',
+                'provider' => 'users',
+        ],
+
+    ],
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Here we are telling the api guard to use the jwt driver, and we are setting the api guard as the default.<br>
+We can now use Laravel's built-in Auth system, with jwt-auth doing the work behind the scenes!</p>
+<h2>
+  <a name="modify-user-model" href="#modify-user-model">
+  </a>
+  Modify User Model
+</h2>
+
+<p>Firstly you need to implement the PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject contract on your User model, which requires that you implement the 2 methods getJWTIdentifier() and getJWTCustomClaims().<br>
+Replace the existing code in app/Models/User.php with the following code<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>&lt;?php
+
+namespace App\Models;
+
+use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use PHPOpenSourceSaver\JWTAuth\Contracts\JWTSubject;
+
+class User extends Authenticatable implements JWTSubject
+{
+    use HasFactory, Notifiable;
+
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array&lt;int, string>
+     */
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
+
+    /**
+     * The attributes that should be hidden for serialization.
+     *
+     * @var array&lt;int, string>
+     */
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array&lt;string, string>
+     */
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
+
+     /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims()
+    {
+        return [];
+    }
+
+}
+
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>That is it for our model setup</p>
+
+<h2>
+  <a name="create-controller" href="#create-controller">
+  </a>
+  Create Controller
+</h2>
+
+<p>Next, we create a controller to handle the core logic of the authentication process<br>
+Run this command to generate the controller<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>php artisan make:controller AuthController
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>replace the content of the controller with the following code<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>&lt;?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+
+class AuthController extends Controller
+{
+
+    public function __construct()
+    {
+        $this->middleware('auth:api', ['except' => ['login','register']]);
+    }
+
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+        $credentials = $request->only('email', 'password');
+
+        $token = Auth::attempt($credentials);
+        if (!$token) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Unauthorized',
+            ], 401);
+        }
+
+        $user = Auth::user();
+        return response()->json([
+                'status' => 'success',
+                'user' => $user,
+                'authorisation' => [
+                    'token' => $token,
+                    'type' => 'bearer',
+                ]
+            ]);
+
+    }
+
+    public function register(Request $request){
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        $token = Auth::login($user);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'User created successfully',
+            'user' => $user,
+            'authorisation' => [
+                'token' => $token,
+                'type' => 'bearer',
+            ]
+        ]);
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully logged out',
+        ]);
+    }
+
+    public function me()
+    {
+        return response()->json([
+            'status' => 'success',
+            'user' => Auth::user(),
+        ]);
+    }
+
+    public function refresh()
+    {
+        return response()->json([
+            'status' => 'success',
+            'user' => Auth::user(),
+            'authorisation' => [
+                'token' => Auth::refresh(),
+                'type' => 'bearer',
+            ]
+        ]);
+    }
+
+}
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>A brief explanation of what is going on in the AuthController <br>
+<strong>Constructor</strong>: we defined a constructor method in our controller class so that we can use the auth:api middleware within it, the middleware prevent unauthenticated access to certain methods within the controller.<br>
+<strong>Login</strong>: the login method authenticate the user using their email and password, the Auth facades attempt() method returns the jwt token once the user is successfully authenticated, the generated token is retrieved and returned as JSON with the user object<br>
+<strong>Register</strong>: the register method creates the user record and logs the user in with token generations as well<br>
+<strong>Logout</strong>: the logout method invalidate the user auth token<br>
+<strong>Refresh</strong>: the refresh method invalidates the current logged in user and generate a new token <br>
+<strong>Me</strong>: the me method returns the user profile or in this case the user object</p>
+<h2>
+  <a name="add-api-routes" href="#add-api-routes">
+  </a>
+  Add API Routes
+</h2>
+
+<p>To access our newly created methods we need to define our API routes, to do this navigate to routes/api.php and replace the content with the following<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>&lt;?php
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+
+Route::controller(AuthController::class)->group(function () {
+    Route::post('login', 'login');
+    Route::post('register', 'register');
+    Route::post('logout', 'logout');
+    Route::post('refresh', 'refresh');
+    Route::get('me', 'me');
+
+});
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Note we are using Laravel 9 syntax here, you will need to declare your route the normal way if you are using lower versions of Laravel</p>
+
+<h2>
+  <a name="test-end-points-with-postman" href="#test-end-points-with-postman">
+  </a>
+  Test End Points With Postman
+</h2>
+
+<p>Before we move to Postman and start testing our API endpoints we need to start our Laravel application first<br>
+Run the below command to start your Laravel application<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>php artisan serve
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>now we are ready to begin testing;<br>
+start your postman app <br>
+here are the lists of endpoints we will be testing</p>
+
+<ol>
+<li> Register: localhost:8000/api/register. Method: POST</li>
+<li> Login: localhost:8000/api/login. Method: POST</li>
+<li> Logout: localhost:8000/api/logout. Method: POST</li>
+<li> Refresh: localhost:8000/api/refresh. Method:POST</li>
+<li> Me: localhost:8000/api/me. Method: GET</li>
+</ol>
+
+<h2>
+  <a name="register-api" href="#register-api">
+  </a>
+  Register API
+</h2>
+
+<p>Start your Postman application add the registration API in the address bar, select the POST HTTP request method, select form-data in the body tab and add the name, email and password input fields, click on the Send button to see the server response<br>
+<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--IfbND8TW--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/eoz3my0jcrogtiph6rfc.PNG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--IfbND8TW--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/eoz3my0jcrogtiph6rfc.PNG" alt="Postman Register User" loading="lazy" width="880" height="463"></a></p>
+
+<h2>
+  <a name="login-api" href="#login-api">
+  </a>
+  Login API
+</h2>
+
+<p>Add the email and password to the input field click Send to see the response<br>
+ <a href="https://res.cloudinary.com/practicaldev/image/fetch/s--SKYrwmZ6--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hrie02y2u6zwirlez894.PNG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SKYrwmZ6--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hrie02y2u6zwirlez894.PNG" alt="Postman Login" loading="lazy" width="880" height="458"></a></p>
+
+<h2>
+  <a name="me-refresh-and-logout" href="#me-refresh-and-logout">
+  </a>
+  Me, Refresh and Logout
+</h2>
+
+<p>The Me, Refresh and Logout endpoints are all protected by the auth:api middleware and hence requires that you send a valid token with the authorization header, so copy the token from your login response go to the authorization tab, select bearer token and paste it the input provided.<br>
+ <a href="https://res.cloudinary.com/practicaldev/image/fetch/s--AoIJz5LD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/o06ethzei4ljv3i41twm.PNG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--AoIJz5LD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/o06ethzei4ljv3i41twm.PNG" alt="Authorization Header" loading="lazy" width="852" height="214"></a></p>
+
+<p>Me API<br>
+<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--a6_oWPWH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/b6dn1mkg84or7qv31r1a.PNG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--a6_oWPWH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/b6dn1mkg84or7qv31r1a.PNG" alt="Me API" loading="lazy" width="880" height="393"></a></p>
+
+<p>Refresh API<br>
+ <a href="https://res.cloudinary.com/practicaldev/image/fetch/s--iYWMx8y1--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/0lqzoid482rfg52ewgs9.PNG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--iYWMx8y1--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/0lqzoid482rfg52ewgs9.PNG" alt="Refresh API" loading="lazy" width="880" height="452"></a></p>
+
+<p>Logout<br>
+ <a href="https://res.cloudinary.com/practicaldev/image/fetch/s--imMf9q5T--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hsfhti8phfqpcsurejx3.PNG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--imMf9q5T--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hsfhti8phfqpcsurejx3.PNG" alt="Logout API" loading="lazy" width="880" height="341"></a></p>
+
+<p>Conclusion!</p>
+
+<p>Yes, you made it to the end, in this article we learned how to create REST API authentication with JWT, the full code for this project is available on <a href="https://github.com/solomoreal/laravel-jwtauth-tutorial.git">GitHub</a></p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/solomononuche/how-to-implement-jwt-auth-in-laravel-9-2mlm" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(e,t,n,a,i){return t.type_of="article",t.id=1032176,t.title="How to Implement JWT Auth in Laravel 9",t.description="Introduction   This is a friendly introduction to Laravel 9 API authentication using JWT. In...",t.readable_publish_date="Mar 23",t.slug="how-to-implement-jwt-auth-in-laravel-9-2mlm",t.path="/solomononuche/how-to-implement-jwt-auth-in-laravel-9-2mlm",t.url=n,t.comments_count=2,t.public_reactions_count=22,t.collection_id=e,t.published_timestamp=a,t.positive_reactions_count=22,t.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--SE-NcaVL--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kkp0ggylnzfwhc2m2u5u.png",t.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--bk1XH6V3--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/kkp0ggylnzfwhc2m2u5u.png",t.canonical_url=n,t.created_at="2022-03-23T15:59:36Z",t.edited_at="2022-04-03T17:50:21Z",t.crossposted_at=e,t.published_at=a,t.last_comment_at="2022-04-30T13:30:18Z",t.reading_time_minutes=7,t.tag_list="php, laravel, jwt, opensource",t.tags=["php","laravel","jwt","opensource"],t.body_html='<h2>\n  <a name="introduction" href="#introduction">\n  </a>\n  Introduction\n</h2>\n\n<p>This is a friendly introduction to Laravel 9 API authentication using JWT. In this tutorial we will learn how to use JSON Web Token (JWT) to secure REST APIs in Laravel 9. We will be using a third-party library called “php-open-source-saver/jwt-auth” to achieve this. Creating authentication in Laravel is very easy as most of the common functionalities needed in a web application are already implemented out of the box.</p>\n\n<h2>\n  <a name="goal" href="#goal">\n  </a>\n  Goal\n</h2>\n\n<p>The reader should be able to create secure REST APIs in Laravel using JWT after going through this tutorial </p>\n\n<h2>\n  <a name="requirement" href="#requirement">\n  </a>\n  Requirement\n</h2>\n\n<ul>\n<li><p>Basic knowledge of the <a href="//laravel.com">Laravel</a> framework is required to take this tutorial as this is not an introduction to Laravel tutorial </p></li>\n<li><p><a href="https://www.apachefriends.org/download.html">XAMPP</a></p></li>\n<li><p><a href="https://getcomposer.org/download/">composer</a></p></li>\n<li><p><a href="https://www.postman.com/downloads/">Postman</a></p></li>\n</ul>\n\n<h2>\n  <a name="what-is-json-web-token" href="#what-is-json-web-token">\n  </a>\n  What is JSON Web Token\n</h2>\n\n<p>JSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed. JWTs can be signed using a secret (with the HMAC algorithm) or a public/private key pair using RSA or ECDSA.<br>\nWhen should you use JSON Web Tokens<br>\nHere are some scenarios where JSON Web Tokens are useful:<br>\n• Authorization: This is the most common scenario for using JWT. Once the user is logged in, each subsequent request will include the JWT, allowing the user to access routes, services, and resources that are permitted with that token. Single Sign-On is a feature that widely uses JWT nowadays, because of its small overhead and its ability to be easily used across different domains.<br>\n• Information Exchange: JSON Web Tokens are a good way of securely transmitting information between parties. Because JWTs can be signed—for example, using public/private key pairs—you can be sure the senders are who they say they are. Additionally, as the signature is calculated using the header and the payload, you can also verify that the content hasn\'t been tampered with.</p>\n<h2>\n  <a name="what-is-the-json-web-token-structure" href="#what-is-the-json-web-token-structure">\n  </a>\n  What is the JSON Web Token structure?\n</h2>\n\n<p>In its compact form, JSON Web Tokens consist of three parts separated by dots (.), which are:<br>\n• Header<br>\n• Payload<br>\n• Signature<br>\nTherefore, a JWT typically looks like the following.<br>\nxxxxx.yyyyy.zzzzz</p>\n<h2>\n  <a name="how-does-it-work" href="#how-does-it-work">\n  </a>\n  How Does It Work\n</h2>\n\n<p>The simple explanation as to how JWT authentication work is when a user attempt to log in with their correct credentials (i.e email and password), a token is generated and sent back to the client-side, the client-side then stores the token and use it to access protected routes.</p>\n\n<p>Let\'s Get To It Shall We<br>\n<strong>Table of content</strong> </p>\n\n<ol>\n<li> Fresh Laravel Install</li>\n<li> Create Your Database</li>\n<li> Connect To The Database</li>\n<li> Run Migration To Create User Table</li>\n<li> Install JWT Auth Package</li>\n<li> Configure Auth Guard</li>\n<li> Modify User Model</li>\n<li> Create Controller</li>\n<li> Add API Routes</li>\n<li>Test Endpoints With Postman</li>\n<li>Conclusion</li>\n</ol>\n<h2>\n  <a name="fresh-laravel-install" href="#fresh-laravel-install">\n  </a>\n  Fresh Laravel Install\n</h2>\n\n<p>We will kick things off by installing a new Laravel 9 project<br>\nRun the below commands to install and navigate to your fresh Laravel project<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>composer create-project laravel/laravel laravel-jwt\ncd laravel-jwt\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Create Your Database<br>\nCreate a MySQL database with the name laravel-jwt, I am using XAMMP but whatever you are using will work just fine.<br>\n <a href="https://res.cloudinary.com/practicaldev/image/fetch/s--D3CGsSW8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lmis5jng3og8xywyld1l.PNG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--D3CGsSW8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lmis5jng3og8xywyld1l.PNG" alt="Database connection on php my admin" loading="lazy" width="791" height="86"></a></p>\n<h2>\n  <a name="connect-to-the-database" href="#connect-to-the-database">\n  </a>\n  Connect To The Database\n</h2>\n\n<p>For your Laravel application to be able to interact with the new database you just created you need to establish a connection, add your database credentials to the .env file to connect<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>DB_CONNECTION=mysql\nDB_HOST=127.0.0.1\nDB_PORT=3306\nDB_DATABASE=laravel-jwt\nDB_USERNAME=root\nDB_PASSWORD=\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Run Migration To Create User Table<br>\nLaravel comes with the User table migration all we need to do is to run the migration to create the table in our database, we do not need to create any other table, the user table is sufficient for the scope of this tutorial. Run the command below to create the users table<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    php artisan migrate\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="install-jwt-auth-package" href="#install-jwt-auth-package">\n  </a>\n  Install JWT Auth Package\n</h2>\n\n<p>Now that our database is all set up its time to install and configure the Laravel jwt auth package, will be using “php-open-source-saver/jwt-auth” a fork of  “tymondesign/jwt-auth”, the reason for the choice is simple as “tymondesign/jwt-auth” seems to have been abandoned and is not compatible with Laravel 9<br>\nRun the below command to install the latest version of the package<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>composer require php-open-source-saver/jwt-auth\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Next, we have to publish the package configurations run the below command to copy the jwt configuration file from vendor to confi/jwt.php<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>php artisan vendor:publish --provider="PHPOpenSourceSaver\\JWTAuth\\Providers\\LaravelServiceProvider"\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>a secret key needs to be generated to handle the token encryption run this command to achieve that<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>php artisan jwt:secret\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This will update your .env file with something like<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>JWT_SECRET=foobar\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>It is the key that will be used to sign your tokens</p>\n\n<h2>\n  <a name="configure-auth-guard" href="#configure-auth-guard">\n  </a>\n  Configure Auth Guard\n</h2>\n\n<p>Inside the config/auth.php file you will need to make a few changes to configure Laravel to use the jwt guard to power your application authentication.</p>\n\n<p>Make the following changes to the file:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code> \'defaults\' =&gt; [\n        \'guard\' =&gt; \'api\',\n        \'passwords\' =&gt; \'users\',\n    ],\n\n\n    \'guards\' =&gt; [\n        \'web\' =&gt; [\n            \'driver\' =&gt; \'session\',\n            \'provider\' =&gt; \'users\',\n        ],\n\n        \'api\' =&gt; [\n                \'driver\' =&gt; \'jwt\',\n                \'provider\' =&gt; \'users\',\n        ],\n\n    ],\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Here we are telling the api guard to use the jwt driver, and we are setting the api guard as the default.<br>\nWe can now use Laravel\'s built-in Auth system, with jwt-auth doing the work behind the scenes!</p>\n<h2>\n  <a name="modify-user-model" href="#modify-user-model">\n  </a>\n  Modify User Model\n</h2>\n\n<p>Firstly you need to implement the PHPOpenSourceSaver\\JWTAuth\\Contracts\\JWTSubject contract on your User model, which requires that you implement the 2 methods getJWTIdentifier() and getJWTCustomClaims().<br>\nReplace the existing code in app/Models/User.php with the following code<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>&lt;?php\n\nnamespace App\\Models;\n\nuse Illuminate\\Contracts\\Auth\\MustVerifyEmail;\nuse Illuminate\\Database\\Eloquent\\Factories\\HasFactory;\nuse Illuminate\\Foundation\\Auth\\User as Authenticatable;\nuse Illuminate\\Notifications\\Notifiable;\nuse PHPOpenSourceSaver\\JWTAuth\\Contracts\\JWTSubject;\n\nclass User extends Authenticatable implements JWTSubject\n{\n    use HasFactory, Notifiable;\n\n    /**\n     * The attributes that are mass assignable.\n     *\n     * @var array&lt;int, string&gt;\n     */\n    protected $fillable = [\n        \'name\',\n        \'email\',\n        \'password\',\n    ];\n\n    /**\n     * The attributes that should be hidden for serialization.\n     *\n     * @var array&lt;int, string&gt;\n     */\n    protected $hidden = [\n        \'password\',\n        \'remember_token\',\n    ];\n\n    /**\n     * The attributes that should be cast.\n     *\n     * @var array&lt;string, string&gt;\n     */\n    protected $casts = [\n        \'email_verified_at\' =&gt; \'datetime\',\n    ];\n\n     /**\n     * Get the identifier that will be stored in the subject claim of the JWT.\n     *\n     * @return mixed\n     */\n    public function getJWTIdentifier()\n    {\n        return $this-&gt;getKey();\n    }\n\n    /**\n     * Return a key value array, containing any custom claims to be added to the JWT.\n     *\n     * @return array\n     */\n    public function getJWTCustomClaims()\n    {\n        return [];\n    }\n\n}\n\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>That is it for our model setup</p>\n\n<h2>\n  <a name="create-controller" href="#create-controller">\n  </a>\n  Create Controller\n</h2>\n\n<p>Next, we create a controller to handle the core logic of the authentication process<br>\nRun this command to generate the controller<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>php artisan make:controller AuthController\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>replace the content of the controller with the following code<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>&lt;?php\n\nnamespace App\\Http\\Controllers;\n\nuse Illuminate\\Http\\Request;\nuse Illuminate\\Support\\Facades\\Auth;\nuse Illuminate\\Support\\Facades\\Hash;\nuse App\\Models\\User;\n\nclass AuthController extends Controller\n{\n\n    public function __construct()\n    {\n        $this-&gt;middleware(\'auth:api\', [\'except\' =&gt; [\'login\',\'register\']]);\n    }\n\n    public function login(Request $request)\n    {\n        $request-&gt;validate([\n            \'email\' =&gt; \'required|string|email\',\n            \'password\' =&gt; \'required|string\',\n        ]);\n        $credentials = $request-&gt;only(\'email\', \'password\');\n\n        $token = Auth::attempt($credentials);\n        if (!$token) {\n            return response()-&gt;json([\n                \'status\' =&gt; \'error\',\n                \'message\' =&gt; \'Unauthorized\',\n            ], 401);\n        }\n\n        $user = Auth::user();\n        return response()-&gt;json([\n                \'status\' =&gt; \'success\',\n                \'user\' =&gt; $user,\n                \'authorisation\' =&gt; [\n                    \'token\' =&gt; $token,\n                    \'type\' =&gt; \'bearer\',\n                ]\n            ]);\n\n    }\n\n    public function register(Request $request){\n        $request-&gt;validate([\n            \'name\' =&gt; \'required|string|max:255\',\n            \'email\' =&gt; \'required|string|email|max:255|unique:users\',\n            \'password\' =&gt; \'required|string|min:6\',\n        ]);\n\n        $user = User::create([\n            \'name\' =&gt; $request-&gt;name,\n            \'email\' =&gt; $request-&gt;email,\n            \'password\' =&gt; Hash::make($request-&gt;password),\n        ]);\n\n        $token = Auth::login($user);\n        return response()-&gt;json([\n            \'status\' =&gt; \'success\',\n            \'message\' =&gt; \'User created successfully\',\n            \'user\' =&gt; $user,\n            \'authorisation\' =&gt; [\n                \'token\' =&gt; $token,\n                \'type\' =&gt; \'bearer\',\n            ]\n        ]);\n    }\n\n    public function logout()\n    {\n        Auth::logout();\n        return response()-&gt;json([\n            \'status\' =&gt; \'success\',\n            \'message\' =&gt; \'Successfully logged out\',\n        ]);\n    }\n\n    public function me()\n    {\n        return response()-&gt;json([\n            \'status\' =&gt; \'success\',\n            \'user\' =&gt; Auth::user(),\n        ]);\n    }\n\n    public function refresh()\n    {\n        return response()-&gt;json([\n            \'status\' =&gt; \'success\',\n            \'user\' =&gt; Auth::user(),\n            \'authorisation\' =&gt; [\n                \'token\' =&gt; Auth::refresh(),\n                \'type\' =&gt; \'bearer\',\n            ]\n        ]);\n    }\n\n}\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>A brief explanation of what is going on in the AuthController <br>\n<strong>Constructor</strong>: we defined a constructor method in our controller class so that we can use the auth:api middleware within it, the middleware prevent unauthenticated access to certain methods within the controller.<br>\n<strong>Login</strong>: the login method authenticate the user using their email and password, the Auth facades attempt() method returns the jwt token once the user is successfully authenticated, the generated token is retrieved and returned as JSON with the user object<br>\n<strong>Register</strong>: the register method creates the user record and logs the user in with token generations as well<br>\n<strong>Logout</strong>: the logout method invalidate the user auth token<br>\n<strong>Refresh</strong>: the refresh method invalidates the current logged in user and generate a new token <br>\n<strong>Me</strong>: the me method returns the user profile or in this case the user object</p>\n<h2>\n  <a name="add-api-routes" href="#add-api-routes">\n  </a>\n  Add API Routes\n</h2>\n\n<p>To access our newly created methods we need to define our API routes, to do this navigate to routes/api.php and replace the content with the following<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>&lt;?php\n\nuse Illuminate\\Http\\Request;\nuse Illuminate\\Support\\Facades\\Route;\nuse App\\Http\\Controllers\\AuthController;\n\nRoute::controller(AuthController::class)-&gt;group(function () {\n    Route::post(\'login\', \'login\');\n    Route::post(\'register\', \'register\');\n    Route::post(\'logout\', \'logout\');\n    Route::post(\'refresh\', \'refresh\');\n    Route::get(\'me\', \'me\');\n\n});\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Note we are using Laravel 9 syntax here, you will need to declare your route the normal way if you are using lower versions of Laravel</p>\n\n<h2>\n  <a name="test-end-points-with-postman" href="#test-end-points-with-postman">\n  </a>\n  Test End Points With Postman\n</h2>\n\n<p>Before we move to Postman and start testing our API endpoints we need to start our Laravel application first<br>\nRun the below command to start your Laravel application<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>php artisan serve\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>now we are ready to begin testing;<br>\nstart your postman app <br>\nhere are the lists of endpoints we will be testing</p>\n\n<ol>\n<li> Register: localhost:8000/api/register. Method: POST</li>\n<li> Login: localhost:8000/api/login. Method: POST</li>\n<li> Logout: localhost:8000/api/logout. Method: POST</li>\n<li> Refresh: localhost:8000/api/refresh. Method:POST</li>\n<li> Me: localhost:8000/api/me. Method: GET</li>\n</ol>\n\n<h2>\n  <a name="register-api" href="#register-api">\n  </a>\n  Register API\n</h2>\n\n<p>Start your Postman application add the registration API in the address bar, select the POST HTTP request method, select form-data in the body tab and add the name, email and password input fields, click on the Send button to see the server response<br>\n<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--IfbND8TW--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/eoz3my0jcrogtiph6rfc.PNG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--IfbND8TW--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/eoz3my0jcrogtiph6rfc.PNG" alt="Postman Register User" loading="lazy" width="880" height="463"></a></p>\n\n<h2>\n  <a name="login-api" href="#login-api">\n  </a>\n  Login API\n</h2>\n\n<p>Add the email and password to the input field click Send to see the response<br>\n <a href="https://res.cloudinary.com/practicaldev/image/fetch/s--SKYrwmZ6--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hrie02y2u6zwirlez894.PNG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SKYrwmZ6--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hrie02y2u6zwirlez894.PNG" alt="Postman Login" loading="lazy" width="880" height="458"></a></p>\n\n<h2>\n  <a name="me-refresh-and-logout" href="#me-refresh-and-logout">\n  </a>\n  Me, Refresh and Logout\n</h2>\n\n<p>The Me, Refresh and Logout endpoints are all protected by the auth:api middleware and hence requires that you send a valid token with the authorization header, so copy the token from your login response go to the authorization tab, select bearer token and paste it the input provided.<br>\n <a href="https://res.cloudinary.com/practicaldev/image/fetch/s--AoIJz5LD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/o06ethzei4ljv3i41twm.PNG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--AoIJz5LD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/o06ethzei4ljv3i41twm.PNG" alt="Authorization Header" loading="lazy" width="852" height="214"></a></p>\n\n<p>Me API<br>\n<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--a6_oWPWH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/b6dn1mkg84or7qv31r1a.PNG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--a6_oWPWH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/b6dn1mkg84or7qv31r1a.PNG" alt="Me API" loading="lazy" width="880" height="393"></a></p>\n\n<p>Refresh API<br>\n <a href="https://res.cloudinary.com/practicaldev/image/fetch/s--iYWMx8y1--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/0lqzoid482rfg52ewgs9.PNG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--iYWMx8y1--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/0lqzoid482rfg52ewgs9.PNG" alt="Refresh API" loading="lazy" width="880" height="452"></a></p>\n\n<p>Logout<br>\n <a href="https://res.cloudinary.com/practicaldev/image/fetch/s--imMf9q5T--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hsfhti8phfqpcsurejx3.PNG" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--imMf9q5T--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hsfhti8phfqpcsurejx3.PNG" alt="Logout API" loading="lazy" width="880" height="341"></a></p>\n\n<p>Conclusion!</p>\n\n<p>Yes, you made it to the end, in this article we learned how to create REST API authentication with JWT, the full code for this project is available on <a href="https://github.com/solomoreal/laravel-jwtauth-tutorial.git">GitHub</a></p>\n\n',t.body_markdown="## Introduction\nThis is a friendly introduction to Laravel 9 API authentication using JWT. In this tutorial we will learn how to use JSON Web Token (JWT) to secure REST APIs in Laravel 9. We will be using a third-party library called “php-open-source-saver/jwt-auth” to achieve this. Creating authentication in Laravel is very easy as most of the common functionalities needed in a web application are already implemented out of the box.\n\n## Goal\nThe reader should be able to create secure REST APIs in Laravel using JWT after going through this tutorial \n\n## Requirement\n\n- \nBasic knowledge of the [Laravel](laravel.com) framework is required to take this tutorial as this is not an introduction to Laravel tutorial \n\n- [XAMPP](https://www.apachefriends.org/download.html)\n\n- [composer](https://getcomposer.org/download/)\n\n- [Postman](https://www.postman.com/downloads/)\n\n## What is JSON Web Token\n\nJSON Web Token (JWT) is an open standard (RFC 7519) that defines a compact and self-contained way for securely transmitting information between parties as a JSON object. This information can be verified and trusted because it is digitally signed. JWTs can be signed using a secret (with the HMAC algorithm) or a public/private key pair using RSA or ECDSA.\nWhen should you use JSON Web Tokens\nHere are some scenarios where JSON Web Tokens are useful:\n•\tAuthorization: This is the most common scenario for using JWT. Once the user is logged in, each subsequent request will include the JWT, allowing the user to access routes, services, and resources that are permitted with that token. Single Sign-On is a feature that widely uses JWT nowadays, because of its small overhead and its ability to be easily used across different domains.\n•\tInformation Exchange: JSON Web Tokens are a good way of securely transmitting information between parties. Because JWTs can be signed—for example, using public/private key pairs—you can be sure the senders are who they say they are. Additionally, as the signature is calculated using the header and the payload, you can also verify that the content hasn't been tampered with.\n\n\n## What is the JSON Web Token structure?\n\nIn its compact form, JSON Web Tokens consist of three parts separated by dots (.), which are:\n•\tHeader\n•\tPayload\n•\tSignature\nTherefore, a JWT typically looks like the following.\nxxxxx.yyyyy.zzzzz\n\n## How Does It Work\n\nThe simple explanation as to how JWT authentication work is when a user attempt to log in with their correct credentials (i.e email and password), a token is generated and sent back to the client-side, the client-side then stores the token and use it to access protected routes.\n\nLet's Get To It Shall We\n**Table of content** \n1.\tFresh Laravel Install\n2.\tCreate Your Database\n3.\tConnect To The Database\n4.\tRun Migration To Create User Table\n5.\tInstall JWT Auth Package\n6.\tConfigure Auth Guard\n7.\tModify User Model\n8.\tCreate Controller\n9.\tAdd API Routes\n10.\tTest Endpoints With Postman\n11.\tConclusion\n\n## Fresh Laravel Install\n\nWe will kick things off by installing a new Laravel 9 project\nRun the below commands to install and navigate to your fresh Laravel project \n\n```\ncomposer create-project laravel/laravel laravel-jwt\ncd laravel-jwt\n\n```\nCreate Your Database\nCreate a MySQL database with the name laravel-jwt, I am using XAMMP but whatever you are using will work just fine.\n ![Database connection on php my admin](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lmis5jng3og8xywyld1l.PNG)\n \n\n## Connect To The Database\n\nFor your Laravel application to be able to interact with the new database you just created you need to establish a connection, add your database credentials to the .env file to connect\n\n```\nDB_CONNECTION=mysql\nDB_HOST=127.0.0.1\nDB_PORT=3306\nDB_DATABASE=laravel-jwt\nDB_USERNAME=root\nDB_PASSWORD=\n```\n\nRun Migration To Create User Table\nLaravel comes with the User table migration all we need to do is to run the migration to create the table in our database, we do not need to create any other table, the user table is sufficient for the scope of this tutorial. Run the command below to create the users table\n\n```\n\tphp artisan migrate\n\n```\n\n## Install JWT Auth Package\n\nNow that our database is all set up its time to install and configure the Laravel jwt auth package, will be using “php-open-source-saver/jwt-auth” a fork of  “tymondesign/jwt-auth”, the reason for the choice is simple as “tymondesign/jwt-auth” seems to have been abandoned and is not compatible with Laravel 9\nRun the below command to install the latest version of the package\n\n```\ncomposer require php-open-source-saver/jwt-auth\n\n```\nNext, we have to publish the package configurations run the below command to copy the jwt configuration file from vendor to confi/jwt.php\n\n```\nphp artisan vendor:publish --provider=\"PHPOpenSourceSaver\\JWTAuth\\Providers\\LaravelServiceProvider\"\n\n```\na secret key needs to be generated to handle the token encryption run this command to achieve that\n\n```\nphp artisan jwt:secret\n\n```\nThis will update your .env file with something like \n\n```\nJWT_SECRET=foobar\n```\nIt is the key that will be used to sign your tokens\n\n## Configure Auth Guard\n\nInside the config/auth.php file you will need to make a few changes to configure Laravel to use the jwt guard to power your application authentication.\n\nMake the following changes to the file:\n\n   \n\n```\n 'defaults' => [\n        'guard' => 'api',\n        'passwords' => 'users',\n    ],\n\n\n    'guards' => [\n        'web' => [\n            'driver' => 'session',\n            'provider' => 'users',\n        ],\n\n        'api' => [\n                'driver' => 'jwt',\n                'provider' => 'users',\n        ],\n\n    ],\n```\nHere we are telling the api guard to use the jwt driver, and we are setting the api guard as the default.\nWe can now use Laravel's built-in Auth system, with jwt-auth doing the work behind the scenes!\n\n## Modify User Model \n\nFirstly you need to implement the PHPOpenSourceSaver\\JWTAuth\\Contracts\\JWTSubject contract on your User model, which requires that you implement the 2 methods getJWTIdentifier() and getJWTCustomClaims().\nReplace the existing code in app/Models/User.php with the following code\n\n```\n<?php\n\nnamespace App\\Models;\n\nuse Illuminate\\Contracts\\Auth\\MustVerifyEmail;\nuse Illuminate\\Database\\Eloquent\\Factories\\HasFactory;\nuse Illuminate\\Foundation\\Auth\\User as Authenticatable;\nuse Illuminate\\Notifications\\Notifiable;\nuse PHPOpenSourceSaver\\JWTAuth\\Contracts\\JWTSubject;\n\nclass User extends Authenticatable implements JWTSubject\n{\n    use HasFactory, Notifiable;\n\n    /**\n     * The attributes that are mass assignable.\n     *\n     * @var array<int, string>\n     */\n    protected $fillable = [\n        'name',\n        'email',\n        'password',\n    ];\n\n    /**\n     * The attributes that should be hidden for serialization.\n     *\n     * @var array<int, string>\n     */\n    protected $hidden = [\n        'password',\n        'remember_token',\n    ];\n\n    /**\n     * The attributes that should be cast.\n     *\n     * @var array<string, string>\n     */\n    protected $casts = [\n        'email_verified_at' => 'datetime',\n    ];\n\n     /**\n     * Get the identifier that will be stored in the subject claim of the JWT.\n     *\n     * @return mixed\n     */\n    public function getJWTIdentifier()\n    {\n        return $this->getKey();\n    }\n\n    /**\n     * Return a key value array, containing any custom claims to be added to the JWT.\n     *\n     * @return array\n     */\n    public function getJWTCustomClaims()\n    {\n        return [];\n    }\n\n}\n\n\n```\nThat is it for our model setup\n\n## Create Controller\n\nNext, we create a controller to handle the core logic of the authentication process\nRun this command to generate the controller\n\n```\nphp artisan make:controller AuthController\n\n```\nreplace the content of the controller with the following code\n\n```\n<?php\n\nnamespace App\\Http\\Controllers;\n\nuse Illuminate\\Http\\Request;\nuse Illuminate\\Support\\Facades\\Auth;\nuse Illuminate\\Support\\Facades\\Hash;\nuse App\\Models\\User;\n\nclass AuthController extends Controller\n{\n\n    public function __construct()\n    {\n        $this->middleware('auth:api', ['except' => ['login','register']]);\n    }\n\n    public function login(Request $request)\n    {\n        $request->validate([\n            'email' => 'required|string|email',\n            'password' => 'required|string',\n        ]);\n        $credentials = $request->only('email', 'password');\n\n        $token = Auth::attempt($credentials);\n        if (!$token) {\n            return response()->json([\n                'status' => 'error',\n                'message' => 'Unauthorized',\n            ], 401);\n        }\n\n        $user = Auth::user();\n        return response()->json([\n                'status' => 'success',\n                'user' => $user,\n                'authorisation' => [\n                    'token' => $token,\n                    'type' => 'bearer',\n                ]\n            ]);\n\n    }\n\n    public function register(Request $request){\n        $request->validate([\n            'name' => 'required|string|max:255',\n            'email' => 'required|string|email|max:255|unique:users',\n            'password' => 'required|string|min:6',\n        ]);\n\n        $user = User::create([\n            'name' => $request->name,\n            'email' => $request->email,\n            'password' => Hash::make($request->password),\n        ]);\n\n        $token = Auth::login($user);\n        return response()->json([\n            'status' => 'success',\n            'message' => 'User created successfully',\n            'user' => $user,\n            'authorisation' => [\n                'token' => $token,\n                'type' => 'bearer',\n            ]\n        ]);\n    }\n\n    public function logout()\n    {\n        Auth::logout();\n        return response()->json([\n            'status' => 'success',\n            'message' => 'Successfully logged out',\n        ]);\n    }\n\n    public function me()\n    {\n        return response()->json([\n            'status' => 'success',\n            'user' => Auth::user(),\n        ]);\n    }\n\n    public function refresh()\n    {\n        return response()->json([\n            'status' => 'success',\n            'user' => Auth::user(),\n            'authorisation' => [\n                'token' => Auth::refresh(),\n                'type' => 'bearer',\n            ]\n        ]);\n    }\n\n}\n\n```\n\nA brief explanation of what is going on in the AuthController \n**Constructor**: we defined a constructor method in our controller class so that we can use the auth:api middleware within it, the middleware prevent unauthenticated access to certain methods within the controller.\n**Login**: the login method authenticate the user using their email and password, the Auth facades attempt() method returns the jwt token once the user is successfully authenticated, the generated token is retrieved and returned as JSON with the user object\n**Register**: the register method creates the user record and logs the user in with token generations as well\n**Logout**: the logout method invalidate the user auth token\n**Refresh**: the refresh method invalidates the current logged in user and generate a new token \n**Me**: the me method returns the user profile or in this case the user object\n\n## Add API Routes\n\nTo access our newly created methods we need to define our API routes, to do this navigate to routes/api.php and replace the content with the following\n\n```\n<?php\n\nuse Illuminate\\Http\\Request;\nuse Illuminate\\Support\\Facades\\Route;\nuse App\\Http\\Controllers\\AuthController;\n\nRoute::controller(AuthController::class)->group(function () {\n    Route::post('login', 'login');\n    Route::post('register', 'register');\n    Route::post('logout', 'logout');\n    Route::post('refresh', 'refresh');\n    Route::get('me', 'me');\n\n});\n\n```\nNote we are using Laravel 9 syntax here, you will need to declare your route the normal way if you are using lower versions of Laravel\n\n## Test End Points With Postman\n\nBefore we move to Postman and start testing our API endpoints we need to start our Laravel application first\nRun the below command to start your Laravel application\n\n```\nphp artisan serve\n\n```\nnow we are ready to begin testing;\nstart your postman app \nhere are the lists of endpoints we will be testing\n1.\tRegister: localhost:8000/api/register. Method: POST\n2.\tLogin: localhost:8000/api/login. Method: POST\n3.\tLogout: localhost:8000/api/logout. Method: POST\n4.\tRefresh: localhost:8000/api/refresh. Method:POST\n5.\tMe: localhost:8000/api/me. Method: GET\n\n## Register API\n\nStart your Postman application add the registration API in the address bar, select the POST HTTP request method, select form-data in the body tab and add the name, email and password input fields, click on the Send button to see the server response\n![Postman Register User](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/eoz3my0jcrogtiph6rfc.PNG)\n  \n\n## Login API\nAdd the email and password to the input field click Send to see the response\n ![Postman Login](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hrie02y2u6zwirlez894.PNG)\n \n\n## Me, Refresh and Logout\n\nThe Me, Refresh and Logout endpoints are all protected by the auth:api middleware and hence requires that you send a valid token with the authorization header, so copy the token from your login response go to the authorization tab, select bearer token and paste it the input provided.\n ![Authorization Header](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/o06ethzei4ljv3i41twm.PNG)\n \nMe API\n![Me API](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/b6dn1mkg84or7qv31r1a.PNG)\n \n \nRefresh API\n ![Refresh API](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/0lqzoid482rfg52ewgs9.PNG)\n \nLogout\n ![Logout API](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hsfhti8phfqpcsurejx3.PNG)\n \nConclusion!\n \nYes, you made it to the end, in this article we learned how to create REST API authentication with JWT, the full code for this project is available on [GitHub](https://github.com/solomoreal/laravel-jwtauth-tutorial.git)\n",t.user={name:"Solomon Onuche",username:i,twitter_username:i,github_username:"solomoreal",website_url:e,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--K6P1VG-x--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/180230/d7e11033-aa2d-4884-85fb-9f84ce9eeaea.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--Z2biNLzU--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/180230/d7e11033-aa2d-4884-85fb-9f84ce9eeaea.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:t}},error:e,state:{currentArticle:t},serverRendered:!0,routePath:"/solomononuche/1032176",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:e}}}}(null,{},"https://dev.to/solomononuche/how-to-implement-jwt-auth-in-laravel-9-2mlm","2022-03-23T17:14:45Z","solomononuche")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

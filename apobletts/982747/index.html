@@ -1,0 +1,814 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Create Biometric-Powered Login Pages in Vue.js</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Create Biometric-Powered Login Pages in Vue.js</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/vue" class="tag" data-v-70afb46a>
+          #vue
+        </a><a href="/nuxtstop/t/passwordless" class="tag" data-v-70afb46a>
+          #passwordless
+        </a><a href="/nuxtstop/t/security" class="tag" data-v-70afb46a>
+          #security
+        </a><a href="/nuxtstop/t/tutorial" class="tag" data-v-70afb46a>
+          #tutorial
+        </a></div> <!----> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            9
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Feb 8</time></div></header> <div class="content" data-v-70afb46a><p>In this article, you will learn how to build a simple Vue 3 application and add biometric authentication using Passage.</p>
+
+<p>Users will log in to your application using the biometrics built into their devices (e.g. Face ID, Windows Hello, etc) or with magic links sent to their email. This app is built such that it only allows authenticated users to view a simple dashboard and blocks unauthenticated users. This guide will walk through creating a Vue 3 app using the Vue CLI, creating basic components, and adding authentication to the application using Passage.</p>
+
+<p>If you are already familiar with Vue, you can go straight to our full example application on <a href="https://github.com/passageidentity/example-vue">GitHub</a> or skip to <a href="#add-authentication-with-passage">this section</a> to learn how to integrate biometric authentication into an existing application.</p>
+
+<h2>
+  <a name="setup" href="#setup">
+  </a>
+  Setup
+</h2>
+
+<p>To get started, first install the Vue CLI. The Vue CLI lets you get up and running quickly with pre-configured build settings.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>npm <span class="nb">install</span> <span class="nt">-g</span> @vue/cli
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Then create a new application using the Vue CLI. The tool will provide you with options to manually select versions and features you want. For this tutorial, use the "Manually select features" option and select the "Router" feature. Make sure to select Vue 3. You can just hit enter through the remaining features.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>vue create example-app 
+<span class="nb">cd </span>example-app
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You can test your app by running the following command and then visiting <em><a href="http://localhost:8080">http://localhost:8080</a></em>.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>npm run serve
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You can leave this up and running throughout the tutorial to see your progress.</p>
+
+<h2>
+  <a name="build-components-for-app" href="#build-components-for-app">
+  </a>
+  Build Components for App
+</h2>
+
+<h3>
+  <a name="set-up-routes-for-home-and-dashboard-pages" href="#set-up-routes-for-home-and-dashboard-pages">
+  </a>
+  Set up routes for Home and Dashboard pages
+</h3>
+
+<p>Our application will have two pages, a home page with a login screen and a dashboard page that is authenticated. First, create the directory structure and routes for those pages. Create the following directories and files to set up for the router and our two main components.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">cd </span>src/
+<span class="nb">mkdir </span>views
+<span class="nb">touch </span>views/Dashboard.vue
+<span class="nb">touch </span>views/Home.vue
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now let's start filling out these files. Copy the following code into the <em>router/index.js</em> file to replace the default router.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight jsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">createRouter</span><span class="p">,</span> <span class="nx">createWebHistory</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vue-router</span><span class="dl">'</span>
+<span class="k">import</span> <span class="nx">Home</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../views/Home.vue</span><span class="dl">'</span>
+<span class="k">import</span> <span class="nx">Dashboard</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../views/Dashboard.vue</span><span class="dl">'</span>
+
+<span class="kd">const</span> <span class="nx">routes</span> <span class="o">=</span> <span class="p">[</span>
+  <span class="p">{</span>
+    <span class="na">path</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Home</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">component</span><span class="p">:</span> <span class="nx">Home</span>
+  <span class="p">},</span>
+  <span class="p">{</span>
+    <span class="na">path</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/dashboard</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Dashboard</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">component</span><span class="p">:</span> <span class="nx">Dashboard</span>
+  <span class="p">}</span>
+<span class="p">]</span>
+
+<span class="kd">const</span> <span class="nx">router</span> <span class="o">=</span> <span class="nx">createRouter</span><span class="p">({</span>
+  <span class="na">history</span><span class="p">:</span> <span class="nx">createWebHistory</span><span class="p">(),</span>
+  <span class="na">mode</span><span class="p">:</span> <span class="dl">'</span><span class="s1">history</span><span class="dl">'</span><span class="p">,</span>
+  <span class="nx">routes</span>
+<span class="p">})</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">router</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="create-a-banner-component" href="#create-a-banner-component">
+  </a>
+  Create a Banner component
+</h2>
+
+<p>Create a banner component that will be used on both the home and dashboard pages. Copy the following code to <em>components/Banner.vue</em>.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight html"><code><span class="nt">&lt;template></span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"mainHeader"</span><span class="nt">></span>
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://passage.id/"</span><span class="nt">>&lt;div</span> <span class="na">class=</span><span class="s">"passageLogo"</span><span class="nt">>&lt;/div>&lt;/a></span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"header-text"</span><span class="nt">></span>Passage + Vue.js 3 Example App<span class="nt">&lt;/div></span>
+    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"spacer"</span><span class="nt">>&lt;/div></span>
+    <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"link"</span> <span class="na">href=</span><span class="s">"https://passage.id/"</span><span class="nt">></span>Go to Passage<span class="nt">&lt;/a></span>
+  <span class="nt">&lt;/div></span>
+<span class="nt">&lt;/template></span>
+<span class="nt">&lt;script></span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">defineComponent</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vue</span><span class="dl">'</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">defineComponent</span><span class="p">({</span>
+  <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Banner</span><span class="dl">'</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="nt">&lt;/script></span>
+<span class="nt">&lt;style </span><span class="na">scoped</span><span class="nt">></span>
+<span class="nc">.mainHeader</span><span class="p">{</span>
+  <span class="nl">width</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span>
+  <span class="nl">padding</span><span class="p">:</span> <span class="m">20px</span> <span class="m">30px</span><span class="p">;</span>
+  <span class="nl">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>
+  <span class="nl">align-items</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#27417E</span><span class="p">;</span>
+  <span class="nl">color</span><span class="p">:</span> <span class="no">white</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.header-text</span> <span class="p">{</span>
+  <span class="nl">font-size</span><span class="p">:</span> <span class="m">24px</span><span class="p">;</span>
+  <span class="nl">margin-left</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.passageLogo</span> <span class="p">{</span>
+  <span class="nl">background-image</span><span class="p">:</span> <span class="sx">url('https://storage.googleapis.com/passage-docs/passage-logo.svg')</span><span class="p">;</span>
+  <span class="nl">background-repeat</span><span class="p">:</span> <span class="nb">no-repeat</span><span class="p">;</span>
+  <span class="nl">width</span><span class="p">:</span> <span class="m">60px</span><span class="p">;</span>
+  <span class="nl">height</span><span class="p">:</span> <span class="m">60px</span><span class="p">;</span>
+  <span class="nl">cursor</span><span class="p">:</span> <span class="nb">pointer</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.spacer</span> <span class="p">{</span>
+  <span class="nl">flex-grow</span><span class="p">:</span> <span class="m">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.link</span> <span class="p">{</span>
+  <span class="nl">margin-left</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>
+  <span class="nl">color</span><span class="p">:</span> <span class="no">white</span><span class="p">;</span>
+  <span class="nl">text-decoration-color</span><span class="p">:</span> <span class="no">white</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">&lt;/style></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Replace the template and script tags in <em>App.vue</em> to use the router and add some simple styling.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight html"><code><span class="nt">&lt;template></span>
+<span class="nt">&lt;div></span>
+  <span class="nt">&lt;Banner</span> <span class="nt">/></span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"main-container"</span><span class="nt">></span>
+    <span class="nt">&lt;router-view/></span>
+  <span class="nt">&lt;/div></span>
+  <span class="nt">&lt;div</span> <span class="na">className=</span><span class="s">"footer"</span><span class="nt">></span>
+    Learn more with our 
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://docs.passage.id"</span><span class="nt">></span>Documentation<span class="nt">&lt;/a></span> and
+    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://github.com/passageidentity"</span><span class="nt">></span>Github<span class="nt">&lt;/a></span>.
+    <span class="nt">&lt;br></span>       
+  <span class="nt">&lt;/div></span>
+<span class="nt">&lt;/div></span>
+<span class="nt">&lt;/template></span>
+<span class="nt">&lt;style></span>
+<span class="nt">body</span> <span class="p">{</span>
+  <span class="nl">margin</span><span class="p">:</span> <span class="m">0px</span><span class="p">;</span>
+  <span class="nl">height</span><span class="p">:</span> <span class="m">100vh</span><span class="p">;</span>
+  <span class="nl">font-family</span><span class="p">:</span> <span class="nb">sans-serif</span><span class="p">;</span>
+  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#E5E5E5</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.main-container</span> <span class="p">{</span>
+  <span class="nl">background</span><span class="p">:</span> <span class="no">white</span><span class="p">;</span>
+  <span class="nl">box-shadow</span><span class="p">:</span> <span class="m">0px</span> <span class="m">4px</span> <span class="m">4px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0.25</span><span class="p">);</span>
+  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>
+  <span class="nl">width</span><span class="p">:</span> <span class="m">310px</span><span class="p">;</span>
+  <span class="nl">min-height</span><span class="p">:</span> <span class="m">310px</span><span class="p">;</span>
+  <span class="nl">margin</span><span class="p">:</span> <span class="m">30px</span> <span class="nb">auto</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.footer</span> <span class="p">{</span>
+  <span class="nl">text-align</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>
+  <span class="nl">font-size</span><span class="p">:</span> <span class="m">18px</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">&lt;/style></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>and add the router and banner to <em>main.js</em>.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight jsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">createApp</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vue</span><span class="dl">'</span>
+<span class="k">import</span> <span class="nx">App</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./App.vue</span><span class="dl">'</span>
+<span class="k">import</span> <span class="nx">router</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./router</span><span class="dl">'</span>
+<span class="k">import</span> <span class="nx">Banner</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./components/Banner.vue</span><span class="dl">'</span>
+
+<span class="nx">createApp</span><span class="p">(</span><span class="nx">App</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">router</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">component</span><span class="p">(</span><span class="dl">'</span><span class="s1">Banner</span><span class="dl">'</span><span class="p">,</span> <span class="nx">Banner</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">mount</span><span class="p">(</span><span class="dl">'</span><span class="s1">#app</span><span class="dl">'</span><span class="p">)</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This means that once the components are created, the home page will be accessible at <em><a href="http://localhost:8080/">http://localhost:8080/</a></em> and the dashboard will be at <em><a href="http://localhost:8080/dashboard">http://localhost:8080/dashboard</a></em>.</p>
+
+<h2>
+  <a name="build-home-component" href="#build-home-component">
+  </a>
+  Build Home Component
+</h2>
+
+<p>Add the following code to <em>views/Home.vue</em> to create the home page.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight html"><code><span class="nt">&lt;script></span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">defineComponent</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vue</span><span class="dl">'</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">defineComponent</span><span class="p">({</span>
+  <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Home</span><span class="dl">'</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="nt">&lt;/script></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="build-dashboard-component" href="#build-dashboard-component">
+  </a>
+  Build Dashboard Component
+</h2>
+
+<p>Add the following code to <em>views/Dashboard.vue</em> to create the simple dashboard page.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight html"><code><span class="nt">&lt;template></span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"dashboard"</span><span class="nt">></span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"title"</span><span class="nt">></span>Welcome!<span class="nt">&lt;/div></span>
+  <span class="nt">&lt;/div></span>
+<span class="nt">&lt;/template></span>
+
+<span class="nt">&lt;script></span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">defineComponent</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vue</span><span class="dl">'</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">defineComponent</span><span class="p">({</span>
+  <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Dashboard</span><span class="dl">'</span><span class="p">,</span>
+<span class="p">})</span>
+<span class="nt">&lt;/script></span>
+
+<span class="nt">&lt;style </span><span class="na">scoped</span><span class="nt">></span>
+<span class="nc">.dashboard</span><span class="p">{</span>
+  <span class="nl">padding</span><span class="p">:</span> <span class="m">30px</span> <span class="m">30px</span> <span class="m">20px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.title</span> <span class="p">{</span>
+  <span class="nl">font-size</span><span class="p">:</span> <span class="m">24px</span><span class="p">;</span>
+  <span class="nl">font-weight</span><span class="p">:</span> <span class="m">700</span><span class="p">;</span>
+  <span class="nl">margin-bottom</span><span class="p">:</span> <span class="m">30px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.message</span> <span class="p">{</span>
+  <span class="nl">overflow-wrap</span><span class="p">:</span> <span class="n">anywhere</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.link</span> <span class="p">{</span>
+  <span class="nl">color</span><span class="p">:</span> <span class="no">black</span><span class="p">;</span>
+  <span class="nl">text-decoration-color</span><span class="p">:</span> <span class="no">black</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">&lt;/style></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h1>
+  <a name="add-authentication-with-passage" href="#add-authentication-with-passage">
+  </a>
+  Add Authentication with Passage
+</h1>
+
+<p>Now it is time to add authentication to our application using Passage! First, install Passage from the root directory of your example app.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>npm <span class="nb">install</span> <span class="nt">--save</span> @passageidentity/passage-auth
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Then import the package in the module where you intend to use the custom element, in this case the <em>Home.vue</em> view.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight jsx"><code><span class="k">import</span> <span class="dl">'</span><span class="s1">@passageidentity/passage-auth</span><span class="dl">'</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Importing this script will register the Passage custom element for use in your Vue components. For more information about custom elements refer to the <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements">online documentation.</a></p>
+
+<p>Create an application in the <a href="https://console.passage.id/register">Passage Console</a> with the following settings:</p>
+
+<ul>
+<li>Authentication Origin: <code>http://localhost:8080</code>
+</li>
+<li>Redirect URL: <code>/dashboard</code>
+</li>
+</ul>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--8KUp2e0i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/m57qzetjo2xg3lknhjqf.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--8KUp2e0i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/m57qzetjo2xg3lknhjqf.png" alt="Create app page in Passage Console." loading="lazy" width="880" height="584"></a></p>
+
+<p>Once you've created your application, copy your Application ID out the console and into a <em>.env</em> file in the root of your example repository.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="c1"># .env</span>
+<span class="s">VUE_APP_PASSAGE_APP_ID=</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>In the Home component, import Passage and add the custom element to the template. ‍<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight html"><code><span class="nt">&lt;template></span>
+  <span class="nt">&lt;passage-auth</span> <span class="na">:app-id=</span><span class="s">"appId"</span><span class="nt">>&lt;/passage-auth></span>
+<span class="nt">&lt;/template></span>
+
+<span class="nt">&lt;script></span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">defineComponent</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vue</span><span class="dl">'</span>
+<span class="k">import</span> <span class="dl">'</span><span class="s1">@passageidentity/passage-auth</span><span class="dl">'</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">defineComponent</span><span class="p">({</span>
+  <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Home</span><span class="dl">'</span><span class="p">,</span>
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">appId</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">VUE_APP_PASSAGE_APP_ID</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="nx">appId</span><span class="p">,</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+<span class="p">})</span>
+<span class="nt">&lt;/script></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Your application now has a full login and register experience!</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--V9JSaqGv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ubz5dk5cg30rvr4brwux.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--V9JSaqGv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ubz5dk5cg30rvr4brwux.png" alt="Sample app with Passage login." loading="lazy" width="880" height="604"></a></p>
+
+<p>You might notice a warning in the console about the custom element. Vue works with custom elements out of the box, but by default it will log a warning to the console that it could not resolve the component for the custom element. To configure Vue with information that the <code>&lt;passage-auth></code> tag is a custom element and suppress this warning, you need to add this configuration to your <em>vue.config.js</em> file. Create this file at the top-level directory of your repository.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight jsx"><code>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">publicPath</span><span class="p">:</span> <span class="dl">'</span><span class="s1">/</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">chainWebpack</span><span class="p">:</span> <span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="o">=></span> <span class="p">{</span>
+    <span class="nx">config</span><span class="p">.</span><span class="nx">module</span>
+      <span class="p">.</span><span class="nx">rule</span><span class="p">(</span><span class="dl">'</span><span class="s1">vue</span><span class="dl">'</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="dl">'</span><span class="s1">vue-loader</span><span class="dl">'</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">tap</span><span class="p">((</span><span class="nx">options</span><span class="p">)</span> <span class="o">=></span> <span class="p">({</span>
+        <span class="p">...</span><span class="nx">options</span><span class="p">,</span>
+        <span class="na">compilerOptions</span><span class="p">:</span> <span class="p">{</span>
+          <span class="c1">// treat any tag that starts with passage- as custom elements</span>
+          <span class="na">isCustomElement</span><span class="p">:</span> <span class="p">(</span><span class="nx">tag</span><span class="p">)</span> <span class="o">=></span> <span class="nx">tag</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="dl">'</span><span class="s1">passage-</span><span class="dl">'</span><span class="p">),</span>
+        <span class="p">},</span>
+      <span class="p">}))</span>
+  <span class="p">},</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Once you’ve added this, you will need to restart the server for the changes to take effect.</p>
+
+<h1>
+  <a name="verifying-user-authentication" href="#verifying-user-authentication">
+  </a>
+  Verifying User Authentication
+</h1>
+
+<p>Last but not least, the application needs to prevent unauthenticated users from accessing the dashboard page. You will set up protections that will show an error message to unauthenticated users trying to access the dashboard, but that does not prevent them from reading any data that might be on the dashboard, since it is all stored in the JavaScript files.</p>
+
+<p>For simplicity, there is not a backend server in this example. A simple authentication check using the <code>PassageUser</code> class will be implemented to protect the dashboard page from unauthorized access.</p>
+
+<p>💡 Please keep in mind that this dashboard protection will not protect sensitive API endpoints. Your server should always use one of the <a href="https://docs.passage.id/backend-libraries/overview">Passage backend libraries</a> to authorize users before returning sensitive data.</p>
+
+<p>This check is implemented by creating a composable to check the authentication status of the current user using Passage. Create a file called <em>useAuthStatus.js</em> in the <em>composables</em> directory.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">mkdir </span>composables/
+<span class="nb">touch </span>composables/useAuthStatus.js
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Copy the following code into that file. This code uses Passage to check if the current user is authenticated.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight jsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ref</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vue</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">PassageUser</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@passageidentity/passage-auth/passage-user</span><span class="dl">'</span>
+
+<span class="k">export</span> <span class="kd">function</span> <span class="nx">useAuthStatus</span><span class="p">(){</span>
+  <span class="kd">const</span> <span class="nx">isLoading</span> <span class="o">=</span> <span class="nx">ref</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>
+  <span class="kd">const</span> <span class="nx">isAuthorized</span> <span class="o">=</span> <span class="nx">ref</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>
+  <span class="kd">const</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">ref</span><span class="p">(</span><span class="dl">''</span><span class="p">)</span>
+
+  <span class="k">new</span> <span class="nx">PassageUser</span><span class="p">().</span><span class="nx">userInfo</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="nx">userInfo</span> <span class="o">=></span> <span class="p">{</span>
+      <span class="k">if</span><span class="p">(</span><span class="nx">userInfo</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">){</span>
+          <span class="nx">isLoading</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="kc">false</span>
+          <span class="k">return</span>
+      <span class="p">}</span>
+      <span class="nx">username</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">userInfo</span><span class="p">.</span><span class="nx">email</span> <span class="p">?</span> <span class="nx">userInfo</span><span class="p">.</span><span class="nx">email</span> <span class="p">:</span> <span class="nx">userInfo</span><span class="p">.</span><span class="nx">phone</span>
+      <span class="nx">isAuthorized</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="kc">true</span>
+      <span class="nx">isLoading</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="kc">false</span>
+  <span class="p">})</span>
+
+  <span class="k">return</span> <span class="p">{</span>
+    <span class="nx">isLoading</span><span class="p">,</span>
+    <span class="nx">isAuthorized</span><span class="p">,</span>
+    <span class="nx">username</span><span class="p">,</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Next, incorporate this check into the Dashboard component, since authentication is required before showing the dashboard. The dashboard will show two different messages based on the result of the authentication check. The final <em>Dashboard.vue</em> will look like this.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight html"><code><span class="nt">&lt;template></span>
+  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"dashboard"</span><span class="nt">></span>
+    <span class="nt">&lt;div</span> <span class="na">v-if=</span><span class="s">"isLoading"</span><span class="nt">/></span>
+      <span class="nt">&lt;div</span> <span class="na">v-else-if=</span><span class="s">"isAuthorized"</span><span class="nt">></span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"title"</span><span class="nt">></span>Welcome!<span class="nt">&lt;/div></span>
+        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"message"</span><span class="nt">></span>
+          You successfully signed in with Passage.
+          <span class="nt">&lt;br/>&lt;br/></span>
+          Your Passage User ID is: <span class="nt">&lt;b></span>{{username}}<span class="nt">&lt;/b></span>
+        <span class="nt">&lt;/div></span>
+      <span class="nt">&lt;/div></span>
+    <span class="nt">&lt;div</span> <span class="na">v-else</span><span class="nt">></span>
+      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"title"</span><span class="nt">></span>Unauthorized<span class="nt">&lt;/div></span>
+      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"message"</span><span class="nt">></span>
+        You have not logged in and cannot view the dashboard.
+        <span class="nt">&lt;br/>&lt;br/></span>
+        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/"</span> <span class="na">class=</span><span class="s">"link"</span><span class="nt">></span>Login to continue.<span class="nt">&lt;/a></span>
+      <span class="nt">&lt;/div></span>
+    <span class="nt">&lt;/div></span>
+  <span class="nt">&lt;/div></span>
+<span class="nt">&lt;/template></span>
+
+<span class="nt">&lt;script></span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">defineComponent</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">vue</span><span class="dl">'</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">useAuthStatus</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../composables/useAuthStatus</span><span class="dl">'</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">defineComponent</span><span class="p">({</span>
+  <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Dashboard</span><span class="dl">'</span><span class="p">,</span>
+  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="p">{</span><span class="nx">isLoading</span><span class="p">,</span> <span class="nx">isAuthorized</span><span class="p">,</span> <span class="nx">username</span><span class="p">}</span> <span class="o">=</span> <span class="nx">useAuthStatus</span><span class="p">()</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="nx">isLoading</span><span class="p">,</span>
+      <span class="nx">isAuthorized</span><span class="p">,</span>
+      <span class="nx">username</span><span class="p">,</span>
+    <span class="p">}</span>
+  <span class="p">},</span>
+<span class="p">})</span>
+<span class="nt">&lt;/script></span>
+
+<span class="nt">&lt;style </span><span class="na">scoped</span><span class="nt">></span>
+<span class="nc">.dashboard</span><span class="p">{</span>
+  <span class="nl">padding</span><span class="p">:</span> <span class="m">30px</span> <span class="m">30px</span> <span class="m">20px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.title</span> <span class="p">{</span>
+  <span class="nl">font-size</span><span class="p">:</span> <span class="m">24px</span><span class="p">;</span>
+  <span class="nl">font-weight</span><span class="p">:</span> <span class="m">700</span><span class="p">;</span>
+  <span class="nl">margin-bottom</span><span class="p">:</span> <span class="m">30px</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.message</span> <span class="p">{</span>
+  <span class="nl">overflow-wrap</span><span class="p">:</span> <span class="n">anywhere</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nc">.link</span> <span class="p">{</span>
+  <span class="nl">color</span><span class="p">:</span> <span class="no">black</span><span class="p">;</span>
+  <span class="nl">text-decoration-color</span><span class="p">:</span> <span class="no">black</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nt">&lt;/style></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Unauthenticated users who try to visit <em>/dashboard</em> will be shown an "Unauthorized" message, while authorized users will see the dashboard that includes their Passage User ID.</p>
+
+<h1>
+  <a name="conclusion" href="#conclusion">
+  </a>
+  Conclusion
+</h1>
+
+<p>Now you can try out the biometrics authentication in the application you just built! Your application should look something like this and you can see the login experience as your users would. </p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--TrnbZnPz--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/6ur7e42fcgwjqzsejibf.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--TrnbZnPz--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/6ur7e42fcgwjqzsejibf.png" alt="Example login screens for users." loading="lazy" width="880" height="495"></a></p>
+
+<p>To recap, you have just:</p>
+
+<ul>
+<li>created an application with Vue.js</li>
+<li>added biometric authentication to your app with Passage</li>
+<li>learned how to verify the authentication status of your users with Passage</li>
+</ul>
+
+<p>Keep an eye out for part 2 of this post, where we show you how to use Passage to protect your backend API endpoints in a Vue.js + Express.js web application!</p>
+
+<p>To learn more about Passage and biometric authentication for web applications, you can:</p>
+
+<ul>
+<li>Explore our <a href="https://console.passage.id/">dashboard</a> to view and create users, customize your application, and add friends</li>
+<li>Read our <a href="https://docs.passage.id/">guides</a> for other tech stacks and learn how to authorize requests in your backend server</li>
+<li>Join our <a href="https://discord.com/invite/445QpyEDXh">Discord</a> and say hi</li>
+</ul>
+
+<p>‍Passage is in beta and actively seeking feedback on the product. If you have feedback, bug reports, or feature requests, we would love to hear from you. You can email me at <a href="//mailto:anna@passage.id">anna@passage.id</a> or fill out <a href="https://airtable.com/shriJ6n4asgxuGAdU">this form</a>.</p>
+
+
+<hr>
+
+<p>This article was originally published on the <a href="https://passage.id/blog">Passage blog</a>. </p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/apobletts/building-a-vuejs-app-with-biometric-authentication-5a5f" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(s,n,a,p,e,t){return a.type_of="article",a.id=982747,a.title="Create Biometric-Powered Login Pages in Vue.js",a.description="In this article, you will learn how to build a simple Vue 3 application and add biometric...",a.readable_publish_date="Feb 8",a.slug="building-a-vuejs-app-with-biometric-authentication-5a5f",a.path="/passage/building-a-vuejs-app-with-biometric-authentication-5a5f",a.url=p,a.comments_count=0,a.public_reactions_count=9,a.collection_id=s,a.published_timestamp=n,a.positive_reactions_count=9,a.cover_image=s,a.social_image="https://dev.to/social_previews/article/982747.png",a.canonical_url=p,a.created_at="2022-02-08T14:54:31Z",a.edited_at="2022-02-15T15:42:20Z",a.crossposted_at=s,a.published_at=n,a.last_comment_at=n,a.reading_time_minutes=7,a.tag_list="vue, passwordless, security, tutorial",a.tags=["vue","passwordless","security","tutorial"],a.body_html='<p>In this article, you will learn how to build a simple Vue 3 application and add biometric authentication using Passage.</p>\n\n<p>Users will log in to your application using the biometrics built into their devices (e.g. Face ID, Windows Hello, etc) or with magic links sent to their email. This app is built such that it only allows authenticated users to view a simple dashboard and blocks unauthenticated users. This guide will walk through creating a Vue 3 app using the Vue CLI, creating basic components, and adding authentication to the application using Passage.</p>\n\n<p>If you are already familiar with Vue, you can go straight to our full example application on <a href="https://github.com/passageidentity/example-vue">GitHub</a> or skip to <a href="#add-authentication-with-passage">this section</a> to learn how to integrate biometric authentication into an existing application.</p>\n\n<h2>\n  <a name="setup" href="#setup">\n  </a>\n  Setup\n</h2>\n\n<p>To get started, first install the Vue CLI. The Vue CLI lets you get up and running quickly with pre-configured build settings.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>npm <span class="nb">install</span> <span class="nt">-g</span> @vue/cli\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Then create a new application using the Vue CLI. The tool will provide you with options to manually select versions and features you want. For this tutorial, use the "Manually select features" option and select the "Router" feature. Make sure to select Vue 3. You can just hit enter through the remaining features.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>vue create example-app \n<span class="nb">cd </span>example-app\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You can test your app by running the following command and then visiting <em><a href="http://localhost:8080">http://localhost:8080</a></em>.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>npm run serve\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You can leave this up and running throughout the tutorial to see your progress.</p>\n\n<h2>\n  <a name="build-components-for-app" href="#build-components-for-app">\n  </a>\n  Build Components for App\n</h2>\n\n<h3>\n  <a name="set-up-routes-for-home-and-dashboard-pages" href="#set-up-routes-for-home-and-dashboard-pages">\n  </a>\n  Set up routes for Home and Dashboard pages\n</h3>\n\n<p>Our application will have two pages, a home page with a login screen and a dashboard page that is authenticated. First, create the directory structure and routes for those pages. Create the following directories and files to set up for the router and our two main components.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">cd </span>src/\n<span class="nb">mkdir </span>views\n<span class="nb">touch </span>views/Dashboard.vue\n<span class="nb">touch </span>views/Home.vue\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now let\'s start filling out these files. Copy the following code into the <em>router/index.js</em> file to replace the default router.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight jsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">createRouter</span><span class="p">,</span> <span class="nx">createWebHistory</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">vue-router</span><span class="dl">\'</span>\n<span class="k">import</span> <span class="nx">Home</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">../views/Home.vue</span><span class="dl">\'</span>\n<span class="k">import</span> <span class="nx">Dashboard</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">../views/Dashboard.vue</span><span class="dl">\'</span>\n\n<span class="kd">const</span> <span class="nx">routes</span> <span class="o">=</span> <span class="p">[</span>\n  <span class="p">{</span>\n    <span class="na">path</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">/</span><span class="dl">\'</span><span class="p">,</span>\n    <span class="na">name</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">Home</span><span class="dl">\'</span><span class="p">,</span>\n    <span class="na">component</span><span class="p">:</span> <span class="nx">Home</span>\n  <span class="p">},</span>\n  <span class="p">{</span>\n    <span class="na">path</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">/dashboard</span><span class="dl">\'</span><span class="p">,</span>\n    <span class="na">name</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">Dashboard</span><span class="dl">\'</span><span class="p">,</span>\n    <span class="na">component</span><span class="p">:</span> <span class="nx">Dashboard</span>\n  <span class="p">}</span>\n<span class="p">]</span>\n\n<span class="kd">const</span> <span class="nx">router</span> <span class="o">=</span> <span class="nx">createRouter</span><span class="p">({</span>\n  <span class="na">history</span><span class="p">:</span> <span class="nx">createWebHistory</span><span class="p">(),</span>\n  <span class="na">mode</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">history</span><span class="dl">\'</span><span class="p">,</span>\n  <span class="nx">routes</span>\n<span class="p">})</span>\n\n<span class="k">export</span> <span class="k">default</span> <span class="nx">router</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="create-a-banner-component" href="#create-a-banner-component">\n  </a>\n  Create a Banner component\n</h2>\n\n<p>Create a banner component that will be used on both the home and dashboard pages. Copy the following code to <em>components/Banner.vue</em>.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight html"><code><span class="nt">&lt;template&gt;</span>\n  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"mainHeader"</span><span class="nt">&gt;</span>\n    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://passage.id/"</span><span class="nt">&gt;&lt;div</span> <span class="na">class=</span><span class="s">"passageLogo"</span><span class="nt">&gt;&lt;/div&gt;&lt;/a&gt;</span>\n    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"header-text"</span><span class="nt">&gt;</span>Passage + Vue.js 3 Example App<span class="nt">&lt;/div&gt;</span>\n    <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"spacer"</span><span class="nt">&gt;&lt;/div&gt;</span>\n    <span class="nt">&lt;a</span> <span class="na">class=</span><span class="s">"link"</span> <span class="na">href=</span><span class="s">"https://passage.id/"</span><span class="nt">&gt;</span>Go to Passage<span class="nt">&lt;/a&gt;</span>\n  <span class="nt">&lt;/div&gt;</span>\n<span class="nt">&lt;/template&gt;</span>\n<span class="nt">&lt;script&gt;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">defineComponent</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">vue</span><span class="dl">\'</span>\n\n<span class="k">export</span> <span class="k">default</span> <span class="nx">defineComponent</span><span class="p">({</span>\n  <span class="na">name</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">Banner</span><span class="dl">\'</span><span class="p">,</span>\n<span class="p">})</span>\n<span class="nt">&lt;/script&gt;</span>\n<span class="nt">&lt;style </span><span class="na">scoped</span><span class="nt">&gt;</span>\n<span class="nc">.mainHeader</span><span class="p">{</span>\n  <span class="nl">width</span><span class="p">:</span> <span class="m">100%</span><span class="p">;</span>\n  <span class="nl">padding</span><span class="p">:</span> <span class="m">20px</span> <span class="m">30px</span><span class="p">;</span>\n  <span class="nl">display</span><span class="p">:</span> <span class="n">flex</span><span class="p">;</span>\n  <span class="nl">align-items</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>\n  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#27417E</span><span class="p">;</span>\n  <span class="nl">color</span><span class="p">:</span> <span class="no">white</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="nc">.header-text</span> <span class="p">{</span>\n  <span class="nl">font-size</span><span class="p">:</span> <span class="m">24px</span><span class="p">;</span>\n  <span class="nl">margin-left</span><span class="p">:</span> <span class="m">10px</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="nc">.passageLogo</span> <span class="p">{</span>\n  <span class="nl">background-image</span><span class="p">:</span> <span class="sx">url(\'https://storage.googleapis.com/passage-docs/passage-logo.svg\')</span><span class="p">;</span>\n  <span class="nl">background-repeat</span><span class="p">:</span> <span class="nb">no-repeat</span><span class="p">;</span>\n  <span class="nl">width</span><span class="p">:</span> <span class="m">60px</span><span class="p">;</span>\n  <span class="nl">height</span><span class="p">:</span> <span class="m">60px</span><span class="p">;</span>\n  <span class="nl">cursor</span><span class="p">:</span> <span class="nb">pointer</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="nc">.spacer</span> <span class="p">{</span>\n  <span class="nl">flex-grow</span><span class="p">:</span> <span class="m">1</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="nc">.link</span> <span class="p">{</span>\n  <span class="nl">margin-left</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>\n  <span class="nl">color</span><span class="p">:</span> <span class="no">white</span><span class="p">;</span>\n  <span class="nl">text-decoration-color</span><span class="p">:</span> <span class="no">white</span><span class="p">;</span>\n<span class="p">}</span>\n<span class="nt">&lt;/style&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Replace the template and script tags in <em>App.vue</em> to use the router and add some simple styling.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight html"><code><span class="nt">&lt;template&gt;</span>\n<span class="nt">&lt;div&gt;</span>\n  <span class="nt">&lt;Banner</span> <span class="nt">/&gt;</span>\n  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"main-container"</span><span class="nt">&gt;</span>\n    <span class="nt">&lt;router-view/&gt;</span>\n  <span class="nt">&lt;/div&gt;</span>\n  <span class="nt">&lt;div</span> <span class="na">className=</span><span class="s">"footer"</span><span class="nt">&gt;</span>\n    Learn more with our \n    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://docs.passage.id"</span><span class="nt">&gt;</span>Documentation<span class="nt">&lt;/a&gt;</span> and\n    <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"https://github.com/passageidentity"</span><span class="nt">&gt;</span>Github<span class="nt">&lt;/a&gt;</span>.\n    <span class="nt">&lt;br&gt;</span>       \n  <span class="nt">&lt;/div&gt;</span>\n<span class="nt">&lt;/div&gt;</span>\n<span class="nt">&lt;/template&gt;</span>\n<span class="nt">&lt;style&gt;</span>\n<span class="nt">body</span> <span class="p">{</span>\n  <span class="nl">margin</span><span class="p">:</span> <span class="m">0px</span><span class="p">;</span>\n  <span class="nl">height</span><span class="p">:</span> <span class="m">100vh</span><span class="p">;</span>\n  <span class="nl">font-family</span><span class="p">:</span> <span class="nb">sans-serif</span><span class="p">;</span>\n  <span class="nl">background-color</span><span class="p">:</span> <span class="m">#E5E5E5</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="nc">.main-container</span> <span class="p">{</span>\n  <span class="nl">background</span><span class="p">:</span> <span class="no">white</span><span class="p">;</span>\n  <span class="nl">box-shadow</span><span class="p">:</span> <span class="m">0px</span> <span class="m">4px</span> <span class="m">4px</span> <span class="n">rgba</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0</span><span class="p">,</span> <span class="m">0.25</span><span class="p">);</span>\n  <span class="nl">border-radius</span><span class="p">:</span> <span class="m">20px</span><span class="p">;</span>\n  <span class="nl">width</span><span class="p">:</span> <span class="m">310px</span><span class="p">;</span>\n  <span class="nl">min-height</span><span class="p">:</span> <span class="m">310px</span><span class="p">;</span>\n  <span class="nl">margin</span><span class="p">:</span> <span class="m">30px</span> <span class="nb">auto</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="nc">.footer</span> <span class="p">{</span>\n  <span class="nl">text-align</span><span class="p">:</span> <span class="nb">center</span><span class="p">;</span>\n  <span class="nl">font-size</span><span class="p">:</span> <span class="m">18px</span><span class="p">;</span>\n<span class="p">}</span>\n<span class="nt">&lt;/style&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>and add the router and banner to <em>main.js</em>.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight jsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">createApp</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">vue</span><span class="dl">\'</span>\n<span class="k">import</span> <span class="nx">App</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">./App.vue</span><span class="dl">\'</span>\n<span class="k">import</span> <span class="nx">router</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">./router</span><span class="dl">\'</span>\n<span class="k">import</span> <span class="nx">Banner</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">./components/Banner.vue</span><span class="dl">\'</span>\n\n<span class="nx">createApp</span><span class="p">(</span><span class="nx">App</span><span class="p">)</span>\n  <span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">router</span><span class="p">)</span>\n  <span class="p">.</span><span class="nx">component</span><span class="p">(</span><span class="dl">\'</span><span class="s1">Banner</span><span class="dl">\'</span><span class="p">,</span> <span class="nx">Banner</span><span class="p">)</span>\n  <span class="p">.</span><span class="nx">mount</span><span class="p">(</span><span class="dl">\'</span><span class="s1">#app</span><span class="dl">\'</span><span class="p">)</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This means that once the components are created, the home page will be accessible at <em><a href="http://localhost:8080/">http://localhost:8080/</a></em> and the dashboard will be at <em><a href="http://localhost:8080/dashboard">http://localhost:8080/dashboard</a></em>.</p>\n\n<h2>\n  <a name="build-home-component" href="#build-home-component">\n  </a>\n  Build Home Component\n</h2>\n\n<p>Add the following code to <em>views/Home.vue</em> to create the home page.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight html"><code><span class="nt">&lt;script&gt;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">defineComponent</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">vue</span><span class="dl">\'</span>\n\n<span class="k">export</span> <span class="k">default</span> <span class="nx">defineComponent</span><span class="p">({</span>\n  <span class="na">name</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">Home</span><span class="dl">\'</span><span class="p">,</span>\n<span class="p">})</span>\n<span class="nt">&lt;/script&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="build-dashboard-component" href="#build-dashboard-component">\n  </a>\n  Build Dashboard Component\n</h2>\n\n<p>Add the following code to <em>views/Dashboard.vue</em> to create the simple dashboard page.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight html"><code><span class="nt">&lt;template&gt;</span>\n  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"dashboard"</span><span class="nt">&gt;</span>\n        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"title"</span><span class="nt">&gt;</span>Welcome!<span class="nt">&lt;/div&gt;</span>\n  <span class="nt">&lt;/div&gt;</span>\n<span class="nt">&lt;/template&gt;</span>\n\n<span class="nt">&lt;script&gt;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">defineComponent</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">vue</span><span class="dl">\'</span>\n\n<span class="k">export</span> <span class="k">default</span> <span class="nx">defineComponent</span><span class="p">({</span>\n  <span class="na">name</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">Dashboard</span><span class="dl">\'</span><span class="p">,</span>\n<span class="p">})</span>\n<span class="nt">&lt;/script&gt;</span>\n\n<span class="nt">&lt;style </span><span class="na">scoped</span><span class="nt">&gt;</span>\n<span class="nc">.dashboard</span><span class="p">{</span>\n  <span class="nl">padding</span><span class="p">:</span> <span class="m">30px</span> <span class="m">30px</span> <span class="m">20px</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="nc">.title</span> <span class="p">{</span>\n  <span class="nl">font-size</span><span class="p">:</span> <span class="m">24px</span><span class="p">;</span>\n  <span class="nl">font-weight</span><span class="p">:</span> <span class="m">700</span><span class="p">;</span>\n  <span class="nl">margin-bottom</span><span class="p">:</span> <span class="m">30px</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="nc">.message</span> <span class="p">{</span>\n  <span class="nl">overflow-wrap</span><span class="p">:</span> <span class="n">anywhere</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="nc">.link</span> <span class="p">{</span>\n  <span class="nl">color</span><span class="p">:</span> <span class="no">black</span><span class="p">;</span>\n  <span class="nl">text-decoration-color</span><span class="p">:</span> <span class="no">black</span><span class="p">;</span>\n<span class="p">}</span>\n<span class="nt">&lt;/style&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h1>\n  <a name="add-authentication-with-passage" href="#add-authentication-with-passage">\n  </a>\n  Add Authentication with Passage\n</h1>\n\n<p>Now it is time to add authentication to our application using Passage! First, install Passage from the root directory of your example app.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>npm <span class="nb">install</span> <span class="nt">--save</span> @passageidentity/passage-auth\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Then import the package in the module where you intend to use the custom element, in this case the <em>Home.vue</em> view.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight jsx"><code><span class="k">import</span> <span class="dl">\'</span><span class="s1">@passageidentity/passage-auth</span><span class="dl">\'</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Importing this script will register the Passage custom element for use in your Vue components. For more information about custom elements refer to the <a href="https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements">online documentation.</a></p>\n\n<p>Create an application in the <a href="https://console.passage.id/register">Passage Console</a> with the following settings:</p>\n\n<ul>\n<li>Authentication Origin: <code>http://localhost:8080</code>\n</li>\n<li>Redirect URL: <code>/dashboard</code>\n</li>\n</ul>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--8KUp2e0i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/m57qzetjo2xg3lknhjqf.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--8KUp2e0i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/m57qzetjo2xg3lknhjqf.png" alt="Create app page in Passage Console." loading="lazy" width="880" height="584"></a></p>\n\n<p>Once you\'ve created your application, copy your Application ID out the console and into a <em>.env</em> file in the root of your example repository.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="c1"># .env</span>\n<span class="s">VUE_APP_PASSAGE_APP_ID=</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>In the Home component, import Passage and add the custom element to the template. ‍<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight html"><code><span class="nt">&lt;template&gt;</span>\n  <span class="nt">&lt;passage-auth</span> <span class="na">:app-id=</span><span class="s">"appId"</span><span class="nt">&gt;&lt;/passage-auth&gt;</span>\n<span class="nt">&lt;/template&gt;</span>\n\n<span class="nt">&lt;script&gt;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">defineComponent</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">vue</span><span class="dl">\'</span>\n<span class="k">import</span> <span class="dl">\'</span><span class="s1">@passageidentity/passage-auth</span><span class="dl">\'</span>\n\n<span class="k">export</span> <span class="k">default</span> <span class="nx">defineComponent</span><span class="p">({</span>\n  <span class="na">name</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">Home</span><span class="dl">\'</span><span class="p">,</span>\n  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>\n    <span class="kd">const</span> <span class="nx">appId</span> <span class="o">=</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">VUE_APP_PASSAGE_APP_ID</span>\n    <span class="k">return</span> <span class="p">{</span>\n      <span class="nx">appId</span><span class="p">,</span>\n    <span class="p">}</span>\n  <span class="p">},</span>\n<span class="p">})</span>\n<span class="nt">&lt;/script&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Your application now has a full login and register experience!</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--V9JSaqGv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ubz5dk5cg30rvr4brwux.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--V9JSaqGv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ubz5dk5cg30rvr4brwux.png" alt="Sample app with Passage login." loading="lazy" width="880" height="604"></a></p>\n\n<p>You might notice a warning in the console about the custom element. Vue works with custom elements out of the box, but by default it will log a warning to the console that it could not resolve the component for the custom element. To configure Vue with information that the <code>&lt;passage-auth&gt;</code> tag is a custom element and suppress this warning, you need to add this configuration to your <em>vue.config.js</em> file. Create this file at the top-level directory of your repository.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight jsx"><code>\n<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>\n  <span class="na">publicPath</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">/</span><span class="dl">\'</span><span class="p">,</span>\n  <span class="na">chainWebpack</span><span class="p">:</span> <span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>\n    <span class="nx">config</span><span class="p">.</span><span class="nx">module</span>\n      <span class="p">.</span><span class="nx">rule</span><span class="p">(</span><span class="dl">\'</span><span class="s1">vue</span><span class="dl">\'</span><span class="p">)</span>\n      <span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="dl">\'</span><span class="s1">vue-loader</span><span class="dl">\'</span><span class="p">)</span>\n      <span class="p">.</span><span class="nx">tap</span><span class="p">((</span><span class="nx">options</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">({</span>\n        <span class="p">...</span><span class="nx">options</span><span class="p">,</span>\n        <span class="na">compilerOptions</span><span class="p">:</span> <span class="p">{</span>\n          <span class="c1">// treat any tag that starts with passage- as custom elements</span>\n          <span class="na">isCustomElement</span><span class="p">:</span> <span class="p">(</span><span class="nx">tag</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">tag</span><span class="p">.</span><span class="nx">startsWith</span><span class="p">(</span><span class="dl">\'</span><span class="s1">passage-</span><span class="dl">\'</span><span class="p">),</span>\n        <span class="p">},</span>\n      <span class="p">}))</span>\n  <span class="p">},</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Once you’ve added this, you will need to restart the server for the changes to take effect.</p>\n\n<h1>\n  <a name="verifying-user-authentication" href="#verifying-user-authentication">\n  </a>\n  Verifying User Authentication\n</h1>\n\n<p>Last but not least, the application needs to prevent unauthenticated users from accessing the dashboard page. You will set up protections that will show an error message to unauthenticated users trying to access the dashboard, but that does not prevent them from reading any data that might be on the dashboard, since it is all stored in the JavaScript files.</p>\n\n<p>For simplicity, there is not a backend server in this example. A simple authentication check using the <code>PassageUser</code> class will be implemented to protect the dashboard page from unauthorized access.</p>\n\n<p>💡 Please keep in mind that this dashboard protection will not protect sensitive API endpoints. Your server should always use one of the <a href="https://docs.passage.id/backend-libraries/overview">Passage backend libraries</a> to authorize users before returning sensitive data.</p>\n\n<p>This check is implemented by creating a composable to check the authentication status of the current user using Passage. Create a file called <em>useAuthStatus.js</em> in the <em>composables</em> directory.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">mkdir </span>composables/\n<span class="nb">touch </span>composables/useAuthStatus.js\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Copy the following code into that file. This code uses Passage to check if the current user is authenticated.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight jsx"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">ref</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">vue</span><span class="dl">\'</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">PassageUser</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">@passageidentity/passage-auth/passage-user</span><span class="dl">\'</span>\n\n<span class="k">export</span> <span class="kd">function</span> <span class="nx">useAuthStatus</span><span class="p">(){</span>\n  <span class="kd">const</span> <span class="nx">isLoading</span> <span class="o">=</span> <span class="nx">ref</span><span class="p">(</span><span class="kc">true</span><span class="p">)</span>\n  <span class="kd">const</span> <span class="nx">isAuthorized</span> <span class="o">=</span> <span class="nx">ref</span><span class="p">(</span><span class="kc">false</span><span class="p">)</span>\n  <span class="kd">const</span> <span class="nx">username</span> <span class="o">=</span> <span class="nx">ref</span><span class="p">(</span><span class="dl">\'\'</span><span class="p">)</span>\n\n  <span class="k">new</span> <span class="nx">PassageUser</span><span class="p">().</span><span class="nx">userInfo</span><span class="p">().</span><span class="nx">then</span><span class="p">(</span><span class="nx">userInfo</span> <span class="o">=&gt;</span> <span class="p">{</span>\n      <span class="k">if</span><span class="p">(</span><span class="nx">userInfo</span> <span class="o">===</span> <span class="kc">undefined</span><span class="p">){</span>\n          <span class="nx">isLoading</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="kc">false</span>\n          <span class="k">return</span>\n      <span class="p">}</span>\n      <span class="nx">username</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">userInfo</span><span class="p">.</span><span class="nx">email</span> <span class="p">?</span> <span class="nx">userInfo</span><span class="p">.</span><span class="nx">email</span> <span class="p">:</span> <span class="nx">userInfo</span><span class="p">.</span><span class="nx">phone</span>\n      <span class="nx">isAuthorized</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="kc">true</span>\n      <span class="nx">isLoading</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="kc">false</span>\n  <span class="p">})</span>\n\n  <span class="k">return</span> <span class="p">{</span>\n    <span class="nx">isLoading</span><span class="p">,</span>\n    <span class="nx">isAuthorized</span><span class="p">,</span>\n    <span class="nx">username</span><span class="p">,</span>\n  <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Next, incorporate this check into the Dashboard component, since authentication is required before showing the dashboard. The dashboard will show two different messages based on the result of the authentication check. The final <em>Dashboard.vue</em> will look like this.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight html"><code><span class="nt">&lt;template&gt;</span>\n  <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"dashboard"</span><span class="nt">&gt;</span>\n    <span class="nt">&lt;div</span> <span class="na">v-if=</span><span class="s">"isLoading"</span><span class="nt">/&gt;</span>\n      <span class="nt">&lt;div</span> <span class="na">v-else-if=</span><span class="s">"isAuthorized"</span><span class="nt">&gt;</span>\n        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"title"</span><span class="nt">&gt;</span>Welcome!<span class="nt">&lt;/div&gt;</span>\n        <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"message"</span><span class="nt">&gt;</span>\n          You successfully signed in with Passage.\n          <span class="nt">&lt;br/&gt;&lt;br/&gt;</span>\n          Your Passage User ID is: <span class="nt">&lt;b&gt;</span>{{username}}<span class="nt">&lt;/b&gt;</span>\n        <span class="nt">&lt;/div&gt;</span>\n      <span class="nt">&lt;/div&gt;</span>\n    <span class="nt">&lt;div</span> <span class="na">v-else</span><span class="nt">&gt;</span>\n      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"title"</span><span class="nt">&gt;</span>Unauthorized<span class="nt">&lt;/div&gt;</span>\n      <span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">"message"</span><span class="nt">&gt;</span>\n        You have not logged in and cannot view the dashboard.\n        <span class="nt">&lt;br/&gt;&lt;br/&gt;</span>\n        <span class="nt">&lt;a</span> <span class="na">href=</span><span class="s">"/"</span> <span class="na">class=</span><span class="s">"link"</span><span class="nt">&gt;</span>Login to continue.<span class="nt">&lt;/a&gt;</span>\n      <span class="nt">&lt;/div&gt;</span>\n    <span class="nt">&lt;/div&gt;</span>\n  <span class="nt">&lt;/div&gt;</span>\n<span class="nt">&lt;/template&gt;</span>\n\n<span class="nt">&lt;script&gt;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">defineComponent</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">vue</span><span class="dl">\'</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">useAuthStatus</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">../composables/useAuthStatus</span><span class="dl">\'</span>\n\n<span class="k">export</span> <span class="k">default</span> <span class="nx">defineComponent</span><span class="p">({</span>\n  <span class="na">name</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">Dashboard</span><span class="dl">\'</span><span class="p">,</span>\n  <span class="nx">setup</span><span class="p">()</span> <span class="p">{</span>\n    <span class="kd">const</span> <span class="p">{</span><span class="nx">isLoading</span><span class="p">,</span> <span class="nx">isAuthorized</span><span class="p">,</span> <span class="nx">username</span><span class="p">}</span> <span class="o">=</span> <span class="nx">useAuthStatus</span><span class="p">()</span>\n    <span class="k">return</span> <span class="p">{</span>\n      <span class="nx">isLoading</span><span class="p">,</span>\n      <span class="nx">isAuthorized</span><span class="p">,</span>\n      <span class="nx">username</span><span class="p">,</span>\n    <span class="p">}</span>\n  <span class="p">},</span>\n<span class="p">})</span>\n<span class="nt">&lt;/script&gt;</span>\n\n<span class="nt">&lt;style </span><span class="na">scoped</span><span class="nt">&gt;</span>\n<span class="nc">.dashboard</span><span class="p">{</span>\n  <span class="nl">padding</span><span class="p">:</span> <span class="m">30px</span> <span class="m">30px</span> <span class="m">20px</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="nc">.title</span> <span class="p">{</span>\n  <span class="nl">font-size</span><span class="p">:</span> <span class="m">24px</span><span class="p">;</span>\n  <span class="nl">font-weight</span><span class="p">:</span> <span class="m">700</span><span class="p">;</span>\n  <span class="nl">margin-bottom</span><span class="p">:</span> <span class="m">30px</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="nc">.message</span> <span class="p">{</span>\n  <span class="nl">overflow-wrap</span><span class="p">:</span> <span class="n">anywhere</span><span class="p">;</span>\n<span class="p">}</span>\n\n<span class="nc">.link</span> <span class="p">{</span>\n  <span class="nl">color</span><span class="p">:</span> <span class="no">black</span><span class="p">;</span>\n  <span class="nl">text-decoration-color</span><span class="p">:</span> <span class="no">black</span><span class="p">;</span>\n<span class="p">}</span>\n<span class="nt">&lt;/style&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Unauthenticated users who try to visit <em>/dashboard</em> will be shown an "Unauthorized" message, while authorized users will see the dashboard that includes their Passage User ID.</p>\n\n<h1>\n  <a name="conclusion" href="#conclusion">\n  </a>\n  Conclusion\n</h1>\n\n<p>Now you can try out the biometrics authentication in the application you just built! Your application should look something like this and you can see the login experience as your users would. </p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--TrnbZnPz--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/6ur7e42fcgwjqzsejibf.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--TrnbZnPz--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/6ur7e42fcgwjqzsejibf.png" alt="Example login screens for users." loading="lazy" width="880" height="495"></a></p>\n\n<p>To recap, you have just:</p>\n\n<ul>\n<li>created an application with Vue.js</li>\n<li>added biometric authentication to your app with Passage</li>\n<li>learned how to verify the authentication status of your users with Passage</li>\n</ul>\n\n<p>Keep an eye out for part 2 of this post, where we show you how to use Passage to protect your backend API endpoints in a Vue.js + Express.js web application!</p>\n\n<p>To learn more about Passage and biometric authentication for web applications, you can:</p>\n\n<ul>\n<li>Explore our <a href="https://console.passage.id/">dashboard</a> to view and create users, customize your application, and add friends</li>\n<li>Read our <a href="https://docs.passage.id/">guides</a> for other tech stacks and learn how to authorize requests in your backend server</li>\n<li>Join our <a href="https://discord.com/invite/445QpyEDXh">Discord</a> and say hi</li>\n</ul>\n\n<p>‍Passage is in beta and actively seeking feedback on the product. If you have feedback, bug reports, or feature requests, we would love to hear from you. You can email me at <a href="//mailto:anna@passage.id">anna@passage.id</a> or fill out <a href="https://airtable.com/shriJ6n4asgxuGAdU">this form</a>.</p>\n\n\n<hr>\n\n<p>This article was originally published on the <a href="https://passage.id/blog">Passage blog</a>. </p>\n\n',a.body_markdown="In this article, you will learn how to build a simple Vue 3 application and add biometric authentication using Passage.\n\nUsers will log in to your application using the biometrics built into their devices (e.g. Face ID, Windows Hello, etc) or with magic links sent to their email. This app is built such that it only allows authenticated users to view a simple dashboard and blocks unauthenticated users. This guide will walk through creating a Vue 3 app using the Vue CLI, creating basic components, and adding authentication to the application using Passage.\n\nIf you are already familiar with Vue, you can go straight to our full example application on [GitHub](https://github.com/passageidentity/example-vue) or skip to [this section](#add-authentication-with-passage) to learn how to integrate biometric authentication into an existing application.\n\n## Setup\n\nTo get started, first install the Vue CLI. The Vue CLI lets you get up and running quickly with pre-configured build settings.\n\n```bash\nnpm install -g @vue/cli\n```\n\nThen create a new application using the Vue CLI. The tool will provide you with options to manually select versions and features you want. For this tutorial, use the \"Manually select features\" option and select the \"Router\" feature. Make sure to select Vue 3. You can just hit enter through the remaining features.\n\n```bash\nvue create example-app \ncd example-app\n```\n\nYou can test your app by running the following command and then visiting *http://localhost:8080*.\n\n```bash\nnpm run serve\n```\n\nYou can leave this up and running throughout the tutorial to see your progress.\n\n## Build Components for App\n\n### Set up routes for Home and Dashboard pages\n\nOur application will have two pages, a home page with a login screen and a dashboard page that is authenticated. First, create the directory structure and routes for those pages. Create the following directories and files to set up for the router and our two main components.\n\n```bash\ncd src/\nmkdir views\ntouch views/Dashboard.vue\ntouch views/Home.vue\n```\n\nNow let's start filling out these files. Copy the following code into the *router/index.js* file to replace the default router.\n\n```jsx\nimport { createRouter, createWebHistory } from 'vue-router'\nimport Home from '../views/Home.vue'\nimport Dashboard from '../views/Dashboard.vue'\n\nconst routes = [\n  {\n    path: '/',\n    name: 'Home',\n    component: Home\n  },\n  {\n    path: '/dashboard',\n    name: 'Dashboard',\n    component: Dashboard\n  }\n]\n\nconst router = createRouter({\n  history: createWebHistory(),\n  mode: 'history',\n  routes\n})\n\nexport default router\n```\n\n## Create a Banner component\n\nCreate a banner component that will be used on both the home and dashboard pages. Copy the following code to *components/Banner.vue*.\n\n```html\n<template>\n  <div class=\"mainHeader\">\n    <a href=\"https://passage.id/\"><div class=\"passageLogo\"></div></a>\n    <div class=\"header-text\">Passage + Vue.js 3 Example App</div>\n    <div class=\"spacer\"></div>\n    <a class=\"link\" href=\"https://passage.id/\">Go to Passage</a>\n  </div>\n</template>\n<script>\nimport { defineComponent } from 'vue'\n\nexport default defineComponent({\n  name: 'Banner',\n})\n<\/script>\n<style scoped>\n.mainHeader{\n  width: 100%;\n  padding: 20px 30px;\n  display: flex;\n  align-items: center;\n  background-color: #27417E;\n  color: white;\n}\n\n.header-text {\n  font-size: 24px;\n  margin-left: 10px;\n}\n  \n.passageLogo {\n  background-image: url('https://storage.googleapis.com/passage-docs/passage-logo.svg');\n  background-repeat: no-repeat;\n  width: 60px;\n  height: 60px;\n  cursor: pointer;\n}\n\n.spacer {\n  flex-grow: 1;\n}\n  \n.link {\n  margin-left: 20px;\n  color: white;\n  text-decoration-color: white;\n}\n</style>\n```\n\nReplace the template and script tags in *App.vue* to use the router and add some simple styling.\n\n```html\n<template>\n<div>\n  <Banner />\n  <div class=\"main-container\">\n    <router-view/>\n  </div>\n  <div className=\"footer\">\n    Learn more with our \n    <a href=\"https://docs.passage.id\">Documentation</a> and\n    <a href=\"https://github.com/passageidentity\">Github</a>.\n    <br>       \n  </div>\n</div>\n</template>\n<style>\nbody {\n  margin: 0px;\n  height: 100vh;\n  font-family: sans-serif;\n  background-color: #E5E5E5;\n}\n\n.main-container {\n  background: white;\n  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);\n  border-radius: 20px;\n  width: 310px;\n  min-height: 310px;\n  margin: 30px auto;\n}\n\n.footer {\n  text-align: center;\n  font-size: 18px;\n}\n</style>\n```\n\nand add the router and banner to *main.js*.\n\n```jsx\nimport { createApp } from 'vue'\nimport App from './App.vue'\nimport router from './router'\nimport Banner from './components/Banner.vue'\n\ncreateApp(App)\n  .use(router)\n  .component('Banner', Banner)\n  .mount('#app')\n```\n\nThis means that once the components are created, the home page will be accessible at *http://localhost:8080/* and the dashboard will be at *http://localhost:8080/dashboard*.\n\n## Build Home Component\n\nAdd the following code to *views/Home.vue* to create the home page.\n\n```html\n<script>\nimport { defineComponent } from 'vue'\n\nexport default defineComponent({\n  name: 'Home',\n})\n<\/script>\n```\n\n## Build Dashboard Component\n\nAdd the following code to *views/Dashboard.vue* to create the simple dashboard page.\n\n```html\n<template>\n  <div class=\"dashboard\">\n        <div class=\"title\">Welcome!</div>\n  </div>\n</template>\n\n<script>\nimport { defineComponent } from 'vue'\n\nexport default defineComponent({\n  name: 'Dashboard',\n})\n<\/script>\n\n<style scoped>\n.dashboard{\n  padding: 30px 30px 20px;\n}\n\n.title {\n  font-size: 24px;\n  font-weight: 700;\n  margin-bottom: 30px;\n}\n\n.message {\n  overflow-wrap: anywhere;\n}\n\n.link {\n  color: black;\n  text-decoration-color: black;\n}\n</style>\n```\n\n# Add Authentication with Passage\n\nNow it is time to add authentication to our application using Passage! First, install Passage from the root directory of your example app.\n\n```bash\nnpm install --save @passageidentity/passage-auth\n```\n\nThen import the package in the module where you intend to use the custom element, in this case the *Home.vue* view.\n\n```jsx\nimport '@passageidentity/passage-auth'\n```\n\nImporting this script will register the Passage custom element for use in your Vue components. For more information about custom elements refer to the [online documentation.](https://developer.mozilla.org/en-US/docs/Web/Web_Components/Using_custom_elements)\n\nCreate an application in the [Passage Console](https://console.passage.id/register) with the following settings:\n\n- Authentication Origin: `http://localhost:8080`\n- Redirect URL: `/dashboard`\n\n\n![Create app page in Passage Console.](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/m57qzetjo2xg3lknhjqf.png)\n\nOnce you've created your application, copy your Application ID out the console and into a *.env* file in the root of your example repository.\n\n```yaml\n# .env\nVUE_APP_PASSAGE_APP_ID=\n```\n\nIn the Home component, import Passage and add the custom element to the template. ‍\n\n```html\n<template>\n  <passage-auth :app-id=\"appId\"></passage-auth>\n</template>\n\n<script>\nimport { defineComponent } from 'vue'\nimport '@passageidentity/passage-auth'\n\nexport default defineComponent({\n  name: 'Home',\n  setup() {\n    const appId = process.env.VUE_APP_PASSAGE_APP_ID\n    return {\n      appId,\n    }\n  },\n})\n<\/script>\n```\n\nYour application now has a full login and register experience!\n\n\n![Sample app with Passage login.](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ubz5dk5cg30rvr4brwux.png)\n\n\nYou might notice a warning in the console about the custom element. Vue works with custom elements out of the box, but by default it will log a warning to the console that it could not resolve the component for the custom element. To configure Vue with information that the `<passage-auth>` tag is a custom element and suppress this warning, you need to add this configuration to your *vue.config.js* file. Create this file at the top-level directory of your repository. \n\n```jsx\n\nmodule.exports = {\n  publicPath: '/',\n  chainWebpack: (config) => {\n    config.module\n      .rule('vue')\n      .use('vue-loader')\n      .tap((options) => ({\n        ...options,\n        compilerOptions: {\n          // treat any tag that starts with passage- as custom elements\n          isCustomElement: (tag) => tag.startsWith('passage-'),\n        },\n      }))\n  },\n}\n```\n\nOnce you’ve added this, you will need to restart the server for the changes to take effect.\n\n# Verifying User Authentication\n\nLast but not least, the application needs to prevent unauthenticated users from accessing the dashboard page. You will set up protections that will show an error message to unauthenticated users trying to access the dashboard, but that does not prevent them from reading any data that might be on the dashboard, since it is all stored in the JavaScript files.\n\nFor simplicity, there is not a backend server in this example. A simple authentication check using the `PassageUser` class will be implemented to protect the dashboard page from unauthorized access.\n\n<aside>\n💡 Please keep in mind that this dashboard protection will not protect sensitive API endpoints. Your server should always use one of the [Passage backend libraries](https://docs.passage.id/backend-libraries/overview) to authorize users before returning sensitive data.\n\n</aside>\n\nThis check is implemented by creating a composable to check the authentication status of the current user using Passage. Create a file called *useAuthStatus.js* in the *composables* directory.\n\n```bash\nmkdir composables/\ntouch composables/useAuthStatus.js\n```\n\nCopy the following code into that file. This code uses Passage to check if the current user is authenticated.\n\n```jsx\nimport { ref } from 'vue'\nimport { PassageUser } from '@passageidentity/passage-auth/passage-user'\n\nexport function useAuthStatus(){\n  const isLoading = ref(true)\n  const isAuthorized = ref(false)\n  const username = ref('')\n\n  new PassageUser().userInfo().then(userInfo => {\n      if(userInfo === undefined){\n          isLoading.value = false\n          return\n      }\n      username.value = userInfo.email ? userInfo.email : userInfo.phone\n      isAuthorized.value = true\n      isLoading.value = false\n  })\n\n  return {\n    isLoading,\n    isAuthorized,\n    username,\n  }\n}\n```\n\nNext, incorporate this check into the Dashboard component, since authentication is required before showing the dashboard. The dashboard will show two different messages based on the result of the authentication check. The final *Dashboard.vue* will look like this.\n\n```html\n<template>\n  <div class=\"dashboard\">\n    <div v-if=\"isLoading\"/>\n      <div v-else-if=\"isAuthorized\">\n        <div class=\"title\">Welcome!</div>\n        <div class=\"message\">\n          You successfully signed in with Passage.\n          <br/><br/>\n          Your Passage User ID is: <b>{{username}}</b>\n        </div>\n      </div>\n    <div v-else>\n      <div class=\"title\">Unauthorized</div>\n      <div class=\"message\">\n        You have not logged in and cannot view the dashboard.\n        <br/><br/>\n        <a href=\"/\" class=\"link\">Login to continue.</a>\n      </div>\n    </div>\n  </div>\n</template>\n\n<script>\nimport { defineComponent } from 'vue'\nimport { useAuthStatus } from '../composables/useAuthStatus'\n\nexport default defineComponent({\n  name: 'Dashboard',\n  setup() {\n    const {isLoading, isAuthorized, username} = useAuthStatus()\n    return {\n      isLoading,\n      isAuthorized,\n      username,\n    }\n  },\n})\n<\/script>\n\n<style scoped>\n.dashboard{\n  padding: 30px 30px 20px;\n}\n\n.title {\n  font-size: 24px;\n  font-weight: 700;\n  margin-bottom: 30px;\n}\n\n.message {\n  overflow-wrap: anywhere;\n}\n\n.link {\n  color: black;\n  text-decoration-color: black;\n}\n</style>\n```\n\nUnauthenticated users who try to visit */dashboard* will be shown an \"Unauthorized\" message, while authorized users will see the dashboard that includes their Passage User ID.\n\n# Conclusion\n\nNow you can try out the biometrics authentication in the application you just built! Your application should look something like this and you can see the login experience as your users would. \n\n![Example login screens for users.](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/6ur7e42fcgwjqzsejibf.png)\n\nTo recap, you have just:\n\n- created an application with Vue.js\n- added biometric authentication to your app with Passage\n- learned how to verify the authentication status of your users with Passage\n\nKeep an eye out for part 2 of this post, where we show you how to use Passage to protect your backend API endpoints in a Vue.js + Express.js web application!\n\nTo learn more about Passage and biometric authentication for web applications, you can:\n\n- Explore our [dashboard](https://console.passage.id/) to view and create users, customize your application, and add friends\n- Read our [guides](https://docs.passage.id/) for other tech stacks and learn how to authorize requests in your backend server\n- Join our [Discord](https://discord.com/invite/445QpyEDXh) and say hi\n\n‍Passage is in beta and actively seeking feedback on the product. If you have feedback, bug reports, or feature requests, we would love to hear from you. You can email me at [anna@passage.id](mailto:anna@passage.id) or fill out [this form](https://airtable.com/shriJ6n4asgxuGAdU).\n\n---\n\nThis article was originally published on the [Passage blog](https://passage.id/blog). \n",a.user={name:"Anna Pobletts",username:e,twitter_username:s,github_username:e,website_url:s,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--fqYJVIY7--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/811003/6c0fe7af-869f-42d9-9cc4-8c23162d7d7b.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--i-jJePBE--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/811003/6c0fe7af-869f-42d9-9cc4-8c23162d7d7b.png"},a.organization={name:"Passage",username:t,slug:t,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--2lrwm6M0--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/5298/2766d1bc-599c-4dad-a489-fd8c6749f934.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--MWDrp1fu--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/5298/2766d1bc-599c-4dad-a489-fd8c6749f934.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:a}},error:s,state:{currentArticle:a},serverRendered:!0,routePath:"/apobletts/982747",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:s}}}}(null,"2022-02-08T17:46:23Z",{},"https://dev.to/passage/building-a-vuejs-app-with-biometric-authentication-5a5f","apobletts","passage")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

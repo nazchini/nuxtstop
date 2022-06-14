@@ -1,0 +1,449 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Getting Started with Streaming on Twitch</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Getting Started with Streaming on Twitch</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/twitch" class="tag" data-v-70afb46a>
+          #twitch
+        </a><a href="/nuxtstop/t/beginners" class="tag" data-v-70afb46a>
+          #beginners
+        </a><a href="/nuxtstop/t/streaming" class="tag" data-v-70afb46a>
+          #streaming
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--xrj9uU0f--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/fm42fqy3ziu3r1zyahel.png" alt="Getting Started with Streaming on Twitch" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            53
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            5
+          </span></div> <time data-v-70afb46a>Jul 28 '21</time></div></header> <div class="content" data-v-70afb46a><p>Last Friday, I gave a brownbag talk for my Virtual Coffee community on getting started with streaming on Twitch.</p>
+
+
+<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/nickytonline/status/1418581450023182341">
+      <div class="ltag__twitter-tweet__media">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--M36Cn5YA--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/media/E6_QR6qWQAAhGMR.jpg" alt="unknown tweet media content" loading="lazy">
+      </div>
+
+  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/nickytonline/status/1418581450023182341">
+    <div class="ltag__twitter-tweet__header">
+      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--P11PQVAz--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/1152392593042485249/M7M0YZ4j_normal.jpg" alt="Nick Taylor (he/him) profile image" loading="lazy">
+      <div class="ltag__twitter-tweet__full-name">
+        Nick Taylor (he/him)
+      </div>
+      <div class="ltag__twitter-tweet__username">
+        <a class="mentioned-user" href="https://dev.to/nickytonline">@nickytonline</a>
+      </div>
+      <div class="ltag__twitter-tweet__twitter-logo">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">
+      </div>
+    </div>
+    <div class="ltag__twitter-tweet__body">
+      Excited to do my <a href="https://twitter.com/VirtualCoffeeIO">@VirtualCoffeeIO</a> brown bag on "Getting Started with Streaming on Twitch" today. If you're a community member, you can still join! We're going live at 4pm UTC (noon Eastern). 
+    </div>
+    <div class="ltag__twitter-tweet__date">
+      14:39 PM - 23 Jul 2021
+    </div>
+
+
+    <div class="ltag__twitter-tweet__actions">
+      <a href="https://twitter.com/intent/tweet?in_reply_to=1418581450023182341" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/retweet?tweet_id=1418581450023182341" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/like?tweet_id=1418581450023182341" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">
+      </a>
+    </div>
+  </div>
+</blockquote>
+
+
+<p>The video isn't up on YouTube yet, but you can grab the slide deck at <a href="//iamdeveloper.com/stream2021">iamdeveloper.com/stream2021</a>.</p>
+
+<p>This is a work in progress post. I'm just putting out what I had in my slide deck here, but in a more readable format than the bullet points in the slide deck. Feedback is welcome. </p>
+
+<h2>
+  <a name="open-broadcaster-software-obs" href="#open-broadcaster-software-obs">
+  </a>
+  Open Broadcaster Software (OBS)
+</h2>
+
+<p>The first thing to do is install <a href="https://obsproject.com">OBS</a>. It is the standard when it comes to streaming. There are tools built on top of it, but typically I recommend using bare-bones OBS or <a href="https://streamlabs.com">Streamlabs OBS</a> (SLOBS) which is OBS with some plugins from Streamlabs.</p>
+
+<p>The main reason to use OBS or SLOBS is more flexibility when streaming, and as far as I know, OBS is the only one that allows you to stream closed captioning.</p>
+
+<p>For the remainder of the post, I will refer to just OBS instead of OBS/SLOBS.</p>
+
+<p>I won't do a deep dive into all the things you can do with OBS, but know that you can <a href="https://ryanharris.dev/2019-12-11-obs-scenes/">create scenes with many sources</a>. A scene can be for example a starting soon page, and when you're ready to start talking you transition to another scene, perhaps called chatting or coding view.</p>
+
+<p>There are many sources you can add to a scene:</p>
+
+<ul>
+<li>images</li>
+<li>browser sources, e.g. a web page used for an overlay in your stream</li>
+<li>display capture, e.g. an external monitor</li>
+<li>video capture device, e.g. a webcam</li>
+<li>etc.</li>
+</ul>
+
+<h2>
+  <a name="streaming-checklist" href="#streaming-checklist">
+  </a>
+  Streaming Checklist
+</h2>
+
+<p>It's important to go over your setup before going live on a stream. You want to make sure audio is good, video etc. Here is a sample checklist that I created for the purpose of this post. It's a reduced version of my own checklist.</p>
+
+<ul>
+<li>Turn off notifications for any software on laptop</li>
+<li>Ensure closed captioning is working with OBS</li>
+<li>Check audio is not muted and is working for you and your guests</li>
+<li>Have Twitch chat open in a browser or the entire stream (make sure stream is muted!)</li>
+<li>Ensure you’re on the right scene to start</li>
+</ul>
+
+<h2>
+  <a name="going-live" href="#going-live">
+  </a>
+  Going Live
+</h2>
+
+<p>Here's some typical steps to take when going live on a stream.</p>
+
+<ul>
+<li>Go over checklist</li>
+<li>Tweet out that you are going live on your stream with a link to your stream. SLOBS has this built-in</li>
+<li>Start Stream</li>
+<li>Check the stream to make sure you’re streaming</li>
+<li>You should be good to go at this point</li>
+</ul>
+
+<h2>
+  <a name="streaming-tips" href="#streaming-tips">
+  </a>
+  Streaming Tips
+</h2>
+
+<p>Here are some streaming tips that I've found useful</p>
+
+<ul>
+<li>Interact with the Twitch chat</li>
+<li>It’s not going to be perfect, that’s OK</li>
+<li>Have fun, really!</li>
+<li>If you’re live coding, talk through what you’re doing</li>
+<li>Tweet midway through your stream that you’re still streaming about topic X or live coding</li>
+</ul>
+
+
+<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/nickytonline/status/1405219963045036033">
+
+  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/nickytonline/status/1405219963045036033">
+    <div class="ltag__twitter-tweet__header">
+      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--P11PQVAz--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/1152392593042485249/M7M0YZ4j_normal.jpg" alt="Nick Taylor (he/him) profile image" loading="lazy">
+      <div class="ltag__twitter-tweet__full-name">
+        Nick Taylor (he/him)
+      </div>
+      <div class="ltag__twitter-tweet__username">
+        <a class="mentioned-user" href="https://dev.to/nickytonline">@nickytonline</a>
+      </div>
+      <div class="ltag__twitter-tweet__twitter-logo">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">
+      </div>
+    </div>
+    <div class="ltag__twitter-tweet__body">
+      Come by and say hi! We're hanging with <a href="https://twitter.com/cassidoo">@cassidoo</a> on the  <a href="https://twitter.com/ThePracticalDev">@ThePracticalDev</a> Twitch stream currently chatting about mechanical keyboards!<br><a href="https://t.co/z8E6kmqLsA">twitch.tv/thepracticaldev</a> <a href="https://twitter.com/hashtag/DEVCommunity">#DEVCommunity</a>
+    </div>
+    <div class="ltag__twitter-tweet__date">
+      17:45 PM - 16 Jun 2021
+    </div>
+
+
+    <div class="ltag__twitter-tweet__actions">
+      <a href="https://twitter.com/intent/tweet?in_reply_to=1405219963045036033" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/retweet?tweet_id=1405219963045036033" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/like?tweet_id=1405219963045036033" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">
+      </a>
+    </div>
+  </div>
+</blockquote>
+
+
+<ul>
+<li>Post your streams to Polywork, LinkedIn and Twitter. Here are some examples at <a href="https://timeline.iamdeveloper.com/nickytonline/highlights/cdfcb228-92a7-4678-86f0-6de6f0a432fe">timeline.iamdeveloper.com</a>, <a href="https://www.linkedin.com/in/nickytonline/detail/featured-list/urn:li:fsd_profile:ACoAAABbWMMBK1FLcaTloEjdod1_1cHxB9hL1xU/">my LinkedIn</a>, and Twitter</li>
+</ul>
+
+
+<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/coffeecraftcode/status/1384980393770815488">
+
+  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/coffeecraftcode/status/1384980393770815488">
+    <div class="ltag__twitter-tweet__header">
+      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--frU53Xd8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/1400933107952500740/tVZPJ-hU_normal.jpg" alt="Christina Gorton profile image" loading="lazy">
+      <div class="ltag__twitter-tweet__full-name">
+        Christina Gorton
+      </div>
+      <div class="ltag__twitter-tweet__username">
+        <a class="mentioned-user" href="https://dev.to/coffeecraftcode">@coffeecraftcode</a>
+      </div>
+      <div class="ltag__twitter-tweet__twitter-logo">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">
+      </div>
+    </div>
+    <div class="ltag__twitter-tweet__body">
+      If you missed the Twitch stream with <a href="https://twitter.com/jlengstorf">@jlengstorf</a>, check it out on <a href="https://twitter.com/ThePracticalDev">@ThePracticalDev</a> Youtube.<br>We talked Jamstack, serverless, and <a href="https://twitter.com/nickytonline">@nickytonline</a> and Jason used serverless functions on Netlify to quickly set up an API to grab DEV posts with the DEV API. 🥳<br><a href="https://t.co/pMnlitQt7N">youtu.be/dXr0iJE10tQ</a>
+    </div>
+    <div class="ltag__twitter-tweet__date">
+      21:20 PM - 21 Apr 2021
+    </div>
+
+
+    <div class="ltag__twitter-tweet__actions">
+      <a href="https://twitter.com/intent/tweet?in_reply_to=1384980393770815488" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/retweet?tweet_id=1384980393770815488" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/like?tweet_id=1384980393770815488" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">
+      </a>
+    </div>
+  </div>
+</blockquote>
+
+
+<ul>
+<li>Have a consistent schedule</li>
+<li>Don’t worry  if no one or few people are watching your stream when you get started out</li>
+<li>Zoom in your editor and browser to help folks see things better</li>
+<li>If you use <a href="https://code.visualstudio.com">Visual Studio Code</a>, <a class="mentioned-user" href="https://dev.to/john_papa">@john_papa</a> created an amazing extension for hiding environment files called <a href="https://marketplace.visualstudio.com/items?itemName=johnpapa.vscode-cloak">Cloak</a>
+</li>
+</ul>
+
+
+<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/nickytonline/status/1421683536952709120">
+
+  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/nickytonline/status/1421683536952709120">
+    <div class="ltag__twitter-tweet__header">
+      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--P11PQVAz--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/1152392593042485249/M7M0YZ4j_normal.jpg" alt="Nick Taylor (he/him) profile image" loading="lazy">
+      <div class="ltag__twitter-tweet__full-name">
+        Nick Taylor (he/him)
+      </div>
+      <div class="ltag__twitter-tweet__username">
+        <a class="mentioned-user" href="https://dev.to/nickytonline">@nickytonline</a>
+      </div>
+      <div class="ltag__twitter-tweet__twitter-logo">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">
+      </div>
+    </div>
+    <div class="ltag__twitter-tweet__body">
+      <a href="https://twitter.com/ThatJenPerson">@ThatJenPerson</a> It's only for environment files, but I use <a href="https://twitter.com/John_Papa">@John_Papa</a>'s Cloak extension, <a href="https://t.co/4JAGgb937j">marketplace.visualstudio.com/items?itemName…</a>
+    </div>
+    <div class="ltag__twitter-tweet__date">
+      04:05 AM - 01 Aug 2021
+    </div>
+
+
+    <div class="ltag__twitter-tweet__actions">
+      <a href="https://twitter.com/intent/tweet?in_reply_to=1421683536952709120" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/retweet?tweet_id=1421683536952709120" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/like?tweet_id=1421683536952709120" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">
+      </a>
+    </div>
+  </div>
+</blockquote>
+
+
+<ul>
+<li>If you plan on uploading your streams to YouTube or want to create clips later, ensure that you have Store past broadcasts on in your <a href="https://dashboard.twitch.tv/u/nickytonline/settings/stream">stream settings</a>
+</li>
+</ul>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--bdBqaNDe--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qxhxkf7zpa0cvxuyup2c.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--bdBqaNDe--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qxhxkf7zpa0cvxuyup2c.png" alt="Store past broadcast setting in Twitch stream VOD settings" loading="lazy" width="880" height="224"></a> </p>
+
+<h2>
+  <a name="having-guests-on-your-stream" href="#having-guests-on-your-stream">
+  </a>
+  Having Guests on Your Stream
+</h2>
+
+<p>There is no native way for guests to join a stream in OBS, so a third party application is required. These are the common ones that are out there:</p>
+
+<ul>
+<li><a href="https://zoom.us">Zoom</a></li>
+<li><a href="https://discord.com">Discord</a></li>
+<li>
+<a href="https://vdo.ninja/">VDO.Ninja</a> (previously called OBS.Ninja)</li>
+</ul>
+
+<h3>
+  <a name="for-discussions" href="#for-discussions">
+  </a>
+  For Discussions
+</h3>
+
+<p>You should have one or more topics to discuss, but they do not need to be scripted. It should feel natural. I also tend to go on tangents sometimes. Maybe this is good, maybe it's bad. 🙃</p>
+
+<h2>
+  <a name="extras" href="#extras">
+  </a>
+  Extras
+</h2>
+
+<p>Here's some not necessarily crucial stuff for your stream, but some nice additions to spice up your stream.</p>
+
+<p><a href="https://i.giphy.com/media/l0JMiAGCP9IdtdVwk/giphy.gif" class="article-body-image-wrapper"><img src="https://i.giphy.com/media/l0JMiAGCP9IdtdVwk/giphy.gif" alt="David Rose from Schitt's Creek saying he hasn't bedazzled anything since he was 22" loading="lazy" width="480" height="301" data-animated="true"></a></p>
+
+<ul>
+<li>Add interactivity to your stream. A browser source in a scene that loads a page using <a href="https://github.com/instafluff/ComfyJS">ComfyJS</a> is a great for this.</li>
+<li>Automate things as much as possible
+
+<ul>
+<li>Scheduled tweet that you’re going live</li>
+<li>Use a stream deck if it’s in your budget. I bought one about a year into streaming.</li>
+</ul>
+
+
+</li>
+<li>Use service like StreamLabs or <a href="https://streamelements.com/">StreamElements</a> for moderation bots, interactivity, like when someone follows your stream.</li>
+</ul>
+
+<h2>
+  <a name="additional-software" href="#additional-software">
+  </a>
+  Additional software
+</h2>
+
+<p>Below is a list of additional software that can help you out during a stream or post-stream.</p>
+
+<ul>
+<li>
+<a href="https://rogueamoeba.com/loopback/">Loopback</a>, for merging audio or creating other virtual audio devices</li>
+<li>
+<a href="https://www.descript.com">descript</a>, for subtitles, removing filler words, and video editing if you plan on publishing your streams to YouTube</li>
+<li>
+<a href="https://krisp.ai/">krisp</a>, noise-cancelling software</li>
+</ul>
+
+<h2>
+  <a name="hardware" href="#hardware">
+  </a>
+  Hardware
+</h2>
+
+<p>Although not required when starting out with streaming, these are things you can add to your stream over time.</p>
+
+<ul>
+<li>Light ring</li>
+<li>An external microphone</li>
+<li>Better Web Cam or Camera</li>
+<li>Streaming Deck</li>
+</ul>
+
+
+<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/ania_kubow/status/1420685669479985152">
+      <div class="ltag__twitter-tweet__media">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--YOyeofLy--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/media/E7dJvHnXEAE6z6h.jpg" alt="unknown tweet media content" loading="lazy">
+      </div>
+
+  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/ania_kubow/status/1420685669479985152">
+    <div class="ltag__twitter-tweet__header">
+      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--9G876v6_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/1340988467417927682/ifHWLY9C_normal.png" alt="Ania Kubów #JavaScriptGames profile image" loading="lazy">
+      <div class="ltag__twitter-tweet__full-name">
+        Ania Kubów #JavaScriptGames
+      </div>
+      <div class="ltag__twitter-tweet__username">
+        <a class="mentioned-user" href="https://dev.to/ania_kubow">@ania_kubow</a>
+      </div>
+      <div class="ltag__twitter-tweet__twitter-logo">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">
+      </div>
+    </div>
+    <div class="ltag__twitter-tweet__body">
+      If your worries about equipment are preventing you from starting a YouTube channel, I started mine in Jan 2020 using my phone and the sun as lighting!! Don't let equipment stop you from creating. Get the fancy stuff later! 🥰 <a href="https://twitter.com/hashtag/youtuber">#youtuber</a> <a href="https://twitter.com/hashtag/devcommunity">#devcommunity</a> <a href="https://twitter.com/hashtag/Growth">#Growth</a> 
+    </div>
+    <div class="ltag__twitter-tweet__date">
+      10:00 AM - 29 Jul 2021
+    </div>
+
+
+    <div class="ltag__twitter-tweet__actions">
+      <a href="https://twitter.com/intent/tweet?in_reply_to=1420685669479985152" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/retweet?tweet_id=1420685669479985152" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/like?tweet_id=1420685669479985152" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">
+      </a>
+    </div>
+  </div>
+</blockquote>
+
+
+<h2>
+  <a name="additional-resources" href="#additional-resources">
+  </a>
+  Additional Resources
+</h2>
+
+<ul>
+<li>
+<a href="https://webcaptioner.com/">Web Captioner</a>
+
+<ul>
+<li><a href="https://webcaptioner.com/help/integrations/obs">Add live captions in OBS Studio</a></li>
+</ul>
+
+
+</li>
+<li>
+<a href="https://www.youtube.com/c/SteveSeguin82">Steve Seguin’s YouTube channel</a> (creator of VDO.ninja)</li>
+<li>
+<a href="https://dev.to/chaelcodes/the-invisible-zoom-streaming-method-37ii">The Invisible Zoom Streaming method</a> by <a href="https://twitter.com/ChaelCodes">Rachael Wright-Munn</a>
+</li>
+<li>Pair Programming with Jhey (shows how to use ComfyJS)</li>
+</ul>
+
+<p><iframe width="710" height="399" src="https://www.youtube.com/embed/DDJB8KSh-Sw" allowfullscreen loading="lazy">
+</iframe>
+</p>
+
+<ul>
+<li>
+<a href="https://livecoding.ca">livecoding.ca</a>’s <a href="https://github.com/nickytonline/dotca-bot">interactions using ComfyJS</a>
+</li>
+<li>
+<a href="https://iamdeveloper.com/uses">My Uses Page</a> (software and hardware I use)</li>
+</ul>
+
+<p>And last but not least, some shameless plugs!</p>
+
+<ul>
+<li><a href="https://www.twitch.tv/thepracticaldev">DEV Twitch Stream</a></li>
+<li><a href="https://www.youtube.com/ThePracticalDevTeam">DEV's YouTube</a></li>
+<li><a href="https://livecoding.ca">My Stream</a></li>
+<li><a href="https://youtube.iamdeveloper.com">My YouTube</a></li>
+</ul>
+
+<p>Until next time folks!</p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/nickytonline/getting-started-with-streaming-on-twitch-4im7" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(t,e,a,i){return a.type_of="article",a.id=773702,a.title="Getting Started with Streaming on Twitch",a.description="Last Friday, I gave a brownbag talk for my Virtual Coffee community on getting started with streaming...",a.readable_publish_date="Jul 28 '21",a.slug="getting-started-with-streaming-on-twitch-4im7",a.path="/nickytonline/getting-started-with-streaming-on-twitch-4im7",a.url="https://dev.to/nickytonline/getting-started-with-streaming-on-twitch-4im7",a.comments_count=5,a.public_reactions_count=53,a.collection_id=12666,a.published_timestamp=i,a.positive_reactions_count=53,a.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--xrj9uU0f--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/fm42fqy3ziu3r1zyahel.png",a.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--TL9rnaQO--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/fm42fqy3ziu3r1zyahel.png",a.canonical_url="https://www.iamdeveloper.com/posts/getting-started-with-streaming-on-twitch-4im7/",a.created_at="2021-07-28T02:51:21Z",a.edited_at="2022-04-03T20:40:26Z",a.crossposted_at=t,a.published_at=i,a.last_comment_at="2022-01-28T12:31:13Z",a.reading_time_minutes=5,a.tag_list="twitch, beginners, streaming",a.tags=["twitch","beginners","streaming"],a.body_html='<p>Last Friday, I gave a brownbag talk for my Virtual Coffee community on getting started with streaming on Twitch.</p>\n\n\n<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/nickytonline/status/1418581450023182341">\n      <div class="ltag__twitter-tweet__media">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--M36Cn5YA--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/media/E6_QR6qWQAAhGMR.jpg" alt="unknown tweet media content" loading="lazy">\n      </div>\n\n  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/nickytonline/status/1418581450023182341">\n    <div class="ltag__twitter-tweet__header">\n      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--P11PQVAz--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/1152392593042485249/M7M0YZ4j_normal.jpg" alt="Nick Taylor (he/him) profile image" loading="lazy">\n      <div class="ltag__twitter-tweet__full-name">\n        Nick Taylor (he/him)\n      </div>\n      <div class="ltag__twitter-tweet__username">\n        <a class="mentioned-user" href="https://dev.to/nickytonline">@nickytonline</a>\n      </div>\n      <div class="ltag__twitter-tweet__twitter-logo">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">\n      </div>\n    </div>\n    <div class="ltag__twitter-tweet__body">\n      Excited to do my <a href="https://twitter.com/VirtualCoffeeIO">@VirtualCoffeeIO</a> brown bag on "Getting Started with Streaming on Twitch" today. If you\'re a community member, you can still join! We\'re going live at 4pm UTC (noon Eastern). \n    </div>\n    <div class="ltag__twitter-tweet__date">\n      14:39 PM - 23 Jul 2021\n    </div>\n\n\n    <div class="ltag__twitter-tweet__actions">\n      <a href="https://twitter.com/intent/tweet?in_reply_to=1418581450023182341" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/retweet?tweet_id=1418581450023182341" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/like?tweet_id=1418581450023182341" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">\n      </a>\n    </div>\n  </div>\n</blockquote>\n\n\n<p>The video isn\'t up on YouTube yet, but you can grab the slide deck at <a href="//iamdeveloper.com/stream2021">iamdeveloper.com/stream2021</a>.</p>\n\n<p>This is a work in progress post. I\'m just putting out what I had in my slide deck here, but in a more readable format than the bullet points in the slide deck. Feedback is welcome. </p>\n\n<h2>\n  <a name="open-broadcaster-software-obs" href="#open-broadcaster-software-obs">\n  </a>\n  Open Broadcaster Software (OBS)\n</h2>\n\n<p>The first thing to do is install <a href="https://obsproject.com">OBS</a>. It is the standard when it comes to streaming. There are tools built on top of it, but typically I recommend using bare-bones OBS or <a href="https://streamlabs.com">Streamlabs OBS</a> (SLOBS) which is OBS with some plugins from Streamlabs.</p>\n\n<p>The main reason to use OBS or SLOBS is more flexibility when streaming, and as far as I know, OBS is the only one that allows you to stream closed captioning.</p>\n\n<p>For the remainder of the post, I will refer to just OBS instead of OBS/SLOBS.</p>\n\n<p>I won\'t do a deep dive into all the things you can do with OBS, but know that you can <a href="https://ryanharris.dev/2019-12-11-obs-scenes/">create scenes with many sources</a>. A scene can be for example a starting soon page, and when you\'re ready to start talking you transition to another scene, perhaps called chatting or coding view.</p>\n\n<p>There are many sources you can add to a scene:</p>\n\n<ul>\n<li>images</li>\n<li>browser sources, e.g. a web page used for an overlay in your stream</li>\n<li>display capture, e.g. an external monitor</li>\n<li>video capture device, e.g. a webcam</li>\n<li>etc.</li>\n</ul>\n\n<h2>\n  <a name="streaming-checklist" href="#streaming-checklist">\n  </a>\n  Streaming Checklist\n</h2>\n\n<p>It\'s important to go over your setup before going live on a stream. You want to make sure audio is good, video etc. Here is a sample checklist that I created for the purpose of this post. It\'s a reduced version of my own checklist.</p>\n\n<ul>\n<li>Turn off notifications for any software on laptop</li>\n<li>Ensure closed captioning is working with OBS</li>\n<li>Check audio is not muted and is working for you and your guests</li>\n<li>Have Twitch chat open in a browser or the entire stream (make sure stream is muted!)</li>\n<li>Ensure you’re on the right scene to start</li>\n</ul>\n\n<h2>\n  <a name="going-live" href="#going-live">\n  </a>\n  Going Live\n</h2>\n\n<p>Here\'s some typical steps to take when going live on a stream.</p>\n\n<ul>\n<li>Go over checklist</li>\n<li>Tweet out that you are going live on your stream with a link to your stream. SLOBS has this built-in</li>\n<li>Start Stream</li>\n<li>Check the stream to make sure you’re streaming</li>\n<li>You should be good to go at this point</li>\n</ul>\n\n<h2>\n  <a name="streaming-tips" href="#streaming-tips">\n  </a>\n  Streaming Tips\n</h2>\n\n<p>Here are some streaming tips that I\'ve found useful</p>\n\n<ul>\n<li>Interact with the Twitch chat</li>\n<li>It’s not going to be perfect, that’s OK</li>\n<li>Have fun, really!</li>\n<li>If you’re live coding, talk through what you’re doing</li>\n<li>Tweet midway through your stream that you’re still streaming about topic X or live coding</li>\n</ul>\n\n\n<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/nickytonline/status/1405219963045036033">\n\n  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/nickytonline/status/1405219963045036033">\n    <div class="ltag__twitter-tweet__header">\n      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--P11PQVAz--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/1152392593042485249/M7M0YZ4j_normal.jpg" alt="Nick Taylor (he/him) profile image" loading="lazy">\n      <div class="ltag__twitter-tweet__full-name">\n        Nick Taylor (he/him)\n      </div>\n      <div class="ltag__twitter-tweet__username">\n        <a class="mentioned-user" href="https://dev.to/nickytonline">@nickytonline</a>\n      </div>\n      <div class="ltag__twitter-tweet__twitter-logo">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">\n      </div>\n    </div>\n    <div class="ltag__twitter-tweet__body">\n      Come by and say hi! We\'re hanging with <a href="https://twitter.com/cassidoo">@cassidoo</a> on the  <a href="https://twitter.com/ThePracticalDev">@ThePracticalDev</a> Twitch stream currently chatting about mechanical keyboards!<br><a href="https://t.co/z8E6kmqLsA">twitch.tv/thepracticaldev</a> <a href="https://twitter.com/hashtag/DEVCommunity">#DEVCommunity</a>\n    </div>\n    <div class="ltag__twitter-tweet__date">\n      17:45 PM - 16 Jun 2021\n    </div>\n\n\n    <div class="ltag__twitter-tweet__actions">\n      <a href="https://twitter.com/intent/tweet?in_reply_to=1405219963045036033" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/retweet?tweet_id=1405219963045036033" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/like?tweet_id=1405219963045036033" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">\n      </a>\n    </div>\n  </div>\n</blockquote>\n\n\n<ul>\n<li>Post your streams to Polywork, LinkedIn and Twitter. Here are some examples at <a href="https://timeline.iamdeveloper.com/nickytonline/highlights/cdfcb228-92a7-4678-86f0-6de6f0a432fe">timeline.iamdeveloper.com</a>, <a href="https://www.linkedin.com/in/nickytonline/detail/featured-list/urn:li:fsd_profile:ACoAAABbWMMBK1FLcaTloEjdod1_1cHxB9hL1xU/">my LinkedIn</a>, and Twitter</li>\n</ul>\n\n\n<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/coffeecraftcode/status/1384980393770815488">\n\n  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/coffeecraftcode/status/1384980393770815488">\n    <div class="ltag__twitter-tweet__header">\n      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--frU53Xd8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/1400933107952500740/tVZPJ-hU_normal.jpg" alt="Christina Gorton profile image" loading="lazy">\n      <div class="ltag__twitter-tweet__full-name">\n        Christina Gorton\n      </div>\n      <div class="ltag__twitter-tweet__username">\n        <a class="mentioned-user" href="https://dev.to/coffeecraftcode">@coffeecraftcode</a>\n      </div>\n      <div class="ltag__twitter-tweet__twitter-logo">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">\n      </div>\n    </div>\n    <div class="ltag__twitter-tweet__body">\n      If you missed the Twitch stream with <a href="https://twitter.com/jlengstorf">@jlengstorf</a>, check it out on <a href="https://twitter.com/ThePracticalDev">@ThePracticalDev</a> Youtube.<br>We talked Jamstack, serverless, and <a href="https://twitter.com/nickytonline">@nickytonline</a> and Jason used serverless functions on Netlify to quickly set up an API to grab DEV posts with the DEV API. 🥳<br><a href="https://t.co/pMnlitQt7N">youtu.be/dXr0iJE10tQ</a>\n    </div>\n    <div class="ltag__twitter-tweet__date">\n      21:20 PM - 21 Apr 2021\n    </div>\n\n\n    <div class="ltag__twitter-tweet__actions">\n      <a href="https://twitter.com/intent/tweet?in_reply_to=1384980393770815488" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/retweet?tweet_id=1384980393770815488" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/like?tweet_id=1384980393770815488" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">\n      </a>\n    </div>\n  </div>\n</blockquote>\n\n\n<ul>\n<li>Have a consistent schedule</li>\n<li>Don’t worry  if no one or few people are watching your stream when you get started out</li>\n<li>Zoom in your editor and browser to help folks see things better</li>\n<li>If you use <a href="https://code.visualstudio.com">Visual Studio Code</a>, <a class="mentioned-user" href="https://dev.to/john_papa">@john_papa</a> created an amazing extension for hiding environment files called <a href="https://marketplace.visualstudio.com/items?itemName=johnpapa.vscode-cloak">Cloak</a>\n</li>\n</ul>\n\n\n<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/nickytonline/status/1421683536952709120">\n\n  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/nickytonline/status/1421683536952709120">\n    <div class="ltag__twitter-tweet__header">\n      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--P11PQVAz--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/1152392593042485249/M7M0YZ4j_normal.jpg" alt="Nick Taylor (he/him) profile image" loading="lazy">\n      <div class="ltag__twitter-tweet__full-name">\n        Nick Taylor (he/him)\n      </div>\n      <div class="ltag__twitter-tweet__username">\n        <a class="mentioned-user" href="https://dev.to/nickytonline">@nickytonline</a>\n      </div>\n      <div class="ltag__twitter-tweet__twitter-logo">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">\n      </div>\n    </div>\n    <div class="ltag__twitter-tweet__body">\n      <a href="https://twitter.com/ThatJenPerson">@ThatJenPerson</a> It\'s only for environment files, but I use <a href="https://twitter.com/John_Papa">@John_Papa</a>\'s Cloak extension, <a href="https://t.co/4JAGgb937j">marketplace.visualstudio.com/items?itemName…</a>\n    </div>\n    <div class="ltag__twitter-tweet__date">\n      04:05 AM - 01 Aug 2021\n    </div>\n\n\n    <div class="ltag__twitter-tweet__actions">\n      <a href="https://twitter.com/intent/tweet?in_reply_to=1421683536952709120" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/retweet?tweet_id=1421683536952709120" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/like?tweet_id=1421683536952709120" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">\n      </a>\n    </div>\n  </div>\n</blockquote>\n\n\n<ul>\n<li>If you plan on uploading your streams to YouTube or want to create clips later, ensure that you have Store past broadcasts on in your <a href="https://dashboard.twitch.tv/u/nickytonline/settings/stream">stream settings</a>\n</li>\n</ul>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--bdBqaNDe--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qxhxkf7zpa0cvxuyup2c.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--bdBqaNDe--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qxhxkf7zpa0cvxuyup2c.png" alt="Store past broadcast setting in Twitch stream VOD settings" loading="lazy" width="880" height="224"></a> </p>\n\n<h2>\n  <a name="having-guests-on-your-stream" href="#having-guests-on-your-stream">\n  </a>\n  Having Guests on Your Stream\n</h2>\n\n<p>There is no native way for guests to join a stream in OBS, so a third party application is required. These are the common ones that are out there:</p>\n\n<ul>\n<li><a href="https://zoom.us">Zoom</a></li>\n<li><a href="https://discord.com">Discord</a></li>\n<li>\n<a href="https://vdo.ninja/">VDO.Ninja</a> (previously called OBS.Ninja)</li>\n</ul>\n\n<h3>\n  <a name="for-discussions" href="#for-discussions">\n  </a>\n  For Discussions\n</h3>\n\n<p>You should have one or more topics to discuss, but they do not need to be scripted. It should feel natural. I also tend to go on tangents sometimes. Maybe this is good, maybe it\'s bad. 🙃</p>\n\n<h2>\n  <a name="extras" href="#extras">\n  </a>\n  Extras\n</h2>\n\n<p>Here\'s some not necessarily crucial stuff for your stream, but some nice additions to spice up your stream.</p>\n\n<p><a href="https://i.giphy.com/media/l0JMiAGCP9IdtdVwk/giphy.gif" class="article-body-image-wrapper"><img src="https://i.giphy.com/media/l0JMiAGCP9IdtdVwk/giphy.gif" alt="David Rose from Schitt\'s Creek saying he hasn\'t bedazzled anything since he was 22" loading="lazy" width="480" height="301" data-animated="true"></a></p>\n\n<ul>\n<li>Add interactivity to your stream. A browser source in a scene that loads a page using <a href="https://github.com/instafluff/ComfyJS">ComfyJS</a> is a great for this.</li>\n<li>Automate things as much as possible\n\n<ul>\n<li>Scheduled tweet that you’re going live</li>\n<li>Use a stream deck if it’s in your budget. I bought one about a year into streaming.</li>\n</ul>\n\n\n</li>\n<li>Use service like StreamLabs or <a href="https://streamelements.com/">StreamElements</a> for moderation bots, interactivity, like when someone follows your stream.</li>\n</ul>\n\n<h2>\n  <a name="additional-software" href="#additional-software">\n  </a>\n  Additional software\n</h2>\n\n<p>Below is a list of additional software that can help you out during a stream or post-stream.</p>\n\n<ul>\n<li>\n<a href="https://rogueamoeba.com/loopback/">Loopback</a>, for merging audio or creating other virtual audio devices</li>\n<li>\n<a href="https://www.descript.com">descript</a>, for subtitles, removing filler words, and video editing if you plan on publishing your streams to YouTube</li>\n<li>\n<a href="https://krisp.ai/">krisp</a>, noise-cancelling software</li>\n</ul>\n\n<h2>\n  <a name="hardware" href="#hardware">\n  </a>\n  Hardware\n</h2>\n\n<p>Although not required when starting out with streaming, these are things you can add to your stream over time.</p>\n\n<ul>\n<li>Light ring</li>\n<li>An external microphone</li>\n<li>Better Web Cam or Camera</li>\n<li>Streaming Deck</li>\n</ul>\n\n\n<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/ania_kubow/status/1420685669479985152">\n      <div class="ltag__twitter-tweet__media">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--YOyeofLy--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/media/E7dJvHnXEAE6z6h.jpg" alt="unknown tweet media content" loading="lazy">\n      </div>\n\n  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/ania_kubow/status/1420685669479985152">\n    <div class="ltag__twitter-tweet__header">\n      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--9G876v6_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/1340988467417927682/ifHWLY9C_normal.png" alt="Ania Kubów #JavaScriptGames profile image" loading="lazy">\n      <div class="ltag__twitter-tweet__full-name">\n        Ania Kubów #JavaScriptGames\n      </div>\n      <div class="ltag__twitter-tweet__username">\n        <a class="mentioned-user" href="https://dev.to/ania_kubow">@ania_kubow</a>\n      </div>\n      <div class="ltag__twitter-tweet__twitter-logo">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">\n      </div>\n    </div>\n    <div class="ltag__twitter-tweet__body">\n      If your worries about equipment are preventing you from starting a YouTube channel, I started mine in Jan 2020 using my phone and the sun as lighting!! Don\'t let equipment stop you from creating. Get the fancy stuff later! 🥰 <a href="https://twitter.com/hashtag/youtuber">#youtuber</a> <a href="https://twitter.com/hashtag/devcommunity">#devcommunity</a> <a href="https://twitter.com/hashtag/Growth">#Growth</a> \n    </div>\n    <div class="ltag__twitter-tweet__date">\n      10:00 AM - 29 Jul 2021\n    </div>\n\n\n    <div class="ltag__twitter-tweet__actions">\n      <a href="https://twitter.com/intent/tweet?in_reply_to=1420685669479985152" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/retweet?tweet_id=1420685669479985152" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/like?tweet_id=1420685669479985152" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">\n      </a>\n    </div>\n  </div>\n</blockquote>\n\n\n<h2>\n  <a name="additional-resources" href="#additional-resources">\n  </a>\n  Additional Resources\n</h2>\n\n<ul>\n<li>\n<a href="https://webcaptioner.com/">Web Captioner</a>\n\n<ul>\n<li><a href="https://webcaptioner.com/help/integrations/obs">Add live captions in OBS Studio</a></li>\n</ul>\n\n\n</li>\n<li>\n<a href="https://www.youtube.com/c/SteveSeguin82">Steve Seguin’s YouTube channel</a> (creator of VDO.ninja)</li>\n<li>\n<a href="https://dev.to/chaelcodes/the-invisible-zoom-streaming-method-37ii">The Invisible Zoom Streaming method</a> by <a href="https://twitter.com/ChaelCodes">Rachael Wright-Munn</a>\n</li>\n<li>Pair Programming with Jhey (shows how to use ComfyJS)</li>\n</ul>\n\n<p><iframe width="710" height="399" src="https://www.youtube.com/embed/DDJB8KSh-Sw" allowfullscreen loading="lazy">\n</iframe>\n</p>\n\n<ul>\n<li>\n<a href="https://livecoding.ca">livecoding.ca</a>’s <a href="https://github.com/nickytonline/dotca-bot">interactions using ComfyJS</a>\n</li>\n<li>\n<a href="https://iamdeveloper.com/uses">My Uses Page</a> (software and hardware I use)</li>\n</ul>\n\n<p>And last but not least, some shameless plugs!</p>\n\n<ul>\n<li><a href="https://www.twitch.tv/thepracticaldev">DEV Twitch Stream</a></li>\n<li><a href="https://www.youtube.com/ThePracticalDevTeam">DEV\'s YouTube</a></li>\n<li><a href="https://livecoding.ca">My Stream</a></li>\n<li><a href="https://youtube.iamdeveloper.com">My YouTube</a></li>\n</ul>\n\n<p>Until next time folks!</p>\n\n',a.body_markdown="Last Friday, I gave a brownbag talk for my Virtual Coffee community on getting started with streaming on Twitch.\n\n{%twitter 1418581450023182341 %}\n\nThe video isn't up on YouTube yet, but you can grab the slide deck at [iamdeveloper.com/stream2021](iamdeveloper.com/stream2021).\n\nThis is a work in progress post. I'm just putting out what I had in my slide deck here, but in a more readable format than the bullet points in the slide deck. Feedback is welcome. \n\n## Open Broadcaster Software (OBS)\n\nThe first thing to do is install [OBS](https://obsproject.com). It is the standard when it comes to streaming. There are tools built on top of it, but typically I recommend using bare-bones OBS or [Streamlabs OBS](https://streamlabs.com) (SLOBS) which is OBS with some plugins from Streamlabs.\n\nThe main reason to use OBS or SLOBS is more flexibility when streaming, and as far as I know, OBS is the only one that allows you to stream closed captioning.\n\nFor the remainder of the post, I will refer to just OBS instead of OBS/SLOBS.\n\nI won't do a deep dive into all the things you can do with OBS, but know that you can [create scenes with many sources](https://ryanharris.dev/2019-12-11-obs-scenes/). A scene can be for example a starting soon page, and when you're ready to start talking you transition to another scene, perhaps called chatting or coding view.\n\nThere are many sources you can add to a scene:\n- images\n- browser sources, e.g. a web page used for an overlay in your stream\n- display capture, e.g. an external monitor\n- video capture device, e.g. a webcam\n- etc.\n\n## Streaming Checklist\n\nIt's important to go over your setup before going live on a stream. You want to make sure audio is good, video etc. Here is a sample checklist that I created for the purpose of this post. It's a reduced version of my own checklist.\n\n- Turn off notifications for any software on laptop\n- Ensure closed captioning is working with OBS\n- Check audio is not muted and is working for you and your guests\n- Have Twitch chat open in a browser or the entire stream (make sure stream is muted!)\n- Ensure you’re on the right scene to start\n\n## Going Live\n\nHere's some typical steps to take when going live on a stream.\n\n- Go over checklist\n- Tweet out that you are going live on your stream with a link to your stream. SLOBS has this built-in\n- Start Stream\n- Check the stream to make sure you’re streaming\n- You should be good to go at this point\n\n## Streaming Tips\n\nHere are some streaming tips that I've found useful\n\n- Interact with the Twitch chat\n- It’s not going to be perfect, that’s OK\n- Have fun, really!\n- If you’re live coding, talk through what you’re doing\n- Tweet midway through your stream that you’re still streaming about topic X or live coding\n\n{%twitter 1405219963045036033 %}\n\n- Post your streams to Polywork, LinkedIn and Twitter. Here are some examples at [timeline.iamdeveloper.com](https://timeline.iamdeveloper.com/nickytonline/highlights/cdfcb228-92a7-4678-86f0-6de6f0a432fe), [my LinkedIn](https://www.linkedin.com/in/nickytonline/detail/featured-list/urn:li:fsd_profile:ACoAAABbWMMBK1FLcaTloEjdod1_1cHxB9hL1xU/), and Twitter\n\n{%twitter 1384980393770815488 %}\n\n- Have a consistent schedule\n- Don’t worry  if no one or few people are watching your stream when you get started out\n- Zoom in your editor and browser to help folks see things better\n- If you use [Visual Studio Code](https://code.visualstudio.com), @john_papa created an amazing extension for hiding environment files called [Cloak](https://marketplace.visualstudio.com/items?itemName=johnpapa.vscode-cloak)\n\n{%twitter 1421683536952709120 %}\n\n- If you plan on uploading your streams to YouTube or want to create clips later, ensure that you have Store past broadcasts on in your [stream settings](https://dashboard.twitch.tv/u/nickytonline/settings/stream)\n\n![Store past broadcast setting in Twitch stream VOD settings](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qxhxkf7zpa0cvxuyup2c.png) \n\n## Having Guests on Your Stream\n\nThere is no native way for guests to join a stream in OBS, so a third party application is required. These are the common ones that are out there:\n\n- [Zoom](https://zoom.us)\n- [Discord](https://discord.com)\n- [VDO.Ninja](https://vdo.ninja/) (previously called OBS.Ninja)\n\n### For Discussions\n\nYou should have one or more topics to discuss, but they do not need to be scripted. It should feel natural. I also tend to go on tangents sometimes. Maybe this is good, maybe it's bad. 🙃\n\n## Extras\n\nHere's some not necessarily crucial stuff for your stream, but some nice additions to spice up your stream.\n\n![David Rose from Schitt's Creek saying he hasn't bedazzled anything since he was 22](https://media.giphy.com/media/l0JMiAGCP9IdtdVwk/giphy.gif)\n\n- Add interactivity to your stream. A browser source in a scene that loads a page using [ComfyJS](https://github.com/instafluff/ComfyJS) is a great for this.\n- Automate things as much as possible\n  - Scheduled tweet that you’re going live\n  - Use a stream deck if it’s in your budget. I bought one about a year into streaming.\n- Use service like StreamLabs or [StreamElements](https://streamelements.com/) for moderation bots, interactivity, like when someone follows your stream.\n\n## Additional software\n\nBelow is a list of additional software that can help you out during a stream or post-stream.\n\n- [Loopback](https://rogueamoeba.com/loopback/), for merging audio or creating other virtual audio devices\n- [descript](https://www.descript.com), for subtitles, removing filler words, and video editing if you plan on publishing your streams to YouTube\n- [krisp](https://krisp.ai/), noise-cancelling software\n\n## Hardware\n\nAlthough not required when starting out with streaming, these are things you can add to your stream over time.\n\n- Light ring\n- An external microphone\n- Better Web Cam or Camera\n- Streaming Deck\n\n{%twitter 1420685669479985152 %}\n\n## Additional Resources\n\n- [Web Captioner](https://webcaptioner.com/)\n  - [Add live captions in OBS Studio](https://webcaptioner.com/help/integrations/obs)\n- [Steve Seguin’s YouTube channel](https://www.youtube.com/c/SteveSeguin82) (creator of VDO.ninja)\n- [The Invisible Zoom Streaming method](https://dev.to/chaelcodes/the-invisible-zoom-streaming-method-37ii) by [Rachael Wright-Munn](https://twitter.com/ChaelCodes)\n- Pair Programming with Jhey (shows how to use ComfyJS)\n\n{%youtube DDJB8KSh-Sw %}\n\n- [livecoding.ca](https://livecoding.ca)’s [interactions using ComfyJS](https://github.com/nickytonline/dotca-bot)\n- [My Uses Page](https://iamdeveloper.com/uses) (software and hardware I use)\n\nAnd last but not least, some shameless plugs!\n\n- [DEV Twitch Stream](https://www.twitch.tv/thepracticaldev)\n- [DEV's YouTube](https://www.youtube.com/ThePracticalDevTeam)\n- [My Stream](https://livecoding.ca)\n- [My YouTube](https://youtube.iamdeveloper.com)\n\nUntil next time folks!",a.user={name:"Nick Taylor (he/him)",username:e,twitter_username:e,github_username:e,website_url:"https://timeline.iamdeveloper.com",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--T9un0IK7--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/9597/2629be65-f045-4612-a7e9-28cd9e48bd49.jpg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--h-JUieId--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/9597/2629be65-f045-4612-a7e9-28cd9e48bd49.jpg"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:a}},error:t,state:{currentArticle:a},serverRendered:!0,routePath:"/nickytonline/773702",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:t}}}}(null,"nickytonline",{},"2021-07-28T03:22:25Z")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,401 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Adding Address Autocomplete to Medusa.js Checkout</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Adding Address Autocomplete to Medusa.js Checkout</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/medusa" class="tag" data-v-70afb46a>
+          #medusa
+        </a><a href="/nuxtstop/t/react" class="tag" data-v-70afb46a>
+          #react
+        </a><a href="/nuxtstop/t/addressautocomplete" class="tag" data-v-70afb46a>
+          #addressautocomplete
+        </a><a href="/nuxtstop/t/ecommerce" class="tag" data-v-70afb46a>
+          #ecommerce
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--UwKASLw7--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lfozx5fyveo1pe1abqdd.png" alt="Adding Address Autocomplete to Medusa.js Checkout" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            2
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>May 27</time></div></header> <div class="content" data-v-70afb46a><p><a href="https://medusajs.com/">Medusa.js</a> is an open-source Shopify alternative built with JavaScript. It’s a great solution if you’re looking for a customizable ecommerce solution.</p>
+
+<p>In this tutorial, we’ll see how to add <a href="https://www.lob.com/address-verification">Lob’s Address Autocomplete API</a> feature to a Medusa project to give customers a faster checkout process.</p>
+
+<p>You can find the complete code in this <a href="https://github.com/lob/medusa-next-address-autocomplete">GitHub repo</a>.</p>
+
+<h2>
+  <a name="why-use-address-autocomplete" href="#why-use-address-autocomplete">
+  </a>
+  Why use address autocomplete?
+</h2>
+
+<p>Every bit of extra information that customers must enter in the checkout process adds to the likelihood of cart abandonment.        </p>
+
+<p>The information that takes the longest is undoubtedly the shipping address.</p>
+
+<p>By using Lob’s Address Autocomplete API we can not only save time for customers but also validate addresses to reduce the possibility of errors.              </p>
+
+<h2>
+  <a name="installing-medusa" href="#installing-medusa">
+  </a>
+  Installing Medusa
+</h2>
+
+<p>In this tutorial, we’ll add the Lob Autocomplete React component to the checkout form found in the Medusa Next.js starter template.       </p>
+
+<p>To begin, you’ll need to install these two repos: </p>
+
+<ul>
+<li>
+<a href="https://github.com/medusajs/medusa-starter-default">medusa-starter-default</a> which is the Medusa server. (Do NOT seed your database yet)</li>
+<li>
+<a href="https://github.com/medusajs/nextjs-starter-medusa">medusa-nextjs-starter</a> which is the Next.js frontend template.
+</li>
+</ul>
+
+<p>You’ll find the installation instructions in the respective repos so we won’t repeat them here for the sake of brevity.</p>
+
+<p>After installing, make sure you run the dev server on both projects (which run on ports 8000 and 9000 by default).                          </p>
+
+<h2>
+  <a name="set-up-medusa-for-the-us-market" href="#set-up-medusa-for-the-us-market">
+  </a>
+  Set up Medusa for the US market
+</h2>
+
+<p>This walkthrough is designed for a US Storefront—though Lob has <a href="https://docs.lob.com/#operation/intl_autocompletions">International Autocomplete</a> support and could be used for non-US storefronts. We will need to make three adjustments so you get US dollars (USD) instead of Euros displayed in our starter store.</p>
+
+<h3>
+  <a name="seeding-our-store-database" href="#seeding-our-store-database">
+  </a>
+  Seeding our store database
+</h3>
+
+<p>In your Medusa store project, open <em><code>my-medusa-store/data/seed.json</code></em>.</p>
+
+<p>Swap the order of the regions, so NA (North America) is first, and therefore the default.</p>
+
+
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/2b60afcec0c62030f3cd0e1840a2a567.js"></script>
+</div>
+
+
+<p>To seed your Medusa store run the following command:</p>
+
+
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/3bc45eae2662dcd632de242b744ebff6.js"></script>
+</div>
+
+
+<h3>
+  <a name="setting-currency-to-usd" href="#setting-currency-to-usd">
+  </a>
+  Setting currency to USD
+</h3>
+
+<p>The default currency of the Next template is set to EUR. Let’s change that to USD as Lob’s autocomplete API generates US addresses while in test mode.                  </p>
+
+<p>To do this, go to the frontend project (all our customizations will apply to the frontend) and change the <code>currencyCode</code> property to "<em>usd</em>" in the file context/store-context.js.</p>
+
+<p><em>context/store-context.js</em><br>
+</p>
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/54640a6ceb9649eb9b05e1b1b560e016.js"></script>
+</div>
+
+
+<p>We’ll also need to change the default display from EUR to USD which we can do in the file components/checkout/shipping-method.jsx.</p>
+
+<p><em>components/checkout/shipping-method.jsx</em></p>
+
+
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/061f9411c99a11ee56e5e3d967eae756.js"></script>
+</div>
+
+
+<h2>
+  <a name="adding-autocomplete" href="#adding-autocomplete">
+  </a>
+  Adding autocomplete
+</h2>
+
+<p>The default checkout page of the Medusa store currently looks like this:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--k3fTl0aH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/9lcvw2d8knd50zuqb6ff.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k3fTl0aH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/9lcvw2d8knd50zuqb6ff.png" alt="default checkout page" loading="lazy" width="880" height="518"></a></p>
+
+<p>Our approach to adding address autocomplete will be:</p>
+
+<ol>
+<li><p>Replace the “Address 1” field with the Lob autocomplete React component.</p></li>
+<li><p>Add a “State” field (Medusa doesn’t provide this by default and it’s needed for US addresses).</p></li>
+<li><p>When an address is selected through the autocomplete, programmatically fill the country, city, state, and postal code fields.</p></li>
+</ol>
+
+<p>With this done, filling out the address form will be significantly faster—users only need to type a few characters to get a full address. </p>
+
+<h2>
+  <a name="creating-address-field-component" href="#creating-address-field-component">
+  </a>
+  Creating address field component
+</h2>
+
+<p>The main component for the checkout form is in the file <em><code>components/checkout/information-step.jsx</code></em>. This is where you’ll find the address input that we’re going to replace with the address autocomplete component.<br><br>
+Let’s first make a copy of the <em><code>input-field</code></em> component and customize it to include the autocomplete. By doing it this way, we can keep the wrapper for error handling that is already present in the <em><code>input-field</code></em>.</p>
+
+<p>To do this, go to the terminal and copy the <em><code>input-field</code></em> component to a new component <em><code>address-field</code></em>:</p>
+
+
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/a46a6f131dc0bd0184d5a5cb2425d5d1.js"></script>
+</div>
+
+
+<p>In the new component file, rename the exported function from <em><code>InputField</code></em> to <em><code>AddressField</code></em>.</p>
+
+<p><em>components/checkout/address-field.jsx</em><br>
+</p>
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/f99199e255d2c00b1f73224e34f2689c.js"></script>
+</div>
+
+
+<h2>
+  <a name="adding-autocomplete-component" href="#adding-autocomplete-component">
+  </a>
+  Adding autocomplete component
+</h2>
+
+<p>We’re now going to install Lob’s React address autocomplete component which provides a ready-to-use autocomplete, saving us from having to implement one from scratch.                              </p>
+
+<p>Let’s first go to the terminal and install it with NPM. We add @previous so the component supports React 17 which is compatible with the Medusa starter project.</p>
+
+
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/ee93607aa1d21073421f8560019353aa.js"></script>
+</div>
+
+
+<p>To use the autocomplete API, we’ll need a Lob API key. The instructions for generating one are <a href="https://github.com/lob/react-address-autocomplete#getting-api-keys">outlined here</a>.</p>
+
+<p>Grab the publishable test key and add it to your .env.local file. We’ll use a variable name <em><code>NEXT_PUBLIC_LOB_PUBLISHABLE_KEY</code></em>. By prefixing it with <em>NEXT_PUBLIC</em>_ we can make it accessible from the frontend source code.</p>
+
+<p><em>.env.local</em><br>
+</p>
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/b63bd1ec6b46c0b499a9a9a20a56dce7.js"></script>
+</div>
+
+
+<p>Now, open the component file <em><code>components/checkout/address-field.jsx</code></em> and import the Autocomplete component at the top of the file under the existing imports.<br><br>
+Then, create a variable apiKey and assign to it your publishable Lob API key. </p>
+
+<p><em>components/checkout/address-field.jsx</em><br>
+</p>
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/3ecdcc51638f173d622e79e25a3b7e4b.js"></script>
+</div>
+
+
+<p>We’ll then replace the Field component declaration here with the autocomplete component. To do that, locate where Field is declared in the JSX template.</p>
+
+<p><em>components/checkout/address-field.jsx</em><br>
+</p>
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/96772502476a19b051fdba6b7c065bfd.js"></script>
+</div>
+
+
+<p>Replace that with the following:</p>
+
+<p><em>components/checkout/address-field.jsx</em><br>
+</p>
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/c8006f89915d9ded609ccc47a4b578fa.js"></script>
+</div>
+
+
+<h2>
+  <a name="adding-address-field-to-form" href="#adding-address-field-to-form">
+  </a>
+  Adding address field to form
+</h2>
+
+<p>Let’s now add our newly created address field to the checkout form. The first thing we’ll do is import the component at the top of the file components/checkout/information-step.jsx.</p>
+
+<p><em>components/checkout/information-step.jsx</em><br>
+</p>
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/95eb0d2a742e27912fb57b24c3f69b3f.js"></script>
+</div>
+
+
+<p>Next, in the same file, we’ll replace the address line 1 InputField component. You can identify it by the id address_1.<br>
+                                <em>components/checkout/information-step.jsx</em><br>
+</p>
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/984d030a923a836b3d12e0a019d2af6c.js"></script>
+</div>
+
+
+<p>Replace that with the following:</p>
+
+<p><em>components/checkout/information-step.jsx</em><br>
+</p>
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/c9f5c35aa6a27f80355ec2713ba438c7.js"></script>
+</div>
+
+
+<p>Note that we keep the <em>id, error</em>, and <em>errorMsg</em> props but not the others as they aren’t relevant in our new address field.</p>
+
+<h2>
+  <a name="adding-styling" href="#adding-styling">
+  </a>
+  Adding styling
+</h2>
+
+<p>To make the Lob autocomplete component fit with the Medusa checkout’s appearance we’ll need to add a few CSS rules.                                 </p>
+
+<p>Let’s create a CSS module in the styles directory called address.module.css.</p>
+
+
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/975d6ca710ee5d821334e7846b6e30fb.js"></script>
+</div>
+
+
+<p>Put the following rules into that new file:</p>
+
+<p><em>styles/address.module.css</em><br>
+</p>
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/a00d5fd3922e027b3577d026bfc3250d.js"></script>
+</div>
+
+
+<p>Let’s now import the CSS module file into our address field component and apply the class <em><code>addressStyle.address</code></em> to the autocomplete component.</p>
+
+<p><em>components/checkout/address-field.jsx</em> <br>
+</p>
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/6ef395b339a204069a48edf5ce84f086.js"></script>
+</div>
+
+
+<p>With that done, the autocomplete component has now been integrated into the checkout. Go ahead and start typing into the form and you should see the address autocomplete working:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--O-Vc6c1f--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/q1lz4kcgwafm7hu4jak5.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--O-Vc6c1f--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/q1lz4kcgwafm7hu4jak5.png" alt="example of address autocomplete working" loading="lazy" width="880" height="521"></a></p>
+
+<h2>
+  <a name="setting-up-state-field" href="#setting-up-state-field">
+  </a>
+  Setting up state field
+</h2>
+
+<p>As mentioned, the checkout form doesn’t include a field for the customer’s state by default. We’ll need this field as it’s required for US shipping addresses.<br><br>
+Although not in the form, the Medusa checkout API does include a field “province” which we should use for the state.                                    </p>
+
+<p>We’ll first create the field in the form’s validation schema which is handled by the library <a href="https://github.com/jquense/yup">Yup</a>. You’ll see the config object already has a value province that is set to be nullable. Let’s change this so it’s now required by removing nullable() and replacing it with <code>required("Required")</code>.</p>
+
+<p><em>components/checkout/information-step.jsx</em><br>
+</p>
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/cdf26cd0e09baa2bc48b68db28abddea.js"></script>
+</div>
+
+
+<p>The checkout also uses the form library <a href="https://formik.org/">Formik</a>. This has a prop initialValues which allows the form to be pre-filled with saved values for returning customers.</p>
+
+<p>Let’s add the province field to the <em>initialValues</em> by adding a property <em>province</em> and assigning to it <code>savedValues.province || ""</code>.   </p>
+
+<p><em>components/checkout/information-step.jsx</em><br>
+</p>
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/441ba459095b7370c14756870c11b702.js"></script>
+</div>
+
+
+<h3>
+  <a name="adding-state-field-to-template" href="#adding-state-field-to-template">
+  </a>
+  Adding state field to template
+</h3>
+
+<p>We’ll now add the state (i.e., province) field to the form. We’ll make it share a row with the country field so the form is not too long.                               </p>
+
+<p>To do this, find the field with id <em><code>country_code</code></em>. Wrap this in a div with className <em><code>styles.sharedrow</code>.</em>                                  </p>
+
+<p>Add an <em><code>InputField</code></em> child with id <em><code>province</code></em>. You can make the placeholder “State” so it’s consistent with US addresses.</p>
+
+
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/5c4a27e4a32c5279f34f20caa9aa6fde.js"></script>
+</div>
+
+
+<p>With that done, the form will now have a state field next to the country field.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--lVGmUrSs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/mrpzv0xqz8reukjvgd9j.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--lVGmUrSs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/mrpzv0xqz8reukjvgd9j.png" alt="checkout form with state field" loading="lazy" width="880" height="535"></a></p>
+
+<h2>
+  <a name="creating-select-handler" href="#creating-select-handler">
+  </a>
+  Creating select handler
+</h2>
+
+<p>Looking again at the address autocomplete field, you’ll see that as we begin typing an address we get suggestions in a drop-down below.</p>
+
+<p>When the user selects one of these suggestions, the autocomplete component calls an <em><code>onSelection</code></em> callback and passes the selected address to it.</p>
+
+<p>Let’s create a handler function <em><code>handleSelect</code></em> and pass it to the <em><code>onSelection</code></em> prop. In this function, we’ll take the selected autocomplete address and populate the other address fields in the form.                                   </p>
+
+<p>The first thing we need to do is import the <em><code>useFormikContext</code></em> hook from the <em><code>formik</code></em> module. This gives us access to the form API in a functional component.<br><br>
+Let’s then destructure the object to get the <em><code>setFieldValue</code></em> method. </p>
+
+<p><em>components/checkout/address-field.jsx</em><br>
+</p>
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/c80b49d13c6790fd0626ee3348bf49bd.js"></script>
+</div>
+
+
+<p>Now we can define the callback function. This function will receive an object argument that has a property. This is itself an object with the full address components as sub properties.</p>
+
+<p>Let’s now use the <em><code>setFieldValue</code></em> method in the callback to provide values for postal_code, city, province, address_1 and country_code.</p>
+
+
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/f3ef64046357bed9c8db35bb0088c8fd.js"></script>
+</div>
+
+
+<p>Finally, we’ll assign handleSelect to the onSelection prop. We’ll also add the primaryLineOnly prop. What this does is ensure that when the user makes a selection that the entire address (with state, country, zip code, etc.) is not populated in the address field—just the primary line is e.g., “12 Test St”.</p>
+
+<p><em>components/checkout/address-field.jsx</em><br>
+</p>
+<div class="ltag_gist-liquid-tag">
+  <script id="gist-ltag" src="https://gist.github.com/lobot/ab56a4a3acb911764fc33049bd88175c.js"></script>
+</div>
+
+
+<h2>
+  <a name="wrap-up" href="#wrap-up">
+  </a>
+  Wrap up
+</h2>
+
+<p>With that done, we now have implemented a quick and stylish address autocomplete in Medusa! By typing a few characters into the autocomplete, customers get their validated address pre-filled, saving them a significant amount of time.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--h7YF3iKu--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2pemcmx6jwc7jzv6mll5.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--h7YF3iKu--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2pemcmx6jwc7jzv6mll5.png" alt="final checkout form with all fields" loading="lazy" width="880" height="516"></a></p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/lob/adding-address-autocomplete-to-medusajs-checkout-5c8i" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(e,t,o){return o.type_of="article",o.id=1094571,o.title="Adding Address Autocomplete to Medusa.js Checkout",o.description="Medusa.js is an open-source Shopify alternative built with JavaScript. It’s a great solution if...",o.readable_publish_date="May 27",o.slug="adding-address-autocomplete-to-medusajs-checkout-5c8i",o.path="/lob/adding-address-autocomplete-to-medusajs-checkout-5c8i",o.url="https://dev.to/lob/adding-address-autocomplete-to-medusajs-checkout-5c8i",o.comments_count=0,o.public_reactions_count=2,o.collection_id=e,o.published_timestamp=t,o.positive_reactions_count=2,o.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--UwKASLw7--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lfozx5fyveo1pe1abqdd.png",o.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--3V-A3sIF--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lfozx5fyveo1pe1abqdd.png",o.canonical_url="https://www.lob.com/blog/adding-address-autocomplete-to-medusa",o.created_at="2022-05-24T13:55:42Z",o.edited_at=e,o.crossposted_at=e,o.published_at=t,o.last_comment_at=t,o.reading_time_minutes=7,o.tag_list="medusa, react, addressautocomplete, ecommerce",o.tags=["medusa","react","addressautocomplete","ecommerce"],o.body_html='<p><a href="https://medusajs.com/">Medusa.js</a> is an open-source Shopify alternative built with JavaScript. It’s a great solution if you’re looking for a customizable ecommerce solution.</p>\n\n<p>In this tutorial, we’ll see how to add <a href="https://www.lob.com/address-verification">Lob’s Address Autocomplete API</a> feature to a Medusa project to give customers a faster checkout process.</p>\n\n<p>You can find the complete code in this <a href="https://github.com/lob/medusa-next-address-autocomplete">GitHub repo</a>.</p>\n\n<h2>\n  <a name="why-use-address-autocomplete" href="#why-use-address-autocomplete">\n  </a>\n  Why use address autocomplete?\n</h2>\n\n<p>Every bit of extra information that customers must enter in the checkout process adds to the likelihood of cart abandonment.        </p>\n\n<p>The information that takes the longest is undoubtedly the shipping address.</p>\n\n<p>By using Lob’s Address Autocomplete API we can not only save time for customers but also validate addresses to reduce the possibility of errors.              </p>\n\n<h2>\n  <a name="installing-medusa" href="#installing-medusa">\n  </a>\n  Installing Medusa\n</h2>\n\n<p>In this tutorial, we’ll add the Lob Autocomplete React component to the checkout form found in the Medusa Next.js starter template.       </p>\n\n<p>To begin, you’ll need to install these two repos: </p>\n\n<ul>\n<li>\n<a href="https://github.com/medusajs/medusa-starter-default">medusa-starter-default</a> which is the Medusa server. (Do NOT seed your database yet)</li>\n<li>\n<a href="https://github.com/medusajs/nextjs-starter-medusa">medusa-nextjs-starter</a> which is the Next.js frontend template.\n</li>\n</ul>\n\n<p>You’ll find the installation instructions in the respective repos so we won’t repeat them here for the sake of brevity.</p>\n\n<p>After installing, make sure you run the dev server on both projects (which run on ports 8000 and 9000 by default).                          </p>\n\n<h2>\n  <a name="set-up-medusa-for-the-us-market" href="#set-up-medusa-for-the-us-market">\n  </a>\n  Set up Medusa for the US market\n</h2>\n\n<p>This walkthrough is designed for a US Storefront—though Lob has <a href="https://docs.lob.com/#operation/intl_autocompletions">International Autocomplete</a> support and could be used for non-US storefronts. We will need to make three adjustments so you get US dollars (USD) instead of Euros displayed in our starter store.</p>\n\n<h3>\n  <a name="seeding-our-store-database" href="#seeding-our-store-database">\n  </a>\n  Seeding our store database\n</h3>\n\n<p>In your Medusa store project, open <em><code>my-medusa-store/data/seed.json</code></em>.</p>\n\n<p>Swap the order of the regions, so NA (North America) is first, and therefore the default.</p>\n\n\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/2b60afcec0c62030f3cd0e1840a2a567.js"><\/script>\n</div>\n\n\n<p>To seed your Medusa store run the following command:</p>\n\n\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/3bc45eae2662dcd632de242b744ebff6.js"><\/script>\n</div>\n\n\n<h3>\n  <a name="setting-currency-to-usd" href="#setting-currency-to-usd">\n  </a>\n  Setting currency to USD\n</h3>\n\n<p>The default currency of the Next template is set to EUR. Let’s change that to USD as Lob’s autocomplete API generates US addresses while in test mode.                  </p>\n\n<p>To do this, go to the frontend project (all our customizations will apply to the frontend) and change the <code>currencyCode</code> property to "<em>usd</em>" in the file context/store-context.js.</p>\n\n<p><em>context/store-context.js</em><br>\n</p>\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/54640a6ceb9649eb9b05e1b1b560e016.js"><\/script>\n</div>\n\n\n<p>We’ll also need to change the default display from EUR to USD which we can do in the file components/checkout/shipping-method.jsx.</p>\n\n<p><em>components/checkout/shipping-method.jsx</em></p>\n\n\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/061f9411c99a11ee56e5e3d967eae756.js"><\/script>\n</div>\n\n\n<h2>\n  <a name="adding-autocomplete" href="#adding-autocomplete">\n  </a>\n  Adding autocomplete\n</h2>\n\n<p>The default checkout page of the Medusa store currently looks like this:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--k3fTl0aH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/9lcvw2d8knd50zuqb6ff.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k3fTl0aH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/9lcvw2d8knd50zuqb6ff.png" alt="default checkout page" loading="lazy" width="880" height="518"></a></p>\n\n<p>Our approach to adding address autocomplete will be:</p>\n\n<ol>\n<li><p>Replace the “Address 1” field with the Lob autocomplete React component.</p></li>\n<li><p>Add a “State” field (Medusa doesn’t provide this by default and it’s needed for US addresses).</p></li>\n<li><p>When an address is selected through the autocomplete, programmatically fill the country, city, state, and postal code fields.</p></li>\n</ol>\n\n<p>With this done, filling out the address form will be significantly faster—users only need to type a few characters to get a full address. </p>\n\n<h2>\n  <a name="creating-address-field-component" href="#creating-address-field-component">\n  </a>\n  Creating address field component\n</h2>\n\n<p>The main component for the checkout form is in the file <em><code>components/checkout/information-step.jsx</code></em>. This is where you’ll find the address input that we’re going to replace with the address autocomplete component.<br><br>\nLet’s first make a copy of the <em><code>input-field</code></em> component and customize it to include the autocomplete. By doing it this way, we can keep the wrapper for error handling that is already present in the <em><code>input-field</code></em>.</p>\n\n<p>To do this, go to the terminal and copy the <em><code>input-field</code></em> component to a new component <em><code>address-field</code></em>:</p>\n\n\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/a46a6f131dc0bd0184d5a5cb2425d5d1.js"><\/script>\n</div>\n\n\n<p>In the new component file, rename the exported function from <em><code>InputField</code></em> to <em><code>AddressField</code></em>.</p>\n\n<p><em>components/checkout/address-field.jsx</em><br>\n</p>\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/f99199e255d2c00b1f73224e34f2689c.js"><\/script>\n</div>\n\n\n<h2>\n  <a name="adding-autocomplete-component" href="#adding-autocomplete-component">\n  </a>\n  Adding autocomplete component\n</h2>\n\n<p>We’re now going to install Lob’s React address autocomplete component which provides a ready-to-use autocomplete, saving us from having to implement one from scratch.                              </p>\n\n<p>Let’s first go to the terminal and install it with NPM. We add @previous so the component supports React 17 which is compatible with the Medusa starter project.</p>\n\n\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/ee93607aa1d21073421f8560019353aa.js"><\/script>\n</div>\n\n\n<p>To use the autocomplete API, we’ll need a Lob API key. The instructions for generating one are <a href="https://github.com/lob/react-address-autocomplete#getting-api-keys">outlined here</a>.</p>\n\n<p>Grab the publishable test key and add it to your .env.local file. We’ll use a variable name <em><code>NEXT_PUBLIC_LOB_PUBLISHABLE_KEY</code></em>. By prefixing it with <em>NEXT_PUBLIC</em>_ we can make it accessible from the frontend source code.</p>\n\n<p><em>.env.local</em><br>\n</p>\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/b63bd1ec6b46c0b499a9a9a20a56dce7.js"><\/script>\n</div>\n\n\n<p>Now, open the component file <em><code>components/checkout/address-field.jsx</code></em> and import the Autocomplete component at the top of the file under the existing imports.<br><br>\nThen, create a variable apiKey and assign to it your publishable Lob API key. </p>\n\n<p><em>components/checkout/address-field.jsx</em><br>\n</p>\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/3ecdcc51638f173d622e79e25a3b7e4b.js"><\/script>\n</div>\n\n\n<p>We’ll then replace the Field component declaration here with the autocomplete component. To do that, locate where Field is declared in the JSX template.</p>\n\n<p><em>components/checkout/address-field.jsx</em><br>\n</p>\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/96772502476a19b051fdba6b7c065bfd.js"><\/script>\n</div>\n\n\n<p>Replace that with the following:</p>\n\n<p><em>components/checkout/address-field.jsx</em><br>\n</p>\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/c8006f89915d9ded609ccc47a4b578fa.js"><\/script>\n</div>\n\n\n<h2>\n  <a name="adding-address-field-to-form" href="#adding-address-field-to-form">\n  </a>\n  Adding address field to form\n</h2>\n\n<p>Let’s now add our newly created address field to the checkout form. The first thing we’ll do is import the component at the top of the file components/checkout/information-step.jsx.</p>\n\n<p><em>components/checkout/information-step.jsx</em><br>\n</p>\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/95eb0d2a742e27912fb57b24c3f69b3f.js"><\/script>\n</div>\n\n\n<p>Next, in the same file, we’ll replace the address line 1 InputField component. You can identify it by the id address_1.<br>\n                                <em>components/checkout/information-step.jsx</em><br>\n</p>\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/984d030a923a836b3d12e0a019d2af6c.js"><\/script>\n</div>\n\n\n<p>Replace that with the following:</p>\n\n<p><em>components/checkout/information-step.jsx</em><br>\n</p>\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/c9f5c35aa6a27f80355ec2713ba438c7.js"><\/script>\n</div>\n\n\n<p>Note that we keep the <em>id, error</em>, and <em>errorMsg</em> props but not the others as they aren’t relevant in our new address field.</p>\n\n<h2>\n  <a name="adding-styling" href="#adding-styling">\n  </a>\n  Adding styling\n</h2>\n\n<p>To make the Lob autocomplete component fit with the Medusa checkout’s appearance we’ll need to add a few CSS rules.                                 </p>\n\n<p>Let’s create a CSS module in the styles directory called address.module.css.</p>\n\n\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/975d6ca710ee5d821334e7846b6e30fb.js"><\/script>\n</div>\n\n\n<p>Put the following rules into that new file:</p>\n\n<p><em>styles/address.module.css</em><br>\n</p>\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/a00d5fd3922e027b3577d026bfc3250d.js"><\/script>\n</div>\n\n\n<p>Let’s now import the CSS module file into our address field component and apply the class <em><code>addressStyle.address</code></em> to the autocomplete component.</p>\n\n<p><em>components/checkout/address-field.jsx</em> <br>\n</p>\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/6ef395b339a204069a48edf5ce84f086.js"><\/script>\n</div>\n\n\n<p>With that done, the autocomplete component has now been integrated into the checkout. Go ahead and start typing into the form and you should see the address autocomplete working:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--O-Vc6c1f--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/q1lz4kcgwafm7hu4jak5.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--O-Vc6c1f--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/q1lz4kcgwafm7hu4jak5.png" alt="example of address autocomplete working" loading="lazy" width="880" height="521"></a></p>\n\n<h2>\n  <a name="setting-up-state-field" href="#setting-up-state-field">\n  </a>\n  Setting up state field\n</h2>\n\n<p>As mentioned, the checkout form doesn’t include a field for the customer’s state by default. We’ll need this field as it’s required for US shipping addresses.<br><br>\nAlthough not in the form, the Medusa checkout API does include a field “province” which we should use for the state.                                    </p>\n\n<p>We’ll first create the field in the form’s validation schema which is handled by the library <a href="https://github.com/jquense/yup">Yup</a>. You’ll see the config object already has a value province that is set to be nullable. Let’s change this so it’s now required by removing nullable() and replacing it with <code>required("Required")</code>.</p>\n\n<p><em>components/checkout/information-step.jsx</em><br>\n</p>\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/cdf26cd0e09baa2bc48b68db28abddea.js"><\/script>\n</div>\n\n\n<p>The checkout also uses the form library <a href="https://formik.org/">Formik</a>. This has a prop initialValues which allows the form to be pre-filled with saved values for returning customers.</p>\n\n<p>Let’s add the province field to the <em>initialValues</em> by adding a property <em>province</em> and assigning to it <code>savedValues.province || ""</code>.   </p>\n\n<p><em>components/checkout/information-step.jsx</em><br>\n</p>\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/441ba459095b7370c14756870c11b702.js"><\/script>\n</div>\n\n\n<h3>\n  <a name="adding-state-field-to-template" href="#adding-state-field-to-template">\n  </a>\n  Adding state field to template\n</h3>\n\n<p>We’ll now add the state (i.e., province) field to the form. We’ll make it share a row with the country field so the form is not too long.                               </p>\n\n<p>To do this, find the field with id <em><code>country_code</code></em>. Wrap this in a div with className <em><code>styles.sharedrow</code>.</em>                                  </p>\n\n<p>Add an <em><code>InputField</code></em> child with id <em><code>province</code></em>. You can make the placeholder “State” so it’s consistent with US addresses.</p>\n\n\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/5c4a27e4a32c5279f34f20caa9aa6fde.js"><\/script>\n</div>\n\n\n<p>With that done, the form will now have a state field next to the country field.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--lVGmUrSs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/mrpzv0xqz8reukjvgd9j.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--lVGmUrSs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/mrpzv0xqz8reukjvgd9j.png" alt="checkout form with state field" loading="lazy" width="880" height="535"></a></p>\n\n<h2>\n  <a name="creating-select-handler" href="#creating-select-handler">\n  </a>\n  Creating select handler\n</h2>\n\n<p>Looking again at the address autocomplete field, you’ll see that as we begin typing an address we get suggestions in a drop-down below.</p>\n\n<p>When the user selects one of these suggestions, the autocomplete component calls an <em><code>onSelection</code></em> callback and passes the selected address to it.</p>\n\n<p>Let’s create a handler function <em><code>handleSelect</code></em> and pass it to the <em><code>onSelection</code></em> prop. In this function, we’ll take the selected autocomplete address and populate the other address fields in the form.                                   </p>\n\n<p>The first thing we need to do is import the <em><code>useFormikContext</code></em> hook from the <em><code>formik</code></em> module. This gives us access to the form API in a functional component.<br><br>\nLet’s then destructure the object to get the <em><code>setFieldValue</code></em> method. </p>\n\n<p><em>components/checkout/address-field.jsx</em><br>\n</p>\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/c80b49d13c6790fd0626ee3348bf49bd.js"><\/script>\n</div>\n\n\n<p>Now we can define the callback function. This function will receive an object argument that has a property. This is itself an object with the full address components as sub properties.</p>\n\n<p>Let’s now use the <em><code>setFieldValue</code></em> method in the callback to provide values for postal_code, city, province, address_1 and country_code.</p>\n\n\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/f3ef64046357bed9c8db35bb0088c8fd.js"><\/script>\n</div>\n\n\n<p>Finally, we’ll assign handleSelect to the onSelection prop. We’ll also add the primaryLineOnly prop. What this does is ensure that when the user makes a selection that the entire address (with state, country, zip code, etc.) is not populated in the address field—just the primary line is e.g., “12 Test St”.</p>\n\n<p><em>components/checkout/address-field.jsx</em><br>\n</p>\n<div class="ltag_gist-liquid-tag">\n  <script id="gist-ltag" src="https://gist.github.com/lobot/ab56a4a3acb911764fc33049bd88175c.js"><\/script>\n</div>\n\n\n<h2>\n  <a name="wrap-up" href="#wrap-up">\n  </a>\n  Wrap up\n</h2>\n\n<p>With that done, we now have implemented a quick and stylish address autocomplete in Medusa! By typing a few characters into the autocomplete, customers get their validated address pre-filled, saving them a significant amount of time.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--h7YF3iKu--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2pemcmx6jwc7jzv6mll5.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--h7YF3iKu--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2pemcmx6jwc7jzv6mll5.png" alt="final checkout form with all fields" loading="lazy" width="880" height="516"></a></p>\n\n',o.body_markdown='[Medusa.js](https://medusajs.com/) is an open-source Shopify alternative built with JavaScript. It’s a great solution if you’re looking for a customizable ecommerce solution.\n\nIn this tutorial, we’ll see how to add [Lob’s Address Autocomplete API](https://www.lob.com/address-verification) feature to a Medusa project to give customers a faster checkout process.\n\nYou can find the complete code in this [GitHub repo](https://github.com/lob/medusa-next-address-autocomplete).\n\n\n## Why use address autocomplete?\t\t\n\nEvery bit of extra information that customers must enter in the checkout process adds to the likelihood of cart abandonment.\t\t\n\nThe information that takes the longest is undoubtedly the shipping address.\n\nBy using Lob’s Address Autocomplete API we can not only save time for customers but also validate addresses to reduce the possibility of errors.\t\t\t\t\n\n\n## Installing Medusa\t\t\t\t\n\nIn this tutorial, we’ll add the Lob Autocomplete React component to the checkout form found in the Medusa Next.js starter template.\t\t\n\nTo begin, you’ll need to install these two repos: \n\n* [medusa-starter-default](https://github.com/medusajs/medusa-starter-default) which is the Medusa server. (Do NOT seed your database yet)\n* [medusa-nextjs-starter](https://github.com/medusajs/nextjs-starter-medusa) which is the Next.js frontend template.\t\t\n\nYou’ll find the installation instructions in the respective repos so we won’t repeat them here for the sake of brevity.\n\nAfter installing, make sure you run the dev server on both projects (which run on ports 8000 and 9000 by default).\t\t\t\t\t\t\t\n\n\n## Set up Medusa for the US market\n\nThis walkthrough is designed for a US Storefront—though Lob has [International Autocomplete](https://docs.lob.com/#operation/intl_autocompletions) support and could be used for non-US storefronts. We will need to make three adjustments so you get US dollars (USD) instead of Euros displayed in our starter store.\n\n\n### Seeding our store database\n\nIn your Medusa store project, open _`my-medusa-store/data/seed.json`_.\n\nSwap the order of the regions, so NA (North America) is first, and therefore the default.\n\n{% gist https://gist.github.com/lobot/2b60afcec0c62030f3cd0e1840a2a567.js %}\n\nTo seed your Medusa store run the following command:\n\n{% gist https://gist.github.com/lobot/3bc45eae2662dcd632de242b744ebff6.js %}\n\n\n### Setting currency to USD\t\t\t\n\nThe default currency of the Next template is set to EUR. Let’s change that to USD as Lob’s autocomplete API generates US addresses while in test mode.\t\t\t\t\t\n\nTo do this, go to the frontend project (all our customizations will apply to the frontend) and change the `currencyCode` property to "_usd_" in the file context/store-context.js.\n\t\t\t\n_context/store-context.js_\n{% gist https://gist.github.com/lobot/54640a6ceb9649eb9b05e1b1b560e016.js %}\n\nWe’ll also need to change the default display from EUR to USD which we can do in the file components/checkout/shipping-method.jsx.\n\t\t\t\t\t\t\t\t\t\n_components/checkout/shipping-method.jsx_\n\n{% gist https://gist.github.com/lobot/061f9411c99a11ee56e5e3d967eae756.js %}\n\n\n## Adding autocomplete\t\t\t\t\t\t\t\n\nThe default checkout page of the Medusa store currently looks like this:\n\n\n![default checkout page](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/9lcvw2d8knd50zuqb6ff.png)\n\nOur approach to adding address autocomplete will be:\n\n1. Replace the “Address 1” field with the Lob autocomplete React component.\n\n2. Add a “State” field (Medusa doesn’t provide this by default and it’s needed for US addresses).\n\n3. When an address is selected through the autocomplete, programmatically fill the country, city, state, and postal code fields.\n\nWith this done, filling out the address form will be significantly faster—users only need to type a few characters to get a full address.\t\n\n\n## Creating address field component\n\nThe main component for the checkout form is in the file _`components/checkout/information-step.jsx`_. This is where you’ll find the address input that we’re going to replace with the address autocomplete component.\t\t\t\t\t\t\nLet’s first make a copy of the _`input-field`_ component and customize it to include the autocomplete. By doing it this way, we can keep the wrapper for error handling that is already present in the _`input-field`_.\n\t\t\t\t\t\t\t\t\t\nTo do this, go to the terminal and copy the _`input-field`_ component to a new component _`address-field`_:\n\n{% gist https://gist.github.com/lobot/a46a6f131dc0bd0184d5a5cb2425d5d1.js %}\n\nIn the new component file, rename the exported function from _`InputField`_ to _`AddressField`_.\n\n_components/checkout/address-field.jsx_\n{% gist https://gist.github.com/lobot/f99199e255d2c00b1f73224e34f2689c.js %}\n\n\n## Adding autocomplete component\t\t\t\t\n\nWe’re now going to install Lob’s React address autocomplete component which provides a ready-to-use autocomplete, saving us from having to implement one from scratch.\t\t\t\t\t\t\t\t\n\nLet’s first go to the terminal and install it with NPM. We add @previous so the component supports React 17 which is compatible with the Medusa starter project.\n\n{% gist https://gist.github.com/lobot/ee93607aa1d21073421f8560019353aa.js %}\n\nTo use the autocomplete API, we’ll need a Lob API key. The instructions for generating one are [outlined here](https://github.com/lob/react-address-autocomplete#getting-api-keys).\n\nGrab the publishable test key and add it to your .env.local file. We’ll use a variable name _`NEXT_PUBLIC_LOB_PUBLISHABLE_KEY`_. By prefixing it with _NEXT_PUBLIC__ we can make it accessible from the frontend source code.\n\n_.env.local_\n{% gist https://gist.github.com/lobot/b63bd1ec6b46c0b499a9a9a20a56dce7.js %}\n\nNow, open the component file _`components/checkout/address-field.jsx`_ and import the Autocomplete component at the top of the file under the existing imports.\t\t\t\t\t\nThen, create a variable apiKey and assign to it your publishable Lob API key. \n\n_components/checkout/address-field.jsx_\n{% gist https://gist.github.com/lobot/3ecdcc51638f173d622e79e25a3b7e4b.js %}\n\nWe’ll then replace the Field component declaration here with the autocomplete component. To do that, locate where Field is declared in the JSX template.\n\n_components/checkout/address-field.jsx_\n{% gist https://gist.github.com/lobot/96772502476a19b051fdba6b7c065bfd.js %}\n\nReplace that with the following:\n\n_components/checkout/address-field.jsx_\n{% gist https://gist.github.com/lobot/c8006f89915d9ded609ccc47a4b578fa.js %}\n\n\n## Adding address field to form\t\t\t\t\t\t\n\nLet’s now add our newly created address field to the checkout form. The first thing we’ll do is import the component at the top of the file components/checkout/information-step.jsx.\n\n_components/checkout/information-step.jsx_\n{% gist https://gist.github.com/lobot/95eb0d2a742e27912fb57b24c3f69b3f.js %}\n\nNext, in the same file, we’ll replace the address line 1 InputField component. You can identify it by the id address_1.\n\t\t\t\t\t\t\t\t_components/checkout/information-step.jsx_\n{% gist https://gist.github.com/lobot/984d030a923a836b3d12e0a019d2af6c.js %}\n\nReplace that with the following:\n\n_components/checkout/information-step.jsx_\n{% gist https://gist.github.com/lobot/c9f5c35aa6a27f80355ec2713ba438c7.js %}\n\nNote that we keep the _id, error_, and _errorMsg_ props but not the others as they aren’t relevant in our new address field.\n\n\n## Adding styling\n\nTo make the Lob autocomplete component fit with the Medusa checkout’s appearance we’ll need to add a few CSS rules.\t\t\t\t\t\t\t\t\t\n\nLet’s create a CSS module in the styles directory called address.module.css.\n\n{% gist https://gist.github.com/lobot/975d6ca710ee5d821334e7846b6e30fb.js %}\n\nPut the following rules into that new file:\n\n _styles/address.module.css_\n{% gist https://gist.github.com/lobot/a00d5fd3922e027b3577d026bfc3250d.js %}\n\nLet’s now import the CSS module file into our address field component and apply the class _`addressStyle.address`_ to the autocomplete component.\n\n_components/checkout/address-field.jsx_ \n{% gist https://gist.github.com/lobot/6ef395b339a204069a48edf5ce84f086.js %}\n\nWith that done, the autocomplete component has now been integrated into the checkout. Go ahead and start typing into the form and you should see the address autocomplete working:\n\n![example of address autocomplete working](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/q1lz4kcgwafm7hu4jak5.png)\n\n\n## Setting up state field\t\t\t\t\t\t\t\t\n\nAs mentioned, the checkout form doesn’t include a field for the customer’s state by default. We’ll need this field as it’s required for US shipping addresses.\t\t\t\t\t\t\t\t\nAlthough not in the form, the Medusa checkout API does include a field “province” which we should use for the state.\t\t\t\t\t\t\t\t\t\n\nWe’ll first create the field in the form’s validation schema which is handled by the library [Yup](https://github.com/jquense/yup). You’ll see the config object already has a value province that is set to be nullable. Let’s change this so it’s now required by removing nullable() and replacing it with `required("Required")`.\n\n_components/checkout/information-step.jsx_\n{% gist https://gist.github.com/lobot/cdf26cd0e09baa2bc48b68db28abddea.js %}\n\nThe checkout also uses the form library [Formik](https://formik.org/). This has a prop initialValues which allows the form to be pre-filled with saved values for returning customers.\n\nLet’s add the province field to the _initialValues_ by adding a property _province_ and assigning to it `savedValues.province || "" `.\t\n\n_components/checkout/information-step.jsx_\n{% gist https://gist.github.com/lobot/441ba459095b7370c14756870c11b702.js %}\n\n\n### Adding state field to template\t\t\t\t\t\t\t\t\t\n\nWe’ll now add the state (i.e., province) field to the form. We’ll make it share a row with the country field so the form is not too long.\t\t\t\t\t\t\t\t\n\nTo do this, find the field with id _`country_code`_. Wrap this in a div with className _`styles.sharedrow`._\t\t\t\t\t\t\t\t\t\n\nAdd an _`InputField`_ child with id _`province`_. You can make the placeholder “State” so it’s consistent with US addresses.\n\n{% gist https://gist.github.com/lobot/5c4a27e4a32c5279f34f20caa9aa6fde.js %}\n\nWith that done, the form will now have a state field next to the country field.\n\n![checkout form with state field](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/mrpzv0xqz8reukjvgd9j.png)\n\n\n## Creating select handler\n\nLooking again at the address autocomplete field, you’ll see that as we begin typing an address we get suggestions in a drop-down below.\n\t\t\t\t\t\t\t\t\t\nWhen the user selects one of these suggestions, the autocomplete component calls an _`onSelection`_ callback and passes the selected address to it.\n\nLet’s create a handler function _`handleSelect`_ and pass it to the _`onSelection`_ prop. In this function, we’ll take the selected autocomplete address and populate the other address fields in the form.\t\t\t\t\t\t\t\t\t\n\nThe first thing we need to do is import the _`useFormikContext`_ hook from the _`formik`_ module. This gives us access to the form API in a functional component.\t\t\t\t\t\t\t\t\t\nLet’s then destructure the object to get the _`setFieldValue`_ method. \n\n_components/checkout/address-field.jsx_\n{% gist https://gist.github.com/lobot/c80b49d13c6790fd0626ee3348bf49bd.js %}\n\nNow we can define the callback function. This function will receive an object argument that has a property. This is itself an object with the full address components as sub properties.\n\nLet’s now use the _`setFieldValue`_ method in the callback to provide values for postal_code, city, province, address_1 and country_code.\n\n{% gist https://gist.github.com/lobot/f3ef64046357bed9c8db35bb0088c8fd.js %}\n\nFinally, we’ll assign handleSelect to the onSelection prop. We’ll also add the primaryLineOnly prop. What this does is ensure that when the user makes a selection that the entire address (with state, country, zip code, etc.) is not populated in the address field—just the primary line is e.g., “12 Test St”.\n\n_components/checkout/address-field.jsx_\n{% gist https://gist.github.com/lobot/ab56a4a3acb911764fc33049bd88175c.js %}\n\n\n## Wrap up\n\nWith that done, we now have implemented a quick and stylish address autocomplete in Medusa! By typing a few characters into the autocomplete, customers get their validated address pre-filled, saving them a significant amount of time.\n\n![final checkout form with all fields](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/2pemcmx6jwc7jzv6mll5.png)',o.user={name:"Lob",username:"lob",twitter_username:"lob",github_username:e,website_url:"https://www.lob.com/developers",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--WMzdHhSU--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/706711/2caad16c-7abd-4edc-bb81-291429ab05e3.jpg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--78pE0XQ4--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/706711/2caad16c-7abd-4edc-bb81-291429ab05e3.jpg"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:o}},error:e,state:{currentArticle:o},serverRendered:!0,routePath:"/lob/1094571",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:e}}}}(null,"2022-05-27T19:02:33Z",{})</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

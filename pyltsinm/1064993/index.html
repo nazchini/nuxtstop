@@ -1,0 +1,806 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>How to write your own language plugin for IDEA (part 1)</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>How to write your own language plugin for IDEA (part 1)</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/java" class="tag" data-v-70afb46a>
+          #java
+        </a><a href="/nuxtstop/t/kotlin" class="tag" data-v-70afb46a>
+          #kotlin
+        </a><a href="/nuxtstop/t/idea" class="tag" data-v-70afb46a>
+          #idea
+        </a><a href="/nuxtstop/t/jetbrains" class="tag" data-v-70afb46a>
+          #jetbrains
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ywO73juG--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/sehcz6hu4wg4uemq13g6.png" alt="How to write your own language plugin for IDEA (part 1)" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            6
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Apr 26</time></div></header> <div class="content" data-v-70afb46a><p>Disclaimer: I don't work for JetBrains, so there will be and most likely there may be inaccuracies and errors in the article and code.</p>
+
+<h1>
+  <a name="introduction" href="#introduction">
+  </a>
+  Introduction
+</h1>
+
+<p>I am working as a backend developer, and sometimes I am tired of the work routine. Going deep into some opensource helps me, besides I am keen on Jetbrains' product and IDEA. IDEA can be customized with plugins, which you can write yourself.<br>
+The biggest part of IDEA's code is open-source. Developers from Jetbrains always help you to make pull requests and improve your main tool.<br>
+I have already written an article about how to write <a href="https://dev.to/pyltsinm/how-to-create-a-new-inspecion-for-idea-10i1">a small plugin</a> with one inspection. But if you want to understand how IDEA works, you should try to write a language plugin.<br>
+Let's do this.<br>
+As a "guinea pig" we will take a simple  language - <a href="https://monkeylang.org/">Monkey</a>, the interpreter and compiler for which are described in the <a href="https://interpreterbook.com/">books on Golang</a>. Since my goal was not to cover everything, the plugin covers a limited subset of this language. The interpreter can be found <a href="https://github.com/pyltsin/monkey-source">here</a>.</p>
+
+<p>Example of calculating the Fibonacci number on Monkey:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight java"><code><span class="n">let</span> <span class="n">fibonacci</span> <span class="o">=</span> <span class="n">fn</span><span class="o">(</span><span class="n">x</span><span class="o">){</span>
+                    <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="o">){</span>
+                        <span class="mi">0</span><span class="o">;</span>
+                    <span class="o">}</span>
+                    <span class="k">else</span><span class="o">{</span>
+                        <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">1</span><span class="o">){</span>
+                            <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>
+                        <span class="o">}</span>
+                        <span class="k">else</span><span class="o">{</span>
+                            <span class="n">fibonacci</span><span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">2</span><span class="o">);</span>
+                        <span class="o">};</span>
+                    <span class="o">};</span>
+<span class="o">};</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We will write this plugin with Java and Kotlin (JVM)</p>
+
+<h1>
+  <a name="prerequisites" href="#prerequisites">
+  </a>
+  Prerequisites
+</h1>
+
+<p>The easiest way to create a new plugin is to use <a href="https://github.com/JetBrains/intellij-platform-plugin-template">the template</a>. It is being actively developed and had already included the most needed features.</p>
+
+<p>Also, we need DevKit plugin, which you can enable in IDEA<br>
+<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--H7k7OJN3--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rkhd07pkgcjxijj7rzc6.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--H7k7OJN3--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rkhd07pkgcjxijj7rzc6.png" alt="Where you can find DevKit" loading="lazy" width="880" height="596"></a></p>
+
+<p><a href="https://plugins.jetbrains.com/plugin/6606-grammar-kit">Grammar-Kit</a> plugin will be used to generate a lexer and parser</p>
+
+<p>Examples of other plugins:</p>
+
+<ul>
+<li>
+<a href="https://github.com/JetBrains/intellij-community">Java</a> (in the code of IDEA)</li>
+<li>
+<a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin.git">go-plugin</a> (now this plugin is known as Goland)</li>
+<li><a href="https://github.com/carymrobbins/intellij-haskforce">Haskell</a></li>
+<li><a href="https://github.com/ignatov/intellij-erlang/blob/master/grammars/erlang.bnf">Erlang</a></li>
+<li><a href="https://github.com/IntelliJ-Frege">Frege</a></li>
+<li>
+<a href="https://github.com/pyltsin/monkey-plugin">Monkey plugin</a> (in this article)</li>
+</ul>
+<h1>
+  <a name="creating-the-basis-of-a-language-plugin" href="#creating-the-basis-of-a-language-plugin">
+  </a>
+  Creating the basis of a language plugin
+</h1>
+
+<p>The first stages of creating a language plugin are well described in <a href="https://plugins.jetbrains.com/docs/intellij/language-and-filetype.html">the documentation</a>.</p>
+
+<ul>
+<li>It is required to declare a new language (examples in <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/GoLanguage.java">go-plugin</a>, <a href="https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/java/com/plugin/frege/FregeLanguage.java">frege</a>, <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/MonkeyLanguage.kt">monkey</a>)</li>
+</ul>
+
+<p>Example for Monkey:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="k">import</span> <span class="nn">com.intellij.lang.Language</span>
+
+<span class="kd">class</span> <span class="nc">MonkeyLanguage</span> <span class="p">:</span> <span class="nc">Language</span><span class="p">(</span><span class="s">"Monkey"</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">companion</span> <span class="k">object</span> <span class="p">{</span>
+        <span class="nd">@JvmStatic</span>
+        <span class="kd">val</span> <span class="py">INSTANCE</span> <span class="p">=</span> <span class="nc">MonkeyLanguage</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<ul>
+<li><p>Declare an icon (examples in <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/GoIcons.java">go-plugin</a>, <a href="https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/java/com/plugin/frege/FregeIcons.java">frege</a>, <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/MonkeyIcons.kt">monkey</a>)</p></li>
+<li><p>Declare a new file type and combine everything together (examples in <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/GoFileType.java">go-plugin</a>, <a href="https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/java/com/plugin/frege/FregeFileType.java">frege</a>, <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/MonkeyFileType.kt">monkey</a>)</p></li>
+</ul>
+
+<p>Example for Monkey<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight kotlin"><code><span class="k">import</span> <span class="nn">com.intellij.openapi.fileTypes.LanguageFileType</span>
+<span class="k">import</span> <span class="nn">javax.swing.Icon</span>
+
+<span class="kd">class</span> <span class="nc">MonkeyFileType</span> <span class="p">:</span> <span class="nc">LanguageFileType</span><span class="p">(</span><span class="nc">MonkeyLanguage</span><span class="p">.</span><span class="nc">INSTANCE</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">getName</span><span class="p">():</span> <span class="nc">String</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">"Monkey File"</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">getDescription</span><span class="p">():</span> <span class="nc">String</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">"Monkey language file"</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">getDefaultExtension</span><span class="p">():</span> <span class="nc">String</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="s">"monkey"</span>
+    <span class="p">}</span>
+
+    <span class="k">override</span> <span class="k">fun</span> <span class="nf">getIcon</span><span class="p">():</span> <span class="nc">Icon</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="nc">MonkeyIcons</span><span class="p">.</span><span class="nc">FILE</span>
+    <span class="p">}</span>
+
+    <span class="k">companion</span> <span class="k">object</span> <span class="p">{</span>
+        <span class="nd">@JvmStatic</span>
+        <span class="kd">val</span> <span class="py">INSTANCE</span> <span class="p">=</span> <span class="nc">MonkeyFileType</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>After that, you need to enable a new file type via the extension point. All the features that plugins provide are enabled through one or more extension points. They must be declared in the file plugin.xml (example for <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/resources/META-INF/gogland.xml">go-plugin</a>, <a href="https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/resources/META-INF/plugin.xml">frege</a>). Other examples of using extension points will be given below or can be checked in the <a href="https://plugins.jetbrains.com/docs/intellij/welcome.html">documentation</a>.</p>
+
+<p>Example for Monkey (resources/META-INF/plugin.xml)<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight xml"><code><span class="nt">&lt;extensions</span> <span class="na">defaultExtensionNs=</span><span class="s">"com.intellij"</span><span class="nt">></span>
+  <span class="nt">&lt;fileType</span> <span class="na">name=</span><span class="s">"Monkey File"</span>
+            <span class="na">implementationClass=</span><span class="s">"com.github.pyltsin.monkeyplugin.MonkeyFileType"</span>
+            <span class="na">fieldName=</span><span class="s">"INSTANCE"</span>
+            <span class="na">language=</span><span class="s">"Monkey"</span>
+            <span class="na">extensions=</span><span class="s">"monkey"</span><span class="nt">/></span>
+<span class="nt">&lt;/extensions></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h1>
+  <a name="creation-psitree" href="#creation-psitree">
+  </a>
+  Creation PSI-tree
+</h1>
+
+<p>It is impossible to describe the whole theory that is required to parse the code in one article. Fundamental knowledge for this topic can be found in the "<a href="https://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools">Dragon Book</a>"<br>
+<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--vSIwDte5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lpwld9cljps0mxiiyaje.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--vSIwDte5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lpwld9cljps0mxiiyaje.png" alt='Cover of "Dragon Book"' loading="lazy" width="220" height="333"></a></p>
+
+<p>According to this book, the process of the compiler working with the code consists of the following steps:</p>
+
+<ul>
+<li>Lexical Analyzer</li>
+<li>Syntax Analyzer</li>
+<li>Semantic Analyzer</li>
+<li>Intermediate Code Generator</li>
+<li>Machine-Independent Code Optimizer</li>
+<li>Code Generator</li>
+<li>Machine-Dependent Code Optimizer</li>
+</ul>
+
+<p>It is required to implement the first 3 analyzers for any IDE to work successfully:</p>
+
+<ul>
+<li>Lexical analyzer (to read a stream of characters and to group them into tokens)</li>
+<li>Parser (to receive a stream of tokens and to build a syntax tree from them - <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">AST</a>)</li>
+<li>Semantic analyzer (to use a tree to verify the source code according to some rules).</li>
+</ul>
+
+<p>In IDEA, an analog called <code>PSI tree</code> (Program structure Interface) is used instead of an AST tree.</p>
+
+<p>The process of creating a PSI tree is well shown in the illustration from the <a href="https://plugins.jetbrains.com/docs/intellij/implementing-parser-and-psi.html">documentation</a>:<br>
+<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--P_XGeyDC--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rxsh8l8bige992uw2dv6.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--P_XGeyDC--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rxsh8l8bige992uw2dv6.png" alt="PSI tree" loading="lazy" width="758" height="965"></a></p>
+
+<p>In order to see PSI-tree, you can use the <a href="https://www.jetbrains.com/help/idea/psi-viewer.html">PSI Viewer</a> (Tools->View PSI structure)<br>
+ <a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Jai_6Pp_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5v6k2btlp1ioooqgana3.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Jai_6Pp_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5v6k2btlp1ioooqgana3.png" alt="Example of usage of PSI Viewer" loading="lazy" width="861" height="587"></a></p>
+
+<p>In IDEA, the abstract TreeElement class is mainly used to implement the PSI tree<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight java"><code><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">TreeElement</span> <span class="kd">extends</span> <span class="nc">ElementBase</span> <span class="kd">implements</span> <span class="nc">ASTNode</span><span class="o">,</span> <span class="nc">Cloneable</span> <span class="o">{</span>
+  <span class="kd">private</span> <span class="nc">TreeElement</span> <span class="n">myNextSibling</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">TreeElement</span> <span class="n">myPrevSibling</span><span class="o">;</span>
+  <span class="kd">private</span> <span class="nc">CompositeElement</span> <span class="n">myParent</span><span class="o">;</span>
+<span class="o">...</span>
+<span class="o">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>In IDEA, you can use the <a href="https://plugins.jetbrains.com/plugin/6606-grammar-kit">GrammarKit</a> plugin to create a lexer and a parser.</p>
+
+<h1>
+  <a name="lexer" href="#lexer">
+  </a>
+  Lexer
+</h1>
+
+<p>Perhaps, the easiest way to create a lexer for IDEA is to use <a href="https://jflex.de/">JFlex</a>. The GrammarKit plugin already contains implementation and allows you to generate a lexer from <code>.bnf</code> file or from <code>.flex</code> file (with more customization options). An example for the Monkey language can be viewed <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/java/com/github/pyltsin/monkeyplugin/Monkey.flex">here</a>, a more complex one for Frege - <a href="https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/java/com/plugin/frege/lexer/FregeLexer.flex">here</a>.</p>
+
+<p>To generate Lexer, you need to configure the Gradle plugin or use the context menu in .flex file - "Run JFlex Generator".</p>
+
+<p>After that, you need to declare a class that implements <code>com.intellij.lexer.Lexer</code>. There is already an adapter for the generated JFlex lexer - <code>com.intellij.lexer.FlexAdapter</code></p>
+
+<h1>
+  <a name="parser" href="#parser">
+  </a>
+  Parser
+</h1>
+
+<p>In IDEA, code generation by the GrammarKit plugin is mainly used to create a parser. Unfortunately, there is not much documentation about it and it is only presented in <a href="https://github.com/JetBrains/Grammar-Kit/blob/master/TUTORIAL.md">Tutorial</a> and <a href="https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md">HOWTO</a>.</p>
+
+<p>The grammar of the language is described in <a href="https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form">BNF</a>. The only difference that is used is <code>::=</code> as "is".</p>
+
+<p>Example grammar for expressions can be found <a href="https://github.com/JetBrains/Grammar-Kit/blob/master/testData/generator/ExprParser.bnf">here</a></p>
+
+<p>As you can see, the bnf file consists of 2 parts: </p>
+
+<ul>
+<li>the first part describes the meta-information (and the description of tokens, if flex files are not used)</li>
+<li>the second part describes the grammar itself.</li>
+</ul>
+
+<p>Let's consider some parts of the meta-information:</p>
+
+<p><code>parserClass</code> - name and location of the generated parser class</p>
+
+<p><code>parserUtilClass</code> - a reference to a class containing a set of additional methods for the parser (usually the <code>com.intellij.lang.parser.GeneratedParserUtilBase</code> class or its inheritors)</p>
+
+<p><code>extends = &lt;some class></code> - a reference to the base class from which all PSI elements (tree nodes) will be inherited. Usually <code>com.intellij.extapi.psi.ASTWrapperPsiElement</code> or its inheritors.</p>
+
+<p><code>extends(&lt;regexp for tree nodes>) = &lt;psi-element></code> (for example: <code>extends(".*expr")=expr</code>) - all psi elements will be inherited from the specified psi element.</p>
+
+<p><code>psiClassPrefix</code>, <code>psiImplClassSuffix</code> - respectively the prefix for classes and interfaces (usually by the name of the language) and the suffix for implementing interfaces (usually - <code>Impl</code>)</p>
+
+<p><code>psiPackage</code> and <code>psiImplPackage</code> are respectively a package for interfaces and their implementations.</p>
+
+<p><code>implements</code> - similar to <code>extends</code>, but for interfaces</p>
+
+<p><code>elementTypeHolderClass</code> - a generated storage for all types of elements</p>
+
+<p><code>elementTypeClass</code> - a class for types of elements (not generated, inheritors to <code>com.intellij.psi.tree.IElementType</code>)</p>
+
+<p><code>elementTypeFactory</code> - creating a factory for generating element types (used for Stub - about them below)</p>
+
+<p><code>psiImplUtilClass</code> - a class with a set of static methods that are used as an implementation of the required methods for psi elements. <br>
+Let's suppose we have such lines (from go-plugin)<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight java"><code><span class="nc">ImportSpec</span> <span class="o">::=</span> <span class="o">[</span> <span class="sc">'.'</span> <span class="o">|</span> <span class="n">identifier</span> <span class="o">]</span> <span class="nc">ImportString</span> <span class="o">{</span>
+  <span class="n">stubClass</span><span class="o">=</span><span class="s">"com.goide.stubs.GoImportSpecStub"</span>
+  <span class="n">methods</span><span class="o">=[</span><span class="n">getAlias</span> <span class="n">getLocalPackageName</span> <span class="n">shouldGoDeeper</span> <span class="n">isForSideEffects</span> <span class="n">isDot</span> <span class="n">getPath</span> <span class="n">getName</span> <span class="n">isCImport</span><span class="o">]</span>
+<span class="o">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>For that, we need to declare and implement a static method with the same name in <code>psiImplUtilClass</code>:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight java"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">String</span> <span class="nf">getAlias</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nc">GoImportSpec</span> <span class="n">importSpec</span><span class="o">)</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>After that <code>getAlias</code> will be generated as:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight java"><code>  <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getAlias</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">GoPsiImplUtil</span><span class="o">.</span><span class="na">getAlias</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+  <span class="o">}</span>
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now let's move on to the <code>bnf</code> rules themselves. Modifiers can be used for each rule (for example, <code>private</code>, <code>fake</code>, and so on). Their description is given <a href="https://github.com/JetBrains/Grammar-Kit#rule-modifiers">here</a>. So, for example <code>private</code> in<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight java"><code><span class="kd">private</span> <span class="n">boolean_group</span> <span class="o">::=</span> <span class="n">xor_expr</span> <span class="o">|</span> <span class="n">between_expr</span> <span class="o">|</span> <span class="n">is_not_expr</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>indicates that the PSI element for <code>boolean_group</code> will not be generated.</p>
+
+<p>If it is not possible to describe the grammar in a <code>bnf</code> file correctly, then it will be useful to describe it in code using external rules.</p>
+
+<p>One of the important parts of grammar is the rules of dealing with errors. Two keywords are used for this: <code>pin</code> and <code>recoverWhile</code>.</p>
+
+<p><code>pin</code> - indicates the token number. As soon as we get to it, the parser starts waiting only for the current declaration. For example, declaring a structure in Golang<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight java"><code><span class="nc">Struct</span> <span class="nc">Type</span> <span class="o">::=</span> <span class="n">struct</span> <span class="sc">'{'</span> <span class="nc">Fields</span><span class="o">?</span> <span class="sc">'}'</span> <span class="o">{</span><span class="n">pin</span><span class="o">=</span><span class="mi">1</span><span class="o">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><code>recoverWhile</code> - specifies which tokens can be consumed only after matching with all rules is completed. Recommendations for the use of this attribute are described <a href="https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#22-using-recoverwhile-attribute">here</a>.</p>
+
+<p>You should also pay attention to the <a href="https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#24-compact-expression-parsing-with-priorities">recommendations</a> for parsing expressions based on priority.</p>
+
+<p>It seems to me that creating correct and convenient grammar rules for future work is one of the most difficult parts of implementing a plugin for a language. To get started, you can use examples: <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/grammars/go.bnf">go-plugin</a>, <a href="https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/java/com/plugin/frege/Frege.bnf">Frege</a>, <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/java/com/github/pyltsin/monkeyplugin/Monkey.bnf">Monkey</a> (for Monkey, only a subset of this language is implemented for simplification).</p>
+
+<p>After creating a <code>bnf</code> file and generating a parser from it, you need to define the class for <code>File</code> (inheritor from <code>com.intellij.extapi.psi.PsiFileBase</code>) (examples from <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/psi/GoFile.java">go-plugin</a>, <a href="https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/kotlin/com/plugin/frege/psi/FregeFile.kt">Frege</a>, <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/psi/MonkeyFile.kt">Monkey</a>) and the definition class for your parser (heir from <code>com.intellij.lang.ParserDefinition</code>) (example from <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/GoParserDefinition.java">go-plugin</a>, <a href="https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/java/com/plugin/frege/parser/FregeParserDefinition.java">Frege</a>, <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/parser/MonkeyParserDefinition.kt">Monkey</a>), and then enable it via the extension point.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight xml"><code><span class="nt">&lt;lang.parserDefinition</span> <span class="na">language=</span><span class="s">"Monkey"</span>
+<span class="na">implementationClass=</span><span class="s">"com.github.pyltsin.monkeyplugin.parser.MonkeyParserDefinition"</span><span class="nt">/></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h1>
+  <a name="annotators" href="#annotators">
+  </a>
+  Annotators
+</h1>
+
+<p>In the previous parts, we looked at how a lexer and a parser are created. Now let's move on to the third part - semantic analysis. Studying the code of IDEA and its plugins, I found two ways to implement it (excluding inspections).</p>
+
+<p>The first way is used in a plugin for Java language. Consider the following invalid code:<br>
+<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--RNKrJXNc--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/k354nf0ikebcp9zdzqnl.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--RNKrJXNc--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/k354nf0ikebcp9zdzqnl.png" alt="Example of invalid code" loading="lazy" width="234" height="37"></a></p>
+
+<p>IDEA highlighted it and said <code>Operator'-'cannot be applied to 'java.lang.String', 'java.lang.String'</code>. It works thanks to the following extension point:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight xml"><code><span class="nt">&lt;highlightVisitor</span> <span class="na">implementation=</span>
+<span class="s">"com.intellij.codeInsight.daemon.impl.analysis.HighlightVisitorImpl"</span><span class="nt">/></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The class must implement <code>com.intellij.codeInsight.daemon.impl.HighlightVisitor</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight java"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">HighlightVisitor</span> <span class="o">{</span>
+
+  <span class="kt">boolean</span> <span class="nf">suitableForFile</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nc">PsiFile</span> <span class="n">file</span><span class="o">);</span>
+
+  <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nc">PsiElement</span> <span class="n">element</span><span class="o">);</span>
+
+  <span class="kt">boolean</span> <span class="nf">analyze</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nc">PsiFile</span> <span class="n">file</span><span class="o">,</span> 
+                  <span class="kt">boolean</span> <span class="n">updateWholeFile</span><span class="o">,</span> 
+                  <span class="nd">@NotNull</span> <span class="nc">HighlightInfoHolder</span> <span class="n">holder</span><span class="o">,</span> 
+                  <span class="nd">@NotNull</span> <span class="nc">Runnable</span> <span class="n">action</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We use the method <code>analyze</code> to configure, launch (<code>action.run()</code>) and close resources<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight java"><code><span class="c1">//From HighlightVisitorImpl</span>
+    <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nc">PsiElement</span> <span class="n">element</span><span class="o">)</span> <span class="o">{</span>
+  <span class="c1">// some code</span>
+      <span class="n">element</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+  <span class="c1">// some code</span>
+  <span class="o">}</span>
+
+<span class="c1">//Example for ClsJavaModuleImpl</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nc">PsiElementVisitor</span> <span class="n">visitor</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">visitor</span> <span class="k">instanceof</span> <span class="nc">JavaElementVisitor</span><span class="o">)</span> <span class="o">{</span>
+      <span class="o">((</span><span class="nc">JavaElementVisitor</span><span class="o">)</span><span class="n">visitor</span><span class="o">).</span><span class="na">visitModule</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="k">else</span> <span class="o">{</span>
+      <span class="n">visitor</span><span class="o">.</span><span class="na">visitElement</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>
+    <span class="o">}</span>
+  <span class="o">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The <a href="https://en.wikipedia.org/wiki/Visitor_pattern">visitor</a> pattern is used there.<br>
+<code>HighlightVisitorImpl</code> extends <code>JavaElementVisitor</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight java"><code><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">JavaElementVisitor</span> <span class="kd">extends</span> <span class="nc">PsiElementVisitor</span> <span class="o">{</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visitAnonymousClass</span><span class="o">(</span><span class="nc">PsiAnonymousClass</span> <span class="n">aClass</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">visitClass</span><span class="o">(</span><span class="n">aClass</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visitArrayAccessExpression</span><span class="o">(</span><span class="nc">PsiArrayAccessExpression</span> <span class="n">expression</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">visitExpression</span><span class="o">(</span><span class="n">expression</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visitArrayInitializerExpression</span><span class="o">(</span><span class="nc">PsiArrayInitializerExpression</span> <span class="n">expression</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">visitExpression</span><span class="o">(</span><span class="n">expression</span><span class="o">);</span>
+  <span class="o">}</span>
+<span class="o">...</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The second way is applied in go-plugin and Frege.<br>
+I used it too in the Monkey plugin. It uses an annotator extension point.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight xml"><code><span class="nt">&lt;annotator</span> <span class="na">language=</span><span class="s">"Monkey"</span>
+<span class="na">implementationClass=</span><span class="s">"com.github.pyltsin.monkeyplugin.annotator.MonkeyWarningAnnotator"</span><span class="nt">/></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Your class must implement the next interface:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight java"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Annotator</span> <span class="o">{</span>
+  <span class="kt">void</span> <span class="nf">annotate</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nc">PsiElement</span> <span class="n">element</span><span class="o">,</span> 
+                <span class="nd">@NotNull</span> <span class="nc">AnnotationHolder</span> <span class="n">holder</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>An error message can be registered with next way:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight java"><code><span class="n">holder</span><span class="o">.</span><span class="na">newAnnotation</span><span class="o">(</span><span class="nc">HighlightSeverity</span><span class="o">.</span><span class="na">ERROR</span><span class="o">,</span> <span class="n">errorMsg</span><span class="o">)</span>
+<span class="o">.</span><span class="na">range</span><span class="o">(</span><span class="n">element</span><span class="o">)</span>
+<span class="o">.</span><span class="na">create</span><span class="o">()</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Examples for <a href="https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/kotlin/com/plugin/frege/annotator/FregeWarningAnnotator.kt">Frege</a>, <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/highlighting/GoAnnotator.java">go-plugin</a>, <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/annotator/MonkeyWarningAnnotator.kt">Monkey</a>.</p>
+
+<p>For Monkey language, I have currently implemented 2 rules - the inability to resolve links (resolve references - about them below) and the simple type check (via <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/psi/impl/TypeResolver.kt">DSL</a>).</p>
+
+<h1>
+  <a name="highlighting-brackets" href="#highlighting-brackets">
+  </a>
+  Highlighting brackets
+</h1>
+
+<p>In this part, we'll look at a couple more extension points.</p>
+
+<p>The first point of extension: <code>lang.braceMatcher</code>.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight xml"><code><span class="nt">&lt;lang.braceMatcher</span> <span class="na">language=</span><span class="s">"Monkey"</span>
+<span class="na">implementationClass=</span><span class="s">"com.github.pyltsin.monkeyplugin.editor.MonkeyBraceMatcher"</span><span class="nt">/></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This extension point enables highlighting a pair of brackets and adding a closing bracket<br>
+<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--OtOAwOXK--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lt2y18zszc5gel1s2zej.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--OtOAwOXK--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lt2y18zszc5gel1s2zej.png" alt="Image description" loading="lazy" width="614" height="95"></a></p>
+
+<p>The class must implement <code>com.intellij.lang interface.PairedBraceMatcher</code></p>
+
+<p>The implementation that I made for the Monkey language can be viewed <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/editor/MonkeyBraceMatcher.kt">here</a>, for the go-plugin <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/editor/GoBraceMatcher.java">here</a>, for Java - <a href="https://github.com/JetBrains/intellij-community/blob/master/java/java-impl/src/com/intellij/codeInsight/highlighting/JavaBraceMatcher.java">here</a> and <a href="https://github.com/JetBrains/intellij-community/blob/master/java/java-impl/src/com/intellij/codeInsight/highlighting/JavaPairedBraceMatcher.java">here</a>.</p>
+
+<p>The second point of extension: <code>highlightVisitor</code>. I have already mentioned it when we were creating a semantic analyzer. I didn't use it in my plugin, but it is used in the popular <a href="https://plugins.jetbrains.com/plugin/10080-rainbow-brackets">Rainbow Brackets</a> plugin, which colors pairs of brackets in unique colors.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--BAURNTX1--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/e4ue69d4j0p19q960b22.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--BAURNTX1--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/e4ue69d4j0p19q960b22.png" alt="Rainbow Brackets" loading="lazy" width="880" height="295"></a></p>
+
+<p>If you look in his plugin.xml, then you can find this line<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight xml"><code><span class="nt">&lt;highlightVisitor</span> <span class="na">implementation=</span><span class="s">"com.github.izhangzhihao.rainbow.brackets.visitor.DefaultRainbowVisitor"</span><span class="nt">/></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The class implements the interface - <code>com.intellij.CodeInsight.daemon.impl.HighlightVisitor</code>. The implementation can be viewed <a href="https://github.com/izhangzhihao/intellij-rainbow-brackets/blob/2020.3/src/main/kotlin/com/github/izhangzhihao/rainbow/brackets/visitor/DefaultRainbowVisitor.kt">here</a>. The coloring takes place in the <code>com.github.izhangzhihao.rainbow.brackets method.visitor.RainbowHighlightVisitor#setHighlightInfo</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight java"><code><span class="n">holder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">HighlightInfo</span>
+    <span class="o">.</span><span class="na">newHighlightInfo</span><span class="o">(</span><span class="n">rainbowElement</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">textAttributes</span><span class="o">(</span><span class="n">attr</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">range</span><span class="o">(</span><span class="n">element</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">create</span><span class="o">())</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Continuation <a href="https://dev.to/pyltsinm/how-to-write-your-own-language-plugin-for-idea-part-2-9g2-temp-slug-7793113">here</a>.</p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/pyltsinm/how-to-write-your-own-language-plugin-for-idea-part-1-mfd" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(n,e,s,a){return s.type_of="article",s.id=1064993,s.title="How to write your own language plugin for IDEA (part 1)",s.description="Disclaimer: I don't work for JetBrains, so there will be and most likely there may be inaccuracies...",s.readable_publish_date="Apr 26",s.slug="how-to-write-your-own-language-plugin-for-idea-part-1-mfd",s.path="/pyltsinm/how-to-write-your-own-language-plugin-for-idea-part-1-mfd",s.url="https://dev.to/pyltsinm/how-to-write-your-own-language-plugin-for-idea-part-1-mfd",s.comments_count=0,s.public_reactions_count=6,s.collection_id=17902,s.published_timestamp=e,s.positive_reactions_count=6,s.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--ywO73juG--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/sehcz6hu4wg4uemq13g6.png",s.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--A4fAUdhj--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/sehcz6hu4wg4uemq13g6.png",s.canonical_url="https://habr.com/ru/post/653183/",s.created_at="2022-04-23T17:36:11Z",s.edited_at="2022-04-26T18:23:40Z",s.crossposted_at=n,s.published_at=e,s.last_comment_at=e,s.reading_time_minutes=11,s.tag_list="java, kotlin, idea, jetbrains",s.tags=["java","kotlin","idea","jetbrains"],s.body_html='<p>Disclaimer: I don\'t work for JetBrains, so there will be and most likely there may be inaccuracies and errors in the article and code.</p>\n\n<h1>\n  <a name="introduction" href="#introduction">\n  </a>\n  Introduction\n</h1>\n\n<p>I am working as a backend developer, and sometimes I am tired of the work routine. Going deep into some opensource helps me, besides I am keen on Jetbrains\' product and IDEA. IDEA can be customized with plugins, which you can write yourself.<br>\nThe biggest part of IDEA\'s code is open-source. Developers from Jetbrains always help you to make pull requests and improve your main tool.<br>\nI have already written an article about how to write <a href="https://dev.to/pyltsinm/how-to-create-a-new-inspecion-for-idea-10i1">a small plugin</a> with one inspection. But if you want to understand how IDEA works, you should try to write a language plugin.<br>\nLet\'s do this.<br>\nAs a "guinea pig" we will take a simple  language - <a href="https://monkeylang.org/">Monkey</a>, the interpreter and compiler for which are described in the <a href="https://interpreterbook.com/">books on Golang</a>. Since my goal was not to cover everything, the plugin covers a limited subset of this language. The interpreter can be found <a href="https://github.com/pyltsin/monkey-source">here</a>.</p>\n\n<p>Example of calculating the Fibonacci number on Monkey:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight java"><code><span class="n">let</span> <span class="n">fibonacci</span> <span class="o">=</span> <span class="n">fn</span><span class="o">(</span><span class="n">x</span><span class="o">){</span>\n                    <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">0</span><span class="o">){</span>\n                        <span class="mi">0</span><span class="o">;</span>\n                    <span class="o">}</span>\n                    <span class="k">else</span><span class="o">{</span>\n                        <span class="k">if</span> <span class="o">(</span><span class="n">x</span> <span class="o">==</span> <span class="mi">1</span><span class="o">){</span>\n                            <span class="k">return</span> <span class="mi">1</span><span class="o">;</span>\n                        <span class="o">}</span>\n                        <span class="k">else</span><span class="o">{</span>\n                            <span class="n">fibonacci</span><span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">1</span><span class="o">)</span> <span class="o">+</span> <span class="n">fibonacci</span><span class="o">(</span><span class="n">x</span> <span class="o">-</span> <span class="mi">2</span><span class="o">);</span>\n                        <span class="o">};</span>\n                    <span class="o">};</span>\n<span class="o">};</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>We will write this plugin with Java and Kotlin (JVM)</p>\n\n<h1>\n  <a name="prerequisites" href="#prerequisites">\n  </a>\n  Prerequisites\n</h1>\n\n<p>The easiest way to create a new plugin is to use <a href="https://github.com/JetBrains/intellij-platform-plugin-template">the template</a>. It is being actively developed and had already included the most needed features.</p>\n\n<p>Also, we need DevKit plugin, which you can enable in IDEA<br>\n<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--H7k7OJN3--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rkhd07pkgcjxijj7rzc6.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--H7k7OJN3--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rkhd07pkgcjxijj7rzc6.png" alt="Where you can find DevKit" loading="lazy" width="880" height="596"></a></p>\n\n<p><a href="https://plugins.jetbrains.com/plugin/6606-grammar-kit">Grammar-Kit</a> plugin will be used to generate a lexer and parser</p>\n\n<p>Examples of other plugins:</p>\n\n<ul>\n<li>\n<a href="https://github.com/JetBrains/intellij-community">Java</a> (in the code of IDEA)</li>\n<li>\n<a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin.git">go-plugin</a> (now this plugin is known as Goland)</li>\n<li><a href="https://github.com/carymrobbins/intellij-haskforce">Haskell</a></li>\n<li><a href="https://github.com/ignatov/intellij-erlang/blob/master/grammars/erlang.bnf">Erlang</a></li>\n<li><a href="https://github.com/IntelliJ-Frege">Frege</a></li>\n<li>\n<a href="https://github.com/pyltsin/monkey-plugin">Monkey plugin</a> (in this article)</li>\n</ul>\n<h1>\n  <a name="creating-the-basis-of-a-language-plugin" href="#creating-the-basis-of-a-language-plugin">\n  </a>\n  Creating the basis of a language plugin\n</h1>\n\n<p>The first stages of creating a language plugin are well described in <a href="https://plugins.jetbrains.com/docs/intellij/language-and-filetype.html">the documentation</a>.</p>\n\n<ul>\n<li>It is required to declare a new language (examples in <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/GoLanguage.java">go-plugin</a>, <a href="https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/java/com/plugin/frege/FregeLanguage.java">frege</a>, <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/MonkeyLanguage.kt">monkey</a>)</li>\n</ul>\n\n<p>Example for Monkey:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="k">import</span> <span class="nn">com.intellij.lang.Language</span>\n\n<span class="kd">class</span> <span class="nc">MonkeyLanguage</span> <span class="p">:</span> <span class="nc">Language</span><span class="p">(</span><span class="s">"Monkey"</span><span class="p">)</span> <span class="p">{</span>\n    <span class="k">companion</span> <span class="k">object</span> <span class="p">{</span>\n        <span class="nd">@JvmStatic</span>\n        <span class="kd">val</span> <span class="py">INSTANCE</span> <span class="p">=</span> <span class="nc">MonkeyLanguage</span><span class="p">()</span>\n    <span class="p">}</span>\n<span class="p">}</span>\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<ul>\n<li><p>Declare an icon (examples in <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/GoIcons.java">go-plugin</a>, <a href="https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/java/com/plugin/frege/FregeIcons.java">frege</a>, <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/MonkeyIcons.kt">monkey</a>)</p></li>\n<li><p>Declare a new file type and combine everything together (examples in <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/GoFileType.java">go-plugin</a>, <a href="https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/java/com/plugin/frege/FregeFileType.java">frege</a>, <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/MonkeyFileType.kt">monkey</a>)</p></li>\n</ul>\n\n<p>Example for Monkey<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight kotlin"><code><span class="k">import</span> <span class="nn">com.intellij.openapi.fileTypes.LanguageFileType</span>\n<span class="k">import</span> <span class="nn">javax.swing.Icon</span>\n\n<span class="kd">class</span> <span class="nc">MonkeyFileType</span> <span class="p">:</span> <span class="nc">LanguageFileType</span><span class="p">(</span><span class="nc">MonkeyLanguage</span><span class="p">.</span><span class="nc">INSTANCE</span><span class="p">)</span> <span class="p">{</span>\n    <span class="k">override</span> <span class="k">fun</span> <span class="nf">getName</span><span class="p">():</span> <span class="nc">String</span> <span class="p">{</span>\n        <span class="k">return</span> <span class="s">"Monkey File"</span>\n    <span class="p">}</span>\n\n    <span class="k">override</span> <span class="k">fun</span> <span class="nf">getDescription</span><span class="p">():</span> <span class="nc">String</span> <span class="p">{</span>\n        <span class="k">return</span> <span class="s">"Monkey language file"</span>\n    <span class="p">}</span>\n\n    <span class="k">override</span> <span class="k">fun</span> <span class="nf">getDefaultExtension</span><span class="p">():</span> <span class="nc">String</span> <span class="p">{</span>\n        <span class="k">return</span> <span class="s">"monkey"</span>\n    <span class="p">}</span>\n\n    <span class="k">override</span> <span class="k">fun</span> <span class="nf">getIcon</span><span class="p">():</span> <span class="nc">Icon</span> <span class="p">{</span>\n        <span class="k">return</span> <span class="nc">MonkeyIcons</span><span class="p">.</span><span class="nc">FILE</span>\n    <span class="p">}</span>\n\n    <span class="k">companion</span> <span class="k">object</span> <span class="p">{</span>\n        <span class="nd">@JvmStatic</span>\n        <span class="kd">val</span> <span class="py">INSTANCE</span> <span class="p">=</span> <span class="nc">MonkeyFileType</span><span class="p">()</span>\n    <span class="p">}</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>After that, you need to enable a new file type via the extension point. All the features that plugins provide are enabled through one or more extension points. They must be declared in the file plugin.xml (example for <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/resources/META-INF/gogland.xml">go-plugin</a>, <a href="https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/resources/META-INF/plugin.xml">frege</a>). Other examples of using extension points will be given below or can be checked in the <a href="https://plugins.jetbrains.com/docs/intellij/welcome.html">documentation</a>.</p>\n\n<p>Example for Monkey (resources/META-INF/plugin.xml)<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight xml"><code><span class="nt">&lt;extensions</span> <span class="na">defaultExtensionNs=</span><span class="s">"com.intellij"</span><span class="nt">&gt;</span>\n  <span class="nt">&lt;fileType</span> <span class="na">name=</span><span class="s">"Monkey File"</span>\n            <span class="na">implementationClass=</span><span class="s">"com.github.pyltsin.monkeyplugin.MonkeyFileType"</span>\n            <span class="na">fieldName=</span><span class="s">"INSTANCE"</span>\n            <span class="na">language=</span><span class="s">"Monkey"</span>\n            <span class="na">extensions=</span><span class="s">"monkey"</span><span class="nt">/&gt;</span>\n<span class="nt">&lt;/extensions&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h1>\n  <a name="creation-psitree" href="#creation-psitree">\n  </a>\n  Creation PSI-tree\n</h1>\n\n<p>It is impossible to describe the whole theory that is required to parse the code in one article. Fundamental knowledge for this topic can be found in the "<a href="https://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools">Dragon Book</a>"<br>\n<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--vSIwDte5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lpwld9cljps0mxiiyaje.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--vSIwDte5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lpwld9cljps0mxiiyaje.png" alt=\'Cover of "Dragon Book"\' loading="lazy" width="220" height="333"></a></p>\n\n<p>According to this book, the process of the compiler working with the code consists of the following steps:</p>\n\n<ul>\n<li>Lexical Analyzer</li>\n<li>Syntax Analyzer</li>\n<li>Semantic Analyzer</li>\n<li>Intermediate Code Generator</li>\n<li>Machine-Independent Code Optimizer</li>\n<li>Code Generator</li>\n<li>Machine-Dependent Code Optimizer</li>\n</ul>\n\n<p>It is required to implement the first 3 analyzers for any IDE to work successfully:</p>\n\n<ul>\n<li>Lexical analyzer (to read a stream of characters and to group them into tokens)</li>\n<li>Parser (to receive a stream of tokens and to build a syntax tree from them - <a href="https://en.wikipedia.org/wiki/Abstract_syntax_tree">AST</a>)</li>\n<li>Semantic analyzer (to use a tree to verify the source code according to some rules).</li>\n</ul>\n\n<p>In IDEA, an analog called <code>PSI tree</code> (Program structure Interface) is used instead of an AST tree.</p>\n\n<p>The process of creating a PSI tree is well shown in the illustration from the <a href="https://plugins.jetbrains.com/docs/intellij/implementing-parser-and-psi.html">documentation</a>:<br>\n<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--P_XGeyDC--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rxsh8l8bige992uw2dv6.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--P_XGeyDC--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rxsh8l8bige992uw2dv6.png" alt="PSI tree" loading="lazy" width="758" height="965"></a></p>\n\n<p>In order to see PSI-tree, you can use the <a href="https://www.jetbrains.com/help/idea/psi-viewer.html">PSI Viewer</a> (Tools-&gt;View PSI structure)<br>\n <a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Jai_6Pp_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5v6k2btlp1ioooqgana3.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Jai_6Pp_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5v6k2btlp1ioooqgana3.png" alt="Example of usage of PSI Viewer" loading="lazy" width="861" height="587"></a></p>\n\n<p>In IDEA, the abstract TreeElement class is mainly used to implement the PSI tree<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight java"><code><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">TreeElement</span> <span class="kd">extends</span> <span class="nc">ElementBase</span> <span class="kd">implements</span> <span class="nc">ASTNode</span><span class="o">,</span> <span class="nc">Cloneable</span> <span class="o">{</span>\n  <span class="kd">private</span> <span class="nc">TreeElement</span> <span class="n">myNextSibling</span><span class="o">;</span>\n  <span class="kd">private</span> <span class="nc">TreeElement</span> <span class="n">myPrevSibling</span><span class="o">;</span>\n  <span class="kd">private</span> <span class="nc">CompositeElement</span> <span class="n">myParent</span><span class="o">;</span>\n<span class="o">...</span>\n<span class="o">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>In IDEA, you can use the <a href="https://plugins.jetbrains.com/plugin/6606-grammar-kit">GrammarKit</a> plugin to create a lexer and a parser.</p>\n\n<h1>\n  <a name="lexer" href="#lexer">\n  </a>\n  Lexer\n</h1>\n\n<p>Perhaps, the easiest way to create a lexer for IDEA is to use <a href="https://jflex.de/">JFlex</a>. The GrammarKit plugin already contains implementation and allows you to generate a lexer from <code>.bnf</code> file or from <code>.flex</code> file (with more customization options). An example for the Monkey language can be viewed <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/java/com/github/pyltsin/monkeyplugin/Monkey.flex">here</a>, a more complex one for Frege - <a href="https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/java/com/plugin/frege/lexer/FregeLexer.flex">here</a>.</p>\n\n<p>To generate Lexer, you need to configure the Gradle plugin or use the context menu in .flex file - "Run JFlex Generator".</p>\n\n<p>After that, you need to declare a class that implements <code>com.intellij.lexer.Lexer</code>. There is already an adapter for the generated JFlex lexer - <code>com.intellij.lexer.FlexAdapter</code></p>\n\n<h1>\n  <a name="parser" href="#parser">\n  </a>\n  Parser\n</h1>\n\n<p>In IDEA, code generation by the GrammarKit plugin is mainly used to create a parser. Unfortunately, there is not much documentation about it and it is only presented in <a href="https://github.com/JetBrains/Grammar-Kit/blob/master/TUTORIAL.md">Tutorial</a> and <a href="https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md">HOWTO</a>.</p>\n\n<p>The grammar of the language is described in <a href="https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form">BNF</a>. The only difference that is used is <code>::=</code> as "is".</p>\n\n<p>Example grammar for expressions can be found <a href="https://github.com/JetBrains/Grammar-Kit/blob/master/testData/generator/ExprParser.bnf">here</a></p>\n\n<p>As you can see, the bnf file consists of 2 parts: </p>\n\n<ul>\n<li>the first part describes the meta-information (and the description of tokens, if flex files are not used)</li>\n<li>the second part describes the grammar itself.</li>\n</ul>\n\n<p>Let\'s consider some parts of the meta-information:</p>\n\n<p><code>parserClass</code> - name and location of the generated parser class</p>\n\n<p><code>parserUtilClass</code> - a reference to a class containing a set of additional methods for the parser (usually the <code>com.intellij.lang.parser.GeneratedParserUtilBase</code> class or its inheritors)</p>\n\n<p><code>extends = &lt;some class&gt;</code> - a reference to the base class from which all PSI elements (tree nodes) will be inherited. Usually <code>com.intellij.extapi.psi.ASTWrapperPsiElement</code> or its inheritors.</p>\n\n<p><code>extends(&lt;regexp for tree nodes&gt;) = &lt;psi-element&gt;</code> (for example: <code>extends(".*expr")=expr</code>) - all psi elements will be inherited from the specified psi element.</p>\n\n<p><code>psiClassPrefix</code>, <code>psiImplClassSuffix</code> - respectively the prefix for classes and interfaces (usually by the name of the language) and the suffix for implementing interfaces (usually - <code>Impl</code>)</p>\n\n<p><code>psiPackage</code> and <code>psiImplPackage</code> are respectively a package for interfaces and their implementations.</p>\n\n<p><code>implements</code> - similar to <code>extends</code>, but for interfaces</p>\n\n<p><code>elementTypeHolderClass</code> - a generated storage for all types of elements</p>\n\n<p><code>elementTypeClass</code> - a class for types of elements (not generated, inheritors to <code>com.intellij.psi.tree.IElementType</code>)</p>\n\n<p><code>elementTypeFactory</code> - creating a factory for generating element types (used for Stub - about them below)</p>\n\n<p><code>psiImplUtilClass</code> - a class with a set of static methods that are used as an implementation of the required methods for psi elements. <br>\nLet\'s suppose we have such lines (from go-plugin)<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight java"><code><span class="nc">ImportSpec</span> <span class="o">::=</span> <span class="o">[</span> <span class="sc">\'.\'</span> <span class="o">|</span> <span class="n">identifier</span> <span class="o">]</span> <span class="nc">ImportString</span> <span class="o">{</span>\n  <span class="n">stubClass</span><span class="o">=</span><span class="s">"com.goide.stubs.GoImportSpecStub"</span>\n  <span class="n">methods</span><span class="o">=[</span><span class="n">getAlias</span> <span class="n">getLocalPackageName</span> <span class="n">shouldGoDeeper</span> <span class="n">isForSideEffects</span> <span class="n">isDot</span> <span class="n">getPath</span> <span class="n">getName</span> <span class="n">isCImport</span><span class="o">]</span>\n<span class="o">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>For that, we need to declare and implement a static method with the same name in <code>psiImplUtilClass</code>:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight java"><code><span class="kd">public</span> <span class="kd">static</span> <span class="nc">String</span> <span class="nf">getAlias</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nc">GoImportSpec</span> <span class="n">importSpec</span><span class="o">)</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>After that <code>getAlias</code> will be generated as:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight java"><code>  <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getAlias</span><span class="o">()</span> <span class="o">{</span>\n    <span class="k">return</span> <span class="nc">GoPsiImplUtil</span><span class="o">.</span><span class="na">getAlias</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>\n  <span class="o">}</span>\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now let\'s move on to the <code>bnf</code> rules themselves. Modifiers can be used for each rule (for example, <code>private</code>, <code>fake</code>, and so on). Their description is given <a href="https://github.com/JetBrains/Grammar-Kit#rule-modifiers">here</a>. So, for example <code>private</code> in<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight java"><code><span class="kd">private</span> <span class="n">boolean_group</span> <span class="o">::=</span> <span class="n">xor_expr</span> <span class="o">|</span> <span class="n">between_expr</span> <span class="o">|</span> <span class="n">is_not_expr</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>indicates that the PSI element for <code>boolean_group</code> will not be generated.</p>\n\n<p>If it is not possible to describe the grammar in a <code>bnf</code> file correctly, then it will be useful to describe it in code using external rules.</p>\n\n<p>One of the important parts of grammar is the rules of dealing with errors. Two keywords are used for this: <code>pin</code> and <code>recoverWhile</code>.</p>\n\n<p><code>pin</code> - indicates the token number. As soon as we get to it, the parser starts waiting only for the current declaration. For example, declaring a structure in Golang<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight java"><code><span class="nc">Struct</span> <span class="nc">Type</span> <span class="o">::=</span> <span class="n">struct</span> <span class="sc">\'{\'</span> <span class="nc">Fields</span><span class="o">?</span> <span class="sc">\'}\'</span> <span class="o">{</span><span class="n">pin</span><span class="o">=</span><span class="mi">1</span><span class="o">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><code>recoverWhile</code> - specifies which tokens can be consumed only after matching with all rules is completed. Recommendations for the use of this attribute are described <a href="https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#22-using-recoverwhile-attribute">here</a>.</p>\n\n<p>You should also pay attention to the <a href="https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#24-compact-expression-parsing-with-priorities">recommendations</a> for parsing expressions based on priority.</p>\n\n<p>It seems to me that creating correct and convenient grammar rules for future work is one of the most difficult parts of implementing a plugin for a language. To get started, you can use examples: <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/grammars/go.bnf">go-plugin</a>, <a href="https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/java/com/plugin/frege/Frege.bnf">Frege</a>, <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/java/com/github/pyltsin/monkeyplugin/Monkey.bnf">Monkey</a> (for Monkey, only a subset of this language is implemented for simplification).</p>\n\n<p>After creating a <code>bnf</code> file and generating a parser from it, you need to define the class for <code>File</code> (inheritor from <code>com.intellij.extapi.psi.PsiFileBase</code>) (examples from <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/psi/GoFile.java">go-plugin</a>, <a href="https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/kotlin/com/plugin/frege/psi/FregeFile.kt">Frege</a>, <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/psi/MonkeyFile.kt">Monkey</a>) and the definition class for your parser (heir from <code>com.intellij.lang.ParserDefinition</code>) (example from <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/GoParserDefinition.java">go-plugin</a>, <a href="https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/java/com/plugin/frege/parser/FregeParserDefinition.java">Frege</a>, <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/parser/MonkeyParserDefinition.kt">Monkey</a>), and then enable it via the extension point.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight xml"><code><span class="nt">&lt;lang.parserDefinition</span> <span class="na">language=</span><span class="s">"Monkey"</span>\n<span class="na">implementationClass=</span><span class="s">"com.github.pyltsin.monkeyplugin.parser.MonkeyParserDefinition"</span><span class="nt">/&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h1>\n  <a name="annotators" href="#annotators">\n  </a>\n  Annotators\n</h1>\n\n<p>In the previous parts, we looked at how a lexer and a parser are created. Now let\'s move on to the third part - semantic analysis. Studying the code of IDEA and its plugins, I found two ways to implement it (excluding inspections).</p>\n\n<p>The first way is used in a plugin for Java language. Consider the following invalid code:<br>\n<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--RNKrJXNc--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/k354nf0ikebcp9zdzqnl.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--RNKrJXNc--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/k354nf0ikebcp9zdzqnl.png" alt="Example of invalid code" loading="lazy" width="234" height="37"></a></p>\n\n<p>IDEA highlighted it and said <code>Operator\'-\'cannot be applied to \'java.lang.String\', \'java.lang.String\'</code>. It works thanks to the following extension point:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight xml"><code><span class="nt">&lt;highlightVisitor</span> <span class="na">implementation=</span>\n<span class="s">"com.intellij.codeInsight.daemon.impl.analysis.HighlightVisitorImpl"</span><span class="nt">/&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The class must implement <code>com.intellij.codeInsight.daemon.impl.HighlightVisitor</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight java"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">HighlightVisitor</span> <span class="o">{</span>\n\n  <span class="kt">boolean</span> <span class="nf">suitableForFile</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nc">PsiFile</span> <span class="n">file</span><span class="o">);</span>\n\n  <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nc">PsiElement</span> <span class="n">element</span><span class="o">);</span>\n\n  <span class="kt">boolean</span> <span class="nf">analyze</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nc">PsiFile</span> <span class="n">file</span><span class="o">,</span> \n                  <span class="kt">boolean</span> <span class="n">updateWholeFile</span><span class="o">,</span> \n                  <span class="nd">@NotNull</span> <span class="nc">HighlightInfoHolder</span> <span class="n">holder</span><span class="o">,</span> \n                  <span class="nd">@NotNull</span> <span class="nc">Runnable</span> <span class="n">action</span><span class="o">);</span>\n<span class="o">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>We use the method <code>analyze</code> to configure, launch (<code>action.run()</code>) and close resources<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight java"><code><span class="c1">//From HighlightVisitorImpl</span>\n    <span class="nd">@Override</span>\n  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visit</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nc">PsiElement</span> <span class="n">element</span><span class="o">)</span> <span class="o">{</span>\n  <span class="c1">// some code</span>\n      <span class="n">element</span><span class="o">.</span><span class="na">accept</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>\n  <span class="c1">// some code</span>\n  <span class="o">}</span>\n\n<span class="c1">//Example for ClsJavaModuleImpl</span>\n  <span class="nd">@Override</span>\n  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">accept</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nc">PsiElementVisitor</span> <span class="n">visitor</span><span class="o">)</span> <span class="o">{</span>\n    <span class="k">if</span> <span class="o">(</span><span class="n">visitor</span> <span class="k">instanceof</span> <span class="nc">JavaElementVisitor</span><span class="o">)</span> <span class="o">{</span>\n      <span class="o">((</span><span class="nc">JavaElementVisitor</span><span class="o">)</span><span class="n">visitor</span><span class="o">).</span><span class="na">visitModule</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>\n    <span class="o">}</span>\n    <span class="k">else</span> <span class="o">{</span>\n      <span class="n">visitor</span><span class="o">.</span><span class="na">visitElement</span><span class="o">(</span><span class="k">this</span><span class="o">);</span>\n    <span class="o">}</span>\n  <span class="o">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The <a href="https://en.wikipedia.org/wiki/Visitor_pattern">visitor</a> pattern is used there.<br>\n<code>HighlightVisitorImpl</code> extends <code>JavaElementVisitor</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight java"><code><span class="kd">public</span> <span class="kd">abstract</span> <span class="kd">class</span> <span class="nc">JavaElementVisitor</span> <span class="kd">extends</span> <span class="nc">PsiElementVisitor</span> <span class="o">{</span>\n  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visitAnonymousClass</span><span class="o">(</span><span class="nc">PsiAnonymousClass</span> <span class="n">aClass</span><span class="o">)</span> <span class="o">{</span>\n    <span class="n">visitClass</span><span class="o">(</span><span class="n">aClass</span><span class="o">);</span>\n  <span class="o">}</span>\n\n  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visitArrayAccessExpression</span><span class="o">(</span><span class="nc">PsiArrayAccessExpression</span> <span class="n">expression</span><span class="o">)</span> <span class="o">{</span>\n    <span class="n">visitExpression</span><span class="o">(</span><span class="n">expression</span><span class="o">);</span>\n  <span class="o">}</span>\n\n  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">visitArrayInitializerExpression</span><span class="o">(</span><span class="nc">PsiArrayInitializerExpression</span> <span class="n">expression</span><span class="o">)</span> <span class="o">{</span>\n    <span class="n">visitExpression</span><span class="o">(</span><span class="n">expression</span><span class="o">);</span>\n  <span class="o">}</span>\n<span class="o">...</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The second way is applied in go-plugin and Frege.<br>\nI used it too in the Monkey plugin. It uses an annotator extension point.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight xml"><code><span class="nt">&lt;annotator</span> <span class="na">language=</span><span class="s">"Monkey"</span>\n<span class="na">implementationClass=</span><span class="s">"com.github.pyltsin.monkeyplugin.annotator.MonkeyWarningAnnotator"</span><span class="nt">/&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Your class must implement the next interface:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight java"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">Annotator</span> <span class="o">{</span>\n  <span class="kt">void</span> <span class="nf">annotate</span><span class="o">(</span><span class="nd">@NotNull</span> <span class="nc">PsiElement</span> <span class="n">element</span><span class="o">,</span> \n                <span class="nd">@NotNull</span> <span class="nc">AnnotationHolder</span> <span class="n">holder</span><span class="o">);</span>\n<span class="o">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>An error message can be registered with next way:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight java"><code><span class="n">holder</span><span class="o">.</span><span class="na">newAnnotation</span><span class="o">(</span><span class="nc">HighlightSeverity</span><span class="o">.</span><span class="na">ERROR</span><span class="o">,</span> <span class="n">errorMsg</span><span class="o">)</span>\n<span class="o">.</span><span class="na">range</span><span class="o">(</span><span class="n">element</span><span class="o">)</span>\n<span class="o">.</span><span class="na">create</span><span class="o">()</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Examples for <a href="https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/kotlin/com/plugin/frege/annotator/FregeWarningAnnotator.kt">Frege</a>, <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/highlighting/GoAnnotator.java">go-plugin</a>, <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/annotator/MonkeyWarningAnnotator.kt">Monkey</a>.</p>\n\n<p>For Monkey language, I have currently implemented 2 rules - the inability to resolve links (resolve references - about them below) and the simple type check (via <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/psi/impl/TypeResolver.kt">DSL</a>).</p>\n\n<h1>\n  <a name="highlighting-brackets" href="#highlighting-brackets">\n  </a>\n  Highlighting brackets\n</h1>\n\n<p>In this part, we\'ll look at a couple more extension points.</p>\n\n<p>The first point of extension: <code>lang.braceMatcher</code>.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight xml"><code><span class="nt">&lt;lang.braceMatcher</span> <span class="na">language=</span><span class="s">"Monkey"</span>\n<span class="na">implementationClass=</span><span class="s">"com.github.pyltsin.monkeyplugin.editor.MonkeyBraceMatcher"</span><span class="nt">/&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This extension point enables highlighting a pair of brackets and adding a closing bracket<br>\n<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--OtOAwOXK--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lt2y18zszc5gel1s2zej.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--OtOAwOXK--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lt2y18zszc5gel1s2zej.png" alt="Image description" loading="lazy" width="614" height="95"></a></p>\n\n<p>The class must implement <code>com.intellij.lang interface.PairedBraceMatcher</code></p>\n\n<p>The implementation that I made for the Monkey language can be viewed <a href="https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/editor/MonkeyBraceMatcher.kt">here</a>, for the go-plugin <a href="https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/editor/GoBraceMatcher.java">here</a>, for Java - <a href="https://github.com/JetBrains/intellij-community/blob/master/java/java-impl/src/com/intellij/codeInsight/highlighting/JavaBraceMatcher.java">here</a> and <a href="https://github.com/JetBrains/intellij-community/blob/master/java/java-impl/src/com/intellij/codeInsight/highlighting/JavaPairedBraceMatcher.java">here</a>.</p>\n\n<p>The second point of extension: <code>highlightVisitor</code>. I have already mentioned it when we were creating a semantic analyzer. I didn\'t use it in my plugin, but it is used in the popular <a href="https://plugins.jetbrains.com/plugin/10080-rainbow-brackets">Rainbow Brackets</a> plugin, which colors pairs of brackets in unique colors.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--BAURNTX1--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/e4ue69d4j0p19q960b22.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--BAURNTX1--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/e4ue69d4j0p19q960b22.png" alt="Rainbow Brackets" loading="lazy" width="880" height="295"></a></p>\n\n<p>If you look in his plugin.xml, then you can find this line<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight xml"><code><span class="nt">&lt;highlightVisitor</span> <span class="na">implementation=</span><span class="s">"com.github.izhangzhihao.rainbow.brackets.visitor.DefaultRainbowVisitor"</span><span class="nt">/&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The class implements the interface - <code>com.intellij.CodeInsight.daemon.impl.HighlightVisitor</code>. The implementation can be viewed <a href="https://github.com/izhangzhihao/intellij-rainbow-brackets/blob/2020.3/src/main/kotlin/com/github/izhangzhihao/rainbow/brackets/visitor/DefaultRainbowVisitor.kt">here</a>. The coloring takes place in the <code>com.github.izhangzhihao.rainbow.brackets method.visitor.RainbowHighlightVisitor#setHighlightInfo</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight java"><code><span class="n">holder</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="nc">HighlightInfo</span>\n    <span class="o">.</span><span class="na">newHighlightInfo</span><span class="o">(</span><span class="n">rainbowElement</span><span class="o">)</span>\n    <span class="o">.</span><span class="na">textAttributes</span><span class="o">(</span><span class="n">attr</span><span class="o">)</span>\n    <span class="o">.</span><span class="na">range</span><span class="o">(</span><span class="n">element</span><span class="o">)</span>\n    <span class="o">.</span><span class="na">create</span><span class="o">())</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Continuation <a href="https://dev.to/pyltsinm/how-to-write-your-own-language-plugin-for-idea-part-2-9g2-temp-slug-7793113">here</a>.</p>\n\n',s.body_markdown='Disclaimer: I don\'t work for JetBrains, so there will be and most likely there may be inaccuracies and errors in the article and code.\n\n#Introduction\nI am working as a backend developer, and sometimes I am tired of the work routine. Going deep into some opensource helps me, besides I am keen on Jetbrains\' product and IDEA. IDEA can be customized with plugins, which you can write yourself.\nThe biggest part of IDEA\'s code is open-source. Developers from Jetbrains always help you to make pull requests and improve your main tool.\nI have already written an article about how to write [a small plugin](https://dev.to/pyltsinm/how-to-create-a-new-inspecion-for-idea-10i1) with one inspection. But if you want to understand how IDEA works, you should try to write a language plugin.\nLet\'s do this.\nAs a "guinea pig" we will take a simple  language - [Monkey](https://monkeylang.org/), the interpreter and compiler for which are described in the [books on Golang](https://interpreterbook.com/). Since my goal was not to cover everything, the plugin covers a limited subset of this language. The interpreter can be found [here](https://github.com/pyltsin/monkey-source).\n\nExample of calculating the Fibonacci number on Monkey:\n\n```java\nlet fibonacci = fn(x){\n                    if (x == 0){\n                        0;\n                    }\n                    else{\n                        if (x == 1){\n                            return 1;\n                        }\n                        else{\n                            fibonacci(x - 1) + fibonacci(x - 2);\n                        };\n                    };\n};\n```\n\nWe will write this plugin with Java and Kotlin (JVM)\n\n#Prerequisites\nThe easiest way to create a new plugin is to use [the template](https://github.com/JetBrains/intellij-platform-plugin-template). It is being actively developed and had already included the most needed features.\n\nAlso, we need DevKit plugin, which you can enable in IDEA\n![Where you can find DevKit](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rkhd07pkgcjxijj7rzc6.png)\n \n[Grammar-Kit](https://plugins.jetbrains.com/plugin/6606-grammar-kit) plugin will be used to generate a lexer and parser\n\nExamples of other plugins:\n- [Java](https://github.com/JetBrains/intellij-community) (in the code of IDEA)\n- [go-plugin](https://github.com/go-lang-plugin-org/go-lang-idea-plugin.git) (now this plugin is known as Goland)\n- [Haskell](https://github.com/carymrobbins/intellij-haskforce)\n- [Erlang](https://github.com/ignatov/intellij-erlang/blob/master/grammars/erlang.bnf)\n- [Frege](https://github.com/IntelliJ-Frege)\n- [Monkey plugin](https://github.com/pyltsin/monkey-plugin) (in this article)\n\n#Creating the basis of a language plugin\n\nThe first stages of creating a language plugin are well described in [the documentation](https://plugins.jetbrains.com/docs/intellij/language-and-filetype.html).\n\n- It is required to declare a new language (examples in [go-plugin](https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/GoLanguage.java), [frege](https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/java/com/plugin/frege/FregeLanguage.java), [monkey](https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/MonkeyLanguage.kt))\n\nExample for Monkey:\n```kotlin\nimport com.intellij.lang.Language\n\nclass MonkeyLanguage : Language("Monkey") {\n    companion object {\n        @JvmStatic\n        val INSTANCE = MonkeyLanguage()\n    }\n}\n\n```\n\n- Declare an icon (examples in [go-plugin](https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/GoIcons.java), [frege](https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/java/com/plugin/frege/FregeIcons.java), [monkey](https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/MonkeyIcons.kt))\n\n- Declare a new file type and combine everything together (examples in [go-plugin](https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/GoFileType.java), [frege](https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/java/com/plugin/frege/FregeFileType.java), [monkey](https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/MonkeyFileType.kt))\n\nExample for Monkey\n```kotlin\nimport com.intellij.openapi.fileTypes.LanguageFileType\nimport javax.swing.Icon\n\nclass MonkeyFileType : LanguageFileType(MonkeyLanguage.INSTANCE) {\n    override fun getName(): String {\n        return "Monkey File"\n    }\n\n    override fun getDescription(): String {\n        return "Monkey language file"\n    }\n\n    override fun getDefaultExtension(): String {\n        return "monkey"\n    }\n\n    override fun getIcon(): Icon {\n        return MonkeyIcons.FILE\n    }\n\n    companion object {\n        @JvmStatic\n        val INSTANCE = MonkeyFileType()\n    }\n}\n```\nAfter that, you need to enable a new file type via the extension point. All the features that plugins provide are enabled through one or more extension points. They must be declared in the file plugin.xml (example for [go-plugin](https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/resources/META-INF/gogland.xml), [frege](https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/resources/META-INF/plugin.xml)). Other examples of using extension points will be given below or can be checked in the [documentation](https://plugins.jetbrains.com/docs/intellij/welcome.html).\n\nExample for Monkey (resources/META-INF/plugin.xml)\n```xml\n<extensions defaultExtensionNs="com.intellij">\n  <fileType name="Monkey File"\n            implementationClass="com.github.pyltsin.monkeyplugin.MonkeyFileType"\n            fieldName="INSTANCE"\n            language="Monkey"\n            extensions="monkey"/>\n</extensions>\n```\n#Creation PSI-tree\n\nIt is impossible to describe the whole theory that is required to parse the code in one article. Fundamental knowledge for this topic can be found in the "[Dragon Book](https://en.wikipedia.org/wiki/Compilers:_Principles,_Techniques,_and_Tools)"\n![Cover of "Dragon Book"](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lpwld9cljps0mxiiyaje.png)\n \nAccording to this book, the process of the compiler working with the code consists of the following steps:\n- Lexical Analyzer\n- Syntax Analyzer\n- Semantic Analyzer\n- Intermediate Code Generator\n- Machine-Independent Code Optimizer\n- Code Generator\n- Machine-Dependent Code Optimizer\n\nIt is required to implement the first 3 analyzers for any IDE to work successfully:\n- Lexical analyzer (to read a stream of characters and to group them into tokens)\n- Parser (to receive a stream of tokens and to build a syntax tree from them - [AST](https://en.wikipedia.org/wiki/Abstract_syntax_tree))\n- Semantic analyzer (to use a tree to verify the source code according to some rules).\n\nIn IDEA, an analog called `PSI tree` (Program structure Interface) is used instead of an AST tree.\n\nThe process of creating a PSI tree is well shown in the illustration from the [documentation](https://plugins.jetbrains.com/docs/intellij/implementing-parser-and-psi.html):\n![PSI tree](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/rxsh8l8bige992uw2dv6.png)\n\nIn order to see PSI-tree, you can use the [PSI Viewer](https://www.jetbrains.com/help/idea/psi-viewer.html) (Tools->View PSI structure)\n ![Example of usage of PSI Viewer](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5v6k2btlp1ioooqgana3.png)\n\nIn IDEA, the abstract TreeElement class is mainly used to implement the PSI tree\n```java\npublic abstract class TreeElement extends ElementBase implements ASTNode, Cloneable {\n  private TreeElement myNextSibling;\n  private TreeElement myPrevSibling;\n  private CompositeElement myParent;\n...\n}\n```\n\nIn IDEA, you can use the [GrammarKit](https://plugins.jetbrains.com/plugin/6606-grammar-kit) plugin to create a lexer and a parser.\n\n#Lexer\n\nPerhaps, the easiest way to create a lexer for IDEA is to use [JFlex](https://jflex.de/). The GrammarKit plugin already contains implementation and allows you to generate a lexer from `.bnf` file or from `.flex` file (with more customization options). An example for the Monkey language can be viewed [here](https://github.com/pyltsin/monkey-plugin/blob/main/src/main/java/com/github/pyltsin/monkeyplugin/Monkey.flex), a more complex one for Frege - [here](https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/java/com/plugin/frege/lexer/FregeLexer.flex).\n\nTo generate Lexer, you need to configure the Gradle plugin or use the context menu in .flex file - "Run JFlex Generator".\n\nAfter that, you need to declare a class that implements `com.intellij.lexer.Lexer`. There is already an adapter for the generated JFlex lexer - `com.intellij.lexer.FlexAdapter`\n\n#Parser\nIn IDEA, code generation by the GrammarKit plugin is mainly used to create a parser. Unfortunately, there is not much documentation about it and it is only presented in [Tutorial](https://github.com/JetBrains/Grammar-Kit/blob/master/TUTORIAL.md) and [HOWTO](https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md).\n\nThe grammar of the language is described in [BNF](https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form). The only difference that is used is `::=` as "is".\n\nExample grammar for expressions can be found [here](https://github.com/JetBrains/Grammar-Kit/blob/master/testData/generator/ExprParser.bnf)\n\nAs you can see, the bnf file consists of 2 parts: \n- the first part describes the meta-information (and the description of tokens, if flex files are not used)\n- the second part describes the grammar itself.\n\nLet\'s consider some parts of the meta-information:\n\n`parserClass` - name and location of the generated parser class\n\n`parserUtilClass` - a reference to a class containing a set of additional methods for the parser (usually the `com.intellij.lang.parser.GeneratedParserUtilBase` class or its inheritors)\n\n`extends = <some class>` - a reference to the base class from which all PSI elements (tree nodes) will be inherited. Usually `com.intellij.extapi.psi.ASTWrapperPsiElement` or its inheritors.\n\n`extends(<regexp for tree nodes>) = <psi-element>` (for example: `extends(".*expr")=expr`) - all psi elements will be inherited from the specified psi element.\n\n`psiClassPrefix`, `psiImplClassSuffix` - respectively the prefix for classes and interfaces (usually by the name of the language) and the suffix for implementing interfaces (usually - `Impl`)\n\n`psiPackage` and `psiImplPackage` are respectively a package for interfaces and their implementations.\n\n`implements` - similar to `extends`, but for interfaces\n\n`elementTypeHolderClass` - a generated storage for all types of elements\n\n`elementTypeClass` - a class for types of elements (not generated, inheritors to `com.intellij.psi.tree.IElementType`)\n\n`elementTypeFactory` - creating a factory for generating element types (used for Stub - about them below)\n\n`psiImplUtilClass` - a class with a set of static methods that are used as an implementation of the required methods for psi elements. \nLet\'s suppose we have such lines (from go-plugin)\n```java\nImportSpec ::= [ \'.\' | identifier ] ImportString {\n  stubClass="com.goide.stubs.GoImportSpecStub"\n  methods=[getAlias getLocalPackageName shouldGoDeeper isForSideEffects isDot getPath getName isCImport]\n}\n```\nFor that, we need to declare and implement a static method with the same name in `psiImplUtilClass`:\n```java\npublic static String getAlias(@NotNull GoImportSpec importSpec)\n```\nAfter that `getAlias` will be generated as:\n```java\n  public String getAlias() {\n    return GoPsiImplUtil.getAlias(this);\n  }\n\n```\n\nNow let\'s move on to the `bnf` rules themselves. Modifiers can be used for each rule (for example, `private`, `fake`, and so on). Their description is given [here](https://github.com/JetBrains/Grammar-Kit#rule-modifiers). So, for example `private` in\n\n```java\nprivate boolean_group ::= xor_expr | between_expr | is_not_expr\n```\nindicates that the PSI element for `boolean_group` will not be generated.\n\nIf it is not possible to describe the grammar in a `bnf` file correctly, then it will be useful to describe it in code using external rules.\n\nOne of the important parts of grammar is the rules of dealing with errors. Two keywords are used for this: `pin` and `recoverWhile`.\n\n`pin` - indicates the token number. As soon as we get to it, the parser starts waiting only for the current declaration. For example, declaring a structure in Golang\n```java\nStruct Type ::= struct \'{\' Fields? \'}\' {pin=1}\n```\n\n`recoverWhile` - specifies which tokens can be consumed only after matching with all rules is completed. Recommendations for the use of this attribute are described [here](https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#22-using-recoverwhile-attribute).\n\nYou should also pay attention to the [recommendations](https://github.com/JetBrains/Grammar-Kit/blob/master/HOWTO.md#24-compact-expression-parsing-with-priorities) for parsing expressions based on priority.\n\nIt seems to me that creating correct and convenient grammar rules for future work is one of the most difficult parts of implementing a plugin for a language. To get started, you can use examples: [go-plugin](https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/grammars/go.bnf), [Frege](https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/java/com/plugin/frege/Frege.bnf), [Monkey](https://github.com/pyltsin/monkey-plugin/blob/main/src/main/java/com/github/pyltsin/monkeyplugin/Monkey.bnf) (for Monkey, only a subset of this language is implemented for simplification).\n\nAfter creating a `bnf` file and generating a parser from it, you need to define the class for `File` (inheritor from `com.intellij.extapi.psi.PsiFileBase`) (examples from [go-plugin](https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/psi/GoFile.java), [Frege](https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/kotlin/com/plugin/frege/psi/FregeFile.kt), [Monkey](https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/psi/MonkeyFile.kt)) and the definition class for your parser (heir from `com.intellij.lang.ParserDefinition`) (example from [go-plugin](https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/GoParserDefinition.java), [Frege](https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/java/com/plugin/frege/parser/FregeParserDefinition.java), [Monkey](https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/parser/MonkeyParserDefinition.kt)), and then enable it via the extension point.\n```xml\n<lang.parserDefinition language="Monkey"\nimplementationClass="com.github.pyltsin.monkeyplugin.parser.MonkeyParserDefinition"/>\n```\n\n\n#Annotators\n\nIn the previous parts, we looked at how a lexer and a parser are created. Now let\'s move on to the third part - semantic analysis. Studying the code of IDEA and its plugins, I found two ways to implement it (excluding inspections).\n\nThe first way is used in a plugin for Java language. Consider the following invalid code:\n![Example of invalid code](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/k354nf0ikebcp9zdzqnl.png)\n\nIDEA highlighted it and said `Operator\'-\'cannot be applied to \'java.lang.String\', \'java.lang.String\'`. It works thanks to the following extension point: \n```xml\n<highlightVisitor implementation=\n"com.intellij.codeInsight.daemon.impl.analysis.HighlightVisitorImpl"/>\n```\nThe class must implement `com.intellij.codeInsight.daemon.impl.HighlightVisitor`\n\n```java\npublic interface HighlightVisitor {\n\n  boolean suitableForFile(@NotNull PsiFile file);\n\n  void visit(@NotNull PsiElement element);\n\n  boolean analyze(@NotNull PsiFile file, \n                  boolean updateWholeFile, \n                  @NotNull HighlightInfoHolder holder, \n                  @NotNull Runnable action);\n}\n```\n\nWe use the method `analyze` to configure, launch (`action.run()`) and close resources\n\n```java\n//From HighlightVisitorImpl\n\t@Override\n  public void visit(@NotNull PsiElement element) {\n  // some code\n      element.accept(this);\n  // some code\n  }\n\n//Example for ClsJavaModuleImpl\n  @Override\n  public void accept(@NotNull PsiElementVisitor visitor) {\n    if (visitor instanceof JavaElementVisitor) {\n      ((JavaElementVisitor)visitor).visitModule(this);\n    }\n    else {\n      visitor.visitElement(this);\n    }\n  }\n```\n\nThe [visitor](https://en.wikipedia.org/wiki/Visitor_pattern) pattern is used there.\n`HighlightVisitorImpl` extends `JavaElementVisitor`\n\n```java\npublic abstract class JavaElementVisitor extends PsiElementVisitor {\n  public void visitAnonymousClass(PsiAnonymousClass aClass) {\n    visitClass(aClass);\n  }\n\n  public void visitArrayAccessExpression(PsiArrayAccessExpression expression) {\n    visitExpression(expression);\n  }\n\n  public void visitArrayInitializerExpression(PsiArrayInitializerExpression expression) {\n    visitExpression(expression);\n  }\n...\n```\n\nThe second way is applied in go-plugin and Frege.\nI used it too in the Monkey plugin. It uses an annotator extension point.\n```xml\n<annotator language="Monkey"\nimplementationClass="com.github.pyltsin.monkeyplugin.annotator.MonkeyWarningAnnotator"/>\n```\nYour class must implement the next interface:\n\n```java\npublic interface Annotator {\n  void annotate(@NotNull PsiElement element, \n                @NotNull AnnotationHolder holder);\n}\n```\n\nAn error message can be registered with next way:\n```java\nholder.newAnnotation(HighlightSeverity.ERROR, errorMsg)\n.range(element)\n.create()\n```\n\nExamples for [Frege](https://github.com/IntelliJ-Frege/intellij-frege/blob/master/src/main/kotlin/com/plugin/frege/annotator/FregeWarningAnnotator.kt), [go-plugin](https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/highlighting/GoAnnotator.java), [Monkey](https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/annotator/MonkeyWarningAnnotator.kt).\n\nFor Monkey language, I have currently implemented 2 rules - the inability to resolve links (resolve references - about them below) and the simple type check (via [DSL](https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/psi/impl/TypeResolver.kt)).\n\n#Highlighting brackets\nIn this part, we\'ll look at a couple more extension points.\n\nThe first point of extension: `lang.braceMatcher`. \n```xml\n<lang.braceMatcher language="Monkey"\nimplementationClass="com.github.pyltsin.monkeyplugin.editor.MonkeyBraceMatcher"/>\n```\nThis extension point enables highlighting a pair of brackets and adding a closing bracket\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lt2y18zszc5gel1s2zej.png)\n\nThe class must implement `com.intellij.lang interface.PairedBraceMatcher`\n\nThe implementation that I made for the Monkey language can be viewed [here](https://github.com/pyltsin/monkey-plugin/blob/main/src/main/kotlin/com/github/pyltsin/monkeyplugin/editor/MonkeyBraceMatcher.kt), for the go-plugin [here](https://github.com/go-lang-plugin-org/go-lang-idea-plugin/blob/master/src/com/goide/editor/GoBraceMatcher.java), for Java - [here](https://github.com/JetBrains/intellij-community/blob/master/java/java-impl/src/com/intellij/codeInsight/highlighting/JavaBraceMatcher.java) and [here](https://github.com/JetBrains/intellij-community/blob/master/java/java-impl/src/com/intellij/codeInsight/highlighting/JavaPairedBraceMatcher.java).\n\nThe second point of extension: `highlightVisitor`. I have already mentioned it when we were creating a semantic analyzer. I didn\'t use it in my plugin, but it is used in the popular [Rainbow Brackets](https://plugins.jetbrains.com/plugin/10080-rainbow-brackets) plugin, which colors pairs of brackets in unique colors.\n\n![Rainbow Brackets](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/e4ue69d4j0p19q960b22.png)\n\nIf you look in his plugin.xml, then you can find this line\n```xml\n<highlightVisitor implementation="com.github.izhangzhihao.rainbow.brackets.visitor.DefaultRainbowVisitor"/>\n``` \n\nThe class implements the interface - `com.intellij.CodeInsight.daemon.impl.HighlightVisitor`. The implementation can be viewed [here](https://github.com/izhangzhihao/intellij-rainbow-brackets/blob/2020.3/src/main/kotlin/com/github/izhangzhihao/rainbow/brackets/visitor/DefaultRainbowVisitor.kt). The coloring takes place in the `com.github.izhangzhihao.rainbow.brackets method.visitor.RainbowHighlightVisitor#setHighlightInfo`\n\n```java\nholder.add(HighlightInfo\n    .newHighlightInfo(rainbowElement)\n    .textAttributes(attr)\n    .range(element)\n    .create())\n```\nContinuation [here](https://dev.to/pyltsinm/how-to-write-your-own-language-plugin-for-idea-part-2-9g2-temp-slug-7793113).',s.user={name:a,username:"pyltsinm",twitter_username:n,github_username:a,website_url:"https://www.linkedin.com/in/mikhail-pyltsin/",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--W1fhD3xi--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/698144/e934e947-23e3-476f-baa4-e4d9125e6c49.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--xLdIcB7_--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/698144/e934e947-23e3-476f-baa4-e4d9125e6c49.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:s}},error:n,state:{currentArticle:s},serverRendered:!0,routePath:"/pyltsinm/1064993",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:n}}}}(null,"2022-04-26T18:22:12Z",{},"pyltsin")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

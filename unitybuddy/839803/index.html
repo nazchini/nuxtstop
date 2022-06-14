@@ -1,0 +1,688 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>From Zero to Hero in Game Design: Beginner's Guide</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>From Zero to Hero in Game Design: Beginner's Guide</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/gamedev" class="tag" data-v-70afb46a>
+          #gamedev
+        </a><a href="/nuxtstop/t/beginners" class="tag" data-v-70afb46a>
+          #beginners
+        </a><a href="/nuxtstop/t/guide" class="tag" data-v-70afb46a>
+          #guide
+        </a><a href="/nuxtstop/t/unity" class="tag" data-v-70afb46a>
+          #unity
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--bOu6nlwC--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7l5mmsh7gmdhy2nq66zn.PNG" alt="From Zero to Hero in Game Design: Beginner's Guide" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            76
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            2
+          </span></div> <time data-v-70afb46a>Sep 25 '21</time></div></header> <div class="content" data-v-70afb46a><p>Hello, buddies! Game design is an exciting, rewarding, and multi-faceted field with promising job prospects. However, becoming a game designer can be a challenging journey. Passion, patience, and persistence are essential!</p>
+
+<h2>
+  <a name="what-does-a-game-designer-do" href="#what-does-a-game-designer-do">
+  </a>
+  What does a game designer do?
+</h2>
+
+<p>A game designer is a creative driver responsible for bringing a game to life. They are generally a cross between a writer, artist, and programmer. </p>
+
+<blockquote>
+<p>It's not just about playing games and having ideas. You need to not only understand how to apply your ideas into many different, and often conflicting, areas of game design; you must also understand HOW to design, WHAT to design WHEN to design each feature, and WHY you are designing what you are designing.</p>
+</blockquote>
+
+<p>Every game is comprised of several different gameplay systems, mechanics, and features which all work together to create a fun and engaging experience for players.</p>
+
+<p>Your responsibilities may vary on your team/studio, the type of game you are working on, etc. But generally, Game design is all about - Design, Art, Code, Audio, Polish, and Marketing.</p>
+
+<h2>
+  <a name="1-design" href="#1-design">
+  </a>
+  1. Design
+</h2>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--yxValvt4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632411198754/ZZ-IenRKX.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--yxValvt4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632411198754/ZZ-IenRKX.png" alt="image.png" loading="lazy" width="800" height="600"></a><br>
+You’ve got a great idea, But how do you capture it in writing?</p>
+
+<p>Everyone has their own way of doing their best. Some compose 60-page design documents. Others, like me, write a page of badly-written notes, unreadable to anyone else. I don’t know what’s best for you. But I can give suggestions on what to write about:</p>
+
+<ul>
+<li>Hook -  What makes your game idea great? Is it something that no one has done before?</li>
+<li>Mechanics - What does your player do?  Fighting with enemies to save the world, or just running to escape from evil?</li>
+<li>Story -  This may not be required in some types of games like hyper-casual. But in shooting games, puzzle-like games, etc it is important!. </li>
+<li>Mood - What impression does your game make? What are the visuals? Sound? First impressions matter. First impressions will hook — then keep — the player playing.</li>
+</ul>
+
+<p>Use Notepad, Trello, or just a paper and a pencil for writing your ideas!</p>
+<h2>
+  <a name="art" href="#art">
+  </a>
+  Art
+</h2>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--nTxXdeGA--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632412307553/tjR7v5IvL.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--nTxXdeGA--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632412307553/tjR7v5IvL.png" alt="image.png" loading="lazy" width="860" height="637"></a><br>
+Art is essential for a game. Mainly, the Art part in a game contains, UI design and 2D Animations.</p>
+<h3>
+  <a name="ui" href="#ui">
+  </a>
+  UI
+</h3>
+
+<p>Think about a way that you can make your UI look unique and attractive — have a distinct color scheme, font(s), shape(s), and icon(s) — while <em>functional</em>. Also, it should be readable so the Player can gain the correct info.</p>
+<h3>
+  <a name="2d-animations" href="#2d-animations">
+  </a>
+  2D Animations
+</h3>
+
+<p>Don't worry, 2D Animations aren't hard as you think! </p>
+
+<p>If you need icons, fonts, and other UI stuff, just head to Behance. And if would recommend Blender for creating 3D assets or if you feel boring with doing everything yourself, just head over to <a href="https://assetstore.unity.com/">Unity Asset Store!</a>(If you're using Unity as a Game Engine)</p>
+<h2>
+  <a name="code" href="#code">
+  </a>
+  Code
+</h2>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--j_jrWfcD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632411285141/GpX75nn_K.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--j_jrWfcD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632411285141/GpX75nn_K.png" alt="image.png" loading="lazy" width="880" height="495"></a><br>
+Just don't fear this. I didn't know anything about C# or any other language before starting to make games!</p>
+
+<p>First, Decide on a game engine and an IDE (Integrated Development Environment — basically, an app that lets you code). My recommended game engines + IDEs are in the Resources below.</p>
+
+<p><strong>Game Engines</strong></p>
+
+<ul>
+<li>Unity(Great for beginners and have a large community)</li>
+<li>Unreal Engine</li>
+</ul>
+
+<p><strong>IDEs</strong></p>
+
+<ul>
+<li>Visual Studio Code (For Mac)</li>
+<li>Visual Studio Community (For Windows)</li>
+</ul>
+
+<p>So if you are a new buddy for C#/C++ or programming, just don't worry! You can learn them easily.</p>
+
+<p>Here let's see examples that you will need(these are written in C#, which is used in Unity. Very similar to C++)</p>
+
+<p><strong>Data types and variables</strong></p>
+
+<p>The root of all code is data. That data is stored in variables. In games, GameObjects, Texts, are some examples of data stored in Variables. You can declare a variable like this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight csharp"><code><span class="k">public</span> <span class="kt">int</span> <span class="n">x</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> 
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><code>int</code> is the data type. i is the variable name. And that <code>= 0</code> assigns zero as the variable value.</p>
+
+<p>Some common data types: <code>int</code> is an integer. <code>float</code> and <code>double</code> are decimal numbers. And <code>string</code> is any sentence or a word. </p>
+
+<p><strong>If statements.</strong></p>
+
+<p>If statements evaluate if a certain condition is true. If it is, run the code that’s inside the if statement:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight csharp"><code><span class="k">if</span> <span class="p">(</span><span class="k">true</span><span class="p">){</span> <span class="c1">//true is always true!</span>
+
+    <span class="nf">doThings</span><span class="p">();</span> <span class="c1">//I'm inside the if statement's brackets, run me!</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>If the condition isn’t true, we can evaluate other conditions with else if:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight csharp"><code><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="p">==</span> <span class="m">0</span><span class="p">){</span> 
+
+   <span class="nf">doThings</span><span class="p">();</span> 
+<span class="p">}</span>
+<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="p">==</span> <span class="m">1</span><span class="p">){</span>
+
+   <span class="nf">doOtherThings</span><span class="p">();</span> <span class="c1">//I'm gonna be run!</span>
+
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Or, just run some other code with else:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight csharp"><code><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">60000</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="p">==</span> <span class="m">0</span><span class="p">){</span>
+
+  <span class="nf">doThings</span><span class="p">();</span> 
+
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+
+  <span class="nf">doOtherThings</span><span class="p">();</span> <span class="c1">//Again, I will run </span>
+
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><strong>For/while loops</strong></p>
+
+<p>While loops continue while a certain condition is still true, executing the same lines of code over and over again. When the condition is false, the while loop exits.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight csharp"><code><span class="k">while</span> <span class="p">(</span><span class="n">someBool</span> <span class="p">==</span> <span class="k">true</span><span class="p">){</span> <span class="c1">//condition</span>
+
+   <span class="nf">doThings</span><span class="p">();</span> <span class="c1">//We'll keep doing things until someBool is false</span>
+
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>How long does this while loop last?</p>
+
+<p>Only while <code>someBool</code> is true. When it becomes, False, <code>while</code> loop will stop.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight csharp"><code><span class="k">while</span> <span class="p">(</span><span class="k">true</span><span class="p">){</span>
+
+  <span class="nf">doThings</span><span class="p">();</span>
+
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>For loops are basically while loops where:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight csharp"><code><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="p">&lt;</span> <span class="n">condition</span><span class="p">){</span> 
+
+    <span class="nf">doThings</span><span class="p">();</span>
+
+    <span class="n">i</span><span class="p">++;</span> <span class="c1">//increment after doing things</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>That’s equivalent to:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight csharp"><code><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">condition</span><span class="p">;</span> <span class="n">i</span><span class="p">++){</span>
+
+    <span class="nf">doThings</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><strong>Basic data structures.</strong></p>
+
+<p>So, we have data, and we ways to evaluate and manipulate that data. We can also store that data into some structure — a data structure. Data structures you should know(As a Game Dev) are arrays, lists, and sets.</p>
+
+<p>Here’s a quick example of an array:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight csharp"><code><span class="cm">/*
+Say you have numbers 0 through 9 that you want to store somewhere. You can store it in an array!
+*/</span>
+<span class="kt">float</span><span class="p">[]</span> <span class="n">values</span><span class="p">;</span> <span class="c1">// An array of floats</span>
+<span class="kt">int</span><span class="p">[]</span> <span class="n">ages</span><span class="p">;</span> <span class="c1">// An array of integers</span>
+
+<span class="cm">/* 
+If need an array of Gameobjects,
+
+GameObject[] objects; // Depends on Game Engine
+*/</span>
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The [] brackets declare an array. We assign a new array to arr of size 10 - that means it can hold 10 elements. Array now looks like this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight csharp"><code><span class="n">array</span> <span class="p">=</span> <span class="p">[</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="p">]</span>
+<span class="p">*/</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">=</span><span class="m">0</span><span class="p">;</span> <span class="n">i</span><span class="p">&lt;</span><span class="m">10</span><span class="p">;</span> <span class="n">i</span><span class="p">++){</span>
+
+    <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]=</span><span class="n">i</span><span class="p">;</span> <span class="c1">//We assign whatever i is to the the ith index of the array.</span>
+
+<span class="p">}</span>
+
+<span class="cm">/*
+After the for loop, our array data structure should look like this!
+arr = [ 0 1 2 3 4 5 6 7 8 9 ]
+*/</span>
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><strong>Functions and exceptions.</strong></p>
+
+<p>Functions are basically a small line of code describing a big bunch of code. For example, if you call:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight csharp"><code><span class="nf">EatChoco</span><span class="p">();</span>
+<span class="n">And</span> <span class="nf">EatChoco</span><span class="p">()</span> <span class="n">looks</span> <span class="n">like</span><span class="p">:</span>
+
+<span class="k">void</span> <span class="nf">EatChoco</span><span class="p">(){</span> <span class="c1">//&lt;---this is a function. </span>
+
+   <span class="n">chocoAte</span><span class="p">=</span><span class="k">true</span><span class="p">;</span>
+
+   <span class="n">Debu</span><span class="p">.</span><span class="nf">Log</span><span class="p">(</span><span class="s">"I hope mom won't find I ate her chocolate"</span><span class="p">);</span>
+
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Then the call to <code>EatChoco()</code> is actually a call to the two statements within the <code>EatChoco()</code> function.</p>
+
+<p>If you do something bad in your code, an exception might get thrown. They’re angry red errors there to tell you, hey, back up, what you did right there just ain’t workin‘ out logically. Go revise it.</p>
+
+<blockquote>
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--PFd5EXTj--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632243483179/udMApnEvf.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--PFd5EXTj--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632243483179/udMApnEvf.png" alt="image.png" loading="lazy" width="675" height="262"></a><br>
+RIP</p>
+</blockquote>
+
+<p><strong>Language</strong></p>
+
+<p>What language are you going to code in? C++? Javascript? C#? Every language is written somewhat differently and can let you do different things! Just don't let others demotivate you.</p>
+
+<p>Not only learn by doing but learn by seeing is also a great way by the way!</p>
+
+<p>Unreal and Unity both have a ton of free example projects. This’ll let you discover how everything comes together. Plus, you can build your game idea off of the project.</p>
+
+<p>I know. Coding is scary at first. Nothing makes sense, you’re hitting constant roadblocks, and you might want to quit in the face of failures and exceptions. It doesn’t mean you’re bad at coding. Coding is challenging. It’s understandable to feel incompetent at first.</p>
+
+<p>But it just takes time, like any other skill. It’ll get easier and fun!</p>
+
+<h2>
+  <a name="audio" href="#audio">
+  </a>
+  Audio
+</h2>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--s8KX3pCH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632411742546/MseRW9uUc.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--s8KX3pCH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632411742546/MseRW9uUc.png" alt="image.png" loading="lazy" width="880" height="293"></a><br>
+Audio can do wonders for immersion and mood. But, it can cost memory.</p>
+
+<p>Will you include music? Sound effects? Voiceovers or narration?</p>
+
+<p>For any of the above, record and mix them in a way that matches your game’s mood. For example, Bastion uses organic mouth and instrument sounds, matching its game world. Crypt of the Necrodancer uses a blend of electronic beats and chiptune rock to match the colorful, rhythmic game.</p>
+
+<p>Just check out the below resources!</p>
+
+<ul>
+<li>
+<a href="http://soundcloud.com/">Soundcloud</a> </li>
+<li><a href="https://incompetech.com/music/">Incompetech</a></li>
+<li><a href="https://www.bensound.com/royalty-free-music">Bensound</a></li>
+</ul>
+<h2>
+  <a name="polish" href="#polish">
+  </a>
+  Polish
+</h2>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--R3JzmJiv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632412097111/keW3SsUHX.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--R3JzmJiv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632412097111/keW3SsUHX.png" alt="image.png" loading="lazy" width="880" height="461"></a><br>
+Finally, you've made a game! Congrats! But wait, this is not the end. We have to polish it before selling it!</p>
+
+<p>You’re done.. right?</p>
+
+<p>Well. There’s a 99.99999% chance there’re bugs.</p>
+
+<p>It’s time to bug test! </p>
+
+<p>Just don't do it yourself. Ask your friends. Of course, they'll be very happy to get early access for a new game! And be sure to play it on all targeted platforms. Sometimes, it might work well on Editor but in an android, it won't work. </p>
+
+<p>Alright, you found a bug. </p>
+
+<p><strong>Check the console for exceptions</strong> Found one? Great! Find the file and line number where the exception was thrown. If the exception sounds like something from Mars or Jupiter, Google it and learn about it. Then figure out why that line number is throwing that exception.</p>
+
+<p>Still can’t figure it out? Write to console. Start tossing in them log statements in the place(s) you think are causing you trouble. Print variable values, and see whether what’s printed is what’s expected. If not, fix that. (<code>Debug.Log()</code> is useful in that case. <a href="https://docs.unity3d.com/ScriptReference/Debug.Log.html">More info</a>)</p>
+
+<p>When worse comes to worst, check logs. The logs of your project will give you way more info than the console. Read the last lines where the exception occurred. Google anything you don’t know. Can you fix it now?</p>
+
+<ol>
+<li>Sleep. It’ll get fixed in the morning. This is just a bad dream. Right? (This is an approved solution, to be honest)</li>
+</ol>
+
+<p>Let's see some common errors (specially in Unity).</p>
+
+<ul>
+<li>
+<strong>NullReferenceException</strong>
+</li>
+</ul>
+<div class="highlight js-code-highlight">
+<pre class="highlight csharp"><code><span class="kt">var</span><span class="p">.</span><span class="nf">doThing</span><span class="p">();</span> <span class="c1">//throws NullReferenceException: Object reference not set to an instance of an object</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>Problem: You’re doing a thing on a null (nonexistent) variable.</p>
+
+<p>Quick fix: Check if the variable is null before doing the thing.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>if(var != null)
+    {
+        var.doThing(); // do the thing safely!
+    }
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<ul>
+<li><strong>SyntaxErrorException.</strong></li>
+</ul>
+
+<p>Problem: Your code has invalid syntax.</p>
+
+<p>Quick fix: In the Exception message, it should tell you what character is throwing the error. Change that character.</p>
+
+<p>Note: If the character is a double quote, make sure you’re using dumb quotes instead of smart quotes:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight csharp"><code><span class="s">" //dumb quote
+</span><span class="err">”</span> <span class="c1">//smart quote.</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<ul>
+<li><strong>Pink or black screen.</strong></li>
+</ul>
+
+<p>Possible problem: Some shaders can’t render.</p>
+
+<p>Possible causes: You’re using a 3D shader for a 2D game. Or, you’re using some shader feature unsupported by the target OS. Be sure to use mobile shaders for mobile games.</p>
+
+<p>Great, you've nicely polished your game! Then, the most important thing,</p>
+
+<h2>
+  <a name="market" href="#market">
+  </a>
+  Market
+</h2>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--H47nYcZJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632412246580/UUBIQpFan.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--H47nYcZJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632412246580/UUBIQpFan.png" alt="image.png" loading="lazy" width="880" height="436"></a><br>
+Congrats! You’ve made something. It’s time to show the world what you’ve made.</p>
+
+<p>In general, marketing is our most anxiety-inducing stage. If you, too, get doubtful, the game developer community is helpful. You’re not alone in this. And you’ve come so far — might as well get through to the end, right?</p>
+
+<p>Good. So now what? Let's see with the essentials. You'll need:</p>
+
+<p><strong>A website</strong></p>
+
+<p>Whether your website acts as a home base for all of your games, or just the one you're currently working on, it needs to be updated frequently and departmentalized. The home page should feature an extended overview, captivating screenshots (a picture of your UI isn't all that exciting), and relevant links. You'll also need a media page that houses images or videos. </p>
+
+<p><strong>Active Social Media</strong></p>
+
+<p>At the very least you should have a Facebook page and a Twitter profile. If your game is small or mid-sized this is probably enough, but in theory, you could subscribe to dozens of social media outlets. </p>
+
+<p><strong>A development blog:</strong></p>
+
+<p>While development blogs are less essential than a website and a strong social media presence, gamers and developers alike love to read about the personal struggles and triumphs associated with making a game. Keep it personal, as if you're speaking directly to your readers. Humanize yourself and viewers will connect with and appreciate your plight. Post as frequently as necessary, but try to avoid posting about every little bug fix or new art piece. It's enough simply to prove that your game is coming along.</p>
+
+<p><strong>Trailers</strong></p>
+
+<p>This comes a bit later but is probably one of the single most important things you can do to get people excited to play your game. Don't overload it with cheesy titles, and don't think you have to be an expert cinematographer to produce a compelling video. Instead, target each facet of gameplay at least once, clearly display the game's title and the name of your company (you do have one, right?), and keep the cut scenes down to a minimum.</p>
+
+<p>And remember to document everything and share them with your fellow team members!</p>
+
+<blockquote>
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--g6mACXd5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632409948146/45EDKbG0u.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--g6mACXd5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632409948146/45EDKbG0u.png" alt="image.png" loading="lazy" width="851" height="517"></a><br>
+Great documentation(I think so.. 😇😇)</p>
+</blockquote>
+
+<p>Here are some tips that may help you to blow your game on Social Media</p>
+
+<ul>
+<li>The r/IndieGaming subreddit is a great place to link your YouTube trailers, preview, reviews and game demos. </li>
+</ul>
+
+<p>Your website should link to your social media accounts. Your Twitter account should have links to your Facebook page and website. Your Facebook page... you get the point!</p>
+
+<ul>
+<li><p>It's worse to have a grossly outdated Facebook page and website than none at all. Keep things current. </p></li>
+<li><p>If you must relay your game dev failings to the Internet, try to be funny about it. The same goes for your announcements.</p></li>
+</ul>
+
+<p>There’s no cheat code to making a game. It’s just a lot of determination and effort. You’ll get confused. You’ll make mistakes. You might even cry!</p>
+
+<p>But that’s okay. It means you’re growing. If you‘re putting in that much effort, I believe in you and your game: You can do it!</p>
+
+<p>If you ever want a hearing ear, just Email me. I would be happy to help you technically as well but for now, I'm a little bit busy. Anyway, my inbox is open!</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--lKMyVQFp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632411088307/Xpi70m0D_.gif" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--lKMyVQFp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632411088307/Xpi70m0D_.gif" alt="1ws.gif" loading="lazy" width="480" height="359" data-animated="true"></a></p>
+
+<p><a href="https://mr-unity-buddy.hashnode.dev/from-zero-to-hero-in-game-design-beginners-guide">Originally</a> published on Hashnode</p>
+
+
+<hr>
+
+<h2>
+  <a name="references" href="#references">
+  </a>
+  References
+</h2>
+
+<ul>
+<li><a href="https://gameifyouare.com/2019/05/15/indie-game-marketing-101-part-1-a-beginners-guide-to-games-marketing/">https://gameifyouare.com/2019/05/15/indie-game-marketing-101-part-1-a-beginners-guide-to-games-marketing/</a></li>
+<li><a href="https://www.process.st/indie-game-marketing/">https://www.process.st/indie-game-marketing/</a></li>
+<li><a href="https://elearningindustry.com/advertise/elearning-marketing-resources/blog/beginners-guide-marketing-your-games-online">https://elearningindustry.com/advertise/elearning-marketing-resources/blog/beginners-guide-marketing-your-games-online</a></li>
+<li><a href="https://www.gamedeveloper.com/discipline/a-beginner-s-guide-to-making-your-own-games">https://www.gamedeveloper.com/discipline/a-beginner-s-guide-to-making-your-own-games</a></li>
+</ul>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/unitybuddy/from-zero-to-hero-in-game-design-beginner-s-guide-1p9m" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(n,e,a,s){return a.type_of="article",a.id=839803,a.title="From Zero to Hero in Game Design: Beginner's Guide",a.description="Hello, buddies! Game design is an exciting, rewarding, and multi-faceted field with promising job...",a.readable_publish_date="Sep 25 '21",a.slug="from-zero-to-hero-in-game-design-beginner-s-guide-1p9m",a.path="/unitybuddy/from-zero-to-hero-in-game-design-beginner-s-guide-1p9m",a.url=s,a.comments_count=2,a.public_reactions_count=76,a.collection_id=n,a.published_timestamp=e,a.positive_reactions_count=76,a.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--bOu6nlwC--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7l5mmsh7gmdhy2nq66zn.PNG",a.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--8eUptOum--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7l5mmsh7gmdhy2nq66zn.PNG",a.canonical_url=s,a.created_at=e,a.edited_at="2021-09-25T05:49:06Z",a.crossposted_at=n,a.published_at=e,a.last_comment_at="2022-05-04T11:04:39Z",a.reading_time_minutes=10,a.tag_list="gamedev, beginners, guide, unity",a.tags=["gamedev","beginners","guide","unity"],a.body_html='<p>Hello, buddies! Game design is an exciting, rewarding, and multi-faceted field with promising job prospects. However, becoming a game designer can be a challenging journey. Passion, patience, and persistence are essential!</p>\n\n<h2>\n  <a name="what-does-a-game-designer-do" href="#what-does-a-game-designer-do">\n  </a>\n  What does a game designer do?\n</h2>\n\n<p>A game designer is a creative driver responsible for bringing a game to life. They are generally a cross between a writer, artist, and programmer. </p>\n\n<blockquote>\n<p>It\'s not just about playing games and having ideas. You need to not only understand how to apply your ideas into many different, and often conflicting, areas of game design; you must also understand HOW to design, WHAT to design WHEN to design each feature, and WHY you are designing what you are designing.</p>\n</blockquote>\n\n<p>Every game is comprised of several different gameplay systems, mechanics, and features which all work together to create a fun and engaging experience for players.</p>\n\n<p>Your responsibilities may vary on your team/studio, the type of game you are working on, etc. But generally, Game design is all about - Design, Art, Code, Audio, Polish, and Marketing.</p>\n\n<h2>\n  <a name="1-design" href="#1-design">\n  </a>\n  1. Design\n</h2>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--yxValvt4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632411198754/ZZ-IenRKX.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--yxValvt4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632411198754/ZZ-IenRKX.png" alt="image.png" loading="lazy" width="800" height="600"></a><br>\nYou’ve got a great idea, But how do you capture it in writing?</p>\n\n<p>Everyone has their own way of doing their best. Some compose 60-page design documents. Others, like me, write a page of badly-written notes, unreadable to anyone else. I don’t know what’s best for you. But I can give suggestions on what to write about:</p>\n\n<ul>\n<li>Hook -  What makes your game idea great? Is it something that no one has done before?</li>\n<li>Mechanics - What does your player do?  Fighting with enemies to save the world, or just running to escape from evil?</li>\n<li>Story -  This may not be required in some types of games like hyper-casual. But in shooting games, puzzle-like games, etc it is important!. </li>\n<li>Mood - What impression does your game make? What are the visuals? Sound? First impressions matter. First impressions will hook — then keep — the player playing.</li>\n</ul>\n\n<p>Use Notepad, Trello, or just a paper and a pencil for writing your ideas!</p>\n<h2>\n  <a name="art" href="#art">\n  </a>\n  Art\n</h2>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--nTxXdeGA--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632412307553/tjR7v5IvL.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--nTxXdeGA--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632412307553/tjR7v5IvL.png" alt="image.png" loading="lazy" width="860" height="637"></a><br>\nArt is essential for a game. Mainly, the Art part in a game contains, UI design and 2D Animations.</p>\n<h3>\n  <a name="ui" href="#ui">\n  </a>\n  UI\n</h3>\n\n<p>Think about a way that you can make your UI look unique and attractive — have a distinct color scheme, font(s), shape(s), and icon(s) — while <em>functional</em>. Also, it should be readable so the Player can gain the correct info.</p>\n<h3>\n  <a name="2d-animations" href="#2d-animations">\n  </a>\n  2D Animations\n</h3>\n\n<p>Don\'t worry, 2D Animations aren\'t hard as you think! </p>\n\n<p>If you need icons, fonts, and other UI stuff, just head to Behance. And if would recommend Blender for creating 3D assets or if you feel boring with doing everything yourself, just head over to <a href="https://assetstore.unity.com/">Unity Asset Store!</a>(If you\'re using Unity as a Game Engine)</p>\n<h2>\n  <a name="code" href="#code">\n  </a>\n  Code\n</h2>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--j_jrWfcD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632411285141/GpX75nn_K.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--j_jrWfcD--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632411285141/GpX75nn_K.png" alt="image.png" loading="lazy" width="880" height="495"></a><br>\nJust don\'t fear this. I didn\'t know anything about C# or any other language before starting to make games!</p>\n\n<p>First, Decide on a game engine and an IDE (Integrated Development Environment — basically, an app that lets you code). My recommended game engines + IDEs are in the Resources below.</p>\n\n<p><strong>Game Engines</strong></p>\n\n<ul>\n<li>Unity(Great for beginners and have a large community)</li>\n<li>Unreal Engine</li>\n</ul>\n\n<p><strong>IDEs</strong></p>\n\n<ul>\n<li>Visual Studio Code (For Mac)</li>\n<li>Visual Studio Community (For Windows)</li>\n</ul>\n\n<p>So if you are a new buddy for C#/C++ or programming, just don\'t worry! You can learn them easily.</p>\n\n<p>Here let\'s see examples that you will need(these are written in C#, which is used in Unity. Very similar to C++)</p>\n\n<p><strong>Data types and variables</strong></p>\n\n<p>The root of all code is data. That data is stored in variables. In games, GameObjects, Texts, are some examples of data stored in Variables. You can declare a variable like this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight csharp"><code><span class="k">public</span> <span class="kt">int</span> <span class="n">x</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> \n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><code>int</code> is the data type. i is the variable name. And that <code>= 0</code> assigns zero as the variable value.</p>\n\n<p>Some common data types: <code>int</code> is an integer. <code>float</code> and <code>double</code> are decimal numbers. And <code>string</code> is any sentence or a word. </p>\n\n<p><strong>If statements.</strong></p>\n\n<p>If statements evaluate if a certain condition is true. If it is, run the code that’s inside the if statement:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight csharp"><code><span class="k">if</span> <span class="p">(</span><span class="k">true</span><span class="p">){</span> <span class="c1">//true is always true!</span>\n\n    <span class="nf">doThings</span><span class="p">();</span> <span class="c1">//I\'m inside the if statement\'s brackets, run me!</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>If the condition isn’t true, we can evaluate other conditions with else if:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight csharp"><code><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">1</span><span class="p">;</span>\n\n<span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="p">==</span> <span class="m">0</span><span class="p">){</span> \n\n   <span class="nf">doThings</span><span class="p">();</span> \n<span class="p">}</span>\n<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="p">==</span> <span class="m">1</span><span class="p">){</span>\n\n   <span class="nf">doOtherThings</span><span class="p">();</span> <span class="c1">//I\'m gonna be run!</span>\n\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Or, just run some other code with else:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight csharp"><code><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">60000</span><span class="p">;</span>\n\n<span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="p">==</span> <span class="m">0</span><span class="p">){</span>\n\n  <span class="nf">doThings</span><span class="p">();</span> \n\n<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>\n\n  <span class="nf">doOtherThings</span><span class="p">();</span> <span class="c1">//Again, I will run </span>\n\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><strong>For/while loops</strong></p>\n\n<p>While loops continue while a certain condition is still true, executing the same lines of code over and over again. When the condition is false, the while loop exits.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight csharp"><code><span class="k">while</span> <span class="p">(</span><span class="n">someBool</span> <span class="p">==</span> <span class="k">true</span><span class="p">){</span> <span class="c1">//condition</span>\n\n   <span class="nf">doThings</span><span class="p">();</span> <span class="c1">//We\'ll keep doing things until someBool is false</span>\n\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>How long does this while loop last?</p>\n\n<p>Only while <code>someBool</code> is true. When it becomes, False, <code>while</code> loop will stop.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight csharp"><code><span class="k">while</span> <span class="p">(</span><span class="k">true</span><span class="p">){</span>\n\n  <span class="nf">doThings</span><span class="p">();</span>\n\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>For loops are basically while loops where:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight csharp"><code><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span>\n<span class="k">while</span> <span class="p">(</span><span class="n">i</span> <span class="p">&lt;</span> <span class="n">condition</span><span class="p">){</span> \n\n    <span class="nf">doThings</span><span class="p">();</span>\n\n    <span class="n">i</span><span class="p">++;</span> <span class="c1">//increment after doing things</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>That’s equivalent to:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight csharp"><code><span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="p">=</span> <span class="m">0</span><span class="p">;</span> <span class="n">i</span> <span class="p">&lt;</span> <span class="n">condition</span><span class="p">;</span> <span class="n">i</span><span class="p">++){</span>\n\n    <span class="nf">doThings</span><span class="p">();</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><strong>Basic data structures.</strong></p>\n\n<p>So, we have data, and we ways to evaluate and manipulate that data. We can also store that data into some structure — a data structure. Data structures you should know(As a Game Dev) are arrays, lists, and sets.</p>\n\n<p>Here’s a quick example of an array:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight csharp"><code><span class="cm">/*\nSay you have numbers 0 through 9 that you want to store somewhere. You can store it in an array!\n*/</span>\n<span class="kt">float</span><span class="p">[]</span> <span class="n">values</span><span class="p">;</span> <span class="c1">// An array of floats</span>\n<span class="kt">int</span><span class="p">[]</span> <span class="n">ages</span><span class="p">;</span> <span class="c1">// An array of integers</span>\n\n<span class="cm">/* \nIf need an array of Gameobjects,\n\nGameObject[] objects; // Depends on Game Engine\n*/</span>\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The [] brackets declare an array. We assign a new array to arr of size 10 - that means it can hold 10 elements. Array now looks like this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight csharp"><code><span class="n">array</span> <span class="p">=</span> <span class="p">[</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="m">0</span> <span class="p">]</span>\n<span class="p">*/</span>\n<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">=</span><span class="m">0</span><span class="p">;</span> <span class="n">i</span><span class="p">&lt;</span><span class="m">10</span><span class="p">;</span> <span class="n">i</span><span class="p">++){</span>\n\n    <span class="n">array</span><span class="p">[</span><span class="n">i</span><span class="p">]=</span><span class="n">i</span><span class="p">;</span> <span class="c1">//We assign whatever i is to the the ith index of the array.</span>\n\n<span class="p">}</span>\n\n<span class="cm">/*\nAfter the for loop, our array data structure should look like this!\narr = [ 0 1 2 3 4 5 6 7 8 9 ]\n*/</span>\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><strong>Functions and exceptions.</strong></p>\n\n<p>Functions are basically a small line of code describing a big bunch of code. For example, if you call:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight csharp"><code><span class="nf">EatChoco</span><span class="p">();</span>\n<span class="n">And</span> <span class="nf">EatChoco</span><span class="p">()</span> <span class="n">looks</span> <span class="n">like</span><span class="p">:</span>\n\n<span class="k">void</span> <span class="nf">EatChoco</span><span class="p">(){</span> <span class="c1">//&lt;---this is a function. </span>\n\n   <span class="n">chocoAte</span><span class="p">=</span><span class="k">true</span><span class="p">;</span>\n\n   <span class="n">Debu</span><span class="p">.</span><span class="nf">Log</span><span class="p">(</span><span class="s">"I hope mom won\'t find I ate her chocolate"</span><span class="p">);</span>\n\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Then the call to <code>EatChoco()</code> is actually a call to the two statements within the <code>EatChoco()</code> function.</p>\n\n<p>If you do something bad in your code, an exception might get thrown. They’re angry red errors there to tell you, hey, back up, what you did right there just ain’t workin‘ out logically. Go revise it.</p>\n\n<blockquote>\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--PFd5EXTj--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632243483179/udMApnEvf.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--PFd5EXTj--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632243483179/udMApnEvf.png" alt="image.png" loading="lazy" width="675" height="262"></a><br>\nRIP</p>\n</blockquote>\n\n<p><strong>Language</strong></p>\n\n<p>What language are you going to code in? C++? Javascript? C#? Every language is written somewhat differently and can let you do different things! Just don\'t let others demotivate you.</p>\n\n<p>Not only learn by doing but learn by seeing is also a great way by the way!</p>\n\n<p>Unreal and Unity both have a ton of free example projects. This’ll let you discover how everything comes together. Plus, you can build your game idea off of the project.</p>\n\n<p>I know. Coding is scary at first. Nothing makes sense, you’re hitting constant roadblocks, and you might want to quit in the face of failures and exceptions. It doesn’t mean you’re bad at coding. Coding is challenging. It’s understandable to feel incompetent at first.</p>\n\n<p>But it just takes time, like any other skill. It’ll get easier and fun!</p>\n\n<h2>\n  <a name="audio" href="#audio">\n  </a>\n  Audio\n</h2>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--s8KX3pCH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632411742546/MseRW9uUc.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--s8KX3pCH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632411742546/MseRW9uUc.png" alt="image.png" loading="lazy" width="880" height="293"></a><br>\nAudio can do wonders for immersion and mood. But, it can cost memory.</p>\n\n<p>Will you include music? Sound effects? Voiceovers or narration?</p>\n\n<p>For any of the above, record and mix them in a way that matches your game’s mood. For example, Bastion uses organic mouth and instrument sounds, matching its game world. Crypt of the Necrodancer uses a blend of electronic beats and chiptune rock to match the colorful, rhythmic game.</p>\n\n<p>Just check out the below resources!</p>\n\n<ul>\n<li>\n<a href="http://soundcloud.com/">Soundcloud</a> </li>\n<li><a href="https://incompetech.com/music/">Incompetech</a></li>\n<li><a href="https://www.bensound.com/royalty-free-music">Bensound</a></li>\n</ul>\n<h2>\n  <a name="polish" href="#polish">\n  </a>\n  Polish\n</h2>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--R3JzmJiv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632412097111/keW3SsUHX.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--R3JzmJiv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632412097111/keW3SsUHX.png" alt="image.png" loading="lazy" width="880" height="461"></a><br>\nFinally, you\'ve made a game! Congrats! But wait, this is not the end. We have to polish it before selling it!</p>\n\n<p>You’re done.. right?</p>\n\n<p>Well. There’s a 99.99999% chance there’re bugs.</p>\n\n<p>It’s time to bug test! </p>\n\n<p>Just don\'t do it yourself. Ask your friends. Of course, they\'ll be very happy to get early access for a new game! And be sure to play it on all targeted platforms. Sometimes, it might work well on Editor but in an android, it won\'t work. </p>\n\n<p>Alright, you found a bug. </p>\n\n<p><strong>Check the console for exceptions</strong> Found one? Great! Find the file and line number where the exception was thrown. If the exception sounds like something from Mars or Jupiter, Google it and learn about it. Then figure out why that line number is throwing that exception.</p>\n\n<p>Still can’t figure it out? Write to console. Start tossing in them log statements in the place(s) you think are causing you trouble. Print variable values, and see whether what’s printed is what’s expected. If not, fix that. (<code>Debug.Log()</code> is useful in that case. <a href="https://docs.unity3d.com/ScriptReference/Debug.Log.html">More info</a>)</p>\n\n<p>When worse comes to worst, check logs. The logs of your project will give you way more info than the console. Read the last lines where the exception occurred. Google anything you don’t know. Can you fix it now?</p>\n\n<ol>\n<li>Sleep. It’ll get fixed in the morning. This is just a bad dream. Right? (This is an approved solution, to be honest)</li>\n</ol>\n\n<p>Let\'s see some common errors (specially in Unity).</p>\n\n<ul>\n<li>\n<strong>NullReferenceException</strong>\n</li>\n</ul>\n<div class="highlight js-code-highlight">\n<pre class="highlight csharp"><code><span class="kt">var</span><span class="p">.</span><span class="nf">doThing</span><span class="p">();</span> <span class="c1">//throws NullReferenceException: Object reference not set to an instance of an object</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>Problem: You’re doing a thing on a null (nonexistent) variable.</p>\n\n<p>Quick fix: Check if the variable is null before doing the thing.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>if(var != null)\n    {\n        var.doThing(); // do the thing safely!\n    }\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<ul>\n<li><strong>SyntaxErrorException.</strong></li>\n</ul>\n\n<p>Problem: Your code has invalid syntax.</p>\n\n<p>Quick fix: In the Exception message, it should tell you what character is throwing the error. Change that character.</p>\n\n<p>Note: If the character is a double quote, make sure you’re using dumb quotes instead of smart quotes:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight csharp"><code><span class="s">" //dumb quote\n</span><span class="err">”</span> <span class="c1">//smart quote.</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<ul>\n<li><strong>Pink or black screen.</strong></li>\n</ul>\n\n<p>Possible problem: Some shaders can’t render.</p>\n\n<p>Possible causes: You’re using a 3D shader for a 2D game. Or, you’re using some shader feature unsupported by the target OS. Be sure to use mobile shaders for mobile games.</p>\n\n<p>Great, you\'ve nicely polished your game! Then, the most important thing,</p>\n\n<h2>\n  <a name="market" href="#market">\n  </a>\n  Market\n</h2>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--H47nYcZJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632412246580/UUBIQpFan.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--H47nYcZJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632412246580/UUBIQpFan.png" alt="image.png" loading="lazy" width="880" height="436"></a><br>\nCongrats! You’ve made something. It’s time to show the world what you’ve made.</p>\n\n<p>In general, marketing is our most anxiety-inducing stage. If you, too, get doubtful, the game developer community is helpful. You’re not alone in this. And you’ve come so far — might as well get through to the end, right?</p>\n\n<p>Good. So now what? Let\'s see with the essentials. You\'ll need:</p>\n\n<p><strong>A website</strong></p>\n\n<p>Whether your website acts as a home base for all of your games, or just the one you\'re currently working on, it needs to be updated frequently and departmentalized. The home page should feature an extended overview, captivating screenshots (a picture of your UI isn\'t all that exciting), and relevant links. You\'ll also need a media page that houses images or videos. </p>\n\n<p><strong>Active Social Media</strong></p>\n\n<p>At the very least you should have a Facebook page and a Twitter profile. If your game is small or mid-sized this is probably enough, but in theory, you could subscribe to dozens of social media outlets. </p>\n\n<p><strong>A development blog:</strong></p>\n\n<p>While development blogs are less essential than a website and a strong social media presence, gamers and developers alike love to read about the personal struggles and triumphs associated with making a game. Keep it personal, as if you\'re speaking directly to your readers. Humanize yourself and viewers will connect with and appreciate your plight. Post as frequently as necessary, but try to avoid posting about every little bug fix or new art piece. It\'s enough simply to prove that your game is coming along.</p>\n\n<p><strong>Trailers</strong></p>\n\n<p>This comes a bit later but is probably one of the single most important things you can do to get people excited to play your game. Don\'t overload it with cheesy titles, and don\'t think you have to be an expert cinematographer to produce a compelling video. Instead, target each facet of gameplay at least once, clearly display the game\'s title and the name of your company (you do have one, right?), and keep the cut scenes down to a minimum.</p>\n\n<p>And remember to document everything and share them with your fellow team members!</p>\n\n<blockquote>\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--g6mACXd5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632409948146/45EDKbG0u.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--g6mACXd5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632409948146/45EDKbG0u.png" alt="image.png" loading="lazy" width="851" height="517"></a><br>\nGreat documentation(I think so.. 😇😇)</p>\n</blockquote>\n\n<p>Here are some tips that may help you to blow your game on Social Media</p>\n\n<ul>\n<li>The r/IndieGaming subreddit is a great place to link your YouTube trailers, preview, reviews and game demos. </li>\n</ul>\n\n<p>Your website should link to your social media accounts. Your Twitter account should have links to your Facebook page and website. Your Facebook page... you get the point!</p>\n\n<ul>\n<li><p>It\'s worse to have a grossly outdated Facebook page and website than none at all. Keep things current. </p></li>\n<li><p>If you must relay your game dev failings to the Internet, try to be funny about it. The same goes for your announcements.</p></li>\n</ul>\n\n<p>There’s no cheat code to making a game. It’s just a lot of determination and effort. You’ll get confused. You’ll make mistakes. You might even cry!</p>\n\n<p>But that’s okay. It means you’re growing. If you‘re putting in that much effort, I believe in you and your game: You can do it!</p>\n\n<p>If you ever want a hearing ear, just Email me. I would be happy to help you technically as well but for now, I\'m a little bit busy. Anyway, my inbox is open!</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--lKMyVQFp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632411088307/Xpi70m0D_.gif" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--lKMyVQFp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_880/https://cdn.hashnode.com/res/hashnode/image/upload/v1632411088307/Xpi70m0D_.gif" alt="1ws.gif" loading="lazy" width="480" height="359" data-animated="true"></a></p>\n\n<p><a href="https://mr-unity-buddy.hashnode.dev/from-zero-to-hero-in-game-design-beginners-guide">Originally</a> published on Hashnode</p>\n\n\n<hr>\n\n<h2>\n  <a name="references" href="#references">\n  </a>\n  References\n</h2>\n\n<ul>\n<li><a href="https://gameifyouare.com/2019/05/15/indie-game-marketing-101-part-1-a-beginners-guide-to-games-marketing/">https://gameifyouare.com/2019/05/15/indie-game-marketing-101-part-1-a-beginners-guide-to-games-marketing/</a></li>\n<li><a href="https://www.process.st/indie-game-marketing/">https://www.process.st/indie-game-marketing/</a></li>\n<li><a href="https://elearningindustry.com/advertise/elearning-marketing-resources/blog/beginners-guide-marketing-your-games-online">https://elearningindustry.com/advertise/elearning-marketing-resources/blog/beginners-guide-marketing-your-games-online</a></li>\n<li><a href="https://www.gamedeveloper.com/discipline/a-beginner-s-guide-to-making-your-own-games">https://www.gamedeveloper.com/discipline/a-beginner-s-guide-to-making-your-own-games</a></li>\n</ul>\n\n',a.body_markdown="Hello, buddies! Game design is an exciting, rewarding, and multi-faceted field with promising job prospects. However, becoming a game designer can be a challenging journey. Passion, patience, and persistence are essential!\n\n## What does a game designer do?\nA game designer is a creative driver responsible for bringing a game to life. They are generally a cross between a writer, artist, and programmer. \n\n\n> \nIt's not just about playing games and having ideas. You need to not only understand how to apply your ideas into many different, and often conflicting, areas of game design; you must also understand HOW to design, WHAT to design WHEN to design each feature, and WHY you are designing what you are designing.\n\nEvery game is comprised of several different gameplay systems, mechanics, and features which all work together to create a fun and engaging experience for players.\n\nYour responsibilities may vary on your team/studio, the type of game you are working on, etc. But generally, Game design is all about - Design, Art, Code, Audio, Polish, and Marketing.\n\n## 1. Design\n\n![image.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1632411198754/ZZ-IenRKX.png)\nYou’ve got a great idea, But how do you capture it in writing?\n\nEveryone has their own way of doing their best. Some compose 60-page design documents. Others, like me, write a page of badly-written notes, unreadable to anyone else. I don’t know what’s best for you. But I can give suggestions on what to write about:\n\n- Hook -  What makes your game idea great? Is it something that no one has done before?\n- Mechanics - What does your player do?  Fighting with enemies to save the world, or just running to escape from evil?\n- Story -  This may not be required in some types of games like hyper-casual. But in shooting games, puzzle-like games, etc it is important!. \n- Mood - What impression does your game make? What are the visuals? Sound? First impressions matter. First impressions will hook — then keep — the player playing.\n\nUse Notepad, Trello, or just a paper and a pencil for writing your ideas!\n\n## Art\n\n![image.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1632412307553/tjR7v5IvL.png)\nArt is essential for a game. Mainly, the Art part in a game contains, UI design and 2D Animations.\n\n### UI\nThink about a way that you can make your UI look unique and attractive — have a distinct color scheme, font(s), shape(s), and icon(s) — while *functional*. Also, it should be readable so the Player can gain the correct info.\n\n### 2D Animations\nDon't worry, 2D Animations aren't hard as you think! \n\nIf you need icons, fonts, and other UI stuff, just head to Behance. And if would recommend Blender for creating 3D assets or if you feel boring with doing everything yourself, just head over to [Unity Asset Store!](https://assetstore.unity.com/)(If you're using Unity as a Game Engine)\n\n## Code\n\n![image.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1632411285141/GpX75nn_K.png)\nJust don't fear this. I didn't know anything about C# or any other language before starting to make games!\n\nFirst, Decide on a game engine and an IDE (Integrated Development Environment — basically, an app that lets you code). My recommended game engines + IDEs are in the Resources below.\n\n**Game Engines**\n\n- Unity(Great for beginners and have a large community)\n- Unreal Engine\n\n**IDEs**\n\n- Visual Studio Code (For Mac)\n- Visual Studio Community (For Windows)\n\nSo if you are a new buddy for C#/C++ or programming, just don't worry! You can learn them easily.\n\nHere let's see examples that you will need(these are written in C#, which is used in Unity. Very similar to C++)\n\n**Data types and variables**\n\n \nThe root of all code is data. That data is stored in variables. In games, GameObjects, Texts, are some examples of data stored in Variables. You can declare a variable like this:\n```cs\npublic int x = 0; \n```\n`int` is the data type. i is the variable name. And that `= 0` assigns zero as the variable value.\n\nSome common data types: `int` is an integer. `float` and `double` are decimal numbers. And `string` is any sentence or a word. \n\n**If statements.**\n\n\n If statements evaluate if a certain condition is true. If it is, run the code that’s inside the if statement:\n\n```cs\nif (true){ //true is always true!\n\n    doThings(); //I'm inside the if statement's brackets, run me!\n}\n```\nIf the condition isn’t true, we can evaluate other conditions with else if:\n\n```cs\nint i = 1;\n\nif (i == 0){ \n\n   doThings(); \n}\nelse if (i == 1){\n\n   doOtherThings(); //I'm gonna be run!\n   \n}\n```\n\nOr, just run some other code with else:\n\n```cs\nint i = 60000;\n\nif (i == 0){\n\n  doThings(); \n  \n} else {\n\n  doOtherThings(); //Again, I will run \n  \n}\n```\n\n**For/while loops**\n\n\n While loops continue while a certain condition is still true, executing the same lines of code over and over again. When the condition is false, the while loop exits.\n\n```cs\nwhile (someBool == true){ //condition\n\n   doThings(); //We'll keep doing things until someBool is false\n   \n}\n```\nHow long does this while loop last?\n\nOnly while `someBool` is true. When it becomes, False, `while` loop will stop.\n\n```cs\nwhile (true){\n\n  doThings();\n  \n}\n```\n\nFor loops are basically while loops where:\n\n```cs\nint i = 0;\nwhile (i < condition){ \n\n    doThings();\n    \n    i++; //increment after doing things\n}\n```\nThat’s equivalent to:\n```cs\nfor (int i = 0; i < condition; i++){\n\n    doThings();\n}\n```\n\n**Basic data structures.**\n\n\n So, we have data, and we ways to evaluate and manipulate that data. We can also store that data into some structure — a data structure. Data structures you should know(As a Game Dev) are arrays, lists, and sets.\n\nHere’s a quick example of an array:\n\n```cs\n/*\nSay you have numbers 0 through 9 that you want to store somewhere. You can store it in an array!\n*/\nfloat[] values; // An array of floats\nint[] ages; // An array of integers\n\n/* \nIf need an array of Gameobjects,\n\nGameObject[] objects; // Depends on Game Engine\n*/\n\n```\nThe [] brackets declare an array. We assign a new array to arr of size 10 - that means it can hold 10 elements. Array now looks like this:\n\n```cs\narray = [ 0 0 0 0 0 0 0 0 0 0 ]\n*/\nfor (int i=0; i<10; i++){\n\n    array[i]=i; //We assign whatever i is to the the ith index of the array.\n    \n}\n\n/*\nAfter the for loop, our array data structure should look like this!\narr = [ 0 1 2 3 4 5 6 7 8 9 ]\n*/\n\n```\n\n**Functions and exceptions.**\n\nFunctions are basically a small line of code describing a big bunch of code. For example, if you call:\n\n```cs\nEatChoco();\nAnd EatChoco() looks like:\n\nvoid EatChoco(){ //<---this is a function. \n\n   chocoAte=true;\n   \n   Debu.Log(\"I hope mom won't find I ate her chocolate\");\n   \n}\n```\nThen the call to `EatChoco()` is actually a call to the two statements within the `EatChoco()` function.\n\nIf you do something bad in your code, an exception might get thrown. They’re angry red errors there to tell you, hey, back up, what you did right there just ain’t workin‘ out logically. Go revise it.\n\n> \n![image.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1632243483179/udMApnEvf.png)\nRIP\n\n**Language**\n\nWhat language are you going to code in? C++? Javascript? C#? Every language is written somewhat differently and can let you do different things! Just don't let others demotivate you.\n\nNot only learn by doing but learn by seeing is also a great way by the way!\n\n \nUnreal and Unity both have a ton of free example projects. This’ll let you discover how everything comes together. Plus, you can build your game idea off of the project.\n\nI know. Coding is scary at first. Nothing makes sense, you’re hitting constant roadblocks, and you might want to quit in the face of failures and exceptions. It doesn’t mean you’re bad at coding. Coding is challenging. It’s understandable to feel incompetent at first.\n\nBut it just takes time, like any other skill. It’ll get easier and fun!\n\n##Audio\n\n![image.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1632411742546/MseRW9uUc.png)\nAudio can do wonders for immersion and mood. But, it can cost memory.\n\nWill you include music? Sound effects? Voiceovers or narration?\n\nFor any of the above, record and mix them in a way that matches your game’s mood. For example, Bastion uses organic mouth and instrument sounds, matching its game world. Crypt of the Necrodancer uses a blend of electronic beats and chiptune rock to match the colorful, rhythmic game.\n\nJust check out the below resources!\n- [Soundcloud](http://soundcloud.com/) \n- [Incompetech](https://incompetech.com/music/)\n- [Bensound](https://www.bensound.com/royalty-free-music)\n\n## Polish\n\n![image.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1632412097111/keW3SsUHX.png)\nFinally, you've made a game! Congrats! But wait, this is not the end. We have to polish it before selling it!\n\nYou’re done.. right?\n\nWell. There’s a 99.99999% chance there’re bugs.\n\nIt’s time to bug test! \n\nJust don't do it yourself. Ask your friends. Of course, they'll be very happy to get early access for a new game! And be sure to play it on all targeted platforms. Sometimes, it might work well on Editor but in an android, it won't work. \n\nAlright, you found a bug. \n\n**Check the console for exceptions** Found one? Great! Find the file and line number where the exception was thrown. If the exception sounds like something from Mars or Jupiter, Google it and learn about it. Then figure out why that line number is throwing that exception.\n\nStill can’t figure it out? Write to console. Start tossing in them log statements in the place(s) you think are causing you trouble. Print variable values, and see whether what’s printed is what’s expected. If not, fix that. (`Debug.Log()` is useful in that case. [More info](https://docs.unity3d.com/ScriptReference/Debug.Log.html))\n\n\nWhen worse comes to worst, check logs. The logs of your project will give you way more info than the console. Read the last lines where the exception occurred. Google anything you don’t know. Can you fix it now?\n\n4. Sleep. It’ll get fixed in the morning. This is just a bad dream. Right? (This is an approved solution, to be honest)\n\nLet's see some common errors (specially in Unity).\n\n- **NullReferenceException**\n```cs\nvar.doThing(); //throws NullReferenceException: Object reference not set to an instance of an object\n```\nProblem: You’re doing a thing on a null (nonexistent) variable.\n\nQuick fix: Check if the variable is null before doing the thing.\n\n```\nif(var != null)\n    {\n        var.doThing(); // do the thing safely!\n    }\n```\n- **SyntaxErrorException.**\n\n\nProblem: Your code has invalid syntax.\n\nQuick fix: In the Exception message, it should tell you what character is throwing the error. Change that character.\n\nNote: If the character is a double quote, make sure you’re using dumb quotes instead of smart quotes:\n\n```cs\n\" //dumb quote\n” //smart quote.\n```\n\n- **Pink or black screen.**\n\n\nPossible problem: Some shaders can’t render.\n\nPossible causes: You’re using a 3D shader for a 2D game. Or, you’re using some shader feature unsupported by the target OS. Be sure to use mobile shaders for mobile games.\n\nGreat, you've nicely polished your game! Then, the most important thing,\n\n## Market\n\n![image.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1632412246580/UUBIQpFan.png)\nCongrats! You’ve made something. It’s time to show the world what you’ve made.\n\nIn general, marketing is our most anxiety-inducing stage. If you, too, get doubtful, the game developer community is helpful. You’re not alone in this. And you’ve come so far — might as well get through to the end, right?\n\nGood. So now what? Let's see with the essentials. You'll need:\n\n**A website**\n\nWhether your website acts as a home base for all of your games, or just the one you're currently working on, it needs to be updated frequently and departmentalized. The home page should feature an extended overview, captivating screenshots (a picture of your UI isn't all that exciting), and relevant links. You'll also need a media page that houses images or videos. \n\n**Active Social Media**\n\nAt the very least you should have a Facebook page and a Twitter profile. If your game is small or mid-sized this is probably enough, but in theory, you could subscribe to dozens of social media outlets. \n\n**A development blog:**\n\nWhile development blogs are less essential than a website and a strong social media presence, gamers and developers alike love to read about the personal struggles and triumphs associated with making a game. Keep it personal, as if you're speaking directly to your readers. Humanize yourself and viewers will connect with and appreciate your plight. Post as frequently as necessary, but try to avoid posting about every little bug fix or new art piece. It's enough simply to prove that your game is coming along.\n\n\n**Trailers**\n\nThis comes a bit later but is probably one of the single most important things you can do to get people excited to play your game. Don't overload it with cheesy titles, and don't think you have to be an expert cinematographer to produce a compelling video. Instead, target each facet of gameplay at least once, clearly display the game's title and the name of your company (you do have one, right?), and keep the cut scenes down to a minimum.\n\nAnd remember to document everything and share them with your fellow team members!\n\n\n> \n![image.png](https://cdn.hashnode.com/res/hashnode/image/upload/v1632409948146/45EDKbG0u.png)\nGreat documentation(I think so.. 😇😇)\n\nHere are some tips that may help you to blow your game on Social Media\n\n- The r/IndieGaming subreddit is a great place to link your YouTube trailers, preview, reviews and game demos. \n\nYour website should link to your social media accounts. Your Twitter account should have links to your Facebook page and website. Your Facebook page... you get the point!\n\n- It's worse to have a grossly outdated Facebook page and website than none at all. Keep things current. \n\n- If you must relay your game dev failings to the Internet, try to be funny about it. The same goes for your announcements.\n\nThere’s no cheat code to making a game. It’s just a lot of determination and effort. You’ll get confused. You’ll make mistakes. You might even cry!\n\nBut that’s okay. It means you’re growing. If you‘re putting in that much effort, I believe in you and your game: You can do it!\n\nIf you ever want a hearing ear, just Email me. I would be happy to help you technically as well but for now, I'm a little bit busy. Anyway, my inbox is open!\n\n\n\n![1ws.gif](https://cdn.hashnode.com/res/hashnode/image/upload/v1632411088307/Xpi70m0D_.gif)\n\n[Originally](https://mr-unity-buddy.hashnode.dev/from-zero-to-hero-in-game-design-beginners-guide) published on Hashnode\n__________________________________________________________________________________________________\n## References\n- https://gameifyouare.com/2019/05/15/indie-game-marketing-101-part-1-a-beginners-guide-to-games-marketing/\n- https://www.process.st/indie-game-marketing/\n- https://elearningindustry.com/advertise/elearning-marketing-resources/blog/beginners-guide-marketing-your-games-online\n- https://www.gamedeveloper.com/discipline/a-beginner-s-guide-to-making-your-own-games\n\n\n\n\n\n",a.user={name:"Mr. Unity Buddy",username:"unitybuddy",twitter_username:n,github_username:"SmallLion",website_url:"https://mr-unity-buddy.vercel.app/",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--pReKb10U--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/591960/d0b4989c-5ccf-4a92-ac63-93fca650ca2b.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--ZX-xEUWn--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/591960/d0b4989c-5ccf-4a92-ac63-93fca650ca2b.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:a}},error:n,state:{currentArticle:a},serverRendered:!0,routePath:"/unitybuddy/839803",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:n}}}}(null,"2021-09-25T05:45:33Z",{},"https://dev.to/unitybuddy/from-zero-to-hero-in-game-design-beginner-s-guide-1p9m")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

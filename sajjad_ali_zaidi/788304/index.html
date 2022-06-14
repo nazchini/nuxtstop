@@ -1,0 +1,583 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Create a Google Chrome Extension using React</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Create a Google Chrome Extension using React</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/chrome" class="tag" data-v-70afb46a>
+          #chrome
+        </a><a href="/nuxtstop/t/react" class="tag" data-v-70afb46a>
+          #react
+        </a><a href="/nuxtstop/t/browser" class="tag" data-v-70afb46a>
+          #browser
+        </a><a href="/nuxtstop/t/extension" class="tag" data-v-70afb46a>
+          #extension
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--twVXHy3m--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xubq77i8rht7spuc1qfq.png" alt="Create a Google Chrome Extension using React" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            14
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Aug 12 '21</time></div></header> <div class="content" data-v-70afb46a><p>You're probably here because you just realized that a chrome extension written in Vanilla JavaScript is not fulfilling your needs and you miss working in a React-like technology. So, without wasting any of your time, let's dive straight into the steps of creating a Google Chrome extension using REACT.</p>
+
+<p><strong>Note:</strong> In order to keep this post short and precise, the terms related to chrome extension are not explained in detail. Wherever felt necessary, links to appropriate resources are included so that you can further read about that topic. Also, brief explanation of 2 things is also given at the bottom of this post so that you can develop a better understanding of how this extension works.</p>
+
+<h2>
+  <a name="steps-to-create-a-google-chrome-extension-using-react" href="#steps-to-create-a-google-chrome-extension-using-react">
+  </a>
+  <center>Steps to Create a Google Chrome Extension using REACT</center>
+</h2>
+
+
+
+<h1>
+  <a name="1-create-an-empty-folder" href="#1-create-an-empty-folder">
+  </a>
+  1. Create an empty folder
+</h1>
+
+<p>Navigate to the place where you want to store your extension locally and create a new folder. You can name it whatever you want.</p>
+
+<h1>
+  <a name="2-initialize-npm" href="#2-initialize-npm">
+  </a>
+  2. Initialize 'npm'
+</h1>
+
+<p>Go inside that newly created folder, open a terminal and run the following:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>npm init
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>(Keep pressing Enter 😅)<br>
+Once done, we now need to install some <a href="https://medium.com/@dylanavery720/npmmmm-1-dev-dependencies-dependencies-8931c2583b0c">dev dependencies</a>.</p>
+<h1>
+  <a name="3-install-required-dev-dependencies" href="#3-install-required-dev-dependencies">
+  </a>
+  3. Install required dev dependencies
+</h1>
+
+<p>Run the following command. It will install all the space-separated packages as dev dependencies.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>npm i <span class="nt">-D</span> babel-core babel-plugin-transform-runtime babel-polyfill babel-preset-env clang-format parcel-bundler
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h1>
+  <a name="4-install-react-dependencies" href="#4-install-react-dependencies">
+  </a>
+  4. Install react dependencies
+</h1>
+
+<p>As we want to create a React App, we need to install 'react' and 'react-dom'<br>
+So, run the following:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>npm i <span class="nt">-s</span> react react-dom
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We now have our required packages installed</p>
+
+<h1>
+  <a name="5-create-a-folder-for-source-files" href="#5-create-a-folder-for-source-files">
+  </a>
+  5. Create a folder for source files
+</h1>
+
+<p>Create a folder (let's call it 'src') to place all your files (before the parcel build process. Explanation about Parcel build is given at the bottom of this post).<br>
+The files that you will create in this folder will be the ones that you interact with</p>
+<h1>
+  <a name="6-create-manifestjson-file" href="#6-create-manifestjson-file">
+  </a>
+  6. Create 'manifest.json' file
+</h1>
+
+<p>Create a file named 'manifest.json' inside the newly created 'src' folder. <br>
+Add some boilerplate code for a simple chrome extension</p>
+
+<p>Code to get you started:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My awesome extension"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0.0"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This is an awesome extension"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"manifest_version"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"browser_action"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"default_popup"</span><span class="p">:</span><span class="w"> </span><span class="s2">"popup.html"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h1>
+  <a name="7-create-a-react-component" href="#7-create-a-react-component">
+  </a>
+  7. Create a React Component
+</h1>
+
+<p>Create a file for a test React Component (let's call it 'Dummy').<br>
+So, create a file 'Dummy.js' inside the 'src' folder.</p>
+<h1>
+  <a name="8-write-code-for-the-react-component" href="#8-write-code-for-the-react-component">
+  </a>
+  8. Write code for the React Component
+</h1>
+
+<p>You can use the following code to test your 'Dummy' component<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight jsx"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">Dummy</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=></span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="p">&lt;</span><span class="nc">React</span><span class="p">.</span><span class="nc">Fragment</span><span class="p">></span>
+      <span class="p">&lt;</span><span class="nt">h1</span><span class="p">></span>
+        Hello from Dummy
+      <span class="p">&lt;/</span><span class="nt">h1</span><span class="p">></span>
+    <span class="p">&lt;/</span><span class="nc">React</span><span class="p">.</span><span class="nc">Fragment</span><span class="p">></span>
+  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">Dummy</span><span class="p">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h1>
+  <a name="9-create-popuphtml-file" href="#9-create-popuphtml-file">
+  </a>
+  9. Create 'popup.html' file
+</h1>
+
+<p>Create a 'popup.html' file (you can name it whatever you like) inside 'src' folder and add the boilerplate HTML code inside it. This is the front-end page of your extension when it is clicked. The name of this file should be the same in 'manifest.json' where 'default_popup' is mentioned.</p>
+
+<h1>
+  <a name="10-create-popupjs-file" href="#10-create-popupjs-file">
+  </a>
+  10. Create 'popup.js' file
+</h1>
+
+<p>Create a file 'popup.js' inside 'src' folder (again, you can name it anything you like).</p>
+
+<h1>
+  <a name="11-connect-popupjs-with-popuphtml" href="#11-connect-popupjs-with-popuphtml">
+  </a>
+  11. Connect 'popup.js' with 'popup.html'
+</h1>
+
+<p>Add a 'script' tag pointing to the file created in the previous step inside the 'popup.html' file. In this case, the name of the file is 'popup.js'. <br></p>
+
+<h2>
+  <a name="important-note" href="#important-note">
+  </a>
+  IMPORTANT NOTE:
+</h2>
+
+<p><strong>DO NOT</strong> give it a <em>'type'</em> attribute of <em>'module'</em>. This will lead to an error afterwards.</p>
+
+<h1>
+  <a name="12-import-required-packages-in-popupjs" href="#12-import-required-packages-in-popupjs">
+  </a>
+  12. Import required packages in 'popup.js'
+</h1>
+
+<p>Import the 'Dummy' component, 'react' and 'react-dom' packages inside 'popup.js'.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight jsx"><code><span class="k">import</span> <span class="nx">Dummy</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">./Dummy</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="nx">ReactDOM</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react-dom</span><span class="dl">'</span><span class="p">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h1>
+  <a name="13-create-a-target-div-tag-to-render-our-react-code" href="#13-create-a-target-div-tag-to-render-our-react-code">
+  </a>
+  13. Create a target 'div' tag to render our react code
+</h1>
+
+<p>Create a <code>div</code> tag inside 'popup.html' to render your React component. Give it an id <code>app</code>. (Again, you can name it anything)<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight html"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"app"</span><span class="nt">></span> <span class="nt">&lt;/div></span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This is where our 'Dummy' component is going to be rendered.</p>
+
+<h1>
+  <a name="14-write-code-to-render-dummy-component" href="#14-write-code-to-render-dummy-component">
+  </a>
+  14. Write code to render 'Dummy' component
+</h1>
+
+<p>Write the following line inside 'popup.js' to render the Dummy React component inside the 'div' tag with id 'app' in 'popup.html'.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight jsx"><code><span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(&lt;</span><span class="nc">Dummy</span> <span class="p">/>,</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">'</span><span class="s1">app</span><span class="dl">'</span><span class="p">));</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h1>
+  <a name="15-create-bash-scripts" href="#15-create-bash-scripts">
+  </a>
+  15. Create bash scripts
+</h1>
+
+<p>Now, we move to write the bash scripts in the 'package.json' file. So that when we want to create extension files that are understood by the browser, we can simply run those scripts.<br>
+Copy the following code into 'package.json' file.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight json"><code><span class="nl">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"copy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cp src/manifest.json dist/ && cp src/popup.html dist/"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"build"</span><span class="p">:</span><span class="w"> </span><span class="s2">"parcel build src/popup.js -d dist/ -o popup --no-minify && npm run copy"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><strong>Note:</strong> Explanation of these scripts is at the end of this post</p>
+
+<h1>
+  <a name="16-build-the-extension-code" href="#16-build-the-extension-code">
+  </a>
+  16. Build the extension code
+</h1>
+
+<p>Now go to the terminal and run<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>yarn build
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You will see the 'dist' folder being created inside your extension directory/folder</p>
+
+<h1>
+  <a name="17-loading-the-extension-files" href="#17-loading-the-extension-files">
+  </a>
+  17. Loading the extension files
+</h1>
+
+<p><a href="https://webkul.com/blog/how-to-install-the-unpacked-extension-in-chrome/">Load</a> this 'dist' folder in the extensions section on the browser and Enjoy 🙂</p>
+
+<h1>
+  <a name="bonus" href="#bonus">
+  </a>
+  BONUS:
+</h1>
+
+<p>I understand that this was a lot of information bombarded at you all at once, so if you want to gain a deeper insight into how this code works, you can continue reading this post.</p>
+
+<h1>
+  <a name="1-parcel-build-process" href="#1-parcel-build-process">
+  </a>
+  1. Parcel Build Process
+</h1>
+
+<p><a href="https://parceljs.org/">Parcel</a> is a web application bundler that translates your code files in such a way that a browser can easily run it. And in the case of extension, we want to <code>import</code> packages in our <code>react</code> code and also <code>export</code> them to be used in other components. <br>
+But this is not directly possible in the case of extensions (at the time of writing this post). So, we need some helping tool, that helps us. And this is where parcel comes to our rescue.</p>
+
+<p>Parcel takes the target file (in this case 'popup.js') and translates that file. And in the file translation, it encounters the imported packages too. So, it will translate their code as well and continue to do so until all the required packages' code is translated and placed into a single file.<br>
+Now, this single file can be easily read and understood by the browser. <br>
+So, how do we create this single file?<br>
+Well, this is explained below in the script explanation.</p>
+<h1>
+  <a name="2-scripts-explanation" href="#2-scripts-explanation">
+  </a>
+  2. Scripts explanation
+</h1>
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight json"><code><span class="nl">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="nl">"copy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cp src/manifest.json dist/ && cp src/popup.html dist/"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"build"</span><span class="p">:</span><span class="w"> </span><span class="s2">"parcel build src/popup.js -d dist/ -o popup --no-minify && npm run copy"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>These are the scripts that we will be using in our extension development. Let's understand how they work</p>
+<h2>
+  <a name="copy-script" href="#copy-script">
+  </a>
+  Copy Script
+</h2>
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight json"><code><span class="nl">"copy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cp src/manifest.json dist/ && cp src/popup.html dist/"</span><span class="w">
+</span></code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>This script is written to allow the developer to copy (only copy, not the parcel build) 'manifest.json' and 'popup.html' files from our 'src' folder to the 'dist' folder. <br>
+You can edit this script to include more files as well. <br>
+Whenever you have files that do not contain any special task (like import, export, etc.) then you should directly copy it into the final extension code folder (in this case 'dist' folder).</p>
+<h2>
+  <a name="build-script" href="#build-script">
+  </a>
+  Build Script
+</h2>
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight json"><code><span class="nl">"build"</span><span class="p">:</span><span class="w"> </span><span class="s2">"parcel build src/popup.js -d dist/ -o popup --no-minify && npm run copy"</span><span class="w">
+</span></code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>If you understood the previous script explanation, then this will also be easy for you.<br>
+This script tells the 'parcel' bundler to 'build' (or translate) our 'popup.js' file along with all the imported package code that is used inside 'popup.js' file and place it inside the 'dist' folder. And after the build process, run the 'copy' script as well. (You can take out this part if you don't want to run the 'copy' script every time you build your 'popup.js' file.)</p>
+<h1>
+  <a name="how-to-use-these-scripts" href="#how-to-use-these-scripts">
+  </a>
+  How to use these scripts?
+</h1>
+
+<p>Whenever you want to copy or build the extension code, go to the terminal and write one of the following<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>yarn copy
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>yarn build
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You can also use 'npm' instead of 'yarn' for running these scripts.</p>
+
+<p>That's it for this post. Don't forget to like this post if it helped you in any way.</p>
+
+<p>Also, do share your thoughts in the comments. And, if you found any error, feel free to point it out in the comments.<br>
+Thank you 🙂.</p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/sajjad_ali_zaidi/create-a-google-chrome-extension-using-react-ie1" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(n,e,s,t){return s.type_of="article",s.id=788304,s.title="Create a Google Chrome Extension using React",s.description="You're probably here because you just realized that a chrome extension written in Vanilla JavaScript...",s.readable_publish_date="Aug 12 '21",s.slug="create-a-google-chrome-extension-using-react-ie1",s.path="/sajjad_ali_zaidi/create-a-google-chrome-extension-using-react-ie1",s.url=t,s.comments_count=0,s.public_reactions_count=14,s.collection_id=n,s.published_timestamp=e,s.positive_reactions_count=14,s.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--twVXHy3m--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xubq77i8rht7spuc1qfq.png",s.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--aVZ4mbeJ--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xubq77i8rht7spuc1qfq.png",s.canonical_url=t,s.created_at="2021-08-11T10:49:12Z",s.edited_at=n,s.crossposted_at=n,s.published_at=e,s.last_comment_at=e,s.reading_time_minutes=6,s.tag_list="chrome, react, browser, extension",s.tags=["chrome","react","browser","extension"],s.body_html='<p>You\'re probably here because you just realized that a chrome extension written in Vanilla JavaScript is not fulfilling your needs and you miss working in a React-like technology. So, without wasting any of your time, let\'s dive straight into the steps of creating a Google Chrome extension using REACT.</p>\n\n<p><strong>Note:</strong> In order to keep this post short and precise, the terms related to chrome extension are not explained in detail. Wherever felt necessary, links to appropriate resources are included so that you can further read about that topic. Also, brief explanation of 2 things is also given at the bottom of this post so that you can develop a better understanding of how this extension works.</p>\n\n<h2>\n  <a name="steps-to-create-a-google-chrome-extension-using-react" href="#steps-to-create-a-google-chrome-extension-using-react">\n  </a>\n  <center>Steps to Create a Google Chrome Extension using REACT</center>\n</h2>\n\n\n\n<h1>\n  <a name="1-create-an-empty-folder" href="#1-create-an-empty-folder">\n  </a>\n  1. Create an empty folder\n</h1>\n\n<p>Navigate to the place where you want to store your extension locally and create a new folder. You can name it whatever you want.</p>\n\n<h1>\n  <a name="2-initialize-npm" href="#2-initialize-npm">\n  </a>\n  2. Initialize \'npm\'\n</h1>\n\n<p>Go inside that newly created folder, open a terminal and run the following:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>npm init\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>(Keep pressing Enter 😅)<br>\nOnce done, we now need to install some <a href="https://medium.com/@dylanavery720/npmmmm-1-dev-dependencies-dependencies-8931c2583b0c">dev dependencies</a>.</p>\n<h1>\n  <a name="3-install-required-dev-dependencies" href="#3-install-required-dev-dependencies">\n  </a>\n  3. Install required dev dependencies\n</h1>\n\n<p>Run the following command. It will install all the space-separated packages as dev dependencies.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>npm i <span class="nt">-D</span> babel-core babel-plugin-transform-runtime babel-polyfill babel-preset-env clang-format parcel-bundler\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h1>\n  <a name="4-install-react-dependencies" href="#4-install-react-dependencies">\n  </a>\n  4. Install react dependencies\n</h1>\n\n<p>As we want to create a React App, we need to install \'react\' and \'react-dom\'<br>\nSo, run the following:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>npm i <span class="nt">-s</span> react react-dom\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>We now have our required packages installed</p>\n\n<h1>\n  <a name="5-create-a-folder-for-source-files" href="#5-create-a-folder-for-source-files">\n  </a>\n  5. Create a folder for source files\n</h1>\n\n<p>Create a folder (let\'s call it \'src\') to place all your files (before the parcel build process. Explanation about Parcel build is given at the bottom of this post).<br>\nThe files that you will create in this folder will be the ones that you interact with</p>\n<h1>\n  <a name="6-create-manifestjson-file" href="#6-create-manifestjson-file">\n  </a>\n  6. Create \'manifest.json\' file\n</h1>\n\n<p>Create a file named \'manifest.json\' inside the newly created \'src\' folder. <br>\nAdd some boilerplate code for a simple chrome extension</p>\n\n<p>Code to get you started:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight json"><code><span class="p">{</span><span class="w">\n  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"My awesome extension"</span><span class="p">,</span><span class="w">\n  </span><span class="nl">"version"</span><span class="p">:</span><span class="w"> </span><span class="s2">"0.0.0"</span><span class="p">,</span><span class="w">\n  </span><span class="nl">"description"</span><span class="p">:</span><span class="w"> </span><span class="s2">"This is an awesome extension"</span><span class="p">,</span><span class="w">\n  </span><span class="nl">"manifest_version"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">\n  </span><span class="nl">"browser_action"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">\n    </span><span class="nl">"default_popup"</span><span class="p">:</span><span class="w"> </span><span class="s2">"popup.html"</span><span class="w">\n  </span><span class="p">}</span><span class="w">\n</span><span class="p">}</span><span class="w">\n</span></code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h1>\n  <a name="7-create-a-react-component" href="#7-create-a-react-component">\n  </a>\n  7. Create a React Component\n</h1>\n\n<p>Create a file for a test React Component (let\'s call it \'Dummy\').<br>\nSo, create a file \'Dummy.js\' inside the \'src\' folder.</p>\n<h1>\n  <a name="8-write-code-for-the-react-component" href="#8-write-code-for-the-react-component">\n  </a>\n  8. Write code for the React Component\n</h1>\n\n<p>You can use the following code to test your \'Dummy\' component<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight jsx"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">react</span><span class="dl">\'</span><span class="p">;</span>\n<span class="kd">const</span> <span class="nx">Dummy</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>\n  <span class="k">return</span> <span class="p">(</span>\n    <span class="p">&lt;</span><span class="nc">React</span><span class="p">.</span><span class="nc">Fragment</span><span class="p">&gt;</span>\n      <span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>\n        Hello from Dummy\n      <span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>\n    <span class="p">&lt;/</span><span class="nc">React</span><span class="p">.</span><span class="nc">Fragment</span><span class="p">&gt;</span>\n  <span class="p">);</span>\n<span class="p">}</span>\n\n<span class="k">export</span> <span class="k">default</span> <span class="nx">Dummy</span><span class="p">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h1>\n  <a name="9-create-popuphtml-file" href="#9-create-popuphtml-file">\n  </a>\n  9. Create \'popup.html\' file\n</h1>\n\n<p>Create a \'popup.html\' file (you can name it whatever you like) inside \'src\' folder and add the boilerplate HTML code inside it. This is the front-end page of your extension when it is clicked. The name of this file should be the same in \'manifest.json\' where \'default_popup\' is mentioned.</p>\n\n<h1>\n  <a name="10-create-popupjs-file" href="#10-create-popupjs-file">\n  </a>\n  10. Create \'popup.js\' file\n</h1>\n\n<p>Create a file \'popup.js\' inside \'src\' folder (again, you can name it anything you like).</p>\n\n<h1>\n  <a name="11-connect-popupjs-with-popuphtml" href="#11-connect-popupjs-with-popuphtml">\n  </a>\n  11. Connect \'popup.js\' with \'popup.html\'\n</h1>\n\n<p>Add a \'script\' tag pointing to the file created in the previous step inside the \'popup.html\' file. In this case, the name of the file is \'popup.js\'. <br></p>\n\n<h2>\n  <a name="important-note" href="#important-note">\n  </a>\n  IMPORTANT NOTE:\n</h2>\n\n<p><strong>DO NOT</strong> give it a <em>\'type\'</em> attribute of <em>\'module\'</em>. This will lead to an error afterwards.</p>\n\n<h1>\n  <a name="12-import-required-packages-in-popupjs" href="#12-import-required-packages-in-popupjs">\n  </a>\n  12. Import required packages in \'popup.js\'\n</h1>\n\n<p>Import the \'Dummy\' component, \'react\' and \'react-dom\' packages inside \'popup.js\'.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight jsx"><code><span class="k">import</span> <span class="nx">Dummy</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">./Dummy</span><span class="dl">\'</span><span class="p">;</span>\n<span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">react</span><span class="dl">\'</span><span class="p">;</span>\n<span class="k">import</span> <span class="nx">ReactDOM</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">react-dom</span><span class="dl">\'</span><span class="p">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h1>\n  <a name="13-create-a-target-div-tag-to-render-our-react-code" href="#13-create-a-target-div-tag-to-render-our-react-code">\n  </a>\n  13. Create a target \'div\' tag to render our react code\n</h1>\n\n<p>Create a <code>div</code> tag inside \'popup.html\' to render your React component. Give it an id <code>app</code>. (Again, you can name it anything)<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight html"><code><span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">"app"</span><span class="nt">&gt;</span> <span class="nt">&lt;/div&gt;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This is where our \'Dummy\' component is going to be rendered.</p>\n\n<h1>\n  <a name="14-write-code-to-render-dummy-component" href="#14-write-code-to-render-dummy-component">\n  </a>\n  14. Write code to render \'Dummy\' component\n</h1>\n\n<p>Write the following line inside \'popup.js\' to render the Dummy React component inside the \'div\' tag with id \'app\' in \'popup.html\'.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight jsx"><code><span class="nx">ReactDOM</span><span class="p">.</span><span class="nx">render</span><span class="p">(&lt;</span><span class="nc">Dummy</span> <span class="p">/&gt;,</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="dl">\'</span><span class="s1">app</span><span class="dl">\'</span><span class="p">));</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h1>\n  <a name="15-create-bash-scripts" href="#15-create-bash-scripts">\n  </a>\n  15. Create bash scripts\n</h1>\n\n<p>Now, we move to write the bash scripts in the \'package.json\' file. So that when we want to create extension files that are understood by the browser, we can simply run those scripts.<br>\nCopy the following code into \'package.json\' file.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight json"><code><span class="nl">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">\n  </span><span class="nl">"copy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cp src/manifest.json dist/ &amp;&amp; cp src/popup.html dist/"</span><span class="p">,</span><span class="w">\n  </span><span class="nl">"build"</span><span class="p">:</span><span class="w"> </span><span class="s2">"parcel build src/popup.js -d dist/ -o popup --no-minify &amp;&amp; npm run copy"</span><span class="w">\n</span><span class="p">}</span><span class="w">\n</span></code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><strong>Note:</strong> Explanation of these scripts is at the end of this post</p>\n\n<h1>\n  <a name="16-build-the-extension-code" href="#16-build-the-extension-code">\n  </a>\n  16. Build the extension code\n</h1>\n\n<p>Now go to the terminal and run<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>yarn build\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You will see the \'dist\' folder being created inside your extension directory/folder</p>\n\n<h1>\n  <a name="17-loading-the-extension-files" href="#17-loading-the-extension-files">\n  </a>\n  17. Loading the extension files\n</h1>\n\n<p><a href="https://webkul.com/blog/how-to-install-the-unpacked-extension-in-chrome/">Load</a> this \'dist\' folder in the extensions section on the browser and Enjoy 🙂</p>\n\n<h1>\n  <a name="bonus" href="#bonus">\n  </a>\n  BONUS:\n</h1>\n\n<p>I understand that this was a lot of information bombarded at you all at once, so if you want to gain a deeper insight into how this code works, you can continue reading this post.</p>\n\n<h1>\n  <a name="1-parcel-build-process" href="#1-parcel-build-process">\n  </a>\n  1. Parcel Build Process\n</h1>\n\n<p><a href="https://parceljs.org/">Parcel</a> is a web application bundler that translates your code files in such a way that a browser can easily run it. And in the case of extension, we want to <code>import</code> packages in our <code>react</code> code and also <code>export</code> them to be used in other components. <br>\nBut this is not directly possible in the case of extensions (at the time of writing this post). So, we need some helping tool, that helps us. And this is where parcel comes to our rescue.</p>\n\n<p>Parcel takes the target file (in this case \'popup.js\') and translates that file. And in the file translation, it encounters the imported packages too. So, it will translate their code as well and continue to do so until all the required packages\' code is translated and placed into a single file.<br>\nNow, this single file can be easily read and understood by the browser. <br>\nSo, how do we create this single file?<br>\nWell, this is explained below in the script explanation.</p>\n<h1>\n  <a name="2-scripts-explanation" href="#2-scripts-explanation">\n  </a>\n  2. Scripts explanation\n</h1>\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight json"><code><span class="nl">"scripts"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">\n  </span><span class="nl">"copy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cp src/manifest.json dist/ &amp;&amp; cp src/popup.html dist/"</span><span class="p">,</span><span class="w">\n  </span><span class="nl">"build"</span><span class="p">:</span><span class="w"> </span><span class="s2">"parcel build src/popup.js -d dist/ -o popup --no-minify &amp;&amp; npm run copy"</span><span class="w">\n</span><span class="p">}</span><span class="w">\n</span></code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>These are the scripts that we will be using in our extension development. Let\'s understand how they work</p>\n<h2>\n  <a name="copy-script" href="#copy-script">\n  </a>\n  Copy Script\n</h2>\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight json"><code><span class="nl">"copy"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cp src/manifest.json dist/ &amp;&amp; cp src/popup.html dist/"</span><span class="w">\n</span></code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>This script is written to allow the developer to copy (only copy, not the parcel build) \'manifest.json\' and \'popup.html\' files from our \'src\' folder to the \'dist\' folder. <br>\nYou can edit this script to include more files as well. <br>\nWhenever you have files that do not contain any special task (like import, export, etc.) then you should directly copy it into the final extension code folder (in this case \'dist\' folder).</p>\n<h2>\n  <a name="build-script" href="#build-script">\n  </a>\n  Build Script\n</h2>\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight json"><code><span class="nl">"build"</span><span class="p">:</span><span class="w"> </span><span class="s2">"parcel build src/popup.js -d dist/ -o popup --no-minify &amp;&amp; npm run copy"</span><span class="w">\n</span></code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>If you understood the previous script explanation, then this will also be easy for you.<br>\nThis script tells the \'parcel\' bundler to \'build\' (or translate) our \'popup.js\' file along with all the imported package code that is used inside \'popup.js\' file and place it inside the \'dist\' folder. And after the build process, run the \'copy\' script as well. (You can take out this part if you don\'t want to run the \'copy\' script every time you build your \'popup.js\' file.)</p>\n<h1>\n  <a name="how-to-use-these-scripts" href="#how-to-use-these-scripts">\n  </a>\n  How to use these scripts?\n</h1>\n\n<p>Whenever you want to copy or build the extension code, go to the terminal and write one of the following<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>yarn copy\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>yarn build\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You can also use \'npm\' instead of \'yarn\' for running these scripts.</p>\n\n<p>That\'s it for this post. Don\'t forget to like this post if it helped you in any way.</p>\n\n<p>Also, do share your thoughts in the comments. And, if you found any error, feel free to point it out in the comments.<br>\nThank you 🙂.</p>\n\n',s.body_markdown="You're probably here because you just realized that a chrome extension written in Vanilla JavaScript is not fulfilling your needs and you miss working in a React-like technology. So, without wasting any of your time, let's dive straight into the steps of creating a Google Chrome extension using REACT.\n\n**Note:** In order to keep this post short and precise, the terms related to chrome extension are not explained in detail. Wherever felt necessary, links to appropriate resources are included so that you can further read about that topic. Also, brief explanation of 2 things is also given at the bottom of this post so that you can develop a better understanding of how this extension works.\n\n##<center>Steps to Create a Google Chrome Extension using REACT</center>\n<br/><br/>\n#1. Create an empty folder\nNavigate to the place where you want to store your extension locally and create a new folder. You can name it whatever you want.\n#2. Initialize 'npm'\nGo inside that newly created folder, open a terminal and run the following:\n\n```bash\nnpm init\n``` \n\n(Keep pressing Enter 😅)\nOnce done, we now need to install some [dev dependencies](https://medium.com/@dylanavery720/npmmmm-1-dev-dependencies-dependencies-8931c2583b0c).\n#3. Install required dev dependencies\nRun the following command. It will install all the space-separated packages as dev dependencies.\n\n```bash\nnpm i -D babel-core babel-plugin-transform-runtime babel-polyfill babel-preset-env clang-format parcel-bundler\n```\n#4. Install react dependencies\nAs we want to create a React App, we need to install 'react' and 'react-dom'\nSo, run the following:\n\n```bash\nnpm i -s react react-dom\n```\n\nWe now have our required packages installed\n#5. Create a folder for source files\nCreate a folder (let's call it 'src') to place all your files (before the parcel build process. Explanation about Parcel build is given at the bottom of this post).\nThe files that you will create in this folder will be the ones that you interact with\n#6. Create 'manifest.json' file\nCreate a file named 'manifest.json' inside the newly created 'src' folder. \nAdd some boilerplate code for a simple chrome extension\n\nCode to get you started:\n\n```json\n{\n  \"name\": \"My awesome extension\",\n  \"version\": \"0.0.0\",\n  \"description\": \"This is an awesome extension\",\n  \"manifest_version\": 2,\n  \"browser_action\": {\n    \"default_popup\": \"popup.html\"\n  }\n}\n```\n#7. Create a React Component\nCreate a file for a test React Component (let's call it 'Dummy').\nSo, create a file 'Dummy.js' inside the 'src' folder.\n#8. Write code for the React Component\nYou can use the following code to test your 'Dummy' component\n\n```react\nimport React from 'react';\nconst Dummy = () => {\n  return (\n    <React.Fragment>\n      <h1>\n        Hello from Dummy\n      </h1>\n    </React.Fragment>\n  );\n}\n\nexport default Dummy;\n```\n#9. Create 'popup.html' file\nCreate a 'popup.html' file (you can name it whatever you like) inside 'src' folder and add the boilerplate HTML code inside it. This is the front-end page of your extension when it is clicked. The name of this file should be the same in 'manifest.json' where 'default_popup' is mentioned.\n#10. Create 'popup.js' file\nCreate a file 'popup.js' inside 'src' folder (again, you can name it anything you like).\n#11. Connect 'popup.js' with 'popup.html'\nAdd a 'script' tag pointing to the file created in the previous step inside the 'popup.html' file. In this case, the name of the file is 'popup.js'. <br/>\n##IMPORTANT NOTE:\n**DO NOT** give it a *'type'* attribute of *'module'*. This will lead to an error afterwards.\n#12. Import required packages in 'popup.js'\nImport the 'Dummy' component, 'react' and 'react-dom' packages inside 'popup.js'.\n\n```react\nimport Dummy from './Dummy';\nimport React from 'react';\nimport ReactDOM from 'react-dom';\n```\n\n#13. Create a target 'div' tag to render our react code\nCreate a `div` tag inside 'popup.html' to render your React component. Give it an id `app`. (Again, you can name it anything) \n\n```HTML\n<div id=\"app\"> </div>\n```\n\nThis is where our 'Dummy' component is going to be rendered.\n#14. Write code to render 'Dummy' component\nWrite the following line inside 'popup.js' to render the Dummy React component inside the 'div' tag with id 'app' in 'popup.html'.\n\n```react\nReactDOM.render(<Dummy />, document.getElementById('app'));\n```\n#15. Create bash scripts\nNow, we move to write the bash scripts in the 'package.json' file. So that when we want to create extension files that are understood by the browser, we can simply run those scripts.\nCopy the following code into 'package.json' file.\n\n```json\n\"scripts\": {\n  \"copy\": \"cp src/manifest.json dist/ && cp src/popup.html dist/\",\n  \"build\": \"parcel build src/popup.js -d dist/ -o popup --no-minify && npm run copy\"\n}\n```\n**Note:** Explanation of these scripts is at the end of this post\n#16. Build the extension code\nNow go to the terminal and run \n\n```bash\nyarn build\n```\n\nYou will see the 'dist' folder being created inside your extension directory/folder\n#17. Loading the extension files\n[Load](https://webkul.com/blog/how-to-install-the-unpacked-extension-in-chrome/) this 'dist' folder in the extensions section on the browser and Enjoy 🙂\n\n#BONUS: \nI understand that this was a lot of information bombarded at you all at once, so if you want to gain a deeper insight into how this code works, you can continue reading this post.\n\n#1. Parcel Build Process\n[Parcel](https://parceljs.org/) is a web application bundler that translates your code files in such a way that a browser can easily run it. And in the case of extension, we want to `import` packages in our `react` code and also `export` them to be used in other components. \nBut this is not directly possible in the case of extensions (at the time of writing this post). So, we need some helping tool, that helps us. And this is where parcel comes to our rescue.\n\nParcel takes the target file (in this case 'popup.js') and translates that file. And in the file translation, it encounters the imported packages too. So, it will translate their code as well and continue to do so until all the required packages' code is translated and placed into a single file.\nNow, this single file can be easily read and understood by the browser. \nSo, how do we create this single file?\nWell, this is explained below in the script explanation.\n#2. Scripts explanation\n\n```json\n\"scripts\": {\n  \"copy\": \"cp src/manifest.json dist/ && cp src/popup.html dist/\",\n  \"build\": \"parcel build src/popup.js -d dist/ -o popup --no-minify && npm run copy\"\n}\n```\n\nThese are the scripts that we will be using in our extension development. Let's understand how they work\n\n##Copy Script\n```json\n\"copy\": \"cp src/manifest.json dist/ && cp src/popup.html dist/\"\n```\nThis script is written to allow the developer to copy (only copy, not the parcel build) 'manifest.json' and 'popup.html' files from our 'src' folder to the 'dist' folder. \nYou can edit this script to include more files as well. \nWhenever you have files that do not contain any special task (like import, export, etc.) then you should directly copy it into the final extension code folder (in this case 'dist' folder).\n\n##Build Script\n```json\n\"build\": \"parcel build src/popup.js -d dist/ -o popup --no-minify && npm run copy\"\n```\nIf you understood the previous script explanation, then this will also be easy for you.\nThis script tells the 'parcel' bundler to 'build' (or translate) our 'popup.js' file along with all the imported package code that is used inside 'popup.js' file and place it inside the 'dist' folder. And after the build process, run the 'copy' script as well. (You can take out this part if you don't want to run the 'copy' script every time you build your 'popup.js' file.)\n#How to use these scripts?\nWhenever you want to copy or build the extension code, go to the terminal and write one of the following\n\n```bash\nyarn copy\n```\n\n```bash\nyarn build\n```\nYou can also use 'npm' instead of 'yarn' for running these scripts.\n\nThat's it for this post. Don't forget to like this post if it helped you in any way.\n\nAlso, do share your thoughts in the comments. And, if you found any error, feel free to point it out in the comments.\nThank you 🙂.",s.user={name:"Syed Muhammad Sajjad",username:"sajjad_ali_zaidi",twitter_username:n,github_username:"SajjadAliZaidi",website_url:n,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--gQmXKqSB--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/680375/083dcc35-88d4-457a-a604-adbbdf615828.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--5AEhEJfF--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/680375/083dcc35-88d4-457a-a604-adbbdf615828.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:s}},error:n,state:{currentArticle:s},serverRendered:!0,routePath:"/sajjad_ali_zaidi/788304",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:n}}}}(null,"2021-08-12T10:01:35Z",{},"https://dev.to/sajjad_ali_zaidi/create-a-google-chrome-extension-using-react-ie1")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

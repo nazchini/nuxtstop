@@ -1,0 +1,809 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Various Ways To Launch Amazon EC2 Instance Using Ansible</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Various Ways To Launch Amazon EC2 Instance Using Ansible</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/aws" class="tag" data-v-70afb46a>
+          #aws
+        </a><a href="/nuxtstop/t/ec2" class="tag" data-v-70afb46a>
+          #ec2
+        </a><a href="/nuxtstop/t/ansible" class="tag" data-v-70afb46a>
+          #ansible
+        </a><a href="/nuxtstop/t/cloud" class="tag" data-v-70afb46a>
+          #cloud
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--aQpw-rBZ--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/zav3vetijchxxn68nu5q.png" alt="Various Ways To Launch Amazon EC2 Instance Using Ansible" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            7
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Apr 27</time></div></header> <div class="content" data-v-70afb46a><p>Amazon EC2 is one of the most famous services of AWS. It's like a first step to move or start using cloud infrastructure. From installing server directly on physical server, using virtualization hosted on data center, and then hosted on cloud. As I said before, this is first step not final step. Since technology always grows, we still have containers, serverless, and more. In this section, we won't discuss about them now but let's focus on EC2 or Elastic Compute Cloud.</p>
+
+<p>More about Amazon EC2, click <a href="https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjThMPB5az3AhWnSGwGHa_qBCMQFnoECB0QAQ&url=https%3A%2F%2Fdocs.aws.amazon.com%2FAWSEC2%2Flatest%2FUserGuide%2Fconcepts.html&usg=AOvVaw0vtjc0aaPJCPDTZztn_BGH">here</a>!</p>
+
+<p>Note: If you heed to my previous post about VPC, then this is the next part to host any web server using EC2 instances. So, I'm going to launch three EC2 instances and each instance will be placed in different AZ. Here I'm gonna show you of various ways we can do to launch EC2 instances, 3 in total. Those are:</p>
+
+<ol>
+<li>Directly using all parameters needed</li>
+<li>Create Launch Template</li>
+<li>Build custom AMI from existing EC2 instance</li>
+</ol>
+
+<p>Then, again! I won't go through the console but I'll use ansible instead. Why? If you've ever seen my previous posts, you should know why :)</p>
+
+<p>Prerequisites:</p>
+
+<ol>
+<li>
+<a href="https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html">AWS CLI</a> and <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html">setup at least one credential</a>;</li>
+<li>
+<a href="https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html">Ansible</a>;</li>
+<li>Ansible collection for AWS by running <code>ansible-galaxy collection install community.aws</code>.</li>
+</ol>
+
+<p>For the inventory, we'll have two versions or groups. </p>
+
+<ol>
+<li>Localhost
+Used as target host to create EC2 instances.</li>
+<li>EC2 Instances
+Used as target hosts if they already created (running) to do some configuration on the servers.</li>
+</ol>
+
+<p><strong>Inventory</strong>: hosts.yml (first version)<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>---
+
+localhost:
+  hosts:
+    127.0.0.1:
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><strong>Playbook</strong>: ec2.yml<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>- name: ec2
+  hosts: localhost
+  connection: local
+  gather_facts: no
+  tasks:
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><strong>Optional: Import Key Pair</strong><br>
+Before we launch any EC2 instances, we can create a keypair by creating a new one generated by AWS or by importing your SSH public key. Here I'll choose to import key pair with the default name of each OS. In this case, I'll use ec2-user since I'm going to use Amazon Linux 2. Then, when the instances are running. I can directly connect using it without enclose the key file as usual.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    - name: import keypair
+      amazon.aws.ec2_key:
+        name: ec2-user
+        key_material: "{{ lookup('file', '/home/nurulramadhona/.ssh/id_rsa.pub') }}"
+      tags:
+        - ec2_create
+        - ec2_keypair
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><strong>1. Launch EC2 Instance + User Data</strong><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    - name: launch new instance + user data
+      amazon.aws.ec2_instance:
+        name: amazonlinux2a
+        region: ap-southeast-3
+        key_name: ec2-user
+        instance_type: t3.micro
+        security_group: ssh-web
+        vpc_subnet_id: subnet-0276d466994fa3087
+        network:
+          assign_public_ip: true
+          delete_on_termination: true
+        image_id: ami-0de34ee5744189c60 
+        user_data: "{{ lookup('file', 'user_data.sh') }}"
+        volumes: 
+          - device_name: /dev/xvda
+            ebs: 
+              volume_size: 8
+              volume_type: gp2
+              delete_on_termination: true
+      tags:
+        - ec2_create
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>I guess you already familiar with any parameter above but one thing I want to tell you is vpc_subnet_id. This parameter has any implicit informations. By define subnet id, we already choose which VPC we'll use and which AZ we placed the EC2 instance so we don't need define those two things anymore. </p>
+
+<p><strong>User data:</strong> user_data.sh<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>#!/bin/bash
+yum update -y
+yum install -y httpd
+systemctl enable httpd
+systemctl start httpd
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>(Just a simple bash script to install web server)</p>
+
+<p>Let's run our first playbook since I've added ec2_create on key pair and launch tasks!<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ ansible-playbook -i host.yml ec2.yml -t ec2_create
+
+PLAY [ec2] **************************************************************************************************************************************************************
+
+TASK [import keypair] ***************************************************************************************************************************************************
+changed: [127.0.0.1]
+
+TASK [launch new instance + user data] **********************************************************************************************************************************
+changed: [127.0.0.1]
+
+PLAY RECAP **************************************************************************************************************************************************************
+127.0.0.1                  : ok=2    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ aws ec2 describe-instances --query 'Reservations[].Instances[].{ID:InstanceId, PrivateIP:PrivateIpAddress, PublicIP:PublicIpAddress, Name:Tags[?Key==`Name`].Value}'
+[
+    {
+        "ID": "i-0187e4bb5d2f2007c",
+        "PrivateIP": "10.0.1.7",
+        "PublicIP": "108.136.226.235",
+        "Name": [
+            "amazonlinux2a"
+        ]
+    }
+]
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><strong>2. Launch EC2 Instance From Template (Include User Data)</strong><br>
+Create template:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    - name: create launch template
+      community.aws.ec2_launch_template:
+        name: amazonlinux2_httpd_template
+        image_id: ami-0de34ee5744189c60
+        key_name: ec2-user
+        instance_type: t3.micro
+        region: ap-southeast-3
+        network_interfaces:
+          - associate_public_ip_address: true
+            delete_on_termination: true
+            device_index: 0
+        block_device_mappings:
+          - device_name: /dev/xvda
+            ebs:
+              delete_on_termination: true
+              volume_size: 8
+              volume_type: gp2
+        user_data: "{{ lookup('file', 'user_data.txt') }}"
+      tags:
+        - ec2_template
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>There are two things we can't do when using template. Those are security group can't be defined together with network_interfaces (so I'll keep network_interfaces and not define security_groups) and device_index should be defined along with network_interfaces. </p>
+
+<p>The important thing when you use user_data, the file should be base64 encoded. So, I encode the user_data.sh (file I use when launch first instance above).<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ base64 user_data.sh > user_data.txt
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Then, since we already defined user_data on the template. We shouldn't repeat to use user_data when launch the instances using this template or it'll be replaced. </p>
+
+<p>To launch instance using template, use launch_template parameter.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    - name: launch new instance from template
+      amazon.aws.ec2_instance:
+        name: amazonlinux2b
+        launch_template: 
+          name: amazonlinux2_httpd_template
+        security_group: ssh-web
+        vpc_subnet_id: subnet-07bb6501337e4f87b
+      tags:
+        - ec2_template
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>As we can see, we remove some parameters that already defined on the template.</p>
+
+<p>Let's run our second playbook to launch instance using template!<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ ansible-playbook -i host.yml ec2.yml -t ec2_template
+
+PLAY [ec2] **************************************************************************************************************************************************************
+
+TASK [create launch template] *******************************************************************************************************************************************
+changed: [127.0.0.1]
+
+TASK [launch new instance from template] ********************************************************************************************************************************
+changed: [127.0.0.1]
+
+PLAY RECAP **************************************************************************************************************************************************************
+127.0.0.1                  : ok=2    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ aws ec2 describe-instances --query 'Reservations[].Instances[].{ID:InstanceId, PrivateIP:PrivateIpAddress, PublicIP:PublicIpAddress, Name:Tags[?Key==`Name`].Value}'
+[
+    {
+        "ID": "i-0187e4bb5d2f2007c",
+        "PrivateIP": "10.0.1.7",
+        "PublicIP": "108.136.226.235",
+        "Name": [
+            "amazonlinux2a"
+        ]
+    },
+    {
+        "ID": "i-09c46dba004ed7bd8",
+        "PrivateIP": "10.0.2.8",
+        "PublicIP": "108.136.235.232",
+        "Name": [
+            "amazonlinux2b"
+        ]
+    }
+]
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><strong>3. Launch EC2 Instance Using Custom AMI</strong><br>
+To launch instance using custom AMI, I separated into two tasks and won't run them together. Why? Because we need image-id of the custom AMI to launch instance. To get it, the AMI should be created first and here we'll create it from an instance (first one).</p>
+
+<p>First task:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    - name: create custom ami from an instance
+      amazon.aws.ec2_ami:
+        instance_id: i-0187e4bb5d2f2007c
+        wait: no
+        name: amazonlinux2_httpd_ami
+      tags: 
+        - ec2_ami1
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Let's run the third playbook to create AMI!<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ ansible-playbook -i host.yml ec2.yml -t ec2_ami1
+
+PLAY [ec2] **************************************************************************************************************************************************************
+
+TASK [create custom ami from an instance] *******************************************************************************************************************************
+changed: [127.0.0.1]
+
+PLAY RECAP **************************************************************************************************************************************************************
+127.0.0.1                  : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ aws ec2 describe-images --filters "Name=name,Values=amazonlinux2_httpd_ami" --query 'Images[].{Name:Name, ID:ImageId}'
+[
+    {
+        "Name": "amazonlinux2_httpd_ami",
+        "ID": "ami-0c1cfb0a18f5e4451"
+    }
+]
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Second task:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    - name: launch new instance using custom ami
+      amazon.aws.ec2_instance:
+        name: amazonlinux2c
+        region: ap-southeast-3
+        key_name: ec2-user
+        instance_type: t3.micro
+        security_group: ssh-web
+        vpc_subnet_id: subnet-00b4e72d63a2125de
+        network:
+          assign_public_ip: true
+          delete_on_termination: true
+        image_id: ami-0c1cfb0a18f5e4451 
+        volumes: 
+          - device_name: /dev/xvda
+            ebs: 
+              volume_size: 8
+              volume_type: gp2
+              delete_on_termination: true
+        user_data: "{{ lookup('file', 'user_data2.sh') }}"
+      tags:
+        - ec2_ami2
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>As we can see, the parameter seems like when we create first EC2 instance. The different is only on the image we use. We can't treat it same as when we launch it from template. It's totally different and will give you higher speed. Here we also can define user_data without replace anything.</p>
+
+<p><strong>User data:</strong> user_data2.sh<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>#!/bin/bash
+echo 'Hello World!' >> /var/www/html/index.html
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We created an AMI from (first) instance which already have httpd installed. So, I'll create new user data only to modify the homepage.</p>
+
+<p>Let's run the third playbook to launch instance using the created AMI!<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ ansible-playbook -i host.yml ec2.yml -t ec2_ami2
+
+PLAY [ec2] **************************************************************************************************************************************************************
+
+TASK [launch new instance using custom ami] *****************************************************************************************************************************
+changed: [127.0.0.1]
+
+PLAY RECAP **************************************************************************************************************************************************************
+127.0.0.1                  : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ aws ec2 describe-instances --query 'Reservations[].Instances[].{ID:InstanceId, PrivateIP:PrivateIpAddress, PublicIP:PublicIpAddress, Name:Tags[?Key==`Name`].Value}'
+[
+    {
+        "ID": "i-0187e4bb5d2f2007c",
+        "PrivateIP": "10.0.1.7",
+        "PublicIP": "108.136.226.235",
+        "Name": [
+            "amazonlinux2a"
+        ]
+    },
+    {
+        "ID": "i-09c46dba004ed7bd8",
+        "PrivateIP": "10.0.2.8",
+        "PublicIP": "108.136.235.232",
+        "Name": [
+            "amazonlinux2b"
+        ]
+    },
+    {
+        "ID": "i-02c7573fff1215e65",
+        "PrivateIP": "10.0.3.11",
+        "PublicIP": "108.136.150.180",
+        "Name": [
+            "amazonlinux2c"
+        ]
+    }
+]
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ curl http://108.136.150.180
+Hello World!
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Alright, now we have 3 EC2 instances in total but we only modified the homepage of the last instance. Then, I want to modify the homepage of the other two instances. I'll use ansible ad-hoc in this case to straightly run the command on them. Before that, let's add the IP of all EC2 instances as the target hosts on inventory!</p>
+
+<p><strong>Inventory:</strong> hosts.yml (second version)<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>---
+
+localhost:
+  hosts:
+    127.0.0.1:
+
+ec2:
+  hosts:
+    108.136.226.235:
+    108.136.235.232:
+    108.136.150.180:
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ ansible -i host.yml ec2 --become -u ec2-user -m shell -a 'echo "Hello World!" >> /var/www/html/index.html' -l "108.136.226.235, 108.136.235.232"
+The authenticity of host '108.136.226.235 (108.136.226.235)' can't be established.
+ECDSA key fingerprint is SHA256:EdObxEIn7UGhb8AmZOI1c0OEU9KUa9mNd4G2siLPKaA.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+108.136.235.232 | CHANGED | rc=0 >>
+
+108.136.226.235 | CHANGED | rc=0 >>
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now, we have all web servers with homepage modified.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ ansible -i host.yml ec2 --become -u ec2-user -m shell -a 'curl http://localhost'
+108.136.235.232 | CHANGED | rc=0 >>
+Hello World!  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    13  100    13    0     0  18361      0 --:--:-- --:--:-- --:--:-- 13000
+108.136.226.235 | CHANGED | rc=0 >>
+Hello World!  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    13  100    13    0     0  17473      0 --:--:-- --:--:-- --:--:-- 13000
+108.136.150.180 | CHANGED | rc=0 >>
+Hello World!  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100    13  100    13    0     0  18465      0 --:--:-- --:--:-- --:--:-- 13000
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>That's it for the EC2! On the next part, I'll discuss about any "essentials" configuration you need to do before you use server (Amazon Linux 2) for any purposes. Let's move to the next post!</p>
+
+<p>References:<br>
+<a href="https://docs.ansible.com/ansible/latest/collections/amazon/aws/ec2_instance_module.html">https://docs.ansible.com/ansible/latest/collections/amazon/aws/ec2_instance_module.html</a><br>
+<a href="https://docs.ansible.com/ansible/latest/collections/amazon/aws/ec2_key_module.html">https://docs.ansible.com/ansible/latest/collections/amazon/aws/ec2_key_module.html</a><br>
+<a href="https://docs.ansible.com/ansible/latest/collections/amazon/aws/ec2_ami_module.html">https://docs.ansible.com/ansible/latest/collections/amazon/aws/ec2_ami_module.html</a><br>
+<a href="https://docs.ansible.com/ansible/latest/collections/community/aws/ec2_launch_template_module.html">https://docs.ansible.com/ansible/latest/collections/community/aws/ec2_launch_template_module.html</a></p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/nurulramadhona/launch-amazon-ec2-using-ansible-1mpf" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(n,e,t,a,i,s){return a.type_of="article",a.id=1068800,a.title="Various Ways To Launch Amazon EC2 Instance Using Ansible",a.description="Amazon EC2 is one of the most famous services of AWS. It's like a first step to move or start using...",a.readable_publish_date="Apr 27",a.slug="launch-amazon-ec2-using-ansible-1mpf",a.path="/aws-builders/launch-amazon-ec2-using-ansible-1mpf",a.url=i,a.comments_count=0,a.public_reactions_count=7,a.collection_id=n,a.published_timestamp=e,a.positive_reactions_count=7,a.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--aQpw-rBZ--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/zav3vetijchxxn68nu5q.png",a.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--vkBsL38B--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/zav3vetijchxxn68nu5q.png",a.canonical_url=i,a.created_at=e,a.edited_at="2022-05-26T12:16:03Z",a.crossposted_at=n,a.published_at=e,a.last_comment_at=e,a.reading_time_minutes=7,a.tag_list="aws, ec2, ansible, cloud",a.tags=["aws","ec2","ansible","cloud"],a.body_html='<p>Amazon EC2 is one of the most famous services of AWS. It\'s like a first step to move or start using cloud infrastructure. From installing server directly on physical server, using virtualization hosted on data center, and then hosted on cloud. As I said before, this is first step not final step. Since technology always grows, we still have containers, serverless, and more. In this section, we won\'t discuss about them now but let\'s focus on EC2 or Elastic Compute Cloud.</p>\n\n<p>More about Amazon EC2, click <a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;cad=rja&amp;uact=8&amp;ved=2ahUKEwjThMPB5az3AhWnSGwGHa_qBCMQFnoECB0QAQ&amp;url=https%3A%2F%2Fdocs.aws.amazon.com%2FAWSEC2%2Flatest%2FUserGuide%2Fconcepts.html&amp;usg=AOvVaw0vtjc0aaPJCPDTZztn_BGH">here</a>!</p>\n\n<p>Note: If you heed to my previous post about VPC, then this is the next part to host any web server using EC2 instances. So, I\'m going to launch three EC2 instances and each instance will be placed in different AZ. Here I\'m gonna show you of various ways we can do to launch EC2 instances, 3 in total. Those are:</p>\n\n<ol>\n<li>Directly using all parameters needed</li>\n<li>Create Launch Template</li>\n<li>Build custom AMI from existing EC2 instance</li>\n</ol>\n\n<p>Then, again! I won\'t go through the console but I\'ll use ansible instead. Why? If you\'ve ever seen my previous posts, you should know why :)</p>\n\n<p>Prerequisites:</p>\n\n<ol>\n<li>\n<a href="https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html">AWS CLI</a> and <a href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html">setup at least one credential</a>;</li>\n<li>\n<a href="https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html">Ansible</a>;</li>\n<li>Ansible collection for AWS by running <code>ansible-galaxy collection install community.aws</code>.</li>\n</ol>\n\n<p>For the inventory, we\'ll have two versions or groups. </p>\n\n<ol>\n<li>Localhost\nUsed as target host to create EC2 instances.</li>\n<li>EC2 Instances\nUsed as target hosts if they already created (running) to do some configuration on the servers.</li>\n</ol>\n\n<p><strong>Inventory</strong>: hosts.yml (first version)<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>---\n\nlocalhost:\n  hosts:\n    127.0.0.1:\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><strong>Playbook</strong>: ec2.yml<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>- name: ec2\n  hosts: localhost\n  connection: local\n  gather_facts: no\n  tasks:\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><strong>Optional: Import Key Pair</strong><br>\nBefore we launch any EC2 instances, we can create a keypair by creating a new one generated by AWS or by importing your SSH public key. Here I\'ll choose to import key pair with the default name of each OS. In this case, I\'ll use ec2-user since I\'m going to use Amazon Linux 2. Then, when the instances are running. I can directly connect using it without enclose the key file as usual.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    - name: import keypair\n      amazon.aws.ec2_key:\n        name: ec2-user\n        key_material: "{{ lookup(\'file\', \'/home/nurulramadhona/.ssh/id_rsa.pub\') }}"\n      tags:\n        - ec2_create\n        - ec2_keypair\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><strong>1. Launch EC2 Instance + User Data</strong><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    - name: launch new instance + user data\n      amazon.aws.ec2_instance:\n        name: amazonlinux2a\n        region: ap-southeast-3\n        key_name: ec2-user\n        instance_type: t3.micro\n        security_group: ssh-web\n        vpc_subnet_id: subnet-0276d466994fa3087\n        network:\n          assign_public_ip: true\n          delete_on_termination: true\n        image_id: ami-0de34ee5744189c60 \n        user_data: "{{ lookup(\'file\', \'user_data.sh\') }}"\n        volumes: \n          - device_name: /dev/xvda\n            ebs: \n              volume_size: 8\n              volume_type: gp2\n              delete_on_termination: true\n      tags:\n        - ec2_create\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>I guess you already familiar with any parameter above but one thing I want to tell you is vpc_subnet_id. This parameter has any implicit informations. By define subnet id, we already choose which VPC we\'ll use and which AZ we placed the EC2 instance so we don\'t need define those two things anymore. </p>\n\n<p><strong>User data:</strong> user_data.sh<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>#!/bin/bash\nyum update -y\nyum install -y httpd\nsystemctl enable httpd\nsystemctl start httpd\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>(Just a simple bash script to install web server)</p>\n\n<p>Let\'s run our first playbook since I\'ve added ec2_create on key pair and launch tasks!<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ ansible-playbook -i host.yml ec2.yml -t ec2_create\n\nPLAY [ec2] **************************************************************************************************************************************************************\n\nTASK [import keypair] ***************************************************************************************************************************************************\nchanged: [127.0.0.1]\n\nTASK [launch new instance + user data] **********************************************************************************************************************************\nchanged: [127.0.0.1]\n\nPLAY RECAP **************************************************************************************************************************************************************\n127.0.0.1                  : ok=2    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ aws ec2 describe-instances --query \'Reservations[].Instances[].{ID:InstanceId, PrivateIP:PrivateIpAddress, PublicIP:PublicIpAddress, Name:Tags[?Key==`Name`].Value}\'\n[\n    {\n        "ID": "i-0187e4bb5d2f2007c",\n        "PrivateIP": "10.0.1.7",\n        "PublicIP": "108.136.226.235",\n        "Name": [\n            "amazonlinux2a"\n        ]\n    }\n]\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><strong>2. Launch EC2 Instance From Template (Include User Data)</strong><br>\nCreate template:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    - name: create launch template\n      community.aws.ec2_launch_template:\n        name: amazonlinux2_httpd_template\n        image_id: ami-0de34ee5744189c60\n        key_name: ec2-user\n        instance_type: t3.micro\n        region: ap-southeast-3\n        network_interfaces:\n          - associate_public_ip_address: true\n            delete_on_termination: true\n            device_index: 0\n        block_device_mappings:\n          - device_name: /dev/xvda\n            ebs:\n              delete_on_termination: true\n              volume_size: 8\n              volume_type: gp2\n        user_data: "{{ lookup(\'file\', \'user_data.txt\') }}"\n      tags:\n        - ec2_template\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>There are two things we can\'t do when using template. Those are security group can\'t be defined together with network_interfaces (so I\'ll keep network_interfaces and not define security_groups) and device_index should be defined along with network_interfaces. </p>\n\n<p>The important thing when you use user_data, the file should be base64 encoded. So, I encode the user_data.sh (file I use when launch first instance above).<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ base64 user_data.sh &gt; user_data.txt\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Then, since we already defined user_data on the template. We shouldn\'t repeat to use user_data when launch the instances using this template or it\'ll be replaced. </p>\n\n<p>To launch instance using template, use launch_template parameter.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    - name: launch new instance from template\n      amazon.aws.ec2_instance:\n        name: amazonlinux2b\n        launch_template: \n          name: amazonlinux2_httpd_template\n        security_group: ssh-web\n        vpc_subnet_id: subnet-07bb6501337e4f87b\n      tags:\n        - ec2_template\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>As we can see, we remove some parameters that already defined on the template.</p>\n\n<p>Let\'s run our second playbook to launch instance using template!<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ ansible-playbook -i host.yml ec2.yml -t ec2_template\n\nPLAY [ec2] **************************************************************************************************************************************************************\n\nTASK [create launch template] *******************************************************************************************************************************************\nchanged: [127.0.0.1]\n\nTASK [launch new instance from template] ********************************************************************************************************************************\nchanged: [127.0.0.1]\n\nPLAY RECAP **************************************************************************************************************************************************************\n127.0.0.1                  : ok=2    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ aws ec2 describe-instances --query \'Reservations[].Instances[].{ID:InstanceId, PrivateIP:PrivateIpAddress, PublicIP:PublicIpAddress, Name:Tags[?Key==`Name`].Value}\'\n[\n    {\n        "ID": "i-0187e4bb5d2f2007c",\n        "PrivateIP": "10.0.1.7",\n        "PublicIP": "108.136.226.235",\n        "Name": [\n            "amazonlinux2a"\n        ]\n    },\n    {\n        "ID": "i-09c46dba004ed7bd8",\n        "PrivateIP": "10.0.2.8",\n        "PublicIP": "108.136.235.232",\n        "Name": [\n            "amazonlinux2b"\n        ]\n    }\n]\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><strong>3. Launch EC2 Instance Using Custom AMI</strong><br>\nTo launch instance using custom AMI, I separated into two tasks and won\'t run them together. Why? Because we need image-id of the custom AMI to launch instance. To get it, the AMI should be created first and here we\'ll create it from an instance (first one).</p>\n\n<p>First task:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    - name: create custom ami from an instance\n      amazon.aws.ec2_ami:\n        instance_id: i-0187e4bb5d2f2007c\n        wait: no\n        name: amazonlinux2_httpd_ami\n      tags: \n        - ec2_ami1\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Let\'s run the third playbook to create AMI!<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ ansible-playbook -i host.yml ec2.yml -t ec2_ami1\n\nPLAY [ec2] **************************************************************************************************************************************************************\n\nTASK [create custom ami from an instance] *******************************************************************************************************************************\nchanged: [127.0.0.1]\n\nPLAY RECAP **************************************************************************************************************************************************************\n127.0.0.1                  : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ aws ec2 describe-images --filters "Name=name,Values=amazonlinux2_httpd_ami" --query \'Images[].{Name:Name, ID:ImageId}\'\n[\n    {\n        "Name": "amazonlinux2_httpd_ami",\n        "ID": "ami-0c1cfb0a18f5e4451"\n    }\n]\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Second task:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    - name: launch new instance using custom ami\n      amazon.aws.ec2_instance:\n        name: amazonlinux2c\n        region: ap-southeast-3\n        key_name: ec2-user\n        instance_type: t3.micro\n        security_group: ssh-web\n        vpc_subnet_id: subnet-00b4e72d63a2125de\n        network:\n          assign_public_ip: true\n          delete_on_termination: true\n        image_id: ami-0c1cfb0a18f5e4451 \n        volumes: \n          - device_name: /dev/xvda\n            ebs: \n              volume_size: 8\n              volume_type: gp2\n              delete_on_termination: true\n        user_data: "{{ lookup(\'file\', \'user_data2.sh\') }}"\n      tags:\n        - ec2_ami2\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>As we can see, the parameter seems like when we create first EC2 instance. The different is only on the image we use. We can\'t treat it same as when we launch it from template. It\'s totally different and will give you higher speed. Here we also can define user_data without replace anything.</p>\n\n<p><strong>User data:</strong> user_data2.sh<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>#!/bin/bash\necho \'Hello World!\' &gt;&gt; /var/www/html/index.html\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>We created an AMI from (first) instance which already have httpd installed. So, I\'ll create new user data only to modify the homepage.</p>\n\n<p>Let\'s run the third playbook to launch instance using the created AMI!<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ ansible-playbook -i host.yml ec2.yml -t ec2_ami2\n\nPLAY [ec2] **************************************************************************************************************************************************************\n\nTASK [launch new instance using custom ami] *****************************************************************************************************************************\nchanged: [127.0.0.1]\n\nPLAY RECAP **************************************************************************************************************************************************************\n127.0.0.1                  : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ aws ec2 describe-instances --query \'Reservations[].Instances[].{ID:InstanceId, PrivateIP:PrivateIpAddress, PublicIP:PublicIpAddress, Name:Tags[?Key==`Name`].Value}\'\n[\n    {\n        "ID": "i-0187e4bb5d2f2007c",\n        "PrivateIP": "10.0.1.7",\n        "PublicIP": "108.136.226.235",\n        "Name": [\n            "amazonlinux2a"\n        ]\n    },\n    {\n        "ID": "i-09c46dba004ed7bd8",\n        "PrivateIP": "10.0.2.8",\n        "PublicIP": "108.136.235.232",\n        "Name": [\n            "amazonlinux2b"\n        ]\n    },\n    {\n        "ID": "i-02c7573fff1215e65",\n        "PrivateIP": "10.0.3.11",\n        "PublicIP": "108.136.150.180",\n        "Name": [\n            "amazonlinux2c"\n        ]\n    }\n]\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ curl http://108.136.150.180\nHello World!\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Alright, now we have 3 EC2 instances in total but we only modified the homepage of the last instance. Then, I want to modify the homepage of the other two instances. I\'ll use ansible ad-hoc in this case to straightly run the command on them. Before that, let\'s add the IP of all EC2 instances as the target hosts on inventory!</p>\n\n<p><strong>Inventory:</strong> hosts.yml (second version)<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>---\n\nlocalhost:\n  hosts:\n    127.0.0.1:\n\nec2:\n  hosts:\n    108.136.226.235:\n    108.136.235.232:\n    108.136.150.180:\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ ansible -i host.yml ec2 --become -u ec2-user -m shell -a \'echo "Hello World!" &gt;&gt; /var/www/html/index.html\' -l "108.136.226.235, 108.136.235.232"\nThe authenticity of host \'108.136.226.235 (108.136.226.235)\' can\'t be established.\nECDSA key fingerprint is SHA256:EdObxEIn7UGhb8AmZOI1c0OEU9KUa9mNd4G2siLPKaA.\nAre you sure you want to continue connecting (yes/no/[fingerprint])? yes\n108.136.235.232 | CHANGED | rc=0 &gt;&gt;\n\n108.136.226.235 | CHANGED | rc=0 &gt;&gt;\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now, we have all web servers with homepage modified.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ ansible -i host.yml ec2 --become -u ec2-user -m shell -a \'curl http://localhost\'\n108.136.235.232 | CHANGED | rc=0 &gt;&gt;\nHello World!  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n100    13  100    13    0     0  18361      0 --:--:-- --:--:-- --:--:-- 13000\n108.136.226.235 | CHANGED | rc=0 &gt;&gt;\nHello World!  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n100    13  100    13    0     0  17473      0 --:--:-- --:--:-- --:--:-- 13000\n108.136.150.180 | CHANGED | rc=0 &gt;&gt;\nHello World!  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n100    13  100    13    0     0  18465      0 --:--:-- --:--:-- --:--:-- 13000\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>That\'s it for the EC2! On the next part, I\'ll discuss about any "essentials" configuration you need to do before you use server (Amazon Linux 2) for any purposes. Let\'s move to the next post!</p>\n\n<p>References:<br>\n<a href="https://docs.ansible.com/ansible/latest/collections/amazon/aws/ec2_instance_module.html">https://docs.ansible.com/ansible/latest/collections/amazon/aws/ec2_instance_module.html</a><br>\n<a href="https://docs.ansible.com/ansible/latest/collections/amazon/aws/ec2_key_module.html">https://docs.ansible.com/ansible/latest/collections/amazon/aws/ec2_key_module.html</a><br>\n<a href="https://docs.ansible.com/ansible/latest/collections/amazon/aws/ec2_ami_module.html">https://docs.ansible.com/ansible/latest/collections/amazon/aws/ec2_ami_module.html</a><br>\n<a href="https://docs.ansible.com/ansible/latest/collections/community/aws/ec2_launch_template_module.html">https://docs.ansible.com/ansible/latest/collections/community/aws/ec2_launch_template_module.html</a></p>\n\n',a.body_markdown='Amazon EC2 is one of the most famous services of AWS. It\'s like a first step to move or start using cloud infrastructure. From installing server directly on physical server, using virtualization hosted on data center, and then hosted on cloud. As I said before, this is first step not final step. Since technology always grows, we still have containers, serverless, and more. In this section, we won\'t discuss about them now but let\'s focus on EC2 or Elastic Compute Cloud.\n\nMore about Amazon EC2, click [here](https://www.google.com/url?sa=t&rct=j&q=&esrc=s&source=web&cd=&cad=rja&uact=8&ved=2ahUKEwjThMPB5az3AhWnSGwGHa_qBCMQFnoECB0QAQ&url=https%3A%2F%2Fdocs.aws.amazon.com%2FAWSEC2%2Flatest%2FUserGuide%2Fconcepts.html&usg=AOvVaw0vtjc0aaPJCPDTZztn_BGH)!\n\nNote: If you heed to my previous post about VPC, then this is the next part to host any web server using EC2 instances. So, I\'m going to launch three EC2 instances and each instance will be placed in different AZ. Here I\'m gonna show you of various ways we can do to launch EC2 instances, 3 in total. Those are:\n1. Directly using all parameters needed\n2. Create Launch Template\n3. Build custom AMI from existing EC2 instance\n\nThen, again! I won\'t go through the console but I\'ll use ansible instead. Why? If you\'ve ever seen my previous posts, you should know why :)\n\nPrerequisites:\n1. [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html) and [setup at least one credential](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html);\n2. [Ansible](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html);\n3. Ansible collection for AWS by running `ansible-galaxy collection install community.aws`.\n\nFor the inventory, we\'ll have two versions or groups. \n1. Localhost\nUsed as target host to create EC2 instances.\n2. EC2 Instances\nUsed as target hosts if they already created (running) to do some configuration on the servers.\n\n**Inventory**: hosts.yml (first version)\n```\n---\n\nlocalhost:\n  hosts:\n    127.0.0.1:\n```\n\n**Playbook**: ec2.yml\n```\n- name: ec2\n  hosts: localhost\n  connection: local\n  gather_facts: no\n  tasks:\n```\n\n**Optional: Import Key Pair**\nBefore we launch any EC2 instances, we can create a keypair by creating a new one generated by AWS or by importing your SSH public key. Here I\'ll choose to import key pair with the default name of each OS. In this case, I\'ll use ec2-user since I\'m going to use Amazon Linux 2. Then, when the instances are running. I can directly connect using it without enclose the key file as usual.\n```\n    - name: import keypair\n      amazon.aws.ec2_key:\n        name: ec2-user\n        key_material: "{{ lookup(\'file\', \'/home/nurulramadhona/.ssh/id_rsa.pub\') }}"\n      tags:\n        - ec2_create\n        - ec2_keypair\n```\n\n**1. Launch EC2 Instance + User Data**\n```\n    - name: launch new instance + user data\n      amazon.aws.ec2_instance:\n        name: amazonlinux2a\n        region: ap-southeast-3\n        key_name: ec2-user\n        instance_type: t3.micro\n        security_group: ssh-web\n        vpc_subnet_id: subnet-0276d466994fa3087\n        network:\n          assign_public_ip: true\n          delete_on_termination: true\n        image_id: ami-0de34ee5744189c60 \n        user_data: "{{ lookup(\'file\', \'user_data.sh\') }}"\n        volumes: \n          - device_name: /dev/xvda\n            ebs: \n              volume_size: 8\n              volume_type: gp2\n              delete_on_termination: true\n      tags:\n        - ec2_create\n```\nI guess you already familiar with any parameter above but one thing I want to tell you is vpc_subnet_id. This parameter has any implicit informations. By define subnet id, we already choose which VPC we\'ll use and which AZ we placed the EC2 instance so we don\'t need define those two things anymore. \n\n**User data:** user_data.sh\n```\n#!/bin/bash\nyum update -y\nyum install -y httpd\nsystemctl enable httpd\nsystemctl start httpd\n```\n(Just a simple bash script to install web server)\n\nLet\'s run our first playbook since I\'ve added ec2_create on key pair and launch tasks!\n```\n$ ansible-playbook -i host.yml ec2.yml -t ec2_create\n\nPLAY [ec2] **************************************************************************************************************************************************************\n\nTASK [import keypair] ***************************************************************************************************************************************************\nchanged: [127.0.0.1]\n\nTASK [launch new instance + user data] **********************************************************************************************************************************\nchanged: [127.0.0.1]\n\nPLAY RECAP **************************************************************************************************************************************************************\n127.0.0.1                  : ok=2    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0\n```\n```\n$ aws ec2 describe-instances --query \'Reservations[].Instances[].{ID:InstanceId, PrivateIP:PrivateIpAddress, PublicIP:PublicIpAddress, Name:Tags[?Key==`Name`].Value}\'\n[\n    {\n        "ID": "i-0187e4bb5d2f2007c",\n        "PrivateIP": "10.0.1.7",\n        "PublicIP": "108.136.226.235",\n        "Name": [\n            "amazonlinux2a"\n        ]\n    }\n]\n```\n\n**2. Launch EC2 Instance From Template (Include User Data)**\nCreate template:\n```\n    - name: create launch template\n      community.aws.ec2_launch_template:\n        name: amazonlinux2_httpd_template\n        image_id: ami-0de34ee5744189c60\n        key_name: ec2-user\n        instance_type: t3.micro\n        region: ap-southeast-3\n        network_interfaces:\n          - associate_public_ip_address: true\n            delete_on_termination: true\n            device_index: 0\n        block_device_mappings:\n          - device_name: /dev/xvda\n            ebs:\n              delete_on_termination: true\n              volume_size: 8\n              volume_type: gp2\n        user_data: "{{ lookup(\'file\', \'user_data.txt\') }}"\n      tags:\n        - ec2_template\n```\nThere are two things we can\'t do when using template. Those are security group can\'t be defined together with network_interfaces (so I\'ll keep network_interfaces and not define security_groups) and device_index should be defined along with network_interfaces. \n\nThe important thing when you use user_data, the file should be base64 encoded. So, I encode the user_data.sh (file I use when launch first instance above).\n```\n$ base64 user_data.sh > user_data.txt\n```\n\nThen, since we already defined user_data on the template. We shouldn\'t repeat to use user_data when launch the instances using this template or it\'ll be replaced. \n\nTo launch instance using template, use launch_template parameter. \n```\n    - name: launch new instance from template\n      amazon.aws.ec2_instance:\n        name: amazonlinux2b\n        launch_template: \n          name: amazonlinux2_httpd_template\n        security_group: ssh-web\n        vpc_subnet_id: subnet-07bb6501337e4f87b\n      tags:\n        - ec2_template\n```\nAs we can see, we remove some parameters that already defined on the template.\n\nLet\'s run our second playbook to launch instance using template!\n```\n$ ansible-playbook -i host.yml ec2.yml -t ec2_template\n\nPLAY [ec2] **************************************************************************************************************************************************************\n\nTASK [create launch template] *******************************************************************************************************************************************\nchanged: [127.0.0.1]\n\nTASK [launch new instance from template] ********************************************************************************************************************************\nchanged: [127.0.0.1]\n\nPLAY RECAP **************************************************************************************************************************************************************\n127.0.0.1                  : ok=2    changed=2    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0\n```\n```\n$ aws ec2 describe-instances --query \'Reservations[].Instances[].{ID:InstanceId, PrivateIP:PrivateIpAddress, PublicIP:PublicIpAddress, Name:Tags[?Key==`Name`].Value}\'\n[\n    {\n        "ID": "i-0187e4bb5d2f2007c",\n        "PrivateIP": "10.0.1.7",\n        "PublicIP": "108.136.226.235",\n        "Name": [\n            "amazonlinux2a"\n        ]\n    },\n    {\n        "ID": "i-09c46dba004ed7bd8",\n        "PrivateIP": "10.0.2.8",\n        "PublicIP": "108.136.235.232",\n        "Name": [\n            "amazonlinux2b"\n        ]\n    }\n]\n```\n\n**3. Launch EC2 Instance Using Custom AMI**\nTo launch instance using custom AMI, I separated into two tasks and won\'t run them together. Why? Because we need image-id of the custom AMI to launch instance. To get it, the AMI should be created first and here we\'ll create it from an instance (first one).\n\nFirst task:\n```\n    - name: create custom ami from an instance\n      amazon.aws.ec2_ami:\n        instance_id: i-0187e4bb5d2f2007c\n        wait: no\n        name: amazonlinux2_httpd_ami\n      tags: \n        - ec2_ami1\n```\nLet\'s run the third playbook to create AMI!\n```\n$ ansible-playbook -i host.yml ec2.yml -t ec2_ami1\n\nPLAY [ec2] **************************************************************************************************************************************************************\n\nTASK [create custom ami from an instance] *******************************************************************************************************************************\nchanged: [127.0.0.1]\n\nPLAY RECAP **************************************************************************************************************************************************************\n127.0.0.1                  : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0\n```\n```\n$ aws ec2 describe-images --filters "Name=name,Values=amazonlinux2_httpd_ami" --query \'Images[].{Name:Name, ID:ImageId}\'\n[\n    {\n        "Name": "amazonlinux2_httpd_ami",\n        "ID": "ami-0c1cfb0a18f5e4451"\n    }\n]\n```\n\nSecond task:\n```\n    - name: launch new instance using custom ami\n      amazon.aws.ec2_instance:\n        name: amazonlinux2c\n        region: ap-southeast-3\n        key_name: ec2-user\n        instance_type: t3.micro\n        security_group: ssh-web\n        vpc_subnet_id: subnet-00b4e72d63a2125de\n        network:\n          assign_public_ip: true\n          delete_on_termination: true\n        image_id: ami-0c1cfb0a18f5e4451 \n        volumes: \n          - device_name: /dev/xvda\n            ebs: \n              volume_size: 8\n              volume_type: gp2\n              delete_on_termination: true\n        user_data: "{{ lookup(\'file\', \'user_data2.sh\') }}"\n      tags:\n        - ec2_ami2\n```\nAs we can see, the parameter seems like when we create first EC2 instance. The different is only on the image we use. We can\'t treat it same as when we launch it from template. It\'s totally different and will give you higher speed. Here we also can define user_data without replace anything.\n\n**User data:** user_data2.sh\n```\n#!/bin/bash\necho \'Hello World!\' >> /var/www/html/index.html\n```\nWe created an AMI from (first) instance which already have httpd installed. So, I\'ll create new user data only to modify the homepage.\n\nLet\'s run the third playbook to launch instance using the created AMI!\n```\n$ ansible-playbook -i host.yml ec2.yml -t ec2_ami2\n\nPLAY [ec2] **************************************************************************************************************************************************************\n\nTASK [launch new instance using custom ami] *****************************************************************************************************************************\nchanged: [127.0.0.1]\n\nPLAY RECAP **************************************************************************************************************************************************************\n127.0.0.1                  : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0\n```\n```\n$ aws ec2 describe-instances --query \'Reservations[].Instances[].{ID:InstanceId, PrivateIP:PrivateIpAddress, PublicIP:PublicIpAddress, Name:Tags[?Key==`Name`].Value}\'\n[\n    {\n        "ID": "i-0187e4bb5d2f2007c",\n        "PrivateIP": "10.0.1.7",\n        "PublicIP": "108.136.226.235",\n        "Name": [\n            "amazonlinux2a"\n        ]\n    },\n    {\n        "ID": "i-09c46dba004ed7bd8",\n        "PrivateIP": "10.0.2.8",\n        "PublicIP": "108.136.235.232",\n        "Name": [\n            "amazonlinux2b"\n        ]\n    },\n    {\n        "ID": "i-02c7573fff1215e65",\n        "PrivateIP": "10.0.3.11",\n        "PublicIP": "108.136.150.180",\n        "Name": [\n            "amazonlinux2c"\n        ]\n    }\n]\n```\n```\n$ curl http://108.136.150.180\nHello World!\n```\n\nAlright, now we have 3 EC2 instances in total but we only modified the homepage of the last instance. Then, I want to modify the homepage of the other two instances. I\'ll use ansible ad-hoc in this case to straightly run the command on them. Before that, let\'s add the IP of all EC2 instances as the target hosts on inventory!\n\n**Inventory:** hosts.yml (second version)\n```\n---\n\nlocalhost:\n  hosts:\n    127.0.0.1:\n\nec2:\n  hosts:\n    108.136.226.235:\n    108.136.235.232:\n    108.136.150.180:\n```\n```\n$ ansible -i host.yml ec2 --become -u ec2-user -m shell -a \'echo "Hello World!" >> /var/www/html/index.html\' -l "108.136.226.235, 108.136.235.232"\nThe authenticity of host \'108.136.226.235 (108.136.226.235)\' can\'t be established.\nECDSA key fingerprint is SHA256:EdObxEIn7UGhb8AmZOI1c0OEU9KUa9mNd4G2siLPKaA.\nAre you sure you want to continue connecting (yes/no/[fingerprint])? yes\n108.136.235.232 | CHANGED | rc=0 >>\n\n108.136.226.235 | CHANGED | rc=0 >>\n\n```\nNow, we have all web servers with homepage modified.\n```\n$ ansible -i host.yml ec2 --become -u ec2-user -m shell -a \'curl http://localhost\'\n108.136.235.232 | CHANGED | rc=0 >>\nHello World!  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n100    13  100    13    0     0  18361      0 --:--:-- --:--:-- --:--:-- 13000\n108.136.226.235 | CHANGED | rc=0 >>\nHello World!  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n100    13  100    13    0     0  17473      0 --:--:-- --:--:-- --:--:-- 13000\n108.136.150.180 | CHANGED | rc=0 >>\nHello World!  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current\n                                 Dload  Upload   Total   Spent    Left  Speed\n100    13  100    13    0     0  18465      0 --:--:-- --:--:-- --:--:-- 13000\n```\n\nThat\'s it for the EC2! On the next part, I\'ll discuss about any "essentials" configuration you need to do before you use server (Amazon Linux 2) for any purposes. Let\'s move to the next post!\n\nReferences:\nhttps://docs.ansible.com/ansible/latest/collections/amazon/aws/ec2_instance_module.html\nhttps://docs.ansible.com/ansible/latest/collections/amazon/aws/ec2_key_module.html\nhttps://docs.ansible.com/ansible/latest/collections/amazon/aws/ec2_ami_module.html\nhttps://docs.ansible.com/ansible/latest/collections/community/aws/ec2_launch_template_module.html',a.user={name:"Nurul Ramadhona",username:t,twitter_username:t,github_username:t,website_url:"https://nurulramadhona.wordpress.com",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--F-KPoUkE--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/728053/f59d2ad1-c0cc-4708-baf8-9dcc784c6369.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--1pX8iYkG--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/728053/f59d2ad1-c0cc-4708-baf8-9dcc784c6369.png"},a.organization={name:"AWS Community Builders ",username:s,slug:s,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--zmOZQNzv--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/2794/88da75b6-aadd-4ea1-8083-ae2dfca8be94.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--vWmcJ-ty--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/2794/88da75b6-aadd-4ea1-8083-ae2dfca8be94.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:a}},error:n,state:{currentArticle:a},serverRendered:!0,routePath:"/nurulramadhona/1068800",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:n}}}}(null,"2022-04-27T15:41:11Z","nurulramadhona",{},"https://dev.to/aws-builders/launch-amazon-ec2-using-ansible-1mpf","aws-builders")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

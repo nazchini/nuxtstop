@@ -1,0 +1,527 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>#11: Share Content with Docusaurus & Azure Static Web Apps</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>#11: Share Content with Docusaurus & Azure Static Web Apps</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/staticwebapps" class="tag" data-v-70afb46a>
+          #staticwebapps
+        </a><a href="/nuxtstop/t/beginners" class="tag" data-v-70afb46a>
+          #beginners
+        </a><a href="/nuxtstop/t/react" class="tag" data-v-70afb46a>
+          #react
+        </a><a href="/nuxtstop/t/javascript" class="tag" data-v-70afb46a>
+          #javascript
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--_Am6Xh50--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/j7qp4sgve1v3jyuwnx0s.png" alt="#11: Share Content with Docusaurus & Azure Static Web Apps" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            16
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>May 12</time></div></header> <div class="content" data-v-70afb46a><blockquote>
+<p>🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖<br>
+This post is now officially <a href="https://docusaurus.io/docs/next/deployment#deploying-to-azure-static-web-apps">added</a> into the  <br> next official Docusaurus documentation release adding <br> <strong>Azure Static Web Apps to deployment options</strong>.<br>
+🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖</p>
+</blockquote>
+
+
+<hr>
+
+<p>Welcome to <code>Week 2, Day 4</code> of <strong>#30DaysOfSWA</strong>!! </p>
+
+<p>Today's a special day - the <a href="https://azure.microsoft.com/en-us/updates/azure-static-web-apps-is-now-generally-available/?WT.mc_id=30daysofswa-61155-cxall">1 year anniversary of Azure Static Web Apps</a>! <br> <strong>Happy Birthday SWA! 🎂</strong> I wanted to do something special to celebrate! </p>
+
+<p>So here it is - a blog post on how we can create a content-focused static website <a href="https://docusaurus.io/">with Docusaurus</a> and deploy it <a href="https://docs.microsoft.com/en-us/azure/static-web-apps/?WT.mc_id=30daysofswa-61155-cxall">using Azure Static Web Apps</a>. Want to get a sense of what kinds of static sites you can build with Docusaurus? <a href="https://docusaurus.io/showcase">Check out their showcase</a>!</p>
+
+<p>Why <strong>this</strong> demo today? Well, it's very <em>Meta</em> (pun intended). You may have noticed that the <a href="https://aka.ms/30DaysOfSWA">#30DaysOfSWA</a> website is built on Docusaurus. 🦖</p>
+
+<p><a href="https://aka.ms/30DaysOfSWA"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--IXMjogT1--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qu3ioc0144p7jxp76qf0.png" alt="#30DaysOfSWA Website" loading="lazy" width="880" height="639"></a></p>
+
+<p>By sharing this tutorial, I'm hoping it inspires more of you to build/deploy sites that showcase your own tech journeys - whether its with #30Days of learning, or to feature your #100Devs portfolios. #LetsGetStarted! 🎉</p>
+
+
+<hr>
+
+<h2>
+  <a name="what-well-cover" href="#what-well-cover">
+  </a>
+  What We'll Cover
+</h2>
+
+<ul>
+<li>
+<strong>Intro</strong>: What is Docusaurus?</li>
+<li>
+<strong>Quickstart:</strong> setup classic site</li>
+<li>
+<strong>Configure</strong>: <code>docusaurus.config.js</code>
+</li>
+<li>
+<strong>Deploy</strong>: Azure Static Web Apps</li>
+<li>
+<strong>Customize</strong>: Themes & Plugins</li>
+<li>
+<strong>Exercise</strong>: Try extending the demo further </li>
+</ul>
+
+
+<hr>
+
+<h2>
+  <a name="about-the-demo" href="#about-the-demo">
+  </a>
+  About the Demo
+</h2>
+
+<p>In today's tutorial, we'll create a <em>classic</em> Docusaurus site, deploy it to Azure Static Web Apps, then make some changes to the site content to validate that it rebuilds and deploys the site without any further manual effort from us. I hope to also contribute this back to the Docusaurus docs as an example for Deploying to Azure - feedback to improve this is very welcome!</p>
+
+<ul>
+<li>🌟 <strong>Tutorial source is here <a href="https://github.com/fearlessly-dev/swa-demo-docusaurus">on GitHub</a></strong> - I'll update <strong>that version</strong> over time.</li>
+<li>🎉  <strong>Site is live <a href="https://zealous-bay-0062c640f.1.azurestaticapps.net/">on Azure Static Web Apps</a></strong> - for demo purposes only.</li>
+<li>🏆 **Site is showcased <a href="https://docusaurus.io/showcase">on Docusaurus</a>
+</li>
+</ul>
+
+<h2>
+  <a name="updated-may-16" href="#updated-may-16">
+  </a>
+  Updated May 16:
+</h2>
+
+<p>Just one more thing - <a href="https://docusaurus.io/showcase"><strong>showcase it</strong></a> when done! 😍</p>
+
+
+<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/nitya/status/1526202485551075329">
+      <div class="ltag__twitter-tweet__media ltag__twitter-tweet__media__video-wrapper">
+        <div class="ltag__twitter-tweet__media--video-preview">
+          <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Ce7u5gxB--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/ext_tw_video_thumb/1526201188072529921/pu/img/-MPCLH2Ak2sc0rii.jpg" alt="unknown tweet media content" loading="lazy">
+          <img src="/assets/play-butt.svg" class="ltag__twitter-tweet__play-butt" alt="Play butt" loading="lazy">
+        </div>
+        <div class="ltag__twitter-tweet__video">
+          <video loop controls>
+            <source src="https://video.twimg.com/ext_tw_video/1526201188072529921/pu/vid/1230x720/fVHD4Sn8IOi01mfQ.mp4?tag=12" type="video/mp4">
+          </video>
+        </div>
+      </div>
+
+  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/nitya/status/1526202485551075329">
+    <div class="ltag__twitter-tweet__header">
+      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--rr685N-m--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/1429471594108399626/mQLifuYE_normal.jpg" alt="Nitya Narasimhan | #30DaysOfSWA #MSBuild profile image" loading="lazy">
+      <div class="ltag__twitter-tweet__full-name">
+        Nitya Narasimhan | #30DaysOfSWA #MSBuild
+      </div>
+      <div class="ltag__twitter-tweet__username">
+        <a class="mentioned-user" href="https://dev.to/nitya">@nitya</a>
+      </div>
+      <div class="ltag__twitter-tweet__twitter-logo">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">
+      </div>
+    </div>
+    <div class="ltag__twitter-tweet__body">
+      One more thing. <br>You know how this post talks about hosting your <a href="https://twitter.com/docusaurus">@docusaurus</a> site on <a href="https://twitter.com/AzureStaticApps">@AzureStaticApps</a>? <br><br>Take it further and consider submitting your site to the Docusaurus Showcase .. the PR process is seamless. <br>You'll be in good company! 😍<br><a href="https://t.co/17Uq9ZD8k0">docusaurus.io/showcase</a> <a href="https://twitter.com/hashtag/30DaysOfSWA">#30DaysOfSWA</a> <a href="https://t.co/k17WeqbV8s">twitter.com/azureadvocates…</a> 
+    </div>
+    <div class="ltag__twitter-tweet__date">
+      14:06 PM - 16 May 2022
+    </div>
+
+      <div class="ltag__twitter-tweet__quote">
+        <div class="ltag__twitter-tweet__quote__header">
+          <span class="ltag__twitter-tweet__quote__header__name">
+            Azure Dev Advocates
+          </span>
+          @azureadvocates
+        </div>
+        #11: Share Content with Docusaurus & Azure Static Web Apps by <a class="mentioned-user" href="https://dev.to/nitya">@nitya</a>
+@AzureStaticApps turns 1 today 🎂 - join me for a Meta post on building content sites with @Docusaurus (also powers #30DaysOfSWA)  
+https://t.co/eFJdZ7ubwN
+      </div>
+
+    <div class="ltag__twitter-tweet__actions">
+      <a href="https://twitter.com/intent/tweet?in_reply_to=1526202485551075329" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/retweet?tweet_id=1526202485551075329" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/like?tweet_id=1526202485551075329" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">
+      </a>
+    </div>
+  </div>
+</blockquote>
+
+
+
+<hr>
+
+<h2>
+  <a name="what-is-docusaurus" href="#what-is-docusaurus">
+  </a>
+  What is Docusaurus?
+</h2>
+
+<p>Docusaurus is an open-source project from Meta that helps you build, deploy, and maintain, open source project websites. It was rated one of the top 3 <a href="https://docusaurus.io/">rising stars of JavaScript</a> in 2021, under the <em>static site generators</em> category. It has a number of features that made it attractive:</p>
+
+<ul>
+<li>It has built-in support for search, localization and versioning</li>
+<li>It support MDX (JSX-flavored Markdown) for richer content options</li>
+<li>It has built-in support for themes and plugins to enhance default behaviors</li>
+<li>It is built with React, making it extensible with custom components</li>
+</ul>
+
+<p>Read their <a href="https://docusaurus.io/docs">documentation</a> & visit their <a href="https://docusaurus.io/showcase">showcase</a> to see real-world examples. Now, let's dive into our tutorial for building the demo.</p>
+
+
+<hr>
+
+<h2>
+  <a name="1-setup-site" href="#1-setup-site">
+  </a>
+  1. Setup Site
+</h2>
+
+<ul>
+<li>Setup a Docusaurus site (<code>classic</code> theme) in a dedicated folder (<code>www</code>) in repo. The command automatically installs the required packages and their dependencies.
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code> npx create-docusaurus@latest www classic
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<ul>
+<li>Let's see what was created for us. The output has been cleaned up for clarity.
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>ls -l www/
+
+README.md   
+babel.config.js 
+blog/              
+docs/    
+docusaurus.config.js               
+node_modules/        
+package-lock.json    
+package.json           
+sidebars.js                 
+src/                  
+static/    
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<ul>
+<li> Let's preview the site locally, to validate this worked.
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">cd </span>www
+npx docusaurus start
+
+<span class="o">[</span>INFO] Starting the development server...
+<span class="o">[</span>SUCCESS] Docusaurus website is running at http://localhost:3000/.
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You should see something like this - this is the default landing page for the scaffolded Docusaurus site.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--iBRY4WJu--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-landing-d8ebc8da5a467aeb258b6ff21c4f5022.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--iBRY4WJu--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-landing-d8ebc8da5a467aeb258b6ff21c4f5022.png" alt="Landing Page" loading="lazy" width="880" height="814"></a></p>
+
+<ul>
+<li>The dev server supports hot reloading. Try making a minor change to the site source - for example edit <code>docusaurus.config.js</code> and change the <code>title</code> to <strong>"My Static Web Apps Site"</strong>. You should see this in your site preview, instantly:</li>
+</ul>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ZfeZdCV2--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-reload-5e921244396d1bfeb1635ca0cbdacb66.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ZfeZdCV2--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-reload-5e921244396d1bfeb1635ca0cbdacb66.png" alt="Landing Page Reloaded" loading="lazy" width="880" height="949"></a></p>
+
+<ul>
+<li>You can now build a <strong>production-ready</strong> version of that site as follows. Note that the static files are generated in the <strong>build/</strong> directory.
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">cd </span>www/
+npm run build
+..
+..
+<span class="o">[</span>SUCCESS] Generated static files <span class="k">in</span> <span class="s2">"build"</span><span class="nb">.</span>
+<span class="o">[</span>INFO] Use <span class="sb">`</span>npm run serve<span class="sb">`</span> <span class="nb">command </span>to <span class="nb">test </span>your build locally.
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+<hr>
+
+<h2>
+  <a name="2-deploy-to-azure" href="#2-deploy-to-azure">
+  </a>
+  2. Deploy To Azure
+</h2>
+
+<p>Docusaurus is built using React - so you can use <a href="https://docs.microsoft.com/en-us/azure/static-web-apps/front-end-frameworks">the same configuration settings</a> for Docusaurus, when deploying to Azure Static Web Apps. </p>
+
+<p>You have three options to  get started:</p>
+
+<ul>
+<li>via browser with <a href="https://docs.microsoft.com/en-us/azure/static-web-apps/getting-started?tabs=react">the Azure Portal quickstart</a>
+</li>
+<li>via terminal with <a href="https://docs.microsoft.com/en-us/azure/static-web-apps/get-started-cli?tabs=vanilla-javascript">the Azure CLI quickstart</a>
+</li>
+<li>via IDE with <a href="https://docs.microsoft.com/en-us/azure/static-web-apps/getting-started?tabs=vanilla-javascript">the VS Code Extension quickstart</a> </li>
+</ul>
+
+<p>If you prefer the first approach, click the button to go to the Azure portal, then follow the <a href="https://docs.microsoft.com/en-us/azure/static-web-apps/getting-started?tabs=react">quickstart</a> guidance, but using <em>this</em> project's details instead.</p>
+
+<p><a href="https://portal.azure.com/?feature.customportal=false&WT.mc_id=30daysofswa-61155-cxall#create/Microsoft.StaticApp"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--08261hFv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://aka.ms/deploytoazurebutton" alt="Deploy to Azure button" loading="lazy" width="167" height="34"></a></p>
+
+<h2>
+  <a name="3-using-vs-code" href="#3-using-vs-code">
+  </a>
+  3... using VS Code
+</h2>
+
+<p>I'll use the <a href="https://docs.microsoft.com/en-us/azure/static-web-apps/getting-started?tabs=vanilla-javascript">Visual Studio Code extension</a> to make this happen with just a few clicks. </p>
+
+<p>The whole process happens within the VS Code window, and takes just a few minutes from start to finish - <em>with guided prompts to help all the way</em>. For convenience, I've documented it step-by-step with screenshots (images valid for <em>VS Code ver 1.66.2</em>).</p>
+
+<h2>
+  <a name="31-install-extension" href="#31-install-extension">
+  </a>
+  3.1 Install Extension
+</h2>
+
+<p>Open Visual Studio Code (IDE) in the project folder for your repo. Install the <a href="https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurestaticwebapps">Azure Static Web Apps extension</a> by visiting this page and clicking "Install".</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--5kAWB8bZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-extension-c840c2a0accf37e9736192e1958f12e5.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--5kAWB8bZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-extension-c840c2a0accf37e9736192e1958f12e5.png" alt="VS Code Extension for SWA" loading="lazy" width="880" height="333"></a></p>
+
+<h2>
+  <a name="32-find-swa-panel" href="#32-find-swa-panel">
+  </a>
+  3.2. Find SWA Panel
+</h2>
+
+<p>When extension is installed, you should see this window in your VS Code editor, confirming readiness for use.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--f2uosJWW--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-vscode-025c5fed556e79b72afe7ec0dbc49c41.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--f2uosJWW--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-vscode-025c5fed556e79b72afe7ec0dbc49c41.png" alt="VS Code Extension Installed" loading="lazy" width="880" height="208"></a></p>
+
+<p>You'll find the Azure Static Web Apps options listed in a  section under "Azure".</p>
+
+<p>The extension's <a href="https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurestaticwebapps">documentation page</a> and its <a href="https://github.com/microsoft/vscode-azurestaticwebapps/wiki/Creating-a-Static-Web-App">GitHub</a> page both provide detailed walkthroughs - check those for the most current process for this. We'll start by clicking the <em>Azure</em> icon in the VS Code sidebar, then scrolling down till we see this <code>Static Web Apps</code> section.</p>
+
+<h2>
+  <a name="33-create-swa" href="#33-create-swa">
+  </a>
+  3.3 Create SWA
+</h2>
+
+<p>Click the "+" button to start the <strong>Create Static Web App</strong> workflow.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--JCkLZogQ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ceau4cvci4gf96nh5igq.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--JCkLZogQ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ceau4cvci4gf96nh5igq.png" alt="Activate SWA Extension" loading="lazy" width="410" height="33"></a></p>
+
+<p>The <em>"Create Static Web Apps"</em> process will create (and commit) a GitHub actions workflow for you that will automate the build/deploy process for your site directly from your source on all future codebase changes.</p>
+
+<p>So if you have <em>current pending codebase changes</em> it will first prompt you to commit them before it does its magic! Let's get that done!</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--l2zAqI8a--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-commit-e4ebcc5c88eab1fec6fb83a0440f8932.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--l2zAqI8a--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-commit-e4ebcc5c88eab1fec6fb83a0440f8932.png" alt="Commit changes" loading="lazy" width="516" height="392"></a></p>
+
+<h2>
+  <a name="34-configure-swa" href="#34-configure-swa">
+  </a>
+  3.4 Configure SWA
+</h2>
+
+<p>The extension walks you through the five steps shown below, each with defaults already filled in for you. Customize them as shown, for this project:</p>
+
+<blockquote>
+<p>Step 1: Specify Project Name<br>
+<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--nJvZKROU--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-1-8cb3405b5fc4e11a4e3d383918af64e8.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--nJvZKROU--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-1-8cb3405b5fc4e11a4e3d383918af64e8.png" alt="Step 1" loading="lazy" width="880" height="131"></a></p>
+
+<p>Step 2: Pick Azure region to deploy it in <br>
+<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--VWxG4ExO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-2-655a8fad3066c3bbf9cd2bbf83d3b786.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--VWxG4ExO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-2-655a8fad3066c3bbf9cd2bbf83d3b786.png" alt="Step 2" loading="lazy" width="880" height="256"></a> <br></p>
+
+<p>Step 3: Specify project name<br>
+<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--k04jjOdd--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-3-817208d7936e610e563ae813343b9920.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k04jjOdd--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-3-817208d7936e610e563ae813343b9920.png" alt="Step 3" loading="lazy" width="880" height="543"></a></p>
+
+<p>Step 4: Pick framework used by app<br>
+<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--JTuvOjb5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-4-999a4b92b119f60873a0c11665a42e52.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--JTuvOjb5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-4-999a4b92b119f60873a0c11665a42e52.png" alt="Step 4" loading="lazy" width="880" height="157"></a></p>
+
+<p>Step 5: Specify folder where site gets built by default <br>
+<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--2wqMuWMs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-5-5175ad2d0baa4f50eb9cdd16a0a3757e.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--2wqMuWMs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-5-5175ad2d0baa4f50eb9cdd16a0a3757e.png" alt="Step 5" loading="lazy" width="880" height="185"></a></p>
+</blockquote>
+
+<h2>
+  <a name="35-track-progress" href="#35-track-progress">
+  </a>
+  3.5 Track Progress
+</h2>
+
+<p>In a few seconds, you'll see this alert - this indicates that the workflow is <strong>creating and committing the GitHub Actions build/deploy workflow YAML</strong> for you. 🎉</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--cQ6yJCyA--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-created-e773df9ebd39489f9a193f29b8b11f45.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--cQ6yJCyA--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-created-e773df9ebd39489f9a193f29b8b11f45.png" alt="Created" loading="lazy" width="760" height="260"></a></p>
+
+<p>If you check your repository right now, you'll find the <a href="https://github.com/fearlessly-dev/swa-demo-docusaurus/commit/1005a16c10bbbce51c8526a3c14253d1aec1a59c">relevant commit</a> and the <a href="https://github.com/fearlessly-dev/swa-demo-docusaurus/actions/runs/2313039968">activated Actions flow</a> (labeled <code>ci: add Azure Static Web Apps worfklow</code>) in progress.</p>
+
+<p>You can also track the progress and configuration settings of your app right there in the VS Code Sidebar, under the <code>Static Web Apps</code> section. <em>Look for the project name, and unroll contents..</em></p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s---wkz2L3H--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-sidebar-a5431359ccd9a9680923b809465aad7a.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s---wkz2L3H--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-sidebar-a5431359ccd9a9680923b809465aad7a.png" alt="Sidebar" loading="lazy" width="864" height="450"></a></p>
+
+<h2>
+  <a name="36-browse-site" href="#36-browse-site">
+  </a>
+  3.6 Browse Site!
+</h2>
+
+<p>In a few second more, you'll get this alert:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--YuTAQdPJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-deployed-8ad55a927b2f4270a5223c8c03cda7ab.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--YuTAQdPJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-deployed-8ad55a927b2f4270a5223c8c03cda7ab.png" alt="Deployed" loading="lazy" width="766" height="224"></a></p>
+
+<p>Now, go to the sidebar section for your project, right-click the name to see the available menu options:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--pd7xSSnG--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-browse-af691ca869bdb57a2aedf4d6b8781761.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--pd7xSSnG--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-browse-af691ca869bdb57a2aedf4d6b8781761.png" alt="Browse" loading="lazy" width="880" height="409"></a></p>
+
+<p>Click "Browse Site" to be taken to your live deployed Docusaurus website! That's it! A few clicks, customizing defaults - and you're done!</p>
+
+
+<hr>
+
+<h2>
+  <a name="4-customize-it" href="#4-customize-it">
+  </a>
+  4. Customize It!
+</h2>
+
+<p>At this point, you can make any changes to the site source, commit them - and watch the site get rebuilt and deployed without any further action from you!</p>
+
+<p>Here are some things to try:</p>
+
+<ul>
+<li>Customize <a href="https://docusaurus.io/docs/styling-layout">styles or layout</a>
+</li>
+<li>Explore <a href="https://docusaurus.io/docs/api/plugins">plugins</a> for SEO, Search etc.</li>
+<li>Try <a href="https://docusaurus.io/docs/markdown-features/react#using-jsx-in-markdown">create/use MDX</a> in content</li>
+</ul>
+
+<p>I made a few example changes to the <code>docusaurus.config.js</code> file to personalize the landing page content to reflect my needs. </p>
+
+<p>And I updated the <code>src/css/custom.css</code> file to reflect new theme colors for dark/light mode - and replaced the <code>logo.svg</code> file.</p>
+
+<p>Committing these changes should automatically rebuild and update the deployed site. Here is what they looked like in my local preview, before I committed the changes.</p>
+
+<div class="table-wrapper-paragraph"><table>
+<thead>
+<tr>
+<th>Light Mode</th>
+<th>Dark Mode</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--hzFPYuRg--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-light-d5adbe4e5651b33b64e27e41ac3cbced.png" alt="Light Mode" loading="lazy" width="880" height="772"></td>
+<td><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--7EFYAQct--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-dark-9ddedb1c4320bbdcd7108c1a171cba0c.png" alt="Dark Mode" loading="lazy" width="880" height="778"></td>
+</tr>
+</tbody>
+</table></div>
+
+<p>🎉  <strong>Check it out: The site is <a href="https://zealous-bay-0062c640f.1.azurestaticapps.net/">live on Azure Static Web Apps</a></strong></p>
+
+
+<hr>
+
+<h2>
+  <a name="exercise" href="#exercise">
+  </a>
+  Exercise
+</h2>
+
+<p>You saw a few things I did to customize the site. Now it's your turn! Here are a few challenges you can try out:</p>
+
+<ul>
+<li>Complete the tutorial to deploy your own site!</li>
+<li>Try Docusaurus customization: <strong>add an MDX component!</strong>
+</li>
+<li>Try SWA customization: <strong>add an API to fetch content!</strong>
+</li>
+<li>Try SWA customization: <strong>add auth using Twitter - use it!</strong>
+</li>
+</ul>
+
+<h2>
+  <a name="resources" href="#resources">
+  </a>
+  Resources:
+</h2>
+
+<ul>
+<li>
+<a href="https://docusaurus.io/">Docusaurus</a> - documentation</li>
+<li>
+<a href="https://docs.microsoft.com/en-us/azure/static-web-apps/">Azure Static Web Apps (SWA)</a> - documentation</li>
+<li>
+<a href="https://aka.ms/30DaysOfSWA">#30DaysOfSWA</a> - guide tour to SWA.</li>
+</ul>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/nitya/11-share-content-with-docusaurus-azure-static-web-apps-30hc" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(e,t,a,s,i){return s.type_of="article",s.id=1083672,s.title="#11: Share Content with Docusaurus & Azure Static Web Apps",s.description="@AzureStaticApps turns 1 today 🎂 - join me for a Meta post on building content sites with @Docusaurus (also powers #30DaysOfSWA)  ",s.readable_publish_date="May 12",s.slug="11-share-content-with-docusaurus-azure-static-web-apps-30hc",s.path="/azure/11-share-content-with-docusaurus-azure-static-web-apps-30hc",s.url="https://dev.to/azure/11-share-content-with-docusaurus-azure-static-web-apps-30hc",s.comments_count=0,s.public_reactions_count=16,s.collection_id=17901,s.published_timestamp=e,s.positive_reactions_count=16,s.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--_Am6Xh50--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/j7qp4sgve1v3jyuwnx0s.png",s.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--Bf_kZNPh--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/j7qp4sgve1v3jyuwnx0s.png",s.canonical_url="https://www.azurestaticwebapps.dev/blog/build-with-docusaurus",s.created_at="2022-05-12T19:26:18Z",s.edited_at="2022-05-19T22:18:11Z",s.crossposted_at=t,s.published_at=e,s.last_comment_at=e,s.reading_time_minutes=8,s.tag_list="staticwebapps, beginners, react, javascript",s.tags=["staticwebapps","beginners","react","javascript"],s.body_html='<blockquote>\n<p>🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖<br>\nThis post is now officially <a href="https://docusaurus.io/docs/next/deployment#deploying-to-azure-static-web-apps">added</a> into the  <br> next official Docusaurus documentation release adding <br> <strong>Azure Static Web Apps to deployment options</strong>.<br>\n🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖</p>\n</blockquote>\n\n\n<hr>\n\n<p>Welcome to <code>Week 2, Day 4</code> of <strong>#30DaysOfSWA</strong>!! </p>\n\n<p>Today\'s a special day - the <a href="https://azure.microsoft.com/en-us/updates/azure-static-web-apps-is-now-generally-available/?WT.mc_id=30daysofswa-61155-cxall">1 year anniversary of Azure Static Web Apps</a>! <br> <strong>Happy Birthday SWA! 🎂</strong> I wanted to do something special to celebrate! </p>\n\n<p>So here it is - a blog post on how we can create a content-focused static website <a href="https://docusaurus.io/">with Docusaurus</a> and deploy it <a href="https://docs.microsoft.com/en-us/azure/static-web-apps/?WT.mc_id=30daysofswa-61155-cxall">using Azure Static Web Apps</a>. Want to get a sense of what kinds of static sites you can build with Docusaurus? <a href="https://docusaurus.io/showcase">Check out their showcase</a>!</p>\n\n<p>Why <strong>this</strong> demo today? Well, it\'s very <em>Meta</em> (pun intended). You may have noticed that the <a href="https://aka.ms/30DaysOfSWA">#30DaysOfSWA</a> website is built on Docusaurus. 🦖</p>\n\n<p><a href="https://aka.ms/30DaysOfSWA"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--IXMjogT1--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qu3ioc0144p7jxp76qf0.png" alt="#30DaysOfSWA Website" loading="lazy" width="880" height="639"></a></p>\n\n<p>By sharing this tutorial, I\'m hoping it inspires more of you to build/deploy sites that showcase your own tech journeys - whether its with #30Days of learning, or to feature your #100Devs portfolios. #LetsGetStarted! 🎉</p>\n\n\n<hr>\n\n<h2>\n  <a name="what-well-cover" href="#what-well-cover">\n  </a>\n  What We\'ll Cover\n</h2>\n\n<ul>\n<li>\n<strong>Intro</strong>: What is Docusaurus?</li>\n<li>\n<strong>Quickstart:</strong> setup classic site</li>\n<li>\n<strong>Configure</strong>: <code>docusaurus.config.js</code>\n</li>\n<li>\n<strong>Deploy</strong>: Azure Static Web Apps</li>\n<li>\n<strong>Customize</strong>: Themes &amp; Plugins</li>\n<li>\n<strong>Exercise</strong>: Try extending the demo further </li>\n</ul>\n\n\n<hr>\n\n<h2>\n  <a name="about-the-demo" href="#about-the-demo">\n  </a>\n  About the Demo\n</h2>\n\n<p>In today\'s tutorial, we\'ll create a <em>classic</em> Docusaurus site, deploy it to Azure Static Web Apps, then make some changes to the site content to validate that it rebuilds and deploys the site without any further manual effort from us. I hope to also contribute this back to the Docusaurus docs as an example for Deploying to Azure - feedback to improve this is very welcome!</p>\n\n<ul>\n<li>🌟 <strong>Tutorial source is here <a href="https://github.com/fearlessly-dev/swa-demo-docusaurus">on GitHub</a></strong> - I\'ll update <strong>that version</strong> over time.</li>\n<li>🎉  <strong>Site is live <a href="https://zealous-bay-0062c640f.1.azurestaticapps.net/">on Azure Static Web Apps</a></strong> - for demo purposes only.</li>\n<li>🏆 **Site is showcased <a href="https://docusaurus.io/showcase">on Docusaurus</a>\n</li>\n</ul>\n\n<h2>\n  <a name="updated-may-16" href="#updated-may-16">\n  </a>\n  Updated May 16:\n</h2>\n\n<p>Just one more thing - <a href="https://docusaurus.io/showcase"><strong>showcase it</strong></a> when done! 😍</p>\n\n\n<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/nitya/status/1526202485551075329">\n      <div class="ltag__twitter-tweet__media ltag__twitter-tweet__media__video-wrapper">\n        <div class="ltag__twitter-tweet__media--video-preview">\n          <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Ce7u5gxB--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/ext_tw_video_thumb/1526201188072529921/pu/img/-MPCLH2Ak2sc0rii.jpg" alt="unknown tweet media content" loading="lazy">\n          <img src="/assets/play-butt.svg" class="ltag__twitter-tweet__play-butt" alt="Play butt" loading="lazy">\n        </div>\n        <div class="ltag__twitter-tweet__video">\n          <video loop controls>\n            <source src="https://video.twimg.com/ext_tw_video/1526201188072529921/pu/vid/1230x720/fVHD4Sn8IOi01mfQ.mp4?tag=12" type="video/mp4">\n          </source></video>\n        </div>\n      </div>\n\n  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/nitya/status/1526202485551075329">\n    <div class="ltag__twitter-tweet__header">\n      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--rr685N-m--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/1429471594108399626/mQLifuYE_normal.jpg" alt="Nitya Narasimhan | #30DaysOfSWA #MSBuild profile image" loading="lazy">\n      <div class="ltag__twitter-tweet__full-name">\n        Nitya Narasimhan | #30DaysOfSWA #MSBuild\n      </div>\n      <div class="ltag__twitter-tweet__username">\n        <a class="mentioned-user" href="https://dev.to/nitya">@nitya</a>\n      </div>\n      <div class="ltag__twitter-tweet__twitter-logo">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">\n      </div>\n    </div>\n    <div class="ltag__twitter-tweet__body">\n      One more thing. <br>You know how this post talks about hosting your <a href="https://twitter.com/docusaurus">@docusaurus</a> site on <a href="https://twitter.com/AzureStaticApps">@AzureStaticApps</a>? <br><br>Take it further and consider submitting your site to the Docusaurus Showcase .. the PR process is seamless. <br>You\'ll be in good company! 😍<br><a href="https://t.co/17Uq9ZD8k0">docusaurus.io/showcase</a> <a href="https://twitter.com/hashtag/30DaysOfSWA">#30DaysOfSWA</a> <a href="https://t.co/k17WeqbV8s">twitter.com/azureadvocates…</a> \n    </div>\n    <div class="ltag__twitter-tweet__date">\n      14:06 PM - 16 May 2022\n    </div>\n\n      <div class="ltag__twitter-tweet__quote">\n        <div class="ltag__twitter-tweet__quote__header">\n          <span class="ltag__twitter-tweet__quote__header__name">\n            Azure Dev Advocates\n          </span>\n          @azureadvocates\n        </div>\n        #11: Share Content with Docusaurus &amp; Azure Static Web Apps by <a class="mentioned-user" href="https://dev.to/nitya">@nitya</a>\n@AzureStaticApps turns 1 today 🎂 - join me for a Meta post on building content sites with @Docusaurus (also powers #30DaysOfSWA)  \nhttps://t.co/eFJdZ7ubwN\n      </div>\n\n    <div class="ltag__twitter-tweet__actions">\n      <a href="https://twitter.com/intent/tweet?in_reply_to=1526202485551075329" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/retweet?tweet_id=1526202485551075329" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/like?tweet_id=1526202485551075329" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">\n      </a>\n    </div>\n  </div>\n</blockquote>\n\n\n\n<hr>\n\n<h2>\n  <a name="what-is-docusaurus" href="#what-is-docusaurus">\n  </a>\n  What is Docusaurus?\n</h2>\n\n<p>Docusaurus is an open-source project from Meta that helps you build, deploy, and maintain, open source project websites. It was rated one of the top 3 <a href="https://docusaurus.io/">rising stars of JavaScript</a> in 2021, under the <em>static site generators</em> category. It has a number of features that made it attractive:</p>\n\n<ul>\n<li>It has built-in support for search, localization and versioning</li>\n<li>It support MDX (JSX-flavored Markdown) for richer content options</li>\n<li>It has built-in support for themes and plugins to enhance default behaviors</li>\n<li>It is built with React, making it extensible with custom components</li>\n</ul>\n\n<p>Read their <a href="https://docusaurus.io/docs">documentation</a> &amp; visit their <a href="https://docusaurus.io/showcase">showcase</a> to see real-world examples. Now, let\'s dive into our tutorial for building the demo.</p>\n\n\n<hr>\n\n<h2>\n  <a name="1-setup-site" href="#1-setup-site">\n  </a>\n  1. Setup Site\n</h2>\n\n<ul>\n<li>Setup a Docusaurus site (<code>classic</code> theme) in a dedicated folder (<code>www</code>) in repo. The command automatically installs the required packages and their dependencies.\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code> npx create-docusaurus@latest www classic\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<ul>\n<li>Let\'s see what was created for us. The output has been cleaned up for clarity.\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>ls -l www/\n\nREADME.md   \nbabel.config.js \nblog/              \ndocs/    \ndocusaurus.config.js               \nnode_modules/        \npackage-lock.json    \npackage.json           \nsidebars.js                 \nsrc/                  \nstatic/    \n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<ul>\n<li> Let\'s preview the site locally, to validate this worked.\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">cd </span>www\nnpx docusaurus start\n\n<span class="o">[</span>INFO] Starting the development server...\n<span class="o">[</span>SUCCESS] Docusaurus website is running at http://localhost:3000/.\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You should see something like this - this is the default landing page for the scaffolded Docusaurus site.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--iBRY4WJu--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-landing-d8ebc8da5a467aeb258b6ff21c4f5022.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--iBRY4WJu--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-landing-d8ebc8da5a467aeb258b6ff21c4f5022.png" alt="Landing Page" loading="lazy" width="880" height="814"></a></p>\n\n<ul>\n<li>The dev server supports hot reloading. Try making a minor change to the site source - for example edit <code>docusaurus.config.js</code> and change the <code>title</code> to <strong>"My Static Web Apps Site"</strong>. You should see this in your site preview, instantly:</li>\n</ul>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ZfeZdCV2--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-reload-5e921244396d1bfeb1635ca0cbdacb66.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ZfeZdCV2--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-reload-5e921244396d1bfeb1635ca0cbdacb66.png" alt="Landing Page Reloaded" loading="lazy" width="880" height="949"></a></p>\n\n<ul>\n<li>You can now build a <strong>production-ready</strong> version of that site as follows. Note that the static files are generated in the <strong>build/</strong> directory.\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">cd </span>www/\nnpm run build\n..\n..\n<span class="o">[</span>SUCCESS] Generated static files <span class="k">in</span> <span class="s2">"build"</span><span class="nb">.</span>\n<span class="o">[</span>INFO] Use <span class="sb">`</span>npm run serve<span class="sb">`</span> <span class="nb">command </span>to <span class="nb">test </span>your build locally.\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n<hr>\n\n<h2>\n  <a name="2-deploy-to-azure" href="#2-deploy-to-azure">\n  </a>\n  2. Deploy To Azure\n</h2>\n\n<p>Docusaurus is built using React - so you can use <a href="https://docs.microsoft.com/en-us/azure/static-web-apps/front-end-frameworks">the same configuration settings</a> for Docusaurus, when deploying to Azure Static Web Apps. </p>\n\n<p>You have three options to  get started:</p>\n\n<ul>\n<li>via browser with <a href="https://docs.microsoft.com/en-us/azure/static-web-apps/getting-started?tabs=react">the Azure Portal quickstart</a>\n</li>\n<li>via terminal with <a href="https://docs.microsoft.com/en-us/azure/static-web-apps/get-started-cli?tabs=vanilla-javascript">the Azure CLI quickstart</a>\n</li>\n<li>via IDE with <a href="https://docs.microsoft.com/en-us/azure/static-web-apps/getting-started?tabs=vanilla-javascript">the VS Code Extension quickstart</a> </li>\n</ul>\n\n<p>If you prefer the first approach, click the button to go to the Azure portal, then follow the <a href="https://docs.microsoft.com/en-us/azure/static-web-apps/getting-started?tabs=react">quickstart</a> guidance, but using <em>this</em> project\'s details instead.</p>\n\n<p><a href="https://portal.azure.com/?feature.customportal=false&amp;WT.mc_id=30daysofswa-61155-cxall#create/Microsoft.StaticApp"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--08261hFv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://aka.ms/deploytoazurebutton" alt="Deploy to Azure button" loading="lazy" width="167" height="34"></a></p>\n\n<h2>\n  <a name="3-using-vs-code" href="#3-using-vs-code">\n  </a>\n  3... using VS Code\n</h2>\n\n<p>I\'ll use the <a href="https://docs.microsoft.com/en-us/azure/static-web-apps/getting-started?tabs=vanilla-javascript">Visual Studio Code extension</a> to make this happen with just a few clicks. </p>\n\n<p>The whole process happens within the VS Code window, and takes just a few minutes from start to finish - <em>with guided prompts to help all the way</em>. For convenience, I\'ve documented it step-by-step with screenshots (images valid for <em>VS Code ver 1.66.2</em>).</p>\n\n<h2>\n  <a name="31-install-extension" href="#31-install-extension">\n  </a>\n  3.1 Install Extension\n</h2>\n\n<p>Open Visual Studio Code (IDE) in the project folder for your repo. Install the <a href="https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurestaticwebapps">Azure Static Web Apps extension</a> by visiting this page and clicking "Install".</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--5kAWB8bZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-extension-c840c2a0accf37e9736192e1958f12e5.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--5kAWB8bZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-extension-c840c2a0accf37e9736192e1958f12e5.png" alt="VS Code Extension for SWA" loading="lazy" width="880" height="333"></a></p>\n\n<h2>\n  <a name="32-find-swa-panel" href="#32-find-swa-panel">\n  </a>\n  3.2. Find SWA Panel\n</h2>\n\n<p>When extension is installed, you should see this window in your VS Code editor, confirming readiness for use.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--f2uosJWW--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-vscode-025c5fed556e79b72afe7ec0dbc49c41.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--f2uosJWW--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-vscode-025c5fed556e79b72afe7ec0dbc49c41.png" alt="VS Code Extension Installed" loading="lazy" width="880" height="208"></a></p>\n\n<p>You\'ll find the Azure Static Web Apps options listed in a  section under "Azure".</p>\n\n<p>The extension\'s <a href="https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurestaticwebapps">documentation page</a> and its <a href="https://github.com/microsoft/vscode-azurestaticwebapps/wiki/Creating-a-Static-Web-App">GitHub</a> page both provide detailed walkthroughs - check those for the most current process for this. We\'ll start by clicking the <em>Azure</em> icon in the VS Code sidebar, then scrolling down till we see this <code>Static Web Apps</code> section.</p>\n\n<h2>\n  <a name="33-create-swa" href="#33-create-swa">\n  </a>\n  3.3 Create SWA\n</h2>\n\n<p>Click the "+" button to start the <strong>Create Static Web App</strong> workflow.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--JCkLZogQ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ceau4cvci4gf96nh5igq.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--JCkLZogQ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ceau4cvci4gf96nh5igq.png" alt="Activate SWA Extension" loading="lazy" width="410" height="33"></a></p>\n\n<p>The <em>"Create Static Web Apps"</em> process will create (and commit) a GitHub actions workflow for you that will automate the build/deploy process for your site directly from your source on all future codebase changes.</p>\n\n<p>So if you have <em>current pending codebase changes</em> it will first prompt you to commit them before it does its magic! Let\'s get that done!</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--l2zAqI8a--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-commit-e4ebcc5c88eab1fec6fb83a0440f8932.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--l2zAqI8a--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-commit-e4ebcc5c88eab1fec6fb83a0440f8932.png" alt="Commit changes" loading="lazy" width="516" height="392"></a></p>\n\n<h2>\n  <a name="34-configure-swa" href="#34-configure-swa">\n  </a>\n  3.4 Configure SWA\n</h2>\n\n<p>The extension walks you through the five steps shown below, each with defaults already filled in for you. Customize them as shown, for this project:</p>\n\n<blockquote>\n<p>Step 1: Specify Project Name<br>\n<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--nJvZKROU--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-1-8cb3405b5fc4e11a4e3d383918af64e8.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--nJvZKROU--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-1-8cb3405b5fc4e11a4e3d383918af64e8.png" alt="Step 1" loading="lazy" width="880" height="131"></a></p>\n\n<p>Step 2: Pick Azure region to deploy it in <br>\n<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--VWxG4ExO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-2-655a8fad3066c3bbf9cd2bbf83d3b786.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--VWxG4ExO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-2-655a8fad3066c3bbf9cd2bbf83d3b786.png" alt="Step 2" loading="lazy" width="880" height="256"></a> <br></p>\n\n<p>Step 3: Specify project name<br>\n<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--k04jjOdd--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-3-817208d7936e610e563ae813343b9920.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k04jjOdd--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-3-817208d7936e610e563ae813343b9920.png" alt="Step 3" loading="lazy" width="880" height="543"></a></p>\n\n<p>Step 4: Pick framework used by app<br>\n<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--JTuvOjb5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-4-999a4b92b119f60873a0c11665a42e52.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--JTuvOjb5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-4-999a4b92b119f60873a0c11665a42e52.png" alt="Step 4" loading="lazy" width="880" height="157"></a></p>\n\n<p>Step 5: Specify folder where site gets built by default <br>\n<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--2wqMuWMs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-5-5175ad2d0baa4f50eb9cdd16a0a3757e.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--2wqMuWMs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-5-5175ad2d0baa4f50eb9cdd16a0a3757e.png" alt="Step 5" loading="lazy" width="880" height="185"></a></p>\n</blockquote>\n\n<h2>\n  <a name="35-track-progress" href="#35-track-progress">\n  </a>\n  3.5 Track Progress\n</h2>\n\n<p>In a few seconds, you\'ll see this alert - this indicates that the workflow is <strong>creating and committing the GitHub Actions build/deploy workflow YAML</strong> for you. 🎉</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--cQ6yJCyA--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-created-e773df9ebd39489f9a193f29b8b11f45.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--cQ6yJCyA--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-created-e773df9ebd39489f9a193f29b8b11f45.png" alt="Created" loading="lazy" width="760" height="260"></a></p>\n\n<p>If you check your repository right now, you\'ll find the <a href="https://github.com/fearlessly-dev/swa-demo-docusaurus/commit/1005a16c10bbbce51c8526a3c14253d1aec1a59c">relevant commit</a> and the <a href="https://github.com/fearlessly-dev/swa-demo-docusaurus/actions/runs/2313039968">activated Actions flow</a> (labeled <code>ci: add Azure Static Web Apps worfklow</code>) in progress.</p>\n\n<p>You can also track the progress and configuration settings of your app right there in the VS Code Sidebar, under the <code>Static Web Apps</code> section. <em>Look for the project name, and unroll contents..</em></p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s---wkz2L3H--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-sidebar-a5431359ccd9a9680923b809465aad7a.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s---wkz2L3H--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-sidebar-a5431359ccd9a9680923b809465aad7a.png" alt="Sidebar" loading="lazy" width="864" height="450"></a></p>\n\n<h2>\n  <a name="36-browse-site" href="#36-browse-site">\n  </a>\n  3.6 Browse Site!\n</h2>\n\n<p>In a few second more, you\'ll get this alert:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--YuTAQdPJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-deployed-8ad55a927b2f4270a5223c8c03cda7ab.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--YuTAQdPJ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-deployed-8ad55a927b2f4270a5223c8c03cda7ab.png" alt="Deployed" loading="lazy" width="766" height="224"></a></p>\n\n<p>Now, go to the sidebar section for your project, right-click the name to see the available menu options:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--pd7xSSnG--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-browse-af691ca869bdb57a2aedf4d6b8781761.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--pd7xSSnG--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-browse-af691ca869bdb57a2aedf4d6b8781761.png" alt="Browse" loading="lazy" width="880" height="409"></a></p>\n\n<p>Click "Browse Site" to be taken to your live deployed Docusaurus website! That\'s it! A few clicks, customizing defaults - and you\'re done!</p>\n\n\n<hr>\n\n<h2>\n  <a name="4-customize-it" href="#4-customize-it">\n  </a>\n  4. Customize It!\n</h2>\n\n<p>At this point, you can make any changes to the site source, commit them - and watch the site get rebuilt and deployed without any further action from you!</p>\n\n<p>Here are some things to try:</p>\n\n<ul>\n<li>Customize <a href="https://docusaurus.io/docs/styling-layout">styles or layout</a>\n</li>\n<li>Explore <a href="https://docusaurus.io/docs/api/plugins">plugins</a> for SEO, Search etc.</li>\n<li>Try <a href="https://docusaurus.io/docs/markdown-features/react#using-jsx-in-markdown">create/use MDX</a> in content</li>\n</ul>\n\n<p>I made a few example changes to the <code>docusaurus.config.js</code> file to personalize the landing page content to reflect my needs. </p>\n\n<p>And I updated the <code>src/css/custom.css</code> file to reflect new theme colors for dark/light mode - and replaced the <code>logo.svg</code> file.</p>\n\n<p>Committing these changes should automatically rebuild and update the deployed site. Here is what they looked like in my local preview, before I committed the changes.</p>\n\n<div class="table-wrapper-paragraph"><table>\n<thead>\n<tr>\n<th>Light Mode</th>\n<th>Dark Mode</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--hzFPYuRg--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-light-d5adbe4e5651b33b64e27e41ac3cbced.png" alt="Light Mode" loading="lazy" width="880" height="772"></td>\n<td><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--7EFYAQct--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://www.azurestaticwebapps.dev/assets/images/11-swa-dark-9ddedb1c4320bbdcd7108c1a171cba0c.png" alt="Dark Mode" loading="lazy" width="880" height="778"></td>\n</tr>\n</tbody>\n</table></div>\n\n<p>🎉  <strong>Check it out: The site is <a href="https://zealous-bay-0062c640f.1.azurestaticapps.net/">live on Azure Static Web Apps</a></strong></p>\n\n\n<hr>\n\n<h2>\n  <a name="exercise" href="#exercise">\n  </a>\n  Exercise\n</h2>\n\n<p>You saw a few things I did to customize the site. Now it\'s your turn! Here are a few challenges you can try out:</p>\n\n<ul>\n<li>Complete the tutorial to deploy your own site!</li>\n<li>Try Docusaurus customization: <strong>add an MDX component!</strong>\n</li>\n<li>Try SWA customization: <strong>add an API to fetch content!</strong>\n</li>\n<li>Try SWA customization: <strong>add auth using Twitter - use it!</strong>\n</li>\n</ul>\n\n<h2>\n  <a name="resources" href="#resources">\n  </a>\n  Resources:\n</h2>\n\n<ul>\n<li>\n<a href="https://docusaurus.io/">Docusaurus</a> - documentation</li>\n<li>\n<a href="https://docs.microsoft.com/en-us/azure/static-web-apps/">Azure Static Web Apps (SWA)</a> - documentation</li>\n<li>\n<a href="https://aka.ms/30DaysOfSWA">#30DaysOfSWA</a> - guide tour to SWA.</li>\n</ul>\n\n',s.body_markdown="---\ntitle: #11: Share Content with Docusaurus & Azure Static Web Apps\npublished: true\ndescription: @AzureStaticApps turns 1 today 🎂 - join me for a Meta post on building content sites with @Docusaurus (also powers #30DaysOfSWA)  \ntags: staticwebapps, beginners, react, javascript\nseries: Learn Static Web Apps with 30DaysOfSWA\ncanonical_url: https://www.azurestaticwebapps.dev/blog/build-with-docusaurus\ncover_image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/j7qp4sgve1v3jyuwnx0s.png\n---\n\n> 🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖\n> This post is now officially [added](https://docusaurus.io/docs/next/deployment#deploying-to-azure-static-web-apps) into the  <br/> next official Docusaurus documentation release adding <br/> **Azure Static Web Apps to deployment options**.\n> 🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖🦖\n\n---\n\nWelcome to `Week 2, Day 4` of **#30DaysOfSWA**!! \n\nToday's a special day - the [1 year anniversary of Azure Static Web Apps](https://azure.microsoft.com/en-us/updates/azure-static-web-apps-is-now-generally-available/?WT.mc_id=30daysofswa-61155-cxall)! <br/> **Happy Birthday SWA! 🎂** I wanted to do something special to celebrate! \n\nSo here it is - a blog post on how we can create a content-focused static website [with Docusaurus](https://docusaurus.io/) and deploy it [using Azure Static Web Apps](https://docs.microsoft.com/en-us/azure/static-web-apps/?WT.mc_id=30daysofswa-61155-cxall). Want to get a sense of what kinds of static sites you can build with Docusaurus? [Check out their showcase](https://docusaurus.io/showcase)!\n\nWhy **this** demo today? Well, it's very _Meta_ (pun intended). You may have noticed that the [#30DaysOfSWA](https://aka.ms/30DaysOfSWA) website is built on Docusaurus. 🦖\n\n[![#30DaysOfSWA Website](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qu3ioc0144p7jxp76qf0.png)](https://aka.ms/30DaysOfSWA)\n\nBy sharing this tutorial, I'm hoping it inspires more of you to build/deploy sites that showcase your own tech journeys - whether its with #30Days of learning, or to feature your #100Devs portfolios. #LetsGetStarted! 🎉\n\n----\n\n## What We'll Cover\n * **Intro**: What is Docusaurus?\n * **Quickstart:** setup classic site\n * **Configure**: `docusaurus.config.js`\n * **Deploy**: Azure Static Web Apps\n * **Customize**: Themes & Plugins\n * **Exercise**: Try extending the demo further \n\n---\n\n## About the Demo\n\nIn today's tutorial, we'll create a _classic_ Docusaurus site, deploy it to Azure Static Web Apps, then make some changes to the site content to validate that it rebuilds and deploys the site without any further manual effort from us. I hope to also contribute this back to the Docusaurus docs as an example for Deploying to Azure - feedback to improve this is very welcome!\n\n* 🌟 **Tutorial source is here [on GitHub](https://github.com/fearlessly-dev/swa-demo-docusaurus)** - I'll update **that version** over time.\n* 🎉  **Site is live [on Azure Static Web Apps](https://zealous-bay-0062c640f.1.azurestaticapps.net/)** - for demo purposes only.\n* 🏆 **Site is showcased [on Docusaurus](https://docusaurus.io/showcase)\n\n## Updated May 16:\n\nJust one more thing - [**showcase it**](https://docusaurus.io/showcase) when done! 😍\n\n{% twitter 1526202485551075329 %}\n\n---\n\n## What is Docusaurus?\n\nDocusaurus is an open-source project from Meta that helps you build, deploy, and maintain, open source project websites. It was rated one of the top 3 [rising stars of JavaScript](https://docusaurus.io/) in 2021, under the _static site generators_ category. It has a number of features that made it attractive:\n * It has built-in support for search, localization and versioning\n * It support MDX (JSX-flavored Markdown) for richer content options\n * It has built-in support for themes and plugins to enhance default behaviors\n * It is built with React, making it extensible with custom components\n\nRead their [documentation](https://docusaurus.io/docs) & visit their [showcase](https://docusaurus.io/showcase) to see real-world examples. Now, let's dive into our tutorial for building the demo.\n\n---\n\n## 1. Setup Site\n\n* Setup a Docusaurus site (`classic` theme) in a dedicated folder (`www`) in repo. The command automatically installs the required packages and their dependencies.\n\n```bash\n npx create-docusaurus@latest www classic\n```\n\n* Let's see what was created for us. The output has been cleaned up for clarity.\n\n```\nls -l www/\n\nREADME.md   \nbabel.config.js \nblog/              \ndocs/    \ndocusaurus.config.js               \nnode_modules/        \npackage-lock.json    \npackage.json           \nsidebars.js                 \nsrc/                  \nstatic/    \n```\n\n*  Let's preview the site locally, to validate this worked.\n\n```bash\ncd www\nnpx docusaurus start\n\n[INFO] Starting the development server...\n[SUCCESS] Docusaurus website is running at http://localhost:3000/.\n```\n\nYou should see something like this - this is the default landing page for the scaffolded Docusaurus site.\n\n![Landing Page](https://www.azurestaticwebapps.dev/assets/images/11-landing-d8ebc8da5a467aeb258b6ff21c4f5022.png)\n\n* The dev server supports hot reloading. Try making a minor change to the site source - for example edit `docusaurus.config.js` and change the `title` to **\"My Static Web Apps Site\"**. You should see this in your site preview, instantly:\n\n![Landing Page Reloaded](https://www.azurestaticwebapps.dev/assets/images/11-reload-5e921244396d1bfeb1635ca0cbdacb66.png)\n\n* You can now build a **production-ready** version of that site as follows. Note that the static files are generated in the **build/** directory.\n\n```bash\ncd www/\nnpm run build\n..\n..\n[SUCCESS] Generated static files in \"build\".\n[INFO] Use `npm run serve` command to test your build locally.\n```\n\n---\n\n## 2. Deploy To Azure\n\nDocusaurus is built using React - so you can use [the same configuration settings](https://docs.microsoft.com/en-us/azure/static-web-apps/front-end-frameworks) for Docusaurus, when deploying to Azure Static Web Apps. \n\nYou have three options to  get started:\n  * via browser with [the Azure Portal quickstart](https://docs.microsoft.com/en-us/azure/static-web-apps/getting-started?tabs=react)\n  * via terminal with [the Azure CLI quickstart](https://docs.microsoft.com/en-us/azure/static-web-apps/get-started-cli?tabs=vanilla-javascript)\n  * via IDE with [the VS Code Extension quickstart](https://docs.microsoft.com/en-us/azure/static-web-apps/getting-started?tabs=vanilla-javascript) \n\nIf you prefer the first approach, click the button to go to the Azure portal, then follow the [quickstart](https://docs.microsoft.com/en-us/azure/static-web-apps/getting-started?tabs=react) guidance, but using *this* project's details instead.\n\n[![Deploy to Azure button](https://aka.ms/deploytoazurebutton)](https://portal.azure.com/?feature.customportal=false&WT.mc_id=30daysofswa-61155-cxall#create/Microsoft.StaticApp)\n\n\n## 3... using VS Code\n\nI'll use the [Visual Studio Code extension](https://docs.microsoft.com/en-us/azure/static-web-apps/getting-started?tabs=vanilla-javascript) to make this happen with just a few clicks. \n\nThe whole process happens within the VS Code window, and takes just a few minutes from start to finish - _with guided prompts to help all the way_. For convenience, I've documented it step-by-step with screenshots (images valid for _VS Code ver 1.66.2_).\n\n## 3.1 Install Extension\n\nOpen Visual Studio Code (IDE) in the project folder for your repo. Install the [Azure Static Web Apps extension](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurestaticwebapps) by visiting this page and clicking \"Install\".\n\n![VS Code Extension for SWA](https://www.azurestaticwebapps.dev/assets/images/11-extension-c840c2a0accf37e9736192e1958f12e5.png)\n\n## 3.2. Find SWA Panel\n\nWhen extension is installed, you should see this window in your VS Code editor, confirming readiness for use.\n\n![VS Code Extension Installed](https://www.azurestaticwebapps.dev/assets/images/11-vscode-025c5fed556e79b72afe7ec0dbc49c41.png)\n\nYou'll find the Azure Static Web Apps options listed in a  section under \"Azure\".\n\nThe extension's [documentation page](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-azurestaticwebapps) and its [GitHub](https://github.com/microsoft/vscode-azurestaticwebapps/wiki/Creating-a-Static-Web-App) page both provide detailed walkthroughs - check those for the most current process for this. We'll start by clicking the _Azure_ icon in the VS Code sidebar, then scrolling down till we see this `Static Web Apps` section.\n\n## 3.3 Create SWA\n\nClick the \"+\" button to start the **Create Static Web App** workflow.\n\n![Activate SWA Extension](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ceau4cvci4gf96nh5igq.png)\n\nThe _\"Create Static Web Apps\"_ process will create (and commit) a GitHub actions workflow for you that will automate the build/deploy process for your site directly from your source on all future codebase changes.\n\nSo if you have _current pending codebase changes_ it will first prompt you to commit them before it does its magic! Let's get that done!\n\n![Commit changes](https://www.azurestaticwebapps.dev/assets/images/11-commit-e4ebcc5c88eab1fec6fb83a0440f8932.png)\n\n\n## 3.4 Configure SWA\n\nThe extension walks you through the five steps shown below, each with defaults already filled in for you. Customize them as shown, for this project:\n\n> Step 1: Specify Project Name\n![Step 1](https://www.azurestaticwebapps.dev/assets/images/11-swa-1-8cb3405b5fc4e11a4e3d383918af64e8.png)\n\n> Step 2: Pick Azure region to deploy it in \n![Step 2](https://www.azurestaticwebapps.dev/assets/images/11-swa-2-655a8fad3066c3bbf9cd2bbf83d3b786.png) <br/>\n\n> Step 3: Specify project name\n![Step 3](https://www.azurestaticwebapps.dev/assets/images/11-swa-3-817208d7936e610e563ae813343b9920.png)\n\n> Step 4: Pick framework used by app\n![Step 4](https://www.azurestaticwebapps.dev/assets/images/11-swa-4-999a4b92b119f60873a0c11665a42e52.png)\n\n> Step 5: Specify folder where site gets built by default \n![Step 5](https://www.azurestaticwebapps.dev/assets/images/11-swa-5-5175ad2d0baa4f50eb9cdd16a0a3757e.png)\n\n\n## 3.5 Track Progress\n\nIn a few seconds, you'll see this alert - this indicates that the workflow is **creating and committing the GitHub Actions build/deploy workflow YAML** for you. 🎉\n\n![Created](https://www.azurestaticwebapps.dev/assets/images/11-swa-created-e773df9ebd39489f9a193f29b8b11f45.png)\n\nIf you check your repository right now, you'll find the [relevant commit](https://github.com/fearlessly-dev/swa-demo-docusaurus/commit/1005a16c10bbbce51c8526a3c14253d1aec1a59c) and the [activated Actions flow](https://github.com/fearlessly-dev/swa-demo-docusaurus/actions/runs/2313039968) (labeled `ci: add Azure Static Web Apps worfklow`) in progress.\n\nYou can also track the progress and configuration settings of your app right there in the VS Code Sidebar, under the `Static Web Apps` section. _Look for the project name, and unroll contents.._\n\n![Sidebar](https://www.azurestaticwebapps.dev/assets/images/11-swa-sidebar-a5431359ccd9a9680923b809465aad7a.png)\n\n\n## 3.6 Browse Site! \n\nIn a few second more, you'll get this alert:\n\n![Deployed](https://www.azurestaticwebapps.dev/assets/images/11-swa-deployed-8ad55a927b2f4270a5223c8c03cda7ab.png)\n\nNow, go to the sidebar section for your project, right-click the name to see the available menu options:\n\n![Browse](https://www.azurestaticwebapps.dev/assets/images/11-swa-browse-af691ca869bdb57a2aedf4d6b8781761.png)\n\nClick \"Browse Site\" to be taken to your live deployed Docusaurus website! That's it! A few clicks, customizing defaults - and you're done!\n\n---\n\n## 4. Customize It!\n\nAt this point, you can make any changes to the site source, commit them - and watch the site get rebuilt and deployed without any further action from you!\n\nHere are some things to try:\n * Customize [styles or layout](https://docusaurus.io/docs/styling-layout)\n * Explore [plugins](https://docusaurus.io/docs/api/plugins) for SEO, Search etc.\n * Try [create/use MDX](https://docusaurus.io/docs/markdown-features/react#using-jsx-in-markdown) in content\n\nI made a few example changes to the `docusaurus.config.js` file to personalize the landing page content to reflect my needs. \n\nAnd I updated the `src/css/custom.css` file to reflect new theme colors for dark/light mode - and replaced the `logo.svg` file.\n\nCommitting these changes should automatically rebuild and update the deployed site. Here is what they looked like in my local preview, before I committed the changes.\n\n|Light Mode |  Dark Mode|\n|:---|:---|\n|![Light Mode](https://www.azurestaticwebapps.dev/assets/images/11-swa-light-d5adbe4e5651b33b64e27e41ac3cbced.png)|![Dark Mode](https://www.azurestaticwebapps.dev/assets/images/11-swa-dark-9ddedb1c4320bbdcd7108c1a171cba0c.png) |\n\n🎉  **Check it out: The site is [live on Azure Static Web Apps](https://zealous-bay-0062c640f.1.azurestaticapps.net/)**\n\n---\n\n## Exercise\n\nYou saw a few things I did to customize the site. Now it's your turn! Here are a few challenges you can try out:\n\n * Complete the tutorial to deploy your own site!\n * Try Docusaurus customization: **add an MDX component!**\n * Try SWA customization: **add an API to fetch content!**\n * Try SWA customization: **add auth using Twitter - use it!**\n\n\n## Resources:\n * [Docusaurus](https://docusaurus.io/) - documentation\n * [Azure Static Web Apps (SWA)](https://docs.microsoft.com/en-us/azure/static-web-apps/) - documentation\n * [#30DaysOfSWA](https://aka.ms/30DaysOfSWA) - guide tour to SWA.\n",s.user={name:"Nitya Narasimhan",username:a,twitter_username:a,github_username:a,website_url:"https://nitya.dev",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--O12y1-Eu--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/8619/686ae69d-8c31-462d-bd5e-c373a688e99d.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--4wT8gjQW--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/8619/686ae69d-8c31-462d-bd5e-c373a688e99d.png"},s.organization={name:"Microsoft Azure",username:i,slug:i,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s---iCLfNmF--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/512/64ce0b82-730d-4ca0-8359-2c21513a0063.jpg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--kAsNj0kG--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/512/64ce0b82-730d-4ca0-8359-2c21513a0063.jpg"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:s}},error:t,state:{currentArticle:s},serverRendered:!0,routePath:"/nitya/1083672",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:t}}}}("2022-05-12T19:38:31Z",null,"nitya",{},"azure")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

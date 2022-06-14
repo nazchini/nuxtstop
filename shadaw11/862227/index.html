@@ -1,0 +1,1082 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Setting up a Nuxt App with Strapi Using Graphql: Building an Event App</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Setting up a Nuxt App with Strapi Using Graphql: Building an Event App</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/nuxt" class="tag" data-v-70afb46a>
+          #nuxt
+        </a><a href="/nuxtstop/t/graphql" class="tag" data-v-70afb46a>
+          #graphql
+        </a><a href="/nuxtstop/t/strapi" class="tag" data-v-70afb46a>
+          #strapi
+        </a><a href="/nuxtstop/t/apps" class="tag" data-v-70afb46a>
+          #apps
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ikIFca6_--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hr86u9w2icivlsiboqfj.png" alt="Setting up a Nuxt App with Strapi Using Graphql: Building an Event App" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            6
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Oct 13 '21</time></div></header> <div class="content" data-v-70afb46a><p>Using a backend only content management system has now become a trend in the modern web. With Strapi being one of the most popular to use in developing our web apps, we'll learn how to connect a Nuxt app with Strapi using GraphQL</p>
+
+<h2>
+  <a name="outline" href="#outline">
+  </a>
+  Outline
+</h2>
+
+<ul>
+<li>The need for headless CMS
+
+<ul>
+<li>Why use strapi?</li>
+<li>How it all works</li>
+</ul>
+
+
+</li>
+<li>setting up the Nuxt frontend
+
+<ul>
+<li>Configuring Nuxt to work with Apollo Client</li>
+</ul>
+
+
+</li>
+<li>Creating a Strapi Collection Type</li>
+<li>Install the Strapi GraphQL Plugin</li>
+<li>Using the GraphQL Playground</li>
+<li>Adding a query to our Nuxt client</li>
+<li>Rendering Strapi data in the Nuxt client</li>
+<li>Implementing Top Navigation</li>
+<li>Displaying our events</li>
+<li>Filtering our Events</li>
+<li>Wrap Up</li>
+</ul>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--x0L5WmUk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633385596946_applook.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--x0L5WmUk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633385596946_applook.png" alt="App Preview" loading="lazy"></a></p>
+
+<h2>
+  <a name="goals" href="#goals">
+  </a>
+  Goals
+</h2>
+
+<p>In this tutorial, we will look at how we can connect the Strapi backend to our Nuxt frontend and fetch some data using Graphql. We’ll also look at how to set up and configure this Jamstack project.</p>
+
+<h2>
+  <a name="prerequisites" href="#prerequisites">
+  </a>
+  Prerequisites
+</h2>
+
+<p>In order to follow this tutorial, you need:</p>
+
+<ul>
+<li><a href="https://nodejs.org/en/">Node.js</a></li>
+<li>
+<a href="https://www.npmjs.com/">N</a><a href="https://www.npmjs.com/">PM</a>
+</li>
+<li>
+<a href="https://nuxtjs.org/docs/get-started/installation/">Nuxt</a> installed</li>
+</ul>
+
+<h2>
+  <a name="the-need-for-headless-cms" href="#the-need-for-headless-cms">
+  </a>
+  The Need for Headless CMS
+</h2>
+
+<p>Traditional CMS, having been the king of content management, gave us the comfort of having all our content, templates, and custom code in a single environment. However, this way of serving the content is no longer enough as how data can be shared has evolved. Today, content can be displayed on any device and in any data format. With the introduction of Headless CMS, content can now be provided to you as data over an API. This makes it very easy to serve your data across a wide variety of devices, including the internet of things.</p>
+
+<p><strong>Why use Strapi?</strong><br>
+Strapi makes it easy for Javascript developers to create REST APIs, that can be consumed in any frontend application with its numerous integrations. Strapi allows you to create custom content types and relationships between the content types so that things can stay organized. You also have a media library where you can host your image or audio assets. Another great reason to use Strapi is the ability to create multilingual websites or apps. You can check out the other amazing features Strapi offers <a href="https://strapi.io/features">here</a>.</p>
+<h2>
+  <a name="overview" href="#overview">
+  </a>
+  Overview
+</h2>
+
+<p>In this section, we will look at getting started with <a href="https://strapi.io/">Strapi</a>, and setting it up. Since we are building an event app, we will make all events data available in our Strapi API, and hook Nuxt.js to the frontend. We will create an event custom type, then update the events in the Strapi admin panel. We can then make a simple request to get all our events to populate our frontend.</p>
+<h2>
+  <a name="setting-up-the-project" href="#setting-up-the-project">
+  </a>
+  Setting up the Project
+</h2>
+
+<p>On the terminal, we first create a directory for our app:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>    <span class="nb">mkdir </span>nuxt-strapi-eventapp
+    <span class="nb">cd </span>nuxt-strapi-eventapp
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>In this directory, we will create our Strapi backend and this can be done with a single one-liner command.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>    npx create-strapi-app events-server <span class="nt">--quickstart</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>After this is done running, we can see in our terminal, our project information and a url that we can use to access our strapi admin panel at <code>http://localhost:1337/admin</code>. We also notice our server started automatically. </p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--l_coNQqk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632156935759_strapi-registration.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--l_coNQqk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632156935759_strapi-registration.png" alt="Sign up an account" loading="lazy"></a></p>
+
+<p>In our admin panel, let's fill in our information and create a root admin user. After clicking the <code>let's start</code> button, we will be directed to our dashboard.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--hdhvBVZI--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632157503495_admindashboard.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--hdhvBVZI--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632157503495_admindashboard.png" alt="Strapi dashboard" loading="lazy"></a></p>
+
+<p>So the way we want to structure the data we fetch is by events. Each event needs to be categorized, that is belonging to one or two categories.  </p>
+
+<h2>
+  <a name="creating-our-contenttypes" href="#creating-our-contenttypes">
+  </a>
+  Creating our Content-Types
+</h2>
+
+<p>In our admin dashboard, by the left, under <strong>Plugins</strong>, click on the <strong>Content-Types</strong> <strong>Builder</strong> option to easily create content types. In our case, we want to create an <strong>Events</strong> and <strong>Category</strong> content type. The <strong>Category</strong> content type will have a many-to-many relationship with the <strong>Events</strong> content type. Let’s build this out!</p>
+
+<p>First, under <strong>Collection Types</strong>, click on <strong>Create new collection type</strong> <strong>button</strong>.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Ow-UMrtq--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632291411622_content-builder.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Ow-UMrtq--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632291411622_content-builder.png" alt="Dashboard" loading="lazy"></a></p>
+
+<p>When we click <code>create new collection type</code>, a modal opens up where we can create our event content type and name it <code>Event</code>. We click on continue and now we can add fields to the event.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--uL4GhIrI--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632291790581_input%2Bfield.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--uL4GhIrI--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632291790581_input%2Bfield.png" alt="Creating a collection type" loading="lazy"></a></p>
+
+<p>The fields we will need are:</p>
+
+<ul>
+<li>Text </li>
+<li>Date</li>
+<li>Number</li>
+<li>Media</li>
+</ul>
+
+<p>We will be creating two text fields: the title of the event and the description of the event. The date field will be the date of the event. The two number fields are the duration of the event and the price to attend events respectively.</p>
+
+<p>From the image above, click on the text field and name it <code>title</code>, then select the short text option, since it’s a title and we would like to easily search events by their title.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--23IRc2lP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632292488869_titlefield.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--23IRc2lP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632292488869_titlefield.png" alt="Adding a text field" loading="lazy"></a></p>
+
+<p>We then click on <code>add another field</code> and select the text field again, but this time we name it <code>description</code> . Select the long text option, and click on <code>add another field</code> .</p>
+
+<p>We want to be able to set the date and time of our events, so we create a date field by clicking on the date option. We then name the field <code>date</code> and select <code>datetime</code> as our type of date. Next, we create a number field to specify the duration of the event.  We name the field <code>duration</code> and choose <code>decimal</code> as our number format. </p>
+
+<p>We create another number field named <code>price</code> and select decimal as its number format.  Lastly, we create a media field and name it <code>image</code> . Select <code>single media</code> as its type because it is the cover image for the events.</p>
+
+<p>Then click on finish, and save the fields and the event type.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--dnRIH5M0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632293309206_saveevent.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--dnRIH5M0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632293309206_saveevent.png" alt="Save our Event collection type" loading="lazy"></a></p>
+
+<p><strong>Creating our category content type</strong><br>
+We want our events to be categorized according to meetups or coding events. So we need to create another content type using the <strong>Content-Types Builder</strong>. Click the <strong>create new collection type</strong> <strong>button</strong>. Name the collection type <strong>category</strong></p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--nC8Mlofl--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632327855348_category.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--nC8Mlofl--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632327855348_category.png" alt="Creating category collection type" loading="lazy"></a></p>
+
+<p>We want to create two fields this time around:</p>
+
+<ul>
+<li>Text</li>
+<li>Relations</li>
+</ul>
+
+<p>We create a text field called <code>name</code> for the name of the categories. Then we create a relations field and make it have a many-to-many relationship with the Event content type. We will select this from the input field by the right.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--NLqDcTF4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632330047675_relations.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--NLqDcTF4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632330047675_relations.png" alt="Creating a relation field" loading="lazy"></a></p>
+
+<p>Now events and categories are now linked. So a category can have many events under it and an event can belong to many categories. We will finish and save the category content type.</p>
+
+<p><strong>Adding categories</strong><br>
+We would like to add two categories which are meetup and coding. So we click on the categories content type.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--8j5Fhcjs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632402752095_addnewcat.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--8j5Fhcjs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632402752095_addnewcat.png" alt="Adding categories" loading="lazy"></a></p>
+
+<p>Then we click on <strong>add new category</strong> and input <code>coding</code> as the name of this first category. Save it.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--g4TbmTdH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632402937970_codingcategory.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--g4TbmTdH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632402937970_codingcategory.png" alt="Naming the category" loading="lazy"></a></p>
+
+<p>Then create another category called <code>meetup</code> and save it. Now we have two categories we can select from.</p>
+<h2>
+  <a name="adding-our-events" href="#adding-our-events">
+  </a>
+  Adding our Events
+</h2>
+
+<p>Select the Event collection type and click the <code>Add New Event</code> button. Now we are prompted with a modal to create an entry for the first event</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--dtrgVuUr--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632757391511_lagos%2Bmeetup.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--dtrgVuUr--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632757391511_lagos%2Bmeetup.png" alt="Adding events" loading="lazy"></a></p>
+
+<p>We can see the first event created in the image above with the fields we created earlier. We fill in the input fields with the desired information. </p>
+
+<ul>
+<li>The title field for the title of the event</li>
+<li>The description field for the event description</li>
+<li>Date field for the time of the event</li>
+<li>Duration field for the duration of the event</li>
+<li>Price field for the price of the event</li>
+<li>Image field for the cover image of our event</li>
+</ul>
+
+<p>To add an image for an event, we first navigate to our <strong>Media</strong> <strong>Library</strong> which we can see from the left navbar. Then we can upload all assets we need for the events, by clicking <code>upload assets</code> .</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--UMjr-aSZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632758122838_medialibrary.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--UMjr-aSZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632758122838_medialibrary.png" alt="Adding media assets" loading="lazy"></a></p>
+
+<p>To the left of the screen on the event creation page, we can see the category dropdown menu. Here we can select which category our events belong to, either <strong>coding</strong> or <strong>meetup.</strong> Now we save and publish the event. Our first event is now available to us. </p>
+
+<p>We will repeat what we did above with different information, by creating unique events for our application. So you can go ahead and add 7 more events, but make sure we have 4 events with a category of <code>meetup</code> and another 4 with a category of <code>coding</code>.</p>
+<h2>
+  <a name="setting-up-roles-and-permissions" href="#setting-up-roles-and-permissions">
+  </a>
+  Setting up Roles and Permissions
+</h2>
+
+<p>If we try accessing our events data through the API endpoint at <code>http://localhost:1337/events</code> we will get a forbidden error. To fix this, we have to grant access to our <code>API</code> by navigating to our <strong>Settings</strong> under <strong>User and</strong> <strong>Permission</strong> <strong>Plugin</strong> and click on <strong>Roles</strong>.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Rb5Nicua--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632764363369_Roles.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Rb5Nicua--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632764363369_Roles.png" alt="Set roles and permissions" loading="lazy"></a></p>
+
+<hr>
+
+<p>Select the <strong>Public</strong> role and set up all CRUD operations we might carry out with the API to be public. </p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--UEFdCyaX--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632764507138_setpermission.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--UEFdCyaX--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632764507138_setpermission.png" alt="set roles and permissions" loading="lazy"></a></p>
+
+<p>Save the changes and now try accessing <code>http://localhost:1337/events</code> and we can see all our events returned in the browser.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ouxSf_ra--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632765183633_apievent.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ouxSf_ra--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632765183633_apievent.png" alt="Our Event data in JSON" loading="lazy"></a></p>
+<h2>
+  <a name="our-nuxt-frontend" href="#our-nuxt-frontend">
+  </a>
+  Our Nuxt Frontend
+</h2>
+
+<p>In this section, we will setup Nuxt and build the event app UI. So let’s get started by installing Nuxt. On your terminal, run the following command in the <code>nuxt-strapi-eventapp</code> folder.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>    yarn create nuxt-app event-app
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>After running the command above, we will be prompted to make some choices based on how we want our project to run. Here are the choices to select as you setup Nuxt:</p>
+
+<ul>
+<li>Yarn package manager</li>
+<li>
+<a href="https://github.com/tailwindcss/tailwindcss">Tailwind CSS</a> as our UI framework</li>
+<li>
+<a href="https://github.com/nuxt/eslint-config">ESLint</a> for linting</li>
+<li>
+<a href="https://nuxtjs.org/guide/#server-rendered-universal-ssr-">Universal (SSR / Static)</a> as our rendering mode</li>
+<li>Static/JAMStack hosting as our deployment target</li>
+</ul>
+
+<h2>
+  <a name="set-up-dependencies" href="#set-up-dependencies">
+  </a>
+  Set up dependencies
+</h2>
+
+<p>We want to easily fetch our Strapi data from the Strapi GraphQL API. So we install some important GraphQL dependencies for this to work.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>    yarn add @nuxtjs/apollo graphql graphql-tag
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We have <code>@nuxtjs/apollo</code> package installed that allows for the easy integration of  Apollo/GraphQL with VueJS. We have GraphQL for our queries, and GraphQL-tag, a template literal tag for parsing our GraphQL queries.</p>
+
+<p>Now that we have installed the GraphQL dependencies, let’s setup some Nuxt configurations.<br>
+In our <code>nuxt.config.js</code> file we need to make some changes that allows us use the Nuxt Apollo module.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    // nuxt.config.js
+      modules: [
+        '@nuxtjs/apollo'
+      ],
+      apollo: {
+        clientConfigs: {
+          default: {
+            httpEndpoint: 'http://localhost:1337/graphql',
+          }
+        }
+      },
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>From the above we just simply loaded the <code>@nuxtjs/apollo</code> module and set Apollo configuration. We want to be able to access our GraphQL playground when we go to the default endpoint <code>http://localhost:1337/graphql</code> we have set above. If we go to that link, we get a <code>Not Found</code> page returned. This is because we haven’t installed the Strapi GraphQL plugin.</p>
+
+<h2>
+  <a name="install-the-strapi-graphql-plugin" href="#install-the-strapi-graphql-plugin">
+  </a>
+  Install the Strapi GraphQL plugin
+</h2>
+
+<p>We can install the Strapi GraphQL plugin two ways, either from our Strapi dashboard through the marketplace or using the CLI. In our case, we will be using the CLI.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>    npm run strapi <span class="nb">install </span>graphql
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now we have installed it, all we have to do is restart our server. If we go to the GraphQL endpoint again, we will be able to access the GraphQL playground now.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--pLbHMu5---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632871750426_graphqlplay.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--pLbHMu5---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632871750426_graphqlplay.png" alt="GraphQL playground" loading="lazy"></a></p>
+
+<p>In the playground, we can test our API and build out the queries we will be making in the Nuxt application.</p>
+
+<h2>
+  <a name="using-the-graphql-plugin" href="#using-the-graphql-plugin">
+  </a>
+  Using the Graphql Plugin
+</h2>
+
+<p>In the GraphQL playground, we can build out query requests before we put them in the frontend of our app and make our request to Strapi. Let’s see how a query works.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--WAeYlyr---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633211181760_graphplay.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--WAeYlyr---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633211181760_graphplay.png" alt="Testing the GraphQL playground" loading="lazy"></a></p>
+
+<p>We can give our query a name, for example, we are querying for all the events we have added to Strapi.  We can name the query for all the events <code>AllEvents</code> the we target for the events collection type which we named <code>events</code>. We can choose what to query for in our events data, so let’s say we want only the <code>id</code>, <code>title</code> and <code>date</code>. We can query them and when we hit play in our GraphQL playground, the data is returned from Strapi.</p>
+
+<h2>
+  <a name="adding-a-query-to-our-nuxt-client" href="#adding-a-query-to-our-nuxt-client">
+  </a>
+  Adding a query to our Nuxt client
+</h2>
+
+<p>At the root of our application, we will create a folder named <code>graphql</code> and in the folder we add our <code>query.js</code> file.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    mkdir graphql
+    cd graphql
+    touch query.js
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>It is in this file we will write and export our query.</p>
+
+<p>We need to determine what we want to query from our event data in Strapi, which are the event ID, title, date, image and categories.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    query Events {
+        events {
+          id
+          title
+          date
+          image {
+            name
+          }
+          categories {
+            name
+          }
+        }
+      }  
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now we import <code>gql</code> from <code>graphql-tag</code>. We will then use <code>gql</code> for formatting the query and then export it.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>
+    // graphql/query.js
+
+    import gql from 'graphql-tag';
+    export const allEventQuery = gql`
+    query Events {
+        events {
+          id
+          title
+          date
+          image {
+            name
+          }
+          categories {
+            name
+          }
+        }
+      }  
+    `
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We named the query <code>allEventQuery</code>. So this is the name we will be using as our query name when making a request for the Strapi event data. </p>
+
+<h2>
+  <a name="building-out-the-application-uilayout" href="#building-out-the-application-uilayout">
+  </a>
+  Building out the application UI/Layout
+</h2>
+
+<p>As I stated earlier, we will be using TailwindCSS for styling in this application. </p>
+
+<p>We are using the Nuxt default layout, and in the <code>layout/default.vue</code> . It has:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>
+    // layouts/default.vue
+    &lt;template>
+      &lt;div>
+        &lt;NavBar />
+         &lt;TabNav />
+        &lt;Nuxt />
+      &lt;/div>
+    &lt;/template>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="implementing-top-navigation" href="#implementing-top-navigation">
+  </a>
+  Implementing Top Navigation
+</h2>
+
+<p>In the <code>NavBar</code> component, we just have the event app name and in the <code>TabNav</code> component we have the navigation for the app.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>
+    // components/NavBar.vue
+    &lt;template>
+    &lt;nav class="bg-gray-800">
+      &lt;div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+        &lt;div class="relative flex items-center justify-between h-16">
+            &lt;div>&lt;h1 class="text-white text-3xl">Eleventy&lt;/h1>&lt;/div>
+        &lt;/div>
+      &lt;/div>
+    &lt;/nav>
+    &lt;/template>
+
+
+    // components/TabNav.vue
+    &lt;template>
+        &lt;div>
+        &lt;div style='border-bottom: 2px solid #eaeaea' class="ml-12">
+      &lt;ul v-for="(tab, id) in tabs" :key="id" class='flex cursor-pointer'>
+         &lt;NuxtLink :to="`/${tab}`">&lt;li :class="currentTab === id ? 'active' : ''" @click="currentTab = id" class='py-2 px-6 bg-white rounded-t-lg'>{{tab}}&lt;/li>&lt;/NuxtLink> 
+      &lt;/ul>
+    &lt;/div>
+    &lt;/div>
+    &lt;/template>
+    &lt;script>
+    export default {
+        data() {
+            return {
+          tabs: ['All Events', 'meetups', 'coding'],
+          isActive: false,
+          currentTab: 0
+            }
+        },
+          methods: {
+           selectTab() {
+          this.isActive = !this.isActive
+        },
+      },
+    }
+    &lt;/script>
+    &lt;style scoped>
+     .active {
+       border-bottom: 2px solid #1f2937;
+       border-left: 2px solid #1f2937;
+     }
+    &lt;/style>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Our <code>TabNav.vue</code> is where all navigation for the app takes place.</p>
+
+<p><strong>Our pages</strong><br>
+We will have four pages in this application. The most important page is the home page, which is also the <code>index.vue</code> file in our pages folder. Two of the pages contain events for the two event categories: <code>meetups</code> and <code>coding</code>. The last page is a page that displays more information about any event the user clicks, so we call it the <code>event</code>  page.</p>
+<h2>
+  <a name="displaying-our-events" href="#displaying-our-events">
+  </a>
+  Displaying our Events
+</h2>
+
+<p>In this section, we will make a GraphQL request to Strapi.  Once we get back our desired data, we will populate the home page with the different events we get from Strapi. But before doing this, we need to create a card component that we can reuse to display our event data. </p>
+
+<p>In the components folder, we create the <code>EventCard</code> component in our editor under our component folder and we add:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    // components/EventCard.vue
+     &lt;template>
+      &lt;div class="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8">
+        &lt;NuxtLink
+          :to="{ name: 'event-id', params: { id: event.id } }"
+          v-for="event in events"
+          :key="event.id"
+        >
+          &lt;article
+            class="
+              bg-white
+              group
+              relative
+              rounded-lg
+              overflow-hidden
+              shadow-lg
+              hover:shadow-2xl
+              transform
+              duration-200
+            "
+          >
+            &lt;div class="relative w-full h-80 md:h-64 lg:h-44">
+              &lt;img
+                :src="event.image.name"
+                alt="cover image"
+                class="w-full h-full object-center object-cover"
+              />
+            &lt;/div>
+            &lt;div class="px-3 py-4">
+              &lt;h3 class="text-sm text-gray-500 pb-2">
+                &lt;a class="bg-indigo-600 py-1 px-2 text-white rounded-lg" href="#">
+                  &lt;span class="absolute inset-0">&lt;/span>
+                  {{ event.title }}
+                &lt;/a>
+              &lt;/h3>
+              &lt;p class="text-base font-semibold text-gray-900">
+                {{ event.date.toLocaleString("en-US", { timeZone: "UTC" }) }}
+              &lt;/p>
+              &lt;p class="text-indigo-400 mt-3 font-medium">More info&lt;/p>
+            &lt;/div>
+          &lt;/article>
+        &lt;/NuxtLink>
+      &lt;/div>
+    &lt;/template>
+
+    &lt;script>
+    export default {
+      props: ["events"],
+    };
+    &lt;/script>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We can see that we passed an <code>events</code> prop into this component. The prop is an array of our events passed down from the home page <code>index.vue</code>. In the component template, we style our event card and add the necessary information we want to be displayed on the card thanks to the prop.</p>
+
+<p>We also notice some kind of dynamic routing for when we click on an event:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    // components/EventCard.vue 
+       &lt;NuxtLink
+          :to="{ name: 'event-id', params: { id: event.id } }"
+          v-for="event in events"
+          :key="event.id"
+        >
+          &lt;!-- Card -->
+        &lt;/NuxtLink>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We passed on a variable, which represents the <code>ID</code> for each event we have, into ApolloGraphQL and we use the <code>ID</code> to fetch a particular event in our <code>event</code> page.</p>
+
+<p>In the <code>index.vue</code> page where we passed the events props from, we have this:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    // pages/index.vue
+    &lt;template>
+    &lt;div>
+    &lt;!-- Events are displayed here -->
+      &lt;section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 mt-12 mb-12">
+            &lt;article>
+                &lt;h2 class="text-2xl font-extrabold text-gray-900">OUR EVENTS&lt;/h2>
+                &lt;section>
+                   &lt;EventCard :events="events" />    
+                &lt;/section>
+            &lt;/article>
+        &lt;/section>
+    &lt;/div>
+    &lt;/template>
+    &lt;script>
+    import { allEventQuery } from "../graphql/query";
+    export default {
+      data() {
+        return {
+          events: [],
+        }
+      },
+      apollo: {
+        events: {
+          prefetch: true,
+          query: allEventQuery,
+          variables () {
+            return { id: parseInt(this.$route.params.id) }
+          }
+        }
+      },
+    }
+    &lt;/script>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>In the script of the <code>index.vue</code> page we import our <code>allEventQuery</code> query from the GraphQL folder and we get to finally use it in making a request to Strapi. In our data, we create an events array where we will store our array of data. </p>
+
+<p>We make our request in Apollo and also notice as the query property is the <code>allEventQuery</code>, to make sure we make the right query to Strapi. </p>
+
+<p>The events array is now populated and we have passed the array data down to the <code>EventCard</code> component.</p>
+
+<p>This is what our homepage looks like now.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--lYhoKlIN--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633220435108_applook.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--lYhoKlIN--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633220435108_applook.png" alt="Homepage" loading="lazy"></a></p>
+
+<h2>
+  <a name="filtering-our-events" href="#filtering-our-events">
+  </a>
+  Filtering our Events
+</h2>
+
+<p>We have two categories of events: <code>meetups</code> and <code>coding</code>.  We want each category to be displayed on its own page. Then we can reuse our <code>allEventQuery</code> GraphQL query, filter events based on each category, and display it on their respective pages.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    // pages/meetups.vue
+    &lt;template>
+        &lt;div>
+             &lt;section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 mt-12 mb-12">
+            &lt;article>
+                &lt;h2 class="text-2xl font-extrabold text-gray-900">MEETUP EVENTS&lt;/h2>
+                &lt;section>
+                   &lt;EventCard :events="meetupEvent" />    
+                &lt;/section>
+            &lt;/article>
+        &lt;/section>
+        &lt;/div>
+    &lt;/template>
+    &lt;script>
+    import { allEventQuery } from "../../graphql/query";
+    export default {
+      data() {
+        return {
+          events: [],
+          meetupEvent: []
+        }
+      },
+      mounted() {
+         this.getMeetUps()
+      },
+      methods:{
+          getMeetUps() {
+              this.meetupEvent = this.events.filter(event => {
+                  return event.categories[0].name === "meetup"
+              })
+          }
+      },
+      apollo: {
+        events: {
+          prefetch: true,
+          query: allEventQuery,
+                variables () {
+            return { id: parseInt(this.$route.params.id) }
+          }
+        }
+      },
+    }
+    &lt;/script>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Notice that the code here looks similar to the one we have in our <code>index.vue</code> file. The difference is that the <code>meetupEvent</code> data that stores the array of our filtered events data. When the meetups page is mounted, we run a <code>*getMeetUps*</code> function that filters the event we fetch from Strapi usingGraphQL. The events are then displayed in our template. </p>
+
+<p>We can do the same for our coding event page and everything should work fine.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--zJeT6pS6--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633282080436_meetupevent.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--zJeT6pS6--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633282080436_meetupevent.png" alt="meetups page" loading="lazy"></a></p>
+
+<h2>
+  <a name="displaying-a-particular-event" href="#displaying-a-particular-event">
+  </a>
+  Displaying a particular Event
+</h2>
+
+<p>We want to be able to click on a particular event whether it's in the coding or meetup page and have it display that particular event with all its information. To do this, we go to our <code>event/_id</code> page we have created in our editor and add the following code:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    // pages/event/_id.vue
+    &lt;template>
+        &lt;div class="mb-20">
+            &lt;div class="container w-full max-w-6xl mx-auto bg-white bg-cover mt-8 rounded">&lt;/div>
+            &lt;img :src="event.image.name"
+                                alt="cover image"
+                                class="w-full max-w-6xl mx-auto bg-white bg-cover mt-8 rounded object-center object-cover">
+            &lt;div class="container w-full max-w-6xl mx-auto mt-8">
+                {{event.description}}
+          &lt;/div>
+        &lt;/div>
+    &lt;/template>
+    &lt;script>
+    import {eventQuery} from '../../graphql/query'
+    export default {
+      data() {
+        return {
+          event: {},
+        }
+      },
+      mounted () {
+          console.log(this.event);;
+      },
+       apollo: {
+        event: {
+          prefetch: true,
+          query: eventQuery,
+           variables () {
+            return { id: parseInt(this.$route.params.id) }
+          }
+        }
+      },
+    }
+    &lt;/script>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This time, the query we are making is called <code>eventQuery</code>. We need to add the query in our <code>graphql/query.js</code> file.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    // graphql/query.js
+    export const eventQuery = gql`
+    query event($id: ID!) {
+      event(id: $id) {
+        id
+        title
+        date
+        description
+        image {
+          name
+        }
+      }
+    }
+    `
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The <code>ID</code> we pass to the GraphQL query will be the <code>ID</code> of any event we click on.<br>
+So now when we click on an event, we are taken to that particular event page where we get more information about the page.</p>
+<h2>
+  <a name="running-and-testing-our-app" href="#running-and-testing-our-app">
+  </a>
+  Running and Testing our App
+</h2>
+
+<p>To run our Nuxt app, navigate to our Nuxt project directory and run:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>    yarn dev
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This command will reload and start our app at <code>*localhost:3000*</code> where we can view our app live. </p>
+
+<p><strong>Note:</strong> <br>
+Make sure your Strapi server is running by running this command:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>    npm run develop
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="conclusion" href="#conclusion">
+  </a>
+  Conclusion
+</h2>
+
+<p>We have finally come to the end of this tutorial. In this tutorial, we looked at how we can connect the Strapi backend to our Nuxt frontend and fetch some data using GraphQL. In the process, we created an event and category content type to build the application. We also changed the permissions that allow us to perform CRUD operations like read and update on the server. We created four pages, the home page containing all our events, the meetups and coding page containing events for the particular category and the event page that displays information about each individual event.</p>
+
+<p>To take it a bit further, you can add search functionality to the app so when a user starts typing the name of an event, a list of possible events that match will be filtered and displayed. If you’re interested in finding out more about what Strapi can do, you can check out the features it offers on its <a href="https://strapi.io/">website</a>.</p>
+
+<h2>
+  <a name="resources" href="#resources">
+  </a>
+  Resources
+</h2>
+
+<ul>
+<li><a href="https://github.com/uma-victor1/strapi-event-app">Github code</a></li>
+</ul>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/shadaw11/setting-up-a-nuxt-app-with-strapi-using-graphql-building-an-event-app-19ad" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(e,t,n,a){return a.type_of="article",a.id=862227,a.title="Setting up a Nuxt App with Strapi Using Graphql: Building an Event App",a.description="Using a backend only content management system has now become a trend in the modern web. With Strapi...",a.readable_publish_date="Oct 13 '21",a.slug="setting-up-a-nuxt-app-with-strapi-using-graphql-building-an-event-app-19ad",a.path="/strapi/setting-up-a-nuxt-app-with-strapi-using-graphql-building-an-event-app-19ad",a.url="https://dev.to/strapi/setting-up-a-nuxt-app-with-strapi-using-graphql-building-an-event-app-19ad",a.comments_count=0,a.public_reactions_count=6,a.collection_id=e,a.published_timestamp=t,a.positive_reactions_count=6,a.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--ikIFca6_--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hr86u9w2icivlsiboqfj.png",a.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--4cFPXxNs--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hr86u9w2icivlsiboqfj.png",a.canonical_url="https://strapi.io/blog/setting-up-a-nuxt-app-with-strapi-using-graphql-building-an-event-app?utm_source=dev.to&utm_medium=post&utm_campaign=blog",a.created_at=t,a.edited_at=e,a.crossposted_at=e,a.published_at=t,a.last_comment_at=t,a.reading_time_minutes=15,a.tag_list="nuxt, graphql, strapi, apps",a.tags=["nuxt","graphql",n,"apps"],a.body_html='<p>Using a backend only content management system has now become a trend in the modern web. With Strapi being one of the most popular to use in developing our web apps, we\'ll learn how to connect a Nuxt app with Strapi using GraphQL</p>\n\n<h2>\n  <a name="outline" href="#outline">\n  </a>\n  Outline\n</h2>\n\n<ul>\n<li>The need for headless CMS\n\n<ul>\n<li>Why use strapi?</li>\n<li>How it all works</li>\n</ul>\n\n\n</li>\n<li>setting up the Nuxt frontend\n\n<ul>\n<li>Configuring Nuxt to work with Apollo Client</li>\n</ul>\n\n\n</li>\n<li>Creating a Strapi Collection Type</li>\n<li>Install the Strapi GraphQL Plugin</li>\n<li>Using the GraphQL Playground</li>\n<li>Adding a query to our Nuxt client</li>\n<li>Rendering Strapi data in the Nuxt client</li>\n<li>Implementing Top Navigation</li>\n<li>Displaying our events</li>\n<li>Filtering our Events</li>\n<li>Wrap Up</li>\n</ul>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--x0L5WmUk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633385596946_applook.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--x0L5WmUk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633385596946_applook.png" alt="App Preview" loading="lazy"></a></p>\n\n<h2>\n  <a name="goals" href="#goals">\n  </a>\n  Goals\n</h2>\n\n<p>In this tutorial, we will look at how we can connect the Strapi backend to our Nuxt frontend and fetch some data using Graphql. We’ll also look at how to set up and configure this Jamstack project.</p>\n\n<h2>\n  <a name="prerequisites" href="#prerequisites">\n  </a>\n  Prerequisites\n</h2>\n\n<p>In order to follow this tutorial, you need:</p>\n\n<ul>\n<li><a href="https://nodejs.org/en/">Node.js</a></li>\n<li>\n<a href="https://www.npmjs.com/">N</a><a href="https://www.npmjs.com/">PM</a>\n</li>\n<li>\n<a href="https://nuxtjs.org/docs/get-started/installation/">Nuxt</a> installed</li>\n</ul>\n\n<h2>\n  <a name="the-need-for-headless-cms" href="#the-need-for-headless-cms">\n  </a>\n  The Need for Headless CMS\n</h2>\n\n<p>Traditional CMS, having been the king of content management, gave us the comfort of having all our content, templates, and custom code in a single environment. However, this way of serving the content is no longer enough as how data can be shared has evolved. Today, content can be displayed on any device and in any data format. With the introduction of Headless CMS, content can now be provided to you as data over an API. This makes it very easy to serve your data across a wide variety of devices, including the internet of things.</p>\n\n<p><strong>Why use Strapi?</strong><br>\nStrapi makes it easy for Javascript developers to create REST APIs, that can be consumed in any frontend application with its numerous integrations. Strapi allows you to create custom content types and relationships between the content types so that things can stay organized. You also have a media library where you can host your image or audio assets. Another great reason to use Strapi is the ability to create multilingual websites or apps. You can check out the other amazing features Strapi offers <a href="https://strapi.io/features">here</a>.</p>\n<h2>\n  <a name="overview" href="#overview">\n  </a>\n  Overview\n</h2>\n\n<p>In this section, we will look at getting started with <a href="https://strapi.io/">Strapi</a>, and setting it up. Since we are building an event app, we will make all events data available in our Strapi API, and hook Nuxt.js to the frontend. We will create an event custom type, then update the events in the Strapi admin panel. We can then make a simple request to get all our events to populate our frontend.</p>\n<h2>\n  <a name="setting-up-the-project" href="#setting-up-the-project">\n  </a>\n  Setting up the Project\n</h2>\n\n<p>On the terminal, we first create a directory for our app:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>    <span class="nb">mkdir </span>nuxt-strapi-eventapp\n    <span class="nb">cd </span>nuxt-strapi-eventapp\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>In this directory, we will create our Strapi backend and this can be done with a single one-liner command.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>    npx create-strapi-app events-server <span class="nt">--quickstart</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>After this is done running, we can see in our terminal, our project information and a url that we can use to access our strapi admin panel at <code>http://localhost:1337/admin</code>. We also notice our server started automatically. </p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--l_coNQqk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632156935759_strapi-registration.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--l_coNQqk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632156935759_strapi-registration.png" alt="Sign up an account" loading="lazy"></a></p>\n\n<p>In our admin panel, let\'s fill in our information and create a root admin user. After clicking the <code>let\'s start</code> button, we will be directed to our dashboard.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--hdhvBVZI--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632157503495_admindashboard.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--hdhvBVZI--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632157503495_admindashboard.png" alt="Strapi dashboard" loading="lazy"></a></p>\n\n<p>So the way we want to structure the data we fetch is by events. Each event needs to be categorized, that is belonging to one or two categories.  </p>\n\n<h2>\n  <a name="creating-our-contenttypes" href="#creating-our-contenttypes">\n  </a>\n  Creating our Content-Types\n</h2>\n\n<p>In our admin dashboard, by the left, under <strong>Plugins</strong>, click on the <strong>Content-Types</strong> <strong>Builder</strong> option to easily create content types. In our case, we want to create an <strong>Events</strong> and <strong>Category</strong> content type. The <strong>Category</strong> content type will have a many-to-many relationship with the <strong>Events</strong> content type. Let’s build this out!</p>\n\n<p>First, under <strong>Collection Types</strong>, click on <strong>Create new collection type</strong> <strong>button</strong>.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Ow-UMrtq--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632291411622_content-builder.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Ow-UMrtq--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632291411622_content-builder.png" alt="Dashboard" loading="lazy"></a></p>\n\n<p>When we click <code>create new collection type</code>, a modal opens up where we can create our event content type and name it <code>Event</code>. We click on continue and now we can add fields to the event.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--uL4GhIrI--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632291790581_input%2Bfield.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--uL4GhIrI--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632291790581_input%2Bfield.png" alt="Creating a collection type" loading="lazy"></a></p>\n\n<p>The fields we will need are:</p>\n\n<ul>\n<li>Text </li>\n<li>Date</li>\n<li>Number</li>\n<li>Media</li>\n</ul>\n\n<p>We will be creating two text fields: the title of the event and the description of the event. The date field will be the date of the event. The two number fields are the duration of the event and the price to attend events respectively.</p>\n\n<p>From the image above, click on the text field and name it <code>title</code>, then select the short text option, since it’s a title and we would like to easily search events by their title.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--23IRc2lP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632292488869_titlefield.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--23IRc2lP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632292488869_titlefield.png" alt="Adding a text field" loading="lazy"></a></p>\n\n<p>We then click on <code>add another field</code> and select the text field again, but this time we name it <code>description</code> . Select the long text option, and click on <code>add another field</code> .</p>\n\n<p>We want to be able to set the date and time of our events, so we create a date field by clicking on the date option. We then name the field <code>date</code> and select <code>datetime</code> as our type of date. Next, we create a number field to specify the duration of the event.  We name the field <code>duration</code> and choose <code>decimal</code> as our number format. </p>\n\n<p>We create another number field named <code>price</code> and select decimal as its number format.  Lastly, we create a media field and name it <code>image</code> . Select <code>single media</code> as its type because it is the cover image for the events.</p>\n\n<p>Then click on finish, and save the fields and the event type.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--dnRIH5M0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632293309206_saveevent.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--dnRIH5M0--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632293309206_saveevent.png" alt="Save our Event collection type" loading="lazy"></a></p>\n\n<p><strong>Creating our category content type</strong><br>\nWe want our events to be categorized according to meetups or coding events. So we need to create another content type using the <strong>Content-Types Builder</strong>. Click the <strong>create new collection type</strong> <strong>button</strong>. Name the collection type <strong>category</strong></p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--nC8Mlofl--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632327855348_category.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--nC8Mlofl--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632327855348_category.png" alt="Creating category collection type" loading="lazy"></a></p>\n\n<p>We want to create two fields this time around:</p>\n\n<ul>\n<li>Text</li>\n<li>Relations</li>\n</ul>\n\n<p>We create a text field called <code>name</code> for the name of the categories. Then we create a relations field and make it have a many-to-many relationship with the Event content type. We will select this from the input field by the right.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--NLqDcTF4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632330047675_relations.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--NLqDcTF4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632330047675_relations.png" alt="Creating a relation field" loading="lazy"></a></p>\n\n<p>Now events and categories are now linked. So a category can have many events under it and an event can belong to many categories. We will finish and save the category content type.</p>\n\n<p><strong>Adding categories</strong><br>\nWe would like to add two categories which are meetup and coding. So we click on the categories content type.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--8j5Fhcjs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632402752095_addnewcat.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--8j5Fhcjs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632402752095_addnewcat.png" alt="Adding categories" loading="lazy"></a></p>\n\n<p>Then we click on <strong>add new category</strong> and input <code>coding</code> as the name of this first category. Save it.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--g4TbmTdH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632402937970_codingcategory.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--g4TbmTdH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632402937970_codingcategory.png" alt="Naming the category" loading="lazy"></a></p>\n\n<p>Then create another category called <code>meetup</code> and save it. Now we have two categories we can select from.</p>\n<h2>\n  <a name="adding-our-events" href="#adding-our-events">\n  </a>\n  Adding our Events\n</h2>\n\n<p>Select the Event collection type and click the <code>Add New Event</code> button. Now we are prompted with a modal to create an entry for the first event</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--dtrgVuUr--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632757391511_lagos%2Bmeetup.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--dtrgVuUr--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632757391511_lagos%2Bmeetup.png" alt="Adding events" loading="lazy"></a></p>\n\n<p>We can see the first event created in the image above with the fields we created earlier. We fill in the input fields with the desired information. </p>\n\n<ul>\n<li>The title field for the title of the event</li>\n<li>The description field for the event description</li>\n<li>Date field for the time of the event</li>\n<li>Duration field for the duration of the event</li>\n<li>Price field for the price of the event</li>\n<li>Image field for the cover image of our event</li>\n</ul>\n\n<p>To add an image for an event, we first navigate to our <strong>Media</strong> <strong>Library</strong> which we can see from the left navbar. Then we can upload all assets we need for the events, by clicking <code>upload assets</code> .</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--UMjr-aSZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632758122838_medialibrary.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--UMjr-aSZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632758122838_medialibrary.png" alt="Adding media assets" loading="lazy"></a></p>\n\n<p>To the left of the screen on the event creation page, we can see the category dropdown menu. Here we can select which category our events belong to, either <strong>coding</strong> or <strong>meetup.</strong> Now we save and publish the event. Our first event is now available to us. </p>\n\n<p>We will repeat what we did above with different information, by creating unique events for our application. So you can go ahead and add 7 more events, but make sure we have 4 events with a category of <code>meetup</code> and another 4 with a category of <code>coding</code>.</p>\n<h2>\n  <a name="setting-up-roles-and-permissions" href="#setting-up-roles-and-permissions">\n  </a>\n  Setting up Roles and Permissions\n</h2>\n\n<p>If we try accessing our events data through the API endpoint at <code>http://localhost:1337/events</code> we will get a forbidden error. To fix this, we have to grant access to our <code>API</code> by navigating to our <strong>Settings</strong> under <strong>User and</strong> <strong>Permission</strong> <strong>Plugin</strong> and click on <strong>Roles</strong>.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Rb5Nicua--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632764363369_Roles.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Rb5Nicua--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632764363369_Roles.png" alt="Set roles and permissions" loading="lazy"></a></p>\n\n<hr>\n\n<p>Select the <strong>Public</strong> role and set up all CRUD operations we might carry out with the API to be public. </p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--UEFdCyaX--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632764507138_setpermission.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--UEFdCyaX--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632764507138_setpermission.png" alt="set roles and permissions" loading="lazy"></a></p>\n\n<p>Save the changes and now try accessing <code>http://localhost:1337/events</code> and we can see all our events returned in the browser.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ouxSf_ra--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632765183633_apievent.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ouxSf_ra--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632765183633_apievent.png" alt="Our Event data in JSON" loading="lazy"></a></p>\n<h2>\n  <a name="our-nuxt-frontend" href="#our-nuxt-frontend">\n  </a>\n  Our Nuxt Frontend\n</h2>\n\n<p>In this section, we will setup Nuxt and build the event app UI. So let’s get started by installing Nuxt. On your terminal, run the following command in the <code>nuxt-strapi-eventapp</code> folder.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>    yarn create nuxt-app event-app\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>After running the command above, we will be prompted to make some choices based on how we want our project to run. Here are the choices to select as you setup Nuxt:</p>\n\n<ul>\n<li>Yarn package manager</li>\n<li>\n<a href="https://github.com/tailwindcss/tailwindcss">Tailwind CSS</a> as our UI framework</li>\n<li>\n<a href="https://github.com/nuxt/eslint-config">ESLint</a> for linting</li>\n<li>\n<a href="https://nuxtjs.org/guide/#server-rendered-universal-ssr-">Universal (SSR / Static)</a> as our rendering mode</li>\n<li>Static/JAMStack hosting as our deployment target</li>\n</ul>\n\n<h2>\n  <a name="set-up-dependencies" href="#set-up-dependencies">\n  </a>\n  Set up dependencies\n</h2>\n\n<p>We want to easily fetch our Strapi data from the Strapi GraphQL API. So we install some important GraphQL dependencies for this to work.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>    yarn add @nuxtjs/apollo graphql graphql-tag\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>We have <code>@nuxtjs/apollo</code> package installed that allows for the easy integration of  Apollo/GraphQL with VueJS. We have GraphQL for our queries, and GraphQL-tag, a template literal tag for parsing our GraphQL queries.</p>\n\n<p>Now that we have installed the GraphQL dependencies, let’s setup some Nuxt configurations.<br>\nIn our <code>nuxt.config.js</code> file we need to make some changes that allows us use the Nuxt Apollo module.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    // nuxt.config.js\n      modules: [\n        \'@nuxtjs/apollo\'\n      ],\n      apollo: {\n        clientConfigs: {\n          default: {\n            httpEndpoint: \'http://localhost:1337/graphql\',\n          }\n        }\n      },\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>From the above we just simply loaded the <code>@nuxtjs/apollo</code> module and set Apollo configuration. We want to be able to access our GraphQL playground when we go to the default endpoint <code>http://localhost:1337/graphql</code> we have set above. If we go to that link, we get a <code>Not Found</code> page returned. This is because we haven’t installed the Strapi GraphQL plugin.</p>\n\n<h2>\n  <a name="install-the-strapi-graphql-plugin" href="#install-the-strapi-graphql-plugin">\n  </a>\n  Install the Strapi GraphQL plugin\n</h2>\n\n<p>We can install the Strapi GraphQL plugin two ways, either from our Strapi dashboard through the marketplace or using the CLI. In our case, we will be using the CLI.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>    npm run strapi <span class="nb">install </span>graphql\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now we have installed it, all we have to do is restart our server. If we go to the GraphQL endpoint again, we will be able to access the GraphQL playground now.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--pLbHMu5---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632871750426_graphqlplay.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--pLbHMu5---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632871750426_graphqlplay.png" alt="GraphQL playground" loading="lazy"></a></p>\n\n<p>In the playground, we can test our API and build out the queries we will be making in the Nuxt application.</p>\n\n<h2>\n  <a name="using-the-graphql-plugin" href="#using-the-graphql-plugin">\n  </a>\n  Using the Graphql Plugin\n</h2>\n\n<p>In the GraphQL playground, we can build out query requests before we put them in the frontend of our app and make our request to Strapi. Let’s see how a query works.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--WAeYlyr---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633211181760_graphplay.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--WAeYlyr---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633211181760_graphplay.png" alt="Testing the GraphQL playground" loading="lazy"></a></p>\n\n<p>We can give our query a name, for example, we are querying for all the events we have added to Strapi.  We can name the query for all the events <code>AllEvents</code> the we target for the events collection type which we named <code>events</code>. We can choose what to query for in our events data, so let’s say we want only the <code>id</code>, <code>title</code> and <code>date</code>. We can query them and when we hit play in our GraphQL playground, the data is returned from Strapi.</p>\n\n<h2>\n  <a name="adding-a-query-to-our-nuxt-client" href="#adding-a-query-to-our-nuxt-client">\n  </a>\n  Adding a query to our Nuxt client\n</h2>\n\n<p>At the root of our application, we will create a folder named <code>graphql</code> and in the folder we add our <code>query.js</code> file.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    mkdir graphql\n    cd graphql\n    touch query.js\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>It is in this file we will write and export our query.</p>\n\n<p>We need to determine what we want to query from our event data in Strapi, which are the event ID, title, date, image and categories.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    query Events {\n        events {\n          id\n          title\n          date\n          image {\n            name\n          }\n          categories {\n            name\n          }\n        }\n      }  \n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now we import <code>gql</code> from <code>graphql-tag</code>. We will then use <code>gql</code> for formatting the query and then export it.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>\n    // graphql/query.js\n\n    import gql from \'graphql-tag\';\n    export const allEventQuery = gql`\n    query Events {\n        events {\n          id\n          title\n          date\n          image {\n            name\n          }\n          categories {\n            name\n          }\n        }\n      }  \n    `\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>We named the query <code>allEventQuery</code>. So this is the name we will be using as our query name when making a request for the Strapi event data. </p>\n\n<h2>\n  <a name="building-out-the-application-uilayout" href="#building-out-the-application-uilayout">\n  </a>\n  Building out the application UI/Layout\n</h2>\n\n<p>As I stated earlier, we will be using TailwindCSS for styling in this application. </p>\n\n<p>We are using the Nuxt default layout, and in the <code>layout/default.vue</code> . It has:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>\n    // layouts/default.vue\n    &lt;template&gt;\n      &lt;div&gt;\n        &lt;NavBar /&gt;\n         &lt;TabNav /&gt;\n        &lt;Nuxt /&gt;\n      &lt;/div&gt;\n    &lt;/template&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="implementing-top-navigation" href="#implementing-top-navigation">\n  </a>\n  Implementing Top Navigation\n</h2>\n\n<p>In the <code>NavBar</code> component, we just have the event app name and in the <code>TabNav</code> component we have the navigation for the app.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>\n    // components/NavBar.vue\n    &lt;template&gt;\n    &lt;nav class="bg-gray-800"&gt;\n      &lt;div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8"&gt;\n        &lt;div class="relative flex items-center justify-between h-16"&gt;\n            &lt;div&gt;&lt;h1 class="text-white text-3xl"&gt;Eleventy&lt;/h1&gt;&lt;/div&gt;\n        &lt;/div&gt;\n      &lt;/div&gt;\n    &lt;/nav&gt;\n    &lt;/template&gt;\n\n\n    // components/TabNav.vue\n    &lt;template&gt;\n        &lt;div&gt;\n        &lt;div style=\'border-bottom: 2px solid #eaeaea\' class="ml-12"&gt;\n      &lt;ul v-for="(tab, id) in tabs" :key="id" class=\'flex cursor-pointer\'&gt;\n         &lt;NuxtLink :to="`/${tab}`"&gt;&lt;li :class="currentTab === id ? \'active\' : \'\'" @click="currentTab = id" class=\'py-2 px-6 bg-white rounded-t-lg\'&gt;{{tab}}&lt;/li&gt;&lt;/NuxtLink&gt; \n      &lt;/ul&gt;\n    &lt;/div&gt;\n    &lt;/div&gt;\n    &lt;/template&gt;\n    &lt;script&gt;\n    export default {\n        data() {\n            return {\n          tabs: [\'All Events\', \'meetups\', \'coding\'],\n          isActive: false,\n          currentTab: 0\n            }\n        },\n          methods: {\n           selectTab() {\n          this.isActive = !this.isActive\n        },\n      },\n    }\n    &lt;/script&gt;\n    &lt;style scoped&gt;\n     .active {\n       border-bottom: 2px solid #1f2937;\n       border-left: 2px solid #1f2937;\n     }\n    &lt;/style&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Our <code>TabNav.vue</code> is where all navigation for the app takes place.</p>\n\n<p><strong>Our pages</strong><br>\nWe will have four pages in this application. The most important page is the home page, which is also the <code>index.vue</code> file in our pages folder. Two of the pages contain events for the two event categories: <code>meetups</code> and <code>coding</code>. The last page is a page that displays more information about any event the user clicks, so we call it the <code>event</code>  page.</p>\n<h2>\n  <a name="displaying-our-events" href="#displaying-our-events">\n  </a>\n  Displaying our Events\n</h2>\n\n<p>In this section, we will make a GraphQL request to Strapi.  Once we get back our desired data, we will populate the home page with the different events we get from Strapi. But before doing this, we need to create a card component that we can reuse to display our event data. </p>\n\n<p>In the components folder, we create the <code>EventCard</code> component in our editor under our component folder and we add:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    // components/EventCard.vue\n     &lt;template&gt;\n      &lt;div class="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8"&gt;\n        &lt;NuxtLink\n          :to="{ name: \'event-id\', params: { id: event.id } }"\n          v-for="event in events"\n          :key="event.id"\n        &gt;\n          &lt;article\n            class="\n              bg-white\n              group\n              relative\n              rounded-lg\n              overflow-hidden\n              shadow-lg\n              hover:shadow-2xl\n              transform\n              duration-200\n            "\n          &gt;\n            &lt;div class="relative w-full h-80 md:h-64 lg:h-44"&gt;\n              &lt;img\n                :src="event.image.name"\n                alt="cover image"\n                class="w-full h-full object-center object-cover"\n              /&gt;\n            &lt;/div&gt;\n            &lt;div class="px-3 py-4"&gt;\n              &lt;h3 class="text-sm text-gray-500 pb-2"&gt;\n                &lt;a class="bg-indigo-600 py-1 px-2 text-white rounded-lg" href="#"&gt;\n                  &lt;span class="absolute inset-0"&gt;&lt;/span&gt;\n                  {{ event.title }}\n                &lt;/a&gt;\n              &lt;/h3&gt;\n              &lt;p class="text-base font-semibold text-gray-900"&gt;\n                {{ event.date.toLocaleString("en-US", { timeZone: "UTC" }) }}\n              &lt;/p&gt;\n              &lt;p class="text-indigo-400 mt-3 font-medium"&gt;More info&lt;/p&gt;\n            &lt;/div&gt;\n          &lt;/article&gt;\n        &lt;/NuxtLink&gt;\n      &lt;/div&gt;\n    &lt;/template&gt;\n\n    &lt;script&gt;\n    export default {\n      props: ["events"],\n    };\n    &lt;/script&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>We can see that we passed an <code>events</code> prop into this component. The prop is an array of our events passed down from the home page <code>index.vue</code>. In the component template, we style our event card and add the necessary information we want to be displayed on the card thanks to the prop.</p>\n\n<p>We also notice some kind of dynamic routing for when we click on an event:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    // components/EventCard.vue \n       &lt;NuxtLink\n          :to="{ name: \'event-id\', params: { id: event.id } }"\n          v-for="event in events"\n          :key="event.id"\n        &gt;\n          &lt;!-- Card --&gt;\n        &lt;/NuxtLink&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>We passed on a variable, which represents the <code>ID</code> for each event we have, into ApolloGraphQL and we use the <code>ID</code> to fetch a particular event in our <code>event</code> page.</p>\n\n<p>In the <code>index.vue</code> page where we passed the events props from, we have this:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    // pages/index.vue\n    &lt;template&gt;\n    &lt;div&gt;\n    &lt;!-- Events are displayed here --&gt;\n      &lt;section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 mt-12 mb-12"&gt;\n            &lt;article&gt;\n                &lt;h2 class="text-2xl font-extrabold text-gray-900"&gt;OUR EVENTS&lt;/h2&gt;\n                &lt;section&gt;\n                   &lt;EventCard :events="events" /&gt;    \n                &lt;/section&gt;\n            &lt;/article&gt;\n        &lt;/section&gt;\n    &lt;/div&gt;\n    &lt;/template&gt;\n    &lt;script&gt;\n    import { allEventQuery } from "../graphql/query";\n    export default {\n      data() {\n        return {\n          events: [],\n        }\n      },\n      apollo: {\n        events: {\n          prefetch: true,\n          query: allEventQuery,\n          variables () {\n            return { id: parseInt(this.$route.params.id) }\n          }\n        }\n      },\n    }\n    &lt;/script&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>In the script of the <code>index.vue</code> page we import our <code>allEventQuery</code> query from the GraphQL folder and we get to finally use it in making a request to Strapi. In our data, we create an events array where we will store our array of data. </p>\n\n<p>We make our request in Apollo and also notice as the query property is the <code>allEventQuery</code>, to make sure we make the right query to Strapi. </p>\n\n<p>The events array is now populated and we have passed the array data down to the <code>EventCard</code> component.</p>\n\n<p>This is what our homepage looks like now.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--lYhoKlIN--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633220435108_applook.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--lYhoKlIN--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633220435108_applook.png" alt="Homepage" loading="lazy"></a></p>\n\n<h2>\n  <a name="filtering-our-events" href="#filtering-our-events">\n  </a>\n  Filtering our Events\n</h2>\n\n<p>We have two categories of events: <code>meetups</code> and <code>coding</code>.  We want each category to be displayed on its own page. Then we can reuse our <code>allEventQuery</code> GraphQL query, filter events based on each category, and display it on their respective pages.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    // pages/meetups.vue\n    &lt;template&gt;\n        &lt;div&gt;\n             &lt;section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 mt-12 mb-12"&gt;\n            &lt;article&gt;\n                &lt;h2 class="text-2xl font-extrabold text-gray-900"&gt;MEETUP EVENTS&lt;/h2&gt;\n                &lt;section&gt;\n                   &lt;EventCard :events="meetupEvent" /&gt;    \n                &lt;/section&gt;\n            &lt;/article&gt;\n        &lt;/section&gt;\n        &lt;/div&gt;\n    &lt;/template&gt;\n    &lt;script&gt;\n    import { allEventQuery } from "../../graphql/query";\n    export default {\n      data() {\n        return {\n          events: [],\n          meetupEvent: []\n        }\n      },\n      mounted() {\n         this.getMeetUps()\n      },\n      methods:{\n          getMeetUps() {\n              this.meetupEvent = this.events.filter(event =&gt; {\n                  return event.categories[0].name === "meetup"\n              })\n          }\n      },\n      apollo: {\n        events: {\n          prefetch: true,\n          query: allEventQuery,\n                variables () {\n            return { id: parseInt(this.$route.params.id) }\n          }\n        }\n      },\n    }\n    &lt;/script&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Notice that the code here looks similar to the one we have in our <code>index.vue</code> file. The difference is that the <code>meetupEvent</code> data that stores the array of our filtered events data. When the meetups page is mounted, we run a <code>*getMeetUps*</code> function that filters the event we fetch from Strapi usingGraphQL. The events are then displayed in our template. </p>\n\n<p>We can do the same for our coding event page and everything should work fine.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--zJeT6pS6--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633282080436_meetupevent.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--zJeT6pS6--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633282080436_meetupevent.png" alt="meetups page" loading="lazy"></a></p>\n\n<h2>\n  <a name="displaying-a-particular-event" href="#displaying-a-particular-event">\n  </a>\n  Displaying a particular Event\n</h2>\n\n<p>We want to be able to click on a particular event whether it\'s in the coding or meetup page and have it display that particular event with all its information. To do this, we go to our <code>event/_id</code> page we have created in our editor and add the following code:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    // pages/event/_id.vue\n    &lt;template&gt;\n        &lt;div class="mb-20"&gt;\n            &lt;div class="container w-full max-w-6xl mx-auto bg-white bg-cover mt-8 rounded"&gt;&lt;/div&gt;\n            &lt;img :src="event.image.name"\n                                alt="cover image"\n                                class="w-full max-w-6xl mx-auto bg-white bg-cover mt-8 rounded object-center object-cover"&gt;\n            &lt;div class="container w-full max-w-6xl mx-auto mt-8"&gt;\n                {{event.description}}\n          &lt;/div&gt;\n        &lt;/div&gt;\n    &lt;/template&gt;\n    &lt;script&gt;\n    import {eventQuery} from \'../../graphql/query\'\n    export default {\n      data() {\n        return {\n          event: {},\n        }\n      },\n      mounted () {\n          console.log(this.event);;\n      },\n       apollo: {\n        event: {\n          prefetch: true,\n          query: eventQuery,\n           variables () {\n            return { id: parseInt(this.$route.params.id) }\n          }\n        }\n      },\n    }\n    &lt;/script&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This time, the query we are making is called <code>eventQuery</code>. We need to add the query in our <code>graphql/query.js</code> file.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    // graphql/query.js\n    export const eventQuery = gql`\n    query event($id: ID!) {\n      event(id: $id) {\n        id\n        title\n        date\n        description\n        image {\n          name\n        }\n      }\n    }\n    `\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The <code>ID</code> we pass to the GraphQL query will be the <code>ID</code> of any event we click on.<br>\nSo now when we click on an event, we are taken to that particular event page where we get more information about the page.</p>\n<h2>\n  <a name="running-and-testing-our-app" href="#running-and-testing-our-app">\n  </a>\n  Running and Testing our App\n</h2>\n\n<p>To run our Nuxt app, navigate to our Nuxt project directory and run:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>    yarn dev\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This command will reload and start our app at <code>*localhost:3000*</code> where we can view our app live. </p>\n\n<p><strong>Note:</strong> <br>\nMake sure your Strapi server is running by running this command:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>    npm run develop\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="conclusion" href="#conclusion">\n  </a>\n  Conclusion\n</h2>\n\n<p>We have finally come to the end of this tutorial. In this tutorial, we looked at how we can connect the Strapi backend to our Nuxt frontend and fetch some data using GraphQL. In the process, we created an event and category content type to build the application. We also changed the permissions that allow us to perform CRUD operations like read and update on the server. We created four pages, the home page containing all our events, the meetups and coding page containing events for the particular category and the event page that displays information about each individual event.</p>\n\n<p>To take it a bit further, you can add search functionality to the app so when a user starts typing the name of an event, a list of possible events that match will be filtered and displayed. If you’re interested in finding out more about what Strapi can do, you can check out the features it offers on its <a href="https://strapi.io/">website</a>.</p>\n\n<h2>\n  <a name="resources" href="#resources">\n  </a>\n  Resources\n</h2>\n\n<ul>\n<li><a href="https://github.com/uma-victor1/strapi-event-app">Github code</a></li>\n</ul>\n\n',a.body_markdown='Using a backend only content management system has now become a trend in the modern web. With Strapi being one of the most popular to use in developing our web apps, we\'ll learn how to connect a Nuxt app with Strapi using GraphQL\n\n\n## Outline\n- The need for headless CMS\n    - Why use strapi?\n    - How it all works\n- setting up the Nuxt frontend\n    - Configuring Nuxt to work with Apollo Client\n- Creating a Strapi Collection Type\n- Install the Strapi GraphQL Plugin\n- Using the GraphQL Playground\n- Adding a query to our Nuxt client\n- Rendering Strapi data in the Nuxt client\n- Implementing Top Navigation\n- Displaying our events\n- Filtering our Events\n- Wrap Up\n\n\n![App Preview](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633385596946_applook.png)\n\n\n## Goals\n\nIn this tutorial, we will look at how we can connect the Strapi backend to our Nuxt frontend and fetch some data using Graphql. We’ll also look at how to set up and configure this Jamstack project.\n\n## Prerequisites\n\nIn order to follow this tutorial, you need:\n\n- [Node.js](https://nodejs.org/en/)\n- [N](https://www.npmjs.com/)[PM](https://www.npmjs.com/)\n- [Nuxt](https://nuxtjs.org/docs/get-started/installation/) installed\n\n## The Need for Headless CMS\n\nTraditional CMS, having been the king of content management, gave us the comfort of having all our content, templates, and custom code in a single environment. However, this way of serving the content is no longer enough as how data can be shared has evolved. Today, content can be displayed on any device and in any data format. With the introduction of Headless CMS, content can now be provided to you as data over an API. This makes it very easy to serve your data across a wide variety of devices, including the internet of things.\n\n**Why use Strapi?**\nStrapi makes it easy for Javascript developers to create REST APIs, that can be consumed in any frontend application with its numerous integrations. Strapi allows you to create custom content types and relationships between the content types so that things can stay organized. You also have a media library where you can host your image or audio assets. Another great reason to use Strapi is the ability to create multilingual websites or apps. You can check out the other amazing features Strapi offers [here](https://strapi.io/features).\n\n\n## Overview\n\nIn this section, we will look at getting started with [Strapi](https://strapi.io/), and setting it up. Since we are building an event app, we will make all events data available in our Strapi API, and hook Nuxt.js to the frontend. We will create an event custom type, then update the events in the Strapi admin panel. We can then make a simple request to get all our events to populate our frontend.\n\n\n## Setting up the Project\n\nOn the terminal, we first create a directory for our app:\n\n```bash\n    mkdir nuxt-strapi-eventapp\n    cd nuxt-strapi-eventapp\n```\n\nIn this directory, we will create our Strapi backend and this can be done with a single one-liner command.\n\n```bash\n    npx create-strapi-app events-server --quickstart\n```\n\nAfter this is done running, we can see in our terminal, our project information and a url that we can use to access our strapi admin panel at `http://localhost:1337/admin`. We also notice our server started automatically. \n\n![Sign up an account](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632156935759_strapi-registration.png)\n\n\nIn our admin panel, let\'s fill in our information and create a root admin user. After clicking the `let\'s start` button, we will be directed to our dashboard.\n\n![Strapi dashboard](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632157503495_admindashboard.png)\n\n\nSo the way we want to structure the data we fetch is by events. Each event needs to be categorized, that is belonging to one or two categories.  \n\n\n## Creating our Content-Types\n\nIn our admin dashboard, by the left, under **Plugins**, click on the **Content-Types** **Builder** option to easily create content types. In our case, we want to create an **Events** and **Category** content type. The **Category** content type will have a many-to-many relationship with the **Events** content type. Let’s build this out!\n\nFirst, under **Collection Types**, click on **Create new collection type** **button**.\n\n![Dashboard](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632291411622_content-builder.png)\n\n\nWhen we click `create new collection type`, a modal opens up where we can create our event content type and name it `Event`. We click on continue and now we can add fields to the event.\n\n![Creating a collection type](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632291790581_input+field.png)\n\n\nThe fields we will need are:\n\n- Text \n- Date\n- Number\n- Media\n\nWe will be creating two text fields: the title of the event and the description of the event. The date field will be the date of the event. The two number fields are the duration of the event and the price to attend events respectively.\n\nFrom the image above, click on the text field and name it `title`, then select the short text option, since it’s a title and we would like to easily search events by their title.\n\n![Adding a text field](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632292488869_titlefield.png)\n\n\nWe then click on `add another field` and select the text field again, but this time we name it `description` . Select the long text option, and click on `add another field` .\n\nWe want to be able to set the date and time of our events, so we create a date field by clicking on the date option. We then name the field `date` and select `datetime` as our type of date. Next, we create a number field to specify the duration of the event.  We name the field `duration` and choose `decimal` as our number format. \n\nWe create another number field named `price` and select decimal as its number format.  Lastly, we create a media field and name it `image` . Select `single media` as its type because it is the cover image for the events.\n\nThen click on finish, and save the fields and the event type.\n\n![Save our Event collection type](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632293309206_saveevent.png)\n\n\n**Creating our category content type**\nWe want our events to be categorized according to meetups or coding events. So we need to create another content type using the **Content-Types Builder**. Click the **create new collection type** **button**. Name the collection type **category**\n\n\n![Creating category collection type](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632327855348_category.png)\n\n\nWe want to create two fields this time around:\n\n- Text\n- Relations\n\nWe create a text field called `name` for the name of the categories. Then we create a relations field and make it have a many-to-many relationship with the Event content type. We will select this from the input field by the right.\n\n![Creating a relation field](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632330047675_relations.png)\n\n\nNow events and categories are now linked. So a category can have many events under it and an event can belong to many categories. We will finish and save the category content type.\n\n**Adding categories**\nWe would like to add two categories which are meetup and coding. So we click on the categories content type.\n\n![Adding categories](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632402752095_addnewcat.png)\n\n\nThen we click on **add new category** and input `coding` as the name of this first category. Save it.\n\n![Naming the category](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632402937970_codingcategory.png)\n\n\nThen create another category called `meetup` and save it. Now we have two categories we can select from.\n\n## Adding our Events\n\nSelect the Event collection type and click the `Add New Event` button. Now we are prompted with a modal to create an entry for the first event\n\n![Adding events](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632757391511_lagos+meetup.png)\n\n\nWe can see the first event created in the image above with the fields we created earlier. We fill in the input fields with the desired information. \n\n- The title field for the title of the event\n- The description field for the event description\n- Date field for the time of the event\n- Duration field for the duration of the event\n- Price field for the price of the event\n- Image field for the cover image of our event\n\nTo add an image for an event, we first navigate to our **Media** **Library** which we can see from the left navbar. Then we can upload all assets we need for the events, by clicking `upload assets` .\n\n![Adding media assets](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632758122838_medialibrary.png)\n\n\nTo the left of the screen on the event creation page, we can see the category dropdown menu. Here we can select which category our events belong to, either **coding** or **meetup.** Now we save and publish the event. Our first event is now available to us. \n\nWe will repeat what we did above with different information, by creating unique events for our application. So you can go ahead and add 7 more events, but make sure we have 4 events with a category of `meetup` and another 4 with a category of `coding`.\n\n## Setting up Roles and Permissions\n\nIf we try accessing our events data through the API endpoint at `http://localhost:1337/events` we will get a forbidden error. To fix this, we have to grant access to our `API` by navigating to our **Settings** under **User and** **Permission** **Plugin** and click on **Roles**.\n\n![Set roles and permissions](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632764363369_Roles.png)\n\n****\nSelect the **Public** role and set up all CRUD operations we might carry out with the API to be public. \n\n![set roles and permissions](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632764507138_setpermission.png)\n\n\nSave the changes and now try accessing `http://localhost:1337/events` and we can see all our events returned in the browser.\n\n![Our Event data in JSON](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632765183633_apievent.png)\n\n\n\n## Our Nuxt Frontend\n\nIn this section, we will setup Nuxt and build the event app UI. So let’s get started by installing Nuxt. On your terminal, run the following command in the `nuxt-strapi-eventapp` folder.\n\n```bash\n    yarn create nuxt-app event-app\n```\n\nAfter running the command above, we will be prompted to make some choices based on how we want our project to run. Here are the choices to select as you setup Nuxt:\n\n- Yarn package manager\n- [Tailwind CSS](https://github.com/tailwindcss/tailwindcss) as our UI framework\n- [ESLint](https://github.com/nuxt/eslint-config) for linting\n- [Universal (SSR / Static)](https://nuxtjs.org/guide/#server-rendered-universal-ssr-) as our rendering mode\n- Static/JAMStack hosting as our deployment target\n\n## Set up dependencies\n\nWe want to easily fetch our Strapi data from the Strapi GraphQL API. So we install some important GraphQL dependencies for this to work.\n\n```bash\n    yarn add @nuxtjs/apollo graphql graphql-tag\n```\n\nWe have `@nuxtjs/apollo` package installed that allows for the easy integration of  Apollo/GraphQL with VueJS. We have GraphQL for our queries, and GraphQL-tag, a template literal tag for parsing our GraphQL queries.\n\nNow that we have installed the GraphQL dependencies, let’s setup some Nuxt configurations.\nIn our `nuxt.config.js` file we need to make some changes that allows us use the Nuxt Apollo module.\n\n```\n    // nuxt.config.js\n      modules: [\n        \'@nuxtjs/apollo\'\n      ],\n      apollo: {\n        clientConfigs: {\n          default: {\n            httpEndpoint: \'http://localhost:1337/graphql\',\n          }\n        }\n      },\n```\n\nFrom the above we just simply loaded the `@nuxtjs/apollo` module and set Apollo configuration. We want to be able to access our GraphQL playground when we go to the default endpoint `http://localhost:1337/graphql` we have set above. If we go to that link, we get a `Not Found` page returned. This is because we haven’t installed the Strapi GraphQL plugin.\n\n## Install the Strapi GraphQL plugin \n\nWe can install the Strapi GraphQL plugin two ways, either from our Strapi dashboard through the marketplace or using the CLI. In our case, we will be using the CLI. \n\n```bash\n    npm run strapi install graphql\n```\n\nNow we have installed it, all we have to do is restart our server. If we go to the GraphQL endpoint again, we will be able to access the GraphQL playground now.\n\n![GraphQL playground](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1632871750426_graphqlplay.png)\n\n\nIn the playground, we can test our API and build out the queries we will be making in the Nuxt application.\n\n\n## Using the Graphql Plugin\n\nIn the GraphQL playground, we can build out query requests before we put them in the frontend of our app and make our request to Strapi. Let’s see how a query works.\n\n![Testing the GraphQL playground](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633211181760_graphplay.png)\n\n\nWe can give our query a name, for example, we are querying for all the events we have added to Strapi.  We can name the query for all the events `AllEvents` the we target for the events collection type which we named `events`. We can choose what to query for in our events data, so let’s say we want only the `id`, `title` and `date`. We can query them and when we hit play in our GraphQL playground, the data is returned from Strapi.\n\n## Adding a query to our Nuxt client\n\nAt the root of our application, we will create a folder named `graphql` and in the folder we add our `query.js` file.\n\n```\n    mkdir graphql\n    cd graphql\n    touch query.js\n```\n\nIt is in this file we will write and export our query.\n\nWe need to determine what we want to query from our event data in Strapi, which are the event ID, title, date, image and categories.\n\n\n```\n    query Events {\n        events {\n          id\n          title\n          date\n          image {\n            name\n          }\n          categories {\n            name\n          }\n        }\n      }  \n```\n\nNow we import `gql` from `graphql-tag`. We will then use `gql` for formatting the query and then export it.\n\n```\n\n    // graphql/query.js\n    \n    import gql from \'graphql-tag\';\n    export const allEventQuery = gql`\n    query Events {\n        events {\n          id\n          title\n          date\n          image {\n            name\n          }\n          categories {\n            name\n          }\n        }\n      }  \n    `\n```\n\nWe named the query `allEventQuery`. So this is the name we will be using as our query name when making a request for the Strapi event data. \n\n## Building out the application UI/Layout\n\nAs I stated earlier, we will be using TailwindCSS for styling in this application. \n\nWe are using the Nuxt default layout, and in the `layout/default.vue` . It has:\n\n```\n\n    // layouts/default.vue\n    <template>\n      <div>\n        <NavBar />\n         <TabNav />\n        <Nuxt />\n      </div>\n    </template>\n```\n\n## Implementing Top Navigation\n\nIn the `NavBar` component, we just have the event app name and in the `TabNav` component we have the navigation for the app.\n\n```\n\n    // components/NavBar.vue\n    <template>\n    <nav class="bg-gray-800">\n      <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">\n        <div class="relative flex items-center justify-between h-16">\n            <div><h1 class="text-white text-3xl">Eleventy</h1></div>\n        </div>\n      </div>\n    </nav>\n    </template>\n\n\n    // components/TabNav.vue\n    <template>\n        <div>\n        <div style=\'border-bottom: 2px solid #eaeaea\' class="ml-12">\n      <ul v-for="(tab, id) in tabs" :key="id" class=\'flex cursor-pointer\'>\n         <NuxtLink :to="`/${tab}`"><li :class="currentTab === id ? \'active\' : \'\'" @click="currentTab = id" class=\'py-2 px-6 bg-white rounded-t-lg\'>{{tab}}</li></NuxtLink> \n      </ul>\n    </div>\n    </div>\n    </template>\n    <script>\n    export default {\n        data() {\n            return {\n          tabs: [\'All Events\', \'meetups\', \'coding\'],\n          isActive: false,\n          currentTab: 0\n            }\n        },\n          methods: {\n           selectTab() {\n          this.isActive = !this.isActive\n        },\n      },\n    }\n    <\/script>\n    <style scoped>\n     .active {\n       border-bottom: 2px solid #1f2937;\n       border-left: 2px solid #1f2937;\n     }\n    </style>\n```\n\nOur `TabNav.vue` is where all navigation for the app takes place.\n\n**Our pages**\nWe will have four pages in this application. The most important page is the home page, which is also the `index.vue` file in our pages folder. Two of the pages contain events for the two event categories: `meetups` and `coding`. The last page is a page that displays more information about any event the user clicks, so we call it the `event`  page.\n\n## Displaying our Events\n\nIn this section, we will make a GraphQL request to Strapi.  Once we get back our desired data, we will populate the home page with the different events we get from Strapi. But before doing this, we need to create a card component that we can reuse to display our event data. \n\nIn the components folder, we create the `EventCard` component in our editor under our component folder and we add:\n\n```\n    // components/EventCard.vue\n     <template>\n      <div class="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-8">\n        <NuxtLink\n          :to="{ name: \'event-id\', params: { id: event.id } }"\n          v-for="event in events"\n          :key="event.id"\n        >\n          <article\n            class="\n              bg-white\n              group\n              relative\n              rounded-lg\n              overflow-hidden\n              shadow-lg\n              hover:shadow-2xl\n              transform\n              duration-200\n            "\n          >\n            <div class="relative w-full h-80 md:h-64 lg:h-44">\n              <img\n                :src="event.image.name"\n                alt="cover image"\n                class="w-full h-full object-center object-cover"\n              />\n            </div>\n            <div class="px-3 py-4">\n              <h3 class="text-sm text-gray-500 pb-2">\n                <a class="bg-indigo-600 py-1 px-2 text-white rounded-lg" href="#">\n                  <span class="absolute inset-0"></span>\n                  {{ event.title }}\n                </a>\n              </h3>\n              <p class="text-base font-semibold text-gray-900">\n                {{ event.date.toLocaleString("en-US", { timeZone: "UTC" }) }}\n              </p>\n              <p class="text-indigo-400 mt-3 font-medium">More info</p>\n            </div>\n          </article>\n        </NuxtLink>\n      </div>\n    </template>\n                  \n    <script>\n    export default {\n      props: ["events"],\n    };\n    <\/script>\n```\n\nWe can see that we passed an `events` prop into this component. The prop is an array of our events passed down from the home page `index.vue`. In the component template, we style our event card and add the necessary information we want to be displayed on the card thanks to the prop.\n\nWe also notice some kind of dynamic routing for when we click on an event:\n\n```\n    // components/EventCard.vue \n       <NuxtLink\n          :to="{ name: \'event-id\', params: { id: event.id } }"\n          v-for="event in events"\n          :key="event.id"\n        >\n          \x3c!-- Card --\x3e\n        </NuxtLink>\n```\n\nWe passed on a variable, which represents the `ID` for each event we have, into ApolloGraphQL and we use the `ID` to fetch a particular event in our `event` page.\n\nIn the `index.vue` page where we passed the events props from, we have this:\n\n```\n    // pages/index.vue\n    <template>\n    <div>\n    \x3c!-- Events are displayed here --\x3e\n      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 mt-12 mb-12">\n            <article>\n                <h2 class="text-2xl font-extrabold text-gray-900">OUR EVENTS</h2>\n                <section>\n                   <EventCard :events="events" />    \n                </section>\n            </article>\n        </section>\n    </div>\n    </template>\n    <script>\n    import { allEventQuery } from "../graphql/query";\n    export default {\n      data() {\n        return {\n          events: [],\n        }\n      },\n      apollo: {\n        events: {\n          prefetch: true,\n          query: allEventQuery,\n          variables () {\n            return { id: parseInt(this.$route.params.id) }\n          }\n        }\n      },\n    }\n    <\/script>\n```\n    \n\nIn the script of the `index.vue` page we import our `allEventQuery` query from the GraphQL folder and we get to finally use it in making a request to Strapi. In our data, we create an events array where we will store our array of data. \n\nWe make our request in Apollo and also notice as the query property is the `allEventQuery`, to make sure we make the right query to Strapi. \n\nThe events array is now populated and we have passed the array data down to the `EventCard` component.\n\nThis is what our homepage looks like now.\n\n\n![Homepage](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633220435108_applook.png)\n\n\n\n## Filtering our Events\n\nWe have two categories of events: `meetups` and `coding`.  We want each category to be displayed on its own page. Then we can reuse our `allEventQuery` GraphQL query, filter events based on each category, and display it on their respective pages.\n\n```\n    // pages/meetups.vue\n    <template>\n        <div>\n             <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 mt-12 mb-12">\n            <article>\n                <h2 class="text-2xl font-extrabold text-gray-900">MEETUP EVENTS</h2>\n                <section>\n                   <EventCard :events="meetupEvent" />    \n                </section>\n            </article>\n        </section>\n        </div>\n    </template>\n    <script>\n    import { allEventQuery } from "../../graphql/query";\n    export default {\n      data() {\n        return {\n          events: [],\n          meetupEvent: []\n        }\n      },\n      mounted() {\n         this.getMeetUps()\n      },\n      methods:{\n          getMeetUps() {\n              this.meetupEvent = this.events.filter(event => {\n                  return event.categories[0].name === "meetup"\n              })\n          }\n      },\n      apollo: {\n        events: {\n          prefetch: true,\n          query: allEventQuery,\n                variables () {\n            return { id: parseInt(this.$route.params.id) }\n          }\n        }\n      },\n    }\n    <\/script>\n```\n\nNotice that the code here looks similar to the one we have in our `index.vue` file. The difference is that the `meetupEvent` data that stores the array of our filtered events data. When the meetups page is mounted, we run a `*getMeetUps*` function that filters the event we fetch from Strapi usingGraphQL. The events are then displayed in our template. \n\nWe can do the same for our coding event page and everything should work fine.\n\n![meetups page](https://paper-attachments.dropbox.com/s_FB6BCF4785FFBF135D9B7B091BCE8EB73715FF3108E843E0DB716BE849117139_1633282080436_meetupevent.png)\n\n\n\n## Displaying a particular Event\n\nWe want to be able to click on a particular event whether it\'s in the coding or meetup page and have it display that particular event with all its information. To do this, we go to our `event/_id` page we have created in our editor and add the following code:\n\n```\n    // pages/event/_id.vue\n    <template>\n        <div class="mb-20">\n            <div class="container w-full max-w-6xl mx-auto bg-white bg-cover mt-8 rounded"></div>\n            <img :src="event.image.name"\n                                alt="cover image"\n                                class="w-full max-w-6xl mx-auto bg-white bg-cover mt-8 rounded object-center object-cover">\n            <div class="container w-full max-w-6xl mx-auto mt-8">\n                {{event.description}}\n          </div>\n        </div>\n    </template>\n    <script>\n    import {eventQuery} from \'../../graphql/query\'\n    export default {\n      data() {\n        return {\n          event: {},\n        }\n      },\n      mounted () {\n          console.log(this.event);;\n      },\n       apollo: {\n        event: {\n          prefetch: true,\n          query: eventQuery,\n           variables () {\n            return { id: parseInt(this.$route.params.id) }\n          }\n        }\n      },\n    }\n    <\/script>\n```\n\nThis time, the query we are making is called `eventQuery`. We need to add the query in our `graphql/query.js` file.\n\n```\n    // graphql/query.js\n    export const eventQuery = gql`\n    query event($id: ID!) {\n      event(id: $id) {\n        id\n        title\n        date\n        description\n        image {\n          name\n        }\n      }\n    }\n    `\n```\n\nThe `ID` we pass to the GraphQL query will be the `ID` of any event we click on.\nSo now when we click on an event, we are taken to that particular event page where we get more information about the page.\n\n\n## Running and Testing our App\n\nTo run our Nuxt app, navigate to our Nuxt project directory and run:\n\n```bash\n    yarn dev\n ```\n\nThis command will reload and start our app at `*localhost:3000*` where we can view our app live. \n\n**Note:** \nMake sure your Strapi server is running by running this command:\n\n```bash\n    npm run develop\n```\n\n## Conclusion\n\nWe have finally come to the end of this tutorial. In this tutorial, we looked at how we can connect the Strapi backend to our Nuxt frontend and fetch some data using GraphQL. In the process, we created an event and category content type to build the application. We also changed the permissions that allow us to perform CRUD operations like read and update on the server. We created four pages, the home page containing all our events, the meetups and coding page containing events for the particular category and the event page that displays information about each individual event.\n\nTo take it a bit further, you can add search functionality to the app so when a user starts typing the name of an event, a list of possible events that match will be filtered and displayed. If you’re interested in finding out more about what Strapi can do, you can check out the features it offers on its [website](https://strapi.io/).\n\n\n## Resources\n- [Github code](https://github.com/uma-victor1/strapi-event-app)\n\n',a.user={name:"Shada ",username:"shadaw11",twitter_username:"ShadaWehbe",github_username:"ShadaW11",website_url:e,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--5iB_awIe--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/650629/3afeff75-552d-4dae-a239-732ae8558f0c.jpeg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--GbKWt7ow--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/650629/3afeff75-552d-4dae-a239-732ae8558f0c.jpeg"},a.organization={name:"Strapi",username:n,slug:n,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--W257cHqH--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/763/988af53b-5d7e-435a-98eb-dd4aff5299d2.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--Kk8EQZ5l--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/763/988af53b-5d7e-435a-98eb-dd4aff5299d2.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:a}},error:e,state:{currentArticle:a},serverRendered:!0,routePath:"/shadaw11/862227",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:e}}}}(null,"2021-10-13T13:23:22Z","strapi",{})</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

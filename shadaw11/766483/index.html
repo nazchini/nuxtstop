@@ -1,0 +1,941 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>How to Replace Strapi's Default WYSIWYG Editor with TinyMCE Editor</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>How to Replace Strapi's Default WYSIWYG Editor with TinyMCE Editor</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/editor" class="tag" data-v-70afb46a>
+          #editor
+        </a><a href="/nuxtstop/t/wysiwyg" class="tag" data-v-70afb46a>
+          #wysiwyg
+        </a><a href="/nuxtstop/t/javascript" class="tag" data-v-70afb46a>
+          #javascript
+        </a><a href="/nuxtstop/t/cms" class="tag" data-v-70afb46a>
+          #cms
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ytxzrWrk--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4c88h2tsruet7hy5ap4l.jpg" alt="How to Replace Strapi's Default WYSIWYG Editor with TinyMCE Editor" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            5
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            1
+          </span></div> <time data-v-70afb46a>Jul 20 '21</time></div></header> <div class="content" data-v-70afb46a><p>In this guide, you will learn how to replace the default WYSIWYG editor (Draftjs) in Strapi with the TinyMCE editor.</p>
+
+<h1>
+  <a name="introduction" href="#introduction">
+  </a>
+  Introduction
+</h1>
+
+<p>This tutorial is heavily based on <a href="https://strapi.io/documentation/developer-docs/latest/guides/registering-a-field-in-admin.html#setup">this guide</a> from the Strapi documentation. The idea here is to create a new field that will be modified to use TinyMCE as its editor, but before we start, there are a few things that we should know:</p>
+
+<ul>
+<li>Tinymce is <strong>NOT</strong> a Markdown editor, it's an HTML editor.</li>
+</ul>
+
+<p>This means that the value taken from the field could contain HTML tags like: <code>&lt;p>Text&lt;/p></code>, <code>&lt;img src="..." /></code> and even <code>&lt;table>...&lt;/table></code>. Therefore you should be aware of the potential <a href="https://www.tiny.cloud/docs-3x/extras/TinyMCE3x@Security/">security issues</a> and how to overcome them.</p>
+
+<ul>
+<li><p>For TinyMCE to work, you will need to obtain an API Key by creating an account at <a href="https://www.tiny.cloud/auth/signup/">Tinymce</a> (the core editor is free 😍 )</p></li>
+<li><p>If you are new to Strapi, make sure to take a look at this <a href="https://strapi.io/documentation/developer-docs/latest/getting-started/quick-start.html">Quick Start Guide</a>.</p></li>
+</ul>
+
+<p>Now that we are ready, let's get our hands dirty.</p>
+
+<h1>
+  <a name="setup" href="#setup">
+  </a>
+  Setup
+</h1>
+
+<h2>
+  <a name="1-create-a-new-project" href="#1-create-a-new-project">
+  </a>
+  1. Create a new project:
+</h2>
+
+<p>First, we will create a new project, I will call it <code>my-app</code> you can call it whatever you like.<br>
+The <code>--quickstart</code> option will tell Strapi to create a basic project with default configurations and without templates, this is just to make the process easier and to avoid any complications.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    yarn create strapi-app my-app --quickstart
+    #or
+    npx create-strapi-app my-app --quickstart
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>After running the command, a new browser tab will open for you to create a new administrator account. If it didn't, head to <a href="http://localhost:1337/admin">http://localhost:1337/admin</a> and fill in all the necessary information.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--nin7c2n9--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/register-admin-acount.png%3Fraw%3Dtrue" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--nin7c2n9--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/register-admin-acount.png%3Fraw%3Dtrue" alt="Register Adminstration Account" loading="lazy"></a></p>
+
+<h2>
+  <a name="2-generate-a-plugin" href="#2-generate-a-plugin">
+  </a>
+  2. Generate a plugin:
+</h2>
+
+<p>Now we want to generate a new <a href="https://strapi.io/documentation/developer-docs/latest/development/plugin-customization.html">Strapi plugin</a>, but let's first stop Strapi by pressing <code>Ctrl+C</code> or <code>Command+C</code> and <code>cd</code> into the project directory.<br>
+Make sure to replace "my-app" with your project name</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>cd my-app 
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+<p>We will call our plugin <code>wysiwyg</code> so we should run:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    yarn strapi generate:plugin wysiwyg
+    #or
+    npm run strapi generate:plugin wysiwyg
+    #or
+    strapi generate:plugin wysiwyg
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="3-install-the-needed-dependencies" href="#3-install-the-needed-dependencies">
+  </a>
+  3. Install the needed dependencies:
+</h2>
+
+<p>To be able to use TinyMCE, we will need to install its library, and because Strapi is using React, we will install the TinyMCE library for React <code>@tinymce/tinymce-react</code>.<br>
+<strong>But first,</strong> let's <code>cd</code> into the newly created plugin and only then install it there:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    cd plugins/wysiwyg
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>And then,<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    yarn add @tinymce/tinymce-react
+    #or
+    npm install @tinymce/tinymce-react
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="4-create-the-plugin" href="#4-create-the-plugin">
+  </a>
+  4. Create the plugin:
+</h2>
+
+<p>In step 2, we generated the necessary files for any plugin. Now we need to make it ours by creating a few files to tell Strapi what to do with this plugin. So first, we will create the necessary directories and files (React Components), then we will write into them.</p>
+
+<p>To create the directories and files (make sure you are inside the plugin directory (<code>.../&lt;your app name>/plugins/wysiwyg</code>):<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    cd admin/src/
+
+    #The following will create .../MediaLib/index.js
+    mkdir -p components/MediaLib/; touch components/MediaLib/index.js
+
+    #The following will create .../Wysiwyg/index.js
+    mkdir -p components/Wysiwyg/; touch components/Wysiwyg/index.js
+
+    #The following will create .../Tinymce/index.js
+    mkdir -p components/Tinymce/; touch components/Tinymce/index.js
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="medialibindexjs" href="#medialibindexjs">
+  </a>
+  MediaLib/index.js
+</h2>
+
+<p>This file will handle the insertion of media i.e. insert media (images, video...etc) to TinyMCE editor.</p>
+
+<p>It's important to notice here that we are using Strapi Media Library to handle the media instead of letting Tinymce handle it, and that's perfect because we don't want to let the user (The person who is using the Editor insert media from somewhere else, so make sure <strong>NOT</strong> to allow such insertion in Tinymce settings (More on that later).</p>
+
+<p>Now using your favorite editor (I am using <code>nano</code>), open the file:</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>nano ./components/MediaLib/index.js
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+<p>And paste the following code then save:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    import React, { useEffect, useState } from "react";
+    import { useStrapi, prefixFileUrlWithBackendUrl } from "strapi-helper-plugin";
+    import PropTypes from "prop-types";
+    const MediaLib = ({ isOpen, onChange, onToggle }) => {
+      const {
+        strapi: {
+          componentApi: { getComponent },
+        },
+      } = useStrapi();
+      const [data, setData] = useState(null);
+      const [isDisplayed, setIsDisplayed] = useState(false);
+      const Component = getComponent("media-library").Component;
+      const handleInputChange = (data) => {
+        if (data) {
+          const { url } = data;
+          setData({ ...data, url: prefixFileUrlWithBackendUrl(url) });
+        }
+      };
+      const handleClosed = () => {
+        if (data) {
+          onChange(data);
+        }
+        setData(null);
+        setIsDisplayed(false);
+      };
+      useEffect(() => {
+        if (isOpen) {
+          setIsDisplayed(true);
+        }
+      }, [isOpen]);
+      if (Component && isDisplayed) {
+        return (
+          &lt;Component
+            allowedTypes={["images", "videos", "files"]}
+            isOpen={isOpen}
+            multiple={false}
+            noNavigation
+            onClosed={handleClosed}
+            onInputMediaChange={handleInputChange}
+            onToggle={onToggle}
+          />
+        );
+      }
+      return null;
+    };
+    MediaLib.defaultProps = {
+      isOpen: false,
+      onChange: () => {},
+      onToggle: () => {},
+    };
+    MediaLib.propTypes = {
+      isOpen: PropTypes.bool,
+      onChange: PropTypes.func,
+      onToggle: PropTypes.func,
+    };
+    export default MediaLib;
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="wysiwygindexjs" href="#wysiwygindexjs">
+  </a>
+  Wysiwyg/index.js
+</h2>
+
+<p>This file will be the wrapper of Tinymce editor, it will display the labels and handle the error messages as well as inserting media. An important thing to notice here is that this code is only handling images, further steps are required to handle videos and other media.</p>
+
+<p>Again, using your favorite editor, open the file:</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>nano ./components/Wysiwyg/index.js
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+<p>And paste the following code:<br>
+<strong>Note:</strong> If you get <code>file not found</code> error around the <code>import TinyEditor...</code> Ignore it for now as we will create it in the next step.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    import React, { useState } from "react";
+    import PropTypes from "prop-types";
+    import { isEmpty } from "lodash";
+    import { Button } from "@buffetjs/core";
+    import { Label, InputDescription, InputErrors } from "strapi-helper-plugin";
+    import MediaLib from "../MediaLib";
+    import TinyEditor from "../Tinymce";
+    const Wysiwyg = ({
+      inputDescription,
+      errors,
+      label,
+      name,
+      noErrorsDescription,
+      onChange,
+      value,
+    }) => {
+      const [isOpen, setIsOpen] = useState(false);
+      let spacer = !isEmpty(inputDescription) ? (
+        &lt;div style={{ height: ".4rem" }} />
+      ) : (
+        &lt;div />
+      );
+      if (!noErrorsDescription && !isEmpty(errors)) {
+        spacer = &lt;div />;
+      }
+      const handleChange = (data) => {
+        if (data.mime.includes("image")) {
+          const imgTag = `&lt;p>&lt;img src="${data.url}" caption="${data.caption}" alt="${data.alternativeText}">&lt;/img>&lt;/p>`;
+          const newValue = value ? `${value}${imgTag}` : imgTag;
+          onChange({ target: { name, value: newValue } });
+        }
+        // Handle videos and other type of files by adding some code
+      };
+      const handleToggle = () => setIsOpen((prev) => !prev);
+      return (
+        &lt;div
+          style={{
+            marginBottom: "1.6rem",
+            fontSize: "1.3rem",
+            fontFamily: "Lato",
+          }}
+        >
+          &lt;Label htmlFor={name} message={label} style={{ marginBottom: 10 }} />
+          &lt;div style={{ position: "absolute", right: "15px", top: "-10px" }}>
+            &lt;Button color="primary" onClick={handleToggle}>
+              MediaLib
+            &lt;/Button>
+          &lt;/div>
+          &lt;TinyEditor name={name} onChange={onChange} value={value} />
+          &lt;InputDescription
+            message={inputDescription}
+            style={!isEmpty(inputDescription) ? { marginTop: "1.4rem" } : {}}
+          />
+          &lt;InputErrors
+            errors={(!noErrorsDescription && errors) || []}
+            name={name}
+          />
+          {spacer}
+          &lt;MediaLib
+            onToggle={handleToggle}
+            isOpen={isOpen}
+            onChange={handleChange}
+          />
+        &lt;/div>
+      );
+    };
+    Wysiwyg.defaultProps = {
+      errors: [],
+      inputDescription: null,
+      label: "",
+      noErrorsDescription: false,
+      value: "",
+    };
+    Wysiwyg.propTypes = {
+      errors: PropTypes.array,
+      inputDescription: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.func,
+        PropTypes.shape({
+          id: PropTypes.string,
+          params: PropTypes.object,
+        }),
+      ]),
+      label: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.func,
+        PropTypes.shape({
+          id: PropTypes.string,
+          params: PropTypes.object,
+        }),
+      ]),
+      name: PropTypes.string.isRequired,
+      noErrorsDescription: PropTypes.bool,
+      onChange: PropTypes.func.isRequired,
+      value: PropTypes.string,
+    };
+    export default Wysiwyg;
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="tinymceindexjs" href="#tinymceindexjs">
+  </a>
+  Tinymce/index.js
+</h2>
+
+<p>This is where all the work is done, it's the file that will implement the editor<br>
+<strong>Note:</strong> mark this file as we will visit it again to configure TinyMCE.</p>
+
+<p>One more time, using your favorite editor, open the file:</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>nano ./components/Tinymce/index.js
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+<p>And paste the following code:</p>
+
+<p><strong>Note:</strong> Make sure to replace <code>API_KEY</code> with the actual key that you obtained from Tinymce.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    import React from "react";
+    import PropTypes from "prop-types";
+    import { Editor } from "@tinymce/tinymce-react";
+    const TinyEditor = ({ onChange, name, value }) => {
+      return (
+        &lt;Editor
+          apiKey="API KEY"
+          value={value}
+          tagName={name}
+          onEditorChange={(editorContent) => {
+            onChange({ target: { name, value: editorContent } });
+          }}
+          outputFormat="text"
+          init={{}}
+        />
+      );
+    };
+    TinyEditor.propTypes = {
+      onChange: PropTypes.func.isRequired,
+      name: PropTypes.string.isRequired,
+      value: PropTypes.string,
+    };
+    export default TinyEditor;
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="5-register-the-field-and-the-plugin" href="#5-register-the-field-and-the-plugin">
+  </a>
+  5. Register the field and the plugin:
+</h2>
+
+<p>Our plugin is ready and waiting, but Strapi doesn't know about it yet! So we need to register it with Strapi and give it some information about it.</p>
+
+<p>To do so, we will edit one last file (The file is already there, we will just change the code inside it).</p>
+
+<p>Last time, using your favorite editor, open the file:</p>
+
+<p><strong>Note:</strong> Make sure you are still inside the plugin folder <code>.../&lt;your app name>/plugins/wysiwyg</code></p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>nano index.js
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+<p>Delete the existing code and add the following:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    import pluginPkg from "../../package.json";
+    import pluginId from "./pluginId";
+    import Wysiwyg from "./components/Wysiwyg";
+    export default (strapi) => {
+      const pluginDescription =
+        pluginPkg.strapi.description || pluginPkg.description;
+      const icon = pluginPkg.strapi.icon;
+      const name = pluginPkg.strapi.name;
+      const plugin = {
+        blockerComponent: null,
+        blockerComponentProps: {},
+        description: pluginDescription,
+        icon,
+        id: pluginId,
+        injectedComponents: [],
+        isReady: true,
+        isRequired: pluginPkg.strapi.required || false,
+        mainComponent: null,
+        name,
+        preventComponentRendering: false,
+        trads: {},
+      };
+      strapi.registerField({ type: "wysiwyg", Component: Wysiwyg });
+      return strapi.registerPlugin(plugin);
+    };
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="6-run-strapi" href="#6-run-strapi">
+  </a>
+  6. Run Strapi:
+</h2>
+
+<p>That was boring, wasn't it? Now let's have fun and see some results! Let's run Strapi 😆 </p>
+
+<ul>
+<li>First, let's get back to the project folder:
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    cd ../../../../
+
+    # After running this command I will be at .../my-app
+    # Make sure you are in .../&lt;your-project-name>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<ul>
+<li>Re-build Strapi from scratch:
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    yarn build --clean
+    #or
+    npm run build --clean
+    #or
+    strapi build --clean
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<ul>
+<li>Finally, Start Strapi with the front-end development mode <code>--watch-admin</code>:
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    yarn develop --watch-admin
+    #or
+    npm run develop -- --watch-admin
+    #or
+    strapi develop --watch-admin
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p> </p>
+
+<p>When you run the last command, it will open a new tab in the browser (if it didn't, head to localhost:8000/admin and log in with the administrator account you created earlier.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--49QK9PzH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/login-page.png%3Fraw%3Dtrue" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--49QK9PzH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/login-page.png%3Fraw%3Dtrue" alt="Login Page" loading="lazy"></a></p>
+
+<p> </p>
+
+<p>From the menu on the left go to <code>Content-Types Builder</code> so we can create new content for testing.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--lHYDAyAB--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/goto-content-types-builder.png%3Fraw%3Dtrue" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--lHYDAyAB--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/goto-content-types-builder.png%3Fraw%3Dtrue" alt="Chose Content-Types From The Left Menu" loading="lazy"></a></p>
+
+<p> </p>
+
+<p>Choose: <code>Create new single type</code></p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--QonhjEZl--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/chose-create-new-single-type.png%3Fraw%3Dtrue" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--QonhjEZl--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/chose-create-new-single-type.png%3Fraw%3Dtrue" alt="Chose Create New Single Type" loading="lazy"></a></p>
+
+<p> </p>
+
+<p>Enter display name something like <code>Tinymce Test</code>.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--a_yRawi5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/enter-display-name-tinymce-test.png%3Fraw%3Dtrue" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--a_yRawi5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/enter-display-name-tinymce-test.png%3Fraw%3Dtrue" alt="Name it Tinymce Test" loading="lazy"></a></p>
+
+<p> </p>
+
+<p>Chose Rich Text.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--PX_CP-Lq--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/chose-rich-text.png%3Fraw%3Dtrue" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--PX_CP-Lq--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/chose-rich-text.png%3Fraw%3Dtrue" alt="Chose Rich Text" loading="lazy"></a></p>
+
+<p> </p>
+
+<p>Give it a name like <code>Test</code> and hit <code>Finish</code>.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--82Qr7LCx--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/name-field-test-and-finish.png%3Fraw%3Dtrue" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--82Qr7LCx--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/name-field-test-and-finish.png%3Fraw%3Dtrue" alt="Name it Test" loading="lazy"></a></p>
+
+<p> </p>
+
+<p>From the top right corner hit <code>Save</code>, and wait for the server to restart</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--3yA_LlM---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/click-save.png%3Fraw%3Dtrue" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--3yA_LlM---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/click-save.png%3Fraw%3Dtrue" alt="Click Save" loading="lazy"></a></p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--esyx5PHO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/wait-for-server-restart.png%3Fraw%3Dtrue" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--esyx5PHO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/wait-for-server-restart.png%3Fraw%3Dtrue" alt="Wait for server to restart" loading="lazy"></a></p>
+
+<p> </p>
+
+<p>OK, the moment of truth. In the left menu, you will find the newly created content <code>Tinymce Test</code>, press it to edit it. And hop!, there you go, Tinymce is working! Yaaay 😍.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--C0QfciGb--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_DCAC6C53F6A72686D2CA44F4F549291691E5CDBE57A7B59659D85386611A2937_1626204284137_tinymce-is-broken.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--C0QfciGb--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_DCAC6C53F6A72686D2CA44F4F549291691E5CDBE57A7B59659D85386611A2937_1626204284137_tinymce-is-broken.png" alt="Observe Tinymce Is Broken" loading="lazy"></a></p>
+
+<p>Hmm 😕 , something isn't quite right yet! You are probably not able to insert a new line or do pretty much anything useful!</p>
+
+<p>Don’t stop Strapi just yet! Since we started Strapi with <code>--</code><code>watch-admin</code> mode, we don’t need to stop it, and we will still be able to see the changes we will make do as we are doing them (Cool ha? 😎).</p>
+
+<p>OK, Let's see what we can do about this.</p>
+
+<h2>
+  <a name="7-configure-tinymce-editor" href="#7-configure-tinymce-editor">
+  </a>
+  7. Configure TinyMCE Editor:
+</h2>
+
+<p>Remember The file we marked? In that file, we need to configure TinyMCE to work for us as we expect it to do. we need to tell Tinymce <code>three</code> important things.</p>
+
+<p>From the project directory, open the file using your favorite editor:</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>nano plugins/wysiwyg/admin/src/components/Tinymce/index.js
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+<p>And do the following changes:</p>
+
+<ul>
+<li>outputFormat:</li>
+</ul>
+
+<p>To make full use of TinyMCE, we will tell it to deal with the input as an HTML and give the output as an HTML too,<br>
+Change: <code>outputFormat='text'</code> To: <code>outputFormat='html'</code></p>
+
+<ul>
+<li>selector:</li>
+</ul>
+
+<p>inside <code>init={{}}</code> add: <code>selector: 'textarea',</code><br>
+this is to tell Strapi that we are using <code>&lt;textarea>&lt;/textarea></code> tags for input.</p>
+
+<ul>
+<li>plugins & toolbar:</li>
+</ul>
+
+<p>This is where all the fun is. again, inside <code>init={{}}</code> and after the previously added <code>selector</code>, add two things:</p>
+
+<ul>
+<li>
+<code>plugins: '',</code> Here we will add all the features and functionalities that we want Tinymce to have.</li>
+<li>
+<code>toolbar: '',</code> It's also for adding features, but those who are added here will appear directly in the top toolbar of Tinymce, while the ones we added earlier will appear in a drop-down menu.</li>
+</ul>
+
+<p><strong>Note:</strong> Add all the plugins you want between the single quotes <code>' HERE '</code> and separate them with single spaces, <a href="https://www.tiny.cloud/docs/plugins/opensource/">A full list can be found here</a>, Remember not to add any plugin that allows users to upload the media directly to the editor.</p>
+
+<p>When you are done picking from the Tinymce plugins, the final version of the file will look something like this:</p>
+
+<p><code>#PATH: &lt;your-project-name>/plugins/wysiwyg/admin/src/components/Tinymce/index.js</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    import React from "react";
+    import PropTypes from "prop-types";
+    import { Editor } from "@tinymce/tinymce-react";
+    const TinyEditor = ({ onChange, name, value }) => {
+      return (
+        &lt;Editor
+          apiKey="API KEY"
+          value={value}
+          tagName={name}
+          onEditorChange={(editorContent) => {
+            onChange({ target: { name, value: editorContent } });
+          }}
+          outputFormat='html'
+          init={{
+            selector: 'textarea',
+            plugins: 'fullscreen insertdatetime .... MORE PLUGINS',
+            toolbar: 'code numlist bullist .... MORE PLUGINS',
+          }}
+        />
+      );
+    };
+
+    TinyEditor.propTypes = {
+      onChange: PropTypes.func.isRequired,
+      name: PropTypes.string.isRequired,
+      value: PropTypes.string,
+    };
+    export default TinyEditor;
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Because Strapi is still running, we can add some plugins and try it out, then add some more and so on… and when we are all set and ready to see it in action, we can now stop Strapi and start it fresh again. Press <code>Ctrl+C</code> or <code>Command+C</code> to stop Strapi.</p>
+
+<p>Now Let’s run it <strong>without</strong> <code>--watch-admin</code>, but after we build it clean:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    yarn build --clean
+    yarn develop
+    #OR
+    npm run build --clean
+    npm run develop
+    #OR
+    strapi build --clean
+    strapi develop
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>After running the commands, a new browser tab should open. If it didn't, head to <a href="http://localhost:1337/admin">localhost:1337/admin</a>.</p>
+
+<p>Now go back to our <code>Tinymce Test</code> and give it another try, everything should be working fine 😆.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--TmyjtFRG--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_DCAC6C53F6A72686D2CA44F4F549291691E5CDBE57A7B59659D85386611A2937_1626204253478_tinymce-is-working.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--TmyjtFRG--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_DCAC6C53F6A72686D2CA44F4F549291691E5CDBE57A7B59659D85386611A2937_1626204253478_tinymce-is-working.png" alt="Observe Tinymce Is Working" loading="lazy"></a></p>
+
+<h2>
+  <a name="8-final-words" href="#8-final-words">
+  </a>
+  8. Final Words:
+</h2>
+
+<p><strong>You did it</strong>! Congratulations 🥳🥳 </p>
+
+<p>Now we have a special Strapi field that is using TinyMCE as its editor. This will open the creativity doors for your users 😁, <strong>but</strong> remember <strong>“With Great Power Comes Greater Responsibility”.</strong></p>
+
+<p>We have talked about this earlier, but let’s <strong><em>emphasize</em></strong> it even more. It’s important to spend some time making sure that you only get the plugins that you need from TinyMCE. You should also know that even if you disabled some plugins from the editor, users will still be able to copy-paste some “Formatted Text” from other places (Formatted text is a cooler name for “text with Style appended to it (CSS and possibly JavaScript in our case)”). That means even if you think your users are trustworthy, their innocence might open the door for nightmares, <a href="https://owasp.org/www-community/attacks/xss/">XSS</a> to name one.</p>
+
+<p>But hey! that shouldn’t stop you from using TinyMCE. In fact, they claim to be “The world's #1 JavaScript library for rich text editing”, and indeed they have millions of users. So go ahead! Enjoy the Intelligence and Power of Strapi combined with the Flexibility of TinyMCE …  just be careful, OK? 😊 </p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/shadaw11/how-to-replace-strapi-s-default-wysiwyg-editor-with-tinymce-editor-570k" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(e,n,t,i){return t.type_of="article",t.id=766483,t.title="How to Replace Strapi's Default WYSIWYG Editor with TinyMCE Editor",t.description="In this guide, you will learn how to replace the default WYSIWYG editor (Draftjs) in Strapi with the...",t.readable_publish_date="Jul 20 '21",t.slug="how-to-replace-strapi-s-default-wysiwyg-editor-with-tinymce-editor-570k",t.path="/strapi/how-to-replace-strapi-s-default-wysiwyg-editor-with-tinymce-editor-570k",t.url="https://dev.to/strapi/how-to-replace-strapi-s-default-wysiwyg-editor-with-tinymce-editor-570k",t.comments_count=1,t.public_reactions_count=5,t.collection_id=e,t.published_timestamp=n,t.positive_reactions_count=5,t.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--ytxzrWrk--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4c88h2tsruet7hy5ap4l.jpg",t.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--K827TV3g--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4c88h2tsruet7hy5ap4l.jpg",t.canonical_url="https://strapi.io/blog/postgre-sql-and-strapi-setup?utm_source=devto&utm_medium=post",t.created_at=n,t.edited_at="2021-07-20T11:46:17Z",t.crossposted_at=e,t.published_at=n,t.last_comment_at="2021-07-24T15:59:55Z",t.reading_time_minutes=10,t.tag_list="editor, wysiwyg, javascript, cms",t.tags=["editor","wysiwyg","javascript","cms"],t.body_html='<p>In this guide, you will learn how to replace the default WYSIWYG editor (Draftjs) in Strapi with the TinyMCE editor.</p>\n\n<h1>\n  <a name="introduction" href="#introduction">\n  </a>\n  Introduction\n</h1>\n\n<p>This tutorial is heavily based on <a href="https://strapi.io/documentation/developer-docs/latest/guides/registering-a-field-in-admin.html#setup">this guide</a> from the Strapi documentation. The idea here is to create a new field that will be modified to use TinyMCE as its editor, but before we start, there are a few things that we should know:</p>\n\n<ul>\n<li>Tinymce is <strong>NOT</strong> a Markdown editor, it\'s an HTML editor.</li>\n</ul>\n\n<p>This means that the value taken from the field could contain HTML tags like: <code>&lt;p&gt;Text&lt;/p&gt;</code>, <code>&lt;img src="..." /&gt;</code> and even <code>&lt;table&gt;...&lt;/table&gt;</code>. Therefore you should be aware of the potential <a href="https://www.tiny.cloud/docs-3x/extras/TinyMCE3x@Security/">security issues</a> and how to overcome them.</p>\n\n<ul>\n<li><p>For TinyMCE to work, you will need to obtain an API Key by creating an account at <a href="https://www.tiny.cloud/auth/signup/">Tinymce</a> (the core editor is free 😍 )</p></li>\n<li><p>If you are new to Strapi, make sure to take a look at this <a href="https://strapi.io/documentation/developer-docs/latest/getting-started/quick-start.html">Quick Start Guide</a>.</p></li>\n</ul>\n\n<p>Now that we are ready, let\'s get our hands dirty.</p>\n\n<h1>\n  <a name="setup" href="#setup">\n  </a>\n  Setup\n</h1>\n\n<h2>\n  <a name="1-create-a-new-project" href="#1-create-a-new-project">\n  </a>\n  1. Create a new project:\n</h2>\n\n<p>First, we will create a new project, I will call it <code>my-app</code> you can call it whatever you like.<br>\nThe <code>--quickstart</code> option will tell Strapi to create a basic project with default configurations and without templates, this is just to make the process easier and to avoid any complications.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    yarn create strapi-app my-app --quickstart\n    #or\n    npx create-strapi-app my-app --quickstart\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>After running the command, a new browser tab will open for you to create a new administrator account. If it didn\'t, head to <a href="http://localhost:1337/admin">http://localhost:1337/admin</a> and fill in all the necessary information.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--nin7c2n9--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/register-admin-acount.png%3Fraw%3Dtrue" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--nin7c2n9--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/register-admin-acount.png%3Fraw%3Dtrue" alt="Register Adminstration Account" loading="lazy"></a></p>\n\n<h2>\n  <a name="2-generate-a-plugin" href="#2-generate-a-plugin">\n  </a>\n  2. Generate a plugin:\n</h2>\n\n<p>Now we want to generate a new <a href="https://strapi.io/documentation/developer-docs/latest/development/plugin-customization.html">Strapi plugin</a>, but let\'s first stop Strapi by pressing <code>Ctrl+C</code> or <code>Command+C</code> and <code>cd</code> into the project directory.<br>\nMake sure to replace "my-app" with your project name</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>cd my-app \n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n<p>We will call our plugin <code>wysiwyg</code> so we should run:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    yarn strapi generate:plugin wysiwyg\n    #or\n    npm run strapi generate:plugin wysiwyg\n    #or\n    strapi generate:plugin wysiwyg\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="3-install-the-needed-dependencies" href="#3-install-the-needed-dependencies">\n  </a>\n  3. Install the needed dependencies:\n</h2>\n\n<p>To be able to use TinyMCE, we will need to install its library, and because Strapi is using React, we will install the TinyMCE library for React <code>@tinymce/tinymce-react</code>.<br>\n<strong>But first,</strong> let\'s <code>cd</code> into the newly created plugin and only then install it there:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    cd plugins/wysiwyg\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>And then,<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    yarn add @tinymce/tinymce-react\n    #or\n    npm install @tinymce/tinymce-react\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="4-create-the-plugin" href="#4-create-the-plugin">\n  </a>\n  4. Create the plugin:\n</h2>\n\n<p>In step 2, we generated the necessary files for any plugin. Now we need to make it ours by creating a few files to tell Strapi what to do with this plugin. So first, we will create the necessary directories and files (React Components), then we will write into them.</p>\n\n<p>To create the directories and files (make sure you are inside the plugin directory (<code>.../&lt;your app name&gt;/plugins/wysiwyg</code>):<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    cd admin/src/\n\n    #The following will create .../MediaLib/index.js\n    mkdir -p components/MediaLib/; touch components/MediaLib/index.js\n\n    #The following will create .../Wysiwyg/index.js\n    mkdir -p components/Wysiwyg/; touch components/Wysiwyg/index.js\n\n    #The following will create .../Tinymce/index.js\n    mkdir -p components/Tinymce/; touch components/Tinymce/index.js\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="medialibindexjs" href="#medialibindexjs">\n  </a>\n  MediaLib/index.js\n</h2>\n\n<p>This file will handle the insertion of media i.e. insert media (images, video...etc) to TinyMCE editor.</p>\n\n<p>It\'s important to notice here that we are using Strapi Media Library to handle the media instead of letting Tinymce handle it, and that\'s perfect because we don\'t want to let the user (The person who is using the Editor insert media from somewhere else, so make sure <strong>NOT</strong> to allow such insertion in Tinymce settings (More on that later).</p>\n\n<p>Now using your favorite editor (I am using <code>nano</code>), open the file:</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>nano ./components/MediaLib/index.js\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n<p>And paste the following code then save:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    import React, { useEffect, useState } from "react";\n    import { useStrapi, prefixFileUrlWithBackendUrl } from "strapi-helper-plugin";\n    import PropTypes from "prop-types";\n    const MediaLib = ({ isOpen, onChange, onToggle }) =&gt; {\n      const {\n        strapi: {\n          componentApi: { getComponent },\n        },\n      } = useStrapi();\n      const [data, setData] = useState(null);\n      const [isDisplayed, setIsDisplayed] = useState(false);\n      const Component = getComponent("media-library").Component;\n      const handleInputChange = (data) =&gt; {\n        if (data) {\n          const { url } = data;\n          setData({ ...data, url: prefixFileUrlWithBackendUrl(url) });\n        }\n      };\n      const handleClosed = () =&gt; {\n        if (data) {\n          onChange(data);\n        }\n        setData(null);\n        setIsDisplayed(false);\n      };\n      useEffect(() =&gt; {\n        if (isOpen) {\n          setIsDisplayed(true);\n        }\n      }, [isOpen]);\n      if (Component &amp;&amp; isDisplayed) {\n        return (\n          &lt;Component\n            allowedTypes={["images", "videos", "files"]}\n            isOpen={isOpen}\n            multiple={false}\n            noNavigation\n            onClosed={handleClosed}\n            onInputMediaChange={handleInputChange}\n            onToggle={onToggle}\n          /&gt;\n        );\n      }\n      return null;\n    };\n    MediaLib.defaultProps = {\n      isOpen: false,\n      onChange: () =&gt; {},\n      onToggle: () =&gt; {},\n    };\n    MediaLib.propTypes = {\n      isOpen: PropTypes.bool,\n      onChange: PropTypes.func,\n      onToggle: PropTypes.func,\n    };\n    export default MediaLib;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="wysiwygindexjs" href="#wysiwygindexjs">\n  </a>\n  Wysiwyg/index.js\n</h2>\n\n<p>This file will be the wrapper of Tinymce editor, it will display the labels and handle the error messages as well as inserting media. An important thing to notice here is that this code is only handling images, further steps are required to handle videos and other media.</p>\n\n<p>Again, using your favorite editor, open the file:</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>nano ./components/Wysiwyg/index.js\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n<p>And paste the following code:<br>\n<strong>Note:</strong> If you get <code>file not found</code> error around the <code>import TinyEditor...</code> Ignore it for now as we will create it in the next step.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    import React, { useState } from "react";\n    import PropTypes from "prop-types";\n    import { isEmpty } from "lodash";\n    import { Button } from "@buffetjs/core";\n    import { Label, InputDescription, InputErrors } from "strapi-helper-plugin";\n    import MediaLib from "../MediaLib";\n    import TinyEditor from "../Tinymce";\n    const Wysiwyg = ({\n      inputDescription,\n      errors,\n      label,\n      name,\n      noErrorsDescription,\n      onChange,\n      value,\n    }) =&gt; {\n      const [isOpen, setIsOpen] = useState(false);\n      let spacer = !isEmpty(inputDescription) ? (\n        &lt;div style={{ height: ".4rem" }} /&gt;\n      ) : (\n        &lt;div /&gt;\n      );\n      if (!noErrorsDescription &amp;&amp; !isEmpty(errors)) {\n        spacer = &lt;div /&gt;;\n      }\n      const handleChange = (data) =&gt; {\n        if (data.mime.includes("image")) {\n          const imgTag = `&lt;p&gt;&lt;img src="${data.url}" caption="${data.caption}" alt="${data.alternativeText}"&gt;&lt;/img&gt;&lt;/p&gt;`;\n          const newValue = value ? `${value}${imgTag}` : imgTag;\n          onChange({ target: { name, value: newValue } });\n        }\n        // Handle videos and other type of files by adding some code\n      };\n      const handleToggle = () =&gt; setIsOpen((prev) =&gt; !prev);\n      return (\n        &lt;div\n          style={{\n            marginBottom: "1.6rem",\n            fontSize: "1.3rem",\n            fontFamily: "Lato",\n          }}\n        &gt;\n          &lt;Label htmlFor={name} message={label} style={{ marginBottom: 10 }} /&gt;\n          &lt;div style={{ position: "absolute", right: "15px", top: "-10px" }}&gt;\n            &lt;Button color="primary" onClick={handleToggle}&gt;\n              MediaLib\n            &lt;/Button&gt;\n          &lt;/div&gt;\n          &lt;TinyEditor name={name} onChange={onChange} value={value} /&gt;\n          &lt;InputDescription\n            message={inputDescription}\n            style={!isEmpty(inputDescription) ? { marginTop: "1.4rem" } : {}}\n          /&gt;\n          &lt;InputErrors\n            errors={(!noErrorsDescription &amp;&amp; errors) || []}\n            name={name}\n          /&gt;\n          {spacer}\n          &lt;MediaLib\n            onToggle={handleToggle}\n            isOpen={isOpen}\n            onChange={handleChange}\n          /&gt;\n        &lt;/div&gt;\n      );\n    };\n    Wysiwyg.defaultProps = {\n      errors: [],\n      inputDescription: null,\n      label: "",\n      noErrorsDescription: false,\n      value: "",\n    };\n    Wysiwyg.propTypes = {\n      errors: PropTypes.array,\n      inputDescription: PropTypes.oneOfType([\n        PropTypes.string,\n        PropTypes.func,\n        PropTypes.shape({\n          id: PropTypes.string,\n          params: PropTypes.object,\n        }),\n      ]),\n      label: PropTypes.oneOfType([\n        PropTypes.string,\n        PropTypes.func,\n        PropTypes.shape({\n          id: PropTypes.string,\n          params: PropTypes.object,\n        }),\n      ]),\n      name: PropTypes.string.isRequired,\n      noErrorsDescription: PropTypes.bool,\n      onChange: PropTypes.func.isRequired,\n      value: PropTypes.string,\n    };\n    export default Wysiwyg;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="tinymceindexjs" href="#tinymceindexjs">\n  </a>\n  Tinymce/index.js\n</h2>\n\n<p>This is where all the work is done, it\'s the file that will implement the editor<br>\n<strong>Note:</strong> mark this file as we will visit it again to configure TinyMCE.</p>\n\n<p>One more time, using your favorite editor, open the file:</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>nano ./components/Tinymce/index.js\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n<p>And paste the following code:</p>\n\n<p><strong>Note:</strong> Make sure to replace <code>API_KEY</code> with the actual key that you obtained from Tinymce.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    import React from "react";\n    import PropTypes from "prop-types";\n    import { Editor } from "@tinymce/tinymce-react";\n    const TinyEditor = ({ onChange, name, value }) =&gt; {\n      return (\n        &lt;Editor\n          apiKey="API KEY"\n          value={value}\n          tagName={name}\n          onEditorChange={(editorContent) =&gt; {\n            onChange({ target: { name, value: editorContent } });\n          }}\n          outputFormat="text"\n          init={{}}\n        /&gt;\n      );\n    };\n    TinyEditor.propTypes = {\n      onChange: PropTypes.func.isRequired,\n      name: PropTypes.string.isRequired,\n      value: PropTypes.string,\n    };\n    export default TinyEditor;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="5-register-the-field-and-the-plugin" href="#5-register-the-field-and-the-plugin">\n  </a>\n  5. Register the field and the plugin:\n</h2>\n\n<p>Our plugin is ready and waiting, but Strapi doesn\'t know about it yet! So we need to register it with Strapi and give it some information about it.</p>\n\n<p>To do so, we will edit one last file (The file is already there, we will just change the code inside it).</p>\n\n<p>Last time, using your favorite editor, open the file:</p>\n\n<p><strong>Note:</strong> Make sure you are still inside the plugin folder <code>.../&lt;your app name&gt;/plugins/wysiwyg</code></p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>nano index.js\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n<p>Delete the existing code and add the following:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    import pluginPkg from "../../package.json";\n    import pluginId from "./pluginId";\n    import Wysiwyg from "./components/Wysiwyg";\n    export default (strapi) =&gt; {\n      const pluginDescription =\n        pluginPkg.strapi.description || pluginPkg.description;\n      const icon = pluginPkg.strapi.icon;\n      const name = pluginPkg.strapi.name;\n      const plugin = {\n        blockerComponent: null,\n        blockerComponentProps: {},\n        description: pluginDescription,\n        icon,\n        id: pluginId,\n        injectedComponents: [],\n        isReady: true,\n        isRequired: pluginPkg.strapi.required || false,\n        mainComponent: null,\n        name,\n        preventComponentRendering: false,\n        trads: {},\n      };\n      strapi.registerField({ type: "wysiwyg", Component: Wysiwyg });\n      return strapi.registerPlugin(plugin);\n    };\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="6-run-strapi" href="#6-run-strapi">\n  </a>\n  6. Run Strapi:\n</h2>\n\n<p>That was boring, wasn\'t it? Now let\'s have fun and see some results! Let\'s run Strapi 😆 </p>\n\n<ul>\n<li>First, let\'s get back to the project folder:\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    cd ../../../../\n\n    # After running this command I will be at .../my-app\n    # Make sure you are in .../&lt;your-project-name&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<ul>\n<li>Re-build Strapi from scratch:\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    yarn build --clean\n    #or\n    npm run build --clean\n    #or\n    strapi build --clean\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<ul>\n<li>Finally, Start Strapi with the front-end development mode <code>--watch-admin</code>:\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    yarn develop --watch-admin\n    #or\n    npm run develop -- --watch-admin\n    #or\n    strapi develop --watch-admin\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p> </p>\n\n<p>When you run the last command, it will open a new tab in the browser (if it didn\'t, head to localhost:8000/admin and log in with the administrator account you created earlier.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--49QK9PzH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/login-page.png%3Fraw%3Dtrue" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--49QK9PzH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/login-page.png%3Fraw%3Dtrue" alt="Login Page" loading="lazy"></a></p>\n\n<p> </p>\n\n<p>From the menu on the left go to <code>Content-Types Builder</code> so we can create new content for testing.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--lHYDAyAB--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/goto-content-types-builder.png%3Fraw%3Dtrue" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--lHYDAyAB--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/goto-content-types-builder.png%3Fraw%3Dtrue" alt="Chose Content-Types From The Left Menu" loading="lazy"></a></p>\n\n<p> </p>\n\n<p>Choose: <code>Create new single type</code></p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--QonhjEZl--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/chose-create-new-single-type.png%3Fraw%3Dtrue" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--QonhjEZl--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/chose-create-new-single-type.png%3Fraw%3Dtrue" alt="Chose Create New Single Type" loading="lazy"></a></p>\n\n<p> </p>\n\n<p>Enter display name something like <code>Tinymce Test</code>.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--a_yRawi5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/enter-display-name-tinymce-test.png%3Fraw%3Dtrue" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--a_yRawi5--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/enter-display-name-tinymce-test.png%3Fraw%3Dtrue" alt="Name it Tinymce Test" loading="lazy"></a></p>\n\n<p> </p>\n\n<p>Chose Rich Text.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--PX_CP-Lq--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/chose-rich-text.png%3Fraw%3Dtrue" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--PX_CP-Lq--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/chose-rich-text.png%3Fraw%3Dtrue" alt="Chose Rich Text" loading="lazy"></a></p>\n\n<p> </p>\n\n<p>Give it a name like <code>Test</code> and hit <code>Finish</code>.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--82Qr7LCx--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/name-field-test-and-finish.png%3Fraw%3Dtrue" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--82Qr7LCx--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/name-field-test-and-finish.png%3Fraw%3Dtrue" alt="Name it Test" loading="lazy"></a></p>\n\n<p> </p>\n\n<p>From the top right corner hit <code>Save</code>, and wait for the server to restart</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--3yA_LlM---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/click-save.png%3Fraw%3Dtrue" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--3yA_LlM---/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/click-save.png%3Fraw%3Dtrue" alt="Click Save" loading="lazy"></a></p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--esyx5PHO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/wait-for-server-restart.png%3Fraw%3Dtrue" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--esyx5PHO--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/wait-for-server-restart.png%3Fraw%3Dtrue" alt="Wait for server to restart" loading="lazy"></a></p>\n\n<p> </p>\n\n<p>OK, the moment of truth. In the left menu, you will find the newly created content <code>Tinymce Test</code>, press it to edit it. And hop!, there you go, Tinymce is working! Yaaay 😍.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--C0QfciGb--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_DCAC6C53F6A72686D2CA44F4F549291691E5CDBE57A7B59659D85386611A2937_1626204284137_tinymce-is-broken.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--C0QfciGb--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_DCAC6C53F6A72686D2CA44F4F549291691E5CDBE57A7B59659D85386611A2937_1626204284137_tinymce-is-broken.png" alt="Observe Tinymce Is Broken" loading="lazy"></a></p>\n\n<p>Hmm 😕 , something isn\'t quite right yet! You are probably not able to insert a new line or do pretty much anything useful!</p>\n\n<p>Don’t stop Strapi just yet! Since we started Strapi with <code>--</code><code>watch-admin</code> mode, we don’t need to stop it, and we will still be able to see the changes we will make do as we are doing them (Cool ha? 😎).</p>\n\n<p>OK, Let\'s see what we can do about this.</p>\n\n<h2>\n  <a name="7-configure-tinymce-editor" href="#7-configure-tinymce-editor">\n  </a>\n  7. Configure TinyMCE Editor:\n</h2>\n\n<p>Remember The file we marked? In that file, we need to configure TinyMCE to work for us as we expect it to do. we need to tell Tinymce <code>three</code> important things.</p>\n\n<p>From the project directory, open the file using your favorite editor:</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>nano plugins/wysiwyg/admin/src/components/Tinymce/index.js\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n<p>And do the following changes:</p>\n\n<ul>\n<li>outputFormat:</li>\n</ul>\n\n<p>To make full use of TinyMCE, we will tell it to deal with the input as an HTML and give the output as an HTML too,<br>\nChange: <code>outputFormat=\'text\'</code> To: <code>outputFormat=\'html\'</code></p>\n\n<ul>\n<li>selector:</li>\n</ul>\n\n<p>inside <code>init={{}}</code> add: <code>selector: \'textarea\',</code><br>\nthis is to tell Strapi that we are using <code>&lt;textarea&gt;&lt;/textarea&gt;</code> tags for input.</p>\n\n<ul>\n<li>plugins &amp; toolbar:</li>\n</ul>\n\n<p>This is where all the fun is. again, inside <code>init={{}}</code> and after the previously added <code>selector</code>, add two things:</p>\n\n<ul>\n<li>\n<code>plugins: \'\',</code> Here we will add all the features and functionalities that we want Tinymce to have.</li>\n<li>\n<code>toolbar: \'\',</code> It\'s also for adding features, but those who are added here will appear directly in the top toolbar of Tinymce, while the ones we added earlier will appear in a drop-down menu.</li>\n</ul>\n\n<p><strong>Note:</strong> Add all the plugins you want between the single quotes <code>\' HERE \'</code> and separate them with single spaces, <a href="https://www.tiny.cloud/docs/plugins/opensource/">A full list can be found here</a>, Remember not to add any plugin that allows users to upload the media directly to the editor.</p>\n\n<p>When you are done picking from the Tinymce plugins, the final version of the file will look something like this:</p>\n\n<p><code>#PATH: &lt;your-project-name&gt;/plugins/wysiwyg/admin/src/components/Tinymce/index.js</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    import React from "react";\n    import PropTypes from "prop-types";\n    import { Editor } from "@tinymce/tinymce-react";\n    const TinyEditor = ({ onChange, name, value }) =&gt; {\n      return (\n        &lt;Editor\n          apiKey="API KEY"\n          value={value}\n          tagName={name}\n          onEditorChange={(editorContent) =&gt; {\n            onChange({ target: { name, value: editorContent } });\n          }}\n          outputFormat=\'html\'\n          init={{\n            selector: \'textarea\',\n            plugins: \'fullscreen insertdatetime .... MORE PLUGINS\',\n            toolbar: \'code numlist bullist .... MORE PLUGINS\',\n          }}\n        /&gt;\n      );\n    };\n\n    TinyEditor.propTypes = {\n      onChange: PropTypes.func.isRequired,\n      name: PropTypes.string.isRequired,\n      value: PropTypes.string,\n    };\n    export default TinyEditor;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Because Strapi is still running, we can add some plugins and try it out, then add some more and so on… and when we are all set and ready to see it in action, we can now stop Strapi and start it fresh again. Press <code>Ctrl+C</code> or <code>Command+C</code> to stop Strapi.</p>\n\n<p>Now Let’s run it <strong>without</strong> <code>--watch-admin</code>, but after we build it clean:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    yarn build --clean\n    yarn develop\n    #OR\n    npm run build --clean\n    npm run develop\n    #OR\n    strapi build --clean\n    strapi develop\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>After running the commands, a new browser tab should open. If it didn\'t, head to <a href="http://localhost:1337/admin">localhost:1337/admin</a>.</p>\n\n<p>Now go back to our <code>Tinymce Test</code> and give it another try, everything should be working fine 😆.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--TmyjtFRG--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_DCAC6C53F6A72686D2CA44F4F549291691E5CDBE57A7B59659D85386611A2937_1626204253478_tinymce-is-working.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--TmyjtFRG--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_DCAC6C53F6A72686D2CA44F4F549291691E5CDBE57A7B59659D85386611A2937_1626204253478_tinymce-is-working.png" alt="Observe Tinymce Is Working" loading="lazy"></a></p>\n\n<h2>\n  <a name="8-final-words" href="#8-final-words">\n  </a>\n  8. Final Words:\n</h2>\n\n<p><strong>You did it</strong>! Congratulations 🥳🥳 </p>\n\n<p>Now we have a special Strapi field that is using TinyMCE as its editor. This will open the creativity doors for your users 😁, <strong>but</strong> remember <strong>“With Great Power Comes Greater Responsibility”.</strong></p>\n\n<p>We have talked about this earlier, but let’s <strong><em>emphasize</em></strong> it even more. It’s important to spend some time making sure that you only get the plugins that you need from TinyMCE. You should also know that even if you disabled some plugins from the editor, users will still be able to copy-paste some “Formatted Text” from other places (Formatted text is a cooler name for “text with Style appended to it (CSS and possibly JavaScript in our case)”). That means even if you think your users are trustworthy, their innocence might open the door for nightmares, <a href="https://owasp.org/www-community/attacks/xss/">XSS</a> to name one.</p>\n\n<p>But hey! that shouldn’t stop you from using TinyMCE. In fact, they claim to be “The world\'s #1 JavaScript library for rich text editing”, and indeed they have millions of users. So go ahead! Enjoy the Intelligence and Power of Strapi combined with the Flexibility of TinyMCE …  just be careful, OK? 😊 </p>\n\n',t.body_markdown='In this guide, you will learn how to replace the default WYSIWYG editor (Draftjs) in Strapi with the TinyMCE editor.\n\n# Introduction\n\nThis tutorial is heavily based on [this guide](https://strapi.io/documentation/developer-docs/latest/guides/registering-a-field-in-admin.html#setup) from the Strapi documentation. The idea here is to create a new field that will be modified to use TinyMCE as its editor, but before we start, there are a few things that we should know:\n\n\n- Tinymce is **NOT** a Markdown editor, it\'s an HTML editor.\n\nThis means that the value taken from the field could contain HTML tags like: `<p>Text</p>`, `<img src="..." />` and even `<table>...</table>`. Therefore you should be aware of the potential [security issues](https://www.tiny.cloud/docs-3x/extras/TinyMCE3x@Security/) and how to overcome them.\n\n\n- For TinyMCE to work, you will need to obtain an API Key by creating an account at [Tinymce](https://www.tiny.cloud/auth/signup/) (the core editor is free 😍 )\n\n\n- If you are new to Strapi, make sure to take a look at this [Quick Start Guide](https://strapi.io/documentation/developer-docs/latest/getting-started/quick-start.html).\n\nNow that we are ready, let\'s get our hands dirty.\n\n# Setup\n## 1. Create a new project:\n\nFirst, we will create a new project, I will call it `my-app` you can call it whatever you like.\nThe `--quickstart` option will tell Strapi to create a basic project with default configurations and without templates, this is just to make the process easier and to avoid any complications.\n\n\n```\n    yarn create strapi-app my-app --quickstart\n    #or\n    npx create-strapi-app my-app --quickstart\n```\n\nAfter running the command, a new browser tab will open for you to create a new administrator account. If it didn\'t, head to http://localhost:1337/admin and fill in all the necessary information.\n\n![Register Adminstration Account](https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/register-admin-acount.png?raw=true)\n\n## 2. Generate a plugin:\n\nNow we want to generate a new [Strapi plugin](https://strapi.io/documentation/developer-docs/latest/development/plugin-customization.html), but let\'s first stop Strapi by pressing `Ctrl+C` or `Command+C` and `cd` into the project directory.\nMake sure to replace "my-app" with your project name\n\n    cd my-app \n\nWe will call our plugin `wysiwyg` so we should run:\n\n\n```\n    yarn strapi generate:plugin wysiwyg\n    #or\n    npm run strapi generate:plugin wysiwyg\n    #or\n    strapi generate:plugin wysiwyg\n```\n\n## 3. Install the needed dependencies:\n\nTo be able to use TinyMCE, we will need to install its library, and because Strapi is using React, we will install the TinyMCE library for React `@tinymce/tinymce-react`.\n**But first,** let\'s `cd` into the newly created plugin and only then install it there:\n\n```\n    cd plugins/wysiwyg\n```\n\nAnd then,\n\n```\n    yarn add @tinymce/tinymce-react\n    #or\n    npm install @tinymce/tinymce-react\n```\n\n## 4. Create the plugin:\n\nIn step 2, we generated the necessary files for any plugin. Now we need to make it ours by creating a few files to tell Strapi what to do with this plugin. So first, we will create the necessary directories and files (React Components), then we will write into them.\n\nTo create the directories and files (make sure you are inside the plugin directory (`.../<your app name>/plugins/wysiwyg`):\n\n\n```\n    cd admin/src/\n    \n    #The following will create .../MediaLib/index.js\n    mkdir -p components/MediaLib/; touch components/MediaLib/index.js\n    \n    #The following will create .../Wysiwyg/index.js\n    mkdir -p components/Wysiwyg/; touch components/Wysiwyg/index.js\n    \n    #The following will create .../Tinymce/index.js\n    mkdir -p components/Tinymce/; touch components/Tinymce/index.js\n```\n\n\n## MediaLib/index.js\n\nThis file will handle the insertion of media i.e. insert media (images, video...etc) to TinyMCE editor.\n\nIt\'s important to notice here that we are using Strapi Media Library to handle the media instead of letting Tinymce handle it, and that\'s perfect because we don\'t want to let the user (The person who is using the Editor insert media from somewhere else, so make sure **NOT** to allow such insertion in Tinymce settings (More on that later).\n\nNow using your favorite editor (I am using `nano`), open the file:\n\n\n    nano ./components/MediaLib/index.js\n\nAnd paste the following code then save:\n\n```\n    import React, { useEffect, useState } from "react";\n    import { useStrapi, prefixFileUrlWithBackendUrl } from "strapi-helper-plugin";\n    import PropTypes from "prop-types";\n    const MediaLib = ({ isOpen, onChange, onToggle }) => {\n      const {\n        strapi: {\n          componentApi: { getComponent },\n        },\n      } = useStrapi();\n      const [data, setData] = useState(null);\n      const [isDisplayed, setIsDisplayed] = useState(false);\n      const Component = getComponent("media-library").Component;\n      const handleInputChange = (data) => {\n        if (data) {\n          const { url } = data;\n          setData({ ...data, url: prefixFileUrlWithBackendUrl(url) });\n        }\n      };\n      const handleClosed = () => {\n        if (data) {\n          onChange(data);\n        }\n        setData(null);\n        setIsDisplayed(false);\n      };\n      useEffect(() => {\n        if (isOpen) {\n          setIsDisplayed(true);\n        }\n      }, [isOpen]);\n      if (Component && isDisplayed) {\n        return (\n          <Component\n            allowedTypes={["images", "videos", "files"]}\n            isOpen={isOpen}\n            multiple={false}\n            noNavigation\n            onClosed={handleClosed}\n            onInputMediaChange={handleInputChange}\n            onToggle={onToggle}\n          />\n        );\n      }\n      return null;\n    };\n    MediaLib.defaultProps = {\n      isOpen: false,\n      onChange: () => {},\n      onToggle: () => {},\n    };\n    MediaLib.propTypes = {\n      isOpen: PropTypes.bool,\n      onChange: PropTypes.func,\n      onToggle: PropTypes.func,\n    };\n    export default MediaLib;\n```\n\n\n## Wysiwyg/index.js\n\nThis file will be the wrapper of Tinymce editor, it will display the labels and handle the error messages as well as inserting media. An important thing to notice here is that this code is only handling images, further steps are required to handle videos and other media.\n\nAgain, using your favorite editor, open the file:\n\n    nano ./components/Wysiwyg/index.js\n\n\nAnd paste the following code:\n**Note:** If you get `file not found` error around the `import TinyEditor...` Ignore it for now as we will create it in the next step.\n\n\n```\n    import React, { useState } from "react";\n    import PropTypes from "prop-types";\n    import { isEmpty } from "lodash";\n    import { Button } from "@buffetjs/core";\n    import { Label, InputDescription, InputErrors } from "strapi-helper-plugin";\n    import MediaLib from "../MediaLib";\n    import TinyEditor from "../Tinymce";\n    const Wysiwyg = ({\n      inputDescription,\n      errors,\n      label,\n      name,\n      noErrorsDescription,\n      onChange,\n      value,\n    }) => {\n      const [isOpen, setIsOpen] = useState(false);\n      let spacer = !isEmpty(inputDescription) ? (\n        <div style={{ height: ".4rem" }} />\n      ) : (\n        <div />\n      );\n      if (!noErrorsDescription && !isEmpty(errors)) {\n        spacer = <div />;\n      }\n      const handleChange = (data) => {\n        if (data.mime.includes("image")) {\n          const imgTag = `<p><img src="${data.url}" caption="${data.caption}" alt="${data.alternativeText}"></img></p>`;\n          const newValue = value ? `${value}${imgTag}` : imgTag;\n          onChange({ target: { name, value: newValue } });\n        }\n        // Handle videos and other type of files by adding some code\n      };\n      const handleToggle = () => setIsOpen((prev) => !prev);\n      return (\n        <div\n          style={{\n            marginBottom: "1.6rem",\n            fontSize: "1.3rem",\n            fontFamily: "Lato",\n          }}\n        >\n          <Label htmlFor={name} message={label} style={{ marginBottom: 10 }} />\n          <div style={{ position: "absolute", right: "15px", top: "-10px" }}>\n            <Button color="primary" onClick={handleToggle}>\n              MediaLib\n            </Button>\n          </div>\n          <TinyEditor name={name} onChange={onChange} value={value} />\n          <InputDescription\n            message={inputDescription}\n            style={!isEmpty(inputDescription) ? { marginTop: "1.4rem" } : {}}\n          />\n          <InputErrors\n            errors={(!noErrorsDescription && errors) || []}\n            name={name}\n          />\n          {spacer}\n          <MediaLib\n            onToggle={handleToggle}\n            isOpen={isOpen}\n            onChange={handleChange}\n          />\n        </div>\n      );\n    };\n    Wysiwyg.defaultProps = {\n      errors: [],\n      inputDescription: null,\n      label: "",\n      noErrorsDescription: false,\n      value: "",\n    };\n    Wysiwyg.propTypes = {\n      errors: PropTypes.array,\n      inputDescription: PropTypes.oneOfType([\n        PropTypes.string,\n        PropTypes.func,\n        PropTypes.shape({\n          id: PropTypes.string,\n          params: PropTypes.object,\n        }),\n      ]),\n      label: PropTypes.oneOfType([\n        PropTypes.string,\n        PropTypes.func,\n        PropTypes.shape({\n          id: PropTypes.string,\n          params: PropTypes.object,\n        }),\n      ]),\n      name: PropTypes.string.isRequired,\n      noErrorsDescription: PropTypes.bool,\n      onChange: PropTypes.func.isRequired,\n      value: PropTypes.string,\n    };\n    export default Wysiwyg;\n```\n\n\n## Tinymce/index.js\n\nThis is where all the work is done, it\'s the file that will implement the editor\n**Note:** mark this file as we will visit it again to configure TinyMCE.\n\nOne more time, using your favorite editor, open the file:\n\n\n    nano ./components/Tinymce/index.js\n\nAnd paste the following code:\n\n**Note:** Make sure to replace `API_KEY` with the actual key that you obtained from Tinymce.\n\n\n```\n    import React from "react";\n    import PropTypes from "prop-types";\n    import { Editor } from "@tinymce/tinymce-react";\n    const TinyEditor = ({ onChange, name, value }) => {\n      return (\n        <Editor\n          apiKey="API KEY"\n          value={value}\n          tagName={name}\n          onEditorChange={(editorContent) => {\n            onChange({ target: { name, value: editorContent } });\n          }}\n          outputFormat="text"\n          init={{}}\n        />\n      );\n    };\n    TinyEditor.propTypes = {\n      onChange: PropTypes.func.isRequired,\n      name: PropTypes.string.isRequired,\n      value: PropTypes.string,\n    };\n    export default TinyEditor;\n```\n\n\n## 5. Register the field and the plugin:\n\nOur plugin is ready and waiting, but Strapi doesn\'t know about it yet! So we need to register it with Strapi and give it some information about it.\n\nTo do so, we will edit one last file (The file is already there, we will just change the code inside it).\n\nLast time, using your favorite editor, open the file:\n\n**Note:** Make sure you are still inside the plugin folder `.../<your app name>/plugins/wysiwyg`\n\n\n    nano index.js\n\nDelete the existing code and add the following:\n\n```\n    import pluginPkg from "../../package.json";\n    import pluginId from "./pluginId";\n    import Wysiwyg from "./components/Wysiwyg";\n    export default (strapi) => {\n      const pluginDescription =\n        pluginPkg.strapi.description || pluginPkg.description;\n      const icon = pluginPkg.strapi.icon;\n      const name = pluginPkg.strapi.name;\n      const plugin = {\n        blockerComponent: null,\n        blockerComponentProps: {},\n        description: pluginDescription,\n        icon,\n        id: pluginId,\n        injectedComponents: [],\n        isReady: true,\n        isRequired: pluginPkg.strapi.required || false,\n        mainComponent: null,\n        name,\n        preventComponentRendering: false,\n        trads: {},\n      };\n      strapi.registerField({ type: "wysiwyg", Component: Wysiwyg });\n      return strapi.registerPlugin(plugin);\n    };\n```\n\n\n## 6. Run Strapi:\n\nThat was boring, wasn\'t it? Now let\'s have fun and see some results! Let\'s run Strapi 😆 \n\n- First, let\'s get back to the project folder:\n\n\n```\n    cd ../../../../\n    \n    # After running this command I will be at .../my-app\n    # Make sure you are in .../<your-project-name>\n```\n\n\n- Re-build Strapi from scratch:\n\n\n```\n    yarn build --clean\n    #or\n    npm run build --clean\n    #or\n    strapi build --clean\n```\n\n\n- Finally, Start Strapi with the front-end development mode `--watch-admin`:\n\n```\n    yarn develop --watch-admin\n    #or\n    npm run develop -- --watch-admin\n    #or\n    strapi develop --watch-admin\n```\n\n&nbsp;\n\nWhen you run the last command, it will open a new tab in the browser (if it didn\'t, head to localhost:8000/admin and log in with the administrator account you created earlier.\n\n![Login Page](https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/login-page.png?raw=true)\n\n&nbsp;\n\n\nFrom the menu on the left go to `Content-Types Builder` so we can create new content for testing.\n\n![Chose Content-Types From The Left Menu](https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/goto-content-types-builder.png?raw=true)\n\n\n&nbsp;\n\nChoose: `Create new single type`\n\n![Chose Create New Single Type](https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/chose-create-new-single-type.png?raw=true)\n\n&nbsp;\n\nEnter display name something like `Tinymce Test`.\n\n![Name it Tinymce Test](https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/enter-display-name-tinymce-test.png?raw=true)\n\n&nbsp;\n\nChose Rich Text.\n\n![Chose Rich Text](https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/chose-rich-text.png?raw=true)\n\n&nbsp;\n\nGive it a name like `Test` and hit `Finish`.\n\n![Name it Test](https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/name-field-test-and-finish.png?raw=true)\n\n&nbsp;\n\nFrom the top right corner hit `Save`, and wait for the server to restart\n\n![Click Save](https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/click-save.png?raw=true)\n\n![Wait for server to restart](https://github.com/AmerAlahmar/AmerAlahmar.github.io/blob/main/strapi/images/wait-for-server-restart.png?raw=true)\n\n&nbsp;\n\nOK, the moment of truth. In the left menu, you will find the newly created content `Tinymce Test`, press it to edit it. And hop!, there you go, Tinymce is working! Yaaay 😍.\n\n\n![Observe Tinymce Is Broken](https://paper-attachments.dropbox.com/s_DCAC6C53F6A72686D2CA44F4F549291691E5CDBE57A7B59659D85386611A2937_1626204284137_tinymce-is-broken.png)\n\n\nHmm 😕 , something isn\'t quite right yet! You are probably not able to insert a new line or do pretty much anything useful!\n\nDon’t stop Strapi just yet! Since we started Strapi with `--``watch-admin` mode, we don’t need to stop it, and we will still be able to see the changes we will make do as we are doing them (Cool ha? 😎).\n\nOK, Let\'s see what we can do about this.\n\n\n## 7. Configure TinyMCE Editor:\n\nRemember The file we marked? In that file, we need to configure TinyMCE to work for us as we expect it to do. we need to tell Tinymce `three` important things.\n\nFrom the project directory, open the file using your favorite editor:\n\n\n    nano plugins/wysiwyg/admin/src/components/Tinymce/index.js\n\nAnd do the following changes:\n\n\n- outputFormat:\n\nTo make full use of TinyMCE, we will tell it to deal with the input as an HTML and give the output as an HTML too,\nChange: `outputFormat=\'text\'` To: `outputFormat=\'html\'`\n\n\n- selector:\n\ninside `init={{}}` add: `selector: \'textarea\',`\nthis is to tell Strapi that we are using `<textarea></textarea>` tags for input.\n\n\n- plugins & toolbar:\n\nThis is where all the fun is. again, inside `init={{}}` and after the previously added `selector`, add two things:\n\n- `plugins: \'\',` Here we will add all the features and functionalities that we want Tinymce to have.\n- `toolbar: \'\',` It\'s also for adding features, but those who are added here will appear directly in the top toolbar of Tinymce, while the ones we added earlier will appear in a drop-down menu.\n\n**Note:** Add all the plugins you want between the single quotes `\' HERE \'` and separate them with single spaces, [A full list can be found here](https://www.tiny.cloud/docs/plugins/opensource/), Remember not to add any plugin that allows users to upload the media directly to the editor.\n\nWhen you are done picking from the Tinymce plugins, the final version of the file will look something like this:\n\n`#PATH: <your-project-name>/plugins/wysiwyg/admin/src/components/Tinymce/index.js`\n\n\n```\n    import React from "react";\n    import PropTypes from "prop-types";\n    import { Editor } from "@tinymce/tinymce-react";\n    const TinyEditor = ({ onChange, name, value }) => {\n      return (\n        <Editor\n          apiKey="API KEY"\n          value={value}\n          tagName={name}\n          onEditorChange={(editorContent) => {\n            onChange({ target: { name, value: editorContent } });\n          }}\n          outputFormat=\'html\'\n          init={{\n            selector: \'textarea\',\n            plugins: \'fullscreen insertdatetime .... MORE PLUGINS\',\n            toolbar: \'code numlist bullist .... MORE PLUGINS\',\n          }}\n        />\n      );\n    };\n    \n    TinyEditor.propTypes = {\n      onChange: PropTypes.func.isRequired,\n      name: PropTypes.string.isRequired,\n      value: PropTypes.string,\n    };\n    export default TinyEditor;\n```\n\nBecause Strapi is still running, we can add some plugins and try it out, then add some more and so on… and when we are all set and ready to see it in action, we can now stop Strapi and start it fresh again. Press `Ctrl+C` or `Command+C` to stop Strapi.\n\nNow Let’s run it **without** `--watch-admin`, but after we build it clean:   \n\n```\n    yarn build --clean\n    yarn develop\n    #OR\n    npm run build --clean\n    npm run develop\n    #OR\n    strapi build --clean\n    strapi develop\n```\n\n\nAfter running the commands, a new browser tab should open. If it didn\'t, head to [localhost:1337/admin](http://localhost:1337/admin).\n\nNow go back to our `Tinymce Test` and give it another try, everything should be working fine 😆.\n\n\n![Observe Tinymce Is Working](https://paper-attachments.dropbox.com/s_DCAC6C53F6A72686D2CA44F4F549291691E5CDBE57A7B59659D85386611A2937_1626204253478_tinymce-is-working.png)\n\n## 8. Final Words:\n\n**You did it**! Congratulations 🥳🥳 \n\nNow we have a special Strapi field that is using TinyMCE as its editor. This will open the creativity doors for your users 😁, **but** remember **“With Great Power Comes Greater Responsibility”.**\n\nWe have talked about this earlier, but let’s ***emphasize*** it even more. It’s important to spend some time making sure that you only get the plugins that you need from TinyMCE. You should also know that even if you disabled some plugins from the editor, users will still be able to copy-paste some “Formatted Text” from other places (Formatted text is a cooler name for “text with Style appended to it (CSS and possibly JavaScript in our case)”). That means even if you think your users are trustworthy, their innocence might open the door for nightmares, [XSS](https://owasp.org/www-community/attacks/xss/) to name one.\n\nBut hey! that shouldn’t stop you from using TinyMCE. In fact, they claim to be “The world\'s #1 JavaScript library for rich text editing”, and indeed they have millions of users. So go ahead! Enjoy the Intelligence and Power of Strapi combined with the Flexibility of TinyMCE …  just be careful, OK? 😊 \n',t.user={name:"Shada ",username:"shadaw11",twitter_username:"ShadaWehbe",github_username:"ShadaW11",website_url:e,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--5iB_awIe--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/650629/3afeff75-552d-4dae-a239-732ae8558f0c.jpeg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--GbKWt7ow--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/650629/3afeff75-552d-4dae-a239-732ae8558f0c.jpeg"},t.organization={name:"Strapi",username:i,slug:i,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--W257cHqH--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/763/988af53b-5d7e-435a-98eb-dd4aff5299d2.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--Kk8EQZ5l--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/763/988af53b-5d7e-435a-98eb-dd4aff5299d2.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:t}},error:e,state:{currentArticle:t},serverRendered:!0,routePath:"/shadaw11/766483",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:e}}}}(null,"2021-07-20T11:41:28Z",{},"strapi")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

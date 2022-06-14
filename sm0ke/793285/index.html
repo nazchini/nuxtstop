@@ -1,0 +1,1033 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Flask React - From Zero to Full-Stack (with Samples)</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Flask React - From Zero to Full-Stack (with Samples)</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/react" class="tag" data-v-70afb46a>
+          #react
+        </a><a href="/nuxtstop/t/flask" class="tag" data-v-70afb46a>
+          #flask
+        </a><a href="/nuxtstop/t/webdev" class="tag" data-v-70afb46a>
+          #webdev
+        </a><a href="/nuxtstop/t/appseed" class="tag" data-v-70afb46a>
+          #appseed
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--dWCm_bvG--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ry7x7xhir0jyvk40qqfo.jpg" alt="Flask React - From Zero to Full-Stack (with Samples)" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            111
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            8
+          </span></div> <time data-v-70afb46a>Aug 16 '21</time></div></header> <div class="content" data-v-70afb46a><p>This article explains how to use <strong><a href="https://blog.appseed.us/flask-react-full-stack-seed-projects/">Flask and React</a></strong> to code scalable, production-ready projects. For newcomers, <strong>Flask</strong> is a popular Python Framework used to provide all backend features like authentication, database interface, and users management. In this architecture, <strong>React</strong> handles the UI and communicates with Flask decoupled from the backend using secure requests. To make this article more useful a few open-source projects will be mentioned available from download from Github under the MIT License.</p>
+
+<blockquote>
+<p><em>Thanks for reading!</em> - Content provided by <strong><a href="https://appseed.us/">App Generator</a></strong>.</p>
+</blockquote>
+
+
+<hr>
+
+<ul>
+<li>
+<strong>Section #1</strong> - The general view of the project</li>
+<li>
+<strong>Section #2</strong> - Requirements: environment, libraries, and tools</li>
+<li>
+<strong>Section #3</strong> - What is Flask</li>
+<li>
+<strong>Section #4</strong> - What is React</li>
+<li>
+<strong>Section #5</strong> - Set up Flask Backend</li>
+<li>
+<strong>Section #6</strong> - Test the Flask API using POSTMAN</li>
+<li>
+<strong>Section #7</strong> - Code React UI to communicate with Flask</li>
+<li>
+<strong>Section #8</strong> - Compile the samples (backend and frontend)</li>
+</ul>
+
+<p><strong>Note</strong>: All resources are available for download from Github. The React dashboards are configured to work with a simple Flask API Server.</p>
+
+<ul>
+<li>
+<a href="https://github.com/app-generator/api-server-flask">Flask API Server</a> - open-source project (MIT License)</li>
+<li>
+<a href="https://github.com/app-generator/react-node-js-datta-able">React Datta Able</a> - compatible React Dashboard</li>
+<li>
+<a href="https://github.com/app-generator/react-node-js-berry-dashboard">React Berry Dashboard</a> - compatible React Dashboard
+</li>
+</ul>
+
+
+<hr>
+
+<h2>
+  <a name="1-project-overview" href="#1-project-overview">
+  </a>
+  1# - Project Overview
+</h2>
+
+<p>Full-stack projects can be structured in many ways and patterns. I will mention only two (popular) patterns below:</p>
+
+<p><strong>Backend + SPA</strong> (single page application) - in this configuration Flask backend is built using the old-school MVC pattern where the files are served from the backend and the React app will provide the interaction with the users. This model, once very popular, was somehow abandoned because the technologies were mixed and sometimes hard to extend.</p>
+
+<p><strong>Two-Tier Architecture</strong> - this pattern separates the React UI from the Flask backend functionally and physically and builds a communication bridge via an API exposed by the server. This design has a few advantages over the previous solution:</p>
+
+<ul>
+<li>UI and the Backend can be developed and tested as separate entities</li>
+<li>Easier deployment.</li>
+<li>If required, the UI can use a simulated API backend.</li>
+</ul>
+
+<p>This article will focus on the 2nd pattern, the "two-tier" architecture where the Flask API is decoupled from the React UI. Here is the flow in a few sentences:</p>
+
+<ul>
+<li>
+<strong>Flask</strong> server starts and API is exposed</li>
+<li>
+<strong>React</strong> UI is loaded by the user browser</li>
+<li>
+<strong>React</strong> initiate the login, get the credentials provided by the user</li>
+<li>
+<strong>React</strong> send user credentials to the API server</li>
+<li>
+<strong>Flask</strong> API checks the credentials and generates a JWT Token</li>
+<li>
+<strong>React</strong> UI saves the user information and JET Token</li>
+<li>Access to the private zone is granted until the user triggers a logout.</li>
+</ul>
+
+
+<hr>
+
+<h2>
+  <a name="2-project-requirements" href="#2-project-requirements">
+  </a>
+  2# - Project Requirements
+</h2>
+
+<p>To have a successful build of our full-stack project a few tools, and libraries should be already installed and accessible in the terminal.</p>
+
+<ul>
+<li>
+<strong><a href="https://git-scm.com/">GIT</a></strong> - command-line versioning tool</li>
+<li>
+<strong><a href="https://www.python.org/downloads/">Python3</a></strong> - the language that powers Flask</li>
+<li>
+<strong><a href="https://nodejs.org/en/">Node JS</a></strong> - used to pull into our world the React magic</li>
+<li>
+<strong><a href="https://yarnpkg.com/">Yarn</a></strong> - used to install Node JS packages</li>
+<li>A modern code editor like <strong><a href="https://code.visualstudio.com/">VsCode</a></strong> or <strong><a href="https://atom.io/">Atom</a></strong>
+</li>
+<li>Ability to work in the terminal and write system commands</li>
+<li>
+<strong><a href="https://pypi.org/project/pip/">PIP</a></strong> (shipped by Python3) - used to install Python packages</li>
+</ul>
+
+
+<hr>
+
+<h2>
+  <a name="3-what-is-flask" href="#3-what-is-flask">
+  </a>
+  3# - <a href="https://docs.appseed.us/content/what-is/flask">What is Flask</a>
+</h2>
+
+<p>Flask is a popular Python Framework designed to a project quick and easy, with the ability to scale up to complex applications. Flask can be used to code from simple one-page sites to APIs and complex eCommerce solutions.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--6OLYj9KS--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/wpge6kue26i3ncf5nazu.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--6OLYj9KS--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/wpge6kue26i3ncf5nazu.png" alt="Flask - Open-source Python Framework." loading="lazy"></a></p>
+
+<p>Using Flask, the developer has the freedom to structure the codebase without constraints and also install only the libraries he really uses. The easiest way to install Flask is to use PIP, the official package manager shipped with Python.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>pip <span class="nb">install </span>Flask
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>During the setup, a basic set of core dependencies are also installed:</p>
+
+<ul>
+<li>
+<strong>Werkzeug</strong> implements WSGI, the standard Python interface between applications and servers.</li>
+<li>
+<strong>Jinja</strong> is a template language that renders the pages your application serves.</li>
+<li>
+<strong>MarkupSafe</strong> comes with Jinja. It escapes untrusted input when rendering templates to avoid injection attacks.</li>
+<li>
+<strong>ItsDangerous</strong> securely signs data to ensure its integrity. This is used to protect Flask’s session cookie.</li>
+<li>
+<strong>Click</strong> is a framework for writing command-line applications. It provides the flask command and allows adding custom management commands.</li>
+</ul>
+
+<p>Once the installation is finished we can open an editor and code our first Flask app with a few lines of code:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>
+<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">'/'</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">hello_world</span><span class="p">():</span>
+    <span class="k">return</span> <span class="s">'Hello, from Flask!'</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+<hr>
+
+<h2>
+  <a name="4-what-is-react" href="#4-what-is-react">
+  </a>
+  4# - <a href="https://docs.appseed.us/content/what-is/react">What is React</a>
+</h2>
+
+<p>In 2021 the stats shows that React is used as the primary technology in frontend development superseding other frameworks like Vue, Angular or Svelte. React is actively supported and versioned by Facebook and is widely adopted by big companies and many developers and open-source enthusiasts.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--q3UQWbZ6--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/v5cqv7nasxk44btdhvz3.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--q3UQWbZ6--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/v5cqv7nasxk44btdhvz3.png" alt="React - UI Library." loading="lazy"></a></p>
+
+<p>React can be used in legacy projects via CDN imports or start a new project using CRA (create-react-app)  command-line tool. In our sample, we will use an open-source template where the authentication code is added on top of an existing project initially created using the CRA tool. For more basic resources about React, please access:</p>
+
+<ul>
+<li>Official <a href="https://reactjs.org/docs/getting-started.html">docs</a> - <a href="https://reactjs.org/docs/add-react-to-a-website.html">integrate React</a> into a legacy project</li>
+<li>
+<a href="https://reactjs.org/docs/create-a-new-react-app.html">Create a new React app</a> - a really nice tutorial</li>
+</ul>
+
+
+<hr>
+
+<h2>
+  <a name="5-code-the-flask-api-backend" href="#5-code-the-flask-api-backend">
+  </a>
+  5# - Code the Flask API backend
+</h2>
+
+<p>Flask is great when we need to start fast and code something functional in less time. Our backend server needs to provide a simple authentication service using <code>JWT web tokens</code> that exposes a few basic methods:</p>
+
+<ul>
+<li>
+<code>/api/users/register</code>: create a new user</li>
+<li>
+<code>/api/users/login</code>: authenticate an existing user</li>
+<li>
+<code>/api/users/logout</code>: delete the associated JWT token</li>
+<li>
+<code>/api/users/edit</code> - edit the information associated with a registered user</li>
+</ul>
+
+<p>With these API requirements in mind, some other aspects should be clarified: the database type, used REST and JWT library, and of course, the project structure. To make our life easier, we will choose an SQLite persistence with the possibility to upgrade and migrate to heavier DBMS like MySql and PostgreSQL anytime.</p>
+
+
+<hr>
+
+<blockquote>
+<p><strong>Flask API Dependencies</strong></p>
+</blockquote>
+
+<ul>
+<li>
+<code>flask-restx</code> - used to code the API nodes</li>
+<li>
+<code>Flask-JWT-Extended</code> - handles the JWT Token management</li>
+<li>
+<code>Flask-SQLAlchemy</code> - the abstract interface to the database</li>
+</ul>
+
+<p>The codebase will use the <em>app factory</em> pattern where the API functionality is isolated in a separate folder and constructed like a Python Package.  A possible codebase structure is shown below:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>api-server-flask/
+├── api
+|   ├── __init__.py
+│   ├── config.py      <span class="c"># configuration variables </span>
+│   ├── models.py      <span class="c"># defines the tables</span>
+│   └── routes.py      <span class="c"># implements API routes</span>
+| 
+├── requirements.txt   <span class="c"># project dependencies</span>
+├── run.py             <span class="c"># project bootstrapper</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Let's code the <strong>routes</strong>, the most important part of our API server. Here is the most important code:</p>
+
+
+<hr>
+
+<blockquote>
+<p><strong>Routes.py - API Imports</strong><br>
+</p>
+</blockquote>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code><span class="c1"># Imports
+</span><span class="kn">from</span> <span class="nn">flask_restx</span> <span class="kn">import</span> <span class="n">Api</span><span class="p">,</span> <span class="n">Resource</span><span class="p">,</span> <span class="n">fields</span>
+<span class="kn">import</span> <span class="nn">jwt</span>
+<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">db</span><span class="p">,</span> <span class="n">Users</span> 
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+<hr>
+
+<blockquote>
+<p><strong>Routes.py</strong> - the API object<br>
+</p>
+</blockquote>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code><span class="p">...</span>
+<span class="n">rest_api</span> <span class="o">=</span> <span class="n">Api</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s">"1.0"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">"Users API"</span><span class="p">)</span>
+<span class="p">...</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+<hr>
+
+<blockquote>
+<p><strong>Routes.py</strong> - Define validation (Sign UP sample)<br>
+</p>
+</blockquote>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code><span class="n">signup_model</span> <span class="o">=</span> <span class="n">rest_api</span><span class="p">.</span><span class="n">model</span><span class="p">(</span><span class="s">'SignUpModel'</span><span class="p">,</span> <span class="p">{</span><span class="s">"username"</span><span class="p">:</span> <span class="n">fields</span><span class="p">.</span><span class="n">String</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">32</span><span class="p">),</span>
+                                              <span class="s">"email"</span><span class="p">:</span> <span class="n">fields</span><span class="p">.</span><span class="n">String</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">64</span><span class="p">),</span>
+                                              <span class="s">"password"</span><span class="p">:</span> <span class="n">fields</span><span class="p">.</span><span class="n">String</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+                                              <span class="p">})</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+<hr>
+
+<blockquote>
+<p><strong>Routes.py</strong> - Code the Registration API handler<br>
+</p>
+</blockquote>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code><span class="p">...</span>
+<span class="o">@</span><span class="n">rest_api</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">'/api/users/register'</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">Register</span><span class="p">(</span><span class="n">Resource</span><span class="p">):</span>
+    <span class="s">"""
+       Creates a new user by taking 'signup_model' input
+    """</span>
+
+    <span class="o">@</span><span class="n">rest_api</span><span class="p">.</span><span class="n">expect</span><span class="p">(</span><span class="n">signup_model</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+
+        <span class="n">req_data</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">get_json</span><span class="p">()</span>
+
+        <span class="n">_username</span> <span class="o">=</span> <span class="n">req_data</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"username"</span><span class="p">)</span>
+        <span class="n">_email</span>    <span class="o">=</span> <span class="n">req_data</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"email"</span><span class="p">)</span>
+        <span class="n">_password</span> <span class="o">=</span> <span class="n">req_data</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"password"</span><span class="p">)</span>
+
+        <span class="n">user_exists</span> <span class="o">=</span> <span class="n">Users</span><span class="p">.</span><span class="n">get_by_email</span><span class="p">(</span><span class="n">_email</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">user_exists</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">{</span><span class="s">"success"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>
+                    <span class="s">"msg"</span><span class="p">:</span> <span class="s">"Email already taken"</span><span class="p">},</span> <span class="mi">400</span>
+
+        <span class="n">new_user</span> <span class="o">=</span> <span class="n">Users</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">_username</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">_email</span><span class="p">)</span>
+
+        <span class="n">new_user</span><span class="p">.</span><span class="n">set_password</span><span class="p">(</span><span class="n">_password</span><span class="p">)</span>
+        <span class="n">new_user</span><span class="p">.</span><span class="n">save</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="s">"success"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>
+                <span class="s">"userID"</span><span class="p">:</span> <span class="n">new_user</span><span class="p">.</span><span class="nb">id</span><span class="p">,</span>
+                <span class="s">"msg"</span><span class="p">:</span> <span class="s">"The user was successfully registered"</span><span class="p">},</span> <span class="mi">200</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The above code snippets (validation, action handler) should be repeated for all methods exposed by the API.</p>
+
+
+<hr>
+
+<blockquote>
+<p><strong>Flask API</strong> - project resources</p>
+</blockquote>
+
+<ul>
+<li>
+<a href="https://github.com/app-generator/api-server-flask">Flask API Server</a> - source code published on Github</li>
+<li>Support - <a href="https://github.com/app-generator/api-server-flask/issues">Github</a> (issues tracker) provided by <a href="https://appseed.us/support">AppSeed</a>
+</li>
+</ul>
+
+
+<hr>
+
+<h2>
+  <a name="6-test-flask-api-using-postman" href="#6-test-flask-api-using-postman">
+  </a>
+  6# - Test Flask API using POSTMAN
+</h2>
+
+<p>Once our API is up and running we can use <a href="https://www.postman.com/">POSTMAN</a>, a popular free tool to test the backend code. We assume the Flask API server is started on port 5000 and the registration method is fully coded and functional.</p>
+
+<blockquote>
+<p><strong>Postman</strong> - Create a new collection and request with properties</p>
+</blockquote>
+
+<ul>
+<li>Request: POST over <code>http://localhost:5000/api/users/register</code>
+</li>
+<li>Header Content-type: <code>application-json</code>
+</li>
+<li>Body data: user/password and email</li>
+</ul>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--nMSwcPrS--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/fo82mhe8dicau6isf7lw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--nMSwcPrS--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/fo82mhe8dicau6isf7lw.png" alt="Flask API POSTMAN - Registration Header" loading="lazy"></a></p>
+
+
+<hr>
+
+<p>The <strong>Body Content</strong> specifies the credentials for the new user.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--sSQeSy2Q--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h8pdrxr2x0hnvljpzrln.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--sSQeSy2Q--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h8pdrxr2x0hnvljpzrln.png" alt="Flask API POSTMAN - Registration Body" loading="lazy"></a></p>
+
+
+<hr>
+
+<p>The Registration <strong>API Response</strong></p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--hTYAliVF--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ym8s524qk6h3godo26w8.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--hTYAliVF--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ym8s524qk6h3godo26w8.png" alt="Flask API POSTMAN - Registration Response." loading="lazy"></a></p>
+
+<p>At this point, the user is created in the database and we can authenticate and move on with our full-stack project.</p>
+
+
+<hr>
+
+<h2>
+  <a name="7-code-react-ui" href="#7-code-react-ui">
+  </a>
+  7# - Code React UI
+</h2>
+
+<p>The React part of this tutorial is coded on top of an open-source project cloned from Github, <strong>React Datta Able</strong>, a really nice and colorful React Dashboard provided by CodedThemes.  </p>
+
+<p>The initial project, basically a React template, will be improved with a few simple features:</p>
+
+<ul>
+<li>Usable authentication flow compatible with the Flask API</li>
+<li>Actions: Login, Logout, and Register</li>
+<li>Guest users are redirected to the login page</li>
+<li>Private pages are visible only to the authenticated users. </li>
+</ul>
+
+<p>The product has a really nice design and the permissive license allows the usage for hobby and commercial products. Let's download the build this React template and later add the necessary code to code all features.</p>
+
+
+<hr>
+
+<blockquote>
+<p><strong>React Datta Able</strong> - Clone the template sources from the public repository<br>
+</p>
+</blockquote>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>git clone https://github.com/codedthemes/datta-able-free-react-admin-template.git
+<span class="nv">$ </span><span class="nb">cd </span>datta-able-free-react-admin-template/template
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+<hr>
+
+<blockquote>
+<p><strong>Install Dependencies</strong> - via NPM or Yarn<br>
+</p>
+</blockquote>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>npm i
+// OR
+<span class="nv">$ </span>yarn 
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+<hr>
+
+<blockquote>
+<p><strong>React Datta Able</strong> - Start project in development mode<br>
+</p>
+</blockquote>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>npm run start
+// OR
+<span class="nv">$ </span>npm start
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--e5E0qx-S--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/1is5ltjisicuvsmirnr8.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--e5E0qx-S--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/1is5ltjisicuvsmirnr8.png" alt="React Datta Able - Free Dashboard Template" loading="lazy"></a></p>
+
+
+<hr>
+
+<p>To code the new features the project dependencies should be updated with a few useful libraries:</p>
+
+<ul>
+<li>
+<a href="https://formik.org/">Formik</a> - used to enhance and manage the registration forms</li>
+<li>
+<a href="https://axios-http.com/">Axios</a> - used to manage the communication with Flask API</li>
+</ul>
+
+<p>Once the new dependencies are properly installed, we can proceed further with the code.</p>
+
+
+<hr>
+
+<blockquote>
+<p><strong>Project configuration</strong> - URL of the backend API</p>
+</blockquote>
+
+<p>The application will use a common set of variables imported in different places like login, logout, etc. To make our life easier, it might be a good idea to define all variables in a single file: <code>src/config/constant.js</code>:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">export</span> <span class="kd">const</span> <span class="nx">BASENAME</span> <span class="o">=</span> <span class="dl">''</span><span class="p">;</span> <span class="c1">// don't add '/' at end off BASENAME</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">BASE_URL</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">/app/dashboard/default</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">BASE_TITLE</span> <span class="o">=</span> <span class="dl">'</span><span class="s1"> | React Datta Able </span><span class="dl">'</span><span class="p">;</span>
+<span class="k">export</span> <span class="kd">const</span> <span class="nx">API_SERVER</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">http://localhost:5000/api/</span><span class="dl">'</span><span class="p">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The most important value is saved by the <code>API_SERVER</code> variable, basically the address of our Flask API. When the project goes into production, this address should be updated accordingly with the address of the public API.</p>
+
+
+<hr>
+
+<blockquote>
+<p>Create a <strong>Guest Guard component</strong></p>
+</blockquote>
+
+<p>This component is responsible to detect if the current user is authenticated or not. Guest users are redirected to Sign IN and authenticated uses are allowed to access all private pages.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">Redirect</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react-router-dom</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">useSelector</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react-redux</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">BASE_URL</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">../../config/constant</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">GuestGuard</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">children</span> <span class="p">})</span> <span class="o">=></span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">account</span> <span class="o">=</span> <span class="nx">useSelector</span><span class="p">((</span><span class="nx">state</span><span class="p">)</span> <span class="o">=></span> <span class="nx">state</span><span class="p">.</span><span class="nx">account</span><span class="p">);</span>
+    <span class="kd">const</span> <span class="p">{</span> <span class="nx">isLoggedIn</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">account</span><span class="p">;</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nx">isLoggedIn</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="o">&lt;</span><span class="nx">Redirect</span> <span class="nx">to</span><span class="o">=</span><span class="p">{</span><span class="nx">BASE_URL</span><span class="p">}</span> <span class="sr">/></span><span class="err">;
+</span>    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="o">&lt;</span><span class="nx">React</span><span class="p">.</span><span class="nx">Fragment</span><span class="o">></span><span class="p">{</span><span class="nx">children</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/React.Fragment></span><span class="err">;
+</span><span class="p">};</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="nx">GuestGuard</span><span class="p">;</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+
+<hr>
+
+<blockquote>
+<p>Create a <strong>Redux-store</strong> that manages the user state</p>
+</blockquote>
+
+<p>The React app should be able to make decisions based on the information associated with the current user. The <code>redux-store</code> provides this information in a simple way using a few variables and objects:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="k">export</span> <span class="kd">const</span> <span class="nx">initialState</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="na">token</span><span class="p">:</span> <span class="dl">''</span><span class="p">,</span>
+    <span class="na">isLoggedIn</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="na">isInitialized</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+    <span class="na">user</span><span class="p">:</span> <span class="kc">null</span>
+<span class="p">};</span>
+
+<span class="kd">const</span> <span class="nx">accountReducer</span> <span class="o">=</span> <span class="p">(</span><span class="nx">state</span> <span class="o">=</span> <span class="nx">initialState</span><span class="p">,</span> <span class="nx">action</span><span class="p">)</span> <span class="o">=></span> <span class="p">{</span>
+    <span class="k">switch</span> <span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="na">ACCOUNT_INITIALIZE</span><span class="p">:</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="p">{</span> <span class="nx">isLoggedIn</span><span class="p">,</span> <span class="nx">user</span><span class="p">,</span> <span class="nx">token</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">;</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="p">...</span><span class="nx">state</span><span class="p">,</span>
+                <span class="nx">isLoggedIn</span><span class="p">,</span>
+                <span class="na">isInitialized</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">token</span><span class="p">,</span>
+                <span class="nx">user</span>
+            <span class="p">};</span>
+        <span class="p">}</span>
+        <span class="k">case</span> <span class="na">LOGIN</span><span class="p">:</span> <span class="p">{</span>
+            <span class="kd">const</span> <span class="p">{</span> <span class="nx">user</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">;</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="p">...</span><span class="nx">state</span><span class="p">,</span>
+                <span class="na">isLoggedIn</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+                <span class="nx">user</span>
+            <span class="p">};</span>
+        <span class="p">}</span>
+        <span class="k">case</span> <span class="na">LOGOUT</span><span class="p">:</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">{</span>
+                <span class="p">...</span><span class="nx">state</span><span class="p">,</span>
+                <span class="na">isLoggedIn</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>
+                <span class="na">token</span><span class="p">:</span> <span class="dl">''</span><span class="p">,</span>
+                <span class="na">user</span><span class="p">:</span> <span class="kc">null</span>
+            <span class="p">};</span>
+        <span class="p">}</span>
+        <span class="nl">default</span><span class="p">:</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="p">{</span> <span class="p">...</span><span class="nx">state</span> <span class="p">};</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The variables associated with the current user should be updated based on the actions performed in the session:</p>
+
+<ul>
+<li>Guest access: the session user is Null and <code>isLoggedIn</code> state is false</li>
+<li>Login: the user is successfully authenticated by the backend and. Of course, <code>isLoggedIn</code> state becomes true</li>
+<li>Logout: all session data is deleted and <code>isLoggedIn</code> becomes false again</li>
+</ul>
+
+<p>At this point, the React UI can be used to register and authenticate users. </p>
+
+
+<hr>
+
+<h2>
+  <a name="8-compile-the-free-samples" href="#8-compile-the-free-samples">
+  </a>
+  8# - Compile the Free Samples
+</h2>
+
+<p>All the above code is already provided on Github in two separate projects:</p>
+
+<ul>
+<li>
+<a href="https://github.com/app-generator/api-server-flask">Flask API Server</a> - simple, open-source API server</li>
+<li>
+<a href="https://github.com/app-generator/react-node-js-datta-able">React Datta Able</a> - enhanced version with JWT authentication</li>
+</ul>
+
+
+<hr>
+
+<blockquote>
+<p>Compile and start the Flask API Server</p>
+</blockquote>
+
+<p><strong>Step #1</strong> - Clone the source code<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>git clone https://github.com/app-generator/api-server-flask.git
+<span class="nv">$ </span><span class="nb">cd </span>api-server-flask
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><strong>Step #2</strong> - Install dependencies using a virtual environment<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>virtualenv <span class="nb">env</span>
+<span class="nv">$ </span><span class="nb">source env</span>/bin/activate
+<span class="err">$</span>
+<span class="nv">$ </span>pip3 <span class="nb">install</span> <span class="nt">-r</span> requirements.txt
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><strong>Step #3</strong> - Set up the environment<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">export </span><span class="nv">FLASK_APP</span><span class="o">=</span>run.py
+<span class="nv">$ </span><span class="nb">export </span><span class="nv">FLASK_ENV</span><span class="o">=</span>development
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><strong>Step #4</strong> - Create the SQLite database and tables<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code><span class="err">$</span> <span class="n">flask</span> <span class="n">shell</span>
+<span class="o">>>></span> <span class="kn">from</span> <span class="nn">api</span> <span class="kn">import</span> <span class="n">db</span>
+<span class="o">>>></span> <span class="n">db</span><span class="p">.</span><span class="n">create_all</span><span class="p">()</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><strong>Step #5</strong> - Start the API server<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>flask run
+// the API server runs on http://localhost:5000
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>At this point, our API server should be up & running.</p>
+
+
+<hr>
+
+<blockquote>
+<p>Compile and start the <strong>React UI</strong></p>
+</blockquote>
+
+<p><strong>Step #1</strong> - Clone the source code<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>git clone https://github.com/app-generator/react-datta-able-dashboard.git
+<span class="nv">$ </span><span class="nb">cd </span>react-datta-able-dashboard 
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><strong>Step #2</strong> - Install dependencies<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>npm i
+// OR
+<span class="nv">$ </span>yarn 
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><strong>Step #3</strong> - Start in development mode<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>npm run start
+// OR
+<span class="nv">$ </span>yarn start
+// the React UI runs on http://localhost:3000
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The browser should display the Sign IN page and we can register new users and authenticate.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--p-DORDRZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qpv8i9btfm90ceduqzvt.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--p-DORDRZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qpv8i9btfm90ceduqzvt.png" alt="Flask React Datta Able - Login Page." loading="lazy"></a></p>
+
+
+<hr>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--WVFI6uL8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/a6n3oqkloqv8cmdw9opm.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--WVFI6uL8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/a6n3oqkloqv8cmdw9opm.png" alt="Flask React Datta Able - Dashboard." loading="lazy"></a></p>
+
+
+<hr>
+
+<blockquote>
+<p>Thanks for reading! For more resources and support, please access:</p>
+</blockquote>
+
+<ul>
+<li>AppSeed - for more Full-stack <a href="https://appseed.us/apps/react">React Apps</a>
+</li>
+<li>
+<a href="https://discord.gg/fZC6hup">Discord</a> for 24/7 LIVE Support (registered users)</li>
+<li>Free <a href="https://dev.to/sm0ke/react-dashboards-open-source-apps-1c7j">React Dashboards</a> - a curated list published here on Dev.to </li>
+</ul>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/sm0ke/flask-react-from-zero-to-full-stack-with-samples-4aj4" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(s,n,a){return a.type_of="article",a.id=793285,a.title="Flask React - From Zero to Full-Stack (with Samples)",a.description="Learn how to use Flask and React to code full-stack products that scale with ease - open-source samples included.",a.readable_publish_date="Aug 16 '21",a.slug="flask-react-from-zero-to-full-stack-with-samples-4aj4",a.path="/sm0ke/flask-react-from-zero-to-full-stack-with-samples-4aj4",a.url="https://dev.to/sm0ke/flask-react-from-zero-to-full-stack-with-samples-4aj4",a.comments_count=8,a.public_reactions_count=111,a.collection_id=s,a.published_timestamp=n,a.positive_reactions_count=111,a.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--dWCm_bvG--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ry7x7xhir0jyvk40qqfo.jpg",a.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--Howdp_kN--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ry7x7xhir0jyvk40qqfo.jpg",a.canonical_url="https://blog.appseed.us/flask-react-full-stack-seed-projects/",a.created_at=n,a.edited_at="2021-08-28T11:17:13Z",a.crossposted_at=s,a.published_at=n,a.last_comment_at="2021-08-17T19:42:36Z",a.reading_time_minutes=10,a.tag_list="react, flask, webdev, appseed",a.tags=["react","flask","webdev","appseed"],a.body_html='<p>This article explains how to use <strong><a href="https://blog.appseed.us/flask-react-full-stack-seed-projects/">Flask and React</a></strong> to code scalable, production-ready projects. For newcomers, <strong>Flask</strong> is a popular Python Framework used to provide all backend features like authentication, database interface, and users management. In this architecture, <strong>React</strong> handles the UI and communicates with Flask decoupled from the backend using secure requests. To make this article more useful a few open-source projects will be mentioned available from download from Github under the MIT License.</p>\n\n<blockquote>\n<p><em>Thanks for reading!</em> - Content provided by <strong><a href="https://appseed.us/">App Generator</a></strong>.</p>\n</blockquote>\n\n\n<hr>\n\n<ul>\n<li>\n<strong>Section #1</strong> - The general view of the project</li>\n<li>\n<strong>Section #2</strong> - Requirements: environment, libraries, and tools</li>\n<li>\n<strong>Section #3</strong> - What is Flask</li>\n<li>\n<strong>Section #4</strong> - What is React</li>\n<li>\n<strong>Section #5</strong> - Set up Flask Backend</li>\n<li>\n<strong>Section #6</strong> - Test the Flask API using POSTMAN</li>\n<li>\n<strong>Section #7</strong> - Code React UI to communicate with Flask</li>\n<li>\n<strong>Section #8</strong> - Compile the samples (backend and frontend)</li>\n</ul>\n\n<p><strong>Note</strong>: All resources are available for download from Github. The React dashboards are configured to work with a simple Flask API Server.</p>\n\n<ul>\n<li>\n<a href="https://github.com/app-generator/api-server-flask">Flask API Server</a> - open-source project (MIT License)</li>\n<li>\n<a href="https://github.com/app-generator/react-node-js-datta-able">React Datta Able</a> - compatible React Dashboard</li>\n<li>\n<a href="https://github.com/app-generator/react-node-js-berry-dashboard">React Berry Dashboard</a> - compatible React Dashboard\n</li>\n</ul>\n\n\n<hr>\n\n<h2>\n  <a name="1-project-overview" href="#1-project-overview">\n  </a>\n  1# - Project Overview\n</h2>\n\n<p>Full-stack projects can be structured in many ways and patterns. I will mention only two (popular) patterns below:</p>\n\n<p><strong>Backend + SPA</strong> (single page application) - in this configuration Flask backend is built using the old-school MVC pattern where the files are served from the backend and the React app will provide the interaction with the users. This model, once very popular, was somehow abandoned because the technologies were mixed and sometimes hard to extend.</p>\n\n<p><strong>Two-Tier Architecture</strong> - this pattern separates the React UI from the Flask backend functionally and physically and builds a communication bridge via an API exposed by the server. This design has a few advantages over the previous solution:</p>\n\n<ul>\n<li>UI and the Backend can be developed and tested as separate entities</li>\n<li>Easier deployment.</li>\n<li>If required, the UI can use a simulated API backend.</li>\n</ul>\n\n<p>This article will focus on the 2nd pattern, the "two-tier" architecture where the Flask API is decoupled from the React UI. Here is the flow in a few sentences:</p>\n\n<ul>\n<li>\n<strong>Flask</strong> server starts and API is exposed</li>\n<li>\n<strong>React</strong> UI is loaded by the user browser</li>\n<li>\n<strong>React</strong> initiate the login, get the credentials provided by the user</li>\n<li>\n<strong>React</strong> send user credentials to the API server</li>\n<li>\n<strong>Flask</strong> API checks the credentials and generates a JWT Token</li>\n<li>\n<strong>React</strong> UI saves the user information and JET Token</li>\n<li>Access to the private zone is granted until the user triggers a logout.</li>\n</ul>\n\n\n<hr>\n\n<h2>\n  <a name="2-project-requirements" href="#2-project-requirements">\n  </a>\n  2# - Project Requirements\n</h2>\n\n<p>To have a successful build of our full-stack project a few tools, and libraries should be already installed and accessible in the terminal.</p>\n\n<ul>\n<li>\n<strong><a href="https://git-scm.com/">GIT</a></strong> - command-line versioning tool</li>\n<li>\n<strong><a href="https://www.python.org/downloads/">Python3</a></strong> - the language that powers Flask</li>\n<li>\n<strong><a href="https://nodejs.org/en/">Node JS</a></strong> - used to pull into our world the React magic</li>\n<li>\n<strong><a href="https://yarnpkg.com/">Yarn</a></strong> - used to install Node JS packages</li>\n<li>A modern code editor like <strong><a href="https://code.visualstudio.com/">VsCode</a></strong> or <strong><a href="https://atom.io/">Atom</a></strong>\n</li>\n<li>Ability to work in the terminal and write system commands</li>\n<li>\n<strong><a href="https://pypi.org/project/pip/">PIP</a></strong> (shipped by Python3) - used to install Python packages</li>\n</ul>\n\n\n<hr>\n\n<h2>\n  <a name="3-what-is-flask" href="#3-what-is-flask">\n  </a>\n  3# - <a href="https://docs.appseed.us/content/what-is/flask">What is Flask</a>\n</h2>\n\n<p>Flask is a popular Python Framework designed to a project quick and easy, with the ability to scale up to complex applications. Flask can be used to code from simple one-page sites to APIs and complex eCommerce solutions.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--6OLYj9KS--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/wpge6kue26i3ncf5nazu.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--6OLYj9KS--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/wpge6kue26i3ncf5nazu.png" alt="Flask - Open-source Python Framework." loading="lazy"></a></p>\n\n<p>Using Flask, the developer has the freedom to structure the codebase without constraints and also install only the libraries he really uses. The easiest way to install Flask is to use PIP, the official package manager shipped with Python.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>pip <span class="nb">install </span>Flask\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>During the setup, a basic set of core dependencies are also installed:</p>\n\n<ul>\n<li>\n<strong>Werkzeug</strong> implements WSGI, the standard Python interface between applications and servers.</li>\n<li>\n<strong>Jinja</strong> is a template language that renders the pages your application serves.</li>\n<li>\n<strong>MarkupSafe</strong> comes with Jinja. It escapes untrusted input when rendering templates to avoid injection attacks.</li>\n<li>\n<strong>ItsDangerous</strong> securely signs data to ensure its integrity. This is used to protect Flask’s session cookie.</li>\n<li>\n<strong>Click</strong> is a framework for writing command-line applications. It provides the flask command and allows adding custom management commands.</li>\n</ul>\n\n<p>Once the installation is finished we can open an editor and code our first Flask app with a few lines of code:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code><span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">Flask</span>\n<span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>\n\n<span class="o">@</span><span class="n">app</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">\'/\'</span><span class="p">)</span>\n<span class="k">def</span> <span class="nf">hello_world</span><span class="p">():</span>\n    <span class="k">return</span> <span class="s">\'Hello, from Flask!\'</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n<hr>\n\n<h2>\n  <a name="4-what-is-react" href="#4-what-is-react">\n  </a>\n  4# - <a href="https://docs.appseed.us/content/what-is/react">What is React</a>\n</h2>\n\n<p>In 2021 the stats shows that React is used as the primary technology in frontend development superseding other frameworks like Vue, Angular or Svelte. React is actively supported and versioned by Facebook and is widely adopted by big companies and many developers and open-source enthusiasts.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--q3UQWbZ6--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/v5cqv7nasxk44btdhvz3.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--q3UQWbZ6--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/v5cqv7nasxk44btdhvz3.png" alt="React - UI Library." loading="lazy"></a></p>\n\n<p>React can be used in legacy projects via CDN imports or start a new project using CRA (create-react-app)  command-line tool. In our sample, we will use an open-source template where the authentication code is added on top of an existing project initially created using the CRA tool. For more basic resources about React, please access:</p>\n\n<ul>\n<li>Official <a href="https://reactjs.org/docs/getting-started.html">docs</a> - <a href="https://reactjs.org/docs/add-react-to-a-website.html">integrate React</a> into a legacy project</li>\n<li>\n<a href="https://reactjs.org/docs/create-a-new-react-app.html">Create a new React app</a> - a really nice tutorial</li>\n</ul>\n\n\n<hr>\n\n<h2>\n  <a name="5-code-the-flask-api-backend" href="#5-code-the-flask-api-backend">\n  </a>\n  5# - Code the Flask API backend\n</h2>\n\n<p>Flask is great when we need to start fast and code something functional in less time. Our backend server needs to provide a simple authentication service using <code>JWT web tokens</code> that exposes a few basic methods:</p>\n\n<ul>\n<li>\n<code>/api/users/register</code>: create a new user</li>\n<li>\n<code>/api/users/login</code>: authenticate an existing user</li>\n<li>\n<code>/api/users/logout</code>: delete the associated JWT token</li>\n<li>\n<code>/api/users/edit</code> - edit the information associated with a registered user</li>\n</ul>\n\n<p>With these API requirements in mind, some other aspects should be clarified: the database type, used REST and JWT library, and of course, the project structure. To make our life easier, we will choose an SQLite persistence with the possibility to upgrade and migrate to heavier DBMS like MySql and PostgreSQL anytime.</p>\n\n\n<hr>\n\n<blockquote>\n<p><strong>Flask API Dependencies</strong></p>\n</blockquote>\n\n<ul>\n<li>\n<code>flask-restx</code> - used to code the API nodes</li>\n<li>\n<code>Flask-JWT-Extended</code> - handles the JWT Token management</li>\n<li>\n<code>Flask-SQLAlchemy</code> - the abstract interface to the database</li>\n</ul>\n\n<p>The codebase will use the <em>app factory</em> pattern where the API functionality is isolated in a separate folder and constructed like a Python Package.  A possible codebase structure is shown below:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>api-server-flask/\n├── api\n|   ├── __init__.py\n│   ├── config.py      <span class="c"># configuration variables </span>\n│   ├── models.py      <span class="c"># defines the tables</span>\n│   └── routes.py      <span class="c"># implements API routes</span>\n| \n├── requirements.txt   <span class="c"># project dependencies</span>\n├── run.py             <span class="c"># project bootstrapper</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Let\'s code the <strong>routes</strong>, the most important part of our API server. Here is the most important code:</p>\n\n\n<hr>\n\n<blockquote>\n<p><strong>Routes.py - API Imports</strong><br>\n</p>\n</blockquote>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code><span class="c1"># Imports\n</span><span class="kn">from</span> <span class="nn">flask_restx</span> <span class="kn">import</span> <span class="n">Api</span><span class="p">,</span> <span class="n">Resource</span><span class="p">,</span> <span class="n">fields</span>\n<span class="kn">import</span> <span class="nn">jwt</span>\n<span class="kn">from</span> <span class="nn">.models</span> <span class="kn">import</span> <span class="n">db</span><span class="p">,</span> <span class="n">Users</span> \n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n<hr>\n\n<blockquote>\n<p><strong>Routes.py</strong> - the API object<br>\n</p>\n</blockquote>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code><span class="p">...</span>\n<span class="n">rest_api</span> <span class="o">=</span> <span class="n">Api</span><span class="p">(</span><span class="n">version</span><span class="o">=</span><span class="s">"1.0"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s">"Users API"</span><span class="p">)</span>\n<span class="p">...</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n<hr>\n\n<blockquote>\n<p><strong>Routes.py</strong> - Define validation (Sign UP sample)<br>\n</p>\n</blockquote>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code><span class="n">signup_model</span> <span class="o">=</span> <span class="n">rest_api</span><span class="p">.</span><span class="n">model</span><span class="p">(</span><span class="s">\'SignUpModel\'</span><span class="p">,</span> <span class="p">{</span><span class="s">"username"</span><span class="p">:</span> <span class="n">fields</span><span class="p">.</span><span class="n">String</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">32</span><span class="p">),</span>\n                                              <span class="s">"email"</span><span class="p">:</span> <span class="n">fields</span><span class="p">.</span><span class="n">String</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">64</span><span class="p">),</span>\n                                              <span class="s">"password"</span><span class="p">:</span> <span class="n">fields</span><span class="p">.</span><span class="n">String</span><span class="p">(</span><span class="n">required</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">min_length</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">max_length</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>\n                                              <span class="p">})</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n<hr>\n\n<blockquote>\n<p><strong>Routes.py</strong> - Code the Registration API handler<br>\n</p>\n</blockquote>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code><span class="p">...</span>\n<span class="o">@</span><span class="n">rest_api</span><span class="p">.</span><span class="n">route</span><span class="p">(</span><span class="s">\'/api/users/register\'</span><span class="p">)</span>\n<span class="k">class</span> <span class="nc">Register</span><span class="p">(</span><span class="n">Resource</span><span class="p">):</span>\n    <span class="s">"""\n       Creates a new user by taking \'signup_model\' input\n    """</span>\n\n    <span class="o">@</span><span class="n">rest_api</span><span class="p">.</span><span class="n">expect</span><span class="p">(</span><span class="n">signup_model</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>\n    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>\n\n        <span class="n">req_data</span> <span class="o">=</span> <span class="n">request</span><span class="p">.</span><span class="n">get_json</span><span class="p">()</span>\n\n        <span class="n">_username</span> <span class="o">=</span> <span class="n">req_data</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"username"</span><span class="p">)</span>\n        <span class="n">_email</span>    <span class="o">=</span> <span class="n">req_data</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"email"</span><span class="p">)</span>\n        <span class="n">_password</span> <span class="o">=</span> <span class="n">req_data</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="s">"password"</span><span class="p">)</span>\n\n        <span class="n">user_exists</span> <span class="o">=</span> <span class="n">Users</span><span class="p">.</span><span class="n">get_by_email</span><span class="p">(</span><span class="n">_email</span><span class="p">)</span>\n        <span class="k">if</span> <span class="n">user_exists</span><span class="p">:</span>\n            <span class="k">return</span> <span class="p">{</span><span class="s">"success"</span><span class="p">:</span> <span class="bp">False</span><span class="p">,</span>\n                    <span class="s">"msg"</span><span class="p">:</span> <span class="s">"Email already taken"</span><span class="p">},</span> <span class="mi">400</span>\n\n        <span class="n">new_user</span> <span class="o">=</span> <span class="n">Users</span><span class="p">(</span><span class="n">username</span><span class="o">=</span><span class="n">_username</span><span class="p">,</span> <span class="n">email</span><span class="o">=</span><span class="n">_email</span><span class="p">)</span>\n\n        <span class="n">new_user</span><span class="p">.</span><span class="n">set_password</span><span class="p">(</span><span class="n">_password</span><span class="p">)</span>\n        <span class="n">new_user</span><span class="p">.</span><span class="n">save</span><span class="p">()</span>\n\n        <span class="k">return</span> <span class="p">{</span><span class="s">"success"</span><span class="p">:</span> <span class="bp">True</span><span class="p">,</span>\n                <span class="s">"userID"</span><span class="p">:</span> <span class="n">new_user</span><span class="p">.</span><span class="nb">id</span><span class="p">,</span>\n                <span class="s">"msg"</span><span class="p">:</span> <span class="s">"The user was successfully registered"</span><span class="p">},</span> <span class="mi">200</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The above code snippets (validation, action handler) should be repeated for all methods exposed by the API.</p>\n\n\n<hr>\n\n<blockquote>\n<p><strong>Flask API</strong> - project resources</p>\n</blockquote>\n\n<ul>\n<li>\n<a href="https://github.com/app-generator/api-server-flask">Flask API Server</a> - source code published on Github</li>\n<li>Support - <a href="https://github.com/app-generator/api-server-flask/issues">Github</a> (issues tracker) provided by <a href="https://appseed.us/support">AppSeed</a>\n</li>\n</ul>\n\n\n<hr>\n\n<h2>\n  <a name="6-test-flask-api-using-postman" href="#6-test-flask-api-using-postman">\n  </a>\n  6# - Test Flask API using POSTMAN\n</h2>\n\n<p>Once our API is up and running we can use <a href="https://www.postman.com/">POSTMAN</a>, a popular free tool to test the backend code. We assume the Flask API server is started on port 5000 and the registration method is fully coded and functional.</p>\n\n<blockquote>\n<p><strong>Postman</strong> - Create a new collection and request with properties</p>\n</blockquote>\n\n<ul>\n<li>Request: POST over <code>http://localhost:5000/api/users/register</code>\n</li>\n<li>Header Content-type: <code>application-json</code>\n</li>\n<li>Body data: user/password and email</li>\n</ul>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--nMSwcPrS--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/fo82mhe8dicau6isf7lw.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--nMSwcPrS--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/fo82mhe8dicau6isf7lw.png" alt="Flask API POSTMAN - Registration Header" loading="lazy"></a></p>\n\n\n<hr>\n\n<p>The <strong>Body Content</strong> specifies the credentials for the new user.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--sSQeSy2Q--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h8pdrxr2x0hnvljpzrln.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--sSQeSy2Q--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h8pdrxr2x0hnvljpzrln.png" alt="Flask API POSTMAN - Registration Body" loading="lazy"></a></p>\n\n\n<hr>\n\n<p>The Registration <strong>API Response</strong></p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--hTYAliVF--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ym8s524qk6h3godo26w8.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--hTYAliVF--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ym8s524qk6h3godo26w8.png" alt="Flask API POSTMAN - Registration Response." loading="lazy"></a></p>\n\n<p>At this point, the user is created in the database and we can authenticate and move on with our full-stack project.</p>\n\n\n<hr>\n\n<h2>\n  <a name="7-code-react-ui" href="#7-code-react-ui">\n  </a>\n  7# - Code React UI\n</h2>\n\n<p>The React part of this tutorial is coded on top of an open-source project cloned from Github, <strong>React Datta Able</strong>, a really nice and colorful React Dashboard provided by CodedThemes.  </p>\n\n<p>The initial project, basically a React template, will be improved with a few simple features:</p>\n\n<ul>\n<li>Usable authentication flow compatible with the Flask API</li>\n<li>Actions: Login, Logout, and Register</li>\n<li>Guest users are redirected to the login page</li>\n<li>Private pages are visible only to the authenticated users. </li>\n</ul>\n\n<p>The product has a really nice design and the permissive license allows the usage for hobby and commercial products. Let\'s download the build this React template and later add the necessary code to code all features.</p>\n\n\n<hr>\n\n<blockquote>\n<p><strong>React Datta Able</strong> - Clone the template sources from the public repository<br>\n</p>\n</blockquote>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>git clone https://github.com/codedthemes/datta-able-free-react-admin-template.git\n<span class="nv">$ </span><span class="nb">cd </span>datta-able-free-react-admin-template/template\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n<hr>\n\n<blockquote>\n<p><strong>Install Dependencies</strong> - via NPM or Yarn<br>\n</p>\n</blockquote>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>npm i\n// OR\n<span class="nv">$ </span>yarn \n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n<hr>\n\n<blockquote>\n<p><strong>React Datta Able</strong> - Start project in development mode<br>\n</p>\n</blockquote>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>npm run start\n// OR\n<span class="nv">$ </span>npm start\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--e5E0qx-S--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/1is5ltjisicuvsmirnr8.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--e5E0qx-S--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/1is5ltjisicuvsmirnr8.png" alt="React Datta Able - Free Dashboard Template" loading="lazy"></a></p>\n\n\n<hr>\n\n<p>To code the new features the project dependencies should be updated with a few useful libraries:</p>\n\n<ul>\n<li>\n<a href="https://formik.org/">Formik</a> - used to enhance and manage the registration forms</li>\n<li>\n<a href="https://axios-http.com/">Axios</a> - used to manage the communication with Flask API</li>\n</ul>\n\n<p>Once the new dependencies are properly installed, we can proceed further with the code.</p>\n\n\n<hr>\n\n<blockquote>\n<p><strong>Project configuration</strong> - URL of the backend API</p>\n</blockquote>\n\n<p>The application will use a common set of variables imported in different places like login, logout, etc. To make our life easier, it might be a good idea to define all variables in a single file: <code>src/config/constant.js</code>:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">export</span> <span class="kd">const</span> <span class="nx">BASENAME</span> <span class="o">=</span> <span class="dl">\'\'</span><span class="p">;</span> <span class="c1">// don\'t add \'/\' at end off BASENAME</span>\n<span class="k">export</span> <span class="kd">const</span> <span class="nx">BASE_URL</span> <span class="o">=</span> <span class="dl">\'</span><span class="s1">/app/dashboard/default</span><span class="dl">\'</span><span class="p">;</span>\n<span class="k">export</span> <span class="kd">const</span> <span class="nx">BASE_TITLE</span> <span class="o">=</span> <span class="dl">\'</span><span class="s1"> | React Datta Able </span><span class="dl">\'</span><span class="p">;</span>\n<span class="k">export</span> <span class="kd">const</span> <span class="nx">API_SERVER</span> <span class="o">=</span> <span class="dl">\'</span><span class="s1">http://localhost:5000/api/</span><span class="dl">\'</span><span class="p">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The most important value is saved by the <code>API_SERVER</code> variable, basically the address of our Flask API. When the project goes into production, this address should be updated accordingly with the address of the public API.</p>\n\n\n<hr>\n\n<blockquote>\n<p>Create a <strong>Guest Guard component</strong></p>\n</blockquote>\n\n<p>This component is responsible to detect if the current user is authenticated or not. Guest users are redirected to Sign IN and authenticated uses are allowed to access all private pages.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">react</span><span class="dl">\'</span><span class="p">;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">Redirect</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">react-router-dom</span><span class="dl">\'</span><span class="p">;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">useSelector</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">react-redux</span><span class="dl">\'</span><span class="p">;</span>\n<span class="k">import</span> <span class="p">{</span> <span class="nx">BASE_URL</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">\'</span><span class="s1">../../config/constant</span><span class="dl">\'</span><span class="p">;</span>\n\n<span class="kd">const</span> <span class="nx">GuestGuard</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">children</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">{</span>\n    <span class="kd">const</span> <span class="nx">account</span> <span class="o">=</span> <span class="nx">useSelector</span><span class="p">((</span><span class="nx">state</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">state</span><span class="p">.</span><span class="nx">account</span><span class="p">);</span>\n    <span class="kd">const</span> <span class="p">{</span> <span class="nx">isLoggedIn</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">account</span><span class="p">;</span>\n\n    <span class="k">if</span> <span class="p">(</span><span class="nx">isLoggedIn</span><span class="p">)</span> <span class="p">{</span>\n        <span class="k">return</span> <span class="o">&lt;</span><span class="nx">Redirect</span> <span class="nx">to</span><span class="o">=</span><span class="p">{</span><span class="nx">BASE_URL</span><span class="p">}</span> <span class="sr">/&gt;</span><span class="err">;\n</span>    <span class="p">}</span>\n\n    <span class="k">return</span> <span class="o">&lt;</span><span class="nx">React</span><span class="p">.</span><span class="nx">Fragment</span><span class="o">&gt;</span><span class="p">{</span><span class="nx">children</span><span class="p">}</span><span class="o">&lt;</span><span class="sr">/React.Fragment&gt;</span><span class="err">;\n</span><span class="p">};</span>\n\n<span class="k">export</span> <span class="k">default</span> <span class="nx">GuestGuard</span><span class="p">;</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n\n<hr>\n\n<blockquote>\n<p>Create a <strong>Redux-store</strong> that manages the user state</p>\n</blockquote>\n\n<p>The React app should be able to make decisions based on the information associated with the current user. The <code>redux-store</code> provides this information in a simple way using a few variables and objects:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="k">export</span> <span class="kd">const</span> <span class="nx">initialState</span> <span class="o">=</span> <span class="p">{</span>\n    <span class="na">token</span><span class="p">:</span> <span class="dl">\'\'</span><span class="p">,</span>\n    <span class="na">isLoggedIn</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>\n    <span class="na">isInitialized</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>\n    <span class="na">user</span><span class="p">:</span> <span class="kc">null</span>\n<span class="p">};</span>\n\n<span class="kd">const</span> <span class="nx">accountReducer</span> <span class="o">=</span> <span class="p">(</span><span class="nx">state</span> <span class="o">=</span> <span class="nx">initialState</span><span class="p">,</span> <span class="nx">action</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>\n    <span class="k">switch</span> <span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="nx">type</span><span class="p">)</span> <span class="p">{</span>\n        <span class="k">case</span> <span class="na">ACCOUNT_INITIALIZE</span><span class="p">:</span> <span class="p">{</span>\n            <span class="kd">const</span> <span class="p">{</span> <span class="nx">isLoggedIn</span><span class="p">,</span> <span class="nx">user</span><span class="p">,</span> <span class="nx">token</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">;</span>\n            <span class="k">return</span> <span class="p">{</span>\n                <span class="p">...</span><span class="nx">state</span><span class="p">,</span>\n                <span class="nx">isLoggedIn</span><span class="p">,</span>\n                <span class="na">isInitialized</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>\n                <span class="nx">token</span><span class="p">,</span>\n                <span class="nx">user</span>\n            <span class="p">};</span>\n        <span class="p">}</span>\n        <span class="k">case</span> <span class="na">LOGIN</span><span class="p">:</span> <span class="p">{</span>\n            <span class="kd">const</span> <span class="p">{</span> <span class="nx">user</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">action</span><span class="p">.</span><span class="nx">payload</span><span class="p">;</span>\n            <span class="k">return</span> <span class="p">{</span>\n                <span class="p">...</span><span class="nx">state</span><span class="p">,</span>\n                <span class="na">isLoggedIn</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>\n                <span class="nx">user</span>\n            <span class="p">};</span>\n        <span class="p">}</span>\n        <span class="k">case</span> <span class="na">LOGOUT</span><span class="p">:</span> <span class="p">{</span>\n            <span class="k">return</span> <span class="p">{</span>\n                <span class="p">...</span><span class="nx">state</span><span class="p">,</span>\n                <span class="na">isLoggedIn</span><span class="p">:</span> <span class="kc">false</span><span class="p">,</span>\n                <span class="na">token</span><span class="p">:</span> <span class="dl">\'\'</span><span class="p">,</span>\n                <span class="na">user</span><span class="p">:</span> <span class="kc">null</span>\n            <span class="p">};</span>\n        <span class="p">}</span>\n        <span class="nl">default</span><span class="p">:</span> <span class="p">{</span>\n            <span class="k">return</span> <span class="p">{</span> <span class="p">...</span><span class="nx">state</span> <span class="p">};</span>\n        <span class="p">}</span>\n    <span class="p">}</span>\n<span class="p">};</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The variables associated with the current user should be updated based on the actions performed in the session:</p>\n\n<ul>\n<li>Guest access: the session user is Null and <code>isLoggedIn</code> state is false</li>\n<li>Login: the user is successfully authenticated by the backend and. Of course, <code>isLoggedIn</code> state becomes true</li>\n<li>Logout: all session data is deleted and <code>isLoggedIn</code> becomes false again</li>\n</ul>\n\n<p>At this point, the React UI can be used to register and authenticate users. </p>\n\n\n<hr>\n\n<h2>\n  <a name="8-compile-the-free-samples" href="#8-compile-the-free-samples">\n  </a>\n  8# - Compile the Free Samples\n</h2>\n\n<p>All the above code is already provided on Github in two separate projects:</p>\n\n<ul>\n<li>\n<a href="https://github.com/app-generator/api-server-flask">Flask API Server</a> - simple, open-source API server</li>\n<li>\n<a href="https://github.com/app-generator/react-node-js-datta-able">React Datta Able</a> - enhanced version with JWT authentication</li>\n</ul>\n\n\n<hr>\n\n<blockquote>\n<p>Compile and start the Flask API Server</p>\n</blockquote>\n\n<p><strong>Step #1</strong> - Clone the source code<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>git clone https://github.com/app-generator/api-server-flask.git\n<span class="nv">$ </span><span class="nb">cd </span>api-server-flask\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><strong>Step #2</strong> - Install dependencies using a virtual environment<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>virtualenv <span class="nb">env</span>\n<span class="nv">$ </span><span class="nb">source env</span>/bin/activate\n<span class="err">$</span>\n<span class="nv">$ </span>pip3 <span class="nb">install</span> <span class="nt">-r</span> requirements.txt\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><strong>Step #3</strong> - Set up the environment<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">export </span><span class="nv">FLASK_APP</span><span class="o">=</span>run.py\n<span class="nv">$ </span><span class="nb">export </span><span class="nv">FLASK_ENV</span><span class="o">=</span>development\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><strong>Step #4</strong> - Create the SQLite database and tables<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code><span class="err">$</span> <span class="n">flask</span> <span class="n">shell</span>\n<span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">api</span> <span class="kn">import</span> <span class="n">db</span>\n<span class="o">&gt;&gt;&gt;</span> <span class="n">db</span><span class="p">.</span><span class="n">create_all</span><span class="p">()</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><strong>Step #5</strong> - Start the API server<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>flask run\n// the API server runs on http://localhost:5000\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>At this point, our API server should be up &amp; running.</p>\n\n\n<hr>\n\n<blockquote>\n<p>Compile and start the <strong>React UI</strong></p>\n</blockquote>\n\n<p><strong>Step #1</strong> - Clone the source code<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>git clone https://github.com/app-generator/react-datta-able-dashboard.git\n<span class="nv">$ </span><span class="nb">cd </span>react-datta-able-dashboard \n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><strong>Step #2</strong> - Install dependencies<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>npm i\n// OR\n<span class="nv">$ </span>yarn \n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><strong>Step #3</strong> - Start in development mode<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>npm run start\n// OR\n<span class="nv">$ </span>yarn start\n// the React UI runs on http://localhost:3000\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The browser should display the Sign IN page and we can register new users and authenticate.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--p-DORDRZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qpv8i9btfm90ceduqzvt.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--p-DORDRZ--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qpv8i9btfm90ceduqzvt.png" alt="Flask React Datta Able - Login Page." loading="lazy"></a></p>\n\n\n<hr>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--WVFI6uL8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/a6n3oqkloqv8cmdw9opm.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--WVFI6uL8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/a6n3oqkloqv8cmdw9opm.png" alt="Flask React Datta Able - Dashboard." loading="lazy"></a></p>\n\n\n<hr>\n\n<blockquote>\n<p>Thanks for reading! For more resources and support, please access:</p>\n</blockquote>\n\n<ul>\n<li>AppSeed - for more Full-stack <a href="https://appseed.us/apps/react">React Apps</a>\n</li>\n<li>\n<a href="https://discord.gg/fZC6hup">Discord</a> for 24/7 LIVE Support (registered users)</li>\n<li>Free <a href="https://dev.to/sm0ke/react-dashboards-open-source-apps-1c7j">React Dashboards</a> - a curated list published here on Dev.to </li>\n</ul>\n\n',a.body_markdown='---\ntitle: Flask React - From Zero to Full-Stack (with Samples)\npublished: true\ndescription: Learn how to use Flask and React to code full-stack products that scale with ease - open-source samples included.\ntags: react, flask, webdev, appseed\ncover_image: https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ry7x7xhir0jyvk40qqfo.jpg\ncanonical_url: https://blog.appseed.us/flask-react-full-stack-seed-projects/\n---\nThis article explains how to use **[Flask and React](https://blog.appseed.us/flask-react-full-stack-seed-projects/)** to code scalable, production-ready projects. For newcomers, **Flask** is a popular Python Framework used to provide all backend features like authentication, database interface, and users management. In this architecture, **React** handles the UI and communicates with Flask decoupled from the backend using secure requests. To make this article more useful a few open-source projects will be mentioned available from download from Github under the MIT License.\n\n> *Thanks for reading!* - Content provided by **[App Generator](https://appseed.us/)**.\n\n---\n\n- **Section #1** - The general view of the project\n- **Section #2** - Requirements: environment, libraries, and tools\n- **Section #3** - What is Flask\n- **Section #4** - What is React\n- **Section #5** - Set up Flask Backend\n- **Section #6** - Test the Flask API using POSTMAN\n- **Section #7** - Code React UI to communicate with Flask\n- **Section #8** - Compile the samples (backend and frontend)\n\n**Note**: All resources are available for download from Github. The React dashboards are configured to work with a simple Flask API Server.\n\n- [Flask API Server](https://github.com/app-generator/api-server-flask) - open-source project (MIT License)\n- [React Datta Able](https://github.com/app-generator/react-node-js-datta-able) - compatible React Dashboard\n- [React Berry Dashboard](https://github.com/app-generator/react-node-js-berry-dashboard) - compatible React Dashboard    \n\n---\n\n## 1# - Project Overview\n\nFull-stack projects can be structured in many ways and patterns. I will mention only two (popular) patterns below:\n\n**Backend + SPA** (single page application) - in this configuration Flask backend is built using the old-school MVC pattern where the files are served from the backend and the React app will provide the interaction with the users. This model, once very popular, was somehow abandoned because the technologies were mixed and sometimes hard to extend.\n\n**Two-Tier Architecture** - this pattern separates the React UI from the Flask backend functionally and physically and builds a communication bridge via an API exposed by the server. This design has a few advantages over the previous solution:\n\n- UI and the Backend can be developed and tested as separate entities\n- Easier deployment.\n- If required, the UI can use a simulated API backend.\n\nThis article will focus on the 2nd pattern, the "two-tier" architecture where the Flask API is decoupled from the React UI. Here is the flow in a few sentences:\n\n- **Flask** server starts and API is exposed\n- **React** UI is loaded by the user browser\n- **React** initiate the login, get the credentials provided by the user\n- **React** send user credentials to the API server\n- **Flask** API checks the credentials and generates a JWT Token\n- **React** UI saves the user information and JET Token\n- Access to the private zone is granted until the user triggers a logout.\n\n---\n\n## 2# - Project Requirements\n\nTo have a successful build of our full-stack project a few tools, and libraries should be already installed and accessible in the terminal.\n\n- **[GIT](https://git-scm.com/)** - command-line versioning tool\n- **[Python3](https://www.python.org/downloads/)** - the language that powers Flask\n- **[Node JS](https://nodejs.org/en/)** - used to pull into our world the React magic\n- **[Yarn](https://yarnpkg.com/)** - used to install Node JS packages\n- A modern code editor like **[VsCode](https://code.visualstudio.com/)** or **[Atom](https://atom.io/)**\n- Ability to work in the terminal and write system commands\n- **[PIP](https://pypi.org/project/pip/)** (shipped by Python3) - used to install Python packages\n\n---\n\n## 3# - [What is Flask](https://docs.appseed.us/content/what-is/flask)\n\nFlask is a popular Python Framework designed to a project quick and easy, with the ability to scale up to complex applications. Flask can be used to code from simple one-page sites to APIs and complex eCommerce solutions.\n\n![Flask - Open-source Python Framework.](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/wpge6kue26i3ncf5nazu.png)\n\nUsing Flask, the developer has the freedom to structure the codebase without constraints and also install only the libraries he really uses. The easiest way to install Flask is to use PIP, the official package manager shipped with Python.\n\n```bash\n$ pip install Flask\n``` \n\nDuring the setup, a basic set of core dependencies are also installed:\n\n- **Werkzeug** implements WSGI, the standard Python interface between applications and servers.\n- **Jinja** is a template language that renders the pages your application serves.\n- **MarkupSafe** comes with Jinja. It escapes untrusted input when rendering templates to avoid injection attacks.\n- **ItsDangerous** securely signs data to ensure its integrity. This is used to protect Flask’s session cookie.\n- **Click** is a framework for writing command-line applications. It provides the flask command and allows adding custom management commands.\n\nOnce the installation is finished we can open an editor and code our first Flask app with a few lines of code:\n\n```python\nfrom flask import Flask\napp = Flask(__name__)\n\n@app.route(\'/\')\ndef hello_world():\n    return \'Hello, from Flask!\'\n```\n\n---\n\n## 4# - [What is React](https://docs.appseed.us/content/what-is/react)\n\nIn 2021 the stats shows that React is used as the primary technology in frontend development superseding other frameworks like Vue, Angular or Svelte. React is actively supported and versioned by Facebook and is widely adopted by big companies and many developers and open-source enthusiasts.\n\n![React - UI Library.](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/v5cqv7nasxk44btdhvz3.png)\n\nReact can be used in legacy projects via CDN imports or start a new project using CRA (create-react-app)  command-line tool. In our sample, we will use an open-source template where the authentication code is added on top of an existing project initially created using the CRA tool. For more basic resources about React, please access:\n\n- Official [docs](https://reactjs.org/docs/getting-started.html) - [integrate React](https://reactjs.org/docs/add-react-to-a-website.html) into a legacy project\n- [Create a new React app](https://reactjs.org/docs/create-a-new-react-app.html) - a really nice tutorial\n\n---\n\n## 5# - Code the Flask API backend\n\nFlask is great when we need to start fast and code something functional in less time. Our backend server needs to provide a simple authentication service using `JWT web tokens` that exposes a few basic methods:\n\n- `/api/users/register`: create a new user\n- `/api/users/login`: authenticate an existing user\n- `/api/users/logout`: delete the associated JWT token\n- `/api/users/edit` - edit the information associated with a registered user\n\nWith these API requirements in mind, some other aspects should be clarified: the database type, used REST and JWT library, and of course, the project structure. To make our life easier, we will choose an SQLite persistence with the possibility to upgrade and migrate to heavier DBMS like MySql and PostgreSQL anytime.\n\n---\n\n> **Flask API Dependencies**\n\n- `flask-restx` - used to code the API nodes\n- `Flask-JWT-Extended` - handles the JWT Token management\n- `Flask-SQLAlchemy` - the abstract interface to the database\n\nThe codebase will use the *app factory* pattern where the API functionality is isolated in a separate folder and constructed like a Python Package.  A possible codebase structure is shown below:\n\n```bash\napi-server-flask/\n├── api\n|   ├── __init__.py\n│   ├── config.py      # configuration variables \n│   ├── models.py      # defines the tables\n│   └── routes.py      # implements API routes\n| \n├── requirements.txt   # project dependencies\n├── run.py             # project bootstrapper\n```\n\nLet\'s code the **routes**, the most important part of our API server. Here is the most important code:\n\n---\n\n> **Routes.py - API Imports**\n\n```python\n# Imports\nfrom flask_restx import Api, Resource, fields\nimport jwt\nfrom .models import db, Users \n```\n\n---\n\n> **Routes.py** - the API object\n \n```python\n...\nrest_api = Api(version="1.0", title="Users API")\n...\n```\n\n---\n\n> **Routes.py** - Define validation (Sign UP sample)\n\n```python\nsignup_model = rest_api.model(\'SignUpModel\', {"username": fields.String(required=True, min_length=2, max_length=32),\n                                              "email": fields.String(required=True, min_length=4, max_length=64),\n                                              "password": fields.String(required=True, min_length=4, max_length=16)\n                                              })\n```\n\n---\n\n> **Routes.py** - Code the Registration API handler\n\n```python\n...\n@rest_api.route(\'/api/users/register\')\nclass Register(Resource):\n    """\n       Creates a new user by taking \'signup_model\' input\n    """\n\n    @rest_api.expect(signup_model, validate=True)\n    def post(self):\n\n        req_data = request.get_json()\n\n        _username = req_data.get("username")\n        _email    = req_data.get("email")\n        _password = req_data.get("password")\n\n        user_exists = Users.get_by_email(_email)\n        if user_exists:\n            return {"success": False,\n                    "msg": "Email already taken"}, 400\n\n        new_user = Users(username=_username, email=_email)\n\n        new_user.set_password(_password)\n        new_user.save()\n\n        return {"success": True,\n                "userID": new_user.id,\n                "msg": "The user was successfully registered"}, 200\n```\n\nThe above code snippets (validation, action handler) should be repeated for all methods exposed by the API.\n\n---\n\n> **Flask API** - project resources\n\n- [Flask API Server](https://github.com/app-generator/api-server-flask) - source code published on Github\n- Support - [Github](https://github.com/app-generator/api-server-flask/issues) (issues tracker) provided by [AppSeed](https://appseed.us/support)\n\n---\n\n## 6# - Test Flask API using POSTMAN\n\nOnce our API is up and running we can use [POSTMAN](https://www.postman.com/), a popular free tool to test the backend code. We assume the Flask API server is started on port 5000 and the registration method is fully coded and functional.\n\n> **Postman** - Create a new collection and request with properties\n\n- Request: POST over `http://localhost:5000/api/users/register`\n- Header Content-type: `application-json`\n- Body data: user/password and email\n\n![Flask API POSTMAN - Registration Header](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/fo82mhe8dicau6isf7lw.png)\n\n---\n\nThe **Body Content** specifies the credentials for the new user.\n\n![Flask API POSTMAN - Registration Body](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h8pdrxr2x0hnvljpzrln.png)\n\n---\n\nThe Registration **API Response**\n\n![Flask API POSTMAN - Registration Response.](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ym8s524qk6h3godo26w8.png)\n\nAt this point, the user is created in the database and we can authenticate and move on with our full-stack project.\n\n---\n\n## 7# - Code React UI\n\nThe React part of this tutorial is coded on top of an open-source project cloned from Github, **React Datta Able**, a really nice and colorful React Dashboard provided by CodedThemes.  \n\nThe initial project, basically a React template, will be improved with a few simple features:\n\n- Usable authentication flow compatible with the Flask API\n- Actions: Login, Logout, and Register\n- Guest users are redirected to the login page\n- Private pages are visible only to the authenticated users. \n\nThe product has a really nice design and the permissive license allows the usage for hobby and commercial products. Let\'s download the build this React template and later add the necessary code to code all features.\n\n---\n\n> **React Datta Able** - Clone the template sources from the public repository \n\n```bash\n$ git clone https://github.com/codedthemes/datta-able-free-react-admin-template.git\n$ cd datta-able-free-react-admin-template/template\n```\n\n---\n\n> **Install Dependencies** - via NPM or Yarn \n\n```bash\n$ npm i\n// OR\n$ yarn \n``` \n\n---\n\n> **React Datta Able** - Start project in development mode\n\n```bash\n$ npm run start\n// OR\n$ npm start\n```\n\n![React Datta Able - Free Dashboard Template](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/1is5ltjisicuvsmirnr8.png)\n \n---\n\nTo code the new features the project dependencies should be updated with a few useful libraries:\n\n- [Formik](https://formik.org/) - used to enhance and manage the registration forms\n- [Axios](https://axios-http.com/) - used to manage the communication with Flask API\n\nOnce the new dependencies are properly installed, we can proceed further with the code.\n\n---\n\n> **Project configuration** - URL of the backend API\n\nThe application will use a common set of variables imported in different places like login, logout, etc. To make our life easier, it might be a good idea to define all variables in a single file: `src/config/constant.js`:\n\n```javascript\nexport const BASENAME = \'\'; // don\'t add \'/\' at end off BASENAME\nexport const BASE_URL = \'/app/dashboard/default\';\nexport const BASE_TITLE = \' | React Datta Able \';\nexport const API_SERVER = \'http://localhost:5000/api/\';\n```\n\nThe most important value is saved by the `API_SERVER` variable, basically the address of our Flask API. When the project goes into production, this address should be updated accordingly with the address of the public API.\n\n---\n\n> Create a **Guest Guard component**\n\nThis component is responsible to detect if the current user is authenticated or not. Guest users are redirected to Sign IN and authenticated uses are allowed to access all private pages.  \n\n```javascript\nimport React from \'react\';\nimport { Redirect } from \'react-router-dom\';\nimport { useSelector } from \'react-redux\';\nimport { BASE_URL } from \'../../config/constant\';\n\nconst GuestGuard = ({ children }) => {\n    const account = useSelector((state) => state.account);\n    const { isLoggedIn } = account;\n\n    if (isLoggedIn) {\n        return <Redirect to={BASE_URL} />;\n    }\n\n    return <React.Fragment>{children}</React.Fragment>;\n};\n\nexport default GuestGuard;\n```\n\n---\n\n> Create a **Redux-store** that manages the user state\n\nThe React app should be able to make decisions based on the information associated with the current user. The `redux-store` provides this information in a simple way using a few variables and objects:\n\n```javascript\nexport const initialState = {\n    token: \'\',\n    isLoggedIn: false,\n    isInitialized: false,\n    user: null\n};\n\nconst accountReducer = (state = initialState, action) => {\n    switch (action.type) {\n        case ACCOUNT_INITIALIZE: {\n            const { isLoggedIn, user, token } = action.payload;\n            return {\n                ...state,\n                isLoggedIn,\n                isInitialized: true,\n                token,\n                user\n            };\n        }\n        case LOGIN: {\n            const { user } = action.payload;\n            return {\n                ...state,\n                isLoggedIn: true,\n                user\n            };\n        }\n        case LOGOUT: {\n            return {\n                ...state,\n                isLoggedIn: false,\n                token: \'\',\n                user: null\n            };\n        }\n        default: {\n            return { ...state };\n        }\n    }\n};\n```\n\nThe variables associated with the current user should be updated based on the actions performed in the session:\n\n- Guest access: the session user is Null and `isLoggedIn` state is false\n- Login: the user is successfully authenticated by the backend and. Of course, `isLoggedIn` state becomes true\n- Logout: all session data is deleted and `isLoggedIn` becomes false again\n\nAt this point, the React UI can be used to register and authenticate users. \n\n---\n\n## 8# - Compile the Free Samples\n\nAll the above code is already provided on Github in two separate projects:\n\n- [Flask API Server](https://github.com/app-generator/api-server-flask) - simple, open-source API server\n- [React Datta Able](https://github.com/app-generator/react-node-js-datta-able) - enhanced version with JWT authentication\n\n---\n\n> Compile and start the Flask API Server\n\n**Step #1** - Clone the source code\n\n```bash\n$ git clone https://github.com/app-generator/api-server-flask.git\n$ cd api-server-flask\n```\n\n**Step #2** - Install dependencies using a virtual environment\n\n```bash\n$ virtualenv env\n$ source env/bin/activate\n$\n$ pip3 install -r requirements.txt\n```\n\n**Step #3** - Set up the environment\n\n```bash\n$ export FLASK_APP=run.py\n$ export FLASK_ENV=development\n```\n\n**Step #4** - Create the SQLite database and tables\n\n```python\n$ flask shell\n>>> from api import db\n>>> db.create_all()\n```\n\n**Step #5** - Start the API server\n\n```bash\n$ flask run\n// the API server runs on http://localhost:5000\n```\n\nAt this point, our API server should be up & running.\n\n--- \n\n> Compile and start the **React UI**\n\n**Step #1** - Clone the source code\n\n```bash\n$ git clone https://github.com/app-generator/react-datta-able-dashboard.git\n$ cd react-datta-able-dashboard \n```\n\n**Step #2** - Install dependencies\n\n```bash\n$ npm i\n// OR\n$ yarn \n```\n\n**Step #3** - Start in development mode\n\n```bash\n$ npm run start\n// OR\n$ yarn start\n// the React UI runs on http://localhost:3000\n```\n\nThe browser should display the Sign IN page and we can register new users and authenticate.\n\n![Flask React Datta Able - Login Page.](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/qpv8i9btfm90ceduqzvt.png)\n\n---\n\n![Flask React Datta Able - Dashboard.](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/a6n3oqkloqv8cmdw9opm.png)\n\n---\n\n> Thanks for reading! For more resources and support, please access:\n\n- AppSeed - for more Full-stack [React Apps](https://appseed.us/apps/react)\n- [Discord](https://discord.gg/fZC6hup) for 24/7 LIVE Support (registered users)\n- Free [React Dashboards](https://dev.to/sm0ke/react-dashboards-open-source-apps-1c7j) - a curated list published here on Dev.to \n',a.user={name:"Sm0ke",username:"sm0ke",twitter_username:"Sm0keDev",github_username:"rosoftdeveloper",website_url:"https://appseed.us",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--FOo7TUa8--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/152613/f6aadb36-121c-409f-b746-e40e0408ea51.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--k7uOWOtg--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/152613/f6aadb36-121c-409f-b746-e40e0408ea51.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:a}},error:s,state:{currentArticle:a},serverRendered:!0,routePath:"/sm0ke/793285",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:s}}}}(null,"2021-08-16T07:00:46Z",{})</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,895 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>How to Create a ChatBot Assistant using NextJs, TailwindCss and Strapi</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>How to Create a ChatBot Assistant using NextJs, TailwindCss and Strapi</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/tailwindcss" class="tag" data-v-70afb46a>
+          #tailwindcss
+        </a><a href="/nuxtstop/t/strapi" class="tag" data-v-70afb46a>
+          #strapi
+        </a><a href="/nuxtstop/t/nextjs" class="tag" data-v-70afb46a>
+          #nextjs
+        </a><a href="/nuxtstop/t/cms" class="tag" data-v-70afb46a>
+          #cms
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--DB2_D2qu--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7328t8nzdikhe82b0ubf.jpg" alt="How to Create a ChatBot Assistant using NextJs, TailwindCss and Strapi" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            12
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Dec 1 '21</time></div></header> <div class="content" data-v-70afb46a><p>Communication is key to building great brands, in this digital age we have got lots of opportunities and ways to carry out great communications. From social media to emails, to text and calls, the limit of communications has been tested. One major innovation in communication has got to be ChatBots.</p>
+
+<p>Simply put a <code>chatbot</code> is a software application used to conduct an online chat conversation via text or text-to-speech. It can be used to substitute a real chat with a live human agent. It has been used in various scenarios ranging but not limited to personal assistants, customer support, booking of tickets, e-shopping, also e-banking to mention a few.</p>
+
+<p>This tutorial will show you how to build a Rule-Based Chatbot Assistant using Next.js and Tailwind CSS as frontend and Strapi headless CMS as backend. .</p>
+
+<p>You can find the link to the <a href="https://github.com/chyke007/strapi-nextjs-tutorial-chatbot">finished frontend code here</a>, as well as the <a href="https://github.com/chyke007/strapi-tutorial-chatbot">backend code here</a>.</p>
+
+<h2>
+  <a name="advantages-of-using-chatbot" href="#advantages-of-using-chatbot">
+  </a>
+  Advantages of using Chatbot
+</h2>
+
+<p>It is necessary that before we proceed further into this article, we have a picture of what chatbot brings to the table when used adequately. Some of the advantages of using a chatbot include:</p>
+
+<ol>
+<li>Availability: Since a chatbot is a software application that can be hosted, it means it doesn't sleep, hence it is always available at any time of the day. This gives a company or person a great brand image that at any time of the day clients can get support on their varying requests.</li>
+<li>Cost reduction: As an application that can be deployed in multiple places, it reduces the cost of running a large number of customer care representatives.</li>
+<li> Efficiency: A single chatbot can be deployed in various places and also simultaneously attend to multiple requests at once.</li>
+<li>Improved online presence: Some chatbots allow for the integration to other messaging platforms, this allows a consistent response sent across multiple platforms and which leads to improved brand identity.</li>
+</ol>
+
+<h2>
+  <a name="prerequisite" href="#prerequisite">
+  </a>
+  Prerequisite
+</h2>
+
+<p>Before starting this tutorial, you need to have</p>
+
+<ul>
+<li>Node.js installed on your local machine (v12 or v14) - Check this <a href="https://codex.so/how-to-install-the-latest-node-js-npm-and-yarn">tutorial</a> for instructions on how to install Node.js</li>
+<li>Basic understanding of Strapi - Get started with this <a href="https://strapi.io/documentation/developer-docs/latest/getting-started/quick-start.html">quick guide</a>
+</li>
+<li>Basic knowledge of <a href="https://nextjs.org/docs/getting-started">Next.js</a>
+</li>
+<li>Basic knowledge of <a href="https://tailwindcss.com/docs">Tailwind CSS</a>
+</li>
+</ul>
+
+<h2>
+  <a name="what-is-next-js" href="#what-is-next-js">
+  </a>
+  What is Next Js
+</h2>
+
+<p>Next.js is an awesome React framework for building highly dynamic applications. It comes with pre-rendering, automatic code-splitting amongst many other great features out of the box.</p>
+
+<h2>
+  <a name="what-is-tailwind-css" href="#what-is-tailwind-css">
+  </a>
+  What is Tailwind CSS
+</h2>
+
+<p>Tailwind CSS is a utility-first CSS framework for rapidly building custom user interfaces. With Tailwind CSS, we write our CSS directly in our HTML classes. This is quite useful as we don't need to import an external stylesheet or use a separate library for UI designs.</p>
+
+<h2>
+  <a name="what-is-strapi" href="#what-is-strapi">
+  </a>
+  What is Strapi
+</h2>
+
+<p>Strapi is a Node.js open-source headless CMS that allows us to develop APIs and manage content easily without the hassle of building out a project from scratch. It allows for customization and self-hosting as opposed to the rigid traditional CMS we are used to.</p>
+
+<p>We can easily build out APIs faster and consume the contents via APIs using any REST API client or GraphQL.</p>
+
+<h2>
+  <a name="scaffolding-a-strapi-project" href="#scaffolding-a-strapi-project">
+  </a>
+  Scaffolding a Strapi Project
+</h2>
+
+<p>To setup a new Strapi Project is quite straightforward, just run this command:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>    npx create-strapi-app chatbot-assistant <span class="nt">--quickstart</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Change <code>chatbot-assistant</code> to the preferred name of your project</p>
+
+<p><strong>Nb: During the setup, we would not be using any Strapi template</strong></p>
+
+<p>This would install and create a Strapi application and set up the project locally.</p>
+
+<p>After installation, the browser would open a page on localhost:1337 which would prompt to set up a super admin account to proceed with Strapi.</p>
+
+<h2>
+  <a name="building-the-interchange-collection" href="#building-the-interchange-collection">
+  </a>
+  Building the Interchange collection
+</h2>
+
+<p>Next, we will create a new collection type that will store the details of each question and their respective answers.</p>
+
+<p>Hence, create a collection type called ‘interchange’ that has these fields: <code>question</code>, <code>answer</code></p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--D0aytoBs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572411431_Screenshot%2B2021-11-10%2Bat%2B20.26.45.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--D0aytoBs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572411431_Screenshot%2B2021-11-10%2Bat%2B20.26.45.png" alt="" loading="lazy" width="880" height="455"></a></p>
+
+<p>Clicking “Continue” would bring up another screen to select the fields for this collection. Choose the “Text” field from the list and provide <code>question</code> as its name. </p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--O3OuwMmF--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572552842_Screenshot%2B2021-11-10%2Bat%2B20.29.07.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--O3OuwMmF--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572552842_Screenshot%2B2021-11-10%2Bat%2B20.29.07.png" alt="" loading="lazy" width="880" height="455"></a></p>
+
+<p>Next, we select the <code>Long Text</code> type in the Base Settings, this would allow us to enter longer and more descriptive questions when creating an <code>interchange</code>.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--xVRfsUe8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572663219_Screenshot%2B2021-11-10%2Bat%2B20.30.59.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--xVRfsUe8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572663219_Screenshot%2B2021-11-10%2Bat%2B20.30.59.png" alt="" loading="lazy" width="880" height="455"></a></p>
+
+<p>Next, we proceed to the  “Advanced settings” tab and check the “Required field” box to ensure this field is required when creating a new interchange. Also, we check the “Unique field” box to prevent having the same question our interchange.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--gtEajNuy--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572861278_Screenshot%2B2021-11-10%2Bat%2B20.34.17.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--gtEajNuy--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572861278_Screenshot%2B2021-11-10%2Bat%2B20.34.17.png" alt="" loading="lazy" width="880" height="455"></a></p>
+
+<p>We click on the Add another field to add the answer field. Below is a table showing the properties for both fields in this collection:</p>
+
+<div class="table-wrapper-paragraph"><table>
+<thead>
+<tr>
+<th><strong>Field Name</strong></th>
+<th><strong>Field Type</strong></th>
+<th>Required</th>
+<th>Unique</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>question</td>
+<td>long text</td>
+<td>true</td>
+<td>true</td>
+</tr>
+<tr>
+<td>answer</td>
+<td>rich text</td>
+<td>true</td>
+<td>false</td>
+</tr>
+</tbody>
+</table></div>
+
+<h2>
+  <a name="seeding-strapi" href="#seeding-strapi">
+  </a>
+  Seeding Strapi
+</h2>
+
+<p>We would proceed next to define the questions and respective answers given by our bot.</p>
+
+<p>To add data to the collection, we select the <code>Interchanges</code> Collection on the left sidebar, click “Add New Interchanges” and fill in the details.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--xT0TnOks--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636573966990_Screenshot%2B2021-11-10%2Bat%2B20.52.41.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--xT0TnOks--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636573966990_Screenshot%2B2021-11-10%2Bat%2B20.52.41.png" alt="Interchanges collection" loading="lazy" width="880" height="455"></a></p>
+
+<p>For this tutorial, I would be seeding the interchange with an about me interchange in mind, so our bot can act as an assistant that tells visitors more about us and our services. After seeding our collection looks thus:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--UqlvmqiL--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636582185036_Screenshot%2B2021-11-10%2Bat%2B23.09.41.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--UqlvmqiL--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636582185036_Screenshot%2B2021-11-10%2Bat%2B23.09.41.png" alt="Seeded Interchanges collection" loading="lazy" width="880" height="455"></a></p>
+
+<h2>
+  <a name="allowing-public-access" href="#allowing-public-access">
+  </a>
+  Allowing Public access
+</h2>
+
+<p>By default, whenever you create an API, Strapi creates six endpoints from the name given to the API. The endpoints generated for <code>Interchange</code>  should look like this:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ajpZtLQk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636582427444_Screenshot%2B2021-11-10%2Bat%2B23.13.40.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ajpZtLQk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636582427444_Screenshot%2B2021-11-10%2Bat%2B23.13.40.png" alt="" loading="lazy" width="880" height="609"></a></p>
+
+<p>By default, they’re all going to be restricted from public access. We need to tell Strapi that you’re okay with exposing these checked endpoints to the public. Go to <em>Settings > Users & Permissions Plugin > Roles</em> and click to edit the <em>Public Role</em>. Next, scroll down to permissions and check <code>find</code>  for <code>Interchange</code>.</p>
+
+<p>This endpoint: <a href="http://localhost:1337/interchanges">http://localhost:1337/interchanges</a> should now be available. And the sample response this :<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    [{"id":2,"question":"What are your skills?","answer":"I am skilled at frontend development as well as backend development.","published_at":"2021-11-10T22:04:01.379Z","created_at":"2021-11-10T22:00:18.983Z","updated_at":"2021-11-10T22:04:01.445Z"},
+    {"id":3,"question":"How can I reach you?","answer":"You can reach me via my phone line: 0900000000 or via my twitter handle: interchange_demo.","published_at":"2021-11-10T22:04:09.033Z","created_at":"2021-11-10T22:01:07.886Z","updated_at":"2021-11-10T22:04:09.039Z"},
+    {"id":4,"question":"How long have you been a developer?","answer":"6 years.","published_at":"2021-11-10T22:04:15.757Z","created_at":"2021-11-10T22:01:50.037Z","updated_at":"2021-11-10T22:04:15.765Z"},
+    {"id":5,"question":"Do you have leadership experience?","answer":"Yes, I do.","published_at":"2021-11-10T22:04:21.346Z","created_at":"2021-11-10T22:02:23.115Z","updated_at":"2021-11-10T22:04:21.354Z"},
+    {"id":6,"question":"What other skills do you have apart from software development?\n","answer":"I am a technical writer and also a community builder.","published_at":"2021-11-10T22:04:26.091Z","created_at":"2021-11-10T22:03:21.103Z","updated_at":"2021-11-10T22:04:26.102Z"}]
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="scaffolding-a-nextjs-project" href="#scaffolding-a-nextjs-project">
+  </a>
+  Scaffolding a NextJs project
+</h2>
+
+<p><strong>Create a Next.js app</strong></p>
+
+<p>To create a Next.js app, open your terminal, <code>cd</code> into the directory you’d like to create the app in, and run the following command:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>    npx create-next-app <span class="nt">-e</span> with-tailwindcss nextjs-chatbot
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This would also configure Tailwind CSS with the project</p>
+
+<p><strong>Run the Next.js development server</strong></p>
+
+<p>Next we <code>cd</code> into the newly created directory, in our case that would be <code>nextjs-chatbot</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>    <span class="nb">cd </span>nextjs-chatbot
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>After which we start up the development server, by running this command:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>    npm run dev
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>If everything was set up fine, the next.js server should now be running on <a href="http://localhost:3000">http://localhost:3000</a> we should get this shown on our browser:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--vr2ocKp2--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_1F009F9E3EE9CBA1F20D406E4458E971D06EA9323A4B53D1F0303E815DE8B180_1634387555599_Screenshot%2B2021-10-16%2Bat%2B13.32.30.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--vr2ocKp2--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_1F009F9E3EE9CBA1F20D406E4458E971D06EA9323A4B53D1F0303E815DE8B180_1634387555599_Screenshot%2B2021-10-16%2Bat%2B13.32.30.png" alt="" loading="lazy" width="880" height="476"></a></p>
+
+<h2>
+  <a name="building-nextjs-components" href="#building-nextjs-components">
+  </a>
+  Building NextJs Components
+</h2>
+
+<p>Next, we proceed to any text editor of our choice to develop the rest of the application. We use Visual Studio Code for this tutorial. Opening up the installed project, we should have a folder structure such as this:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--FkP5Flqv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636639126217_Screenshot%2B2021-11-11%2Bat%2B14.58.42.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--FkP5Flqv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636639126217_Screenshot%2B2021-11-11%2Bat%2B14.58.42.png" alt="" loading="lazy" width="636" height="580"></a></p>
+
+<p>To begin the design of the interface, we would remove all the content of the index.js file which is found inside the <code>pages</code> folder, this is the entry point of the NextJs project. We replace it with the content below:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    import Head from 'next/head'
+    import { useState, useEffect } from 'react'
+    import { createMarkup, tranformInterchanges, showBotTyping, getBotAnswer, fetchQuery } from '../utils/helper'
+    export default function Home( { interchanges }) {
+      const [userQuestion, setUserQuestion] = useState('')
+      const [allow, setAllow] = useState(false)
+      const [interchange, setInterchange] = useState([])
+
+    useEffect(async () => {
+     await showBotTyping(setInterchange, [], setAllow)
+     setInterchange([{
+      owner: false,
+      text: tranformInterchanges(interchanges, true)
+    }])
+    }, [interchanges])
+
+    const handleSubmit = async (e) => {
+      e.preventDefault()
+      if(!userQuestion || !allow) return
+      const uQ = userQuestion
+      const newInterchange = [...interchange, {
+        owner: true,
+        text: userQuestion
+      }]
+      setInterchange(newInterchange)
+      setUserQuestion('')
+      setAllow(false)
+      getBotAnswer(interchanges, setInterchange,  uQ, newInterchange, setAllow)
+    }
+      return (
+        &lt;div className="flex flex-col font-mono items-center justify-center min-h-screen">
+          &lt;Head>
+            &lt;title>ChatBot Assistant&lt;/title>
+            &lt;link rel="icon" href="/favicon.ico" />
+          &lt;/Head>
+          &lt;form className="flex flex-col w-full flex-1" onSubmit={handleSubmit}>
+
+            &lt;header className="flex w-full h-24 fixed bg-black border-b">
+
+              &lt;span className="flex items-center text-white font-bold text-lg p-2"> Bot Assistant&lt;/span>
+           &lt;/header>
+            &lt;div className="flex flex-col mt-24 bg-gray-200  overflow-scroll p-2 w-full" style={{ height: "80vh"}}>
+            {interchange.map((chat,i) => (
+              chat.owner ? 
+              &lt;div key={i} className = "user flex flex-row my-2 w-full p-2">
+              &lt;span className = "w-2/3">&lt;/span>
+              &lt;span className = "w-1/3 bg-gray-100 p-2 rounded">
+               {chat.text}
+              &lt;/span>
+            &lt;/div>
+             :   
+              &lt;div key={i} className = "bot my-2 bg-gray-100 w-1/2 lg:w-1/3  p-2 rounded">
+                &lt;span dangerouslySetInnerHTML={createMarkup(chat.text)} />
+              &lt;/div>
+            ))}
+            &lt;div id="scrollTo">&lt;/div>
+            &lt;/div>
+            &lt;footer className = "flex flex-row justify-between items-center p-1 h-5/6  w-full -bottom-5">
+            &lt;div className = "flex flex-row justify-between flex-1 bg-white w-full">
+              &lt;input className = " bg-gray-200 w-2/3 p-2 " placeholder="Type a message" value={userQuestion} onChange={ (e) => { setUserQuestion(e.target.value)}}/>
+              &lt;button className = " bg-black p-2 ml-2 w-1/3  text-white" type="submit"> Send&lt;/button>
+            &lt;/div>
+            &lt;/footer>
+          &lt;/form>
+
+        &lt;/div>
+      )
+    }
+
+    export async function getStaticProps() {
+      const interchanges = await fetchQuery('interchanges')
+      return {
+        props: {
+          interchanges
+        }
+      }
+    }
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="explanation-of-above-code" href="#explanation-of-above-code">
+  </a>
+  Explanation of above code
+</h2>
+
+<p>The above code is used to display the UI for the chat interface, that is both the messages, input area as well and the send button. </p>
+
+<p>In the upper section we imported the helper function from a helper.js file, these functions would be used to make the app functional:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    import Head from 'next/head'
+    import { useState, useEffect } from 'react'
+    import { createMarkup, tranformInterchanges, showBotTyping, getBotAnswer, fetchQuery } from '../utils/helper'
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Next, using the useState hooks, we create multiple variables we would use later in the app to achieve various purposes: <br>
+The <code>userQuestion</code> is used to keep track of the current question  being typed by the user, that is the text in the input box.</p>
+
+<p>The <code>allow</code> state is used to prevent a user from sending multiple messages when the bot is currently still replying to a previously sent message.</p>
+
+<p>The <code>interchange</code> state is used to store internally the messages between both the <code>bot</code> and the <code>user</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>      const [userQuestion, setUserQuestion] = useState('')
+      const [allow, setAllow] = useState(false)
+      const [interchange, setInterchange] = useState([])
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The portion of code in the <code>useEffect</code> fires once the app is started and does the following:<br>
+Firstly, it shows an animation of the bot typing for a few seconds.</p>
+
+<p>Next, it sets the first/default message sent by the bot to the user, this message contains the question gotten from the <code>Strapi API</code> when the app was started.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    useEffect(async () => {
+     await showBotTyping(setInterchange, [], setAllow)
+     setInterchange([{
+      owner: false,
+      text: tranformInterchanges(interchanges, true)
+    }])
+    }, [interchanges])
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The <code>handleSubmit</code>  function is the handler that gets called once the user sends their message to the bot. </p>
+
+<p>We only allow a successful submit if the user indeed has entered value in the text box and also only if the bot doesn’t have a question it is currently processing.</p>
+
+<p>Next, add the new question of the user into the interchange state, remove the typed text of the user from the input box and set the allow state to false, to prevent the user from sending another text till the bot returns with a result.</p>
+
+<p>The <code>getBotAnswer</code> helper function  is then used to get the answer from the bot and update the UI.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    const handleSubmit = async (e) => {
+      e.preventDefault()
+      if(!userQuestion || !allow) return
+      const uQ = userQuestion
+      const newInterchange = [...interchange, {
+        owner: true,
+        text: userQuestion
+      }]
+      setInterchange(newInterchange)
+      setUserQuestion('')
+      setAllow(false)
+      getBotAnswer(interchanges, setInterchange,  uQ, newInterchange, setAllow)
+    }
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>As can be seen in the <code>index.js</code> file, we imported a <code>helper.js</code> file. This means we need to create this file, to do this we create a folder at the root of our application called <code>utils</code> and then create a file in it called <code>helper.js</code>.</p>
+
+<p>Next, copy the content of the file below into the newly created <code>helper.js</code> file:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    const baseUrl = process.env.BASE_URL || 'localhost:1337'
+    export const createMarkup = (text) => {
+      return {__html: text};
+    }
+    export const tranformInterchanges = (interchanges, initial = false) => {
+      let initialText = initial ? `&lt;b>Welcome to my page, glad to have you here 🥰&lt;/b> &lt;br/>
+     Tell me what you would like to know: &lt;br/> &lt;br/> `: ''
+
+      interchanges.map((e, i) => {
+          initialText += `${(i+1)}. ${e.question} &lt;br /> &lt;br />`
+      })
+      return initialText
+    }
+    export const searchInterchange = (interchanges, question) => {
+      let result = interchanges.find(e => e.question.toLowerCase().includes(question.toLowerCase()))
+      if(result) return result.answer
+      return `Cant seem to understand your question, please try again 😔&lt;br>&lt;br>
+        Here are the options again: &lt;br/> &lt;br/>
+        ${tranformInterchanges(interchanges)}
+      `
+    }
+
+    export const showBotTyping = async (setInterchange, prevState, setAllow) => {
+      scrollDown()
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setInterchange([...prevState, {
+        owner: false,
+        text: 'Bot Assistant is typing.'
+      }])
+      scrollDown()
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setInterchange([...prevState, {
+        owner: false,
+        text: 'Bot Assistant is typing..'
+      }])
+      scrollDown()
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setInterchange([...prevState, {
+        owner: false,
+        text: 'Bot Assistant is typing...'
+      }])
+      scrollDown()
+
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setAllow(true)
+      scrollDown()
+    }
+
+    export const getBotAnswer = async (interchanges, setInterchange, question, prevState, setAllow) => {
+      await showBotTyping(setInterchange, prevState, setAllow)
+      setInterchange([...prevState, {
+        owner: false,
+        text: searchInterchange(interchanges,question)
+      }])
+      scrollDown()
+    }
+
+    const scrollDown = () => {
+      document.getElementById('scrollTo').scrollIntoView({behavior: "smooth", block: "start"});
+    }
+
+    export const fetchQuery = async (path, params = null) => {
+      let url
+      if (params !== null) {
+        url = `${baseUrl}/${path}/${params}`
+      } else {
+        url = `${baseUrl}/${path}`
+      }
+      const response = await fetch(`http://${url}`)
+      const data = await response.json()
+      return data
+    }
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="explanation-of-above-code" href="#explanation-of-above-code">
+  </a>
+  Explanation of above code
+</h2>
+
+<p>The above code contains various helper functions that are used in the app. </p>
+
+<p>First, we set the <code>base URL</code> for the API, which in our case is <code>localhost:1337</code> but if we eventually host the <code>Strapi API</code>, we would then update the <code>BASE_URL</code> in the <code>.env</code> file to the remote <code>Strapi API</code>. </p>
+
+<p>Next, we use <code>createMarkup</code> to show the messages from the bot with any HTML formatting it comes with.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    const baseUrl = process.env.BASE_URL || 'localhost:1337'
+    export const createMarkup = (text) => {
+      return {__html: text};
+    }
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The <code>tranformInterchanges</code> function is used to display the first message sent by the bot to the user, which contains all possible questions that can be asked in a finely formatted way:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    export const tranformInterchanges = (interchanges, initial = false) => {
+      let initialText = initial ? `&lt;b>Welcome to my page, glad to have you here 🥰&lt;/b> &lt;br/>
+     Tell me what you would like to know: &lt;br/> &lt;br/> `: ''
+
+      interchanges.map((e, i) => {
+          initialText += `${(i+1)}. ${e.question} &lt;br /> &lt;br />`
+      })
+      return initialText
+    }
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The <code>searchInterchange</code> is the heart of the app, it is where all user questions are scanned to see if there is an adequate response for it. If there is, it returns a response from the provided <code>answers</code> else it returns a response indicating that no results were found while and also displaying all questions the user can ask.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    export const searchInterchange = (interchanges, question) => {
+      let result = interchanges.find(e => e.question.toLowerCase().includes(question.toLowerCase()))
+      if(result) return result.answer
+      return `Cant seem to understand your question, please try again 😔&lt;br>&lt;br>
+        Here are the options again: &lt;br/> &lt;br/>
+        ${tranformInterchanges(interchanges)}
+      `
+    }
+
+    export const showBotTyping = async (setInterchange, prevState, setAllow) => {
+      scrollDown()
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setInterchange([...prevState, {
+        owner: false,
+        text: 'Bot Assistant is typing.'
+      }])
+      scrollDown()
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setInterchange([...prevState, {
+        owner: false,
+        text: 'Bot Assistant is typing..'
+      }])
+      scrollDown()
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setInterchange([...prevState, {
+        owner: false,
+        text: 'Bot Assistant is typing...'
+      }])
+      scrollDown()
+
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setAllow(true)
+      scrollDown()
+    }
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The <code>showBotTyping</code> is used to mimic a human, it gives the bot a human feeling by delaying its response a bit and using that time to display a message that the bot is typing. This typing animation would be removed from the chat history once a response comes back from the bot.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    export const showBotTyping = async (setInterchange, prevState, setAllow) => {
+      scrollDown()
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setInterchange([...prevState, {
+        owner: false,
+        text: 'Bot Assistant is typing.'
+      }])
+      scrollDown()
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setInterchange([...prevState, {
+        owner: false,
+        text: 'Bot Assistant is typing..'
+      }])
+      scrollDown()
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setInterchange([...prevState, {
+        owner: false,
+        text: 'Bot Assistant is typing...'
+      }])
+      scrollDown()
+
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      setAllow(true)
+      scrollDown()
+    }
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The <code>getBotAnswer</code> function sends the user question to the bot and then updates the chat with the bot response.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    export const getBotAnswer = async (interchanges, setInterchange, question, prevState, setAllow) => {
+      await showBotTyping(setInterchange, prevState, setAllow)
+      setInterchange([...prevState, {
+        owner: false,
+        text: searchInterchange(interchanges,question)
+      }])
+      scrollDown()
+    }
+
+    const scrollDown = () => {
+      document.getElementById('scrollTo').scrollIntoView({behavior: "smooth", block: "start"});
+    }
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>We use the <code>scrollDown</code> function to smoothly bring the current message sent by either the <code>bot</code> or the <code>user</code> into view. This makes it more like a <code>chat app</code>, with users not having to manually scroll down to see recent messages.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>    const scrollDown = () => {
+      document.getElementById('scrollTo').scrollIntoView({behavior: "smooth", block: "start"});
+    }
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>And that's it for the code section of the frontend part of this tutorial. In the next section, we would be seeing a demo of the finished app.</p>
+
+<h2>
+  <a name="finished-app" href="#finished-app">
+  </a>
+  Finished App
+</h2>
+
+<p>The finished app looks like this:</p>
+
+<h2>
+  <a name="conclusion" href="#conclusion">
+  </a>
+  Conclusion
+</h2>
+
+<p>There’s no doubt that the benefit a chatbot assistant brings outweigh any negative effect it could have. This method allows us to free up our time by allowing this bot to answer repetitive questions about us, our business, our organization, or event. The possibilities of this are endless and can only be left to one’s imagination.</p>
+
+<p>This tutorial demonstrated how easily you can build a bot using technologies already very much common. If this interests you, check out <a href="https://strapi.io/">Strapi's website</a> to learn more about the headless CMS.</p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/shadaw11/how-to-create-a-chatbot-assistant-using-nextjs-tailwindcss-and-strapi-3ome" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(e,t,n,s){return s.type_of="article",s.id=914159,s.title="How to Create a ChatBot Assistant using NextJs, TailwindCss and Strapi",s.description="Communication is key to building great brands, in this digital age we have got lots of opportunities...",s.readable_publish_date="Dec 1 '21",s.slug="how-to-create-a-chatbot-assistant-using-nextjs-tailwindcss-and-strapi-3ome",s.path="/strapi/how-to-create-a-chatbot-assistant-using-nextjs-tailwindcss-and-strapi-3ome",s.url="https://dev.to/strapi/how-to-create-a-chatbot-assistant-using-nextjs-tailwindcss-and-strapi-3ome",s.comments_count=0,s.public_reactions_count=12,s.collection_id=e,s.published_timestamp=t,s.positive_reactions_count=12,s.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--DB2_D2qu--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7328t8nzdikhe82b0ubf.jpg",s.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--975foZX6--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/7328t8nzdikhe82b0ubf.jpg",s.canonical_url="https://strapi.io/blog/how-to-create-a-chat-bot-assistant-using-next-js-tailwind-css-and-strapi?utm_source=dev.to&utm_medium=post&utm_campaign=blog",s.created_at=t,s.edited_at="2021-12-01T12:13:03Z",s.crossposted_at=e,s.published_at=t,s.last_comment_at=t,s.reading_time_minutes=12,s.tag_list="tailwindcss, strapi, nextjs, cms",s.tags=["tailwindcss",n,"nextjs","cms"],s.body_html='<p>Communication is key to building great brands, in this digital age we have got lots of opportunities and ways to carry out great communications. From social media to emails, to text and calls, the limit of communications has been tested. One major innovation in communication has got to be ChatBots.</p>\n\n<p>Simply put a <code>chatbot</code> is a software application used to conduct an online chat conversation via text or text-to-speech. It can be used to substitute a real chat with a live human agent. It has been used in various scenarios ranging but not limited to personal assistants, customer support, booking of tickets, e-shopping, also e-banking to mention a few.</p>\n\n<p>This tutorial will show you how to build a Rule-Based Chatbot Assistant using Next.js and Tailwind CSS as frontend and Strapi headless CMS as backend. .</p>\n\n<p>You can find the link to the <a href="https://github.com/chyke007/strapi-nextjs-tutorial-chatbot">finished frontend code here</a>, as well as the <a href="https://github.com/chyke007/strapi-tutorial-chatbot">backend code here</a>.</p>\n\n<h2>\n  <a name="advantages-of-using-chatbot" href="#advantages-of-using-chatbot">\n  </a>\n  Advantages of using Chatbot\n</h2>\n\n<p>It is necessary that before we proceed further into this article, we have a picture of what chatbot brings to the table when used adequately. Some of the advantages of using a chatbot include:</p>\n\n<ol>\n<li>Availability: Since a chatbot is a software application that can be hosted, it means it doesn\'t sleep, hence it is always available at any time of the day. This gives a company or person a great brand image that at any time of the day clients can get support on their varying requests.</li>\n<li>Cost reduction: As an application that can be deployed in multiple places, it reduces the cost of running a large number of customer care representatives.</li>\n<li> Efficiency: A single chatbot can be deployed in various places and also simultaneously attend to multiple requests at once.</li>\n<li>Improved online presence: Some chatbots allow for the integration to other messaging platforms, this allows a consistent response sent across multiple platforms and which leads to improved brand identity.</li>\n</ol>\n\n<h2>\n  <a name="prerequisite" href="#prerequisite">\n  </a>\n  Prerequisite\n</h2>\n\n<p>Before starting this tutorial, you need to have</p>\n\n<ul>\n<li>Node.js installed on your local machine (v12 or v14) - Check this <a href="https://codex.so/how-to-install-the-latest-node-js-npm-and-yarn">tutorial</a> for instructions on how to install Node.js</li>\n<li>Basic understanding of Strapi - Get started with this <a href="https://strapi.io/documentation/developer-docs/latest/getting-started/quick-start.html">quick guide</a>\n</li>\n<li>Basic knowledge of <a href="https://nextjs.org/docs/getting-started">Next.js</a>\n</li>\n<li>Basic knowledge of <a href="https://tailwindcss.com/docs">Tailwind CSS</a>\n</li>\n</ul>\n\n<h2>\n  <a name="what-is-next-js" href="#what-is-next-js">\n  </a>\n  What is Next Js\n</h2>\n\n<p>Next.js is an awesome React framework for building highly dynamic applications. It comes with pre-rendering, automatic code-splitting amongst many other great features out of the box.</p>\n\n<h2>\n  <a name="what-is-tailwind-css" href="#what-is-tailwind-css">\n  </a>\n  What is Tailwind CSS\n</h2>\n\n<p>Tailwind CSS is a utility-first CSS framework for rapidly building custom user interfaces. With Tailwind CSS, we write our CSS directly in our HTML classes. This is quite useful as we don\'t need to import an external stylesheet or use a separate library for UI designs.</p>\n\n<h2>\n  <a name="what-is-strapi" href="#what-is-strapi">\n  </a>\n  What is Strapi\n</h2>\n\n<p>Strapi is a Node.js open-source headless CMS that allows us to develop APIs and manage content easily without the hassle of building out a project from scratch. It allows for customization and self-hosting as opposed to the rigid traditional CMS we are used to.</p>\n\n<p>We can easily build out APIs faster and consume the contents via APIs using any REST API client or GraphQL.</p>\n\n<h2>\n  <a name="scaffolding-a-strapi-project" href="#scaffolding-a-strapi-project">\n  </a>\n  Scaffolding a Strapi Project\n</h2>\n\n<p>To setup a new Strapi Project is quite straightforward, just run this command:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>    npx create-strapi-app chatbot-assistant <span class="nt">--quickstart</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Change <code>chatbot-assistant</code> to the preferred name of your project</p>\n\n<p><strong>Nb: During the setup, we would not be using any Strapi template</strong></p>\n\n<p>This would install and create a Strapi application and set up the project locally.</p>\n\n<p>After installation, the browser would open a page on localhost:1337 which would prompt to set up a super admin account to proceed with Strapi.</p>\n\n<h2>\n  <a name="building-the-interchange-collection" href="#building-the-interchange-collection">\n  </a>\n  Building the Interchange collection\n</h2>\n\n<p>Next, we will create a new collection type that will store the details of each question and their respective answers.</p>\n\n<p>Hence, create a collection type called ‘interchange’ that has these fields: <code>question</code>, <code>answer</code></p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--D0aytoBs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572411431_Screenshot%2B2021-11-10%2Bat%2B20.26.45.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--D0aytoBs--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572411431_Screenshot%2B2021-11-10%2Bat%2B20.26.45.png" alt="" loading="lazy" width="880" height="455"></a></p>\n\n<p>Clicking “Continue” would bring up another screen to select the fields for this collection. Choose the “Text” field from the list and provide <code>question</code> as its name. </p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--O3OuwMmF--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572552842_Screenshot%2B2021-11-10%2Bat%2B20.29.07.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--O3OuwMmF--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572552842_Screenshot%2B2021-11-10%2Bat%2B20.29.07.png" alt="" loading="lazy" width="880" height="455"></a></p>\n\n<p>Next, we select the <code>Long Text</code> type in the Base Settings, this would allow us to enter longer and more descriptive questions when creating an <code>interchange</code>.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--xVRfsUe8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572663219_Screenshot%2B2021-11-10%2Bat%2B20.30.59.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--xVRfsUe8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572663219_Screenshot%2B2021-11-10%2Bat%2B20.30.59.png" alt="" loading="lazy" width="880" height="455"></a></p>\n\n<p>Next, we proceed to the  “Advanced settings” tab and check the “Required field” box to ensure this field is required when creating a new interchange. Also, we check the “Unique field” box to prevent having the same question our interchange.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--gtEajNuy--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572861278_Screenshot%2B2021-11-10%2Bat%2B20.34.17.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--gtEajNuy--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572861278_Screenshot%2B2021-11-10%2Bat%2B20.34.17.png" alt="" loading="lazy" width="880" height="455"></a></p>\n\n<p>We click on the Add another field to add the answer field. Below is a table showing the properties for both fields in this collection:</p>\n\n<div class="table-wrapper-paragraph"><table>\n<thead>\n<tr>\n<th><strong>Field Name</strong></th>\n<th><strong>Field Type</strong></th>\n<th>Required</th>\n<th>Unique</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>question</td>\n<td>long text</td>\n<td>true</td>\n<td>true</td>\n</tr>\n<tr>\n<td>answer</td>\n<td>rich text</td>\n<td>true</td>\n<td>false</td>\n</tr>\n</tbody>\n</table></div>\n\n<h2>\n  <a name="seeding-strapi" href="#seeding-strapi">\n  </a>\n  Seeding Strapi\n</h2>\n\n<p>We would proceed next to define the questions and respective answers given by our bot.</p>\n\n<p>To add data to the collection, we select the <code>Interchanges</code> Collection on the left sidebar, click “Add New Interchanges” and fill in the details.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--xT0TnOks--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636573966990_Screenshot%2B2021-11-10%2Bat%2B20.52.41.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--xT0TnOks--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636573966990_Screenshot%2B2021-11-10%2Bat%2B20.52.41.png" alt="Interchanges collection" loading="lazy" width="880" height="455"></a></p>\n\n<p>For this tutorial, I would be seeding the interchange with an about me interchange in mind, so our bot can act as an assistant that tells visitors more about us and our services. After seeding our collection looks thus:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--UqlvmqiL--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636582185036_Screenshot%2B2021-11-10%2Bat%2B23.09.41.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--UqlvmqiL--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636582185036_Screenshot%2B2021-11-10%2Bat%2B23.09.41.png" alt="Seeded Interchanges collection" loading="lazy" width="880" height="455"></a></p>\n\n<h2>\n  <a name="allowing-public-access" href="#allowing-public-access">\n  </a>\n  Allowing Public access\n</h2>\n\n<p>By default, whenever you create an API, Strapi creates six endpoints from the name given to the API. The endpoints generated for <code>Interchange</code>  should look like this:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ajpZtLQk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636582427444_Screenshot%2B2021-11-10%2Bat%2B23.13.40.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ajpZtLQk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636582427444_Screenshot%2B2021-11-10%2Bat%2B23.13.40.png" alt="" loading="lazy" width="880" height="609"></a></p>\n\n<p>By default, they’re all going to be restricted from public access. We need to tell Strapi that you’re okay with exposing these checked endpoints to the public. Go to <em>Settings &gt; Users &amp; Permissions Plugin &gt; Roles</em> and click to edit the <em>Public Role</em>. Next, scroll down to permissions and check <code>find</code>  for <code>Interchange</code>.</p>\n\n<p>This endpoint: <a href="http://localhost:1337/interchanges">http://localhost:1337/interchanges</a> should now be available. And the sample response this :<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    [{"id":2,"question":"What are your skills?","answer":"I am skilled at frontend development as well as backend development.","published_at":"2021-11-10T22:04:01.379Z","created_at":"2021-11-10T22:00:18.983Z","updated_at":"2021-11-10T22:04:01.445Z"},\n    {"id":3,"question":"How can I reach you?","answer":"You can reach me via my phone line: 0900000000 or via my twitter handle: interchange_demo.","published_at":"2021-11-10T22:04:09.033Z","created_at":"2021-11-10T22:01:07.886Z","updated_at":"2021-11-10T22:04:09.039Z"},\n    {"id":4,"question":"How long have you been a developer?","answer":"6 years.","published_at":"2021-11-10T22:04:15.757Z","created_at":"2021-11-10T22:01:50.037Z","updated_at":"2021-11-10T22:04:15.765Z"},\n    {"id":5,"question":"Do you have leadership experience?","answer":"Yes, I do.","published_at":"2021-11-10T22:04:21.346Z","created_at":"2021-11-10T22:02:23.115Z","updated_at":"2021-11-10T22:04:21.354Z"},\n    {"id":6,"question":"What other skills do you have apart from software development?\\n","answer":"I am a technical writer and also a community builder.","published_at":"2021-11-10T22:04:26.091Z","created_at":"2021-11-10T22:03:21.103Z","updated_at":"2021-11-10T22:04:26.102Z"}]\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="scaffolding-a-nextjs-project" href="#scaffolding-a-nextjs-project">\n  </a>\n  Scaffolding a NextJs project\n</h2>\n\n<p><strong>Create a Next.js app</strong></p>\n\n<p>To create a Next.js app, open your terminal, <code>cd</code> into the directory you’d like to create the app in, and run the following command:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>    npx create-next-app <span class="nt">-e</span> with-tailwindcss nextjs-chatbot\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This would also configure Tailwind CSS with the project</p>\n\n<p><strong>Run the Next.js development server</strong></p>\n\n<p>Next we <code>cd</code> into the newly created directory, in our case that would be <code>nextjs-chatbot</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>    <span class="nb">cd </span>nextjs-chatbot\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>After which we start up the development server, by running this command:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>    npm run dev\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>If everything was set up fine, the next.js server should now be running on <a href="http://localhost:3000">http://localhost:3000</a> we should get this shown on our browser:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--vr2ocKp2--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_1F009F9E3EE9CBA1F20D406E4458E971D06EA9323A4B53D1F0303E815DE8B180_1634387555599_Screenshot%2B2021-10-16%2Bat%2B13.32.30.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--vr2ocKp2--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_1F009F9E3EE9CBA1F20D406E4458E971D06EA9323A4B53D1F0303E815DE8B180_1634387555599_Screenshot%2B2021-10-16%2Bat%2B13.32.30.png" alt="" loading="lazy" width="880" height="476"></a></p>\n\n<h2>\n  <a name="building-nextjs-components" href="#building-nextjs-components">\n  </a>\n  Building NextJs Components\n</h2>\n\n<p>Next, we proceed to any text editor of our choice to develop the rest of the application. We use Visual Studio Code for this tutorial. Opening up the installed project, we should have a folder structure such as this:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--FkP5Flqv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636639126217_Screenshot%2B2021-11-11%2Bat%2B14.58.42.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--FkP5Flqv--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636639126217_Screenshot%2B2021-11-11%2Bat%2B14.58.42.png" alt="" loading="lazy" width="636" height="580"></a></p>\n\n<p>To begin the design of the interface, we would remove all the content of the index.js file which is found inside the <code>pages</code> folder, this is the entry point of the NextJs project. We replace it with the content below:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    import Head from \'next/head\'\n    import { useState, useEffect } from \'react\'\n    import { createMarkup, tranformInterchanges, showBotTyping, getBotAnswer, fetchQuery } from \'../utils/helper\'\n    export default function Home( { interchanges }) {\n      const [userQuestion, setUserQuestion] = useState(\'\')\n      const [allow, setAllow] = useState(false)\n      const [interchange, setInterchange] = useState([])\n\n    useEffect(async () =&gt; {\n     await showBotTyping(setInterchange, [], setAllow)\n     setInterchange([{\n      owner: false,\n      text: tranformInterchanges(interchanges, true)\n    }])\n    }, [interchanges])\n\n    const handleSubmit = async (e) =&gt; {\n      e.preventDefault()\n      if(!userQuestion || !allow) return\n      const uQ = userQuestion\n      const newInterchange = [...interchange, {\n        owner: true,\n        text: userQuestion\n      }]\n      setInterchange(newInterchange)\n      setUserQuestion(\'\')\n      setAllow(false)\n      getBotAnswer(interchanges, setInterchange,  uQ, newInterchange, setAllow)\n    }\n      return (\n        &lt;div className="flex flex-col font-mono items-center justify-center min-h-screen"&gt;\n          &lt;Head&gt;\n            &lt;title&gt;ChatBot Assistant&lt;/title&gt;\n            &lt;link rel="icon" href="/favicon.ico" /&gt;\n          &lt;/Head&gt;\n          &lt;form className="flex flex-col w-full flex-1" onSubmit={handleSubmit}&gt;\n\n            &lt;header className="flex w-full h-24 fixed bg-black border-b"&gt;\n\n              &lt;span className="flex items-center text-white font-bold text-lg p-2"&gt; Bot Assistant&lt;/span&gt;\n           &lt;/header&gt;\n            &lt;div className="flex flex-col mt-24 bg-gray-200  overflow-scroll p-2 w-full" style={{ height: "80vh"}}&gt;\n            {interchange.map((chat,i) =&gt; (\n              chat.owner ? \n              &lt;div key={i} className = "user flex flex-row my-2 w-full p-2"&gt;\n              &lt;span className = "w-2/3"&gt;&lt;/span&gt;\n              &lt;span className = "w-1/3 bg-gray-100 p-2 rounded"&gt;\n               {chat.text}\n              &lt;/span&gt;\n            &lt;/div&gt;\n             :   \n              &lt;div key={i} className = "bot my-2 bg-gray-100 w-1/2 lg:w-1/3  p-2 rounded"&gt;\n                &lt;span dangerouslySetInnerHTML={createMarkup(chat.text)} /&gt;\n              &lt;/div&gt;\n            ))}\n            &lt;div id="scrollTo"&gt;&lt;/div&gt;\n            &lt;/div&gt;\n            &lt;footer className = "flex flex-row justify-between items-center p-1 h-5/6  w-full -bottom-5"&gt;\n            &lt;div className = "flex flex-row justify-between flex-1 bg-white w-full"&gt;\n              &lt;input className = " bg-gray-200 w-2/3 p-2 " placeholder="Type a message" value={userQuestion} onChange={ (e) =&gt; { setUserQuestion(e.target.value)}}/&gt;\n              &lt;button className = " bg-black p-2 ml-2 w-1/3  text-white" type="submit"&gt; Send&lt;/button&gt;\n            &lt;/div&gt;\n            &lt;/footer&gt;\n          &lt;/form&gt;\n\n        &lt;/div&gt;\n      )\n    }\n\n    export async function getStaticProps() {\n      const interchanges = await fetchQuery(\'interchanges\')\n      return {\n        props: {\n          interchanges\n        }\n      }\n    }\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="explanation-of-above-code" href="#explanation-of-above-code">\n  </a>\n  Explanation of above code\n</h2>\n\n<p>The above code is used to display the UI for the chat interface, that is both the messages, input area as well and the send button. </p>\n\n<p>In the upper section we imported the helper function from a helper.js file, these functions would be used to make the app functional:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    import Head from \'next/head\'\n    import { useState, useEffect } from \'react\'\n    import { createMarkup, tranformInterchanges, showBotTyping, getBotAnswer, fetchQuery } from \'../utils/helper\'\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Next, using the useState hooks, we create multiple variables we would use later in the app to achieve various purposes: <br>\nThe <code>userQuestion</code> is used to keep track of the current question  being typed by the user, that is the text in the input box.</p>\n\n<p>The <code>allow</code> state is used to prevent a user from sending multiple messages when the bot is currently still replying to a previously sent message.</p>\n\n<p>The <code>interchange</code> state is used to store internally the messages between both the <code>bot</code> and the <code>user</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>      const [userQuestion, setUserQuestion] = useState(\'\')\n      const [allow, setAllow] = useState(false)\n      const [interchange, setInterchange] = useState([])\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The portion of code in the <code>useEffect</code> fires once the app is started and does the following:<br>\nFirstly, it shows an animation of the bot typing for a few seconds.</p>\n\n<p>Next, it sets the first/default message sent by the bot to the user, this message contains the question gotten from the <code>Strapi API</code> when the app was started.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    useEffect(async () =&gt; {\n     await showBotTyping(setInterchange, [], setAllow)\n     setInterchange([{\n      owner: false,\n      text: tranformInterchanges(interchanges, true)\n    }])\n    }, [interchanges])\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The <code>handleSubmit</code>  function is the handler that gets called once the user sends their message to the bot. </p>\n\n<p>We only allow a successful submit if the user indeed has entered value in the text box and also only if the bot doesn’t have a question it is currently processing.</p>\n\n<p>Next, add the new question of the user into the interchange state, remove the typed text of the user from the input box and set the allow state to false, to prevent the user from sending another text till the bot returns with a result.</p>\n\n<p>The <code>getBotAnswer</code> helper function  is then used to get the answer from the bot and update the UI.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    const handleSubmit = async (e) =&gt; {\n      e.preventDefault()\n      if(!userQuestion || !allow) return\n      const uQ = userQuestion\n      const newInterchange = [...interchange, {\n        owner: true,\n        text: userQuestion\n      }]\n      setInterchange(newInterchange)\n      setUserQuestion(\'\')\n      setAllow(false)\n      getBotAnswer(interchanges, setInterchange,  uQ, newInterchange, setAllow)\n    }\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>As can be seen in the <code>index.js</code> file, we imported a <code>helper.js</code> file. This means we need to create this file, to do this we create a folder at the root of our application called <code>utils</code> and then create a file in it called <code>helper.js</code>.</p>\n\n<p>Next, copy the content of the file below into the newly created <code>helper.js</code> file:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    const baseUrl = process.env.BASE_URL || \'localhost:1337\'\n    export const createMarkup = (text) =&gt; {\n      return {__html: text};\n    }\n    export const tranformInterchanges = (interchanges, initial = false) =&gt; {\n      let initialText = initial ? `&lt;b&gt;Welcome to my page, glad to have you here 🥰&lt;/b&gt; &lt;br/&gt;\n     Tell me what you would like to know: &lt;br/&gt; &lt;br/&gt; `: \'\'\n\n      interchanges.map((e, i) =&gt; {\n          initialText += `${(i+1)}. ${e.question} &lt;br /&gt; &lt;br /&gt;`\n      })\n      return initialText\n    }\n    export const searchInterchange = (interchanges, question) =&gt; {\n      let result = interchanges.find(e =&gt; e.question.toLowerCase().includes(question.toLowerCase()))\n      if(result) return result.answer\n      return `Cant seem to understand your question, please try again 😔&lt;br&gt;&lt;br&gt;\n        Here are the options again: &lt;br/&gt; &lt;br/&gt;\n        ${tranformInterchanges(interchanges)}\n      `\n    }\n\n    export const showBotTyping = async (setInterchange, prevState, setAllow) =&gt; {\n      scrollDown()\n      await new Promise(resolve =&gt; setTimeout(resolve, 1000));\n      setInterchange([...prevState, {\n        owner: false,\n        text: \'Bot Assistant is typing.\'\n      }])\n      scrollDown()\n      await new Promise(resolve =&gt; setTimeout(resolve, 1000));\n      setInterchange([...prevState, {\n        owner: false,\n        text: \'Bot Assistant is typing..\'\n      }])\n      scrollDown()\n      await new Promise(resolve =&gt; setTimeout(resolve, 1000));\n      setInterchange([...prevState, {\n        owner: false,\n        text: \'Bot Assistant is typing...\'\n      }])\n      scrollDown()\n\n      await new Promise(resolve =&gt; setTimeout(resolve, 1000));\n      setAllow(true)\n      scrollDown()\n    }\n\n    export const getBotAnswer = async (interchanges, setInterchange, question, prevState, setAllow) =&gt; {\n      await showBotTyping(setInterchange, prevState, setAllow)\n      setInterchange([...prevState, {\n        owner: false,\n        text: searchInterchange(interchanges,question)\n      }])\n      scrollDown()\n    }\n\n    const scrollDown = () =&gt; {\n      document.getElementById(\'scrollTo\').scrollIntoView({behavior: "smooth", block: "start"});\n    }\n\n    export const fetchQuery = async (path, params = null) =&gt; {\n      let url\n      if (params !== null) {\n        url = `${baseUrl}/${path}/${params}`\n      } else {\n        url = `${baseUrl}/${path}`\n      }\n      const response = await fetch(`http://${url}`)\n      const data = await response.json()\n      return data\n    }\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="explanation-of-above-code" href="#explanation-of-above-code">\n  </a>\n  Explanation of above code\n</h2>\n\n<p>The above code contains various helper functions that are used in the app. </p>\n\n<p>First, we set the <code>base URL</code> for the API, which in our case is <code>localhost:1337</code> but if we eventually host the <code>Strapi API</code>, we would then update the <code>BASE_URL</code> in the <code>.env</code> file to the remote <code>Strapi API</code>. </p>\n\n<p>Next, we use <code>createMarkup</code> to show the messages from the bot with any HTML formatting it comes with.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    const baseUrl = process.env.BASE_URL || \'localhost:1337\'\n    export const createMarkup = (text) =&gt; {\n      return {__html: text};\n    }\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The <code>tranformInterchanges</code> function is used to display the first message sent by the bot to the user, which contains all possible questions that can be asked in a finely formatted way:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    export const tranformInterchanges = (interchanges, initial = false) =&gt; {\n      let initialText = initial ? `&lt;b&gt;Welcome to my page, glad to have you here 🥰&lt;/b&gt; &lt;br/&gt;\n     Tell me what you would like to know: &lt;br/&gt; &lt;br/&gt; `: \'\'\n\n      interchanges.map((e, i) =&gt; {\n          initialText += `${(i+1)}. ${e.question} &lt;br /&gt; &lt;br /&gt;`\n      })\n      return initialText\n    }\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The <code>searchInterchange</code> is the heart of the app, it is where all user questions are scanned to see if there is an adequate response for it. If there is, it returns a response from the provided <code>answers</code> else it returns a response indicating that no results were found while and also displaying all questions the user can ask.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    export const searchInterchange = (interchanges, question) =&gt; {\n      let result = interchanges.find(e =&gt; e.question.toLowerCase().includes(question.toLowerCase()))\n      if(result) return result.answer\n      return `Cant seem to understand your question, please try again 😔&lt;br&gt;&lt;br&gt;\n        Here are the options again: &lt;br/&gt; &lt;br/&gt;\n        ${tranformInterchanges(interchanges)}\n      `\n    }\n\n    export const showBotTyping = async (setInterchange, prevState, setAllow) =&gt; {\n      scrollDown()\n      await new Promise(resolve =&gt; setTimeout(resolve, 1000));\n      setInterchange([...prevState, {\n        owner: false,\n        text: \'Bot Assistant is typing.\'\n      }])\n      scrollDown()\n      await new Promise(resolve =&gt; setTimeout(resolve, 1000));\n      setInterchange([...prevState, {\n        owner: false,\n        text: \'Bot Assistant is typing..\'\n      }])\n      scrollDown()\n      await new Promise(resolve =&gt; setTimeout(resolve, 1000));\n      setInterchange([...prevState, {\n        owner: false,\n        text: \'Bot Assistant is typing...\'\n      }])\n      scrollDown()\n\n      await new Promise(resolve =&gt; setTimeout(resolve, 1000));\n      setAllow(true)\n      scrollDown()\n    }\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The <code>showBotTyping</code> is used to mimic a human, it gives the bot a human feeling by delaying its response a bit and using that time to display a message that the bot is typing. This typing animation would be removed from the chat history once a response comes back from the bot.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    export const showBotTyping = async (setInterchange, prevState, setAllow) =&gt; {\n      scrollDown()\n      await new Promise(resolve =&gt; setTimeout(resolve, 1000));\n      setInterchange([...prevState, {\n        owner: false,\n        text: \'Bot Assistant is typing.\'\n      }])\n      scrollDown()\n      await new Promise(resolve =&gt; setTimeout(resolve, 1000));\n      setInterchange([...prevState, {\n        owner: false,\n        text: \'Bot Assistant is typing..\'\n      }])\n      scrollDown()\n      await new Promise(resolve =&gt; setTimeout(resolve, 1000));\n      setInterchange([...prevState, {\n        owner: false,\n        text: \'Bot Assistant is typing...\'\n      }])\n      scrollDown()\n\n      await new Promise(resolve =&gt; setTimeout(resolve, 1000));\n      setAllow(true)\n      scrollDown()\n    }\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The <code>getBotAnswer</code> function sends the user question to the bot and then updates the chat with the bot response.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    export const getBotAnswer = async (interchanges, setInterchange, question, prevState, setAllow) =&gt; {\n      await showBotTyping(setInterchange, prevState, setAllow)\n      setInterchange([...prevState, {\n        owner: false,\n        text: searchInterchange(interchanges,question)\n      }])\n      scrollDown()\n    }\n\n    const scrollDown = () =&gt; {\n      document.getElementById(\'scrollTo\').scrollIntoView({behavior: "smooth", block: "start"});\n    }\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>We use the <code>scrollDown</code> function to smoothly bring the current message sent by either the <code>bot</code> or the <code>user</code> into view. This makes it more like a <code>chat app</code>, with users not having to manually scroll down to see recent messages.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>    const scrollDown = () =&gt; {\n      document.getElementById(\'scrollTo\').scrollIntoView({behavior: "smooth", block: "start"});\n    }\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>And that\'s it for the code section of the frontend part of this tutorial. In the next section, we would be seeing a demo of the finished app.</p>\n\n<h2>\n  <a name="finished-app" href="#finished-app">\n  </a>\n  Finished App\n</h2>\n\n<p>The finished app looks like this:</p>\n\n<h2>\n  <a name="conclusion" href="#conclusion">\n  </a>\n  Conclusion\n</h2>\n\n<p>There’s no doubt that the benefit a chatbot assistant brings outweigh any negative effect it could have. This method allows us to free up our time by allowing this bot to answer repetitive questions about us, our business, our organization, or event. The possibilities of this are endless and can only be left to one’s imagination.</p>\n\n<p>This tutorial demonstrated how easily you can build a bot using technologies already very much common. If this interests you, check out <a href="https://strapi.io/">Strapi\'s website</a> to learn more about the headless CMS.</p>\n\n',s.body_markdown='Communication is key to building great brands, in this digital age we have got lots of opportunities and ways to carry out great communications. From social media to emails, to text and calls, the limit of communications has been tested. One major innovation in communication has got to be ChatBots.\n\nSimply put a `chatbot` is a software application used to conduct an online chat conversation via text or text-to-speech. It can be used to substitute a real chat with a live human agent. It has been used in various scenarios ranging but not limited to personal assistants, customer support, booking of tickets, e-shopping, also e-banking to mention a few.\n\nThis tutorial will show you how to build a Rule-Based Chatbot Assistant using Next.js and Tailwind CSS as frontend and Strapi headless CMS as backend. .\n\nYou can find the link to the [finished frontend code here](https://github.com/chyke007/strapi-nextjs-tutorial-chatbot), as well as the [backend code here](https://github.com/chyke007/strapi-tutorial-chatbot).\n\n\n## Advantages of using Chatbot\n\nIt is necessary that before we proceed further into this article, we have a picture of what chatbot brings to the table when used adequately. Some of the advantages of using a chatbot include:\n\n1. Availability: Since a chatbot is a software application that can be hosted, it means it doesn\'t sleep, hence it is always available at any time of the day. This gives a company or person a great brand image that at any time of the day clients can get support on their varying requests.\n2. Cost reduction: As an application that can be deployed in multiple places, it reduces the cost of running a large number of customer care representatives.\n3.  Efficiency: A single chatbot can be deployed in various places and also simultaneously attend to multiple requests at once.\n4. Improved online presence: Some chatbots allow for the integration to other messaging platforms, this allows a consistent response sent across multiple platforms and which leads to improved brand identity.\n\n## Prerequisite\n\nBefore starting this tutorial, you need to have\n\n- Node.js installed on your local machine (v12 or v14) - Check this [tutorial](https://codex.so/how-to-install-the-latest-node-js-npm-and-yarn) for instructions on how to install Node.js\n- Basic understanding of Strapi - Get started with this [quick guide](https://strapi.io/documentation/developer-docs/latest/getting-started/quick-start.html)\n- Basic knowledge of [Next.js](https://nextjs.org/docs/getting-started)\n- Basic knowledge of [Tailwind CSS](https://tailwindcss.com/docs)\n \n## What is Next Js\n\nNext.js is an awesome React framework for building highly dynamic applications. It comes with pre-rendering, automatic code-splitting amongst many other great features out of the box.\n\n## What is Tailwind CSS\n\nTailwind CSS is a utility-first CSS framework for rapidly building custom user interfaces. With Tailwind CSS, we write our CSS directly in our HTML classes. This is quite useful as we don\'t need to import an external stylesheet or use a separate library for UI designs.\n\n## What is Strapi\n\nStrapi is a Node.js open-source headless CMS that allows us to develop APIs and manage content easily without the hassle of building out a project from scratch. It allows for customization and self-hosting as opposed to the rigid traditional CMS we are used to.\n\nWe can easily build out APIs faster and consume the contents via APIs using any REST API client or GraphQL.\n\n\n## Scaffolding a Strapi Project\n\nTo setup a new Strapi Project is quite straightforward, just run this command:\n\n```bash\n    npx create-strapi-app chatbot-assistant --quickstart\n```\n\nChange `chatbot-assistant` to the preferred name of your project\n\n**Nb: During the setup, we would not be using any Strapi template**\n\nThis would install and create a Strapi application and set up the project locally.\n\nAfter installation, the browser would open a page on localhost:1337 which would prompt to set up a super admin account to proceed with Strapi.\n\n\n## Building the Interchange collection\n\nNext, we will create a new collection type that will store the details of each question and their respective answers.\n\nHence, create a collection type called ‘interchange’ that has these fields: `question`, `answer`\n\n![](https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572411431_Screenshot+2021-11-10+at+20.26.45.png)\n\nClicking “Continue” would bring up another screen to select the fields for this collection. Choose the “Text” field from the list and provide `question` as its name. \n\n\n![](https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572552842_Screenshot+2021-11-10+at+20.29.07.png)\n\n\nNext, we select the `Long Text` type in the Base Settings, this would allow us to enter longer and more descriptive questions when creating an `interchange`.\n\n\n![](https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572663219_Screenshot+2021-11-10+at+20.30.59.png)\n\n\nNext, we proceed to the  “Advanced settings” tab and check the “Required field” box to ensure this field is required when creating a new interchange. Also, we check the “Unique field” box to prevent having the same question our interchange.\n\n![](https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636572861278_Screenshot+2021-11-10+at+20.34.17.png)\n\n\nWe click on the Add another field to add the answer field. Below is a table showing the properties for both fields in this collection:\n\n| **Field Name** | **Field Type** | Required | Unique |\n| -------------- | -------------- | -------- | ------ |\n| question       | long text      | true     | true   |\n| answer         | rich text      | true     | false  |\n\n## Seeding Strapi\n\nWe would proceed next to define the questions and respective answers given by our bot.\n\nTo add data to the collection, we select the `Interchanges` Collection on the left sidebar, click “Add New Interchanges” and fill in the details.\n\n![Interchanges collection](https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636573966990_Screenshot+2021-11-10+at+20.52.41.png)\n\n\nFor this tutorial, I would be seeding the interchange with an about me interchange in mind, so our bot can act as an assistant that tells visitors more about us and our services. After seeding our collection looks thus:\n\n\n![Seeded Interchanges collection](https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636582185036_Screenshot+2021-11-10+at+23.09.41.png)\n\n\n\n## Allowing Public access\n\nBy default, whenever you create an API, Strapi creates six endpoints from the name given to the API. The endpoints generated for `Interchange`  should look like this:\n\n\n\n![](https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636582427444_Screenshot+2021-11-10+at+23.13.40.png)\n\n\n\nBy default, they’re all going to be restricted from public access. We need to tell Strapi that you’re okay with exposing these checked endpoints to the public. Go to *Settings > Users & Permissions Plugin > Roles* and click to edit the *Public Role*. Next, scroll down to permissions and check `find`  for `Interchange`.\n\nThis endpoint: http://localhost:1337/interchanges should now be available. And the sample response this :\n\n```\n    [{"id":2,"question":"What are your skills?","answer":"I am skilled at frontend development as well as backend development.","published_at":"2021-11-10T22:04:01.379Z","created_at":"2021-11-10T22:00:18.983Z","updated_at":"2021-11-10T22:04:01.445Z"},\n    {"id":3,"question":"How can I reach you?","answer":"You can reach me via my phone line: 0900000000 or via my twitter handle: interchange_demo.","published_at":"2021-11-10T22:04:09.033Z","created_at":"2021-11-10T22:01:07.886Z","updated_at":"2021-11-10T22:04:09.039Z"},\n    {"id":4,"question":"How long have you been a developer?","answer":"6 years.","published_at":"2021-11-10T22:04:15.757Z","created_at":"2021-11-10T22:01:50.037Z","updated_at":"2021-11-10T22:04:15.765Z"},\n    {"id":5,"question":"Do you have leadership experience?","answer":"Yes, I do.","published_at":"2021-11-10T22:04:21.346Z","created_at":"2021-11-10T22:02:23.115Z","updated_at":"2021-11-10T22:04:21.354Z"},\n    {"id":6,"question":"What other skills do you have apart from software development?\\n","answer":"I am a technical writer and also a community builder.","published_at":"2021-11-10T22:04:26.091Z","created_at":"2021-11-10T22:03:21.103Z","updated_at":"2021-11-10T22:04:26.102Z"}]\n```\n\n## Scaffolding a NextJs project\n\n**Create a Next.js app**\n\nTo create a Next.js app, open your terminal, `cd` into the directory you’d like to create the app in, and run the following command:\n\n```bash\n    npx create-next-app -e with-tailwindcss nextjs-chatbot\n```\n\nThis would also configure Tailwind CSS with the project\n\n**Run the Next.js development server**\n\nNext we `cd` into the newly created directory, in our case that would be `nextjs-chatbot`\n\n```bash\n    cd nextjs-chatbot\n```\n\nAfter which we start up the development server, by running this command:\n\n```bash\n    npm run dev\n```\n\nIf everything was set up fine, the next.js server should now be running on http://localhost:3000 we should get this shown on our browser:\n\n\n![](https://paper-attachments.dropbox.com/s_1F009F9E3EE9CBA1F20D406E4458E971D06EA9323A4B53D1F0303E815DE8B180_1634387555599_Screenshot+2021-10-16+at+13.32.30.png)\n\n\n\n## Building NextJs Components\n\nNext, we proceed to any text editor of our choice to develop the rest of the application. We use Visual Studio Code for this tutorial. Opening up the installed project, we should have a folder structure such as this:\n\n![](https://paper-attachments.dropbox.com/s_61EC144653D77A5A3225C05DD53ECF56DD8B12AF0D4564DE52DDD1C630653BE1_1636639126217_Screenshot+2021-11-11+at+14.58.42.png)\n\n\nTo begin the design of the interface, we would remove all the content of the index.js file which is found inside the `pages` folder, this is the entry point of the NextJs project. We replace it with the content below:\n\n```\n    import Head from \'next/head\'\n    import { useState, useEffect } from \'react\'\n    import { createMarkup, tranformInterchanges, showBotTyping, getBotAnswer, fetchQuery } from \'../utils/helper\'\n    export default function Home( { interchanges }) {\n      const [userQuestion, setUserQuestion] = useState(\'\')\n      const [allow, setAllow] = useState(false)\n      const [interchange, setInterchange] = useState([])\n     \n    useEffect(async () => {\n     await showBotTyping(setInterchange, [], setAllow)\n     setInterchange([{\n      owner: false,\n      text: tranformInterchanges(interchanges, true)\n    }])\n    }, [interchanges])\n    \n    const handleSubmit = async (e) => {\n      e.preventDefault()\n      if(!userQuestion || !allow) return\n      const uQ = userQuestion\n      const newInterchange = [...interchange, {\n        owner: true,\n        text: userQuestion\n      }]\n      setInterchange(newInterchange)\n      setUserQuestion(\'\')\n      setAllow(false)\n      getBotAnswer(interchanges, setInterchange,  uQ, newInterchange, setAllow)\n    }\n      return (\n        <div className="flex flex-col font-mono items-center justify-center min-h-screen">\n          <Head>\n            <title>ChatBot Assistant</title>\n            <link rel="icon" href="/favicon.ico" />\n          </Head>\n          <form className="flex flex-col w-full flex-1" onSubmit={handleSubmit}>\n           \n            <header className="flex w-full h-24 fixed bg-black border-b">\n            \n              <span className="flex items-center text-white font-bold text-lg p-2"> Bot Assistant</span>\n           </header>\n            <div className="flex flex-col mt-24 bg-gray-200  overflow-scroll p-2 w-full" style={{ height: "80vh"}}>\n            {interchange.map((chat,i) => (\n              chat.owner ? \n              <div key={i} className = "user flex flex-row my-2 w-full p-2">\n              <span className = "w-2/3"></span>\n              <span className = "w-1/3 bg-gray-100 p-2 rounded">\n               {chat.text}\n              </span>\n            </div>\n             :   \n              <div key={i} className = "bot my-2 bg-gray-100 w-1/2 lg:w-1/3  p-2 rounded">\n                <span dangerouslySetInnerHTML={createMarkup(chat.text)} />\n              </div>\n            ))}\n            <div id="scrollTo"></div>\n            </div>\n            <footer className = "flex flex-row justify-between items-center p-1 h-5/6  w-full -bottom-5">\n            <div className = "flex flex-row justify-between flex-1 bg-white w-full">\n              <input className = " bg-gray-200 w-2/3 p-2 " placeholder="Type a message" value={userQuestion} onChange={ (e) => { setUserQuestion(e.target.value)}}/>\n              <button className = " bg-black p-2 ml-2 w-1/3  text-white" type="submit"> Send</button>\n            </div>\n            </footer>\n          </form>\n          \n        </div>\n      )\n    }\n    \n    export async function getStaticProps() {\n      const interchanges = await fetchQuery(\'interchanges\')\n      return {\n        props: {\n          interchanges\n        }\n      }\n    }\n```\n\n## Explanation of above code\n\nThe above code is used to display the UI for the chat interface, that is both the messages, input area as well and the send button. \n\nIn the upper section we imported the helper function from a helper.js file, these functions would be used to make the app functional: \n\n```\n    import Head from \'next/head\'\n    import { useState, useEffect } from \'react\'\n    import { createMarkup, tranformInterchanges, showBotTyping, getBotAnswer, fetchQuery } from \'../utils/helper\'\n```\n\nNext, using the useState hooks, we create multiple variables we would use later in the app to achieve various purposes: \nThe `userQuestion` is used to keep track of the current question  being typed by the user, that is the text in the input box.\n\nThe `allow` state is used to prevent a user from sending multiple messages when the bot is currently still replying to a previously sent message.\n\nThe `interchange` state is used to store internally the messages between both the `bot` and the `user`\n\n```\n      const [userQuestion, setUserQuestion] = useState(\'\')\n      const [allow, setAllow] = useState(false)\n      const [interchange, setInterchange] = useState([])\n```\n\nThe portion of code in the `useEffect` fires once the app is started and does the following:\nFirstly, it shows an animation of the bot typing for a few seconds.\n\nNext, it sets the first/default message sent by the bot to the user, this message contains the question gotten from the `Strapi API` when the app was started.\n\n```\n    useEffect(async () => {\n     await showBotTyping(setInterchange, [], setAllow)\n     setInterchange([{\n      owner: false,\n      text: tranformInterchanges(interchanges, true)\n    }])\n    }, [interchanges])\n```\n\nThe `handleSubmit`  function is the handler that gets called once the user sends their message to the bot. \n\nWe only allow a successful submit if the user indeed has entered value in the text box and also only if the bot doesn’t have a question it is currently processing.\n\nNext, add the new question of the user into the interchange state, remove the typed text of the user from the input box and set the allow state to false, to prevent the user from sending another text till the bot returns with a result.\n\nThe `getBotAnswer` helper function  is then used to get the answer from the bot and update the UI.\n\n```\n    const handleSubmit = async (e) => {\n      e.preventDefault()\n      if(!userQuestion || !allow) return\n      const uQ = userQuestion\n      const newInterchange = [...interchange, {\n        owner: true,\n        text: userQuestion\n      }]\n      setInterchange(newInterchange)\n      setUserQuestion(\'\')\n      setAllow(false)\n      getBotAnswer(interchanges, setInterchange,  uQ, newInterchange, setAllow)\n    }\n```\n\nAs can be seen in the `index.js` file, we imported a `helper.js` file. This means we need to create this file, to do this we create a folder at the root of our application called `utils` and then create a file in it called `helper.js`.\n\nNext, copy the content of the file below into the newly created `helper.js` file:\n\n```\n    const baseUrl = process.env.BASE_URL || \'localhost:1337\'\n    export const createMarkup = (text) => {\n      return {__html: text};\n    }\n    export const tranformInterchanges = (interchanges, initial = false) => {\n      let initialText = initial ? `<b>Welcome to my page, glad to have you here 🥰</b> <br/>\n     Tell me what you would like to know: <br/> <br/> `: \'\'\n      \n      interchanges.map((e, i) => {\n          initialText += `${(i+1)}. ${e.question} <br /> <br />`\n      })\n      return initialText\n    }\n    export const searchInterchange = (interchanges, question) => {\n      let result = interchanges.find(e => e.question.toLowerCase().includes(question.toLowerCase()))\n      if(result) return result.answer\n      return `Cant seem to understand your question, please try again 😔<br><br>\n        Here are the options again: <br/> <br/>\n        ${tranformInterchanges(interchanges)}\n      `\n    }\n    \n    export const showBotTyping = async (setInterchange, prevState, setAllow) => {\n      scrollDown()\n      await new Promise(resolve => setTimeout(resolve, 1000));\n      setInterchange([...prevState, {\n        owner: false,\n        text: \'Bot Assistant is typing.\'\n      }])\n      scrollDown()\n      await new Promise(resolve => setTimeout(resolve, 1000));\n      setInterchange([...prevState, {\n        owner: false,\n        text: \'Bot Assistant is typing..\'\n      }])\n      scrollDown()\n      await new Promise(resolve => setTimeout(resolve, 1000));\n      setInterchange([...prevState, {\n        owner: false,\n        text: \'Bot Assistant is typing...\'\n      }])\n      scrollDown()\n      \n      await new Promise(resolve => setTimeout(resolve, 1000));\n      setAllow(true)\n      scrollDown()\n    }\n    \n    export const getBotAnswer = async (interchanges, setInterchange, question, prevState, setAllow) => {\n      await showBotTyping(setInterchange, prevState, setAllow)\n      setInterchange([...prevState, {\n        owner: false,\n        text: searchInterchange(interchanges,question)\n      }])\n      scrollDown()\n    }\n    \n    const scrollDown = () => {\n      document.getElementById(\'scrollTo\').scrollIntoView({behavior: "smooth", block: "start"});\n    }\n    \n    export const fetchQuery = async (path, params = null) => {\n      let url\n      if (params !== null) {\n        url = `${baseUrl}/${path}/${params}`\n      } else {\n        url = `${baseUrl}/${path}`\n      }\n      const response = await fetch(`http://${url}`)\n      const data = await response.json()\n      return data\n    }\n```\n\n## Explanation of above code\n\nThe above code contains various helper functions that are used in the app. \n\nFirst, we set the `base URL` for the API, which in our case is `localhost:1337` but if we eventually host the `Strapi API`, we would then update the `BASE_URL` in the `.env` file to the remote `Strapi API`. \n\nNext, we use `createMarkup` to show the messages from the bot with any HTML formatting it comes with.\n\n```\n    const baseUrl = process.env.BASE_URL || \'localhost:1337\'\n    export const createMarkup = (text) => {\n      return {__html: text};\n    }\n```\n\nThe `tranformInterchanges` function is used to display the first message sent by the bot to the user, which contains all possible questions that can be asked in a finely formatted way:\n\n```\n    export const tranformInterchanges = (interchanges, initial = false) => {\n      let initialText = initial ? `<b>Welcome to my page, glad to have you here 🥰</b> <br/>\n     Tell me what you would like to know: <br/> <br/> `: \'\'\n      \n      interchanges.map((e, i) => {\n          initialText += `${(i+1)}. ${e.question} <br /> <br />`\n      })\n      return initialText\n    }\n```\n\nThe `searchInterchange` is the heart of the app, it is where all user questions are scanned to see if there is an adequate response for it. If there is, it returns a response from the provided `answers` else it returns a response indicating that no results were found while and also displaying all questions the user can ask.\n\n```\n    export const searchInterchange = (interchanges, question) => {\n      let result = interchanges.find(e => e.question.toLowerCase().includes(question.toLowerCase()))\n      if(result) return result.answer\n      return `Cant seem to understand your question, please try again 😔<br><br>\n        Here are the options again: <br/> <br/>\n        ${tranformInterchanges(interchanges)}\n      `\n    }\n    \n    export const showBotTyping = async (setInterchange, prevState, setAllow) => {\n      scrollDown()\n      await new Promise(resolve => setTimeout(resolve, 1000));\n      setInterchange([...prevState, {\n        owner: false,\n        text: \'Bot Assistant is typing.\'\n      }])\n      scrollDown()\n      await new Promise(resolve => setTimeout(resolve, 1000));\n      setInterchange([...prevState, {\n        owner: false,\n        text: \'Bot Assistant is typing..\'\n      }])\n      scrollDown()\n      await new Promise(resolve => setTimeout(resolve, 1000));\n      setInterchange([...prevState, {\n        owner: false,\n        text: \'Bot Assistant is typing...\'\n      }])\n      scrollDown()\n      \n      await new Promise(resolve => setTimeout(resolve, 1000));\n      setAllow(true)\n      scrollDown()\n    }\n```\n\nThe `showBotTyping` is used to mimic a human, it gives the bot a human feeling by delaying its response a bit and using that time to display a message that the bot is typing. This typing animation would be removed from the chat history once a response comes back from the bot.\n\n```\n    export const showBotTyping = async (setInterchange, prevState, setAllow) => {\n      scrollDown()\n      await new Promise(resolve => setTimeout(resolve, 1000));\n      setInterchange([...prevState, {\n        owner: false,\n        text: \'Bot Assistant is typing.\'\n      }])\n      scrollDown()\n      await new Promise(resolve => setTimeout(resolve, 1000));\n      setInterchange([...prevState, {\n        owner: false,\n        text: \'Bot Assistant is typing..\'\n      }])\n      scrollDown()\n      await new Promise(resolve => setTimeout(resolve, 1000));\n      setInterchange([...prevState, {\n        owner: false,\n        text: \'Bot Assistant is typing...\'\n      }])\n      scrollDown()\n      \n      await new Promise(resolve => setTimeout(resolve, 1000));\n      setAllow(true)\n      scrollDown()\n    }\n```\n\nThe `getBotAnswer` function sends the user question to the bot and then updates the chat with the bot response.\n\n```\n    export const getBotAnswer = async (interchanges, setInterchange, question, prevState, setAllow) => {\n      await showBotTyping(setInterchange, prevState, setAllow)\n      setInterchange([...prevState, {\n        owner: false,\n        text: searchInterchange(interchanges,question)\n      }])\n      scrollDown()\n    }\n    \n    const scrollDown = () => {\n      document.getElementById(\'scrollTo\').scrollIntoView({behavior: "smooth", block: "start"});\n    }\n```\n\nWe use the `scrollDown` function to smoothly bring the current message sent by either the `bot` or the `user` into view. This makes it more like a `chat app`, with users not having to manually scroll down to see recent messages.\n\n```\n    const scrollDown = () => {\n      document.getElementById(\'scrollTo\').scrollIntoView({behavior: "smooth", block: "start"});\n    }\n```\n\nAnd that\'s it for the code section of the frontend part of this tutorial. In the next section, we would be seeing a demo of the finished app.\n\n## Finished App\n\nThe finished app looks like this:\n\n<iframe width="560" height="315" src="https://www.youtube.com/embed/Dlc3WVtsPMM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>\n\n## Conclusion\n\nThere’s no doubt that the benefit a chatbot assistant brings outweigh any negative effect it could have. This method allows us to free up our time by allowing this bot to answer repetitive questions about us, our business, our organization, or event. The possibilities of this are endless and can only be left to one’s imagination.\n\nThis tutorial demonstrated how easily you can build a bot using technologies already very much common. If this interests you, check out [Strapi\'s website](https://strapi.io/) to learn more about the headless CMS.\n',s.user={name:"Shada ",username:"shadaw11",twitter_username:"ShadaWehbe",github_username:"ShadaW11",website_url:e,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--5iB_awIe--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/650629/3afeff75-552d-4dae-a239-732ae8558f0c.jpeg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--GbKWt7ow--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/650629/3afeff75-552d-4dae-a239-732ae8558f0c.jpeg"},s.organization={name:"Strapi",username:n,slug:n,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--W257cHqH--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/763/988af53b-5d7e-435a-98eb-dd4aff5299d2.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--Kk8EQZ5l--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/763/988af53b-5d7e-435a-98eb-dd4aff5299d2.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:s}},error:e,state:{currentArticle:s},serverRendered:!0,routePath:"/shadaw11/914159",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:e}}}}(null,"2021-12-01T12:12:23Z","strapi",{})</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

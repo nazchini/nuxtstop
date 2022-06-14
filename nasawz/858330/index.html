@@ -1,0 +1,381 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>How to create a Offline Internationalization App:Build the project structure</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>How to create a Offline Internationalization App:Build the project structure</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/flutter" class="tag" data-v-70afb46a>
+          #flutter
+        </a><a href="/nuxtstop/t/sqlite" class="tag" data-v-70afb46a>
+          #sqlite
+        </a><a href="/nuxtstop/t/strapi" class="tag" data-v-70afb46a>
+          #strapi
+        </a><a href="/nuxtstop/t/offline" class="tag" data-v-70afb46a>
+          #offline
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--jfx-xbgZ--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4fwbq3c7ie2vrj9ykdji.png" alt="How to create a Offline Internationalization App:Build the project structure" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            3
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Oct 10 '21</time></div></header> <div class="content" data-v-70afb46a><h3>
+  <a name="the-first-step-use-get-cli-to-generate-the-basic-project-structure" href="#the-first-step-use-get-cli-to-generate-the-basic-project-structure">
+  </a>
+  The first step, use get cli to generate the basic project structure
+</h3>
+
+<blockquote>
+<p><a href="https://pub.dev/packages/get_cli">https://pub.dev/packages/get_cli</a><br>
+</p>
+</blockquote>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>get create project:strapi_flutter_internation_poc
+  1<span class="o">)</span> Flutter Project
+  2<span class="o">)</span> Get Server
+1
+? What is your company<span class="s1">'s domain?  Example: com.yourcompany  com.nasawz.strapi_flutter_internation_poc
+
+what language do you want to use on ios?
+
+  1) Swift
+  2) Objective-C
+1
+
+what language do you want to use on android?
+
+  1) Kotlin
+  2) Java
+1
+
+Do you want to use null safe?
+
+  1) Yes!
+  2) No
+1
+
+do you want to use some linter?
+
+  1) no
+  2) Pedantic [Deprecated]
+  3) Effective Dart [Deprecated]
+  4) Dart Recommended
+1
+
+Running `flutter create D:\poc\strapi_flutter_internation_poc` …
+
+$ flutter create --no-pub -i swift -a kotlin --org com.nasawz.strapi_flutter_internation_poc D:\poc\strapi_flutter_internation_poc
+Creating project ....
+  lib\main.dart (created)
+  pubspec.yaml (created)
+  README.md (created)
+  test\widget_test.dart (created)
+  .gitignore (created)
+  .idea\libraries\Dart_SDK.xml (created)
+  .idea\libraries\KotlinJavaRuntime.xml (created)
+  .idea\modules.xml (created)
+  .idea\runConfigurations\main_dart.xml (created)
+  .idea\workspace.xml (created)
+  .metadata (created)
+ .......
+ ........
+Wrote 81 files.
+
+All done!
+In order to run your application, type:
+
+  $ cd .
+  $ flutter run
+
+Your application code is in .\lib\main.dart.
+
+
+Running `flutter pub get` …
+
+$ flutter pub get
+Running "flutter pub get" in strapi_flutter_internation_poc...      2,666ms
+$ dart migrate --apply-changes --skip-import-check
+Migrating D:\poc\strapi_flutter_internation_poc
+
+See https://dart.dev/go/null-safety-migration for a migration guide.
+
+Analyzing project...
+All sources appear to be already migrated.  Nothing to do.
+✓  File: analysis_options.yaml created successfully at path: analysis_options.yaml
+  1) GetX Pattern (by Kauê)
+  2) CLEAN (by Arktekko)
+1
+
+Your lib folder is not empty. Are you sure you want to overwrite your application?
+ WARNING: This action is irreversible
+
+  1) Yes!
+  2) No
+1
+✓  '</span>Package: get installed!
+✓  File: main.dart created successfully at path: lib<span class="se">\\</span>main.dart
+✓  File: home_controller.dart created successfully at path: ./lib<span class="se">\a</span>pp<span class="se">\m</span>odules<span class="se">\h</span>ome<span class="se">\\</span>controllers<span class="se">\\</span>home_controller.dart
+✓  File: home_view.dart created successfully at path: ./lib<span class="se">\a</span>pp<span class="se">\m</span>odules<span class="se">\h</span>ome<span class="se">\\</span>views<span class="se">\\</span>home_view.dart
+✓  File: home_binding.dart created successfully at path: ./lib<span class="se">\a</span>pp<span class="se">\m</span>odules<span class="se">\h</span>ome<span class="se">\\</span>bindings<span class="se">\\</span>home_binding.dart
+✓  File: app_routes.dart created successfully at path: lib<span class="se">\\</span>app<span class="se">\\</span>routes<span class="se">\\</span>app_routes.dart
+✓  File: app_pages.dart created successfully at path: lib<span class="se">\\</span>app<span class="se">\\</span>routes<span class="se">\\</span>app_pages.dart
+✓  home route created successfully.
+✓  Home page created successfully.
+✓  GetX Pattern structure successfully generated.
+
+Running <span class="sb">`</span>flutter pub get<span class="sb">`</span> …
+
+<span class="nv">$ </span>flutter pub get
+Running <span class="s2">"flutter pub get"</span> <span class="k">in </span>strapi_flutter_internation_poc...
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>So far we have a Flutter-based project structure.</p>
+
+<p>Next, let us incorporate Strapi into the project.</p>
+
+<h3>
+  <a name="step-two-integrate-into-strapi" href="#step-two-integrate-into-strapi">
+  </a>
+  Step two, integrate into Strapi
+</h3>
+
+<blockquote>
+<p><a href="https://strapi.io/">https://strapi.io/</a></p>
+</blockquote>
+
+<p>Enter the project directory<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code> <span class="nb">cd</span> .<span class="se">\s</span>trapi_flutter_internation_poc
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Use "create-strapi-app" to initialize the project<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>npx create-strapi-app strapi
+npx: installed 146 <span class="k">in </span>14.856s
+? Choose your installation <span class="nb">type </span>Quickstart <span class="o">(</span>recommended<span class="o">)</span>
+? Would you like to use a template? <span class="o">(</span>Templates are Strapi configurations designed <span class="k">for </span>a specific use <span class="k">case</span><span class="p">)</span> No
+Creating a quickstart project.
+Creating a new Strapi application at D:<span class="se">\p</span>oc<span class="se">\s</span>trapi_flutter_internation_poc<span class="se">\s</span>trapi.
+Creating files.
+Dependencies installed successfully.
+
+Your application was created at D:<span class="se">\p</span>oc<span class="se">\s</span>trapi_flutter_internation_poc<span class="se">\s</span>trapi.
+
+Available commands <span class="k">in </span>your project:
+
+  yarn develop
+  Start Strapi <span class="k">in </span>watch mode.
+
+  yarn start
+  Start Strapi without watch mode.
+
+  yarn build
+  Build Strapi admin panel.
+
+  yarn strapi
+  Display all available commands.
+
+You can start by doing:
+
+  <span class="nb">cd </span>D:<span class="se">\p</span>oc<span class="se">\s</span>trapi_flutter_internation_poc<span class="se">\s</span>trapi
+  yarn develop
+
+
+<span class="o">></span> strapi@0.1.0 build D:<span class="se">\p</span>oc<span class="se">\s</span>trapi_flutter_internation_poc<span class="se">\s</span>trapi
+<span class="o">></span> strapi build <span class="s2">"--no-optimization"</span>
+
+Building your admin UI with development configuration ...
+
+√ Webpack
+  Compiled successfully <span class="k">in </span>27.43s
+
+Running your Strapi application.
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Here Strapi is installed successfully and started locally <a href="http://localhost:1337/admin/auth/register-admin">http://localhost:1337</a> </p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--t-TbXDAw--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5zffg5le1nh323oletox.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--t-TbXDAw--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5zffg5le1nh323oletox.png" alt="微信截图_20211009150439-20211009150710-govdypc" loading="lazy"></a></p>
+
+<p>After you can see this interface, you can pause it first, and modify the configuration of Strapi first. Point the address of the default Sqlite database in Strapi to the assets folder of the Flutter project.</p>
+
+<p>First create the corresponding folder assets/db</p>
+
+<p>edit <code>[project_root]/strapi/config/database.js</code><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">env</span> <span class="p">})</span> <span class="o">=></span> <span class="p">({</span>
+  <span class="na">defaultConnection</span><span class="p">:</span> <span class="dl">'</span><span class="s1">default</span><span class="dl">'</span><span class="p">,</span>
+  <span class="na">connections</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">default</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">connector</span><span class="p">:</span> <span class="dl">'</span><span class="s1">bookshelf</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">settings</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">client</span><span class="p">:</span> <span class="dl">'</span><span class="s1">sqlite</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">filename</span><span class="p">:</span> <span class="nx">env</span><span class="p">(</span><span class="dl">'</span><span class="s1">DATABASE_FILENAME</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">../assets/db/data.db</span><span class="dl">'</span><span class="p">),</span>
+      <span class="p">},</span>
+      <span class="na">options</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">useNullAsDefault</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="p">},</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
+<span class="p">});</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Restart the Strapi project after the modification is completed<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">npm</span> <span class="nx">run</span> <span class="nx">develop</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Register an administrator account<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">admin</span><span class="p">@</span><span class="nd">poc</span><span class="p">.</span><span class="nx">com</span>
+<span class="nx">nrVABVAAYq9geTY</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--bvLXQsDy--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ky625z2zlkyj8v2d4e54.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--bvLXQsDy--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ky625z2zlkyj8v2d4e54.png" alt="image-20211009152528-42y7qll" loading="lazy"></a></p>
+
+<p>Modify the configuration file <code>pubspec.yaml</code> of the Flutter project and put the path of the database under assets<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">flutter</span><span class="pi">:</span> 
+  <span class="na">assets</span><span class="pi">:</span> 
+    <span class="pi">-</span> <span class="s">assets/db/</span>
+  <span class="na">uses-material-design</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>In subsequent developments, Flutter can use Strapi's database files.</p>
+
+<p>Now see the project structure as shown below</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--8I-QwDfP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t4epaoh2s3m5fpfbsu2x.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--8I-QwDfP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t4epaoh2s3m5fpfbsu2x.png" alt="image-20211009153140-npnc6t0" loading="lazy"></a></p>
+
+
+<hr>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--NeJfYa6m--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lfajbsflhz9t8zpfm7ap.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--NeJfYa6m--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lfajbsflhz9t8zpfm7ap.png" alt="Image description" loading="lazy"></a></p>
+
+<p><a href="https://play.google.com/store/apps/details?id=com.nasawz.diet_therap"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Qtm46nVI--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ocrcqncrb8uyhym5m2so.png" alt="Play Store" loading="lazy"></a></p>
+
+<p><a href="https://apps.apple.com/us/app/%E8%94%AC%E6%9E%9C%E9%A3%9F%E7%96%97/id1588683566"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--3QaON5yY--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/e6gwvms69chncj8lf5qe.png" alt="Apple Store" loading="lazy"></a></p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/nasawz/how-to-create-a-offline-internationalization-app-build-the-project-structure-29e" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(a,n,s,t,e){return t.type_of="article",t.id=858330,t.title="How to create a Offline Internationalization App:Build the project structure",t.description="The first step, use get cli to generate the basic project...",t.readable_publish_date="Oct 10 '21",t.slug="how-to-create-a-offline-internationalization-app-build-the-project-structure-29e",t.path="/nasawz/how-to-create-a-offline-internationalization-app-build-the-project-structure-29e",t.url=e,t.comments_count=0,t.public_reactions_count=3,t.collection_id=14966,t.published_timestamp=n,t.positive_reactions_count=3,t.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--jfx-xbgZ--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4fwbq3c7ie2vrj9ykdji.png",t.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--kZ_JNkF7--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/4fwbq3c7ie2vrj9ykdji.png",t.canonical_url=e,t.created_at="2021-10-10T11:41:21Z",t.edited_at="2021-10-15T06:40:59Z",t.crossposted_at=a,t.published_at=n,t.last_comment_at=n,t.reading_time_minutes=4,t.tag_list="flutter, sqlite, strapi, offline",t.tags=["flutter","sqlite","strapi","offline"],t.body_html='<h3>\n  <a name="the-first-step-use-get-cli-to-generate-the-basic-project-structure" href="#the-first-step-use-get-cli-to-generate-the-basic-project-structure">\n  </a>\n  The first step, use get cli to generate the basic project structure\n</h3>\n\n<blockquote>\n<p><a href="https://pub.dev/packages/get_cli">https://pub.dev/packages/get_cli</a><br>\n</p>\n</blockquote>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>get create project:strapi_flutter_internation_poc\n  1<span class="o">)</span> Flutter Project\n  2<span class="o">)</span> Get Server\n1\n? What is your company<span class="s1">\'s domain?  Example: com.yourcompany  com.nasawz.strapi_flutter_internation_poc\n\nwhat language do you want to use on ios?\n\n  1) Swift\n  2) Objective-C\n1\n\nwhat language do you want to use on android?\n\n  1) Kotlin\n  2) Java\n1\n\nDo you want to use null safe?\n\n  1) Yes!\n  2) No\n1\n\ndo you want to use some linter?\n\n  1) no\n  2) Pedantic [Deprecated]\n  3) Effective Dart [Deprecated]\n  4) Dart Recommended\n1\n\nRunning `flutter create D:\\poc\\strapi_flutter_internation_poc` …\n\n$ flutter create --no-pub -i swift -a kotlin --org com.nasawz.strapi_flutter_internation_poc D:\\poc\\strapi_flutter_internation_poc\nCreating project ....\n  lib\\main.dart (created)\n  pubspec.yaml (created)\n  README.md (created)\n  test\\widget_test.dart (created)\n  .gitignore (created)\n  .idea\\libraries\\Dart_SDK.xml (created)\n  .idea\\libraries\\KotlinJavaRuntime.xml (created)\n  .idea\\modules.xml (created)\n  .idea\\runConfigurations\\main_dart.xml (created)\n  .idea\\workspace.xml (created)\n  .metadata (created)\n .......\n ........\nWrote 81 files.\n\nAll done!\nIn order to run your application, type:\n\n  $ cd .\n  $ flutter run\n\nYour application code is in .\\lib\\main.dart.\n\n\nRunning `flutter pub get` …\n\n$ flutter pub get\nRunning "flutter pub get" in strapi_flutter_internation_poc...      2,666ms\n$ dart migrate --apply-changes --skip-import-check\nMigrating D:\\poc\\strapi_flutter_internation_poc\n\nSee https://dart.dev/go/null-safety-migration for a migration guide.\n\nAnalyzing project...\nAll sources appear to be already migrated.  Nothing to do.\n✓  File: analysis_options.yaml created successfully at path: analysis_options.yaml\n  1) GetX Pattern (by Kauê)\n  2) CLEAN (by Arktekko)\n1\n\nYour lib folder is not empty. Are you sure you want to overwrite your application?\n WARNING: This action is irreversible\n\n  1) Yes!\n  2) No\n1\n✓  \'</span>Package: get installed!\n✓  File: main.dart created successfully at path: lib<span class="se">\\\\</span>main.dart\n✓  File: home_controller.dart created successfully at path: ./lib<span class="se">\\a</span>pp<span class="se">\\m</span>odules<span class="se">\\h</span>ome<span class="se">\\\\</span>controllers<span class="se">\\\\</span>home_controller.dart\n✓  File: home_view.dart created successfully at path: ./lib<span class="se">\\a</span>pp<span class="se">\\m</span>odules<span class="se">\\h</span>ome<span class="se">\\\\</span>views<span class="se">\\\\</span>home_view.dart\n✓  File: home_binding.dart created successfully at path: ./lib<span class="se">\\a</span>pp<span class="se">\\m</span>odules<span class="se">\\h</span>ome<span class="se">\\\\</span>bindings<span class="se">\\\\</span>home_binding.dart\n✓  File: app_routes.dart created successfully at path: lib<span class="se">\\\\</span>app<span class="se">\\\\</span>routes<span class="se">\\\\</span>app_routes.dart\n✓  File: app_pages.dart created successfully at path: lib<span class="se">\\\\</span>app<span class="se">\\\\</span>routes<span class="se">\\\\</span>app_pages.dart\n✓  home route created successfully.\n✓  Home page created successfully.\n✓  GetX Pattern structure successfully generated.\n\nRunning <span class="sb">`</span>flutter pub get<span class="sb">`</span> …\n\n<span class="nv">$ </span>flutter pub get\nRunning <span class="s2">"flutter pub get"</span> <span class="k">in </span>strapi_flutter_internation_poc...\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>So far we have a Flutter-based project structure.</p>\n\n<p>Next, let us incorporate Strapi into the project.</p>\n\n<h3>\n  <a name="step-two-integrate-into-strapi" href="#step-two-integrate-into-strapi">\n  </a>\n  Step two, integrate into Strapi\n</h3>\n\n<blockquote>\n<p><a href="https://strapi.io/">https://strapi.io/</a></p>\n</blockquote>\n\n<p>Enter the project directory<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code> <span class="nb">cd</span> .<span class="se">\\s</span>trapi_flutter_internation_poc\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Use "create-strapi-app" to initialize the project<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>npx create-strapi-app strapi\nnpx: installed 146 <span class="k">in </span>14.856s\n? Choose your installation <span class="nb">type </span>Quickstart <span class="o">(</span>recommended<span class="o">)</span>\n? Would you like to use a template? <span class="o">(</span>Templates are Strapi configurations designed <span class="k">for </span>a specific use <span class="k">case</span><span class="p">)</span> No\nCreating a quickstart project.\nCreating a new Strapi application at D:<span class="se">\\p</span>oc<span class="se">\\s</span>trapi_flutter_internation_poc<span class="se">\\s</span>trapi.\nCreating files.\nDependencies installed successfully.\n\nYour application was created at D:<span class="se">\\p</span>oc<span class="se">\\s</span>trapi_flutter_internation_poc<span class="se">\\s</span>trapi.\n\nAvailable commands <span class="k">in </span>your project:\n\n  yarn develop\n  Start Strapi <span class="k">in </span>watch mode.\n\n  yarn start\n  Start Strapi without watch mode.\n\n  yarn build\n  Build Strapi admin panel.\n\n  yarn strapi\n  Display all available commands.\n\nYou can start by doing:\n\n  <span class="nb">cd </span>D:<span class="se">\\p</span>oc<span class="se">\\s</span>trapi_flutter_internation_poc<span class="se">\\s</span>trapi\n  yarn develop\n\n\n<span class="o">&gt;</span> strapi@0.1.0 build D:<span class="se">\\p</span>oc<span class="se">\\s</span>trapi_flutter_internation_poc<span class="se">\\s</span>trapi\n<span class="o">&gt;</span> strapi build <span class="s2">"--no-optimization"</span>\n\nBuilding your admin UI with development configuration ...\n\n√ Webpack\n  Compiled successfully <span class="k">in </span>27.43s\n\nRunning your Strapi application.\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Here Strapi is installed successfully and started locally <a href="http://localhost:1337/admin/auth/register-admin">http://localhost:1337</a> </p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--t-TbXDAw--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5zffg5le1nh323oletox.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--t-TbXDAw--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5zffg5le1nh323oletox.png" alt="微信截图_20211009150439-20211009150710-govdypc" loading="lazy"></a></p>\n\n<p>After you can see this interface, you can pause it first, and modify the configuration of Strapi first. Point the address of the default Sqlite database in Strapi to the assets folder of the Flutter project.</p>\n\n<p>First create the corresponding folder assets/db</p>\n\n<p>edit <code>[project_root]/strapi/config/database.js</code><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">({</span> <span class="nx">env</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="p">({</span>\n  <span class="na">defaultConnection</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">default</span><span class="dl">\'</span><span class="p">,</span>\n  <span class="na">connections</span><span class="p">:</span> <span class="p">{</span>\n    <span class="na">default</span><span class="p">:</span> <span class="p">{</span>\n      <span class="na">connector</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">bookshelf</span><span class="dl">\'</span><span class="p">,</span>\n      <span class="na">settings</span><span class="p">:</span> <span class="p">{</span>\n        <span class="na">client</span><span class="p">:</span> <span class="dl">\'</span><span class="s1">sqlite</span><span class="dl">\'</span><span class="p">,</span>\n        <span class="na">filename</span><span class="p">:</span> <span class="nx">env</span><span class="p">(</span><span class="dl">\'</span><span class="s1">DATABASE_FILENAME</span><span class="dl">\'</span><span class="p">,</span> <span class="dl">\'</span><span class="s1">../assets/db/data.db</span><span class="dl">\'</span><span class="p">),</span>\n      <span class="p">},</span>\n      <span class="na">options</span><span class="p">:</span> <span class="p">{</span>\n        <span class="na">useNullAsDefault</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>\n      <span class="p">},</span>\n    <span class="p">},</span>\n  <span class="p">},</span>\n<span class="p">});</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Restart the Strapi project after the modification is completed<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">npm</span> <span class="nx">run</span> <span class="nx">develop</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Register an administrator account<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">admin</span><span class="p">@</span><span class="nd">poc</span><span class="p">.</span><span class="nx">com</span>\n<span class="nx">nrVABVAAYq9geTY</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--bvLXQsDy--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ky625z2zlkyj8v2d4e54.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--bvLXQsDy--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ky625z2zlkyj8v2d4e54.png" alt="image-20211009152528-42y7qll" loading="lazy"></a></p>\n\n<p>Modify the configuration file <code>pubspec.yaml</code> of the Flutter project and put the path of the database under assets<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">flutter</span><span class="pi">:</span> \n  <span class="na">assets</span><span class="pi">:</span> \n    <span class="pi">-</span> <span class="s">assets/db/</span>\n  <span class="na">uses-material-design</span><span class="pi">:</span> <span class="no">true</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>In subsequent developments, Flutter can use Strapi\'s database files.</p>\n\n<p>Now see the project structure as shown below</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--8I-QwDfP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t4epaoh2s3m5fpfbsu2x.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--8I-QwDfP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t4epaoh2s3m5fpfbsu2x.png" alt="image-20211009153140-npnc6t0" loading="lazy"></a></p>\n\n\n<hr>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--NeJfYa6m--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lfajbsflhz9t8zpfm7ap.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--NeJfYa6m--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lfajbsflhz9t8zpfm7ap.png" alt="Image description" loading="lazy"></a></p>\n\n<p><a href="https://play.google.com/store/apps/details?id=com.nasawz.diet_therap"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Qtm46nVI--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ocrcqncrb8uyhym5m2so.png" alt="Play Store" loading="lazy"></a></p>\n\n<p><a href="https://apps.apple.com/us/app/%E8%94%AC%E6%9E%9C%E9%A3%9F%E7%96%97/id1588683566"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--3QaON5yY--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/e6gwvms69chncj8lf5qe.png" alt="Apple Store" loading="lazy"></a></p>\n\n',t.body_markdown="### The first step, use get cli to generate the basic project structure\n\n> https://pub.dev/packages/get_cli\n\n```bash\nget create project:strapi_flutter_internation_poc\n  1) Flutter Project\n  2) Get Server\n1\n? What is your company's domain?  Example: com.yourcompany  com.nasawz.strapi_flutter_internation_poc\n\nwhat language do you want to use on ios?\n\n  1) Swift\n  2) Objective-C\n1\n\nwhat language do you want to use on android?\n\n  1) Kotlin\n  2) Java\n1\n\nDo you want to use null safe?\n\n  1) Yes!\n  2) No\n1\n\ndo you want to use some linter?\n\n  1) no\n  2) Pedantic [Deprecated]\n  3) Effective Dart [Deprecated]\n  4) Dart Recommended\n1\n\nRunning `flutter create D:\\poc\\strapi_flutter_internation_poc` …\n\n$ flutter create --no-pub -i swift -a kotlin --org com.nasawz.strapi_flutter_internation_poc D:\\poc\\strapi_flutter_internation_poc\nCreating project ....\n  lib\\main.dart (created)\n  pubspec.yaml (created)\n  README.md (created)\n  test\\widget_test.dart (created)\n  .gitignore (created)\n  .idea\\libraries\\Dart_SDK.xml (created)\n  .idea\\libraries\\KotlinJavaRuntime.xml (created)\n  .idea\\modules.xml (created)\n  .idea\\runConfigurations\\main_dart.xml (created)\n  .idea\\workspace.xml (created)\n  .metadata (created)\n .......\n ........\nWrote 81 files.\n\nAll done!\nIn order to run your application, type:\n\n  $ cd .\n  $ flutter run\n\nYour application code is in .\\lib\\main.dart.\n\n\nRunning `flutter pub get` …\n\n$ flutter pub get\nRunning \"flutter pub get\" in strapi_flutter_internation_poc...      2,666ms\n$ dart migrate --apply-changes --skip-import-check\nMigrating D:\\poc\\strapi_flutter_internation_poc\n\nSee https://dart.dev/go/null-safety-migration for a migration guide.\n\nAnalyzing project...\nAll sources appear to be already migrated.  Nothing to do.\n✓  File: analysis_options.yaml created successfully at path: analysis_options.yaml\n  1) GetX Pattern (by Kauê)\n  2) CLEAN (by Arktekko)\n1\n\nYour lib folder is not empty. Are you sure you want to overwrite your application?\n WARNING: This action is irreversible\n\n  1) Yes!\n  2) No\n1\n✓  'Package: get installed!\n✓  File: main.dart created successfully at path: lib\\\\main.dart\n✓  File: home_controller.dart created successfully at path: ./lib\\app\\modules\\home\\\\controllers\\\\home_controller.dart\n✓  File: home_view.dart created successfully at path: ./lib\\app\\modules\\home\\\\views\\\\home_view.dart\n✓  File: home_binding.dart created successfully at path: ./lib\\app\\modules\\home\\\\bindings\\\\home_binding.dart\n✓  File: app_routes.dart created successfully at path: lib\\\\app\\\\routes\\\\app_routes.dart\n✓  File: app_pages.dart created successfully at path: lib\\\\app\\\\routes\\\\app_pages.dart\n✓  home route created successfully.\n✓  Home page created successfully.\n✓  GetX Pattern structure successfully generated.\n\nRunning `flutter pub get` …\n\n$ flutter pub get\nRunning \"flutter pub get\" in strapi_flutter_internation_poc...\n```\n\nSo far we have a Flutter-based project structure.\n\nNext, let us incorporate Strapi into the project.\n\n### Step two, integrate into Strapi\n\n> https://strapi.io/\n\nEnter the project directory\n\n```bash\n cd .\\strapi_flutter_internation_poc\n```\n\nUse \"create-strapi-app\" to initialize the project\n\n```bash\nnpx create-strapi-app strapi\nnpx: installed 146 in 14.856s\n? Choose your installation type Quickstart (recommended)\n? Would you like to use a template? (Templates are Strapi configurations designed for a specific use case) No\nCreating a quickstart project.\nCreating a new Strapi application at D:\\poc\\strapi_flutter_internation_poc\\strapi.\nCreating files.\nDependencies installed successfully.\n\nYour application was created at D:\\poc\\strapi_flutter_internation_poc\\strapi.\n\nAvailable commands in your project:\n\n  yarn develop\n  Start Strapi in watch mode.\n\n  yarn start\n  Start Strapi without watch mode.\n\n  yarn build\n  Build Strapi admin panel.\n\n  yarn strapi\n  Display all available commands.\n\nYou can start by doing:\n\n  cd D:\\poc\\strapi_flutter_internation_poc\\strapi\n  yarn develop\n\n\n> strapi@0.1.0 build D:\\poc\\strapi_flutter_internation_poc\\strapi\n> strapi build \"--no-optimization\"\n\nBuilding your admin UI with development configuration ...\n\n√ Webpack\n  Compiled successfully in 27.43s\n\nRunning your Strapi application.\n```\n\nHere Strapi is installed successfully and started locally [http://localhost:1337](http://localhost:1337/admin/auth/register-admin) \n\n![微信截图_20211009150439-20211009150710-govdypc](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5zffg5le1nh323oletox.png)\n\nAfter you can see this interface, you can pause it first, and modify the configuration of Strapi first. Point the address of the default Sqlite database in Strapi to the assets folder of the Flutter project.\n\nFirst create the corresponding folder assets/db\n\nedit `[project_root]/strapi/config/database.js`\n\n```js\nmodule.exports = ({ env }) => ({\n  defaultConnection: 'default',\n  connections: {\n    default: {\n      connector: 'bookshelf',\n      settings: {\n        client: 'sqlite',\n        filename: env('DATABASE_FILENAME', '../assets/db/data.db'),\n      },\n      options: {\n        useNullAsDefault: true,\n      },\n    },\n  },\n});\n```\n\nRestart the Strapi project after the modification is completed\n\n```js\nnpm run develop\n```\n\nRegister an administrator account\n\n\n```js\nadmin@poc.com\nnrVABVAAYq9geTY\n```\n ![image-20211009152528-42y7qll](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ky625z2zlkyj8v2d4e54.png)\n\nModify the configuration file `pubspec.yaml` of the Flutter project and put the path of the database under assets\n \n```yaml\nflutter: \n  assets: \n    - assets/db/\n  uses-material-design: true\n```\n\nIn subsequent developments, Flutter can use Strapi's database files.\n\nNow see the project structure as shown below\n\n![image-20211009153140-npnc6t0](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/t4epaoh2s3m5fpfbsu2x.png)\n \n---\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/lfajbsflhz9t8zpfm7ap.png)\n \n\n[![Play Store](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ocrcqncrb8uyhym5m2so.png)](https://play.google.com/store/apps/details?id=com.nasawz.diet_therap)\n\n\n[![Apple Store](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/e6gwvms69chncj8lf5qe.png)](https://apps.apple.com/us/app/%E8%94%AC%E6%9E%9C%E9%A3%9F%E7%96%97/id1588683566)\n",t.user={name:"nasa.wang",username:s,twitter_username:s,github_username:s,website_url:a,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--H7D-G_G5--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/49048/54575c51-bd87-48c7-b879-1fc689b63a4b.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--nwFh4k4F--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/49048/54575c51-bd87-48c7-b879-1fc689b63a4b.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:t}},error:a,state:{currentArticle:t},serverRendered:!0,routePath:"/nasawz/858330",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:a}}}}(null,"2021-10-10T11:43:30Z","nasawz",{},"https://dev.to/nasawz/how-to-create-a-offline-internationalization-app-build-the-project-structure-29e")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

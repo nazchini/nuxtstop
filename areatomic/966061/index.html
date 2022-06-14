@@ -1,0 +1,616 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Créer un serveur Node.js avec Express.js</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Créer un serveur Node.js avec Express.js</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/javascript" class="tag" data-v-70afb46a>
+          #javascript
+        </a><a href="/nuxtstop/t/french" class="tag" data-v-70afb46a>
+          #french
+        </a><a href="/nuxtstop/t/tutorial" class="tag" data-v-70afb46a>
+          #tutorial
+        </a><a href="/nuxtstop/t/mern" class="tag" data-v-70afb46a>
+          #mern
+        </a></div> <!----> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            3
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Jan 24</time></div></header> <div class="content" data-v-70afb46a><p>Dans le développement web une stack est une combinaison de technologie, la MERN stack est une des combinaison les plus populaire en 2022. Cette stack se compose de : </p>
+
+<ul>
+<li>Mongo DB</li>
+<li>Express.js</li>
+<li>React.js</li>
+<li>Node.js</li>
+</ul>
+
+<p>Nous allons voir comment aborder cette stack en commençant par la configuration d'un serveur Node.js avec le framework Express.js relié à une base de données Mongo DB.</p>
+
+<h2>
+  <a name="express" href="#express">
+  </a>
+  Express
+</h2>
+
+<p>Express est un framework Node.js minimaliste et flexible, il est du fait facile d'utilisation et laisse une certaine liberté au développeur. Il permet notamment de créer des API à l'aide d'une floppée de méthodes HTTP.</p>
+
+<h2>
+  <a name="mongo-db" href="#mongo-db">
+  </a>
+  Mongo DB
+</h2>
+
+<p>Mongo DB est un gestionnaire de base de données NoSQL. <a href="https://www.mongodb.com/cloud/atlas/lp/try2?utm_source=bing&utm_campaign=mdb_bs_emea_france_search_core_brand_atlas_desktop&utm_term=mongodb&utm_medium=cpc_paid_search&utm_ad=e&utm_ad_campaign_id=415204542&adgroup=1222657400083870&msclkid=5d8de6dc3bd51a7af8e68732f8b29e27">Pour plus de détail.</a> Vous pouvez créer un compte si vous n'en avez pas. Une fois le compte créé, vous allez pouvoir créer votre premier cluster en sélectionner l'option FREE, then choose the options you want and clic Create cluster.<br>
+<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--C9WAyVdn--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.postimg.cc/rwVzMDw5/2022-01-24-16-22-54-Choose-a-Path-Cloud-Mongo-DB-Cloud-et-17-pages-de-plus-Personnel-Microsoft.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--C9WAyVdn--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.postimg.cc/rwVzMDw5/2022-01-24-16-22-54-Choose-a-Path-Cloud-Mongo-DB-Cloud-et-17-pages-de-plus-Personnel-Microsoft.png" alt="Mongo DB cluser selection" loading="lazy" width="880" height="555"></a><br>
+Après cela vous allez devoir créer les identifiants pour accéder à votre base de données. Notez les bien.<br>
+<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Re-vlQpP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.postimg.cc/s2PnS0Rk/2022-01-24-16-31-44-Security-Quickstart-Mongo-DB-et-19-pages-de-plus-Personnel-Microsoft-Edge.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Re-vlQpP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.postimg.cc/s2PnS0Rk/2022-01-24-16-31-44-Security-Quickstart-Mongo-DB-et-19-pages-de-plus-Personnel-Microsoft-Edge.png" alt="Mongo DB account config" loading="lazy" width="880" height="459"></a><br>
+Enfin définnisez les adresses IP pouvant accéder au projet:<br>
+<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--RWM-lAmY--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.postimg.cc/sDZ470YT/2022-01-24-16-33-04-Security-Quickstart-Mongo-DB-et-20-pages-de-plus-Personnel-Microsoft-Edge.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--RWM-lAmY--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.postimg.cc/sDZ470YT/2022-01-24-16-33-04-Security-Quickstart-Mongo-DB-et-20-pages-de-plus-Personnel-Microsoft-Edge.png" alt="Mongo DB Atlas access" loading="lazy" width="880" height="503"></a> </p>
+<h2>
+  <a name="phase-de-d%C3%A9veloppement" href="#phase-de-d%C3%A9veloppement">
+  </a>
+  Phase de développement
+</h2>
+
+<p><a href="#initialisation-du-projet">1.  Initialisation du projet</a><br><br>
+<a href="#installation-des-package">2.  Instalation des packages</a><br><br>
+<a href="#configuration-de-environnement">3.  Configuration de l'environnement</a><br><br>
+<a href="#configuration-de-bdd">4.  Configuration de la base de données</a><br><br>
+<a href="#configuration-de-server">5.  Initialisation du server</a><br><br>
+<a href="#configuration-de-routes">6.  Configuration des routeurs</a></p>
+<h2>
+  <a name="initialisation-du-projet" href="#initialisation-du-projet">
+  </a>
+  Initialisation du projet <a id="initialisation-du-projet"></a>
+</h2>
+
+<p>La première étape pour créer un serveur Express.js est d'initialiser un projet npm. <a href="https://www.npmjs.com/">Pour en savoir plus sur npm.</a> Pour cela il faut créer un dossier server et ensuite taper la commande npm init à l'intérieur :<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">mkdir</span> <span class="nx">express</span><span class="o">-</span><span class="nx">server</span><span class="o">-</span><span class="nx">article</span>
+<span class="nx">cd</span> <span class="nx">express</span><span class="o">-</span><span class="nx">server</span><span class="o">-</span><span class="nx">article</span>
+<span class="nx">npm</span> <span class="nx">init</span> <span class="o">-</span><span class="nx">y</span>
+
+<span class="c1">// RESULT</span>
+<span class="nx">Wrote</span> <span class="nx">to</span> <span class="nx">C</span><span class="p">:</span><span class="err">\</span><span class="nx">Users</span><span class="err">\</span><span class="nx">aurel</span><span class="err">\</span><span class="nx">Documents</span><span class="err">\</span><span class="nx">Areatomic</span><span class="err">\</span><span class="nx">Livre</span><span class="err">\</span><span class="nx">articles</span><span class="err">\</span><span class="nx">express</span><span class="o">-</span><span class="nx">server</span><span class="o">-</span><span class="nx">article</span><span class="err">\</span><span class="kr">package</span><span class="p">.</span><span class="nx">json</span><span class="p">:</span>
+
+<span class="p">{</span>
+  <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">express-server-article</span><span class="dl">"</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">version</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1.0.0</span><span class="dl">"</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">description</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">main</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">index.js</span><span class="dl">"</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">scripts</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>
+    <span class="dl">"</span><span class="s2">test</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">echo </span><span class="se">\"</span><span class="s2">Error: no test specified</span><span class="se">\"</span><span class="s2"> && exit 1</span><span class="dl">"</span>
+  <span class="p">},</span>
+  <span class="dl">"</span><span class="s2">keywords</span><span class="dl">"</span><span class="p">:</span> <span class="p">[],</span>
+  <span class="dl">"</span><span class="s2">author</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>
+  <span class="dl">"</span><span class="s2">license</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ISC</span><span class="dl">"</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="installation-des-packages" href="#installation-des-packages">
+  </a>
+  Installation des packages <a id="installation-des-package"></a>
+</h2>
+
+<p>Maintenant que le projet est configurer nous devons installer les packages nécessaires à son fonctionnement. Pour réaliser un serveur express basique nous avons besoin des packages suivant:</p>
+
+<ul>
+<li>express : permet de construire la base du serveur</li>
+<li>mongoose : permet d'utiliser une base de données Mongo DB</li>
+<li>config : permet de configurer proprement notre projet</li>
+<li>dotenv : permet de configurer notre environnement</li>
+<li>cors : permet de définir une politique de restriction d'accès au serveur</li>
+<li>nodemon : permet de lancer un serveur que se relance automatiquement à la sauvegarde.</li>
+<li>prettier : permet de définir des règles de formatage de code</li>
+</ul>
+
+<p>L'installation de ces packages se fait à l'aide de la commande npm install:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>npm install express mongoose config dotenv cors nodemon prettier
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Rajouter ensuite le script<br>
+<br>
+ <code>"start":"nodemon index.js</code><br>
+<br>
+ dans le fichier package.json.<br>
+Au final le fichier<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>
+ doit ressembler au code ci-dessous:
+
+
+```JSON
+{
+  "name": "express-server-article",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "config": "^3.3.7",
+    "cors": "^2.8.5",
+    "dotenv": "^14.2.0",
+    "express": "^4.17.2",
+    "mongoose": "^6.1.7",
+    "nodemon": "^2.0.15",
+    "prettier": "^2.5.1"
+  }
+}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="configuration-de-lenvironnement" href="#configuration-de-lenvironnement">
+  </a>
+  Configuration de l'environnement <a id="configuration-de-environnement"></a>
+</h2>
+
+<p>L'environnement est un élément essentiel au fonctionnement d'un serveur. Nous pouvons le configurer grâce à un fichier<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>
+. Nous y définissons la base de données, le port sur lequel tourne le serveur, la whitelist pour les options CORS, etc.
+
+
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+<p>PORT=5000<br>
+DATABASE=mongodb+srv://areatomic:<a href="mailto:jaihackermongodb@aeratomic.onbwm.mongodb.net">jaihackermongodb@aeratomic.onbwm.mongodb.net</a>/express-server-article?retryWrites=true&w=majority<br>
+WHITELIST=['<a href="http://localhost:3000'">http://localhost:3000'</a>]<br>
+SERVER_URL=<a href="http://localhost:5000">http://localhost:5000</a></p>
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>
+
+Vous pouvez récupérer le lien connexion à la base de données en cliquant sur le bouton connect de votre cluster puis en copiant les éléments dans l'onglet "Connect your application".
+
+## Configuration de la base de données &lt;a id="configuration-de-bdd">&lt;/a>
+Pour connecter notre base de données fraichement créée, nous allons réaliser cela dans un dossier
+
+ ```config```
+
+ et dans un fichier
+
+ ```index.js```
+
+.
+![Arbre config](https://i.postimg.cc/KvHLq7NR/2022-01-24-16-39-16-index-js-Livre-Visual-Studio-Code.png)
+
+Voici ce que contient le fichier
+
+ ```index.js```
+
+:
+
+
+```JavaScript
+/**
+ * Config .env
+ */
+ const dotenv = require('dotenv')
+ const mongoose = require('mongoose')
+ dotenv.config()
+
+ /**
+  * Config mongo
+  */
+ const connectDB = async () => {
+     try {
+         await mongoose.connect(process.env.DATABASE, {
+             useNewUrlParser: true,
+             useUnifiedTopology: true,
+         })
+         console.log('Connection to Mongo DB done')
+     } catch (err) {
+         console.error(err.message)
+         // Exit process with failure
+         process.exit(1)
+     }
+ }
+
+ module.exports = connectDB
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>Nous créons une fonction connectDB asynchrone (qui utilise des méthode nécessistant d'attendre un retour) dans laquelle nous utilisons la méthode connect avec l'URL renseigner dans notre fichier<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>
+.
+
+## Configuration du serveur &lt;a id="configuration-de-server">&lt;/a>
+Maintenant que nous avons configurer notre environnement et notre base de données, il ne reste plus qu'à configurer la base du serveur. Pour cela créer un fichier
+
+ ```index.js```
+
+ à la racine du projet.
+
+Première étape importer les packages :
+
+
+```JavaScript
+const express = require('express')
+const cors = require('cors')
+const dotenv = require('dotenv')
+const connectDB = require('./config')
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Seconde étape lecture des configurations:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code> <span class="nx">dotenv</span><span class="p">.</span><span class="nx">config</span><span class="p">()</span>
+ <span class="c1">//Database</span>
+ <span class="nx">connectDB</span><span class="p">()</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Troisième étape lancement du serveur à proprement parler :<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">()</span>
+<span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span><span class="p">,</span> <span class="p">()</span> <span class="o">=></span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`API is running on </span><span class="p">${</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">SERVER_URL</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span>
+<span class="p">})</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Enfin définition des sécurités du serveur:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code> <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span> <span class="na">extended</span><span class="p">:</span> <span class="kc">false</span> <span class="p">}))</span>
+ <span class="c1">// CORS</span>
+ <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span>
+     <span class="nx">cors</span><span class="p">({</span>
+         <span class="na">origin</span><span class="p">:</span> <span class="p">(</span><span class="nx">origin</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="o">=></span> <span class="p">{</span>
+             <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">origin</span><span class="p">)</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+             <span class="k">if</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">WHITELIST</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">origin</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                 <span class="kd">let</span> <span class="nx">message</span> <span class="o">=</span>
+                     <span class="dl">"</span><span class="s2">The CORS policy for this origin doesn't </span><span class="dl">"</span> <span class="o">+</span>
+                     <span class="dl">'</span><span class="s1">allow access from the particular origin.</span><span class="dl">'</span>
+                 <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">message</span><span class="p">),</span> <span class="kc">false</span><span class="p">)</span>
+             <span class="p">}</span>
+             <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+         <span class="p">},</span>
+     <span class="p">})</span>
+ <span class="p">)</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Une fois que cela est terminé le fichier ressemble à cela:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="kd">const</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">express</span><span class="dl">'</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">cors</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">cors</span><span class="dl">'</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">dotenv</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">dotenv</span><span class="dl">'</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">connectDB</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">./config</span><span class="dl">'</span><span class="p">)</span>
+
+<span class="cm">/**
+ * Config serveur
+ */</span>
+ <span class="nx">dotenv</span><span class="p">.</span><span class="nx">config</span><span class="p">()</span>
+ <span class="c1">//Database</span>
+ <span class="nx">connectDB</span><span class="p">()</span>
+
+ <span class="c1">//Serveur</span>
+ <span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">()</span>
+ <span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span><span class="p">,</span> <span class="p">()</span> <span class="o">=></span> <span class="p">{</span>
+     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`API is running on </span><span class="p">${</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">SERVER_URL</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span>
+ <span class="p">})</span>
+ <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span> <span class="na">extended</span><span class="p">:</span> <span class="kc">false</span> <span class="p">}))</span>
+ <span class="c1">// CORS</span>
+ <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span>
+     <span class="nx">cors</span><span class="p">({</span>
+         <span class="na">origin</span><span class="p">:</span> <span class="p">(</span><span class="nx">origin</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="o">=></span> <span class="p">{</span>
+             <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">origin</span><span class="p">)</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+             <span class="k">if</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">WHITELIST</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">origin</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                 <span class="kd">let</span> <span class="nx">message</span> <span class="o">=</span>
+                     <span class="dl">"</span><span class="s2">The CORS policy for this origin doesn't </span><span class="dl">"</span> <span class="o">+</span>
+                     <span class="dl">'</span><span class="s1">allow access from the particular origin.</span><span class="dl">'</span>
+                 <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">message</span><span class="p">),</span> <span class="kc">false</span><span class="p">)</span>
+             <span class="p">}</span>
+             <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>
+         <span class="p">},</span>
+     <span class="p">})</span>
+ <span class="p">)</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Le projet peut être lancé avec la commande<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight javascript"><code><span class="nx">PS</span> <span class="nx">C</span><span class="p">:</span><span class="err">\</span><span class="nx">Users</span><span class="err">\</span><span class="nx">aurel</span><span class="err">\</span><span class="nx">Documents</span><span class="err">\</span><span class="nx">Areatomic</span><span class="err">\</span><span class="nx">Livre</span><span class="err">\</span><span class="nx">articles</span><span class="err">\</span><span class="nx">express</span><span class="o">-</span><span class="nx">server</span><span class="o">-</span><span class="nx">article</span><span class="o">></span> <span class="nx">npm</span> <span class="nx">start</span>
+<span class="c1">// OUTPUT</span>
+
+<span class="o">></span> <span class="nx">express</span><span class="o">-</span><span class="nx">server</span><span class="o">-</span><span class="nx">article</span><span class="p">@</span><span class="nd">1</span><span class="p">.</span><span class="mf">0.0</span> <span class="nx">start</span>
+<span class="o">></span> <span class="nx">nodemon</span> <span class="nx">index</span><span class="p">.</span><span class="nx">js</span>
+
+<span class="p">[</span><span class="nx">nodemon</span><span class="p">]</span> <span class="mf">2.0</span><span class="p">.</span><span class="mi">15</span>
+<span class="p">[</span><span class="nx">nodemon</span><span class="p">]</span> <span class="nx">to</span> <span class="nx">restart</span> <span class="nx">at</span> <span class="nx">any</span> <span class="nx">time</span><span class="p">,</span> <span class="nx">enter</span> <span class="s2">`rs`</span>
+<span class="p">[</span><span class="nx">nodemon</span><span class="p">]</span> <span class="nx">watching</span> <span class="nx">path</span><span class="p">(</span><span class="nx">s</span><span class="p">):</span> <span class="o">*</span><span class="p">.</span><span class="o">*</span>
+<span class="p">[</span><span class="nx">nodemon</span><span class="p">]</span> <span class="nx">watching</span> <span class="nx">extensions</span><span class="p">:</span> <span class="nx">js</span><span class="p">,</span><span class="nx">mjs</span><span class="p">,</span><span class="nx">json</span>
+<span class="p">[</span><span class="nx">nodemon</span><span class="p">]</span> <span class="nx">starting</span> <span class="s2">`node index.js`</span>
+<span class="nx">API</span> <span class="nx">is</span> <span class="nx">running</span> <span class="nx">on</span> <span class="nx">http</span><span class="p">:</span><span class="c1">//localhost:5000</span>
+<span class="nx">Connection</span> <span class="nx">to</span> <span class="nx">Mongo</span> <span class="nx">DB</span> <span class="nx">done</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="configuration-des-routes" href="#configuration-des-routes">
+  </a>
+  Configuration des routes <a id="configuration-de-routes"></a>
+</h2>
+
+<p>Enfin pour finaliser la construction de notre serveur nous allons définir une route par défaut. Pour cela créer une dossier<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>
+ avec un sous-dossier
+
+ ```routes```
+
+ et un sous-dossier
+
+ ```controller```
+
+ pour vos futur projets. Dans le dossier
+
+ ```routes```
+
+ créer un fichier
+
+ ```index.js```
+
+:
+
+
+```JavaScript
+//* Import des modules *//
+const express = require('express')
+const router = express.Router()
+
+//* Création de la routes *//
+router.get('/', (req, res) => {
+    res.send('API is running.')
+})
+
+// Export
+module.exports = router 
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Une fois le fichier créer il faut l'importer et l'utiliser dans le fichier<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>
+ à la racine du projet:
+
+
+```JavaScript
+/* ... Other imports */
+const routes = require('./api/routes');
+/**
+ * Config serveur
+ */
+/* ... Le reste du fichier */
+app.use('/', routes);
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>En vous rendant sur l'url <a href="http://localhost:5000">http://localhost:5000</a> vous verez écris "API is running." Félicitations !</p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/areatomic/creer-un-serveur-nodejs-avec-expressjs-4797" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(s,n,a,e,p){return a.type_of="article",a.id=966061,a.title="Créer un serveur Node.js avec Express.js",a.description="Dans le développement web une stack est une combinaison de technologie, la MERN stack est une des...",a.readable_publish_date="Jan 24",a.slug="creer-un-serveur-nodejs-avec-expressjs-4797",a.path="/areatomic/creer-un-serveur-nodejs-avec-expressjs-4797",a.url=e,a.comments_count=0,a.public_reactions_count=3,a.collection_id=s,a.published_timestamp=n,a.positive_reactions_count=3,a.cover_image=s,a.social_image="https://dev.to/social_previews/article/966061.png",a.canonical_url=e,a.created_at=n,a.edited_at=s,a.crossposted_at=s,a.published_at=n,a.last_comment_at=n,a.reading_time_minutes=6,a.tag_list="javascript, french, tutorial, mern",a.tags=["javascript","french","tutorial","mern"],a.body_html='<p>Dans le développement web une stack est une combinaison de technologie, la MERN stack est une des combinaison les plus populaire en 2022. Cette stack se compose de : </p>\n\n<ul>\n<li>Mongo DB</li>\n<li>Express.js</li>\n<li>React.js</li>\n<li>Node.js</li>\n</ul>\n\n<p>Nous allons voir comment aborder cette stack en commençant par la configuration d\'un serveur Node.js avec le framework Express.js relié à une base de données Mongo DB.</p>\n\n<h2>\n  <a name="express" href="#express">\n  </a>\n  Express\n</h2>\n\n<p>Express est un framework Node.js minimaliste et flexible, il est du fait facile d\'utilisation et laisse une certaine liberté au développeur. Il permet notamment de créer des API à l\'aide d\'une floppée de méthodes HTTP.</p>\n\n<h2>\n  <a name="mongo-db" href="#mongo-db">\n  </a>\n  Mongo DB\n</h2>\n\n<p>Mongo DB est un gestionnaire de base de données NoSQL. <a href="https://www.mongodb.com/cloud/atlas/lp/try2?utm_source=bing&amp;utm_campaign=mdb_bs_emea_france_search_core_brand_atlas_desktop&amp;utm_term=mongodb&amp;utm_medium=cpc_paid_search&amp;utm_ad=e&amp;utm_ad_campaign_id=415204542&amp;adgroup=1222657400083870&amp;msclkid=5d8de6dc3bd51a7af8e68732f8b29e27">Pour plus de détail.</a> Vous pouvez créer un compte si vous n\'en avez pas. Une fois le compte créé, vous allez pouvoir créer votre premier cluster en sélectionner l\'option FREE, then choose the options you want and clic Create cluster.<br>\n<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--C9WAyVdn--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.postimg.cc/rwVzMDw5/2022-01-24-16-22-54-Choose-a-Path-Cloud-Mongo-DB-Cloud-et-17-pages-de-plus-Personnel-Microsoft.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--C9WAyVdn--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.postimg.cc/rwVzMDw5/2022-01-24-16-22-54-Choose-a-Path-Cloud-Mongo-DB-Cloud-et-17-pages-de-plus-Personnel-Microsoft.png" alt="Mongo DB cluser selection" loading="lazy" width="880" height="555"></a><br>\nAprès cela vous allez devoir créer les identifiants pour accéder à votre base de données. Notez les bien.<br>\n<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Re-vlQpP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.postimg.cc/s2PnS0Rk/2022-01-24-16-31-44-Security-Quickstart-Mongo-DB-et-19-pages-de-plus-Personnel-Microsoft-Edge.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Re-vlQpP--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.postimg.cc/s2PnS0Rk/2022-01-24-16-31-44-Security-Quickstart-Mongo-DB-et-19-pages-de-plus-Personnel-Microsoft-Edge.png" alt="Mongo DB account config" loading="lazy" width="880" height="459"></a><br>\nEnfin définnisez les adresses IP pouvant accéder au projet:<br>\n<a href="https://res.cloudinary.com/practicaldev/image/fetch/s--RWM-lAmY--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.postimg.cc/sDZ470YT/2022-01-24-16-33-04-Security-Quickstart-Mongo-DB-et-20-pages-de-plus-Personnel-Microsoft-Edge.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--RWM-lAmY--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://i.postimg.cc/sDZ470YT/2022-01-24-16-33-04-Security-Quickstart-Mongo-DB-et-20-pages-de-plus-Personnel-Microsoft-Edge.png" alt="Mongo DB Atlas access" loading="lazy" width="880" height="503"></a> </p>\n<h2>\n  <a name="phase-de-d%C3%A9veloppement" href="#phase-de-d%C3%A9veloppement">\n  </a>\n  Phase de développement\n</h2>\n\n<p><a href="#initialisation-du-projet">1.  Initialisation du projet</a><br><br>\n<a href="#installation-des-package">2.  Instalation des packages</a><br><br>\n<a href="#configuration-de-environnement">3.  Configuration de l\'environnement</a><br><br>\n<a href="#configuration-de-bdd">4.  Configuration de la base de données</a><br><br>\n<a href="#configuration-de-server">5.  Initialisation du server</a><br><br>\n<a href="#configuration-de-routes">6.  Configuration des routeurs</a></p>\n<h2>\n  <a name="initialisation-du-projet" href="#initialisation-du-projet">\n  </a>\n  Initialisation du projet <a id="initialisation-du-projet"></a>\n</h2>\n\n<p>La première étape pour créer un serveur Express.js est d\'initialiser un projet npm. <a href="https://www.npmjs.com/">Pour en savoir plus sur npm.</a> Pour cela il faut créer un dossier server et ensuite taper la commande npm init à l\'intérieur :<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">mkdir</span> <span class="nx">express</span><span class="o">-</span><span class="nx">server</span><span class="o">-</span><span class="nx">article</span>\n<span class="nx">cd</span> <span class="nx">express</span><span class="o">-</span><span class="nx">server</span><span class="o">-</span><span class="nx">article</span>\n<span class="nx">npm</span> <span class="nx">init</span> <span class="o">-</span><span class="nx">y</span>\n\n<span class="c1">// RESULT</span>\n<span class="nx">Wrote</span> <span class="nx">to</span> <span class="nx">C</span><span class="p">:</span><span class="err">\\</span><span class="nx">Users</span><span class="err">\\</span><span class="nx">aurel</span><span class="err">\\</span><span class="nx">Documents</span><span class="err">\\</span><span class="nx">Areatomic</span><span class="err">\\</span><span class="nx">Livre</span><span class="err">\\</span><span class="nx">articles</span><span class="err">\\</span><span class="nx">express</span><span class="o">-</span><span class="nx">server</span><span class="o">-</span><span class="nx">article</span><span class="err">\\</span><span class="kr">package</span><span class="p">.</span><span class="nx">json</span><span class="p">:</span>\n\n<span class="p">{</span>\n  <span class="dl">"</span><span class="s2">name</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">express-server-article</span><span class="dl">"</span><span class="p">,</span>\n  <span class="dl">"</span><span class="s2">version</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">1.0.0</span><span class="dl">"</span><span class="p">,</span>\n  <span class="dl">"</span><span class="s2">description</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>\n  <span class="dl">"</span><span class="s2">main</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">index.js</span><span class="dl">"</span><span class="p">,</span>\n  <span class="dl">"</span><span class="s2">scripts</span><span class="dl">"</span><span class="p">:</span> <span class="p">{</span>\n    <span class="dl">"</span><span class="s2">test</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">echo </span><span class="se">\\"</span><span class="s2">Error: no test specified</span><span class="se">\\"</span><span class="s2"> &amp;&amp; exit 1</span><span class="dl">"</span>\n  <span class="p">},</span>\n  <span class="dl">"</span><span class="s2">keywords</span><span class="dl">"</span><span class="p">:</span> <span class="p">[],</span>\n  <span class="dl">"</span><span class="s2">author</span><span class="dl">"</span><span class="p">:</span> <span class="dl">""</span><span class="p">,</span>\n  <span class="dl">"</span><span class="s2">license</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">ISC</span><span class="dl">"</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="installation-des-packages" href="#installation-des-packages">\n  </a>\n  Installation des packages <a id="installation-des-package"></a>\n</h2>\n\n<p>Maintenant que le projet est configurer nous devons installer les packages nécessaires à son fonctionnement. Pour réaliser un serveur express basique nous avons besoin des packages suivant:</p>\n\n<ul>\n<li>express : permet de construire la base du serveur</li>\n<li>mongoose : permet d\'utiliser une base de données Mongo DB</li>\n<li>config : permet de configurer proprement notre projet</li>\n<li>dotenv : permet de configurer notre environnement</li>\n<li>cors : permet de définir une politique de restriction d\'accès au serveur</li>\n<li>nodemon : permet de lancer un serveur que se relance automatiquement à la sauvegarde.</li>\n<li>prettier : permet de définir des règles de formatage de code</li>\n</ul>\n\n<p>L\'installation de ces packages se fait à l\'aide de la commande npm install:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>npm install express mongoose config dotenv cors nodemon prettier\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Rajouter ensuite le script<br>\n<br>\n <code>"start":"nodemon index.js</code><br>\n<br>\n dans le fichier package.json.<br>\nAu final le fichier<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>\n doit ressembler au code ci-dessous:\n\n\n```JSON\n{\n  "name": "express-server-article",\n  "version": "1.0.0",\n  "description": "",\n  "main": "index.js",\n  "scripts": {\n    "start": "nodemon index.js",\n    "test": "echo \\"Error: no test specified\\" &amp;&amp; exit 1"\n  },\n  "keywords": [],\n  "author": "",\n  "license": "ISC",\n  "dependencies": {\n    "config": "^3.3.7",\n    "cors": "^2.8.5",\n    "dotenv": "^14.2.0",\n    "express": "^4.17.2",\n    "mongoose": "^6.1.7",\n    "nodemon": "^2.0.15",\n    "prettier": "^2.5.1"\n  }\n}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="configuration-de-lenvironnement" href="#configuration-de-lenvironnement">\n  </a>\n  Configuration de l\'environnement <a id="configuration-de-environnement"></a>\n</h2>\n\n<p>L\'environnement est un élément essentiel au fonctionnement d\'un serveur. Nous pouvons le configurer grâce à un fichier<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>\n. Nous y définissons la base de données, le port sur lequel tourne le serveur, la whitelist pour les options CORS, etc.\n\n\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n<p>PORT=5000<br>\nDATABASE=mongodb+srv://areatomic:<a href="mailto:jaihackermongodb@aeratomic.onbwm.mongodb.net">jaihackermongodb@aeratomic.onbwm.mongodb.net</a>/express-server-article?retryWrites=true&amp;w=majority<br>\nWHITELIST=[\'<a href="http://localhost:3000\'">http://localhost:3000\'</a>]<br>\nSERVER_URL=<a href="http://localhost:5000">http://localhost:5000</a></p>\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>\n\nVous pouvez récupérer le lien connexion à la base de données en cliquant sur le bouton connect de votre cluster puis en copiant les éléments dans l\'onglet "Connect your application".\n\n## Configuration de la base de données &lt;a id="configuration-de-bdd"&gt;&lt;/a&gt;\nPour connecter notre base de données fraichement créée, nous allons réaliser cela dans un dossier\n\n ```config```\n\n et dans un fichier\n\n ```index.js```\n\n.\n![Arbre config](https://i.postimg.cc/KvHLq7NR/2022-01-24-16-39-16-index-js-Livre-Visual-Studio-Code.png)\n\nVoici ce que contient le fichier\n\n ```index.js```\n\n:\n\n\n```JavaScript\n/**\n * Config .env\n */\n const dotenv = require(\'dotenv\')\n const mongoose = require(\'mongoose\')\n dotenv.config()\n\n /**\n  * Config mongo\n  */\n const connectDB = async () =&gt; {\n     try {\n         await mongoose.connect(process.env.DATABASE, {\n             useNewUrlParser: true,\n             useUnifiedTopology: true,\n         })\n         console.log(\'Connection to Mongo DB done\')\n     } catch (err) {\n         console.error(err.message)\n         // Exit process with failure\n         process.exit(1)\n     }\n }\n\n module.exports = connectDB\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>Nous créons une fonction connectDB asynchrone (qui utilise des méthode nécessistant d\'attendre un retour) dans laquelle nous utilisons la méthode connect avec l\'URL renseigner dans notre fichier<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>\n.\n\n## Configuration du serveur &lt;a id="configuration-de-server"&gt;&lt;/a&gt;\nMaintenant que nous avons configurer notre environnement et notre base de données, il ne reste plus qu\'à configurer la base du serveur. Pour cela créer un fichier\n\n ```index.js```\n\n à la racine du projet.\n\nPremière étape importer les packages :\n\n\n```JavaScript\nconst express = require(\'express\')\nconst cors = require(\'cors\')\nconst dotenv = require(\'dotenv\')\nconst connectDB = require(\'./config\')\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Seconde étape lecture des configurations:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code> <span class="nx">dotenv</span><span class="p">.</span><span class="nx">config</span><span class="p">()</span>\n <span class="c1">//Database</span>\n <span class="nx">connectDB</span><span class="p">()</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Troisième étape lancement du serveur à proprement parler :<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">()</span>\n<span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>\n    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`API is running on </span><span class="p">${</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">SERVER_URL</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span>\n<span class="p">})</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Enfin définition des sécurités du serveur:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code> <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span> <span class="na">extended</span><span class="p">:</span> <span class="kc">false</span> <span class="p">}))</span>\n <span class="c1">// CORS</span>\n <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span>\n     <span class="nx">cors</span><span class="p">({</span>\n         <span class="na">origin</span><span class="p">:</span> <span class="p">(</span><span class="nx">origin</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>\n             <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">origin</span><span class="p">)</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>\n             <span class="k">if</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">WHITELIST</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">origin</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>\n                 <span class="kd">let</span> <span class="nx">message</span> <span class="o">=</span>\n                     <span class="dl">"</span><span class="s2">The CORS policy for this origin doesn\'t </span><span class="dl">"</span> <span class="o">+</span>\n                     <span class="dl">\'</span><span class="s1">allow access from the particular origin.</span><span class="dl">\'</span>\n                 <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">message</span><span class="p">),</span> <span class="kc">false</span><span class="p">)</span>\n             <span class="p">}</span>\n             <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>\n         <span class="p">},</span>\n     <span class="p">})</span>\n <span class="p">)</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Une fois que cela est terminé le fichier ressemble à cela:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="kd">const</span> <span class="nx">express</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">\'</span><span class="s1">express</span><span class="dl">\'</span><span class="p">)</span>\n<span class="kd">const</span> <span class="nx">cors</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">\'</span><span class="s1">cors</span><span class="dl">\'</span><span class="p">)</span>\n<span class="kd">const</span> <span class="nx">dotenv</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">\'</span><span class="s1">dotenv</span><span class="dl">\'</span><span class="p">)</span>\n<span class="kd">const</span> <span class="nx">connectDB</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">\'</span><span class="s1">./config</span><span class="dl">\'</span><span class="p">)</span>\n\n<span class="cm">/**\n * Config serveur\n */</span>\n <span class="nx">dotenv</span><span class="p">.</span><span class="nx">config</span><span class="p">()</span>\n <span class="c1">//Database</span>\n <span class="nx">connectDB</span><span class="p">()</span>\n\n <span class="c1">//Serveur</span>\n <span class="kd">const</span> <span class="nx">app</span> <span class="o">=</span> <span class="nx">express</span><span class="p">()</span>\n <span class="nx">app</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">PORT</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>\n     <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`API is running on </span><span class="p">${</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">SERVER_URL</span><span class="p">}</span><span class="s2">`</span><span class="p">)</span>\n <span class="p">})</span>\n <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">express</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span> <span class="na">extended</span><span class="p">:</span> <span class="kc">false</span> <span class="p">}))</span>\n <span class="c1">// CORS</span>\n <span class="nx">app</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span>\n     <span class="nx">cors</span><span class="p">({</span>\n         <span class="na">origin</span><span class="p">:</span> <span class="p">(</span><span class="nx">origin</span><span class="p">,</span> <span class="nx">callback</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>\n             <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">origin</span><span class="p">)</span> <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>\n             <span class="k">if</span> <span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">WHITELIST</span><span class="p">.</span><span class="nx">indexOf</span><span class="p">(</span><span class="nx">origin</span><span class="p">)</span> <span class="o">===</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>\n                 <span class="kd">let</span> <span class="nx">message</span> <span class="o">=</span>\n                     <span class="dl">"</span><span class="s2">The CORS policy for this origin doesn\'t </span><span class="dl">"</span> <span class="o">+</span>\n                     <span class="dl">\'</span><span class="s1">allow access from the particular origin.</span><span class="dl">\'</span>\n                 <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="nx">message</span><span class="p">),</span> <span class="kc">false</span><span class="p">)</span>\n             <span class="p">}</span>\n             <span class="k">return</span> <span class="nx">callback</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="kc">true</span><span class="p">)</span>\n         <span class="p">},</span>\n     <span class="p">})</span>\n <span class="p">)</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Le projet peut être lancé avec la commande<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight javascript"><code><span class="nx">PS</span> <span class="nx">C</span><span class="p">:</span><span class="err">\\</span><span class="nx">Users</span><span class="err">\\</span><span class="nx">aurel</span><span class="err">\\</span><span class="nx">Documents</span><span class="err">\\</span><span class="nx">Areatomic</span><span class="err">\\</span><span class="nx">Livre</span><span class="err">\\</span><span class="nx">articles</span><span class="err">\\</span><span class="nx">express</span><span class="o">-</span><span class="nx">server</span><span class="o">-</span><span class="nx">article</span><span class="o">&gt;</span> <span class="nx">npm</span> <span class="nx">start</span>\n<span class="c1">// OUTPUT</span>\n\n<span class="o">&gt;</span> <span class="nx">express</span><span class="o">-</span><span class="nx">server</span><span class="o">-</span><span class="nx">article</span><span class="p">@</span><span class="nd">1</span><span class="p">.</span><span class="mf">0.0</span> <span class="nx">start</span>\n<span class="o">&gt;</span> <span class="nx">nodemon</span> <span class="nx">index</span><span class="p">.</span><span class="nx">js</span>\n\n<span class="p">[</span><span class="nx">nodemon</span><span class="p">]</span> <span class="mf">2.0</span><span class="p">.</span><span class="mi">15</span>\n<span class="p">[</span><span class="nx">nodemon</span><span class="p">]</span> <span class="nx">to</span> <span class="nx">restart</span> <span class="nx">at</span> <span class="nx">any</span> <span class="nx">time</span><span class="p">,</span> <span class="nx">enter</span> <span class="s2">`rs`</span>\n<span class="p">[</span><span class="nx">nodemon</span><span class="p">]</span> <span class="nx">watching</span> <span class="nx">path</span><span class="p">(</span><span class="nx">s</span><span class="p">):</span> <span class="o">*</span><span class="p">.</span><span class="o">*</span>\n<span class="p">[</span><span class="nx">nodemon</span><span class="p">]</span> <span class="nx">watching</span> <span class="nx">extensions</span><span class="p">:</span> <span class="nx">js</span><span class="p">,</span><span class="nx">mjs</span><span class="p">,</span><span class="nx">json</span>\n<span class="p">[</span><span class="nx">nodemon</span><span class="p">]</span> <span class="nx">starting</span> <span class="s2">`node index.js`</span>\n<span class="nx">API</span> <span class="nx">is</span> <span class="nx">running</span> <span class="nx">on</span> <span class="nx">http</span><span class="p">:</span><span class="c1">//localhost:5000</span>\n<span class="nx">Connection</span> <span class="nx">to</span> <span class="nx">Mongo</span> <span class="nx">DB</span> <span class="nx">done</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="configuration-des-routes" href="#configuration-des-routes">\n  </a>\n  Configuration des routes <a id="configuration-de-routes"></a>\n</h2>\n\n<p>Enfin pour finaliser la construction de notre serveur nous allons définir une route par défaut. Pour cela créer une dossier<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>\n avec un sous-dossier\n\n ```routes```\n\n et un sous-dossier\n\n ```controller```\n\n pour vos futur projets. Dans le dossier\n\n ```routes```\n\n créer un fichier\n\n ```index.js```\n\n:\n\n\n```JavaScript\n//* Import des modules *//\nconst express = require(\'express\')\nconst router = express.Router()\n\n//* Création de la routes *//\nrouter.get(\'/\', (req, res) =&gt; {\n    res.send(\'API is running.\')\n})\n\n// Export\nmodule.exports = router \n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Une fois le fichier créer il faut l\'importer et l\'utiliser dans le fichier<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>\n à la racine du projet:\n\n\n```JavaScript\n/* ... Other imports */\nconst routes = require(\'./api/routes\');\n/**\n * Config serveur\n */\n/* ... Le reste du fichier */\napp.use(\'/\', routes);\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>En vous rendant sur l\'url <a href="http://localhost:5000">http://localhost:5000</a> vous verez écris "API is running." Félicitations !</p>\n\n',a.body_markdown='Dans le développement web une stack est une combinaison de technologie, la MERN stack est une des combinaison les plus populaire en 2022. Cette stack se compose de : \n* Mongo DB\n* Express.js\n* React.js\n* Node.js\n\nNous allons voir comment aborder cette stack en commençant par la configuration d\'un serveur Node.js avec le framework Express.js relié à une base de données Mongo DB.\n\n## Express\nExpress est un framework Node.js minimaliste et flexible, il est du fait facile d\'utilisation et laisse une certaine liberté au développeur. Il permet notamment de créer des API à l\'aide d\'une floppée de méthodes HTTP.\n\n## Mongo DB\nMongo DB est un gestionnaire de base de données NoSQL. [Pour plus de détail.](https://www.mongodb.com/cloud/atlas/lp/try2?utm_source=bing&utm_campaign=mdb_bs_emea_france_search_core_brand_atlas_desktop&utm_term=mongodb&utm_medium=cpc_paid_search&utm_ad=e&utm_ad_campaign_id=415204542&adgroup=1222657400083870&msclkid=5d8de6dc3bd51a7af8e68732f8b29e27) Vous pouvez créer un compte si vous n\'en avez pas. Une fois le compte créé, vous allez pouvoir créer votre premier cluster en sélectionner l\'option FREE, then choose the options you want and clic Create cluster.\n![Mongo DB cluser selection](https://i.postimg.cc/rwVzMDw5/2022-01-24-16-22-54-Choose-a-Path-Cloud-Mongo-DB-Cloud-et-17-pages-de-plus-Personnel-Microsoft.png)\nAprès cela vous allez devoir créer les identifiants pour accéder à votre base de données. Notez les bien.\n![Mongo DB account config](https://i.postimg.cc/s2PnS0Rk/2022-01-24-16-31-44-Security-Quickstart-Mongo-DB-et-19-pages-de-plus-Personnel-Microsoft-Edge.png)\nEnfin définnisez les adresses IP pouvant accéder au projet:\n![Mongo DB Atlas access](https://i.postimg.cc/sDZ470YT/2022-01-24-16-33-04-Security-Quickstart-Mongo-DB-et-20-pages-de-plus-Personnel-Microsoft-Edge.png) \n\n\n## Phase de développement\n[1.  Initialisation du projet](#initialisation-du-projet)<br>\n[2.  Instalation des packages](#installation-des-package)<br>\n[3.  Configuration de l\'environnement](#configuration-de-environnement)<br>\n[4.  Configuration de la base de données](#configuration-de-bdd)<br>\n[5.  Initialisation du server](#configuration-de-server)<br>\n[6.  Configuration des routeurs](#configuration-de-routes)\n\n## Initialisation du projet <a id="initialisation-du-projet"></a>\nLa première étape pour créer un serveur Express.js est d\'initialiser un projet npm. [Pour en savoir plus sur npm.](https://www.npmjs.com/) Pour cela il faut créer un dossier server et ensuite taper la commande npm init à l\'intérieur : \n```javascript\nmkdir express-server-article\ncd express-server-article\nnpm init -y\n\n// RESULT\nWrote to C:\\Users\\aurel\\Documents\\Areatomic\\Livre\\articles\\express-server-article\\package.json:\n\n{\n  "name": "express-server-article",\n  "version": "1.0.0",\n  "description": "",\n  "main": "index.js",\n  "scripts": {\n    "test": "echo \\"Error: no test specified\\" && exit 1"\n  },\n  "keywords": [],\n  "author": "",\n  "license": "ISC"\n}\n```\n\n## Installation des packages <a id="installation-des-package"></a>\nMaintenant que le projet est configurer nous devons installer les packages nécessaires à son fonctionnement. Pour réaliser un serveur express basique nous avons besoin des packages suivant:\n* express : permet de construire la base du serveur\n* mongoose : permet d\'utiliser une base de données Mongo DB\n* config : permet de configurer proprement notre projet\n* dotenv : permet de configurer notre environnement\n* cors : permet de définir une politique de restriction d\'accès au serveur\n* nodemon : permet de lancer un serveur que se relance automatiquement à la sauvegarde.\n* prettier : permet de définir des règles de formatage de code\n\nL\'installation de ces packages se fait à l\'aide de la commande npm install:\n```npm\nnpm install express mongoose config dotenv cors nodemon prettier\n```\nRajouter ensuite le script ```"start":"nodemon index.js``` dans le fichier package.json.\nAu final le fichier ```package.json``` doit ressembler au code ci-dessous:\n```JSON\n{\n  "name": "express-server-article",\n  "version": "1.0.0",\n  "description": "",\n  "main": "index.js",\n  "scripts": {\n    "start": "nodemon index.js",\n    "test": "echo \\"Error: no test specified\\" && exit 1"\n  },\n  "keywords": [],\n  "author": "",\n  "license": "ISC",\n  "dependencies": {\n    "config": "^3.3.7",\n    "cors": "^2.8.5",\n    "dotenv": "^14.2.0",\n    "express": "^4.17.2",\n    "mongoose": "^6.1.7",\n    "nodemon": "^2.0.15",\n    "prettier": "^2.5.1"\n  }\n}\n```\n\n## Configuration de l\'environnement <a id="configuration-de-environnement"></a>\nL\'environnement est un élément essentiel au fonctionnement d\'un serveur. Nous pouvons le configurer grâce à un fichier ```.env```. Nous y définissons la base de données, le port sur lequel tourne le serveur, la whitelist pour les options CORS, etc.\n\n```\nPORT=5000\nDATABASE=mongodb+srv://areatomic:jaihackermongodb@aeratomic.onbwm.mongodb.net/express-server-article?retryWrites=true&w=majority\nWHITELIST=[\'http://localhost:3000\']\nSERVER_URL=http://localhost:5000\n```\nVous pouvez récupérer le lien connexion à la base de données en cliquant sur le bouton connect de votre cluster puis en copiant les éléments dans l\'onglet "Connect your application".\n\n## Configuration de la base de données <a id="configuration-de-bdd"></a>\nPour connecter notre base de données fraichement créée, nous allons réaliser cela dans un dossier ```config``` et dans un fichier ```index.js```.\n![Arbre config](https://i.postimg.cc/KvHLq7NR/2022-01-24-16-39-16-index-js-Livre-Visual-Studio-Code.png)\n\nVoici ce que contient le fichier ```index.js```:\n```JavaScript\n/**\n * Config .env\n */\n const dotenv = require(\'dotenv\')\n const mongoose = require(\'mongoose\')\n dotenv.config()\n \n /**\n  * Config mongo\n  */\n const connectDB = async () => {\n     try {\n         await mongoose.connect(process.env.DATABASE, {\n             useNewUrlParser: true,\n             useUnifiedTopology: true,\n         })\n         console.log(\'Connection to Mongo DB done\')\n     } catch (err) {\n         console.error(err.message)\n         // Exit process with failure\n         process.exit(1)\n     }\n }\n \n module.exports = connectDB\n```\n\nNous créons une fonction connectDB asynchrone (qui utilise des méthode nécessistant d\'attendre un retour) dans laquelle nous utilisons la méthode connect avec l\'URL renseigner dans notre fichier ```.env```.\n\n## Configuration du serveur <a id="configuration-de-server"></a>\nMaintenant que nous avons configurer notre environnement et notre base de données, il ne reste plus qu\'à configurer la base du serveur. Pour cela créer un fichier ```index.js``` à la racine du projet.\n\nPremière étape importer les packages :\n```JavaScript\nconst express = require(\'express\')\nconst cors = require(\'cors\')\nconst dotenv = require(\'dotenv\')\nconst connectDB = require(\'./config\')\n```\n\nSeconde étape lecture des configurations:\n```JavaScript\n dotenv.config()\n //Database\n connectDB()\n ```\n\nTroisième étape lancement du serveur à proprement parler :\n```javascript\nconst app = express()\napp.listen(process.env.PORT, () => {\n    console.log(`API is running on ${process.env.SERVER_URL}`)\n})\n```\n\nEnfin définition des sécurités du serveur:\n```JavaScript\n app.use(express.json({ extended: false }))\n // CORS\n app.use(\n     cors({\n         origin: (origin, callback) => {\n             if (!origin) return callback(null, true)\n             if (process.env.WHITELIST.indexOf(origin) === -1) {\n                 let message =\n                     "The CORS policy for this origin doesn\'t " +\n                     \'allow access from the particular origin.\'\n                 return callback(new Error(message), false)\n             }\n             return callback(null, true)\n         },\n     })\n )\n```\n\nUne fois que cela est terminé le fichier ressemble à cela:\n```JavaScript\nconst express = require(\'express\')\nconst cors = require(\'cors\')\nconst dotenv = require(\'dotenv\')\nconst connectDB = require(\'./config\')\n\n/**\n * Config serveur\n */\n dotenv.config()\n //Database\n connectDB()\n\n //Serveur\n const app = express()\n app.listen(process.env.PORT, () => {\n     console.log(`API is running on ${process.env.SERVER_URL}`)\n })\n app.use(express.json({ extended: false }))\n // CORS\n app.use(\n     cors({\n         origin: (origin, callback) => {\n             if (!origin) return callback(null, true)\n             if (process.env.WHITELIST.indexOf(origin) === -1) {\n                 let message =\n                     "The CORS policy for this origin doesn\'t " +\n                     \'allow access from the particular origin.\'\n                 return callback(new Error(message), false)\n             }\n             return callback(null, true)\n         },\n     })\n )\n```\n\nLe projet peut être lancé avec la commande\n```js\nPS C:\\Users\\aurel\\Documents\\Areatomic\\Livre\\articles\\express-server-article> npm start\n// OUTPUT\n\n> express-server-article@1.0.0 start\n> nodemon index.js\n\n[nodemon] 2.0.15\n[nodemon] to restart at any time, enter `rs`\n[nodemon] watching path(s): *.*\n[nodemon] watching extensions: js,mjs,json\n[nodemon] starting `node index.js`\nAPI is running on http://localhost:5000\nConnection to Mongo DB done\n```\n\n## Configuration des routes <a id="configuration-de-routes"></a>\nEnfin pour finaliser la construction de notre serveur nous allons définir une route par défaut. Pour cela créer une dossier ```config``` avec un sous-dossier ```routes``` et un sous-dossier ```controller``` pour vos futur projets. Dans le dossier ```routes``` créer un fichier ```index.js```:\n```JavaScript\n//* Import des modules *//\nconst express = require(\'express\')\nconst router = express.Router()\n\n//* Création de la routes *//\nrouter.get(\'/\', (req, res) => {\n    res.send(\'API is running.\')\n})\n\n// Export\nmodule.exports = router \n```\n\nUne fois le fichier créer il faut l\'importer et l\'utiliser dans le fichier ```index.js``` à la racine du projet:\n```JavaScript\n/* ... Other imports */\nconst routes = require(\'./api/routes\');\n/**\n * Config serveur\n */\n/* ... Le reste du fichier */\napp.use(\'/\', routes);\n```\n\nEn vous rendant sur l\'url [http://localhost:5000](http://localhost:5000) vous verez écris "API is running." Félicitations !',a.user={name:p,username:"areatomic",twitter_username:s,github_username:p,website_url:"https://aureliensebe.fr",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--x7Bv0Q-A--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/342086/d7ab6289-f20e-4c30-9d73-d23679ce50f0.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--Ld-E3OU_--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/342086/d7ab6289-f20e-4c30-9d73-d23679ce50f0.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:a}},error:s,state:{currentArticle:a},serverRendered:!0,routePath:"/areatomic/966061",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:s}}}}(null,"2022-01-24T16:17:08Z",{},"https://dev.to/areatomic/creer-un-serveur-nodejs-avec-expressjs-4797","AreAtomic")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

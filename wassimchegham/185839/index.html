@@ -1,0 +1,736 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Build Your Serverless Azure Function Apps With Bazel 1.0 🌿</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Build Your Serverless Azure Function Apps With Bazel 1.0 🌿</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/bazel" class="tag" data-v-70afb46a>
+          #bazel
+        </a><a href="/nuxtstop/t/serverless" class="tag" data-v-70afb46a>
+          #serverless
+        </a><a href="/nuxtstop/t/typescript" class="tag" data-v-70afb46a>
+          #typescript
+        </a><a href="/nuxtstop/t/azure" class="tag" data-v-70afb46a>
+          #azure
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--UYZeA2tp--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://thepracticaldev.s3.amazonaws.com/i/ytybek4k8f70fm5by5g5.png" alt="Build Your Serverless Azure Function Apps With Bazel 1.0 🌿" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            56
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Oct 11 '19</time></div></header> <div class="content" data-v-70afb46a><p>Bazel has just hit a new milestone: Bazel 1.0 has been announced today. It is time to start investing in this distributed build and test orchestration tool.</p>
+
+
+<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/bazelbuild/status/1182386311761747969">
+      <div class="ltag__twitter-tweet__media">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--DBAr_7Cn--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/media/EGiuFS1X0AAQHzx.jpg" alt="unknown tweet media content" loading="lazy">
+      </div>
+
+  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/bazelbuild/status/1182386311761747969">
+    <div class="ltag__twitter-tweet__header">
+      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--uSBk5vF7--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/880099790083805186/ugVKv3BL_normal.jpg" alt="bazelbuild profile image" loading="lazy">
+      <div class="ltag__twitter-tweet__full-name">
+        bazelbuild
+      </div>
+      <div class="ltag__twitter-tweet__username">
+        @bazelbuild
+      </div>
+      <div class="ltag__twitter-tweet__twitter-logo">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">
+      </div>
+    </div>
+    <div class="ltag__twitter-tweet__body">
+      1.0 cake! 
+    </div>
+    <div class="ltag__twitter-tweet__date">
+      20:03 PM - 10 Oct 2019
+    </div>
+
+
+    <div class="ltag__twitter-tweet__actions">
+      <a href="https://twitter.com/intent/tweet?in_reply_to=1182386311761747969" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/retweet?tweet_id=1182386311761747969" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">
+      </a>
+      <a href="https://twitter.com/intent/like?tweet_id=1182386311761747969" class="ltag__twitter-tweet__actions__button">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">
+      </a>
+    </div>
+  </div>
+</blockquote>
+
+
+<p>In this quick guide, we are going to use Bazel to build an <a href="https://docs.microsoft.com/azure/azure-functions/?WT.mc_id=devto-blog-wachegha">Azure Function</a> application, written in TypeScript. </p>
+
+<blockquote>
+<p>Bazel is polyglot, meaning you can use it to build and test different technologies, even in the same monorepo, at the same! Today we are going to focus on TypeScript.</p>
+</blockquote>
+
+<p>If you want to know more about the capabilities of Bazel when it comes to building web applications, I highly recommend reading the following post by my friend Alex Eagle from the JavaScript build/serve team at Google.</p>
+
+
+<div class="ltag__link">
+  <a href="/bazel" class="ltag__link__link">
+    <div class="ltag__link__org__pic">
+      <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--R2M8zDKH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://res.cloudinary.com/practicaldev/image/fetch/s--9PIZdn-L--/c_fill%2Cf_auto%2Cfl_progressive%2Ch_150%2Cq_auto%2Cw_150/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/1315/386196b8-a560-4d74-83a6-aa8fae70822c.png" alt="Bazel" loading="lazy">
+      <div class="ltag__link__user__pic">
+        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Am917xax--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://res.cloudinary.com/practicaldev/image/fetch/s--HQdtIXkq--/c_fill%2Cf_auto%2Cfl_progressive%2Ch_150%2Cq_auto%2Cw_150/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/237467/97e249a8-80d3-4595-94d7-09160f678c5d.jpg" alt="" loading="lazy">
+      </div>
+    </div>
+  </a>
+  <a href="/bazel/layering-in-bazel-for-web-389h" class="ltag__link__link">
+    <div class="ltag__link__content">
+      <h2>Layering in Bazel for Web</h2>
+      <h3>Alex 🦅 Eagle for Bazel ・ Oct 10 '19 ・ 7 min read</h3>
+      <div class="ltag__link__taglist">
+        <span class="ltag__link__tag">#bazel</span>
+      </div>
+    </div>
+  </a>
+</div>
+
+
+<p>Here are the steps we are going to follow:</p>
+
+<ol>
+<li><a href="#Scaffold-an-Azure-Function-application">Scaffold an Azure Function Application</a></li>
+<li><a href="#Set-up-a-Bazel-workspace">Set up a Bazel workspace</a></li>
+<li><a href="#Build-the-Azure-Function-Application-using-Bazel">Build the Azure Function Application using Bazel</a></li>
+<li><a href="#Deploy-the-app-to-Azure-using-Hexa">Deploy to Azure</a></li>
+</ol>
+
+<blockquote>
+<p>If needed, I included a link to <a href="https://azure.microsoft.com/free/?WT.mc_id=devto-blog-wachegha">a free Azure trial</a>, so you can try it yourself.</p>
+</blockquote>
+
+<p>Let's get started...</p>
+
+<blockquote>
+<p>UPDATE Oct. 20th: <a href="//www.hexa.run">Hexa</a> now has built-in support for Bazel! Liquid error: internal</p>
+</blockquote>
+
+<h1>
+  <a name="scaffold-an-azure-function-application" href="#scaffold-an-azure-function-application">
+  </a>
+  Scaffold an Azure Function application <a name="Scaffold-an-Azure-Function-application"></a>
+</h1>
+
+<p>In order to easily create and then deploy our <a href="https://docs.microsoft.com/azure/azure-functions/?WT.mc_id=devto-blog-wachegha">Azure Function</a> application, we are going to use the <a href="//www.hexa.run">Hexa</a> CLI:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">mkdir </span>azurefunctionbazel <span class="o">&&</span> <span class="nb">cd</span> <span class="nv">$_</span>
+<span class="nv">$ </span>hexa init <span class="nt">--just</span> functions
+<span class="nv">$ </span><span class="nb">cd </span>functions/azurefunctionbazel-5816
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<blockquote>
+<p>Hexa is an open-source CLI tool that enhances the Azure CLI (<a href="https://www.hexa.run">learn more about Hexa and how to install it</a>). </p>
+</blockquote>
+
+<p>Using <a href="//www.hexa.run">Hexa</a> we scaffolded inside the <code>./functions/azurefunctionbazel-5816</code> a new TypeScript <a href="https://docs.microsoft.com/azure/azure-functions/?WT.mc_id=devto-blog-wachegha">Azure Function</a> application that uses <code>tsc</code> (by default) to build.</p>
+
+<p>We are going to setup Bazel and use it to orchestrate the build using the <code>ts_library</code> rule (i.e. a Bazel plugin).</p>
+<h1>
+  <a name="set-up-a-bazel-workspace" href="#set-up-a-bazel-workspace">
+  </a>
+  Set up a Bazel workspace <a name="Set-up-a-Bazel-workspace"></a>
+</h1>
+
+<p>In order to set up and use Bazel inside our Azure Function project <code>./functions/azurefunctionbazel-5816</code>, we will need:</p>
+
+<ol>
+<li>Install Bazel and its dependencies from NPM</li>
+<li>Add a <code>WORKSPACE</code> file at the root of the project</li>
+<li>Add a <code>BUILD.bazel</code> file at the root of the project</li>
+<li>Add one <code>BUILD.bazel</code> inside each function</li>
+</ol>
+
+<blockquote>
+<p>Usually you wouldn't have to set up Bazel manually, but rather use a tool such as <code>@bazel/create</code> to automate the setup and config.</p>
+</blockquote>
+<h2>
+  <a name="installing-bazel-and-its-dependencies" href="#installing-bazel-and-its-dependencies">
+  </a>
+  Installing Bazel and its dependencies
+</h2>
+
+<p>Inside the <code>./functions/azurefunctionbazel-5816</code> folder, install the required Bazel and its peer dependencies from NPM using the following command (it will also update the existing <code>package.json</code>):<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>$ npm install -D \
+      @bazel/bazel@latest \
+      @bazel/typescript@latest \
+      typescript@^3.3.3
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<blockquote>
+<p>Make sure <code>typescript</code> is listed and installed as a dependency in the <code>package.json</code></p>
+</blockquote>
+<h2>
+  <a name="add-a-raw-workspace-endraw-file" href="#add-a-raw-workspace-endraw-file">
+  </a>
+  Add a <code>WORKSPACE</code> file
+</h2>
+
+<p>Create a file <code>WORKSPACE</code> at the root of <code>./functions/azurefunctionbazel-5816</code> with the following content (see explanation below):<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code><span class="n">workspace</span><span class="p">(</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">"azurefunctionbazel"</span><span class="p">,</span>
+    <span class="n">managed_directories</span> <span class="o">=</span> <span class="p">{</span><span class="s">"@npm"</span><span class="p">:</span> <span class="p">[</span><span class="s">"node_modules"</span><span class="p">]},</span>
+<span class="p">)</span>
+
+<span class="n">load</span><span class="p">(</span><span class="s">"@bazel_tools//tools/build_defs/repo:http.bzl"</span><span class="p">,</span> <span class="s">"http_archive"</span><span class="p">)</span>
+<span class="n">http_archive</span><span class="p">(</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">"build_bazel_rules_nodejs"</span><span class="p">,</span>
+    <span class="n">sha256</span> <span class="o">=</span> <span class="s">"1447312c8570e8916da0f5f415186e7098cdd4ce48e04b8e864f793c766959c3"</span><span class="p">,</span>
+    <span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="s">"https://github.com/bazelbuild/rules_nodejs/releases/download/0.38.2/rules_nodejs-0.38.2.tar.gz"</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">load</span><span class="p">(</span><span class="s">"@build_bazel_rules_nodejs//:index.bzl"</span><span class="p">,</span> <span class="s">"npm_install"</span><span class="p">)</span>
+<span class="n">npm_install</span><span class="p">(</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">"npm"</span><span class="p">,</span>
+    <span class="n">package_json</span> <span class="o">=</span> <span class="s">"//:package.json"</span><span class="p">,</span>
+    <span class="n">package_lock_json</span> <span class="o">=</span> <span class="s">"//:package-lock.json"</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">load</span><span class="p">(</span><span class="s">"@npm//:install_bazel_dependencies.bzl"</span><span class="p">,</span> <span class="s">"install_bazel_dependencies"</span><span class="p">)</span>
+<span class="n">install_bazel_dependencies</span><span class="p">()</span>
+
+<span class="n">load</span><span class="p">(</span><span class="s">"@npm_bazel_typescript//:index.bzl"</span><span class="p">,</span> <span class="s">"ts_setup_workspace"</span><span class="p">)</span>
+<span class="n">ts_setup_workspace</span><span class="p">()</span>
+
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>Let's explain each section...<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code><span class="n">workspace</span><span class="p">(</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">"azurefunctionbazel"</span><span class="p">,</span>
+    <span class="n">managed_directories</span> <span class="o">=</span> <span class="p">{</span><span class="s">"@npm"</span><span class="p">:</span> <span class="p">[</span><span class="s">"node_modules"</span><span class="p">]},</span>
+<span class="p">)</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<ol>
+<li>The <code>workspace</code> rule declares that this folder is the root of a Bazel <a href="https://docs.bazel.build/versions/master/build-ref.html#workspace">workspace</a>.</li>
+<li>The <code>name</code> attribute declares how this workspace would be referenced with absolute labels from another workspace, e.g. <code>@azurefunctionbazel//</code>
+</li>
+<li>the <code>managed_directories</code> attribute maps the <code>@npm</code> Bazel workspace to the <code>node_modules</code> directory. This lets Bazel use the same <code>node_modules</code> as another local tooling.
+</li>
+</ol>
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code>
+<span class="n">load</span><span class="p">(</span><span class="s">"@bazel_tools//tools/build_defs/repo:http.bzl"</span><span class="p">,</span> <span class="s">"http_archive"</span><span class="p">)</span>
+<span class="n">http_archive</span><span class="p">(</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">"build_bazel_rules_nodejs"</span><span class="p">,</span>
+    <span class="n">sha256</span> <span class="o">=</span> <span class="s">"1447312c8570e8916da0f5f415186e7098cdd4ce48e04b8e864f793c766959c3"</span><span class="p">,</span>
+    <span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="s">"https://github.com/bazelbuild/rules_nodejs/releases/download/0.38.2/rules_nodejs-0.38.2.tar.gz"</span><span class="p">],</span>
+<span class="p">)</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>This will install the Node.js "bootstrap" package which provides the basic tools for running and packaging Node.js apps in Bazel.<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code><span class="n">load</span><span class="p">(</span><span class="s">"@build_bazel_rules_nodejs//:index.bzl"</span><span class="p">,</span> <span class="s">"npm_install"</span><span class="p">)</span>
+<span class="n">npm_install</span><span class="p">(</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">"npm"</span><span class="p">,</span>
+    <span class="n">package_json</span> <span class="o">=</span> <span class="s">"//:package.json"</span><span class="p">,</span>
+    <span class="n">package_lock_json</span> <span class="o">=</span> <span class="s">"//:package-lock.json"</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<ol>
+<li>The <code>npm_install</code> rule runs <code>npm</code> (or <code>yarn</code> depending on your configuration) anytime the <code>package.json</code> or <code>package-lock.json</code> file changes. It also extracts any Bazel rules distributed in an <code>npm</code> package.</li>
+<li>The <code>name</code> attribute is what Bazel Label references look like <code>@npm//@azure/functions</code>
+</li>
+</ol>
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code><span class="n">load</span><span class="p">(</span><span class="s">"@npm//:install_bazel_dependencies.bzl"</span><span class="p">,</span> <span class="s">"install_bazel_dependencies"</span><span class="p">)</span>
+<span class="n">install_bazel_dependencies</span><span class="p">()</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>This call will install any Bazel rules which were extracted earlier by the <code>npm_install</code> rule.<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code><span class="n">load</span><span class="p">(</span><span class="s">"@npm_bazel_typescript//:index.bzl"</span><span class="p">,</span> <span class="s">"ts_setup_workspace"</span><span class="p">)</span>
+<span class="n">ts_setup_workspace</span><span class="p">()</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>This will set up the TypeScript toolchain for your workspace.</p>
+<h2>
+  <a name="root-raw-buildbazel-endraw-" href="#root-raw-buildbazel-endraw-">
+  </a>
+  Root <code>BUILD.bazel</code>
+</h2>
+
+<p>Create a file <code>BUILD.bazel</code> at the root of <code>./functions/azurefunctionbazel-5816</code> with the following content:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code><span class="n">exports_files</span><span class="p">([</span><span class="s">"tsconfig.json"</span><span class="p">],</span> <span class="n">visibility</span> <span class="o">=</span> <span class="p">[</span><span class="s">"//:__subpackages__"</span><span class="p">])</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>This simple <code>BUILD.bazel</code> will export the <code>tsconfig.json</code> so it can be referenced from other packages.</p>
+<h2>
+  <a name="package-raw-buildbazel-endraw-" href="#package-raw-buildbazel-endraw-">
+  </a>
+  Package <code>BUILD.bazel</code>
+</h2>
+
+<p>Bazel recommends creating fine-grained packages for more efficient build executions. A package in Bazel terminology is a folder containing a <code>BUILD.bazel</code> file, e.g. <code>./functions/azurefunctionbazel-5816/httpTrigger/BUILD.bazel</code>.</p>
+
+<p>In our case, the Azure Function application contains one folder for each function. These folders are going to be our Bazel packages.</p>
+
+<p>Inside each <code>BUILD.bazel</code> we are going to describe <em>how</em> that package (i.e. an Azure Function) should be built, and let Bazel take care of the orchestration.</p>
+
+<p>To build our application, we are going to keep it simple and just use the <code>tsc</code> compiler. However, for more complex scenarios, we can also bundle our application with <code>rollup</code> and minify it using <code>terser</code> tools. Such a hypothetical build process could look like:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code><span class="c1"># Note: this build hasn't been tested!
+</span>
+<span class="n">load</span><span class="p">(</span><span class="s">"@npm_bazel_typescript//:index.bzl"</span><span class="p">,</span> <span class="s">"ts_library"</span><span class="p">)</span>
+<span class="n">load</span><span class="p">(</span><span class="s">"@npm_bazel_rollup//:index.bzl"</span><span class="p">,</span> <span class="s">"rollup_bundle"</span><span class="p">)</span>
+<span class="n">load</span><span class="p">(</span><span class="s">"@npm_bazel_terser//:index.bzl"</span><span class="p">,</span> <span class="s">"terser_minified"</span><span class="p">)</span>
+
+<span class="n">package</span><span class="p">(</span><span class="n">default_visibility</span> <span class="o">=</span> <span class="p">[</span><span class="s">"//visibility:public"</span><span class="p">])</span>
+
+<span class="n">ts_library</span><span class="p">(</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">"httpTrigger"</span><span class="p">,</span>
+    <span class="n">srcs</span> <span class="o">=</span> <span class="p">[</span><span class="s">"index.ts"</span><span class="p">],</span>
+    <span class="n">deps</span> <span class="o">=</span> <span class="p">[</span><span class="s">"@npm//@azure/functions"</span><span class="p">]</span>
+<span class="p">)</span>
+
+<span class="n">rollup_bundle</span><span class="p">(</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">"bundle"</span><span class="p">,</span>
+    <span class="n">entry_point</span> <span class="o">=</span> <span class="s">":index.ts"</span><span class="p">,</span>
+    <span class="n">deps</span> <span class="o">=</span> <span class="p">[</span><span class="s">":httpTrigger"</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="n">terser_minified</span><span class="p">(</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">"bundle.min"</span><span class="p">,</span>
+    <span class="n">src</span> <span class="o">=</span> <span class="s">":bundle"</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>But in our case, we will keep it simple:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight python"><code><span class="n">load</span><span class="p">(</span><span class="s">"@npm_bazel_typescript//:index.bzl"</span><span class="p">,</span> <span class="s">"ts_library"</span><span class="p">)</span>
+
+<span class="n">package</span><span class="p">(</span><span class="n">default_visibility</span> <span class="o">=</span> <span class="p">[</span><span class="s">"//visibility:public"</span><span class="p">])</span>
+
+<span class="n">ts_library</span><span class="p">(</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="s">"httpTrigger"</span><span class="p">,</span>
+    <span class="n">srcs</span> <span class="o">=</span> <span class="p">[</span><span class="s">"index.ts"</span><span class="p">],</span>
+    <span class="n">deps</span> <span class="o">=</span> <span class="p">[</span><span class="s">"@npm//@azure/functions"</span><span class="p">]</span>
+<span class="p">)</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<ol>
+<li>The <code>name</code> attribute is the name of the target (this <code>ts_library</code> call)</li>
+<li>The <code>srcs</code> attribute lists all the TypeScript files to transpile</li>
+<li>The <code>deps</code> attribute lists all external dependencies used inside this package (e.g. <code>@azure/functions</code>). The <code>@npm//</code> is the name of the NPM workspace (see the <code>WORKSPACE</code> above).</li>
+</ol>
+
+<p>Having fine-grained packages gives us the guarantee from Bazel to get incremental, remote-parallelizable builds and cache automatically which will drastically improve the build time, for huge more complex projects.</p>
+<h1>
+  <a name="build-the-azure-function-application" href="#build-the-azure-function-application">
+  </a>
+  Build the Azure Function Application <a name="Build-the-Azure-Function-Application-using-Bazel"></a>
+</h1>
+
+<p>Now, we can run Bazel to build this specific package:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>bazel build @azurefunctionbazel//httpTrigger:httpTrigger
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>The canonical path to a target is explained as the following:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--JAzC57SY--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/cvxd3auqbu7viaolq2dj.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--JAzC57SY--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/cvxd3auqbu7viaolq2dj.png" alt="Alt Text" loading="lazy"></a></p>
+
+<p>In fact, this path can be shortened to:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>bazel build //httpTrigger
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>This is because we are building the specified target from the same workspace. So we can omit the workspace identifier, and since the package and the target names are identical, we can omit the target name.</p>
+
+<p>We can also instruct Bazel to build all targets of all packages using inside the current workspace:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>bazel build //...
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>You may not see the benefits of using Bazel to build one single trivial Function, but once you start dealing with 100s of serverless applications, Bazel will be there to help you boost your build and test performances.</p>
+
+<p>Bazel is also good at understanding the dependencies graph of our application. We can ask Bazel to show us this dependencies graph:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>bazel query <span class="nt">--noimplicit_deps</span> <span class="s1">'deps(//...)'</span> <span class="nt">--output</span> graph | dot <span class="nt">-Tpng</span> <span class="o">></span> azurefunctionbazel.png
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>Will output:</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Bp7HvMtf--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/6khc5oi3otfoksgxtf19.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Bp7HvMtf--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/6khc5oi3otfoksgxtf19.png" alt="Alt Text" loading="lazy"></a></p>
+
+<blockquote>
+<p>We could use this visualization to better understand the internals of our application. Image an application with 100s of Function Apps!</p>
+</blockquote>
+<h1>
+  <a name="deploy-to-azure" href="#deploy-to-azure">
+  </a>
+  Deploy to Azure <a name="Deploy-the-app-to-Azure-using-Hexa"></a>
+</h1>
+
+<p>By default, the output of the<code>ts_library()</code> (<code>*.js</code> and <code>*.d.ts</code>) rule will be stored in <code>./functions/azurefunctionbazel-5816/bazel-bin/httpTrigger</code>.</p>
+
+<p>Before deploying to Azure, we need to update the <code>function.json</code> of each function and point the <code>scriptFile</code> to <code>bazel-bin/</code>:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight json"><code><span class="p">{</span><span class="w">
+  </span><span class="err">...</span><span class="w">
+  </span><span class="nl">"scriptFile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"../bazel-bin/httpTrigger/index.js"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>We also need to make sure not to deploy the Bazel workspace to Azure, by updating the <code>.funcignore</code> file:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>## Bazel ignored files
+node_modules/@bazel/*
+BUILD.bazel
+
+# ignore all bazel output folder except the bazel-bin folder 
+# where the transpiled code lives
+bazel-*
+!bazel-bin
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>Now we are ready to deploy our application to Azure, using the <a href="//www.hexa.run">Hexa</a> CLI:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span><span class="c"># cd to the root of azurefunctionbazel where hexa.json is located</span>
+<span class="nv">$ </span>hexa deploy
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>The output result of the deploy command would be:<br>
+</p>
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>
+✔ Building Function app azurefunctionbazel-5816...
+✔ Deploying Function app azurefunctionbazel-5816...
+✔ Application azurefunctionbazel deployed successfully!
+
+➜ Functions:
+ - httptrigger: https://azurefunctionbazel-5816.azurewebsites.net/api/httptrigger?code=POfqT9xFCtYKOaryFW8LkzFsUtD3ioWi8Y2e4M8BpBeLhTOH8aqUIg==
+✔ Done in 68 seconds.
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+<p>Congratulations 🎉! Your Azure Function application has now been built using Bazel and deployed with <a href="//www.hexa.run">Hexa</a>.</p>
+
+<p>Find the sample project on Github</p>
+
+
+<div class="ltag-github-readme-tag">
+  <div class="readme-overview">
+    <h2>
+      <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--i3JOwpme--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/github-logo-ba8488d21cd8ee1fee097b8410db9deaa41d0ca30b004c0c63de0a479114156f.svg" alt="GitHub logo" loading="lazy">
+      <a href="https://github.com/manekinekko">
+        manekinekko
+      </a> / <a style="font-weight:600" href="https://github.com/manekinekko/azure_function_bazel">
+        azure_function_bazel
+      </a>
+    </h2>
+    <h3>
+      
+    </h3>
+  </div>
+  <div class="ltag-github-body">
+    
+<div id="readme" class="md" data-path="README.md"><article class="markdown-body entry-content container-lg" itemprop="text"><h2>
+Build Azure Function Apps With Bazel 1.0</h2>
+</article></div>
+
+  </div>
+  <div class="gh-btn-container"><a class="gh-btn" href="https://github.com/manekinekko/azure_function_bazel">View on GitHub</a></div>
+</div>
+
+
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/wassimchegham/build-azure-function-apps-with-bazel-1-0-mci" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(n,a,e,s,t,i){return s.type_of="article",s.id=185839,s.title="Build Your Serverless Azure Function Apps With Bazel 1.0 🌿",s.description="Bazel has just hit a new milestone: Bazel 1.0 has been announced today. It is time to start investing...",s.readable_publish_date="Oct 11 '19",s.slug="build-azure-function-apps-with-bazel-1-0-mci",s.path="/azure/build-azure-function-apps-with-bazel-1-0-mci",s.url=t,s.comments_count=0,s.public_reactions_count=56,s.collection_id=n,s.published_timestamp=a,s.positive_reactions_count=56,s.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--UYZeA2tp--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://thepracticaldev.s3.amazonaws.com/i/ytybek4k8f70fm5by5g5.png",s.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--pgv3P1YR--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://thepracticaldev.s3.amazonaws.com/i/ytybek4k8f70fm5by5g5.png",s.canonical_url=t,s.created_at="2019-10-07T20:08:02Z",s.edited_at="2021-09-25T20:35:58Z",s.crossposted_at=n,s.published_at=a,s.last_comment_at=a,s.reading_time_minutes=6,s.tag_list="bazel, serverless, typescript, azure",s.tags=["bazel","serverless","typescript",e],s.body_html='<p>Bazel has just hit a new milestone: Bazel 1.0 has been announced today. It is time to start investing in this distributed build and test orchestration tool.</p>\n\n\n<blockquote class="ltag__twitter-tweet" data-url="https://twitter.com/bazelbuild/status/1182386311761747969">\n      <div class="ltag__twitter-tweet__media">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--DBAr_7Cn--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/media/EGiuFS1X0AAQHzx.jpg" alt="unknown tweet media content" loading="lazy">\n      </div>\n\n  <div class="ltag__twitter-tweet__main" data-url="https://twitter.com/bazelbuild/status/1182386311761747969">\n    <div class="ltag__twitter-tweet__header">\n      <img class="ltag__twitter-tweet__profile-image" src="https://res.cloudinary.com/practicaldev/image/fetch/s--uSBk5vF7--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://pbs.twimg.com/profile_images/880099790083805186/ugVKv3BL_normal.jpg" alt="bazelbuild profile image" loading="lazy">\n      <div class="ltag__twitter-tweet__full-name">\n        bazelbuild\n      </div>\n      <div class="ltag__twitter-tweet__username">\n        @bazelbuild\n      </div>\n      <div class="ltag__twitter-tweet__twitter-logo">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ir1kO05j--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-f95605061196010f91e64806688390eb1a4dbc9e913682e043eb8b1e06ca484f.svg" alt="twitter logo" loading="lazy">\n      </div>\n    </div>\n    <div class="ltag__twitter-tweet__body">\n      1.0 cake! \n    </div>\n    <div class="ltag__twitter-tweet__date">\n      20:03 PM - 10 Oct 2019\n    </div>\n\n\n    <div class="ltag__twitter-tweet__actions">\n      <a href="https://twitter.com/intent/tweet?in_reply_to=1182386311761747969" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fFnoeFxk--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-reply-action-238fe0a37991706a6880ed13941c3efd6b371e4aefe288fe8e0db85250708bc4.svg" alt="Twitter reply action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/retweet?tweet_id=1182386311761747969" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--k6dcrOn8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-retweet-action-632c83532a4e7de573c5c08dbb090ee18b348b13e2793175fea914827bc42046.svg" alt="Twitter retweet action" loading="lazy">\n      </a>\n      <a href="https://twitter.com/intent/like?tweet_id=1182386311761747969" class="ltag__twitter-tweet__actions__button">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--SRQc9lOp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/twitter-like-action-1ea89f4b87c7d37465b0eb78d51fcb7fe6c03a089805d7ea014ba71365be5171.svg" alt="Twitter like action" loading="lazy">\n      </a>\n    </div>\n  </div>\n</blockquote>\n\n\n<p>In this quick guide, we are going to use Bazel to build an <a href="https://docs.microsoft.com/azure/azure-functions/?WT.mc_id=devto-blog-wachegha">Azure Function</a> application, written in TypeScript. </p>\n\n<blockquote>\n<p>Bazel is polyglot, meaning you can use it to build and test different technologies, even in the same monorepo, at the same! Today we are going to focus on TypeScript.</p>\n</blockquote>\n\n<p>If you want to know more about the capabilities of Bazel when it comes to building web applications, I highly recommend reading the following post by my friend Alex Eagle from the JavaScript build/serve team at Google.</p>\n\n\n<div class="ltag__link">\n  <a href="/bazel" class="ltag__link__link">\n    <div class="ltag__link__org__pic">\n      <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--R2M8zDKH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://res.cloudinary.com/practicaldev/image/fetch/s--9PIZdn-L--/c_fill%2Cf_auto%2Cfl_progressive%2Ch_150%2Cq_auto%2Cw_150/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/1315/386196b8-a560-4d74-83a6-aa8fae70822c.png" alt="Bazel" loading="lazy">\n      <div class="ltag__link__user__pic">\n        <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Am917xax--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://res.cloudinary.com/practicaldev/image/fetch/s--HQdtIXkq--/c_fill%2Cf_auto%2Cfl_progressive%2Ch_150%2Cq_auto%2Cw_150/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/237467/97e249a8-80d3-4595-94d7-09160f678c5d.jpg" alt="" loading="lazy">\n      </div>\n    </div>\n  </a>\n  <a href="/bazel/layering-in-bazel-for-web-389h" class="ltag__link__link">\n    <div class="ltag__link__content">\n      <h2>Layering in Bazel for Web</h2>\n      <h3>Alex 🦅 Eagle for Bazel ・ Oct 10 \'19 ・ 7 min read</h3>\n      <div class="ltag__link__taglist">\n        <span class="ltag__link__tag">#bazel</span>\n      </div>\n    </div>\n  </a>\n</div>\n\n\n<p>Here are the steps we are going to follow:</p>\n\n<ol>\n<li><a href="#Scaffold-an-Azure-Function-application">Scaffold an Azure Function Application</a></li>\n<li><a href="#Set-up-a-Bazel-workspace">Set up a Bazel workspace</a></li>\n<li><a href="#Build-the-Azure-Function-Application-using-Bazel">Build the Azure Function Application using Bazel</a></li>\n<li><a href="#Deploy-the-app-to-Azure-using-Hexa">Deploy to Azure</a></li>\n</ol>\n\n<blockquote>\n<p>If needed, I included a link to <a href="https://azure.microsoft.com/free/?WT.mc_id=devto-blog-wachegha">a free Azure trial</a>, so you can try it yourself.</p>\n</blockquote>\n\n<p>Let\'s get started...</p>\n\n<blockquote>\n<p>UPDATE Oct. 20th: <a href="//www.hexa.run">Hexa</a> now has built-in support for Bazel! Liquid error: internal</p>\n</blockquote>\n\n<h1>\n  <a name="scaffold-an-azure-function-application" href="#scaffold-an-azure-function-application">\n  </a>\n  Scaffold an Azure Function application <a name="Scaffold-an-Azure-Function-application"></a>\n</h1>\n\n<p>In order to easily create and then deploy our <a href="https://docs.microsoft.com/azure/azure-functions/?WT.mc_id=devto-blog-wachegha">Azure Function</a> application, we are going to use the <a href="//www.hexa.run">Hexa</a> CLI:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">mkdir </span>azurefunctionbazel <span class="o">&amp;&amp;</span> <span class="nb">cd</span> <span class="nv">$_</span>\n<span class="nv">$ </span>hexa init <span class="nt">--just</span> functions\n<span class="nv">$ </span><span class="nb">cd </span>functions/azurefunctionbazel-5816\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<blockquote>\n<p>Hexa is an open-source CLI tool that enhances the Azure CLI (<a href="https://www.hexa.run">learn more about Hexa and how to install it</a>). </p>\n</blockquote>\n\n<p>Using <a href="//www.hexa.run">Hexa</a> we scaffolded inside the <code>./functions/azurefunctionbazel-5816</code> a new TypeScript <a href="https://docs.microsoft.com/azure/azure-functions/?WT.mc_id=devto-blog-wachegha">Azure Function</a> application that uses <code>tsc</code> (by default) to build.</p>\n\n<p>We are going to setup Bazel and use it to orchestrate the build using the <code>ts_library</code> rule (i.e. a Bazel plugin).</p>\n<h1>\n  <a name="set-up-a-bazel-workspace" href="#set-up-a-bazel-workspace">\n  </a>\n  Set up a Bazel workspace <a name="Set-up-a-Bazel-workspace"></a>\n</h1>\n\n<p>In order to set up and use Bazel inside our Azure Function project <code>./functions/azurefunctionbazel-5816</code>, we will need:</p>\n\n<ol>\n<li>Install Bazel and its dependencies from NPM</li>\n<li>Add a <code>WORKSPACE</code> file at the root of the project</li>\n<li>Add a <code>BUILD.bazel</code> file at the root of the project</li>\n<li>Add one <code>BUILD.bazel</code> inside each function</li>\n</ol>\n\n<blockquote>\n<p>Usually you wouldn\'t have to set up Bazel manually, but rather use a tool such as <code>@bazel/create</code> to automate the setup and config.</p>\n</blockquote>\n<h2>\n  <a name="installing-bazel-and-its-dependencies" href="#installing-bazel-and-its-dependencies">\n  </a>\n  Installing Bazel and its dependencies\n</h2>\n\n<p>Inside the <code>./functions/azurefunctionbazel-5816</code> folder, install the required Bazel and its peer dependencies from NPM using the following command (it will also update the existing <code>package.json</code>):<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>$ npm install -D \\\n      @bazel/bazel@latest \\\n      @bazel/typescript@latest \\\n      typescript@^3.3.3\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<blockquote>\n<p>Make sure <code>typescript</code> is listed and installed as a dependency in the <code>package.json</code></p>\n</blockquote>\n<h2>\n  <a name="add-a-raw-workspace-endraw-file" href="#add-a-raw-workspace-endraw-file">\n  </a>\n  Add a <code>WORKSPACE</code> file\n</h2>\n\n<p>Create a file <code>WORKSPACE</code> at the root of <code>./functions/azurefunctionbazel-5816</code> with the following content (see explanation below):<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code><span class="n">workspace</span><span class="p">(</span>\n    <span class="n">name</span> <span class="o">=</span> <span class="s">"azurefunctionbazel"</span><span class="p">,</span>\n    <span class="n">managed_directories</span> <span class="o">=</span> <span class="p">{</span><span class="s">"@npm"</span><span class="p">:</span> <span class="p">[</span><span class="s">"node_modules"</span><span class="p">]},</span>\n<span class="p">)</span>\n\n<span class="n">load</span><span class="p">(</span><span class="s">"@bazel_tools//tools/build_defs/repo:http.bzl"</span><span class="p">,</span> <span class="s">"http_archive"</span><span class="p">)</span>\n<span class="n">http_archive</span><span class="p">(</span>\n    <span class="n">name</span> <span class="o">=</span> <span class="s">"build_bazel_rules_nodejs"</span><span class="p">,</span>\n    <span class="n">sha256</span> <span class="o">=</span> <span class="s">"1447312c8570e8916da0f5f415186e7098cdd4ce48e04b8e864f793c766959c3"</span><span class="p">,</span>\n    <span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="s">"https://github.com/bazelbuild/rules_nodejs/releases/download/0.38.2/rules_nodejs-0.38.2.tar.gz"</span><span class="p">],</span>\n<span class="p">)</span>\n\n<span class="n">load</span><span class="p">(</span><span class="s">"@build_bazel_rules_nodejs//:index.bzl"</span><span class="p">,</span> <span class="s">"npm_install"</span><span class="p">)</span>\n<span class="n">npm_install</span><span class="p">(</span>\n    <span class="n">name</span> <span class="o">=</span> <span class="s">"npm"</span><span class="p">,</span>\n    <span class="n">package_json</span> <span class="o">=</span> <span class="s">"//:package.json"</span><span class="p">,</span>\n    <span class="n">package_lock_json</span> <span class="o">=</span> <span class="s">"//:package-lock.json"</span><span class="p">,</span>\n<span class="p">)</span>\n\n<span class="n">load</span><span class="p">(</span><span class="s">"@npm//:install_bazel_dependencies.bzl"</span><span class="p">,</span> <span class="s">"install_bazel_dependencies"</span><span class="p">)</span>\n<span class="n">install_bazel_dependencies</span><span class="p">()</span>\n\n<span class="n">load</span><span class="p">(</span><span class="s">"@npm_bazel_typescript//:index.bzl"</span><span class="p">,</span> <span class="s">"ts_setup_workspace"</span><span class="p">)</span>\n<span class="n">ts_setup_workspace</span><span class="p">()</span>\n\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>Let\'s explain each section...<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code><span class="n">workspace</span><span class="p">(</span>\n    <span class="n">name</span> <span class="o">=</span> <span class="s">"azurefunctionbazel"</span><span class="p">,</span>\n    <span class="n">managed_directories</span> <span class="o">=</span> <span class="p">{</span><span class="s">"@npm"</span><span class="p">:</span> <span class="p">[</span><span class="s">"node_modules"</span><span class="p">]},</span>\n<span class="p">)</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<ol>\n<li>The <code>workspace</code> rule declares that this folder is the root of a Bazel <a href="https://docs.bazel.build/versions/master/build-ref.html#workspace">workspace</a>.</li>\n<li>The <code>name</code> attribute declares how this workspace would be referenced with absolute labels from another workspace, e.g. <code>@azurefunctionbazel//</code>\n</li>\n<li>the <code>managed_directories</code> attribute maps the <code>@npm</code> Bazel workspace to the <code>node_modules</code> directory. This lets Bazel use the same <code>node_modules</code> as another local tooling.\n</li>\n</ol>\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code>\n<span class="n">load</span><span class="p">(</span><span class="s">"@bazel_tools//tools/build_defs/repo:http.bzl"</span><span class="p">,</span> <span class="s">"http_archive"</span><span class="p">)</span>\n<span class="n">http_archive</span><span class="p">(</span>\n    <span class="n">name</span> <span class="o">=</span> <span class="s">"build_bazel_rules_nodejs"</span><span class="p">,</span>\n    <span class="n">sha256</span> <span class="o">=</span> <span class="s">"1447312c8570e8916da0f5f415186e7098cdd4ce48e04b8e864f793c766959c3"</span><span class="p">,</span>\n    <span class="n">urls</span> <span class="o">=</span> <span class="p">[</span><span class="s">"https://github.com/bazelbuild/rules_nodejs/releases/download/0.38.2/rules_nodejs-0.38.2.tar.gz"</span><span class="p">],</span>\n<span class="p">)</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>This will install the Node.js "bootstrap" package which provides the basic tools for running and packaging Node.js apps in Bazel.<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code><span class="n">load</span><span class="p">(</span><span class="s">"@build_bazel_rules_nodejs//:index.bzl"</span><span class="p">,</span> <span class="s">"npm_install"</span><span class="p">)</span>\n<span class="n">npm_install</span><span class="p">(</span>\n    <span class="n">name</span> <span class="o">=</span> <span class="s">"npm"</span><span class="p">,</span>\n    <span class="n">package_json</span> <span class="o">=</span> <span class="s">"//:package.json"</span><span class="p">,</span>\n    <span class="n">package_lock_json</span> <span class="o">=</span> <span class="s">"//:package-lock.json"</span><span class="p">,</span>\n<span class="p">)</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<ol>\n<li>The <code>npm_install</code> rule runs <code>npm</code> (or <code>yarn</code> depending on your configuration) anytime the <code>package.json</code> or <code>package-lock.json</code> file changes. It also extracts any Bazel rules distributed in an <code>npm</code> package.</li>\n<li>The <code>name</code> attribute is what Bazel Label references look like <code>@npm//@azure/functions</code>\n</li>\n</ol>\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code><span class="n">load</span><span class="p">(</span><span class="s">"@npm//:install_bazel_dependencies.bzl"</span><span class="p">,</span> <span class="s">"install_bazel_dependencies"</span><span class="p">)</span>\n<span class="n">install_bazel_dependencies</span><span class="p">()</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>This call will install any Bazel rules which were extracted earlier by the <code>npm_install</code> rule.<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code><span class="n">load</span><span class="p">(</span><span class="s">"@npm_bazel_typescript//:index.bzl"</span><span class="p">,</span> <span class="s">"ts_setup_workspace"</span><span class="p">)</span>\n<span class="n">ts_setup_workspace</span><span class="p">()</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>This will set up the TypeScript toolchain for your workspace.</p>\n<h2>\n  <a name="root-raw-buildbazel-endraw-" href="#root-raw-buildbazel-endraw-">\n  </a>\n  Root <code>BUILD.bazel</code>\n</h2>\n\n<p>Create a file <code>BUILD.bazel</code> at the root of <code>./functions/azurefunctionbazel-5816</code> with the following content:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code><span class="n">exports_files</span><span class="p">([</span><span class="s">"tsconfig.json"</span><span class="p">],</span> <span class="n">visibility</span> <span class="o">=</span> <span class="p">[</span><span class="s">"//:__subpackages__"</span><span class="p">])</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>This simple <code>BUILD.bazel</code> will export the <code>tsconfig.json</code> so it can be referenced from other packages.</p>\n<h2>\n  <a name="package-raw-buildbazel-endraw-" href="#package-raw-buildbazel-endraw-">\n  </a>\n  Package <code>BUILD.bazel</code>\n</h2>\n\n<p>Bazel recommends creating fine-grained packages for more efficient build executions. A package in Bazel terminology is a folder containing a <code>BUILD.bazel</code> file, e.g. <code>./functions/azurefunctionbazel-5816/httpTrigger/BUILD.bazel</code>.</p>\n\n<p>In our case, the Azure Function application contains one folder for each function. These folders are going to be our Bazel packages.</p>\n\n<p>Inside each <code>BUILD.bazel</code> we are going to describe <em>how</em> that package (i.e. an Azure Function) should be built, and let Bazel take care of the orchestration.</p>\n\n<p>To build our application, we are going to keep it simple and just use the <code>tsc</code> compiler. However, for more complex scenarios, we can also bundle our application with <code>rollup</code> and minify it using <code>terser</code> tools. Such a hypothetical build process could look like:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code><span class="c1"># Note: this build hasn\'t been tested!\n</span>\n<span class="n">load</span><span class="p">(</span><span class="s">"@npm_bazel_typescript//:index.bzl"</span><span class="p">,</span> <span class="s">"ts_library"</span><span class="p">)</span>\n<span class="n">load</span><span class="p">(</span><span class="s">"@npm_bazel_rollup//:index.bzl"</span><span class="p">,</span> <span class="s">"rollup_bundle"</span><span class="p">)</span>\n<span class="n">load</span><span class="p">(</span><span class="s">"@npm_bazel_terser//:index.bzl"</span><span class="p">,</span> <span class="s">"terser_minified"</span><span class="p">)</span>\n\n<span class="n">package</span><span class="p">(</span><span class="n">default_visibility</span> <span class="o">=</span> <span class="p">[</span><span class="s">"//visibility:public"</span><span class="p">])</span>\n\n<span class="n">ts_library</span><span class="p">(</span>\n    <span class="n">name</span> <span class="o">=</span> <span class="s">"httpTrigger"</span><span class="p">,</span>\n    <span class="n">srcs</span> <span class="o">=</span> <span class="p">[</span><span class="s">"index.ts"</span><span class="p">],</span>\n    <span class="n">deps</span> <span class="o">=</span> <span class="p">[</span><span class="s">"@npm//@azure/functions"</span><span class="p">]</span>\n<span class="p">)</span>\n\n<span class="n">rollup_bundle</span><span class="p">(</span>\n    <span class="n">name</span> <span class="o">=</span> <span class="s">"bundle"</span><span class="p">,</span>\n    <span class="n">entry_point</span> <span class="o">=</span> <span class="s">":index.ts"</span><span class="p">,</span>\n    <span class="n">deps</span> <span class="o">=</span> <span class="p">[</span><span class="s">":httpTrigger"</span><span class="p">],</span>\n<span class="p">)</span>\n\n<span class="n">terser_minified</span><span class="p">(</span>\n    <span class="n">name</span> <span class="o">=</span> <span class="s">"bundle.min"</span><span class="p">,</span>\n    <span class="n">src</span> <span class="o">=</span> <span class="s">":bundle"</span><span class="p">,</span>\n<span class="p">)</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>But in our case, we will keep it simple:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight python"><code><span class="n">load</span><span class="p">(</span><span class="s">"@npm_bazel_typescript//:index.bzl"</span><span class="p">,</span> <span class="s">"ts_library"</span><span class="p">)</span>\n\n<span class="n">package</span><span class="p">(</span><span class="n">default_visibility</span> <span class="o">=</span> <span class="p">[</span><span class="s">"//visibility:public"</span><span class="p">])</span>\n\n<span class="n">ts_library</span><span class="p">(</span>\n    <span class="n">name</span> <span class="o">=</span> <span class="s">"httpTrigger"</span><span class="p">,</span>\n    <span class="n">srcs</span> <span class="o">=</span> <span class="p">[</span><span class="s">"index.ts"</span><span class="p">],</span>\n    <span class="n">deps</span> <span class="o">=</span> <span class="p">[</span><span class="s">"@npm//@azure/functions"</span><span class="p">]</span>\n<span class="p">)</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<ol>\n<li>The <code>name</code> attribute is the name of the target (this <code>ts_library</code> call)</li>\n<li>The <code>srcs</code> attribute lists all the TypeScript files to transpile</li>\n<li>The <code>deps</code> attribute lists all external dependencies used inside this package (e.g. <code>@azure/functions</code>). The <code>@npm//</code> is the name of the NPM workspace (see the <code>WORKSPACE</code> above).</li>\n</ol>\n\n<p>Having fine-grained packages gives us the guarantee from Bazel to get incremental, remote-parallelizable builds and cache automatically which will drastically improve the build time, for huge more complex projects.</p>\n<h1>\n  <a name="build-the-azure-function-application" href="#build-the-azure-function-application">\n  </a>\n  Build the Azure Function Application <a name="Build-the-Azure-Function-Application-using-Bazel"></a>\n</h1>\n\n<p>Now, we can run Bazel to build this specific package:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>bazel build @azurefunctionbazel//httpTrigger:httpTrigger\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>The canonical path to a target is explained as the following:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--JAzC57SY--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/cvxd3auqbu7viaolq2dj.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--JAzC57SY--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/cvxd3auqbu7viaolq2dj.png" alt="Alt Text" loading="lazy"></a></p>\n\n<p>In fact, this path can be shortened to:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>bazel build //httpTrigger\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>This is because we are building the specified target from the same workspace. So we can omit the workspace identifier, and since the package and the target names are identical, we can omit the target name.</p>\n\n<p>We can also instruct Bazel to build all targets of all packages using inside the current workspace:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>bazel build //...\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>You may not see the benefits of using Bazel to build one single trivial Function, but once you start dealing with 100s of serverless applications, Bazel will be there to help you boost your build and test performances.</p>\n\n<p>Bazel is also good at understanding the dependencies graph of our application. We can ask Bazel to show us this dependencies graph:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>bazel query <span class="nt">--noimplicit_deps</span> <span class="s1">\'deps(//...)\'</span> <span class="nt">--output</span> graph | dot <span class="nt">-Tpng</span> <span class="o">&gt;</span> azurefunctionbazel.png\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>Will output:</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Bp7HvMtf--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/6khc5oi3otfoksgxtf19.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Bp7HvMtf--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://thepracticaldev.s3.amazonaws.com/i/6khc5oi3otfoksgxtf19.png" alt="Alt Text" loading="lazy"></a></p>\n\n<blockquote>\n<p>We could use this visualization to better understand the internals of our application. Image an application with 100s of Function Apps!</p>\n</blockquote>\n<h1>\n  <a name="deploy-to-azure" href="#deploy-to-azure">\n  </a>\n  Deploy to Azure <a name="Deploy-the-app-to-Azure-using-Hexa"></a>\n</h1>\n\n<p>By default, the output of the<code>ts_library()</code> (<code>*.js</code> and <code>*.d.ts</code>) rule will be stored in <code>./functions/azurefunctionbazel-5816/bazel-bin/httpTrigger</code>.</p>\n\n<p>Before deploying to Azure, we need to update the <code>function.json</code> of each function and point the <code>scriptFile</code> to <code>bazel-bin/</code>:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight json"><code><span class="p">{</span><span class="w">\n  </span><span class="err">...</span><span class="w">\n  </span><span class="nl">"scriptFile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"../bazel-bin/httpTrigger/index.js"</span><span class="w">\n</span><span class="p">}</span><span class="w">\n</span></code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>We also need to make sure not to deploy the Bazel workspace to Azure, by updating the <code>.funcignore</code> file:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>## Bazel ignored files\nnode_modules/@bazel/*\nBUILD.bazel\n\n# ignore all bazel output folder except the bazel-bin folder \n# where the transpiled code lives\nbazel-*\n!bazel-bin\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>Now we are ready to deploy our application to Azure, using the <a href="//www.hexa.run">Hexa</a> CLI:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span><span class="c"># cd to the root of azurefunctionbazel where hexa.json is located</span>\n<span class="nv">$ </span>hexa deploy\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>The output result of the deploy command would be:<br>\n</p>\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>\n✔ Building Function app azurefunctionbazel-5816...\n✔ Deploying Function app azurefunctionbazel-5816...\n✔ Application azurefunctionbazel deployed successfully!\n\n➜ Functions:\n - httptrigger: https://azurefunctionbazel-5816.azurewebsites.net/api/httptrigger?code=POfqT9xFCtYKOaryFW8LkzFsUtD3ioWi8Y2e4M8BpBeLhTOH8aqUIg==\n✔ Done in 68 seconds.\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n<p>Congratulations 🎉! Your Azure Function application has now been built using Bazel and deployed with <a href="//www.hexa.run">Hexa</a>.</p>\n\n<p>Find the sample project on Github</p>\n\n\n<div class="ltag-github-readme-tag">\n  <div class="readme-overview">\n    <h2>\n      <img src="https://res.cloudinary.com/practicaldev/image/fetch/s--i3JOwpme--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev.to/assets/github-logo-ba8488d21cd8ee1fee097b8410db9deaa41d0ca30b004c0c63de0a479114156f.svg" alt="GitHub logo" loading="lazy">\n      <a href="https://github.com/manekinekko">\n        manekinekko\n      </a> / <a style="font-weight: 600;" href="https://github.com/manekinekko/azure_function_bazel">\n        azure_function_bazel\n      </a>\n    </h2>\n    <h3>\n      \n    </h3>\n  </div>\n  <div class="ltag-github-body">\n    \n<div id="readme" class="md" data-path="README.md"><article class="markdown-body entry-content container-lg" itemprop="text"><h2>\nBuild Azure Function Apps With Bazel 1.0</h2>\n</article></div>\n\n  </div>\n  <div class="gh-btn-container"><a class="gh-btn" href="https://github.com/manekinekko/azure_function_bazel">View on GitHub</a></div>\n</div>\n\n\n\n',s.body_markdown='Bazel has just hit a new milestone: Bazel 1.0 has been announced today. It is time to start investing in this distributed build and test orchestration tool.\n\n{% tweet 1182386311761747969 %}\n\nIn this quick guide, we are going to use Bazel to build an [Azure Function](https://docs.microsoft.com/azure/azure-functions/?WT.mc_id=devto-blog-wachegha) application, written in TypeScript. \n\n> Bazel is polyglot, meaning you can use it to build and test different technologies, even in the same monorepo, at the same! Today we are going to focus on TypeScript.\n\nIf you want to know more about the capabilities of Bazel when it comes to building web applications, I highly recommend reading the following post by my friend Alex Eagle from the JavaScript build/serve team at Google.\n\n{% link https://dev.to/jakeherringbone/layering-in-bazel-for-web-389h %}\n\n\nHere are the steps we are going to follow:\n\n1. [Scaffold an Azure Function Application](#Scaffold-an-Azure-Function-application)\n1. [Set up a Bazel workspace](#Set-up-a-Bazel-workspace)\n1. [Build the Azure Function Application using Bazel](#Build-the-Azure-Function-Application-using-Bazel)\n1. [Deploy to Azure](#Deploy-the-app-to-Azure-using-Hexa)\n\n> If needed, I included a link to [a free Azure trial](https://azure.microsoft.com/free/?WT.mc_id=devto-blog-wachegha), so you can try it yourself.\n\nLet\'s get started...\n\n> UPDATE Oct. 20th: [Hexa](www.hexa.run) now has built-in support for Bazel! {% tweet 1185989686117969923 %}\n\n# Scaffold an Azure Function application <a name="Scaffold-an-Azure-Function-application"></a>\n\nIn order to easily create and then deploy our [Azure Function](https://docs.microsoft.com/azure/azure-functions/?WT.mc_id=devto-blog-wachegha) application, we are going to use the [Hexa](www.hexa.run) CLI:\n\n\n```shell\n$ mkdir azurefunctionbazel && cd $_\n$ hexa init --just functions\n$ cd functions/azurefunctionbazel-5816\n```\n\n> Hexa is an open-source CLI tool that enhances the Azure CLI ([learn more about Hexa and how to install it](https://www.hexa.run)). \n\nUsing [Hexa](www.hexa.run) we scaffolded inside the `./functions/azurefunctionbazel-5816` a new TypeScript [Azure Function](https://docs.microsoft.com/azure/azure-functions/?WT.mc_id=devto-blog-wachegha) application that uses `tsc` (by default) to build.\n\nWe are going to setup Bazel and use it to orchestrate the build using the `ts_library` rule (i.e. a Bazel plugin).\n\n# Set up a Bazel workspace <a name="Set-up-a-Bazel-workspace"></a>\n\nIn order to set up and use Bazel inside our Azure Function project `./functions/azurefunctionbazel-5816`, we will need:\n\n1. Install Bazel and its dependencies from NPM\n1. Add a `WORKSPACE` file at the root of the project\n1. Add a `BUILD.bazel` file at the root of the project\n1. Add one `BUILD.bazel` inside each function\n\n> Usually you wouldn\'t have to set up Bazel manually, but rather use a tool such as `@bazel/create` to automate the setup and config.\n\n## Installing Bazel and its dependencies\n\nInside the `./functions/azurefunctionbazel-5816` folder, install the required Bazel and its peer dependencies from NPM using the following command (it will also update the existing `package.json`):\n\n```\n$ npm install -D \\\n      @bazel/bazel@latest \\\n      @bazel/typescript@latest \\\n      typescript@^3.3.3\n```\n\n> Make sure `typescript` is listed and installed as a dependency in the `package.json`\n\n## Add a `WORKSPACE` file\n\nCreate a file `WORKSPACE` at the root of `./functions/azurefunctionbazel-5816` with the following content (see explanation below):\n\n```python\nworkspace(\n    name = "azurefunctionbazel",\n    managed_directories = {"@npm": ["node_modules"]},\n)\n\nload("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")\nhttp_archive(\n    name = "build_bazel_rules_nodejs",\n    sha256 = "1447312c8570e8916da0f5f415186e7098cdd4ce48e04b8e864f793c766959c3",\n    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/0.38.2/rules_nodejs-0.38.2.tar.gz"],\n)\n\nload("@build_bazel_rules_nodejs//:index.bzl", "npm_install")\nnpm_install(\n    name = "npm",\n    package_json = "//:package.json",\n    package_lock_json = "//:package-lock.json",\n)\n\nload("@npm//:install_bazel_dependencies.bzl", "install_bazel_dependencies")\ninstall_bazel_dependencies()\n\nload("@npm_bazel_typescript//:index.bzl", "ts_setup_workspace")\nts_setup_workspace()\n\n```\n\nLet\'s explain each section...\n\n```python\nworkspace(\n    name = "azurefunctionbazel",\n    managed_directories = {"@npm": ["node_modules"]},\n)\n```\n\n1. The `workspace` rule declares that this folder is the root of a Bazel [workspace](https://docs.bazel.build/versions/master/build-ref.html#workspace).\n1. The `name` attribute declares how this workspace would be referenced with absolute labels from another workspace, e.g. `@azurefunctionbazel//`\n1. the `managed_directories` attribute maps the `@npm` Bazel workspace to the `node_modules` directory. This lets Bazel use the same `node_modules` as another local tooling.\n\n\n```python\n\nload("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")\nhttp_archive(\n    name = "build_bazel_rules_nodejs",\n    sha256 = "1447312c8570e8916da0f5f415186e7098cdd4ce48e04b8e864f793c766959c3",\n    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/0.38.2/rules_nodejs-0.38.2.tar.gz"],\n)\n```\n\nThis will install the Node.js "bootstrap" package which provides the basic tools for running and packaging Node.js apps in Bazel.\n\n```python\nload("@build_bazel_rules_nodejs//:index.bzl", "npm_install")\nnpm_install(\n    name = "npm",\n    package_json = "//:package.json",\n    package_lock_json = "//:package-lock.json",\n)\n```\n1. The `npm_install` rule runs `npm` (or `yarn` depending on your configuration) anytime the `package.json` or `package-lock.json` file changes. It also extracts any Bazel rules distributed in an `npm` package.\n2. The `name` attribute is what Bazel Label references look like `@npm//@azure/functions`\n\n```python\nload("@npm//:install_bazel_dependencies.bzl", "install_bazel_dependencies")\ninstall_bazel_dependencies()\n```\nThis call will install any Bazel rules which were extracted earlier by the `npm_install` rule.\n\n\n```python\nload("@npm_bazel_typescript//:index.bzl", "ts_setup_workspace")\nts_setup_workspace()\n```\nThis will set up the TypeScript toolchain for your workspace.\n\n\n## Root `BUILD.bazel`\n\nCreate a file `BUILD.bazel` at the root of `./functions/azurefunctionbazel-5816` with the following content:\n\n\n```python\nexports_files(["tsconfig.json"], visibility = ["//:__subpackages__"])\n```\n\nThis simple `BUILD.bazel` will export the `tsconfig.json` so it can be referenced from other packages.\n\n## Package `BUILD.bazel`\n\nBazel recommends creating fine-grained packages for more efficient build executions. A package in Bazel terminology is a folder containing a `BUILD.bazel` file, e.g. `./functions/azurefunctionbazel-5816/httpTrigger/BUILD.bazel`.\n\nIn our case, the Azure Function application contains one folder for each function. These folders are going to be our Bazel packages.\n\nInside each `BUILD.bazel` we are going to describe *how* that package (i.e. an Azure Function) should be built, and let Bazel take care of the orchestration.\n\nTo build our application, we are going to keep it simple and just use the `tsc` compiler. However, for more complex scenarios, we can also bundle our application with `rollup` and minify it using `terser` tools. Such a hypothetical build process could look like:\n\n```python\n# Note: this build hasn\'t been tested!\n\nload("@npm_bazel_typescript//:index.bzl", "ts_library")\nload("@npm_bazel_rollup//:index.bzl", "rollup_bundle")\nload("@npm_bazel_terser//:index.bzl", "terser_minified")\n\npackage(default_visibility = ["//visibility:public"])\n\nts_library(\n    name = "httpTrigger",\n    srcs = ["index.ts"],\n    deps = ["@npm//@azure/functions"]\n)\n\nrollup_bundle(\n    name = "bundle",\n    entry_point = ":index.ts",\n    deps = [":httpTrigger"],\n)\n\nterser_minified(\n    name = "bundle.min",\n    src = ":bundle",\n)\n```\n\nBut in our case, we will keep it simple:\n\n```python\nload("@npm_bazel_typescript//:index.bzl", "ts_library")\n\npackage(default_visibility = ["//visibility:public"])\n\nts_library(\n    name = "httpTrigger",\n    srcs = ["index.ts"],\n    deps = ["@npm//@azure/functions"]\n)\n```\n\n1. The `name` attribute is the name of the target (this `ts_library` call)\n2. The `srcs` attribute lists all the TypeScript files to transpile\n3. The `deps` attribute lists all external dependencies used inside this package (e.g. `@azure/functions`). The `@npm//` is the name of the NPM workspace (see the `WORKSPACE` above).\n\nHaving fine-grained packages gives us the guarantee from Bazel to get incremental, remote-parallelizable builds and cache automatically which will drastically improve the build time, for huge more complex projects.\n\n# Build the Azure Function Application <a name="Build-the-Azure-Function-Application-using-Bazel"></a>\n\nNow, we can run Bazel to build this specific package:\n\n```bash\n$ bazel build @azurefunctionbazel//httpTrigger:httpTrigger\n```\n\nThe canonical path to a target is explained as the following:\n\n![Alt Text](https://thepracticaldev.s3.amazonaws.com/i/cvxd3auqbu7viaolq2dj.png)\n\nIn fact, this path can be shortened to:\n\n```bash\n$ bazel build //httpTrigger\n```\n\nThis is because we are building the specified target from the same workspace. So we can omit the workspace identifier, and since the package and the target names are identical, we can omit the target name.\n\nWe can also instruct Bazel to build all targets of all packages using inside the current workspace:\n\n```bash\n$ bazel build //...\n```\n\nYou may not see the benefits of using Bazel to build one single trivial Function, but once you start dealing with 100s of serverless applications, Bazel will be there to help you boost your build and test performances.\n\nBazel is also good at understanding the dependencies graph of our application. We can ask Bazel to show us this dependencies graph:\n\n```bash\n$ bazel query --noimplicit_deps \'deps(//...)\' --output graph | dot -Tpng > azurefunctionbazel.png\n```\n\nWill output:\n\n![Alt Text](https://thepracticaldev.s3.amazonaws.com/i/6khc5oi3otfoksgxtf19.png)\n\n> We could use this visualization to better understand the internals of our application. Image an application with 100s of Function Apps!\n\n\n# Deploy to Azure <a name="Deploy-the-app-to-Azure-using-Hexa"></a>\n\nBy default, the output of the`ts_library()` (`*.js` and `*.d.ts`) rule will be stored in `./functions/azurefunctionbazel-5816/bazel-bin/httpTrigger`.\n\nBefore deploying to Azure, we need to update the `function.json` of each function and point the `scriptFile` to `bazel-bin/`:\n\n\n```json\n{\n  ...\n  "scriptFile": "../bazel-bin/httpTrigger/index.js"\n}\n```\n\nWe also need to make sure not to deploy the Bazel workspace to Azure, by updating the `.funcignore` file:\n\n```\n## Bazel ignored files\nnode_modules/@bazel/*\nBUILD.bazel\n\n# ignore all bazel output folder except the bazel-bin folder \n# where the transpiled code lives\nbazel-*\n!bazel-bin\n```\n\nNow we are ready to deploy our application to Azure, using the [Hexa](www.hexa.run) CLI:\n\n```shell\n$ # cd to the root of azurefunctionbazel where hexa.json is located\n$ hexa deploy\n```\n\nThe output result of the deploy command would be:\n\n```\n\n✔ Building Function app azurefunctionbazel-5816...\n✔ Deploying Function app azurefunctionbazel-5816...\n✔ Application azurefunctionbazel deployed successfully!\n\n➜ Functions:\n - httptrigger: https://azurefunctionbazel-5816.azurewebsites.net/api/httptrigger?code=POfqT9xFCtYKOaryFW8LkzFsUtD3ioWi8Y2e4M8BpBeLhTOH8aqUIg==\n✔ Done in 68 seconds.\n```\n\nCongratulations 🎉! Your Azure Function application has now been built using Bazel and deployed with [Hexa](www.hexa.run).\n\nFind the sample project on Github\n\n{% github manekinekko/azure_function_bazel %}\n\n',s.user={name:"Wassim Chegham",username:"wassimchegham",twitter_username:i,github_username:i,website_url:"https://hashnode.com/@wassimchegham/joinme",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--mmOzTvQw--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/13081/0a029e3e-206b-41b5-83b3-52e39a29c4cb.jpg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--KLi1xEqp--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/13081/0a029e3e-206b-41b5-83b3-52e39a29c4cb.jpg"},s.organization={name:"Microsoft Azure",username:e,slug:e,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s---iCLfNmF--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/512/64ce0b82-730d-4ca0-8359-2c21513a0063.jpg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--kAsNj0kG--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/512/64ce0b82-730d-4ca0-8359-2c21513a0063.jpg"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:s}},error:n,state:{currentArticle:s},serverRendered:!0,routePath:"/wassimchegham/185839",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:n}}}}(null,"2019-10-11T10:32:40Z","azure",{},"https://dev.to/azure/build-azure-function-apps-with-bazel-1-0-mci","manekinekko")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

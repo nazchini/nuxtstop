@@ -1,0 +1,479 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>How to Send Push Notifications with the OneSignal REST API</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>How to Send Push Notifications with the OneSignal REST API</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/node" class="tag" data-v-70afb46a>
+          #node
+        </a><a href="/nuxtstop/t/webdev" class="tag" data-v-70afb46a>
+          #webdev
+        </a><a href="/nuxtstop/t/mobiledev" class="tag" data-v-70afb46a>
+          #mobiledev
+        </a><a href="/nuxtstop/t/api" class="tag" data-v-70afb46a>
+          #api
+        </a></div> <!----> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>May 6</time></div></header> <div class="content" data-v-70afb46a><p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Vqgjzd6i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://onesignal.com/blog/content/images/2022/04/send-push-notifications-with-the-onesignal-rest-api.jpg" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Vqgjzd6i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://onesignal.com/blog/content/images/2022/04/send-push-notifications-with-the-onesignal-rest-api.jpg" alt="How to Send Push Notifications with the OneSignal REST API" loading="lazy" width="880" height="588"></a></p>
+
+<p>It’s no secret that push notifications can help you engage and retain app users. In this tutorial, we'll show you how to use the <a href="https://documentation.onesignal.com/reference/create-notification">OneSignal REST API</a> using NodeJS.  </p>
+
+<p>Using the OneSignal REST API is very useful because it can help you integrate OneSignal into different workflows that your applications may have. The OneSignal REST API is friendly with different technologies including front and backend. Basically, if the tech stack you are using supers API calls, then you can use the OneSignal REST API.</p>
+
+<h3>
+  <a name="onesignal-amp-your-browsers-push-api" href="#onesignal-amp-your-browsers-push-api">
+  </a>
+  OneSignal & Your Browser's Push API
+</h3>
+
+<p>The Push API gives applications the ability to receive messages from a server whether or not the app is in the foreground or currently loaded on a user agent. This lets you deliver asynchronous notifications and updates to users who opt-in, resulting in better engagement with timely new content.</p>
+
+<p>This tutorial will cover an overview of our OneSignal REST API reference and the usage of our API with a NodeJS server.</p>
+
+<h3>
+  <a name="guide-overview" href="#guide-overview">
+  </a>
+  Guide Overview
+</h3>
+
+<ul>
+<li><strong>Part 1: OneSignal REST API Overview</strong></li>
+<li>REST API reference</li>
+<li><strong>Part 2: Push Notification In NodeJS</strong></li>
+<li>Setup a NodeJS Application</li>
+<li>Send Push Notifications</li>
+<li>View Notification insights</li>
+</ul>
+
+<p>This tutorial requires some basic knowledge of NodeJS and usage of REST APIs. Below is a list of platforms that I'm using:</p>
+
+<ul>
+<li>App with OneSignal integrated (mobile, web, or game)</li>
+<li>NPM</li>
+<li>I’m using NPM version v6.14.11</li>
+<li>NodeJS</li>
+<li>I’m using NodeJS v16.14.2</li>
+</ul>
+
+<h2>
+  <a name="part-1-onesignal-rest-api-overview" href="#part-1-onesignal-rest-api-overview">
+  </a>
+  Part 1: OneSignal REST API Overview
+</h2>
+
+<h3>
+  <a name="send-notifications" href="#send-notifications">
+  </a>
+  Send Notifications
+</h3>
+
+<p>The OneSignal Push API allows you to programmatically send <a href="https://documentation.onesignal.com/reference/create-notification">push notifications</a>. The push notifications can be sent to different <a href="https://documentation.onesignal.com/reference/create-notification#send-to-segments">segments</a> (by default you send them to all <em><strong>Subscribed Users)</strong></em> and even specific devices using the User ID. Another cool feature of the OneSignal REST API is the ability to <a href="https://documentation.onesignal.com/reference/cancel-notification">cancel</a> notifications that have been scheduled.</p>
+
+<h3>
+  <a name="view-notification" href="#view-notification">
+  </a>
+  View Notification
+</h3>
+
+<p>One of my favorite endpoints to use with the OneSignal REST API is the <a href="https://documentation.onesignal.com/reference/view-notification">view notification</a> endpoint. This endpoint allows you to gather information about the notifications and outcomes associated with them. For example, the returned data can tell you see the number of notifications that have not been sent out, the number of notifications that got delivered, the number of confirmed deliveries, and much more information. If you want to learn more about all the <a href="https://documentation.onesignal.com/reference/view-notification#returned-fields">data returned</a> by this endpoint visit our rest API reference.</p>
+
+<p><strong>Method:</strong> POST</p>
+
+<p><strong>Endpoint:</strong> <a href="https://onesignal.com/api/v1/notifications"><code>https://onesignal.com/api/v1/notifications</code></a></p>
+
+<p>Our API can do a lot more than just send a notification and view data from that notification. If you want to learn more about our whole REST API, visit the <a href="https://documentation.onesignal.com/docs/onesignal-api">OneSignal REST API overview</a> page.</p>
+
+<h3>
+  <a name="creating-your-nodejs-app" href="#creating-your-nodejs-app">
+  </a>
+  Creating Your NodeJS App
+</h3>
+
+<p>Inside your terminal run the following commands to create a new NodeJS project using NPM:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>npm init
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>After entering the previous npm command, answer all the questions that will appear on your terminal. These questions will generate the values of your <code>package.json</code>.</p>
+
+<p><strong>Your package.json file will look like similar to this:</strong><br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>{
+    "name": "myapp",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    “type”: “module”
+    "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "",
+    "license": "ISC"
+}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h1>
+  <a name="setup-your-nodejs-app" href="#setup-your-nodejs-app">
+  </a>
+  <strong>Setup your NodeJS App</strong>
+</h1>
+
+<p>The first thing you need to do is to create an <code>index.js</code> file. This file will contain all code necessary to send and view your notifications.</p>
+
+<p>At the top of this file, add the request npm package. This package will help us make API calls to the OneSignal endpoints in an easier way than doing it with NodeJS natively.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>import axios from 'axios';
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Now, run <code>npm install axios</code> to add the <code>axios</code> npm package into your project. After you have installed the <code>axios</code> NPM package, add the following three variables to your index.js after the <code>axios</code> import:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>const API_KEY = "YOUR ONE SIGNAL API KEY";
+const ONE_SIGNAL_APP_ID = "YOUR ONE SIGNAL APP ID";
+const BASE_URL = "https://onesignal.com/api/v1";
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>To get the API KEY and the APP ID from OneSignal, navigate to the OneSignal Dashboard and click on the app you created inside of OneSignal. Once you have selected the app you want to work with, click the <strong><em>S</em></strong> _ <strong>ettings</strong> _ tab.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ZUZTow8o--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://lh4.googleusercontent.com/GmzXLp6PIMzhztSRsvfbm5vuDNzNOpc7NlRnMYtUMJ4frAvLNd_ZbY9NSdRj_rXFaFCI0Z5z1EOvi55Vd-CfoRaBi0jbA-8DSVQnBwnltWf_MsxpIovT48w3YmKdZNbdksnEJvxm" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ZUZTow8o--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://lh4.googleusercontent.com/GmzXLp6PIMzhztSRsvfbm5vuDNzNOpc7NlRnMYtUMJ4frAvLNd_ZbY9NSdRj_rXFaFCI0Z5z1EOvi55Vd-CfoRaBi0jbA-8DSVQnBwnltWf_MsxpIovT48w3YmKdZNbdksnEJvxm" alt="How to Send Push Notifications with the OneSignal REST API" loading="lazy" width="880" height="269"></a></p>
+
+<p>On this page, click on <strong><em>Keys & IDs</em></strong>.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--74frff1d--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://lh5.googleusercontent.com/UP60T5nA4EqhL35YXMayKUZoA9gq_qvtldUhLMNyMwOiz3npa7hXaoHi0ogiY7-EXheBV3yvfZRckMRtnVeojsVN6eCsx7QmStexn2FNChAR66G3ZyaaiCrxXof1LWG9b3a2yEX1" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--74frff1d--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://lh5.googleusercontent.com/UP60T5nA4EqhL35YXMayKUZoA9gq_qvtldUhLMNyMwOiz3npa7hXaoHi0ogiY7-EXheBV3yvfZRckMRtnVeojsVN6eCsx7QmStexn2FNChAR66G3ZyaaiCrxXof1LWG9b3a2yEX1" alt="How to Send Push Notifications with the OneSignal REST API" loading="lazy" width="880" height="259"></a></p>
+
+<p>Copy the <strong>OneSignal App ID</strong> and the <strong>REST API KEY</strong>.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--UBIilnl8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://lh4.googleusercontent.com/HYxlRKKp86qbNNhWML82Aw3ZgpuGRzTdrzcv1xHPjcghxVBt_U9OcXkRCMAECw9lGRGl-q3gsBMNu0I1NkRYIYC12AT7XSDKypK1nvNu3aYb0lLGgBqwx_MIE8PXPzofTZkY2inp" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--UBIilnl8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://lh4.googleusercontent.com/HYxlRKKp86qbNNhWML82Aw3ZgpuGRzTdrzcv1xHPjcghxVBt_U9OcXkRCMAECw9lGRGl-q3gsBMNu0I1NkRYIYC12AT7XSDKypK1nvNu3aYb0lLGgBqwx_MIE8PXPzofTZkY2inp" alt="How to Send Push Notifications with the OneSignal REST API" loading="lazy" width="880" height="367"></a></p>
+
+<p><strong>Note:</strong> Another quick and easy way to access your OneSignal App ID is by copying it from the URL.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--L-gFJzwo--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://lh6.googleusercontent.com/ia4xoDWkmAj1D3DrklCJzCwcS7x3sxIJlUXS7MsDsMNdkDZ2urwfjz7lCt7GB2933dFi2aTUFydoi6HcdB7VQCrPaR1cg0q79dA4-_Xxi9lC1zS9g6SeOTwbJjYF_jasznHu09SS" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--L-gFJzwo--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://lh6.googleusercontent.com/ia4xoDWkmAj1D3DrklCJzCwcS7x3sxIJlUXS7MsDsMNdkDZ2urwfjz7lCt7GB2933dFi2aTUFydoi6HcdB7VQCrPaR1cg0q79dA4-_Xxi9lC1zS9g6SeOTwbJjYF_jasznHu09SS" alt="How to Send Push Notifications with the OneSignal REST API" loading="lazy" width="855" height="160"></a></p>
+
+<h3>
+  <a name="options-builder" href="#options-builder">
+  </a>
+  Options Builder
+</h3>
+
+<p>This function is not mandatory in order to use the OneSignal REST API. This function will be in charge of creating the options that you will pass to your API calls. This is a generic function that will build the JSON object based on the parameters that you have passed.</p>
+
+<p><strong>Parameters:</strong></p>
+
+<ul>
+<li>
+<a class="mentioned-user" href="https://dev.to/param">@param</a> {string} method</li>
+<li>
+<a class="mentioned-user" href="https://dev.to/param">@param</a> {string} path</li>
+<li>
+<a class="mentioned-user" href="https://dev.to/param">@param</a> {object} body</li>
+</ul>
+
+<p><strong>Returns:</strong></p>
+
+<ul>
+<li>@returns {object} options
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>const optionsBuilder = (method, path, body) => {
+    return {
+        method,
+        'url': `${BASE_URL}/${path}`,
+        'headers': {
+        'Content-Type': 'application/json',
+        'Authorization': `Basic ${API_KEY}`,
+        },
+        body: body ? JSON.stringify(body) : null
+    };
+}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="create-notification" href="#create-notification">
+  </a>
+  Create Notification
+</h3>
+
+<p>Create a push notification and send it to the users of your app.</p>
+
+<p><strong>Method:</strong> POST</p>
+
+<p><strong>Endpoint:</strong> <a href="https://onesignal.com/api/v1/notifications"><code>https://onesignal.com/api/v1/notifications</code></a></p>
+
+<h3>
+  <a name="postman-collection" href="#postman-collection">
+  </a>
+  Postman Collection
+</h3>
+
+<p>To send a push notification, you will <a href="https://www.postman.com/onesignaldevs/workspace/onesignal-api/request/16845437-c4f3498f-fd80-4304-a6c1-a3234b923f2c">add the following function that will make a call to the OneSignal REST API</a>. This function takes a body parameter that represents the information that the push notification will contain.</p>
+
+<p><strong>Parameters:</strong></p>
+
+<ul>
+<li>
+<a class="mentioned-user" href="https://dev.to/param">@param</a> {object} body</li>
+<li>@returns {object} response
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>const createNotication = async (data) => {
+const options = optionsBuilder("post","notifications", data);
+try {
+        const response = await axios(options);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
+}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Here’s a sample body object:<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>const body = {
+    app_id: ONE_SIGNAL_APP_ID,
+    included_segments: ['Subscribed Users'],
+    data: {
+        foo: 'bar',
+    },
+    contents: {
+        en: 'Sample Push Message',
+    },
+};
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="view-notification" href="#view-notification">
+  </a>
+  View Notification
+</h3>
+
+<p>Create a push notification and send it to the users of your app.</p>
+
+<p><strong>Method:</strong> GET</p>
+
+<p><strong>Endpoint:</strong> <a href="https://onesignal.com/api/v1/notifications"><code>https://onesignal.com/api/v1/notifications</code></a></p>
+
+<h3>
+  <a name="postman-collection" href="#postman-collection">
+  </a>
+  Postman Collection
+</h3>
+
+<p>To send a push notification, you will <a href="https://www.postman.com/onesignaldevs/workspace/onesignal-api/request/16845437-c4f3498f-fd80-4304-a6c1-a3234b923f2c">add the following function that will make a call to the OneSignal REST API</a>. This function takes a body parameter that represents the information that the push notification will contain.</p>
+
+<p><strong>Parameters:</strong></p>
+
+<ul>
+<li>
+<a class="mentioned-user" href="https://dev.to/param">@param</a> {string} notificationId
+</li>
+</ul>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>const viewNotifcation = async (notificationId) => {
+    const path = `notifications/${notificationId}?  app_id=${ONE_SIGNAL_APP_ID}`;
+        const options = optionsBuilder("get", path);
+    try {
+        const response = await axios(options);
+        console.log(response.data);
+    } catch (error) {
+        console.log(error);
+    }
+}
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="run-your-code" href="#run-your-code">
+  </a>
+  Run Your Code
+</h3>
+
+<p>At the end of the file, add the following lines of code. The first <code>createNotification()</code> function will return the notification's basic information when you send push notifications. I’m using this function to call the OneSignal API. As you can see, I’m using object destructuring to grab the notification ID from the notification object returned from the <code>createNotification()</code>, that will be used to call the <code>viewNotifcation()</code> function.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight plaintext"><code>const {id} = await createNotication(body);
+await viewNotifcation(id);
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Feel free to test other <a href="https://documentation.onesignal.com/reference/create-notification">OneSignal REST API</a> endpoints and let us know what you think!</p>
+
+<h3>
+  <a name="join-the-onesignal-developers-community" href="#join-the-onesignal-developers-community">
+  </a>
+  Join the OneSignal Developers Community
+</h3>
+
+<p>Want to learn more about the OneSignal products and other technologies? Join our <a href="https://onesignal.com/onesignal-developers">OneSignal Developers Community</a>!</p>
+
+<p>The OneSignal Developer community is a group of passionate individuals who work with OneSignal products. Community members have the opportunity to expand their network and knowledge across different technologies.</p>
+
+<h3>
+  <a name="stay-connected" href="#stay-connected">
+  </a>
+  Stay Connected
+</h3>
+
+<p>Follow our <a href="https://twitter.com/OneSignalDevs">OneSignal Developers Twitter</a> to learn more about the OneSignal product, technical tips, and the latest events from our developers.</p>
+
+<p>The OneSignal Developer community gathers on our public chat server, available on Discord. <a href="https://discord.gg/EP7gf6Uz7G">Our Discord server</a> is a safe environment to network with other members, ask questions, and learn from each other. It is also a place to engage with the OneSignal product development team.</p>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/devpato/how-to-send-push-notifications-with-the-onesignal-rest-api-16lf" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(n,e,t,i,o,a){return t.type_of="article",t.id=1059622,t.title="How to Send Push Notifications with the OneSignal REST API",t.description="It’s no secret that push notifications can help you engage and retain app users. In this tutorial,...",t.readable_publish_date="May 6",t.slug="how-to-send-push-notifications-with-the-onesignal-rest-api-16lf",t.path="/onesignal/how-to-send-push-notifications-with-the-onesignal-rest-api-16lf",t.url="https://dev.to/onesignal/how-to-send-push-notifications-with-the-onesignal-rest-api-16lf",t.comments_count=0,t.public_reactions_count=0,t.collection_id=n,t.published_timestamp=i,t.positive_reactions_count=0,t.cover_image=n,t.social_image="https://dev.to/social_previews/article/1059622.png",t.canonical_url="https://onesignal.com/blog/how-to-send-push-notifications-with-the-onesignal-rest-api/",t.created_at="2022-04-18T13:22:05Z",t.edited_at="2022-05-06T06:39:59Z",t.crossposted_at=i,t.published_at=o,t.last_comment_at=o,t.reading_time_minutes=6,t.tag_list="node, webdev, mobiledev, api",t.tags=["node","webdev","mobiledev","api"],t.body_html='<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--Vqgjzd6i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://onesignal.com/blog/content/images/2022/04/send-push-notifications-with-the-onesignal-rest-api.jpg" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--Vqgjzd6i--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://onesignal.com/blog/content/images/2022/04/send-push-notifications-with-the-onesignal-rest-api.jpg" alt="How to Send Push Notifications with the OneSignal REST API" loading="lazy" width="880" height="588"></a></p>\n\n<p>It’s no secret that push notifications can help you engage and retain app users. In this tutorial, we\'ll show you how to use the <a href="https://documentation.onesignal.com/reference/create-notification">OneSignal REST API</a> using NodeJS.  </p>\n\n<p>Using the OneSignal REST API is very useful because it can help you integrate OneSignal into different workflows that your applications may have. The OneSignal REST API is friendly with different technologies including front and backend. Basically, if the tech stack you are using supers API calls, then you can use the OneSignal REST API.</p>\n\n<h3>\n  <a name="onesignal-amp-your-browsers-push-api" href="#onesignal-amp-your-browsers-push-api">\n  </a>\n  OneSignal &amp; Your Browser\'s Push API\n</h3>\n\n<p>The Push API gives applications the ability to receive messages from a server whether or not the app is in the foreground or currently loaded on a user agent. This lets you deliver asynchronous notifications and updates to users who opt-in, resulting in better engagement with timely new content.</p>\n\n<p>This tutorial will cover an overview of our OneSignal REST API reference and the usage of our API with a NodeJS server.</p>\n\n<h3>\n  <a name="guide-overview" href="#guide-overview">\n  </a>\n  Guide Overview\n</h3>\n\n<ul>\n<li><strong>Part 1: OneSignal REST API Overview</strong></li>\n<li>REST API reference</li>\n<li><strong>Part 2: Push Notification In NodeJS</strong></li>\n<li>Setup a NodeJS Application</li>\n<li>Send Push Notifications</li>\n<li>View Notification insights</li>\n</ul>\n\n<p>This tutorial requires some basic knowledge of NodeJS and usage of REST APIs. Below is a list of platforms that I\'m using:</p>\n\n<ul>\n<li>App with OneSignal integrated (mobile, web, or game)</li>\n<li>NPM</li>\n<li>I’m using NPM version v6.14.11</li>\n<li>NodeJS</li>\n<li>I’m using NodeJS v16.14.2</li>\n</ul>\n\n<h2>\n  <a name="part-1-onesignal-rest-api-overview" href="#part-1-onesignal-rest-api-overview">\n  </a>\n  Part 1: OneSignal REST API Overview\n</h2>\n\n<h3>\n  <a name="send-notifications" href="#send-notifications">\n  </a>\n  Send Notifications\n</h3>\n\n<p>The OneSignal Push API allows you to programmatically send <a href="https://documentation.onesignal.com/reference/create-notification">push notifications</a>. The push notifications can be sent to different <a href="https://documentation.onesignal.com/reference/create-notification#send-to-segments">segments</a> (by default you send them to all <em><strong>Subscribed Users)</strong></em> and even specific devices using the User ID. Another cool feature of the OneSignal REST API is the ability to <a href="https://documentation.onesignal.com/reference/cancel-notification">cancel</a> notifications that have been scheduled.</p>\n\n<h3>\n  <a name="view-notification" href="#view-notification">\n  </a>\n  View Notification\n</h3>\n\n<p>One of my favorite endpoints to use with the OneSignal REST API is the <a href="https://documentation.onesignal.com/reference/view-notification">view notification</a> endpoint. This endpoint allows you to gather information about the notifications and outcomes associated with them. For example, the returned data can tell you see the number of notifications that have not been sent out, the number of notifications that got delivered, the number of confirmed deliveries, and much more information. If you want to learn more about all the <a href="https://documentation.onesignal.com/reference/view-notification#returned-fields">data returned</a> by this endpoint visit our rest API reference.</p>\n\n<p><strong>Method:</strong> POST</p>\n\n<p><strong>Endpoint:</strong> <a href="https://onesignal.com/api/v1/notifications"><code>https://onesignal.com/api/v1/notifications</code></a></p>\n\n<p>Our API can do a lot more than just send a notification and view data from that notification. If you want to learn more about our whole REST API, visit the <a href="https://documentation.onesignal.com/docs/onesignal-api">OneSignal REST API overview</a> page.</p>\n\n<h3>\n  <a name="creating-your-nodejs-app" href="#creating-your-nodejs-app">\n  </a>\n  Creating Your NodeJS App\n</h3>\n\n<p>Inside your terminal run the following commands to create a new NodeJS project using NPM:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>npm init\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>After entering the previous npm command, answer all the questions that will appear on your terminal. These questions will generate the values of your <code>package.json</code>.</p>\n\n<p><strong>Your package.json file will look like similar to this:</strong><br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>{\n    "name": "myapp",\n    "version": "1.0.0",\n    "description": "",\n    "main": "index.js",\n    “type”: “module”\n    "scripts": {\n    "test": "echo \\"Error: no test specified\\" &amp;&amp; exit 1"\n    },\n    "author": "",\n    "license": "ISC"\n}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h1>\n  <a name="setup-your-nodejs-app" href="#setup-your-nodejs-app">\n  </a>\n  <strong>Setup your NodeJS App</strong>\n</h1>\n\n<p>The first thing you need to do is to create an <code>index.js</code> file. This file will contain all code necessary to send and view your notifications.</p>\n\n<p>At the top of this file, add the request npm package. This package will help us make API calls to the OneSignal endpoints in an easier way than doing it with NodeJS natively.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>import axios from \'axios\';\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Now, run <code>npm install axios</code> to add the <code>axios</code> npm package into your project. After you have installed the <code>axios</code> NPM package, add the following three variables to your index.js after the <code>axios</code> import:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>const API_KEY = "YOUR ONE SIGNAL API KEY";\nconst ONE_SIGNAL_APP_ID = "YOUR ONE SIGNAL APP ID";\nconst BASE_URL = "https://onesignal.com/api/v1";\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>To get the API KEY and the APP ID from OneSignal, navigate to the OneSignal Dashboard and click on the app you created inside of OneSignal. Once you have selected the app you want to work with, click the <strong><em>S</em></strong> _ <strong>ettings</strong> _ tab.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--ZUZTow8o--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://lh4.googleusercontent.com/GmzXLp6PIMzhztSRsvfbm5vuDNzNOpc7NlRnMYtUMJ4frAvLNd_ZbY9NSdRj_rXFaFCI0Z5z1EOvi55Vd-CfoRaBi0jbA-8DSVQnBwnltWf_MsxpIovT48w3YmKdZNbdksnEJvxm" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--ZUZTow8o--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://lh4.googleusercontent.com/GmzXLp6PIMzhztSRsvfbm5vuDNzNOpc7NlRnMYtUMJ4frAvLNd_ZbY9NSdRj_rXFaFCI0Z5z1EOvi55Vd-CfoRaBi0jbA-8DSVQnBwnltWf_MsxpIovT48w3YmKdZNbdksnEJvxm" alt="How to Send Push Notifications with the OneSignal REST API" loading="lazy" width="880" height="269"></a></p>\n\n<p>On this page, click on <strong><em>Keys &amp; IDs</em></strong>.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--74frff1d--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://lh5.googleusercontent.com/UP60T5nA4EqhL35YXMayKUZoA9gq_qvtldUhLMNyMwOiz3npa7hXaoHi0ogiY7-EXheBV3yvfZRckMRtnVeojsVN6eCsx7QmStexn2FNChAR66G3ZyaaiCrxXof1LWG9b3a2yEX1" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--74frff1d--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://lh5.googleusercontent.com/UP60T5nA4EqhL35YXMayKUZoA9gq_qvtldUhLMNyMwOiz3npa7hXaoHi0ogiY7-EXheBV3yvfZRckMRtnVeojsVN6eCsx7QmStexn2FNChAR66G3ZyaaiCrxXof1LWG9b3a2yEX1" alt="How to Send Push Notifications with the OneSignal REST API" loading="lazy" width="880" height="259"></a></p>\n\n<p>Copy the <strong>OneSignal App ID</strong> and the <strong>REST API KEY</strong>.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--UBIilnl8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://lh4.googleusercontent.com/HYxlRKKp86qbNNhWML82Aw3ZgpuGRzTdrzcv1xHPjcghxVBt_U9OcXkRCMAECw9lGRGl-q3gsBMNu0I1NkRYIYC12AT7XSDKypK1nvNu3aYb0lLGgBqwx_MIE8PXPzofTZkY2inp" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--UBIilnl8--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://lh4.googleusercontent.com/HYxlRKKp86qbNNhWML82Aw3ZgpuGRzTdrzcv1xHPjcghxVBt_U9OcXkRCMAECw9lGRGl-q3gsBMNu0I1NkRYIYC12AT7XSDKypK1nvNu3aYb0lLGgBqwx_MIE8PXPzofTZkY2inp" alt="How to Send Push Notifications with the OneSignal REST API" loading="lazy" width="880" height="367"></a></p>\n\n<p><strong>Note:</strong> Another quick and easy way to access your OneSignal App ID is by copying it from the URL.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--L-gFJzwo--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://lh6.googleusercontent.com/ia4xoDWkmAj1D3DrklCJzCwcS7x3sxIJlUXS7MsDsMNdkDZ2urwfjz7lCt7GB2933dFi2aTUFydoi6HcdB7VQCrPaR1cg0q79dA4-_Xxi9lC1zS9g6SeOTwbJjYF_jasznHu09SS" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--L-gFJzwo--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://lh6.googleusercontent.com/ia4xoDWkmAj1D3DrklCJzCwcS7x3sxIJlUXS7MsDsMNdkDZ2urwfjz7lCt7GB2933dFi2aTUFydoi6HcdB7VQCrPaR1cg0q79dA4-_Xxi9lC1zS9g6SeOTwbJjYF_jasznHu09SS" alt="How to Send Push Notifications with the OneSignal REST API" loading="lazy" width="855" height="160"></a></p>\n\n<h3>\n  <a name="options-builder" href="#options-builder">\n  </a>\n  Options Builder\n</h3>\n\n<p>This function is not mandatory in order to use the OneSignal REST API. This function will be in charge of creating the options that you will pass to your API calls. This is a generic function that will build the JSON object based on the parameters that you have passed.</p>\n\n<p><strong>Parameters:</strong></p>\n\n<ul>\n<li>\n<a class="mentioned-user" href="https://dev.to/param">@param</a> {string} method</li>\n<li>\n<a class="mentioned-user" href="https://dev.to/param">@param</a> {string} path</li>\n<li>\n<a class="mentioned-user" href="https://dev.to/param">@param</a> {object} body</li>\n</ul>\n\n<p><strong>Returns:</strong></p>\n\n<ul>\n<li>@returns {object} options\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>const optionsBuilder = (method, path, body) =&gt; {\n    return {\n        method,\n        \'url\': `${BASE_URL}/${path}`,\n        \'headers\': {\n        \'Content-Type\': \'application/json\',\n        \'Authorization\': `Basic ${API_KEY}`,\n        },\n        body: body ? JSON.stringify(body) : null\n    };\n}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="create-notification" href="#create-notification">\n  </a>\n  Create Notification\n</h3>\n\n<p>Create a push notification and send it to the users of your app.</p>\n\n<p><strong>Method:</strong> POST</p>\n\n<p><strong>Endpoint:</strong> <a href="https://onesignal.com/api/v1/notifications"><code>https://onesignal.com/api/v1/notifications</code></a></p>\n\n<h3>\n  <a name="postman-collection" href="#postman-collection">\n  </a>\n  Postman Collection\n</h3>\n\n<p>To send a push notification, you will <a href="https://www.postman.com/onesignaldevs/workspace/onesignal-api/request/16845437-c4f3498f-fd80-4304-a6c1-a3234b923f2c">add the following function that will make a call to the OneSignal REST API</a>. This function takes a body parameter that represents the information that the push notification will contain.</p>\n\n<p><strong>Parameters:</strong></p>\n\n<ul>\n<li>\n<a class="mentioned-user" href="https://dev.to/param">@param</a> {object} body</li>\n<li>@returns {object} response\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>const createNotication = async (data) =&gt; {\nconst options = optionsBuilder("post","notifications", data);\ntry {\n        const response = await axios(options);\n        return response.data;\n    } catch (error) {\n        console.error(error);\n        return error;\n    }\n}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Here’s a sample body object:<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>const body = {\n    app_id: ONE_SIGNAL_APP_ID,\n    included_segments: [\'Subscribed Users\'],\n    data: {\n        foo: \'bar\',\n    },\n    contents: {\n        en: \'Sample Push Message\',\n    },\n};\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="view-notification" href="#view-notification">\n  </a>\n  View Notification\n</h3>\n\n<p>Create a push notification and send it to the users of your app.</p>\n\n<p><strong>Method:</strong> GET</p>\n\n<p><strong>Endpoint:</strong> <a href="https://onesignal.com/api/v1/notifications"><code>https://onesignal.com/api/v1/notifications</code></a></p>\n\n<h3>\n  <a name="postman-collection" href="#postman-collection">\n  </a>\n  Postman Collection\n</h3>\n\n<p>To send a push notification, you will <a href="https://www.postman.com/onesignaldevs/workspace/onesignal-api/request/16845437-c4f3498f-fd80-4304-a6c1-a3234b923f2c">add the following function that will make a call to the OneSignal REST API</a>. This function takes a body parameter that represents the information that the push notification will contain.</p>\n\n<p><strong>Parameters:</strong></p>\n\n<ul>\n<li>\n<a class="mentioned-user" href="https://dev.to/param">@param</a> {string} notificationId\n</li>\n</ul>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>const viewNotifcation = async (notificationId) =&gt; {\n    const path = `notifications/${notificationId}?  app_id=${ONE_SIGNAL_APP_ID}`;\n        const options = optionsBuilder("get", path);\n    try {\n        const response = await axios(options);\n        console.log(response.data);\n    } catch (error) {\n        console.log(error);\n    }\n}\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="run-your-code" href="#run-your-code">\n  </a>\n  Run Your Code\n</h3>\n\n<p>At the end of the file, add the following lines of code. The first <code>createNotification()</code> function will return the notification\'s basic information when you send push notifications. I’m using this function to call the OneSignal API. As you can see, I’m using object destructuring to grab the notification ID from the notification object returned from the <code>createNotification()</code>, that will be used to call the <code>viewNotifcation()</code> function.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight plaintext"><code>const {id} = await createNotication(body);\nawait viewNotifcation(id);\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Feel free to test other <a href="https://documentation.onesignal.com/reference/create-notification">OneSignal REST API</a> endpoints and let us know what you think!</p>\n\n<h3>\n  <a name="join-the-onesignal-developers-community" href="#join-the-onesignal-developers-community">\n  </a>\n  Join the OneSignal Developers Community\n</h3>\n\n<p>Want to learn more about the OneSignal products and other technologies? Join our <a href="https://onesignal.com/onesignal-developers">OneSignal Developers Community</a>!</p>\n\n<p>The OneSignal Developer community is a group of passionate individuals who work with OneSignal products. Community members have the opportunity to expand their network and knowledge across different technologies.</p>\n\n<h3>\n  <a name="stay-connected" href="#stay-connected">\n  </a>\n  Stay Connected\n</h3>\n\n<p>Follow our <a href="https://twitter.com/OneSignalDevs">OneSignal Developers Twitter</a> to learn more about the OneSignal product, technical tips, and the latest events from our developers.</p>\n\n<p>The OneSignal Developer community gathers on our public chat server, available on Discord. <a href="https://discord.gg/EP7gf6Uz7G">Our Discord server</a> is a safe environment to network with other members, ask questions, and learn from each other. It is also a place to engage with the OneSignal product development team.</p>\n\n',t.body_markdown='---\ntitle: How to Send Push Notifications with the OneSignal REST API\npublished: true\ndate: 2022-04-18 13:00:00 UTC\ntags: nodejs, webdev, mobiledev, api\ncanonical_url: https://onesignal.com/blog/how-to-send-push-notifications-with-the-onesignal-rest-api/\n---\n\n ![How to Send Push Notifications with the OneSignal REST API](https://onesignal.com/blog/content/images/2022/04/send-push-notifications-with-the-onesignal-rest-api.jpg)\n\nIt’s no secret that push notifications can help you engage and retain app users. In this tutorial, we\'ll show you how to use the [OneSignal REST API](https://documentation.onesignal.com/reference/create-notification) using NodeJS.  \n  \nUsing the OneSignal REST API is very useful because it can help you integrate OneSignal into different workflows that your applications may have. The OneSignal REST API is friendly with different technologies including front and backend. Basically, if the tech stack you are using supers API calls, then you can use the OneSignal REST API.\n\n### OneSignal & Your Browser\'s Push API\n\nThe Push API gives applications the ability to receive messages from a server whether or not the app is in the foreground or currently loaded on a user agent. This lets you deliver asynchronous notifications and updates to users who opt-in, resulting in better engagement with timely new content.\n\nThis tutorial will cover an overview of our OneSignal REST API reference and the usage of our API with a NodeJS server.\n\n### Guide Overview\n\n- **Part 1: OneSignal REST API Overview**\n- REST API reference\n- **Part 2: Push Notification In NodeJS**\n- Setup a NodeJS Application\n- Send Push Notifications\n- View Notification insights\n\nThis tutorial requires some basic knowledge of NodeJS and usage of REST APIs. Below is a list of platforms that I\'m using:\n\n- App with OneSignal integrated (mobile, web, or game)\n- NPM\n- I’m using NPM version v6.14.11\n- NodeJS\n- I’m using NodeJS v16.14.2\n\n## Part 1: OneSignal REST API Overview\n\n### Send Notifications\n\nThe OneSignal Push API allows you to programmatically send [push notifications](https://documentation.onesignal.com/reference/create-notification). The push notifications can be sent to different [segments](https://documentation.onesignal.com/reference/create-notification#send-to-segments) (by default you send them to all _**Subscribed Users)**_ and even specific devices using the User ID. Another cool feature of the OneSignal REST API is the ability to [cancel](https://documentation.onesignal.com/reference/cancel-notification) notifications that have been scheduled.\n\n### View Notification\n\nOne of my favorite endpoints to use with the OneSignal REST API is the [view notification](https://documentation.onesignal.com/reference/view-notification) endpoint. This endpoint allows you to gather information about the notifications and outcomes associated with them. For example, the returned data can tell you see the number of notifications that have not been sent out, the number of notifications that got delivered, the number of confirmed deliveries, and much more information. If you want to learn more about all the [data returned](https://documentation.onesignal.com/reference/view-notification#returned-fields) by this endpoint visit our rest API reference.\n\n**Method:** POST\n\n**Endpoint:** [`https://onesignal.com/api/v1/notifications`](https://onesignal.com/api/v1/notifications)\n\nOur API can do a lot more than just send a notification and view data from that notification. If you want to learn more about our whole REST API, visit the [OneSignal REST API overview](https://documentation.onesignal.com/docs/onesignal-api) page.\n\n### Creating Your NodeJS App\n\nInside your terminal run the following commands to create a new NodeJS project using NPM:\n\n```\nnpm init\n```\n\nAfter entering the previous npm command, answer all the questions that will appear on your terminal. These questions will generate the values of your `package.json`.\n\n**Your package.json file will look like similar to this:**\n\n```\n{\n    "name": "myapp",\n    "version": "1.0.0",\n    "description": "",\n    "main": "index.js",\n    “type”: “module”\n    "scripts": {\n    "test": "echo \\"Error: no test specified\\" && exit 1"\n    },\n    "author": "",\n    "license": "ISC"\n}\n```\n\n# **Setup your NodeJS App**\n\nThe first thing you need to do is to create an `index.js` file. This file will contain all code necessary to send and view your notifications.\n\nAt the top of this file, add the request npm package. This package will help us make API calls to the OneSignal endpoints in an easier way than doing it with NodeJS natively.\n\n```\nimport axios from \'axios\';\n```\n\nNow, run `npm install axios` to add the `axios` npm package into your project. After you have installed the `axios` NPM package, add the following three variables to your index.js after the `axios` import:\n\n```\nconst API_KEY = "YOUR ONE SIGNAL API KEY";\nconst ONE_SIGNAL_APP_ID = "YOUR ONE SIGNAL APP ID";\nconst BASE_URL = "https://onesignal.com/api/v1";\n```\n\nTo get the API KEY and the APP ID from OneSignal, navigate to the OneSignal Dashboard and click on the app you created inside of OneSignal. Once you have selected the app you want to work with, click the **_S_** _ **ettings** _ tab.\n\n![How to Send Push Notifications with the OneSignal REST API](https://lh4.googleusercontent.com/GmzXLp6PIMzhztSRsvfbm5vuDNzNOpc7NlRnMYtUMJ4frAvLNd_ZbY9NSdRj_rXFaFCI0Z5z1EOvi55Vd-CfoRaBi0jbA-8DSVQnBwnltWf_MsxpIovT48w3YmKdZNbdksnEJvxm)\n\nOn this page, click on **_Keys & IDs_**.\n\n![How to Send Push Notifications with the OneSignal REST API](https://lh5.googleusercontent.com/UP60T5nA4EqhL35YXMayKUZoA9gq_qvtldUhLMNyMwOiz3npa7hXaoHi0ogiY7-EXheBV3yvfZRckMRtnVeojsVN6eCsx7QmStexn2FNChAR66G3ZyaaiCrxXof1LWG9b3a2yEX1)\n\nCopy the **OneSignal App ID** and the **REST API KEY**.\n\n![How to Send Push Notifications with the OneSignal REST API](https://lh4.googleusercontent.com/HYxlRKKp86qbNNhWML82Aw3ZgpuGRzTdrzcv1xHPjcghxVBt_U9OcXkRCMAECw9lGRGl-q3gsBMNu0I1NkRYIYC12AT7XSDKypK1nvNu3aYb0lLGgBqwx_MIE8PXPzofTZkY2inp)\n\n**Note:** Another quick and easy way to access your OneSignal App ID is by copying it from the URL.\n\n![How to Send Push Notifications with the OneSignal REST API](https://lh6.googleusercontent.com/ia4xoDWkmAj1D3DrklCJzCwcS7x3sxIJlUXS7MsDsMNdkDZ2urwfjz7lCt7GB2933dFi2aTUFydoi6HcdB7VQCrPaR1cg0q79dA4-_Xxi9lC1zS9g6SeOTwbJjYF_jasznHu09SS)\n\n### Options Builder\n\nThis function is not mandatory in order to use the OneSignal REST API. This function will be in charge of creating the options that you will pass to your API calls. This is a generic function that will build the JSON object based on the parameters that you have passed.\n\n**Parameters:**\n\n- @param {string} method\n- @param {string} path\n- @param {object} body\n\n**Returns:**\n\n- @returns {object} options\n\n```\nconst optionsBuilder = (method, path, body) => {\n    return {\n        method,\n        \'url\': `${BASE_URL}/${path}`,\n        \'headers\': {\n        \'Content-Type\': \'application/json\',\n        \'Authorization\': `Basic ${API_KEY}`,\n        },\n        body: body ? JSON.stringify(body) : null\n    };\n}\n```\n\n### Create Notification\n\nCreate a push notification and send it to the users of your app.\n\n**Method:** POST\n\n**Endpoint:** [`https://onesignal.com/api/v1/notifications`](https://onesignal.com/api/v1/notifications)\n\n### Postman Collection\n\nTo send a push notification, you will [add the following function that will make a call to the OneSignal REST API](https://www.postman.com/onesignaldevs/workspace/onesignal-api/request/16845437-c4f3498f-fd80-4304-a6c1-a3234b923f2c). This function takes a body parameter that represents the information that the push notification will contain.\n\n**Parameters:**\n\n- @param {object} body\n- @returns {object} response\n\n```\nconst createNotication = async (data) => {\nconst options = optionsBuilder("post","notifications", data);\ntry {\n        const response = await axios(options);\n        return response.data;\n    } catch (error) {\n        console.error(error);\n        return error;\n    }\n}\n```\n\nHere’s a sample body object:\n\n```\nconst body = {\n    app_id: ONE_SIGNAL_APP_ID,\n    included_segments: [\'Subscribed Users\'],\n    data: {\n    \tfoo: \'bar\',\n    },\n    contents: {\n    \ten: \'Sample Push Message\',\n    },\n};\n```\n\n### View Notification\n\nCreate a push notification and send it to the users of your app.\n\n**Method:** GET\n\n**Endpoint:** [`https://onesignal.com/api/v1/notifications`](https://onesignal.com/api/v1/notifications)\n\n### Postman Collection\n\nTo send a push notification, you will [add the following function that will make a call to the OneSignal REST API](https://www.postman.com/onesignaldevs/workspace/onesignal-api/request/16845437-c4f3498f-fd80-4304-a6c1-a3234b923f2c). This function takes a body parameter that represents the information that the push notification will contain.\n\n**Parameters:**\n\n- @param {string} notificationId\n\n```\nconst viewNotifcation = async (notificationId) => {\n    const path = `notifications/${notificationId}?\tapp_id=${ONE_SIGNAL_APP_ID}`;\n    \tconst options = optionsBuilder("get", path);\n    try {\n        const response = await axios(options);\n        console.log(response.data);\n    } catch (error) {\n    \tconsole.log(error);\n    }\n}\n```\n\n### Run Your Code\n\nAt the end of the file, add the following lines of code. The first `createNotification()` function will return the notification\'s basic information when you send push notifications. I’m using this function to call the OneSignal API. As you can see, I’m using object destructuring to grab the notification ID from the notification object returned from the `createNotification()`, that will be used to call the `viewNotifcation()` function.\n\n```\nconst {id} = await createNotication(body);\nawait viewNotifcation(id);\n```\n\nFeel free to test other [OneSignal REST API](https://documentation.onesignal.com/reference/create-notification) endpoints and let us know what you think!\n\n### Join the OneSignal Developers Community\n\nWant to learn more about the OneSignal products and other technologies? Join our [OneSignal Developers Community](https://onesignal.com/onesignal-developers)!\n\nThe OneSignal Developer community is a group of passionate individuals who work with OneSignal products. Community members have the opportunity to expand their network and knowledge across different technologies.\n\n### Stay Connected\n\nFollow our [OneSignal Developers Twitter](https://twitter.com/OneSignalDevs) to learn more about the OneSignal product, technical tips, and the latest events from our developers.\n\nThe OneSignal Developer community gathers on our public chat server, available on Discord. [Our Discord server](https://discord.gg/EP7gf6Uz7G) is a safe environment to network with other members, ask questions, and learn from each other. It is also a place to engage with the OneSignal product development team.',t.user={name:"Pato",username:e,twitter_username:e,github_username:e,website_url:"https://developers.google.com/community/experts/directory/profile/profile-patricio_vargas",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--ypk0T9ei--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/224070/cafd30d7-a2d3-49bd-88fe-9339dae9d973.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--m2lVscTe--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/224070/cafd30d7-a2d3-49bd-88fe-9339dae9d973.png"},t.organization={name:"OneSignal",username:a,slug:a,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--8dEo8Ojq--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/4022/23214b83-b368-4449-81dc-ceb39bcaf9f1.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--ByqMcT_S--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/4022/23214b83-b368-4449-81dc-ceb39bcaf9f1.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:t}},error:n,state:{currentArticle:t},serverRendered:!0,routePath:"/devpato/1059622",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:n}}}}(null,"devpato",{},"2022-05-06T06:39:51Z","2022-04-18T13:00:00Z","onesignal")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

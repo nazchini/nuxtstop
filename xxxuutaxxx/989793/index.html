@@ -1,0 +1,970 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>Beginner’s CI/CD Guide: Deploy Laravel8 to Google Cloud Run and Cloud SQL via GitHub Actions</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>Beginner’s CI/CD Guide: Deploy Laravel8 to Google Cloud Run and Cloud SQL via GitHub Actions</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/cloudrun" class="tag" data-v-70afb46a>
+          #cloudrun
+        </a><a href="/nuxtstop/t/laravel" class="tag" data-v-70afb46a>
+          #laravel
+        </a><a href="/nuxtstop/t/cloudsql" class="tag" data-v-70afb46a>
+          #cloudsql
+        </a><a href="/nuxtstop/t/githubactions" class="tag" data-v-70afb46a>
+          #githubactions
+        </a></div> <div class="image-wrapper" data-v-70afb46a><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--IrQZIS5l--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h0wtlc7sojj52v8ftcpj.jpg" alt="Beginner’s CI/CD Guide: Deploy Laravel8 to Google Cloud Run and Cloud SQL via GitHub Actions" data-v-70afb46a></div> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            7
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>Feb 15</time></div></header> <div class="content" data-v-70afb46a><p>Application deployment is one of the important dimensions, including all of the steps, processes of installing, configuring, and enabling a specific application or set of applications. However, I didn’t figure out well what is continuous integration.</p>
+
+<p>For learning it, I started to deploy a Laravel8 application to Google Cloud Run, develop and deploy highly scalable containerized applications on a fully managed serverless platform. But pieces of information about it scattered out on WEB, and I was desperate to understand it, wasting time.</p>
+
+<p>So I will share with you as easily as possible the way of deployment to Google Cloud Run and Google Cloud SQL via GitHub Actions. Let’s get started!</p>
+
+<h2>
+  <a name="directory-architecture" href="#directory-architecture">
+  </a>
+  Directory architecture
+</h2>
+
+<p>The next figure shows us the directory architecture of the git repository.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">.</span>
+├── .github/
+│   └── workflows
+│       └── deploy.yml <span class="c"># yml file to run scripts in Github Actions</span>
+├── <span class="nb">env</span>/
+├── docker/
+│   ├── 000-default.conf
+│   ├── Dockerfile
+│   └── php.ini
+├── sh/ <span class="c"># useful shell files</span>
+├── src/ <span class="c"># the directory installed Laravel application</span>
+└── docker-compose.yml
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="1-build-and-run-the-laravel-application-on-docker-compose" href="#1-build-and-run-the-laravel-application-on-docker-compose">
+  </a>
+  1. Build and run the Laravel application on Docker compose
+</h2>
+
+<ul>
+<li><a href="https://github.com/uuta/cloud-run-laravel8">https://github.com/uuta/cloud-run-laravel8</a></li>
+</ul>
+
+<h3>
+  <a name="11-clone-a-repository-from-github" href="#11-clone-a-repository-from-github">
+  </a>
+  1-1. Clone a repository from GitHub
+</h3>
+
+<p>In this time, we will proceed as the next repository. Under the directory you like, let’s clone it initially and move there.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>git clone git@github.com:uuta/cloud-run-laravel8.git
+<span class="nv">$ </span><span class="nb">cd </span>cloud-run-laravel8
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Build and run the Laravel application on Docker compose to make sure of working out well.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">cp env</span>/.env.example <span class="nb">env</span>/.env.local
+<span class="nv">$ </span>docker-compose up <span class="nt">-d</span> <span class="nt">--build</span>
+...
+...
+...
+Creating cloud-run-laravel8_db_1  ... <span class="k">done
+</span>Creating cloud-run-laravel8_app_1 ... <span class="k">done
+</span>Time: 0h:00m:24s
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The APP_KEY in src/.env would be empty, so create it in a docker container.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>docker-compose <span class="nb">exec </span>app bash
+<span class="nv">$ </span>php artisan route:clear <span class="o">&&</span> <span class="se">\</span>
+php artisan cache:clear <span class="o">&&</span> <span class="se">\</span>
+php artisan config:clear <span class="o">&&</span> <span class="se">\</span>
+php artisan view:clear <span class="o">&&</span> <span class="se">\</span>
+php artisan key:generate
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>A Laravel app key would be generated.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="c"># before</span>
+<span class="nv">APP_KEY</span><span class="o">=</span>
+<span class="c"># after</span>
+<span class="nv">APP_KEY</span><span class="o">=</span><span class="nb">base64</span>:&lt;key>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Alright, we'll see the default page of Laravel to access <a href="http://localhost:8080/">http://localhost:8080/</a> after the installation.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--jRhRgQ7Y--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/z4kvaf8iu322yvbwlz5d.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--jRhRgQ7Y--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/z4kvaf8iu322yvbwlz5d.png" alt="Image description" loading="lazy" width="880" height="440"></a></p>
+
+<p>How about migration? If you execute the migration command after entering the app container, maybe you can see a message such as the next.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>docker-compose <span class="nb">exec </span>app bash
+<span class="nv">$ </span>php artisan migrate
+Nothing to migrate.
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The reason why migration has already finished is to be executed while building a docker image based on Dockerfile. Let’s take a look at <code>Dockerfile.local</code> for a while.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>FROM composer:latest as build
+WORKDIR /app
+COPY <span class="nb">.</span> /app
+
+FROM php:8.0-apache
+COPY docker/php.ini /usr/local/etc/php/
+RUN apt update
+RUN apt <span class="nb">install</span> <span class="nt">-y</span> git
+RUN apt <span class="nb">install</span> <span class="nt">-y</span> vim
+RUN apt <span class="nb">install</span> <span class="nt">-y</span> zip unzip
+RUN docker-php-ext-install bcmath pdo_mysql
+
+<span class="c"># composer install</span>
+RUN curl <span class="nt">-sS</span> https://getcomposer.org/installer | php <span class="nt">--</span> <span class="nt">--install-dir</span><span class="o">=</span>/usr/local/bin <span class="nt">--filename</span><span class="o">=</span>composer
+EXPOSE 8080
+COPY <span class="nt">--from</span><span class="o">=</span>build /app /var/www
+COPY docker/000-default.conf /etc/apache2/sites-available/000-default.conf
+RUN <span class="nb">chmod </span>777 <span class="nt">-R</span> /var/www
+
+WORKDIR /
+RUN <span class="nb">echo</span> <span class="s2">"Listen 8080"</span> <span class="o">>></span> /etc/apache2/ports.conf
+RUN <span class="nb">chown</span> <span class="nt">-R</span> www-data:www-data /var/www
+RUN a2enmod rewrite
+
+<span class="c"># Make the file executable, or use "chmod 777" instead of "chmod +x"</span>
+RUN <span class="nb">chmod</span> +x /var/www/sh/laravel/laravel.local.sh
+
+<span class="c"># This will run the shell file at the time when container is up-and-running successfully (and NOT at the BUILD time)</span>
+ENTRYPOINT <span class="o">[</span><span class="s2">"/var/www/sh/laravel/laravel.local.sh"</span><span class="o">]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>At the end of this file, there are codes to execute a shell command.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>RUN <span class="nb">chmod</span> +x /var/www/sh/laravel/laravel.local.sh
+...
+ENTRYPOINT <span class="o">[</span><span class="s2">"/var/www/sh/laravel/laravel.local.sh"</span><span class="o">]</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>So let’s take a look at <code>sh/laravel/laravel.local.sh</code> file. <code>composer install</code> and <code>migrate</code> commands are executed here.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="c">#!/bin/bash</span>
+
+<span class="c"># initialize laravel</span>
+<span class="nb">cd</span> /var/www/src
+composer <span class="nb">install</span> <span class="nt">--optimize-autoloader</span>
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+<span class="c"># Run Laravel migration</span>
+php artisan migrate
+
+<span class="c"># Run Apache in "foreground" mode (the default mode that runs in Docker)</span>
+apache2-foreground
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>The reason why I dare to make this file is to migrate to Google Cloud SQL in the production environment. According to the next page, the Google Cloud SQL connection is not available during the build phase. Thus, I had to put these commands out for execution after building successfully. In the local environment, this application attempts to connect with the local database instead of Google Cloud SQL.</p>
+
+<ul>
+<li><a href="https://github.com/GoogleCloudPlatform/community/issues/351#issuecomment-370056462">https://github.com/GoogleCloudPlatform/community/issues/351#issuecomment-370056462</a></li>
+</ul>
+
+<h3>
+  <a name="12-more-detail-of-dockerfile" href="#12-more-detail-of-dockerfile">
+  </a>
+  1-2. More detail of Dockerfile
+</h3>
+
+<p>Let’s see <code>Dockerfile.local</code> again. I can’t explain everything, but I’ll try to add descriptions briefly. To build an image on Google Cloud Run, shell scripts expose port of 8080.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>EXPOSE 8080
+...
+RUN <span class="nb">echo</span> <span class="s2">"Listen 8080"</span> <span class="o">>></span> /etc/apache2/ports.conf
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>This command copies <code>000-default.conf</code> to configure the Apache WEB server.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code>COPY docker/000-default.conf /etc/apache2/sites-available/000-default.conf
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="2-deploy-laravel-application-to-google-cloud-run" href="#2-deploy-laravel-application-to-google-cloud-run">
+  </a>
+  2. Deploy Laravel application to Google Cloud Run
+</h2>
+
+<p>Now let's deploy the Laravel application from the local side. First, let docker containers be down.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>docker-compose down
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="21-set-up-gcp-with-console" href="#21-set-up-gcp-with-console">
+  </a>
+  2-1. Set up GCP with console
+</h3>
+
+<p>Execute the following commands with checking project name in GCP.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>gcloud auth login
+<span class="nv">$ PROJECT_NAME</span><span class="o">=(</span>&lt;Project name <span class="k">in </span>GCP><span class="o">)</span>
+<span class="nv">PROJECT_ID</span><span class="o">=</span><span class="si">$(</span>gcloud projects list <span class="nt">--format</span> <span class="s1">'value(projectId)'</span> <span class="nt">--filter</span> <span class="nv">name</span><span class="o">=</span><span class="nv">$PROJECT_NAME</span><span class="si">)</span>
+<span class="nb">export </span>PROJECT_ID
+gcloud config <span class="nb">set </span>project <span class="nv">$PROJECT_ID</span>
+gcloud services <span class="nb">enable</span> <span class="se">\</span>
+    containerregistry.googleapis.com <span class="se">\</span>
+    cloudresourcemanager.googleapis.com <span class="se">\</span>
+    iam.googleapis.com
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--rT1S1l3J--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/91yehhrgurr5v2t25yhh.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--rT1S1l3J--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/91yehhrgurr5v2t25yhh.png" alt="Image description" loading="lazy" width="880" height="438"></a></p>
+
+<h3>
+  <a name="22-create-an-authorized-service-account" href="#22-create-an-authorized-service-account">
+  </a>
+  2-2. Create an authorized service account
+</h3>
+
+<p>Create a service account and give it Owner privileges. Download the key, save it as laravel8_google_cloud_run_key.json, set it as an environment variable, and authorize it as a service account. The following command makes it possible.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>gcloud iam service-accounts create deployer <span class="se">\</span>
+    <span class="nt">--display-name</span> <span class="s2">"deployer"</span>
+gcloud projects add-iam-policy-binding <span class="k">${</span><span class="nv">PROJECT_ID</span><span class="k">}</span> <span class="se">\</span>
+  <span class="nt">--member</span> serviceAccount:deployer@<span class="k">${</span><span class="nv">PROJECT_ID</span><span class="k">}</span>.iam.gserviceaccount.com <span class="se">\</span>
+  <span class="nt">--role</span> roles/owner
+<span class="nb">export </span><span class="nv">GOOGLE_APPLICATION_CREDENTIALS</span><span class="o">=</span>credentials/laravel8_google_cloud_run_key.json
+gcloud iam service-accounts keys create <span class="nv">$GOOGLE_APPLICATION_CREDENTIALS</span> <span class="se">\</span>
+  <span class="nt">--iam-account</span> deployer@<span class="k">${</span><span class="nv">PROJECT_ID</span><span class="k">}</span>.iam.gserviceaccount.com
+gcloud auth activate-service-account <span class="nt">--key-file</span><span class="o">=</span><span class="nv">$GOOGLE_APPLICATION_CREDENTIALS</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>In the above example command, <code>laravel8_google_cloud_run_key.json</code> is stored in the credentials directory.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nb">export </span><span class="nv">GOOGLE_APPLICATION_CREDENTIALS</span><span class="o">=</span>~/credentials/laravel8_google_cloud_run_key.json
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="23-build-docker-image" href="#23-build-docker-image">
+  </a>
+  2-3. Build docker image
+</h3>
+
+<p>Build docker image instead of <code>docker-compose</code> command.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">export </span><span class="nv">SERVICE_NAME</span><span class="o">=</span>docker-laravel8-run
+docker build <span class="nt">-f</span> docker/Dockerfile.prod <span class="nt">-t</span> asia.gcr.io/<span class="k">${</span><span class="nv">PROJECT_ID</span><span class="k">}</span>/<span class="k">${</span><span class="nv">SERVICE_NAME</span><span class="k">}</span> <span class="nb">.</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Run a docker container to work out correctly on the local environment.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>docker run <span class="nt">--init</span> <span class="nt">-d</span> <span class="nt">-e</span> <span class="nv">PORT</span><span class="o">=</span>8080 <span class="nt">-p</span> 8080:8080 asia.gcr.io/<span class="k">${</span><span class="nv">PROJECT_ID</span><span class="k">}</span>/<span class="k">${</span><span class="nv">SERVICE_NAME</span><span class="k">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Make sure the local page works correctly.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--z6yo63K_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hel7j4hsoi54mttq2dei.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--z6yo63K_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hel7j4hsoi54mttq2dei.png" alt="Image description" loading="lazy" width="880" height="440"></a></p>
+
+<h3>
+  <a name="24-push-the-docker-image-to-container-registry" href="#24-push-the-docker-image-to-container-registry">
+  </a>
+  2-4. Push the docker image to Container Registry
+</h3>
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>gcloud auth configure-docker
+docker push asia.gcr.io/<span class="k">${</span><span class="nv">PROJECT_ID</span><span class="k">}</span>/<span class="k">${</span><span class="nv">SERVICE_NAME</span><span class="k">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You’ll make sure to register a repository named docker-laravel8.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--YJnHRnPW--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3j7f1uh9y82k3ki2s10x.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--YJnHRnPW--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3j7f1uh9y82k3ki2s10x.png" alt="Image description" loading="lazy" width="880" height="435"></a></p>
+
+<h3>
+  <a name="25-enable-cloud-sql-admin-api" href="#25-enable-cloud-sql-admin-api">
+  </a>
+  2-5. Enable Cloud SQL Admin API
+</h3>
+
+<p>To connect Google Cloud Run and Google Cloud SQL, try to enable Cloud SQL Admin API.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--yN5d11O4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cekhdgnrvr1kkxlghxrx.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--yN5d11O4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cekhdgnrvr1kkxlghxrx.png" alt="Image description" loading="lazy" width="880" height="436"></a></p>
+
+<ul>
+<li><a href="https://cloud.google.com/sql/docs/mysql/connect-run?hl=en#private-ip">Connect from Cloud Run | Cloud SQL for MySQL | Google Cloud</a></li>
+</ul>
+
+<h2>
+  <a name="3-google-cloud-sql" href="#3-google-cloud-sql">
+  </a>
+  3. Google Cloud SQL
+</h2>
+
+<p>Create a Google Cloud SQL instance temporarily for test. I’ll create an instance like the following example in this sample, but you can modify configuration for your environment. This process might take a long time.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ DATABASE_NAME</span><span class="o">=(</span>docker-laravel8-run<span class="o">)</span>
+gcloud sql instances create <span class="nv">$DATABASE_NAME</span> <span class="se">\</span>
+  <span class="nt">--database-version</span><span class="o">=</span>MYSQL_8_0 <span class="se">\</span>
+  <span class="nt">--region</span><span class="o">=</span>us-central1 <span class="se">\</span>
+  <span class="nt">--storage-size</span><span class="o">=</span>100 <span class="se">\</span>
+  <span class="nt">--storage-type</span><span class="o">=</span>HDD <span class="se">\</span>
+  <span class="nt">--tier</span><span class="o">=</span>db-f1-micro <span class="se">\</span>
+  <span class="nt">--root-password</span><span class="o">=</span>homestead
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--zA0Bnzfi--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/iyc8r2yndlngxtlvr4hy.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--zA0Bnzfi--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/iyc8r2yndlngxtlvr4hy.png" alt="Image description" loading="lazy" width="880" height="439"></a></p>
+
+<ul>
+<li><a href="https://stackoverflow.com/questions/55693241/how-to-securely-connect-to-cloud-sql-from-cloud-run">How to securely connect to Cloud SQL from Cloud Run? - Stack Overflow</a></li>
+<li><a href="https://stackoverflow.com/questions/65253179/how-do-i-connect-to-cloud-sql-from-a-laravel-project-running-on-cloud-run">How do I connect to Cloud SQL from a Laravel project running on Cloud Run? - Stack Overflow</a></li>
+</ul>
+
+<p>It would be better to create a database named laravel.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>gcloud sql databases create laravel <span class="se">\</span>
+<span class="nt">--instance</span><span class="o">=</span><span class="nv">$DATABASE_NAME</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<ul>
+<li><a href="https://cloud.google.com/sql/docs/mysql/create-manage-databases#gcloud">Create and manage databases | Cloud SQL for MySQL | Google Cloud</a></li>
+</ul>
+
+<h3>
+  <a name="31-deploy-to-google-cloud-run" href="#31-deploy-to-google-cloud-run">
+  </a>
+  3-1. Deploy to Google Cloud Run
+</h3>
+
+<p>Let’s try to deploy to Google Cloud Run. Replace <code>&lt;Connection name></code> to the Connection name in Google Cloud SQL and execute the following command.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ SQL_CONNECTION_NAME</span><span class="o">=(</span>&lt;Connection name><span class="o">)</span>
+gcloud run deploy <span class="k">${</span><span class="nv">SERVICE_NAME</span><span class="k">}</span> <span class="se">\</span>
+<span class="nt">--image</span> asia.gcr.io/<span class="s2">"</span><span class="k">${</span><span class="nv">PROJECT_ID</span><span class="k">}</span><span class="s2">"</span>/<span class="s2">"</span><span class="k">${</span><span class="nv">SERVICE_NAME</span><span class="k">}</span><span class="s2">"</span> <span class="se">\</span>
+<span class="nt">--region</span> asia-east1 <span class="se">\</span>
+<span class="nt">--platform</span><span class="o">=</span>managed <span class="se">\</span>
+<span class="nt">--add-cloudsql-instances</span> <span class="k">${</span><span class="nv">SQL_CONNECTION_NAME</span><span class="k">}</span> <span class="se">\</span>
+<span class="nt">--allow-unauthenticated</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--EH7pNMWX--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ib5copxtjkm2p5hd3rwp.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--EH7pNMWX--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ib5copxtjkm2p5hd3rwp.png" alt="Image description" loading="lazy" width="880" height="424"></a></p>
+
+<p>A URL will be generated after deploying. Make sure to be shown the page for Laravel8 correctly.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--BIdvCGzH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/wnpqs9k4s8cx16369ntb.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--BIdvCGzH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/wnpqs9k4s8cx16369ntb.png" alt="Image description" loading="lazy" width="880" height="423"></a></p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--A4srxv5o--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xhzmjugi9yvkxci0xuzx.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--A4srxv5o--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xhzmjugi9yvkxci0xuzx.png" alt="Image description" loading="lazy" width="880" height="440"></a></p>
+
+<h2>
+  <a name="4-deploy-from-github-actions" href="#4-deploy-from-github-actions">
+  </a>
+  4. Deploy from GitHub Actions
+</h2>
+
+<h3>
+  <a name="41-brief-description" href="#41-brief-description">
+  </a>
+  4-1. Brief description
+</h3>
+
+<p>Now we’ve deployed the Laravel application successfully from the Local environment. Then, let’s consider deploying from GitHub Actions. I’m assumed that GitHub Actions runs commands to deploy when commits are pushed to the master or main branch. In this example, the deploy command is defined in <code>.github/workflows/deploy.yml</code> file. And the trigger for deployment is set when pushing to <code>master</code>.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="na">name</span><span class="pi">:</span> <span class="s">cloud-run-laravel8-deploy</span>
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">push</span><span class="pi">:</span>
+    <span class="na">branches</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">master</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Let’s see some more. This remote repository has no .env file to configure the Laravel application by the <code>.gitignore</code> file. So we should put <code>.env</code> file only when deploying. Then, by encoding an environment variable decoded as base64 of the <code>.env</code> file on the local, it’s available to deploy.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight yaml"><code><span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Decode .env file</span>
+  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+    <span class="s">echo ${{ secrets.TEST_ENV_FILE }} | base64 --decode > src/.env</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>There are six environment variables in <code>.github/workflows/deploy.yml</code> file.</p>
+
+<ul>
+<li>secrets.TEST_GCP_EMAIL: deploy email</li>
+<li>secrets.TEST_GCP_CREDENTIALS: the content of <code>credentials/laravel8_google_cloud_run_key.json</code> in your local environment</li>
+<li>secrets.TEST_ENV_FILE: <code>env/.env.prod</code>
+</li>
+<li>secrets.TEST_GCP_PROJECT: project id</li>
+<li>secrets.TEST_GCP_APPLICATION: service name</li>
+<li>secrets.TEST_SQL_CONNECTION_NAME: SQL connection name</li>
+</ul>
+
+<h3>
+  <a name="42-change-remote-repository" href="#42-change-remote-repository">
+  </a>
+  4-2. Change remote repository
+</h3>
+
+<p>Then, change the remote branch to <code>test-cloud-run</code> . The name can be anything you like.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>git config remote.origin.url
+git@github.com:uuta/cloud-run-laravel8.git
+<span class="nv">$ </span>git remote set-url origin git@github.com:uuta/test-cloud-run.git
+<span class="nv">$ </span>git config remote.origin.url
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="43-enter-the-environment-variables" href="#43-enter-the-environment-variables">
+  </a>
+  4-3. Enter the environment variables
+</h3>
+
+<p>Enter the environment variables on GitHub like this.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--fXzTQN28--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/50qxydonckpgxuoecbwb.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fXzTQN28--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/50qxydonckpgxuoecbwb.png" alt="Image description" loading="lazy" width="880" height="436"></a></p>
+
+<p>TEST_GCP_EMAIL can be obtained from the Google Cloud Run UI.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--NNgKCqqX--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xlcspndc62c59egmt0xz.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--NNgKCqqX--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xlcspndc62c59egmt0xz.png" alt="Image description" loading="lazy" width="880" height="440"></a></p>
+
+<p>Modifying TEST_ENV_FILE is somewhat tricky. First of all, copy the .env.example file as .env.prod.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">cp env</span>/.env.local <span class="nb">env</span>/.env.prod
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>Modify the .env.prod file as follows, and don't forget to add DB_SOCKET.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">APP_NAME</span><span class="o">=</span>Laravel
+<span class="nv">APP_ENV</span><span class="o">=</span>production
+<span class="nv">APP_KEY</span><span class="o">=</span>&lt;your app key>
+<span class="nv">APP_DEBUG</span><span class="o">=</span><span class="nb">false
+</span><span class="nv">APP_URL</span><span class="o">=</span>&lt;your app url>
+
+<span class="nv">LOG_CHANNEL</span><span class="o">=</span>stack
+<span class="nv">LOG_DEPRECATIONS_CHANNEL</span><span class="o">=</span>null
+<span class="nv">LOG_LEVEL</span><span class="o">=</span>debug
+
+<span class="nv">DB_CONNECTION</span><span class="o">=</span>mysql
+<span class="nv">DB_HOST</span><span class="o">=</span>localhost
+<span class="nv">DB_PORT</span><span class="o">=</span>3306
+<span class="nv">DB_DATABASE</span><span class="o">=</span>laravel
+<span class="nv">DB_USERNAME</span><span class="o">=</span>root
+<span class="nv">DB_PASSWORD</span><span class="o">=</span>homestead
+<span class="nv">DB_SOCKET</span><span class="o">=</span>/cloudsql/&lt;connection name to Google Cloud SQL>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>By the following command, values in the <code>env</code> file will transfer to string encoded Base64. So you can copy and paste it as the value of TEST_ENV_FILE.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">cat env</span>/.env.prod | <span class="nb">base64</span> | pbcopy
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="44-git-push-and-then-deploy-automatically" href="#44-git-push-and-then-deploy-automatically">
+  </a>
+  4-4. Git push, and then deploy automatically
+</h3>
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight shell"><code><span class="nv">$ </span>git push
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>After pushing the master repository, it will automatically start deploying in your remote repository. Please check if it succeeds.</p>
+
+<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--5HZBt3Sp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5b765bzqyd6bbotsqx6j.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--5HZBt3Sp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5b765bzqyd6bbotsqx6j.png" alt="Image description" loading="lazy" width="880" height="433"></a></p>
+
+<p>You made it!</p>
+
+<h2>
+  <a name="references" href="#references">
+  </a>
+  References
+</h2>
+
+<ul>
+<li><a href="https://casualdevelopers.com/tech-tips/how-to-use-dotenv-with-base64-on-circleci/">CircleCI 2.0で.envファイルを環境変数として使う方法 | Casual Developers Note</a></li>
+<li><a href="https://allabout-tech.hatenablog.com/entry/2020/06/30/133859">Cloud RunからCloud SQLやMemorystoreへの繋ぎ方 - オールアバウトTech Blog</a></li>
+<li><a href="https://qiita.com/chimame/items/e959843e86419f51e45a">Cloud Runを使うならこれだけ知ってると得した気分になる - Qiita</a></li>
+<li><a href="https://cloud.google.com/sql/docs/mysql/connect-overview?hl=en#tools_for_connecting">About connection options | Cloud SQL for MySQL | Google Cloud</a></li>
+</ul>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/xxxuutaxxx/beginners-cicd-guide-deploy-laravel8-to-google-cloud-run-and-cloud-sql-via-github-actions-40oj" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(n,a,s,e,t){return s.type_of="article",s.id=989793,s.title="Beginner’s CI/CD Guide: Deploy Laravel8 to Google Cloud Run and Cloud SQL via GitHub Actions",s.description="Application deployment is one of the important dimensions, including all of the steps, processes of...",s.readable_publish_date="Feb 15",s.slug="beginners-cicd-guide-deploy-laravel8-to-google-cloud-run-and-cloud-sql-via-github-actions-40oj",s.path="/xxxuutaxxx/beginners-cicd-guide-deploy-laravel8-to-google-cloud-run-and-cloud-sql-via-github-actions-40oj",s.url=e,s.comments_count=0,s.public_reactions_count=7,s.collection_id=n,s.published_timestamp=a,s.positive_reactions_count=7,s.cover_image="https://res.cloudinary.com/practicaldev/image/fetch/s--IrQZIS5l--/c_imagga_scale,f_auto,fl_progressive,h_420,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h0wtlc7sojj52v8ftcpj.jpg",s.social_image="https://res.cloudinary.com/practicaldev/image/fetch/s--5uNZNWF0--/c_imagga_scale,f_auto,fl_progressive,h_500,q_auto,w_1000/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/h0wtlc7sojj52v8ftcpj.jpg",s.canonical_url=e,s.created_at="2022-02-15T08:01:05Z",s.edited_at="2022-03-13T11:51:21Z",s.crossposted_at=n,s.published_at=a,s.last_comment_at=a,s.reading_time_minutes=8,s.tag_list="cloudrun, laravel, cloudsql, githubactions",s.tags=["cloudrun","laravel","cloudsql","githubactions"],s.body_html='<p>Application deployment is one of the important dimensions, including all of the steps, processes of installing, configuring, and enabling a specific application or set of applications. However, I didn’t figure out well what is continuous integration.</p>\n\n<p>For learning it, I started to deploy a Laravel8 application to Google Cloud Run, develop and deploy highly scalable containerized applications on a fully managed serverless platform. But pieces of information about it scattered out on WEB, and I was desperate to understand it, wasting time.</p>\n\n<p>So I will share with you as easily as possible the way of deployment to Google Cloud Run and Google Cloud SQL via GitHub Actions. Let’s get started!</p>\n\n<h2>\n  <a name="directory-architecture" href="#directory-architecture">\n  </a>\n  Directory architecture\n</h2>\n\n<p>The next figure shows us the directory architecture of the git repository.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">.</span>\n├── .github/\n│   └── workflows\n│       └── deploy.yml <span class="c"># yml file to run scripts in Github Actions</span>\n├── <span class="nb">env</span>/\n├── docker/\n│   ├── 000-default.conf\n│   ├── Dockerfile\n│   └── php.ini\n├── sh/ <span class="c"># useful shell files</span>\n├── src/ <span class="c"># the directory installed Laravel application</span>\n└── docker-compose.yml\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="1-build-and-run-the-laravel-application-on-docker-compose" href="#1-build-and-run-the-laravel-application-on-docker-compose">\n  </a>\n  1. Build and run the Laravel application on Docker compose\n</h2>\n\n<ul>\n<li><a href="https://github.com/uuta/cloud-run-laravel8">https://github.com/uuta/cloud-run-laravel8</a></li>\n</ul>\n\n<h3>\n  <a name="11-clone-a-repository-from-github" href="#11-clone-a-repository-from-github">\n  </a>\n  1-1. Clone a repository from GitHub\n</h3>\n\n<p>In this time, we will proceed as the next repository. Under the directory you like, let’s clone it initially and move there.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>git clone git@github.com:uuta/cloud-run-laravel8.git\n<span class="nv">$ </span><span class="nb">cd </span>cloud-run-laravel8\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Build and run the Laravel application on Docker compose to make sure of working out well.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">cp env</span>/.env.example <span class="nb">env</span>/.env.local\n<span class="nv">$ </span>docker-compose up <span class="nt">-d</span> <span class="nt">--build</span>\n...\n...\n...\nCreating cloud-run-laravel8_db_1  ... <span class="k">done\n</span>Creating cloud-run-laravel8_app_1 ... <span class="k">done\n</span>Time: 0h:00m:24s\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The APP_KEY in src/.env would be empty, so create it in a docker container.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>docker-compose <span class="nb">exec </span>app bash\n<span class="nv">$ </span>php artisan route:clear <span class="o">&amp;&amp;</span> <span class="se">\\</span>\nphp artisan cache:clear <span class="o">&amp;&amp;</span> <span class="se">\\</span>\nphp artisan config:clear <span class="o">&amp;&amp;</span> <span class="se">\\</span>\nphp artisan view:clear <span class="o">&amp;&amp;</span> <span class="se">\\</span>\nphp artisan key:generate\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>A Laravel app key would be generated.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="c"># before</span>\n<span class="nv">APP_KEY</span><span class="o">=</span>\n<span class="c"># after</span>\n<span class="nv">APP_KEY</span><span class="o">=</span><span class="nb">base64</span>:&lt;key&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Alright, we\'ll see the default page of Laravel to access <a href="http://localhost:8080/">http://localhost:8080/</a> after the installation.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--jRhRgQ7Y--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/z4kvaf8iu322yvbwlz5d.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--jRhRgQ7Y--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/z4kvaf8iu322yvbwlz5d.png" alt="Image description" loading="lazy" width="880" height="440"></a></p>\n\n<p>How about migration? If you execute the migration command after entering the app container, maybe you can see a message such as the next.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>docker-compose <span class="nb">exec </span>app bash\n<span class="nv">$ </span>php artisan migrate\nNothing to migrate.\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The reason why migration has already finished is to be executed while building a docker image based on Dockerfile. Let’s take a look at <code>Dockerfile.local</code> for a while.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>FROM composer:latest as build\nWORKDIR /app\nCOPY <span class="nb">.</span> /app\n\nFROM php:8.0-apache\nCOPY docker/php.ini /usr/local/etc/php/\nRUN apt update\nRUN apt <span class="nb">install</span> <span class="nt">-y</span> git\nRUN apt <span class="nb">install</span> <span class="nt">-y</span> vim\nRUN apt <span class="nb">install</span> <span class="nt">-y</span> zip unzip\nRUN docker-php-ext-install bcmath pdo_mysql\n\n<span class="c"># composer install</span>\nRUN curl <span class="nt">-sS</span> https://getcomposer.org/installer | php <span class="nt">--</span> <span class="nt">--install-dir</span><span class="o">=</span>/usr/local/bin <span class="nt">--filename</span><span class="o">=</span>composer\nEXPOSE 8080\nCOPY <span class="nt">--from</span><span class="o">=</span>build /app /var/www\nCOPY docker/000-default.conf /etc/apache2/sites-available/000-default.conf\nRUN <span class="nb">chmod </span>777 <span class="nt">-R</span> /var/www\n\nWORKDIR /\nRUN <span class="nb">echo</span> <span class="s2">"Listen 8080"</span> <span class="o">&gt;&gt;</span> /etc/apache2/ports.conf\nRUN <span class="nb">chown</span> <span class="nt">-R</span> www-data:www-data /var/www\nRUN a2enmod rewrite\n\n<span class="c"># Make the file executable, or use "chmod 777" instead of "chmod +x"</span>\nRUN <span class="nb">chmod</span> +x /var/www/sh/laravel/laravel.local.sh\n\n<span class="c"># This will run the shell file at the time when container is up-and-running successfully (and NOT at the BUILD time)</span>\nENTRYPOINT <span class="o">[</span><span class="s2">"/var/www/sh/laravel/laravel.local.sh"</span><span class="o">]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>At the end of this file, there are codes to execute a shell command.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>RUN <span class="nb">chmod</span> +x /var/www/sh/laravel/laravel.local.sh\n...\nENTRYPOINT <span class="o">[</span><span class="s2">"/var/www/sh/laravel/laravel.local.sh"</span><span class="o">]</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>So let’s take a look at <code>sh/laravel/laravel.local.sh</code> file. <code>composer install</code> and <code>migrate</code> commands are executed here.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="c">#!/bin/bash</span>\n\n<span class="c"># initialize laravel</span>\n<span class="nb">cd</span> /var/www/src\ncomposer <span class="nb">install</span> <span class="nt">--optimize-autoloader</span>\nphp artisan config:cache\nphp artisan route:cache\nphp artisan view:cache\n\n<span class="c"># Run Laravel migration</span>\nphp artisan migrate\n\n<span class="c"># Run Apache in "foreground" mode (the default mode that runs in Docker)</span>\napache2-foreground\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>The reason why I dare to make this file is to migrate to Google Cloud SQL in the production environment. According to the next page, the Google Cloud SQL connection is not available during the build phase. Thus, I had to put these commands out for execution after building successfully. In the local environment, this application attempts to connect with the local database instead of Google Cloud SQL.</p>\n\n<ul>\n<li><a href="https://github.com/GoogleCloudPlatform/community/issues/351#issuecomment-370056462">https://github.com/GoogleCloudPlatform/community/issues/351#issuecomment-370056462</a></li>\n</ul>\n\n<h3>\n  <a name="12-more-detail-of-dockerfile" href="#12-more-detail-of-dockerfile">\n  </a>\n  1-2. More detail of Dockerfile\n</h3>\n\n<p>Let’s see <code>Dockerfile.local</code> again. I can’t explain everything, but I’ll try to add descriptions briefly. To build an image on Google Cloud Run, shell scripts expose port of 8080.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>EXPOSE 8080\n...\nRUN <span class="nb">echo</span> <span class="s2">"Listen 8080"</span> <span class="o">&gt;&gt;</span> /etc/apache2/ports.conf\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>This command copies <code>000-default.conf</code> to configure the Apache WEB server.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code>COPY docker/000-default.conf /etc/apache2/sites-available/000-default.conf\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="2-deploy-laravel-application-to-google-cloud-run" href="#2-deploy-laravel-application-to-google-cloud-run">\n  </a>\n  2. Deploy Laravel application to Google Cloud Run\n</h2>\n\n<p>Now let\'s deploy the Laravel application from the local side. First, let docker containers be down.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>docker-compose down\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="21-set-up-gcp-with-console" href="#21-set-up-gcp-with-console">\n  </a>\n  2-1. Set up GCP with console\n</h3>\n\n<p>Execute the following commands with checking project name in GCP.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>gcloud auth login\n<span class="nv">$ PROJECT_NAME</span><span class="o">=(</span>&lt;Project name <span class="k">in </span>GCP&gt;<span class="o">)</span>\n<span class="nv">PROJECT_ID</span><span class="o">=</span><span class="si">$(</span>gcloud projects list <span class="nt">--format</span> <span class="s1">\'value(projectId)\'</span> <span class="nt">--filter</span> <span class="nv">name</span><span class="o">=</span><span class="nv">$PROJECT_NAME</span><span class="si">)</span>\n<span class="nb">export </span>PROJECT_ID\ngcloud config <span class="nb">set </span>project <span class="nv">$PROJECT_ID</span>\ngcloud services <span class="nb">enable</span> <span class="se">\\</span>\n    containerregistry.googleapis.com <span class="se">\\</span>\n    cloudresourcemanager.googleapis.com <span class="se">\\</span>\n    iam.googleapis.com\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--rT1S1l3J--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/91yehhrgurr5v2t25yhh.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--rT1S1l3J--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/91yehhrgurr5v2t25yhh.png" alt="Image description" loading="lazy" width="880" height="438"></a></p>\n\n<h3>\n  <a name="22-create-an-authorized-service-account" href="#22-create-an-authorized-service-account">\n  </a>\n  2-2. Create an authorized service account\n</h3>\n\n<p>Create a service account and give it Owner privileges. Download the key, save it as laravel8_google_cloud_run_key.json, set it as an environment variable, and authorize it as a service account. The following command makes it possible.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>gcloud iam service-accounts create deployer <span class="se">\\</span>\n    <span class="nt">--display-name</span> <span class="s2">"deployer"</span>\ngcloud projects add-iam-policy-binding <span class="k">${</span><span class="nv">PROJECT_ID</span><span class="k">}</span> <span class="se">\\</span>\n  <span class="nt">--member</span> serviceAccount:deployer@<span class="k">${</span><span class="nv">PROJECT_ID</span><span class="k">}</span>.iam.gserviceaccount.com <span class="se">\\</span>\n  <span class="nt">--role</span> roles/owner\n<span class="nb">export </span><span class="nv">GOOGLE_APPLICATION_CREDENTIALS</span><span class="o">=</span>credentials/laravel8_google_cloud_run_key.json\ngcloud iam service-accounts keys create <span class="nv">$GOOGLE_APPLICATION_CREDENTIALS</span> <span class="se">\\</span>\n  <span class="nt">--iam-account</span> deployer@<span class="k">${</span><span class="nv">PROJECT_ID</span><span class="k">}</span>.iam.gserviceaccount.com\ngcloud auth activate-service-account <span class="nt">--key-file</span><span class="o">=</span><span class="nv">$GOOGLE_APPLICATION_CREDENTIALS</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>In the above example command, <code>laravel8_google_cloud_run_key.json</code> is stored in the credentials directory.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nb">export </span><span class="nv">GOOGLE_APPLICATION_CREDENTIALS</span><span class="o">=</span>~/credentials/laravel8_google_cloud_run_key.json\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="23-build-docker-image" href="#23-build-docker-image">\n  </a>\n  2-3. Build docker image\n</h3>\n\n<p>Build docker image instead of <code>docker-compose</code> command.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">export </span><span class="nv">SERVICE_NAME</span><span class="o">=</span>docker-laravel8-run\ndocker build <span class="nt">-f</span> docker/Dockerfile.prod <span class="nt">-t</span> asia.gcr.io/<span class="k">${</span><span class="nv">PROJECT_ID</span><span class="k">}</span>/<span class="k">${</span><span class="nv">SERVICE_NAME</span><span class="k">}</span> <span class="nb">.</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Run a docker container to work out correctly on the local environment.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>docker run <span class="nt">--init</span> <span class="nt">-d</span> <span class="nt">-e</span> <span class="nv">PORT</span><span class="o">=</span>8080 <span class="nt">-p</span> 8080:8080 asia.gcr.io/<span class="k">${</span><span class="nv">PROJECT_ID</span><span class="k">}</span>/<span class="k">${</span><span class="nv">SERVICE_NAME</span><span class="k">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Make sure the local page works correctly.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--z6yo63K_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hel7j4hsoi54mttq2dei.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--z6yo63K_--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hel7j4hsoi54mttq2dei.png" alt="Image description" loading="lazy" width="880" height="440"></a></p>\n\n<h3>\n  <a name="24-push-the-docker-image-to-container-registry" href="#24-push-the-docker-image-to-container-registry">\n  </a>\n  2-4. Push the docker image to Container Registry\n</h3>\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>gcloud auth configure-docker\ndocker push asia.gcr.io/<span class="k">${</span><span class="nv">PROJECT_ID</span><span class="k">}</span>/<span class="k">${</span><span class="nv">SERVICE_NAME</span><span class="k">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You’ll make sure to register a repository named docker-laravel8.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--YJnHRnPW--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3j7f1uh9y82k3ki2s10x.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--YJnHRnPW--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3j7f1uh9y82k3ki2s10x.png" alt="Image description" loading="lazy" width="880" height="435"></a></p>\n\n<h3>\n  <a name="25-enable-cloud-sql-admin-api" href="#25-enable-cloud-sql-admin-api">\n  </a>\n  2-5. Enable Cloud SQL Admin API\n</h3>\n\n<p>To connect Google Cloud Run and Google Cloud SQL, try to enable Cloud SQL Admin API.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--yN5d11O4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cekhdgnrvr1kkxlghxrx.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--yN5d11O4--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cekhdgnrvr1kkxlghxrx.png" alt="Image description" loading="lazy" width="880" height="436"></a></p>\n\n<ul>\n<li><a href="https://cloud.google.com/sql/docs/mysql/connect-run?hl=en#private-ip">Connect from Cloud Run | Cloud SQL for MySQL | Google Cloud</a></li>\n</ul>\n\n<h2>\n  <a name="3-google-cloud-sql" href="#3-google-cloud-sql">\n  </a>\n  3. Google Cloud SQL\n</h2>\n\n<p>Create a Google Cloud SQL instance temporarily for test. I’ll create an instance like the following example in this sample, but you can modify configuration for your environment. This process might take a long time.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ DATABASE_NAME</span><span class="o">=(</span>docker-laravel8-run<span class="o">)</span>\ngcloud sql instances create <span class="nv">$DATABASE_NAME</span> <span class="se">\\</span>\n  <span class="nt">--database-version</span><span class="o">=</span>MYSQL_8_0 <span class="se">\\</span>\n  <span class="nt">--region</span><span class="o">=</span>us-central1 <span class="se">\\</span>\n  <span class="nt">--storage-size</span><span class="o">=</span>100 <span class="se">\\</span>\n  <span class="nt">--storage-type</span><span class="o">=</span>HDD <span class="se">\\</span>\n  <span class="nt">--tier</span><span class="o">=</span>db-f1-micro <span class="se">\\</span>\n  <span class="nt">--root-password</span><span class="o">=</span>homestead\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--zA0Bnzfi--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/iyc8r2yndlngxtlvr4hy.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--zA0Bnzfi--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/iyc8r2yndlngxtlvr4hy.png" alt="Image description" loading="lazy" width="880" height="439"></a></p>\n\n<ul>\n<li><a href="https://stackoverflow.com/questions/55693241/how-to-securely-connect-to-cloud-sql-from-cloud-run">How to securely connect to Cloud SQL from Cloud Run? - Stack Overflow</a></li>\n<li><a href="https://stackoverflow.com/questions/65253179/how-do-i-connect-to-cloud-sql-from-a-laravel-project-running-on-cloud-run">How do I connect to Cloud SQL from a Laravel project running on Cloud Run? - Stack Overflow</a></li>\n</ul>\n\n<p>It would be better to create a database named laravel.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>gcloud sql databases create laravel <span class="se">\\</span>\n<span class="nt">--instance</span><span class="o">=</span><span class="nv">$DATABASE_NAME</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<ul>\n<li><a href="https://cloud.google.com/sql/docs/mysql/create-manage-databases#gcloud">Create and manage databases | Cloud SQL for MySQL | Google Cloud</a></li>\n</ul>\n\n<h3>\n  <a name="31-deploy-to-google-cloud-run" href="#31-deploy-to-google-cloud-run">\n  </a>\n  3-1. Deploy to Google Cloud Run\n</h3>\n\n<p>Let’s try to deploy to Google Cloud Run. Replace <code>&lt;Connection name&gt;</code> to the Connection name in Google Cloud SQL and execute the following command.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ SQL_CONNECTION_NAME</span><span class="o">=(</span>&lt;Connection name&gt;<span class="o">)</span>\ngcloud run deploy <span class="k">${</span><span class="nv">SERVICE_NAME</span><span class="k">}</span> <span class="se">\\</span>\n<span class="nt">--image</span> asia.gcr.io/<span class="s2">"</span><span class="k">${</span><span class="nv">PROJECT_ID</span><span class="k">}</span><span class="s2">"</span>/<span class="s2">"</span><span class="k">${</span><span class="nv">SERVICE_NAME</span><span class="k">}</span><span class="s2">"</span> <span class="se">\\</span>\n<span class="nt">--region</span> asia-east1 <span class="se">\\</span>\n<span class="nt">--platform</span><span class="o">=</span>managed <span class="se">\\</span>\n<span class="nt">--add-cloudsql-instances</span> <span class="k">${</span><span class="nv">SQL_CONNECTION_NAME</span><span class="k">}</span> <span class="se">\\</span>\n<span class="nt">--allow-unauthenticated</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--EH7pNMWX--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ib5copxtjkm2p5hd3rwp.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--EH7pNMWX--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ib5copxtjkm2p5hd3rwp.png" alt="Image description" loading="lazy" width="880" height="424"></a></p>\n\n<p>A URL will be generated after deploying. Make sure to be shown the page for Laravel8 correctly.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--BIdvCGzH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/wnpqs9k4s8cx16369ntb.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--BIdvCGzH--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/wnpqs9k4s8cx16369ntb.png" alt="Image description" loading="lazy" width="880" height="423"></a></p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--A4srxv5o--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xhzmjugi9yvkxci0xuzx.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--A4srxv5o--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xhzmjugi9yvkxci0xuzx.png" alt="Image description" loading="lazy" width="880" height="440"></a></p>\n\n<h2>\n  <a name="4-deploy-from-github-actions" href="#4-deploy-from-github-actions">\n  </a>\n  4. Deploy from GitHub Actions\n</h2>\n\n<h3>\n  <a name="41-brief-description" href="#41-brief-description">\n  </a>\n  4-1. Brief description\n</h3>\n\n<p>Now we’ve deployed the Laravel application successfully from the Local environment. Then, let’s consider deploying from GitHub Actions. I’m assumed that GitHub Actions runs commands to deploy when commits are pushed to the master or main branch. In this example, the deploy command is defined in <code>.github/workflows/deploy.yml</code> file. And the trigger for deployment is set when pushing to <code>master</code>.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="na">name</span><span class="pi">:</span> <span class="s">cloud-run-laravel8-deploy</span>\n<span class="na">on</span><span class="pi">:</span>\n  <span class="na">push</span><span class="pi">:</span>\n    <span class="na">branches</span><span class="pi">:</span>\n      <span class="pi">-</span> <span class="s">master</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Let’s see some more. This remote repository has no .env file to configure the Laravel application by the <code>.gitignore</code> file. So we should put <code>.env</code> file only when deploying. Then, by encoding an environment variable decoded as base64 of the <code>.env</code> file on the local, it’s available to deploy.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight yaml"><code><span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Decode .env file</span>\n  <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>\n    <span class="s">echo ${{ secrets.TEST_ENV_FILE }} | base64 --decode &gt; src/.env</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>There are six environment variables in <code>.github/workflows/deploy.yml</code> file.</p>\n\n<ul>\n<li>secrets.TEST_GCP_EMAIL: deploy email</li>\n<li>secrets.TEST_GCP_CREDENTIALS: the content of <code>credentials/laravel8_google_cloud_run_key.json</code> in your local environment</li>\n<li>secrets.TEST_ENV_FILE: <code>env/.env.prod</code>\n</li>\n<li>secrets.TEST_GCP_PROJECT: project id</li>\n<li>secrets.TEST_GCP_APPLICATION: service name</li>\n<li>secrets.TEST_SQL_CONNECTION_NAME: SQL connection name</li>\n</ul>\n\n<h3>\n  <a name="42-change-remote-repository" href="#42-change-remote-repository">\n  </a>\n  4-2. Change remote repository\n</h3>\n\n<p>Then, change the remote branch to <code>test-cloud-run</code> . The name can be anything you like.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>git config remote.origin.url\ngit@github.com:uuta/cloud-run-laravel8.git\n<span class="nv">$ </span>git remote set-url origin git@github.com:uuta/test-cloud-run.git\n<span class="nv">$ </span>git config remote.origin.url\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="43-enter-the-environment-variables" href="#43-enter-the-environment-variables">\n  </a>\n  4-3. Enter the environment variables\n</h3>\n\n<p>Enter the environment variables on GitHub like this.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--fXzTQN28--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/50qxydonckpgxuoecbwb.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--fXzTQN28--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/50qxydonckpgxuoecbwb.png" alt="Image description" loading="lazy" width="880" height="436"></a></p>\n\n<p>TEST_GCP_EMAIL can be obtained from the Google Cloud Run UI.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--NNgKCqqX--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xlcspndc62c59egmt0xz.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--NNgKCqqX--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xlcspndc62c59egmt0xz.png" alt="Image description" loading="lazy" width="880" height="440"></a></p>\n\n<p>Modifying TEST_ENV_FILE is somewhat tricky. First of all, copy the .env.example file as .env.prod.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">cp env</span>/.env.local <span class="nb">env</span>/.env.prod\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>Modify the .env.prod file as follows, and don\'t forget to add DB_SOCKET.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">APP_NAME</span><span class="o">=</span>Laravel\n<span class="nv">APP_ENV</span><span class="o">=</span>production\n<span class="nv">APP_KEY</span><span class="o">=</span>&lt;your app key&gt;\n<span class="nv">APP_DEBUG</span><span class="o">=</span><span class="nb">false\n</span><span class="nv">APP_URL</span><span class="o">=</span>&lt;your app url&gt;\n\n<span class="nv">LOG_CHANNEL</span><span class="o">=</span>stack\n<span class="nv">LOG_DEPRECATIONS_CHANNEL</span><span class="o">=</span>null\n<span class="nv">LOG_LEVEL</span><span class="o">=</span>debug\n\n<span class="nv">DB_CONNECTION</span><span class="o">=</span>mysql\n<span class="nv">DB_HOST</span><span class="o">=</span>localhost\n<span class="nv">DB_PORT</span><span class="o">=</span>3306\n<span class="nv">DB_DATABASE</span><span class="o">=</span>laravel\n<span class="nv">DB_USERNAME</span><span class="o">=</span>root\n<span class="nv">DB_PASSWORD</span><span class="o">=</span>homestead\n<span class="nv">DB_SOCKET</span><span class="o">=</span>/cloudsql/&lt;connection name to Google Cloud SQL&gt;\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>By the following command, values in the <code>env</code> file will transfer to string encoded Base64. So you can copy and paste it as the value of TEST_ENV_FILE.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span><span class="nb">cat env</span>/.env.prod | <span class="nb">base64</span> | pbcopy\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="44-git-push-and-then-deploy-automatically" href="#44-git-push-and-then-deploy-automatically">\n  </a>\n  4-4. Git push, and then deploy automatically\n</h3>\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight shell"><code><span class="nv">$ </span>git push\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>After pushing the master repository, it will automatically start deploying in your remote repository. Please check if it succeeds.</p>\n\n<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--5HZBt3Sp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5b765bzqyd6bbotsqx6j.png" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--5HZBt3Sp--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5b765bzqyd6bbotsqx6j.png" alt="Image description" loading="lazy" width="880" height="433"></a></p>\n\n<p>You made it!</p>\n\n<h2>\n  <a name="references" href="#references">\n  </a>\n  References\n</h2>\n\n<ul>\n<li><a href="https://casualdevelopers.com/tech-tips/how-to-use-dotenv-with-base64-on-circleci/">CircleCI 2.0で.envファイルを環境変数として使う方法 | Casual Developers Note</a></li>\n<li><a href="https://allabout-tech.hatenablog.com/entry/2020/06/30/133859">Cloud RunからCloud SQLやMemorystoreへの繋ぎ方 - オールアバウトTech Blog</a></li>\n<li><a href="https://qiita.com/chimame/items/e959843e86419f51e45a">Cloud Runを使うならこれだけ知ってると得した気分になる - Qiita</a></li>\n<li><a href="https://cloud.google.com/sql/docs/mysql/connect-overview?hl=en#tools_for_connecting">About connection options | Cloud SQL for MySQL | Google Cloud</a></li>\n</ul>\n\n',s.body_markdown='Application deployment is one of the important dimensions, including all of the steps, processes of installing, configuring, and enabling a specific application or set of applications. However, I didn’t figure out well what is continuous integration.\n\nFor learning it, I started to deploy a Laravel8 application to Google Cloud Run, develop and deploy highly scalable containerized applications on a fully managed serverless platform. But pieces of information about it scattered out on WEB, and I was desperate to understand it, wasting time.\n\nSo I will share with you as easily as possible the way of deployment to Google Cloud Run and Google Cloud SQL via GitHub Actions. Let’s get started!\n\n## Directory architecture\n\nThe next figure shows us the directory architecture of the git repository.\n\n```bash\n.\n├── .github/\n│   └── workflows\n│       └── deploy.yml # yml file to run scripts in Github Actions\n├── env/\n├── docker/\n│   ├── 000-default.conf\n│   ├── Dockerfile\n│   └── php.ini\n├── sh/ # useful shell files\n├── src/ # the directory installed Laravel application\n└── docker-compose.yml\n```\n\n## 1. Build and run the Laravel application on Docker compose\n\n- https://github.com/uuta/cloud-run-laravel8\n\n### 1-1. Clone a repository from GitHub\n\nIn this time, we will proceed as the next repository. Under the directory you like, let’s clone it initially and move there.\n\n```bash\n$ git clone git@github.com:uuta/cloud-run-laravel8.git\n$ cd cloud-run-laravel8\n```\n\nBuild and run the Laravel application on Docker compose to make sure of working out well.\n\n```bash\n$ cp env/.env.example env/.env.local\n$ docker-compose up -d --build\n...\n...\n...\nCreating cloud-run-laravel8_db_1  ... done\nCreating cloud-run-laravel8_app_1 ... done\nTime: 0h:00m:24s\n```\n\nThe APP_KEY in src/.env would be empty, so create it in a docker container.\n\n```bash\n$ docker-compose exec app bash\n$ php artisan route:clear && \\\nphp artisan cache:clear && \\\nphp artisan config:clear && \\\nphp artisan view:clear && \\\nphp artisan key:generate\n```\n\nA Laravel app key would be generated.\n\n```bash\n# before\nAPP_KEY=\n# after\nAPP_KEY=base64:<key>\n```\n\nAlright, we\'ll see the default page of Laravel to access [http://localhost:8080/](http://localhost:8080/) after the installation.\n\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/z4kvaf8iu322yvbwlz5d.png)\n\nHow about migration? If you execute the migration command after entering the app container, maybe you can see a message such as the next.\n\n```bash\n$ docker-compose exec app bash\n$ php artisan migrate\nNothing to migrate.\n```\n\nThe reason why migration has already finished is to be executed while building a docker image based on Dockerfile. Let’s take a look at `Dockerfile.local` for a while.\n\n```bash\nFROM composer:latest as build\nWORKDIR /app\nCOPY . /app\n\nFROM php:8.0-apache\nCOPY docker/php.ini /usr/local/etc/php/\nRUN apt update\nRUN apt install -y git\nRUN apt install -y vim\nRUN apt install -y zip unzip\nRUN docker-php-ext-install bcmath pdo_mysql\n\n# composer install\nRUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer\nEXPOSE 8080\nCOPY --from=build /app /var/www\nCOPY docker/000-default.conf /etc/apache2/sites-available/000-default.conf\nRUN chmod 777 -R /var/www\n\nWORKDIR /\nRUN echo "Listen 8080" >> /etc/apache2/ports.conf\nRUN chown -R www-data:www-data /var/www\nRUN a2enmod rewrite\n\n# Make the file executable, or use "chmod 777" instead of "chmod +x"\nRUN chmod +x /var/www/sh/laravel/laravel.local.sh\n\n# This will run the shell file at the time when container is up-and-running successfully (and NOT at the BUILD time)\nENTRYPOINT ["/var/www/sh/laravel/laravel.local.sh"]\n```\n\nAt the end of this file, there are codes to execute a shell command.\n\n```bash\nRUN chmod +x /var/www/sh/laravel/laravel.local.sh\n...\nENTRYPOINT ["/var/www/sh/laravel/laravel.local.sh"]\n```\n\nSo let’s take a look at `sh/laravel/laravel.local.sh` file. `composer install` and `migrate` commands are executed here.\n\n```bash\n#!/bin/bash\n\n# initialize laravel\ncd /var/www/src\ncomposer install --optimize-autoloader\nphp artisan config:cache\nphp artisan route:cache\nphp artisan view:cache\n\n# Run Laravel migration\nphp artisan migrate\n\n# Run Apache in "foreground" mode (the default mode that runs in Docker)\napache2-foreground\n```\n\nThe reason why I dare to make this file is to migrate to Google Cloud SQL in the production environment. According to the next page, the Google Cloud SQL connection is not available during the build phase. Thus, I had to put these commands out for execution after building successfully. In the local environment, this application attempts to connect with the local database instead of Google Cloud SQL.\n\n- [https://github.com/GoogleCloudPlatform/community/issues/351#issuecomment-370056462](https://github.com/GoogleCloudPlatform/community/issues/351#issuecomment-370056462)\n\n### 1-2. More detail of Dockerfile\n\nLet’s see `Dockerfile.local` again. I can’t explain everything, but I’ll try to add descriptions briefly. To build an image on Google Cloud Run, shell scripts expose port of 8080.\n\n```bash\nEXPOSE 8080\n...\nRUN echo "Listen 8080" >> /etc/apache2/ports.conf\n```\n\nThis command copies `000-default.conf` to configure the Apache WEB server.\n\n```bash\nCOPY docker/000-default.conf /etc/apache2/sites-available/000-default.conf\n```\n\n## 2. Deploy Laravel application to Google Cloud Run\n\nNow let\'s deploy the Laravel application from the local side. First, let docker containers be down.\n\n```bash\n$ docker-compose down\n```\n\n### 2-1. Set up GCP with console\n\nExecute the following commands with checking project name in GCP.\n\n```bash\n$ gcloud auth login\n$ PROJECT_NAME=(<Project name in GCP>)\nPROJECT_ID=$(gcloud projects list --format \'value(projectId)\' --filter name=$PROJECT_NAME)\nexport PROJECT_ID\ngcloud config set project $PROJECT_ID\ngcloud services enable \\\n    containerregistry.googleapis.com \\\n    cloudresourcemanager.googleapis.com \\\n    iam.googleapis.com\n```\n\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/91yehhrgurr5v2t25yhh.png)\n\n### 2-2. Create an authorized service account\n\nCreate a service account and give it Owner privileges. Download the key, save it as laravel8_google_cloud_run_key.json, set it as an environment variable, and authorize it as a service account. The following command makes it possible.\n\n```bash\n$ gcloud iam service-accounts create deployer \\\n    --display-name "deployer"\ngcloud projects add-iam-policy-binding ${PROJECT_ID} \\\n  --member serviceAccount:deployer@${PROJECT_ID}.iam.gserviceaccount.com \\\n  --role roles/owner\nexport GOOGLE_APPLICATION_CREDENTIALS=credentials/laravel8_google_cloud_run_key.json\ngcloud iam service-accounts keys create $GOOGLE_APPLICATION_CREDENTIALS \\\n  --iam-account deployer@${PROJECT_ID}.iam.gserviceaccount.com\ngcloud auth activate-service-account --key-file=$GOOGLE_APPLICATION_CREDENTIALS\n```\n\nIn the above example command, `laravel8_google_cloud_run_key.json` is stored in the credentials directory.\n\n```bash\nexport GOOGLE_APPLICATION_CREDENTIALS=~/credentials/laravel8_google_cloud_run_key.json\n```\n\n### 2-3. Build docker image\n\nBuild docker image instead of `docker-compose` command.\n\n```bash\n$ export SERVICE_NAME=docker-laravel8-run\ndocker build -f docker/Dockerfile.prod -t asia.gcr.io/${PROJECT_ID}/${SERVICE_NAME} .\n```\n\nRun a docker container to work out correctly on the local environment.\n\n```bash\n$ docker run --init -d -e PORT=8080 -p 8080:8080 asia.gcr.io/${PROJECT_ID}/${SERVICE_NAME}\n```\n\nMake sure the local page works correctly.\n\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/hel7j4hsoi54mttq2dei.png)\n\n### 2-4. Push the docker image to Container Registry\n\n```bash\n$ gcloud auth configure-docker\ndocker push asia.gcr.io/${PROJECT_ID}/${SERVICE_NAME}\n```\n\nYou’ll make sure to register a repository named docker-laravel8.\n\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3j7f1uh9y82k3ki2s10x.png)\n\n### 2-5. Enable Cloud SQL Admin API\n\nTo connect Google Cloud Run and Google Cloud SQL, try to enable Cloud SQL Admin API.\n\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/cekhdgnrvr1kkxlghxrx.png)\n\n- [Connect from Cloud Run | Cloud SQL for MySQL | Google Cloud](https://cloud.google.com/sql/docs/mysql/connect-run?hl=en#private-ip)\n\n## 3. Google Cloud SQL\n\nCreate a Google Cloud SQL instance temporarily for test. I’ll create an instance like the following example in this sample, but you can modify configuration for your environment. This process might take a long time.\n\n```bash\n$ DATABASE_NAME=(docker-laravel8-run)\ngcloud sql instances create $DATABASE_NAME \\\n  --database-version=MYSQL_8_0 \\\n  --region=us-central1 \\\n  --storage-size=100 \\\n  --storage-type=HDD \\\n  --tier=db-f1-micro \\\n  --root-password=homestead\n```\n\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/iyc8r2yndlngxtlvr4hy.png)\n\n- [How to securely connect to Cloud SQL from Cloud Run? - Stack Overflow](https://stackoverflow.com/questions/55693241/how-to-securely-connect-to-cloud-sql-from-cloud-run)\n- [How do I connect to Cloud SQL from a Laravel project running on Cloud Run? - Stack Overflow](https://stackoverflow.com/questions/65253179/how-do-i-connect-to-cloud-sql-from-a-laravel-project-running-on-cloud-run)\n\nIt would be better to create a database named laravel.\n\n```bash\n$ gcloud sql databases create laravel \\\n--instance=$DATABASE_NAME\n```\n\n- [Create and manage databases | Cloud SQL for MySQL | Google Cloud](https://cloud.google.com/sql/docs/mysql/create-manage-databases#gcloud)\n\n### 3-1. Deploy to Google Cloud Run\n\nLet’s try to deploy to Google Cloud Run. Replace `<Connection name>` to the Connection name in Google Cloud SQL and execute the following command.\n\n```bash\n$ SQL_CONNECTION_NAME=(<Connection name>)\ngcloud run deploy ${SERVICE_NAME} \\\n--image asia.gcr.io/"${PROJECT_ID}"/"${SERVICE_NAME}" \\\n--region asia-east1 \\\n--platform=managed \\\n--add-cloudsql-instances ${SQL_CONNECTION_NAME} \\\n--allow-unauthenticated\n```\n\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/ib5copxtjkm2p5hd3rwp.png)\n\nA URL will be generated after deploying. Make sure to be shown the page for Laravel8 correctly.\n\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/wnpqs9k4s8cx16369ntb.png)\n\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xhzmjugi9yvkxci0xuzx.png)\n\n## 4. Deploy from GitHub Actions\n\n### 4-1. Brief description\n\nNow we’ve deployed the Laravel application successfully from the Local environment. Then, let’s consider deploying from GitHub Actions. I’m assumed that GitHub Actions runs commands to deploy when commits are pushed to the master or main branch. In this example, the deploy command is defined in `.github/workflows/deploy.yml` file. And the trigger for deployment is set when pushing to `master`.\n\n```yaml\nname: cloud-run-laravel8-deploy\non:\n  push:\n    branches:\n      - master\n```\n\nLet’s see some more. This remote repository has no .env file to configure the Laravel application by the `.gitignore` file. So we should put `.env` file only when deploying. Then, by encoding an environment variable decoded as base64 of the `.env` file on the local, it’s available to deploy.\n\n```yaml\n- name: Decode .env file\n  run: |\n    echo ${{ secrets.TEST_ENV_FILE }} | base64 --decode > src/.env\n```\n\nThere are six environment variables in `.github/workflows/deploy.yml` file.\n\n- secrets.TEST_GCP_EMAIL: deploy email\n- secrets.TEST_GCP_CREDENTIALS: the content of `credentials/laravel8_google_cloud_run_key.json` in your local environment\n- secrets.TEST_ENV_FILE: `env/.env.prod`\n- secrets.TEST_GCP_PROJECT: project id\n- secrets.TEST_GCP_APPLICATION: service name\n- secrets.TEST_SQL_CONNECTION_NAME: SQL connection name\n\n### 4-2. Change remote repository\n\nThen, change the remote branch to `test-cloud-run` . The name can be anything you like.\n\n```bash\n$ git config remote.origin.url\ngit@github.com:uuta/cloud-run-laravel8.git\n$ git remote set-url origin git@github.com:uuta/test-cloud-run.git\n$ git config remote.origin.url\n```\n\n### 4-3. Enter the environment variables\n\nEnter the environment variables on GitHub like this.\n\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/50qxydonckpgxuoecbwb.png)\n\nTEST_GCP_EMAIL can be obtained from the Google Cloud Run UI.\n\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/xlcspndc62c59egmt0xz.png)\n\nModifying TEST_ENV_FILE is somewhat tricky. First of all, copy the .env.example file as .env.prod.\n\n```bash\n$ cp env/.env.local env/.env.prod\n```\n\nModify the .env.prod file as follows, and don\'t forget to add DB_SOCKET.\n\n```bash\nAPP_NAME=Laravel\nAPP_ENV=production\nAPP_KEY=<your app key>\nAPP_DEBUG=false\nAPP_URL=<your app url>\n\nLOG_CHANNEL=stack\nLOG_DEPRECATIONS_CHANNEL=null\nLOG_LEVEL=debug\n\nDB_CONNECTION=mysql\nDB_HOST=localhost\nDB_PORT=3306\nDB_DATABASE=laravel\nDB_USERNAME=root\nDB_PASSWORD=homestead\nDB_SOCKET=/cloudsql/<connection name to Google Cloud SQL>\n```\n\nBy the following command, values in the `env` file will transfer to string encoded Base64. So you can copy and paste it as the value of TEST_ENV_FILE.\n\n```bash\n$ cat env/.env.prod | base64 | pbcopy\n```\n\n### 4-4. Git push, and then deploy automatically\n\n```bash\n$ git push\n```\n\nAfter pushing the master repository, it will automatically start deploying in your remote repository. Please check if it succeeds.\n\n\n![Image description](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/5b765bzqyd6bbotsqx6j.png)\n\nYou made it!\n\n## References\n\n- [CircleCI 2.0で.envファイルを環境変数として使う方法 | Casual Developers Note](https://casualdevelopers.com/tech-tips/how-to-use-dotenv-with-base64-on-circleci/)\n- [Cloud RunからCloud SQLやMemorystoreへの繋ぎ方 - オールアバウトTech Blog](https://allabout-tech.hatenablog.com/entry/2020/06/30/133859)\n- [Cloud Runを使うならこれだけ知ってると得した気分になる - Qiita](https://qiita.com/chimame/items/e959843e86419f51e45a)\n- [About connection options | Cloud SQL for MySQL | Google Cloud](https://cloud.google.com/sql/docs/mysql/connect-overview?hl=en#tools_for_connecting)',s.user={name:t,username:"xxxuutaxxx",twitter_username:"xXxuutaxXx",github_username:t,website_url:"https://github.com/uuta",profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--dxjnXU8r--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/752542/4e8d4ac6-344f-422e-9392-22ead3a73e30.jpeg",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--ZsuNPaS8--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/752542/4e8d4ac6-344f-422e-9392-22ead3a73e30.jpeg"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:s}},error:n,state:{currentArticle:s},serverRendered:!0,routePath:"/xxxuutaxxx/989793",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:n}}}}(null,"2022-02-15T08:26:35Z",{},"https://dev.to/xxxuutaxxx/beginners-cicd-guide-deploy-laravel8-to-google-cloud-run-and-cloud-sql-via-github-actions-40oj","uuta")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,705 @@
+<!doctype html>
+<html data-n-head-ssr lang="en" data-n-head="%7B%22lang%22:%7B%22ssr%22:%22en%22%7D%7D">
+  <head>
+    <title>How to use ZEGOCLOUD SDK to implement call quality monitoring in iOS</title><meta data-n-head="ssr" charset="utf-8"><meta data-n-head="ssr" name="viewport" content="width=device-width,initial-scale=1"><meta data-n-head="ssr" data-hid="description" name="description" content="Using Nuxt.js fetch() hook to build dev.to with a new look"><meta data-n-head="ssr" name="format-detection" content="telephone=no"><base href="/nuxtstop/"><link data-n-head="ssr" rel="icon" type="image/x-icon" href="/favicon.ico"><link data-n-head="ssr" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:400,500,600&display=swap"><link rel="preload" href="/nuxtstop/_nuxt/f6e87fb.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/6474719.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/9b75090.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/18df600.js" as="script"><link rel="preload" href="/nuxtstop/_nuxt/dc9ce94.js" as="script"><style data-vue-ssr-id="c650fd98:0 af4684f0:0 a9c71758:0 dcafa518:0 4b9cec49:0 b093d766:0 9d98bcb4:0 6b6a11ea:0 0248ed80:0 ea8e4264:0">html{box-sizing:border-box;font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}*,:after,:before{box-sizing:inherit}html{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";line-height:1.5}*,:after,:before{border:0 solid #e0e0e0}blockquote,body,dd,dl,figure,h1,h2,h3,h4,h5,h6,p,pre{margin:0}button{background:0 0;padding:0}button:focus{outline:1px dotted;outline:5px auto -webkit-focus-ring-color}fieldset,ol,ul{margin:0;padding:0}ol,ul{list-style:none}hr{border-width:1px}img{border-style:solid}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:inherit;opacity:.5}input:-ms-input-placeholder,textarea:-ms-input-placeholder{color:inherit;opacity:.5}input::placeholder,textarea::placeholder{color:inherit;opacity:.5}[role=button],button{cursor:pointer}table{border-collapse:collapse}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit;font-family:sans-serif}a{color:inherit;text-decoration:inherit}button,input,optgroup,select,textarea{padding:0;line-height:inherit;color:inherit;font-family:inherit;font-size:100%}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;overflow:auto;word-break:break-word;white-space:normal}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}html{height:100%;font-size:18px;-ms-overflow-style:scrollbar;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}@media(min-width:640px){html{font-size:20px}}body{height:100%;min-width:320px;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:400;line-height:1.5;color:#000;background-color:#eff4f7;-webkit-text-rendering:optimizeLegibility;text-rendering:optimizeLegibility;font-synthesis:none;font-kerning:normal;font-feature-settings:"normal","kern";-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;-webkit-overflow-scrolling:touch;overflow-x:hidden;overflow-y:scroll}h1,h2,h3,h4,h5,h6{color:#000;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-weight:600;font-feature-settings:"normal";line-height:1.2}pre{background:#29292e;border-radius:2px;overflow:auto;padding:1rem;color:#eff1f9;line-height:1.42em;font-size:13px}@media screen and (min-width:380px){pre{font-size:15px}}pre code{background:#29292e;color:#eff0f9;white-space:pre}div.highlight pre.highlight code{font-size:inherit;padding:0}div.inner-comment div.body div.highlight pre.highlight{background:#29292e}div.inner-comment div.body div.highlight pre.highlight code{font-size:inherit;white-space:inherit;background:inherit;color:inherit}.highlight .hll{background-color:#49483e}.highlight{background:#29292e;color:#f8f8f2}.highlight .c{color:grey}.highlight .err{text-shadow:0 0 7px #f9690e}.highlight .k{color:#f39c12}.highlight .l{color:plum}.highlight .n{color:#f8f8f2}.highlight .o{color:#f9690e}.highlight .p{color:#f8f8f2}.highlight .c1,.highlight .ch,.highlight .cm,.highlight .cp,.highlight .cpf,.highlight .cs{color:grey}.highlight .gd{color:#f9690e}.highlight .ge{font-style:italic}.highlight .gi{color:#7ed07e}.highlight .gs{font-weight:700}.highlight .gu{color:grey}.highlight .kc,.highlight .kd{color:#f39c12}.highlight .kn{color:#f9690e}.highlight .kp,.highlight .kr,.highlight .kt{color:#f39c12}.highlight .ld{color:#f2ca27}.highlight .m{color:plum}.highlight .s{color:#f2ca27}.highlight .na{color:#7ed07e}.highlight .nb{color:#f8f8f2}.highlight .nc{color:#7ed07e}.highlight .no{color:#f39c12}.highlight .nd{color:#7ed07e}.highlight .ni{color:#f8f8f2}.highlight .ne,.highlight .nf{color:#7ed07e}.highlight .nl,.highlight .nn{color:#f8f8f2}.highlight .nx{color:#7ed07e}.highlight .py{color:#f8f8f2}.highlight .nt{color:#f9690e}.highlight .nv{color:#f8f8f2}.highlight .ow{color:#f9690e}.highlight .w{color:#f8f8f2}.highlight .mb,.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:plum}.highlight .dl,.highlight .s2,.highlight .sa,.highlight .sb,.highlight .sc,.highlight .sd{color:#f2ca27}.highlight .se{color:plum}.highlight .s1,.highlight .sh,.highlight .si,.highlight .sr,.highlight .ss,.highlight .sx{color:#f2ca27}.highlight .bp{color:#f8f8f2}.highlight .fm{color:#7ed07e}.highlight .vc,.highlight .vg,.highlight .vi,.highlight .vm{color:#f8f8f2}.highlight .il{color:plum}.vue-content-placeholders-heading__img,.vue-content-placeholders-heading__subtitle,.vue-content-placeholders-heading__title,.vue-content-placeholders-img,.vue-content-placeholders-text__line{background:#bfcdec!important}.vue-content-placeholders-is-animated .vue-content-placeholders-heading__img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__subtitle:before,.vue-content-placeholders-is-animated .vue-content-placeholders-heading__title:before,.vue-content-placeholders-is-animated .vue-content-placeholders-img:before,.vue-content-placeholders-is-animated .vue-content-placeholders-text__line:before{background:linear-gradient(90deg,transparent 0,#d3ddf9 15%,transparent 30%)!important}header[data-v-27046cca]{max-width:1280px;margin:auto;padding:1rem;height:6rem;border-bottom:1px solid rgba(0,0,0,.2)}header .logo-wrapper[data-v-27046cca],header[data-v-27046cca]{display:flex;align-items:center;justify-content:space-between}header .logo-wrapper[data-v-27046cca]{margin:0 .5rem}header .logo-wrapper svg[data-v-27046cca]{width:3rem;height:100%}header .logo-wrapper .name-wrapper[data-v-27046cca]{margin-left:.6em}header .logo-wrapper .name-wrapper .subtitle[data-v-27046cca]{font-size:1rem}header .logo-wrapper .name-wrapper .app-name[data-v-27046cca]{font-weight:700;font-size:2.25rem;line-height:1.25}header nav[data-v-27046cca]{letter-spacing:-.025rem;font-weight:600;text-transform:uppercase}header nav ul[data-v-27046cca]{display:flex}header nav ul li[data-v-27046cca]{margin:0 .5rem}header nav ul li a[data-v-27046cca]{box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;padding:.25rem 1rem;border-radius:.5rem;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}header nav ul li a[data-v-27046cca]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header nav ul li a.nuxt-link-exact-active[data-v-27046cca]{cursor:default}header nav ul li a.nuxt-link-exact-active[data-v-27046cca],header nav ul li a[data-v-27046cca]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}.page-wrapper[data-v-10d06ee8]{max-width:1280px;margin:auto;padding:1rem}.article-content-wrapper[data-v-10d06ee8]{display:flex;flex-direction:column;align-items:center;margin:auto auto 2rem}@media(min-width:1024px){.article-content-wrapper[data-v-10d06ee8]{align-items:normal;flex-direction:row}}.article-content-wrapper .article-block[data-v-10d06ee8]{width:100%;max-width:880px}@media(min-width:1024px){.article-content-wrapper .article-block[data-v-10d06ee8]{margin-right:1rem;width:66.66666%;margin-bottom:2rem}}.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{max-width:880px;width:100%;position:relative}@media(min-width:1024px){.article-content-wrapper .aside-username-wrapper[data-v-10d06ee8]{display:block;width:33.33333%}}.article-content-wrapper .aside-username-wrapper .aside-username-block[data-v-10d06ee8]{position:-webkit-sticky;position:sticky;top:1rem}@media(min-width:1280px){.comments-block[data-v-10d06ee8]{margin:.5rem}}article[data-v-70afb46a]{padding:.5rem;border-radius:1rem}header h1[data-v-70afb46a],header[data-v-70afb46a]{margin-bottom:1rem}header h1[data-v-70afb46a]{font-size:2.25rem;letter-spacing:-.025rem}header .tags[data-v-70afb46a]{display:flex;flex-wrap:wrap;margin-bottom:1.5rem}header .tags .tag[data-v-70afb46a]{font-weight:500;line-height:1;padding:.5rem;margin:0 .5rem .5rem 0;border-radius:.25rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db}header .tags .tag[data-v-70afb46a]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}header .tags .tag[data-v-70afb46a]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}header .image-wrapper[data-v-70afb46a]{position:relative;padding-bottom:56.25%;background-color:#d4dfe8;margin-bottom:1.5rem;border-radius:.5rem;overflow:hidden}@media(min-width:834px){header .image-wrapper[data-v-70afb46a]{margin-bottom:1.5rem}}header .image-wrapper img[data-v-70afb46a]{position:absolute;top:0;left:0;width:100%;height:100%;-o-object-fit:cover;object-fit:cover}header .meta[data-v-70afb46a]{line-height:1;font-size:.875rem;text-transform:uppercase;font-weight:500;letter-spacing:-.025rem;display:flex;align-items:center;justify-content:space-between}header .meta .scl[data-v-70afb46a]{display:flex}header .meta .scl span[data-v-70afb46a]{display:flex;align-items:center;margin-right:1rem}header .meta .scl span svg[data-v-70afb46a]{margin-right:.25rem}header .meta .scl .comments[data-v-70afb46a]{cursor:pointer}[data-v-70afb46a] .content .ltag__user{display:none}[data-v-70afb46a] .content iframe{max-width:100%}[data-v-70afb46a] .content h1{font-size:1.875rem}[data-v-70afb46a] .content h1,[data-v-70afb46a] .content h2{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h2{font-size:1.5rem}[data-v-70afb46a] .content h3{font-size:1.25rem}[data-v-70afb46a] .content h3,[data-v-70afb46a] .content h4{margin-top:2rem;margin-bottom:1rem;letter-spacing:-.025rem}[data-v-70afb46a] .content h4{font-size:1rem}[data-v-70afb46a] .content a{color:#6e87d2}[data-v-70afb46a] .content p{margin-bottom:1rem;line-height:1.4}[data-v-70afb46a] .content p code{background-color:#d2f3e1;border-radius:.25rem;padding:.25rem}[data-v-70afb46a] .content img{width:100%;border-radius:.5rem}[data-v-70afb46a] .content .highlight{margin-bottom:1rem;border-radius:.5rem}[data-v-70afb46a] .content ul{list-style:numeral;margin-bottom:1rem}[data-v-70afb46a] .content ul li p{margin-bottom:0}[data-v-70afb46a] .content ol{margin-bottom:1rem}aside[data-v-37984f8c]{padding:1rem;background-color:#dfe8ef;border-radius:1rem}aside .username-heading[data-v-37984f8c]{display:flex;margin-bottom:1rem}aside .username-heading[data-v-37984f8c]:hover{color:#6e87d2}aside .username-heading img[data-v-37984f8c]{width:3rem;height:3rem;border-radius:50%;margin-right:1rem}aside .username-heading .text[data-v-37984f8c]{display:flex;flex-direction:column;justify-content:center}aside .username-heading .text a[data-v-37984f8c]{line-height:1}aside .username-heading .text a[data-v-37984f8c]:first-child{font-size:1.25rem;font-weight:500;letter-spacing:-.025rem;margin-bottom:.25rem}aside .username-heading .text a[data-v-37984f8c]:last-child{color:#999;font-size:.875rem}aside .username-heading.loading[data-v-37984f8c]{display:block}aside .f-button[data-v-37984f8c]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}aside .f-button[data-v-37984f8c]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}aside .f-button[data-v-37984f8c]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}aside .info>div[data-v-37984f8c]{margin-bottom:.5rem}aside .info .title[data-v-37984f8c]{font-size:.666666rem;letter-spacing:-.0125rem;font-weight:500;color:#999;text-transform:uppercase;margin-bottom:.1rem}aside .info .content[data-v-37984f8c]{font-size:.875rem;line-height:1.4}.add-comment[data-v-8c4375bc]{display:block;width:100%;padding:.5rem;border-radius:.5rem;box-shadow:-4px -4px 8px #f8fafe,4px 4px 8px #ced2db;text-transform:uppercase;text-align:center;font-weight:600;letter-spacing:-.025rem;margin-bottom:1rem}.add-comment[data-v-8c4375bc]:hover{background:linear-gradient(135deg,rgba(0,0,0,.09),hsla(0,0%,100%,0))}.add-comment[data-v-8c4375bc]:active{background:0 0;box-shadow:inset -4px -4px 8px #f0f3f9,inset 4px 4px 8px #ced2db,inset -1px -1px 4px #8e8e8e}footer[data-v-22cb8fd0]{padding:2rem;text-align:center;display:flex;align-items:center;justify-content:center}footer span[data-v-22cb8fd0]{display:inline-block;line-height:1;text-transform:uppercase;letter-spacing:-.025rem;font-size:.75rem;font-weight:500}footer a svg[data-v-22cb8fd0]{width:3rem;height:3rem;margin:0 .5rem}footer a .nuxt-icon[data-v-22cb8fd0]{width:2.5rem;height:2.5rem;margin:0 .25rem}</style>
+  </head>
+  <body>
+    <div data-server-rendered="true" id="__nuxt"><div id="__layout"><div><header data-v-27046cca><a href="/nuxtstop/" class="logo-wrapper nuxt-link-active" data-v-27046cca><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-27046cca><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-27046cca></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-27046cca></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-27046cca></path></svg> <div class="name-wrapper" data-v-27046cca><span class="app-name" data-v-27046cca>Nuxtstop</span> <p class="subtitle" data-v-27046cca>For all things nuxt.js</p></div></a> <nav data-v-27046cca><ul data-v-27046cca><li data-v-27046cca><a href="/nuxtstop/" class="nuxt-link-active" data-v-27046cca>
+          New
+        </a></li><li data-v-27046cca><a href="/nuxtstop/top" data-v-27046cca>
+          Top
+        </a></li></ul></nav></header> <div class="page-wrapper" data-v-10d06ee8><div class="article-content-wrapper" data-v-10d06ee8><article data-fetch-key="data-v-70afb46a:0" class="article-block" data-v-70afb46a data-v-10d06ee8><header data-v-70afb46a><h1 data-v-70afb46a>How to use ZEGOCLOUD SDK to implement call quality monitoring in iOS</h1> <div class="tags" data-v-70afb46a><a href="/nuxtstop/t/sdk" class="tag" data-v-70afb46a>
+          #sdk
+        </a><a href="/nuxtstop/t/ios" class="tag" data-v-70afb46a>
+          #ios
+        </a><a href="/nuxtstop/t/streaming" class="tag" data-v-70afb46a>
+          #streaming
+        </a><a href="/nuxtstop/t/tutorial" class="tag" data-v-70afb46a>
+          #tutorial
+        </a></div> <!----> <div class="meta" data-v-70afb46a><div class="scl" data-v-70afb46a><span data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M16.4444 3C14.6733 3 13.0333 3.94162 12 5.34C10.9667 3.94162 9.32667 3 7.55556 3C4.49222 3 2 5.52338 2 8.625C2 14.8024 11.0267 20.586 11.4122 20.829C11.5922 20.9426 11.7956 21 12 21C12.2044 21 12.4078 20.9426 12.5878 20.829C12.9733 20.586 22 14.8024 22 8.625C22 5.52338 19.5078 3 16.4444 3Z" fill="#FF0000" data-v-70afb46a data-v-70afb46a></path></svg>
+            6
+          </span> <span class="comments" data-v-70afb46a><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-70afb46a data-v-70afb46a><path d="M6.11765 22H4.94118L5.64706 21.05C6.11765 20.3969 6.41176 19.5656 6.58824 18.5563C3.64706 17.1906 2 14.6375 2 11.3125C2 6.20625 5.82353 3 12 3C18.1765 3 22 6.20625 22 11.3125C22 16.5375 18.2353 19.625 12 19.625H11.5882C10.6471 20.7531 9 22 6.11765 22ZM12 4.1875C6.47059 4.1875 3.17647 6.85937 3.17647 11.3125C3.17647 15.1125 5.47059 16.8938 7.41177 17.6656L7.82353 17.8437L7.76471 18.3187C7.64706 19.2687 7.47059 20.1 7.11765 20.8125C9.05882 20.575 10.1765 19.5656 10.8235 18.7344L11 18.4969H12C19.9412 18.4969 20.8235 13.5094 20.8235 11.3719C20.8235 6.85938 17.5294 4.1875 12 4.1875Z" fill="black" data-v-70afb46a data-v-70afb46a></path></svg>
+            0
+          </span></div> <time data-v-70afb46a>May 19</time></div></header> <div class="content" data-v-70afb46a><p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--cZLxqRMo--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://resource.zegocloud.com/content_resource/2022/05/18/16509779206897.jpg" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--cZLxqRMo--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://resource.zegocloud.com/content_resource/2022/05/18/16509779206897.jpg" alt="" loading="lazy" width="880" height="532"></a></p>
+
+<h2>
+  <a name="introduction" href="#introduction">
+  </a>
+  Introduction
+</h2>
+
+<p>The ZEGOCLOUD Express-Video SDK provides the ability to monitor the streaming quality during stream publishing and stream playing. After stream publishing or stream playing is started, the SDK triggers the corresponding streaming quality callback every 3 seconds, and client applications can obtain real-time streaming quality data by listening for these callbacks.</p>
+
+<h2>
+  <a name="prerequisites" href="#prerequisites">
+  </a>
+  Prerequisites
+</h2>
+
+<p>Before you monitor the streaming information, make sure you complete the following: </p>
+
+<ul>
+<li>Create a project in <a href="https://console.zegocloud.com?_source=medium&article=5">ZEGOCLOUD Admin Console</a>, and get the AppID of your project.</li>
+<li>The ZEGO Express SDK has been integrated into the project. For details, see <a href="https://docs.zegocloud.com/article/195?_source=medium&article=5">Integration</a> and <a href="https://docs.zegocloud.com/article/10836?_source=medium&article=5">Implementation</a>.</li>
+</ul>
+
+<h2>
+  <a name="monitor-the-quality-of-stream-publishing" href="#monitor-the-quality-of-stream-publishing">
+  </a>
+  Monitor the quality of stream publishing
+</h2>
+
+<p>To monitor the quality of the stream publishing, listen for the <code>onPublisherQualityUpdate</code> callback. After stream publishing is started, this callback will be triggered every 3 seconds to provide the stream publishing quality data. </p>
+
+<p>You can obtain stream publishing quality data through this callback to monitor the health of stream publishing in real time and display the upstreaming network quality on your application's UI.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight objective_c"><code><span class="c1">// You can focus on specific quality attributes and report them to your business server, or focus on a specific field of an object for giving friendly notes for users.</span>
+<span class="c1">// The parameter 'quality' has many attributes. If you do not want to handle every one of them, you can just focus on the 'level' attribute, a comprehensive quality indicator calculated by the SDK based on other quality attributes.</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onPublisherQualityUpdate</span><span class="p">:(</span><span class="n">ZegoPublishStreamQuality</span> <span class="o">*</span><span class="p">)</span><span class="nv">quality</span> <span class="nf">streamID</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">streamID</span> <span class="p">{</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="the-stream-publishing-quality-attributes-in-details" href="#the-stream-publishing-quality-attributes-in-details">
+  </a>
+  The stream publishing quality attributes in details
+</h3>
+
+<p>The stream publishing quality includes the audio and video capture frame rate, bitrate, RTT, packet loss rate, and others of capturing and encoding stages of the stream publishing process.</p>
+
+<p>The <code>ZegoPublishStreamQuality</code> object includes quality attributes of different stages of the stream publishing process. You can find the detailed attribute definitions in this section:</p>
+
+<h4>
+  <a name="quality-attributes-of-audio-and-video-capturing" href="#quality-attributes-of-audio-and-video-capturing">
+  </a>
+  Quality attributes of audio and video capturing
+</h4>
+
+<p>The following attributes reflect the stream publishing quality of audio and video capturing, which is close to the user's subjective perception of the local preview. </p>
+
+<ul>
+<li>
+<code>audioCaptureFPS</code>: The audio capture frame rate (fps).</li>
+<li>
+<code>videoCaptureFPS</code>: The video capture frame rate (fps).</li>
+</ul>
+
+<h4>
+  <a name="quality-attributes-of-video-encoding" href="#quality-attributes-of-video-encoding">
+  </a>
+  Quality attributes of video encoding
+</h4>
+
+<p>The stream publishing quality attributes of video encoding of the encoding stage is as follow:</p>
+
+<ul>
+<li>
+<code>videoEncodeFPS</code>: The target output frame rate (fps) of video encoding.</li>
+</ul>
+
+<h4>
+  <a name="quality-attributes-of-stream-transmission" href="#quality-attributes-of-stream-transmission">
+  </a>
+  Quality attributes of stream transmission
+</h4>
+
+<p>The stream publishing quality attributes below reflect the quality of stream transmission (sending), which is related to the encoding bitrate and the current network quality. </p>
+
+<ul>
+<li>
+<code>audioSendFPS</code>: The actual audio transmission frame rate (fps). </li>
+<li>
+<code>audioKBPS</code>: The actual audio transmission bitrate (kbps).</li>
+<li>
+<code>videoSendFPS</code>: The actual video transmission frame rate (fps).</li>
+<li>
+<code>videoKBPS</code>: The actual video transmission bitrate (kbps).</li>
+<li>
+<code>rtt</code>: The rount-trip time (ms) from the client device to the ZEGOCLOUD server.</li>
+<li>
+<code>packetLostRate</code>: The client-side upstreaming packet loss rate.</li>
+</ul>
+
+<h4>
+  <a name="quality-attributes-of-the-total-number-of-bytes" href="#quality-attributes-of-the-total-number-of-bytes">
+  </a>
+  Quality attributes of the total number of bytes
+</h4>
+
+<p>The stream publishing quality attributes below reflect the total number of bytes sent.</p>
+
+<ul>
+<li>
+<code>totalSendBytes</code>: The total number of bytes sent, including audio, video, SEI.</li>
+<li>
+<code>audioSendBytes</code>: The number of audio bytes sent.</li>
+<li>
+<code>videoSendBytes</code>: The number of video bytes sent.</li>
+</ul>
+
+<h4>
+  <a name="quality-attributes-of-encoding-information" href="#quality-attributes-of-encoding-information">
+  </a>
+  Quality attributes of encoding information
+</h4>
+
+<p>The stream publishing quality attributes below reflect the encoding information:</p>
+
+<ul>
+<li>
+<code>videoCodecID</code>: The video codec.</li>
+<li>
+<code>isHardwareEncoder</code>: Whether to enable hardware encoding.</li>
+</ul>
+
+<h4>
+  <a name="quality-attributes-of-published-stream-quality-level" href="#quality-attributes-of-published-stream-quality-level">
+  </a>
+  Quality attributes of published stream quality level
+</h4>
+
+<p>The parameter <code>quality</code> has many attributes. If you do not want to handle every one of them, you can just focus on the <code>level</code> attribute, a comprehensive upstreaming network qualityindicator calculated by the <code>ZegoExpressEngine</code> based on other quality attributes. </p>
+
+<p>The following table describes the <code>level</code> fields: </p>
+
+<div class="table-wrapper-paragraph"><table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ZegoStreamQualityLevelExcellent</td>
+<td>Streaming quality: Excellent</td>
+</tr>
+<tr>
+<td>ZegoStreamQualityLevelGood</td>
+<td>Streaming quality: Good</td>
+</tr>
+<tr>
+<td>ZegoStreamQualityLevelMedium</td>
+<td>Streaming quality: Fair</td>
+</tr>
+<tr>
+<td>ZegoStreamQualityLevelBad</td>
+<td>Streaming quality: Poor</td>
+</tr>
+<tr>
+<td>ZegoStreamQualityLevelDie</td>
+<td>Streaming quality: Abnormal</td>
+</tr>
+</tbody>
+</table></div>
+
+<h2>
+  <a name="monitor-the-quality-of-stream-playing" href="#monitor-the-quality-of-stream-playing">
+  </a>
+  Monitor the quality of stream playing
+</h2>
+
+<p>To monitor the quality of the stream playing, listen for the <code>onPlayerQualityUpdate</code> callback. After stream playing is started, this callback will be triggered every 3 seconds to provide the stream playing quality data.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onPlayerStateUpdate</span><span class="p">:(</span><span class="n">ZegoPlayerState</span><span class="p">)</span><span class="nv">state</span> <span class="nf">errorCode</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">errorCode</span> <span class="nf">extendedData</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">extendedData</span> <span class="nf">streamID</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">streamID</span> <span class="p">{</span>
+     <span class="c1">// You can focus on specific quality attributes and report them to your business server, or focus on a specific field of an object for giving friendly notes for users.</span>
+     <span class="c1">// The parameter 'quality' has many attributes. If you do not want to handle every one of them, you can just focus on the 'level' attribute, a comprehensive quality indicator calculated by the SDK based on other quality attributes.</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="the-stream-playing-quality-attributes-in-details" href="#the-stream-playing-quality-attributes-in-details">
+  </a>
+  The stream playing quality attributes in details
+</h3>
+
+<p>The stream playing quality includes the audio and video frame rate, bitrate, delay, packet loss rate, and others of receiving, decoding, and rendering stages of the stream playing process.</p>
+
+<p>The <code>ZegoPlayStreamQuality</code> object includes quality attributes of different stages of the stream playing process. You can find the detailed attribute definitions in this section:</p>
+
+<h4>
+  <a name="quality-attributes-of-stream-receiving" href="#quality-attributes-of-stream-receiving">
+  </a>
+  Quality attributes of stream receiving
+</h4>
+
+<p>The stream playing quality attributes below reflect the quality of stream receiving, which is related to the quality of stream transmission (sending) and the current network quality. </p>
+
+<ul>
+<li>
+<code>audioRecvFPS</code>: The actual audio receiving frame rate (fps).</li>
+<li>
+<code>audioDejitterFPS</code>: The audio dejitter frame rate (f/s).</li>
+<li>
+<code>audioKBPS</code>: The actual audio receiving bitrate (kbps).</li>
+<li>
+<code>audioBreakRate</code>: The actual received audio break rate (number of breaks / every 10 seconds).</li>
+<li>
+<code>videoRecvFPS</code>: The actual video receiving frame rate (fps).</li>
+<li>
+<code>videoDejitterFPS</code>: The video dejitter frame rate (f/s).</li>
+<li>
+<code>videoKBPS</code>: The actual video receiving bitrate (kbps).</li>
+<li>
+<code>videoBreakRate</code>: The actual received video break rate (number of breaks / every 10 seconds).</li>
+<li>
+<code>packetLostRate</code>: The client-side downstreaming packet loss rate, in percentage, 0.0 - 1.0. </li>
+<li>
+<code>rtt</code>: The round-trip time (ms) from the client device to the ZEGOCLOUD server.</li>
+<li>
+<code>avTimestampDiff</code>: The difference between the video timestamp and the audio timestamp, used to reflect the synchronization of audio and video, in milliseconds. This value is less than 0 means the number of milliseconds that the video leads the audio, greater than 0 means the number of milliseconds that the video lags the audio, and 0 means no difference. When the absolute value is less than 200, it can basically be regarded as synchronized audio and video, when the absolute value is greater than 200 for 10 consecutive seconds, it can be regarded as abnormal.</li>
+<li>
+<code>peerToPeerDelay</code>: The delay from peer to peer, in milliseconds.</li>
+<li>
+<code>peerToPeerPacketLostRate</code>: The packet loss rate from peer to peer, in percentage, 0.0 - 1.0.</li>
+</ul>
+
+<h4>
+  <a name="quality-attributes-of-stream-rendering" href="#quality-attributes-of-stream-rendering">
+  </a>
+  Quality attributes of stream rendering
+</h4>
+
+<p>The stream playing attributes below reflect the streaming quality at the stream rendering stage, which is close to the viewer's subjective perception. They are affected by the audio/video codec, and the values may be lower than the actual audio/video receiving frame rates.</p>
+
+<ul>
+<li>
+<code>audioRenderFPS</code>: The audio rendering frame rate (fps). </li>
+<li>
+<code>videoRenderFPS</code>: The video rendering frame rate (fps).</li>
+<li>
+<code>delay</code>: The delay after the data is received by the local end, in milliseconds. </li>
+</ul>
+
+<h4>
+  <a name="quality-attributes-of-the-total-number-of-bytes" href="#quality-attributes-of-the-total-number-of-bytes">
+  </a>
+  Quality attributes of the total number of bytes
+</h4>
+
+<p>The stream publishing quality attributes below reflect the total number of bytes received.</p>
+
+<ul>
+<li>
+<code>totalRecvBytes</code>: The total number of bytes received, including audio, video, SEI.</li>
+<li>
+<code>audioRecvBytes</code>: The number of audio bytes received.</li>
+<li>
+<code>videoRecvBytes</code>: The number of video bytes received</li>
+</ul>
+
+<h4>
+  <a name="quality-attributes-of-decoding-information" href="#quality-attributes-of-decoding-information">
+  </a>
+  Quality attributes of decoding information
+</h4>
+
+<p>The stream playing quality attributes below reflect the decoding information:</p>
+
+<ul>
+<li>
+<code>videoCodecID</code>: The video codec.</li>
+<li>
+<code>isHardwareDecode</code>: Whether to enable hardware decoding.</li>
+</ul>
+
+<h2>
+  <a name="monitor-the-status-of-stream-publishingplaying" href="#monitor-the-status-of-stream-publishingplaying">
+  </a>
+  Monitor the status of stream publishing/playing
+</h2>
+
+<h3>
+  <a name="callback-for-updates-on-stream-publishing-status" href="#callback-for-updates-on-stream-publishing-status">
+  </a>
+  Callback for updates on stream publishing status
+</h3>
+
+<p>After stream publishing starts, if the status changes, the SDK sends out the event notification through the <code>onPublisherStateUpdate</code> callback. To monitor the status of stream publishing, listen for this callback.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onPublisherStateUpdate</span><span class="p">:(</span><span class="n">ZegoPublisherState</span><span class="p">)</span><span class="nv">state</span> <span class="nf">errorCode</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">errorCode</span> <span class="nf">extendedData</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">extendedData</span> <span class="nf">streamID</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">streamID</span> <span class="p">{</span>
+        <span class="c1">// In this callback, when the [state] is [ZegoPublisherStateNoPublish] and the [errorCode] is not 0, indicates the stream publishing is failed. And the SDK won't retry to publish the stream. At this time, user can set a corresponding UI to indicate the current state.  </span>
+        <span class="c1">// In this callback, when the [state] is [ZegoPublisherStatePublishRequesting] and the [errorCode] is not 0, indicates the stream publishing retry is ongoing. But if the stream publishing retry still fails after the default reconnection duration, it won't try again and will send out a failure notification.</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You can determine the user's network status during stream publishing based on the <code>state</code> property.</p>
+
+<p>The following table describes the value of the <code>state</code> property and the corresponding user status:</p>
+
+<div class="table-wrapper-paragraph"><table>
+  <colgroup>
+    <col>
+    <col>
+  </colgroup>
+  <tbody>
+<tr>
+    <th>Enumerated value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>ZegoPublisherStateNoPublish</td>
+    <td>This state indicates no streams published, which appears before a stream publishing. This state also appears if a steady-state exception occurs during the stream publishing operation, for example, the AppID and Token are incorrect, or the stream with the same ID is already published by another user.</td>
+  </tr>
+  <tr>
+    <td>ZegoPublisherStatePublishRequesting</td>
+    <td>This state indicates a stream publishing is being requested, which appears when you perform the stream publishing operation successfully. (Generally, the user can set a corresponding UI to indicate the current state.) This state also appears when the SDK automatically tries to recover the operation when stream publishing failed due to network errors.</td>
+  </tr>
+  <tr>
+    <td>ZegoPublisherStatePublishing</td>
+    <td>This state indicates a stream is being published, which appears when a stream is published successfully. In this state, users can communicate normally.</td>
+  </tr>
+</tbody>
+</table></div>
+
+<p>The parameter <code>extendedData</code> provides extended information for status updates. If you are using the ZEGOCLOUD CDN, the key of this parameter is <code>flv_url_list</code>, <code>rtmp_url_list</code>, and <code>hls_url_list</code>, which correspond to the stream playing URL of <code>FLV</code>, <code>RTMP</code>, and <code>HLS</code> protocols respectively.</p>
+
+<h3>
+  <a name="callback-for-updates-on-stream-playing-status" href="#callback-for-updates-on-stream-playing-status">
+  </a>
+  Callback for updates on stream playing status
+</h3>
+
+<p>After stream playing starts, if the status changes, the SDK sends out the event notification through the <code>onPlayerStateUpdate</code> callback. To monitor the status of stream playing, listen for this callback.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onPlayerStateUpdate</span><span class="p">:(</span><span class="n">ZegoPlayerState</span><span class="p">)</span><span class="nv">state</span> <span class="nf">errorCode</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">errorCode</span> <span class="nf">extendedData</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">extendedData</span> <span class="nf">streamID</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">streamID</span> <span class="p">{</span>
+        <span class="c1">// In this callback, when the [state] is [ZegoPlayerStateNoPlay] and the [errorCode] is not 0, indicates the stream playing is failed. And the SDK won't retry to play the stream. At this time, user can set a corresponding UI to indicate the current state. </span>
+        <span class="c1">// In this callback, when the [state] is [ZegoPlayerStatePlayRequesting] and the [errorCode] is not 0, indicates the stream playing retry is ongoing. But if the stream playing retry still fails after the default reconnection duration, it won't try again and will send out a failure notification.</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<p>You can determine the user's network status during stream playing based on the <code>state</code> property.</p>
+
+<p>The following table describes the value of the <code>state</code> property and the corresponding user status:</p>
+
+<div class="table-wrapper-paragraph"><table>
+  <colgroup>
+    <col>
+    <col>
+  </colgroup>
+  <tbody>
+<tr>
+    <th>Enumerated value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>ZegoPlayerStateNoPlay</td>
+    <td>This state indicates no streams played, which appears before a stream playing. This state also appears if a steady-state exception occurs during the stream playing operation, for example, the AppID and Token are incorrect.</td>
+  </tr>
+  <tr>
+    <td>ZegoPlayerStatePlayRequesting</td>
+    <td>This state indicates a stream playing is being requested, which appears when you perform the stream playing operation successfully. (Generally, the user can set a corresponding UI to indicate the current state.) This state also appears when the SDK automatically tries to recover the operation when stream playing failed due to network errors.</td>
+  </tr>
+  <tr>
+    <td>ZegoPlayerStatePlaying</td>
+    <td>This state indicates a stream is being played, which appears when a stream is played successfully. In this state, users can communicate normally.</td>
+  </tr>
+</tbody>
+</table></div>
+
+<h2>
+  <a name="callback-on-capturing-the-first-frame-of-audio" href="#callback-on-capturing-the-first-frame-of-audio">
+  </a>
+  Callback on capturing the first frame of audio
+</h2>
+
+<p>To receive the event notification when the first frame of audio is captured, listen for the <code>onPublisherCapturedAudioFirstFrame</code> callback.</p>
+
+<p>After stream publishing starts, the SDK sends out the event notification through this callback when the first frame of audio is captured.</p>
+
+<p>When you enable stream publishing or local preview for the first time, the SDK engine starts to capture the audio data of the local device, and the SDK sends out event notification through this callback.<br>
+You can tell whether the audio data has been captured successfully according to the returned event notification. If no notifications are received, it means the audio device is being used or the device is abnormal.</p>
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">onPublisherCapturedAudioFirstFrame</span> <span class="p">{</span>
+
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="callback-on-receiving-the-first-frame-of-audio" href="#callback-on-receiving-the-first-frame-of-audio">
+  </a>
+  Callback on receiving the first frame of audio
+</h2>
+
+<p>To receive the event notification when the first frame of audio is received, listen for the <code>onPlayerRecvAudioFirstFrame</code> callback.</p>
+
+<p>After stream playing starts, the SDK sends out the event notification through this callback when the first frame of audio is received.<br>
+</p>
+
+<div class="highlight js-code-highlight">
+<pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onPlayerRecvAudioFirstFrame</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">streamID</span> <span class="p">{</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h2>
+  <a name="monitor-the-status-of-the-stream-forwarding-via-cdn" href="#monitor-the-status-of-the-stream-forwarding-via-cdn">
+  </a>
+  Monitor the status of the stream forwarding via CDN
+</h2>
+
+<h3>
+  <a name="callback-for-updates-on-the-status-of-cdn-url" href="#callback-for-updates-on-the-status-of-cdn-url">
+  </a>
+  Callback for updates on the status of CDN URL
+</h3>
+
+<p>To receive event notification when the specified CDN URL changes (adds new URL or removes existing URL), listen for the <code>onPublisherRelayCDNStateUpdate</code> callback.</p>
+
+<p>After the ZEGOCLOUD RTC Server forwards the stream to CDN, the SDK sends out event notification when the status of streams forwarded to CDN changes, for example, the stream forwarding stops or the forwarding operation retries. </p>
+
+<p>You can tell whether the audio and video streams forwarded to CDN are normal according to this callback:</p>
+
+<ul>
+<li>If the returned result of this callback indicates it is abnormal, locate the cause of the audio and video streams forwarded to CDN and perform a disaster recovery operation accordingly.</li>
+<li>If you do not know the cause of the exception, contact ZEGOCLOUD technical support for further analysis.</li>
+</ul>
+
+
+
+<div class="highlight js-code-highlight">
+<pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onPublisherRelayCDNStateUpdate</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">ZegoStreamRelayCDNInfo</span> <span class="o">*></span> <span class="o">*</span><span class="p">)</span><span class="nv">infoList</span> <span class="nf">streamID</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">streamID</span> <span class="p">{</span>
+<span class="p">}</span>
+</code></pre>
+<div class="highlight__panel js-actions-panel">
+<div class="highlight__panel-action js-fullscreen-code-action">
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>
+    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>
+</svg>
+
+    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>
+    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>
+</svg>
+
+</div>
+</div>
+</div>
+
+
+
+<h3>
+  <a name="the-stream-forwarding-attributes-in-details" href="#the-stream-forwarding-attributes-in-details">
+  </a>
+  The stream forwarding attributes in details
+</h3>
+
+<p>The stream forwarding information includes the CDN URL, forwarding status, the cause of stream forwarding status, and when the status changes.</p>
+
+<p>The <code>ZegoStreamRelayCDNInfo</code> object includes stream forwarding attributes. You can find the detailed attribute definitions in this  section:</p>
+
+<div class="table-wrapper-paragraph"><table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>url</td>
+<td>The CDN URL that the streams be published to.</td>
+</tr>
+<tr>
+<td>state</td>
+<td>The status of stream forwarding.</td>
+</tr>
+<tr>
+<td>updateReason</td>
+<td>The cause of stream forwarding status changes.</td>
+</tr>
+<tr>
+<td>stateTime</td>
+<td>When the stream forwarding status changes.</td>
+</tr>
+</tbody>
+</table></div>
+
+<p>The following table describes the value of the <code>state</code> property:</p>
+
+<div class="table-wrapper-paragraph"><table>
+  <colgroup>
+    <col>
+    <col>
+  </colgroup>
+  <tbody>
+<tr>
+    <th>Enumerated value</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>ZegoStreamRelayCDNStateNoRelay</td>
+    <td>This state indicates no streams forwarded to CDN, which appears before a stream forwarding. This state also appears if an exception lasting for a while, for example, the CDN URL is incorrect.</td>
+  </tr>
+  <tr>
+    <td>ZegoStreamRelayCDNStateRelayRequesting</td>
+    <td>This state indicates a stream forwarding is being requested, which appears when you perform the stream forwarding operation successfully. (Generally, the user can set a corresponding UI to indicate the current state.) This state also appears when the SDK automatically tries to recover the operation when stream forwarding failed due to network errors.</td>
+  </tr>
+  <tr>
+    <td>ZegoStreamRelayCDNStateRelaying</td>
+    <td>This state indicates a stream is being forwarded to CDN, which appears when a stream is forwarded to CDN successfully.</td>
+  </tr>
+</tbody>
+</table></div>
+
+<p>The following table describes the value of the <code>updateReason</code> property:</p>
+
+<div class="table-wrapper-paragraph"><table>
+<thead>
+<tr>
+<th>Enumerated value</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ZegoStreamRelayCDNUpdateReasonNone</td>
+<td>None</td>
+</tr>
+<tr>
+<td>ZegoStreamRelayCDNUpdateReasonServerError</td>
+<td>Server error.</td>
+</tr>
+<tr>
+<td>ZegoStreamRelayCDNUpdateReasonHandshakeFailed</td>
+<td>Handshake failed.</td>
+</tr>
+<tr>
+<td>ZegoStreamRelayCDNUpdateReasonAccessPointError</td>
+<td>Access point error.</td>
+</tr>
+<tr>
+<td>ZegoStreamRelayCDNUpdateReasonCreateStreamFailed</td>
+<td>Failed to create a stream.</td>
+</tr>
+<tr>
+<td>ZegoStreamRelayCDNUpdateReasonBadName</td>
+<td>Bad name.</td>
+</tr>
+<tr>
+<td>ZegoStreamRelayCDNUpdateReasonCDNServerDisconnected</td>
+<td>The CDN server initiates a disconnect.</td>
+</tr>
+<tr>
+<td>ZegoStreamRelayCDNUpdateReasonDisconnected</td>
+<td>Disconnected.</td>
+</tr>
+<tr>
+<td>ZegoStreamRelayCDNUpdateReasonMixStreamAllInputStreamClosed</td>
+<td>All input stream mixing sessions closed.</td>
+</tr>
+<tr>
+<td>ZegoStreamRelayCDNUpdateReasonMixStreamAllInputStreamNoData</td>
+<td>No data exists in all input mixed streams.</td>
+</tr>
+<tr>
+<td>ZegoStreamRelayCDNUpdateReasonMixStreamServerInternalError</td>
+<td>Internal error occurred on stream mixing server.</td>
+</tr>
+</tbody>
+</table></div>
+
+</div></article> <div class="aside-username-wrapper" data-v-10d06ee8><aside class="aside-username-block" data-v-37984f8c data-v-10d06ee8><div class="username-heading loading" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-heading" data-v-37984f8c><div class="vue-content-placeholders-heading__img"></div> <div class="vue-content-placeholders-heading__content"><div class="vue-content-placeholders-heading__title"></div> <div class="vue-content-placeholders-heading__subtitle"></div></div></div></div></div> <div class="info" data-v-37984f8c><div class="vue-content-placeholders vue-content-placeholders-is-animated" data-v-37984f8c><div class="vue-content-placeholders-text" data-v-37984f8c><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div><div class="vue-content-placeholders-text__line"></div></div></div></div></aside></div></div> <div class="comments-block" data-v-8c4375bc data-v-10d06ee8><!----> <a href="https://dev.to/tanyaqxy_30/how-to-use-zegocloud-sdk-to-implement-call-quality-monitoring-in-ios-22kl" target="_blank" rel="nofollow noopener noreferer" class="add-comment" data-v-8c4375bc>
+    Add comment
+  </a></div></div> <footer data-v-22cb8fd0><span data-v-22cb8fd0>Built with</span> <a href="https://nuxtjs.org" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="nuxt-icon" data-v-22cb8fd0 data-v-22cb8fd0><path d="M13.5599 8.54348L12.8055 9.87164L10.2257 5.3282L2.306 19.274H7.66815C7.66815 20.0075 8.25298 20.6021 8.97441 20.6021H2.306C1.83937 20.6021 1.40822 20.3489 1.17494 19.9379C0.941664 19.527 0.941687 19.0208 1.175 18.6099L9.09469 4.66412C9.32802 4.25316 9.75926 4 10.226 4C10.6926 4 11.1239 4.25316 11.3572 4.66412L13.5599 8.54348V8.54348Z" fill="#00C58E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M19.2769 18.6099L14.3143 9.87165L13.5599 8.54348L12.8055 9.87165L7.84343 18.6099C7.61011 19.0208 7.61009 19.527 7.84337 19.9379C8.07665 20.3489 8.50779 20.6021 8.97443 20.6021H18.1443C18.611 20.6021 19.0424 20.3491 19.2758 19.9382C19.5092 19.5272 19.5092 19.0209 19.2758 18.6099H19.2769ZM8.97443 19.274L13.5599 11.1998L18.1443 19.274H8.97443H8.97443Z" fill="#2F495E" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M22.825 19.938C22.5917 20.3489 22.1606 20.6021 21.694 20.6021H18.1443C18.8657 20.6021 19.4505 20.0075 19.4505 19.274H21.6913L15.3331 8.07696L14.3142 9.87164L13.5599 8.54348L14.2021 7.41287C14.4354 7.00192 14.8667 6.74875 15.3334 6.74875C15.8001 6.74875 16.2313 7.00192 16.4646 7.41287L22.825 18.6099C23.0583 19.0208 23.0583 19.5271 22.825 19.938V19.938Z" fill="#108775" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a> <span data-v-22cb8fd0>&</span> <a href="https://docs.dev.to/api" rel="nofollow noopener" target="_blank" data-v-22cb8fd0><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-v-22cb8fd0 data-v-22cb8fd0><path d="M1.5726 5.13748C1.42945 5.20622 1.2411 5.36661 1.15822 5.48117C1 5.69503 1 5.74849 1 11.8739C1 17.9993 1 18.0528 1.15822 18.2667C1.2411 18.3812 1.42945 18.5416 1.5726 18.6104C1.8137 18.7402 2.46164 18.7478 12 18.7478C21.5384 18.7478 22.1863 18.7402 22.4274 18.6104C22.5706 18.5416 22.7589 18.3812 22.8418 18.2667C23 18.0528 23 17.9993 23 11.8739C23 5.74849 23 5.69503 22.8418 5.48117C22.7589 5.36661 22.5706 5.20622 22.4274 5.13748C22.1863 5.00764 21.5384 5 12 5C2.46164 5 1.8137 5.00764 1.5726 5.13748ZM7.7055 8.2613C8.0822 8.45989 8.59454 9.0098 8.77536 9.40694C8.89589 9.66664 8.91095 9.94922 8.91095 12.0649C8.91095 14.3104 8.90344 14.4478 8.75275 14.7839C8.51919 15.288 8.16506 15.6546 7.68288 15.899C7.26096 16.1052 7.22328 16.1128 5.7315 16.1358L4.20206 16.1663V12.1031V8.04744L5.80684 8.07035C7.27602 8.09327 7.42672 8.10854 7.7055 8.2613ZM13.6952 8.89521V9.73538H12.4521H11.2089V10.4991V11.2629H11.9623H12.7158V12.1031V12.9432H11.9623H11.2089V13.707V14.4708H12.4521H13.6952V15.3109V16.151H12C10.1315 16.151 10.0411 16.1358 9.67191 15.6928L9.47603 15.4484V12.1336C9.47603 8.46752 9.46851 8.49807 9.95069 8.20783C10.1692 8.07035 10.3425 8.05508 11.9473 8.05508H13.6952V8.89521ZM16.5658 10.3769C16.8897 11.6295 17.1685 12.6912 17.176 12.7293C17.1911 12.7675 17.4699 11.7441 17.8014 10.461C18.1254 9.17017 18.4343 8.1009 18.4795 8.08563C18.5247 8.06271 18.9541 8.06271 19.4288 8.07035L20.3028 8.09327L19.376 11.6219C18.8713 13.5542 18.4117 15.2269 18.3664 15.3261C18.0123 16.0135 17.274 16.3343 16.7164 16.0441C16.4528 15.899 16.0911 15.4865 15.9705 15.1887C15.9254 15.0665 15.4884 13.4549 15.0062 11.6142C14.524 9.76593 14.1171 8.20783 14.0945 8.15437C14.0644 8.07035 14.2301 8.05508 15.0212 8.07035L15.9856 8.09327L16.5658 10.3769Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path><path d="M5.93491 12.103V14.4707H6.27394C6.66574 14.4707 7.01983 14.3103 7.1404 14.0965C7.18559 14.0048 7.21575 13.2105 7.21575 12.0648V10.1783L6.99725 9.95683C6.80133 9.76591 6.71847 9.73535 6.35683 9.73535H5.93491V12.103Z" fill="black" data-v-22cb8fd0 data-v-22cb8fd0></path></svg></a></footer></div></div></div><script>window.__NUXT__=function(e,t,a,n,s){return a.type_of="article",a.id=1089735,a.title="How to use ZEGOCLOUD SDK to implement call quality monitoring in iOS",a.description="Introduction   The ZEGOCLOUD Express-Video SDK provides the ability to monitor the...",a.readable_publish_date="May 19",a.slug="how-to-use-zegocloud-sdk-to-implement-call-quality-monitoring-in-ios-22kl",a.path="/zegocloud/how-to-use-zegocloud-sdk-to-implement-call-quality-monitoring-in-ios-22kl",a.url=n,a.comments_count=0,a.public_reactions_count=6,a.collection_id=e,a.published_timestamp=t,a.positive_reactions_count=6,a.cover_image=e,a.social_image="https://dev.to/social_previews/article/1089735.png",a.canonical_url=n,a.created_at=t,a.edited_at=e,a.crossposted_at=e,a.published_at=t,a.last_comment_at=t,a.reading_time_minutes=10,a.tag_list="sdk, ios, streaming, tutorial",a.tags=["sdk","ios","streaming","tutorial"],a.body_html='<p><a href="https://res.cloudinary.com/practicaldev/image/fetch/s--cZLxqRMo--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://resource.zegocloud.com/content_resource/2022/05/18/16509779206897.jpg" class="article-body-image-wrapper"><img src="https://res.cloudinary.com/practicaldev/image/fetch/s--cZLxqRMo--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://resource.zegocloud.com/content_resource/2022/05/18/16509779206897.jpg" alt="" loading="lazy" width="880" height="532"></a></p>\n\n<h2>\n  <a name="introduction" href="#introduction">\n  </a>\n  Introduction\n</h2>\n\n<p>The ZEGOCLOUD Express-Video SDK provides the ability to monitor the streaming quality during stream publishing and stream playing. After stream publishing or stream playing is started, the SDK triggers the corresponding streaming quality callback every 3 seconds, and client applications can obtain real-time streaming quality data by listening for these callbacks.</p>\n\n<h2>\n  <a name="prerequisites" href="#prerequisites">\n  </a>\n  Prerequisites\n</h2>\n\n<p>Before you monitor the streaming information, make sure you complete the following: </p>\n\n<ul>\n<li>Create a project in <a href="https://console.zegocloud.com?_source=medium&amp;article=5">ZEGOCLOUD Admin Console</a>, and get the AppID of your project.</li>\n<li>The ZEGO Express SDK has been integrated into the project. For details, see <a href="https://docs.zegocloud.com/article/195?_source=medium&amp;article=5">Integration</a> and <a href="https://docs.zegocloud.com/article/10836?_source=medium&amp;article=5">Implementation</a>.</li>\n</ul>\n\n<h2>\n  <a name="monitor-the-quality-of-stream-publishing" href="#monitor-the-quality-of-stream-publishing">\n  </a>\n  Monitor the quality of stream publishing\n</h2>\n\n<p>To monitor the quality of the stream publishing, listen for the <code>onPublisherQualityUpdate</code> callback. After stream publishing is started, this callback will be triggered every 3 seconds to provide the stream publishing quality data. </p>\n\n<p>You can obtain stream publishing quality data through this callback to monitor the health of stream publishing in real time and display the upstreaming network quality on your application\'s UI.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight objective_c"><code><span class="c1">// You can focus on specific quality attributes and report them to your business server, or focus on a specific field of an object for giving friendly notes for users.</span>\n<span class="c1">// The parameter \'quality\' has many attributes. If you do not want to handle every one of them, you can just focus on the \'level\' attribute, a comprehensive quality indicator calculated by the SDK based on other quality attributes.</span>\n<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onPublisherQualityUpdate</span><span class="p">:(</span><span class="n">ZegoPublishStreamQuality</span> <span class="o">*</span><span class="p">)</span><span class="nv">quality</span> <span class="nf">streamID</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">streamID</span> <span class="p">{</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="the-stream-publishing-quality-attributes-in-details" href="#the-stream-publishing-quality-attributes-in-details">\n  </a>\n  The stream publishing quality attributes in details\n</h3>\n\n<p>The stream publishing quality includes the audio and video capture frame rate, bitrate, RTT, packet loss rate, and others of capturing and encoding stages of the stream publishing process.</p>\n\n<p>The <code>ZegoPublishStreamQuality</code> object includes quality attributes of different stages of the stream publishing process. You can find the detailed attribute definitions in this section:</p>\n\n<h4>\n  <a name="quality-attributes-of-audio-and-video-capturing" href="#quality-attributes-of-audio-and-video-capturing">\n  </a>\n  Quality attributes of audio and video capturing\n</h4>\n\n<p>The following attributes reflect the stream publishing quality of audio and video capturing, which is close to the user\'s subjective perception of the local preview. </p>\n\n<ul>\n<li>\n<code>audioCaptureFPS</code>: The audio capture frame rate (fps).</li>\n<li>\n<code>videoCaptureFPS</code>: The video capture frame rate (fps).</li>\n</ul>\n\n<h4>\n  <a name="quality-attributes-of-video-encoding" href="#quality-attributes-of-video-encoding">\n  </a>\n  Quality attributes of video encoding\n</h4>\n\n<p>The stream publishing quality attributes of video encoding of the encoding stage is as follow:</p>\n\n<ul>\n<li>\n<code>videoEncodeFPS</code>: The target output frame rate (fps) of video encoding.</li>\n</ul>\n\n<h4>\n  <a name="quality-attributes-of-stream-transmission" href="#quality-attributes-of-stream-transmission">\n  </a>\n  Quality attributes of stream transmission\n</h4>\n\n<p>The stream publishing quality attributes below reflect the quality of stream transmission (sending), which is related to the encoding bitrate and the current network quality. </p>\n\n<ul>\n<li>\n<code>audioSendFPS</code>: The actual audio transmission frame rate (fps). </li>\n<li>\n<code>audioKBPS</code>: The actual audio transmission bitrate (kbps).</li>\n<li>\n<code>videoSendFPS</code>: The actual video transmission frame rate (fps).</li>\n<li>\n<code>videoKBPS</code>: The actual video transmission bitrate (kbps).</li>\n<li>\n<code>rtt</code>: The rount-trip time (ms) from the client device to the ZEGOCLOUD server.</li>\n<li>\n<code>packetLostRate</code>: The client-side upstreaming packet loss rate.</li>\n</ul>\n\n<h4>\n  <a name="quality-attributes-of-the-total-number-of-bytes" href="#quality-attributes-of-the-total-number-of-bytes">\n  </a>\n  Quality attributes of the total number of bytes\n</h4>\n\n<p>The stream publishing quality attributes below reflect the total number of bytes sent.</p>\n\n<ul>\n<li>\n<code>totalSendBytes</code>: The total number of bytes sent, including audio, video, SEI.</li>\n<li>\n<code>audioSendBytes</code>: The number of audio bytes sent.</li>\n<li>\n<code>videoSendBytes</code>: The number of video bytes sent.</li>\n</ul>\n\n<h4>\n  <a name="quality-attributes-of-encoding-information" href="#quality-attributes-of-encoding-information">\n  </a>\n  Quality attributes of encoding information\n</h4>\n\n<p>The stream publishing quality attributes below reflect the encoding information:</p>\n\n<ul>\n<li>\n<code>videoCodecID</code>: The video codec.</li>\n<li>\n<code>isHardwareEncoder</code>: Whether to enable hardware encoding.</li>\n</ul>\n\n<h4>\n  <a name="quality-attributes-of-published-stream-quality-level" href="#quality-attributes-of-published-stream-quality-level">\n  </a>\n  Quality attributes of published stream quality level\n</h4>\n\n<p>The parameter <code>quality</code> has many attributes. If you do not want to handle every one of them, you can just focus on the <code>level</code> attribute, a comprehensive upstreaming network qualityindicator calculated by the <code>ZegoExpressEngine</code> based on other quality attributes. </p>\n\n<p>The following table describes the <code>level</code> fields: </p>\n\n<div class="table-wrapper-paragraph"><table>\n<thead>\n<tr>\n<th>Field</th>\n<th>Description</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>ZegoStreamQualityLevelExcellent</td>\n<td>Streaming quality: Excellent</td>\n</tr>\n<tr>\n<td>ZegoStreamQualityLevelGood</td>\n<td>Streaming quality: Good</td>\n</tr>\n<tr>\n<td>ZegoStreamQualityLevelMedium</td>\n<td>Streaming quality: Fair</td>\n</tr>\n<tr>\n<td>ZegoStreamQualityLevelBad</td>\n<td>Streaming quality: Poor</td>\n</tr>\n<tr>\n<td>ZegoStreamQualityLevelDie</td>\n<td>Streaming quality: Abnormal</td>\n</tr>\n</tbody>\n</table></div>\n\n<h2>\n  <a name="monitor-the-quality-of-stream-playing" href="#monitor-the-quality-of-stream-playing">\n  </a>\n  Monitor the quality of stream playing\n</h2>\n\n<p>To monitor the quality of the stream playing, listen for the <code>onPlayerQualityUpdate</code> callback. After stream playing is started, this callback will be triggered every 3 seconds to provide the stream playing quality data.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onPlayerStateUpdate</span><span class="p">:(</span><span class="n">ZegoPlayerState</span><span class="p">)</span><span class="nv">state</span> <span class="nf">errorCode</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">errorCode</span> <span class="nf">extendedData</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">extendedData</span> <span class="nf">streamID</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">streamID</span> <span class="p">{</span>\n     <span class="c1">// You can focus on specific quality attributes and report them to your business server, or focus on a specific field of an object for giving friendly notes for users.</span>\n     <span class="c1">// The parameter \'quality\' has many attributes. If you do not want to handle every one of them, you can just focus on the \'level\' attribute, a comprehensive quality indicator calculated by the SDK based on other quality attributes.</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="the-stream-playing-quality-attributes-in-details" href="#the-stream-playing-quality-attributes-in-details">\n  </a>\n  The stream playing quality attributes in details\n</h3>\n\n<p>The stream playing quality includes the audio and video frame rate, bitrate, delay, packet loss rate, and others of receiving, decoding, and rendering stages of the stream playing process.</p>\n\n<p>The <code>ZegoPlayStreamQuality</code> object includes quality attributes of different stages of the stream playing process. You can find the detailed attribute definitions in this section:</p>\n\n<h4>\n  <a name="quality-attributes-of-stream-receiving" href="#quality-attributes-of-stream-receiving">\n  </a>\n  Quality attributes of stream receiving\n</h4>\n\n<p>The stream playing quality attributes below reflect the quality of stream receiving, which is related to the quality of stream transmission (sending) and the current network quality. </p>\n\n<ul>\n<li>\n<code>audioRecvFPS</code>: The actual audio receiving frame rate (fps).</li>\n<li>\n<code>audioDejitterFPS</code>: The audio dejitter frame rate (f/s).</li>\n<li>\n<code>audioKBPS</code>: The actual audio receiving bitrate (kbps).</li>\n<li>\n<code>audioBreakRate</code>: The actual received audio break rate (number of breaks / every 10 seconds).</li>\n<li>\n<code>videoRecvFPS</code>: The actual video receiving frame rate (fps).</li>\n<li>\n<code>videoDejitterFPS</code>: The video dejitter frame rate (f/s).</li>\n<li>\n<code>videoKBPS</code>: The actual video receiving bitrate (kbps).</li>\n<li>\n<code>videoBreakRate</code>: The actual received video break rate (number of breaks / every 10 seconds).</li>\n<li>\n<code>packetLostRate</code>: The client-side downstreaming packet loss rate, in percentage, 0.0 - 1.0. </li>\n<li>\n<code>rtt</code>: The round-trip time (ms) from the client device to the ZEGOCLOUD server.</li>\n<li>\n<code>avTimestampDiff</code>: The difference between the video timestamp and the audio timestamp, used to reflect the synchronization of audio and video, in milliseconds. This value is less than 0 means the number of milliseconds that the video leads the audio, greater than 0 means the number of milliseconds that the video lags the audio, and 0 means no difference. When the absolute value is less than 200, it can basically be regarded as synchronized audio and video, when the absolute value is greater than 200 for 10 consecutive seconds, it can be regarded as abnormal.</li>\n<li>\n<code>peerToPeerDelay</code>: The delay from peer to peer, in milliseconds.</li>\n<li>\n<code>peerToPeerPacketLostRate</code>: The packet loss rate from peer to peer, in percentage, 0.0 - 1.0.</li>\n</ul>\n\n<h4>\n  <a name="quality-attributes-of-stream-rendering" href="#quality-attributes-of-stream-rendering">\n  </a>\n  Quality attributes of stream rendering\n</h4>\n\n<p>The stream playing attributes below reflect the streaming quality at the stream rendering stage, which is close to the viewer\'s subjective perception. They are affected by the audio/video codec, and the values may be lower than the actual audio/video receiving frame rates.</p>\n\n<ul>\n<li>\n<code>audioRenderFPS</code>: The audio rendering frame rate (fps). </li>\n<li>\n<code>videoRenderFPS</code>: The video rendering frame rate (fps).</li>\n<li>\n<code>delay</code>: The delay after the data is received by the local end, in milliseconds. </li>\n</ul>\n\n<h4>\n  <a name="quality-attributes-of-the-total-number-of-bytes" href="#quality-attributes-of-the-total-number-of-bytes">\n  </a>\n  Quality attributes of the total number of bytes\n</h4>\n\n<p>The stream publishing quality attributes below reflect the total number of bytes received.</p>\n\n<ul>\n<li>\n<code>totalRecvBytes</code>: The total number of bytes received, including audio, video, SEI.</li>\n<li>\n<code>audioRecvBytes</code>: The number of audio bytes received.</li>\n<li>\n<code>videoRecvBytes</code>: The number of video bytes received</li>\n</ul>\n\n<h4>\n  <a name="quality-attributes-of-decoding-information" href="#quality-attributes-of-decoding-information">\n  </a>\n  Quality attributes of decoding information\n</h4>\n\n<p>The stream playing quality attributes below reflect the decoding information:</p>\n\n<ul>\n<li>\n<code>videoCodecID</code>: The video codec.</li>\n<li>\n<code>isHardwareDecode</code>: Whether to enable hardware decoding.</li>\n</ul>\n\n<h2>\n  <a name="monitor-the-status-of-stream-publishingplaying" href="#monitor-the-status-of-stream-publishingplaying">\n  </a>\n  Monitor the status of stream publishing/playing\n</h2>\n\n<h3>\n  <a name="callback-for-updates-on-stream-publishing-status" href="#callback-for-updates-on-stream-publishing-status">\n  </a>\n  Callback for updates on stream publishing status\n</h3>\n\n<p>After stream publishing starts, if the status changes, the SDK sends out the event notification through the <code>onPublisherStateUpdate</code> callback. To monitor the status of stream publishing, listen for this callback.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onPublisherStateUpdate</span><span class="p">:(</span><span class="n">ZegoPublisherState</span><span class="p">)</span><span class="nv">state</span> <span class="nf">errorCode</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">errorCode</span> <span class="nf">extendedData</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">extendedData</span> <span class="nf">streamID</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">streamID</span> <span class="p">{</span>\n        <span class="c1">// In this callback, when the [state] is [ZegoPublisherStateNoPublish] and the [errorCode] is not 0, indicates the stream publishing is failed. And the SDK won\'t retry to publish the stream. At this time, user can set a corresponding UI to indicate the current state.  </span>\n        <span class="c1">// In this callback, when the [state] is [ZegoPublisherStatePublishRequesting] and the [errorCode] is not 0, indicates the stream publishing retry is ongoing. But if the stream publishing retry still fails after the default reconnection duration, it won\'t try again and will send out a failure notification.</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You can determine the user\'s network status during stream publishing based on the <code>state</code> property.</p>\n\n<p>The following table describes the value of the <code>state</code> property and the corresponding user status:</p>\n\n<div class="table-wrapper-paragraph"><table>\n  <colgroup>\n    <col>\n    <col>\n  </colgroup>\n  <tbody>\n<tr>\n    <th>Enumerated value</th>\n    <th>Description</th>\n  </tr>\n  <tr>\n    <td>ZegoPublisherStateNoPublish</td>\n    <td>This state indicates no streams published, which appears before a stream publishing. This state also appears if a steady-state exception occurs during the stream publishing operation, for example, the AppID and Token are incorrect, or the stream with the same ID is already published by another user.</td>\n  </tr>\n  <tr>\n    <td>ZegoPublisherStatePublishRequesting</td>\n    <td>This state indicates a stream publishing is being requested, which appears when you perform the stream publishing operation successfully. (Generally, the user can set a corresponding UI to indicate the current state.) This state also appears when the SDK automatically tries to recover the operation when stream publishing failed due to network errors.</td>\n  </tr>\n  <tr>\n    <td>ZegoPublisherStatePublishing</td>\n    <td>This state indicates a stream is being published, which appears when a stream is published successfully. In this state, users can communicate normally.</td>\n  </tr>\n</tbody>\n</table></div>\n\n<p>The parameter <code>extendedData</code> provides extended information for status updates. If you are using the ZEGOCLOUD CDN, the key of this parameter is <code>flv_url_list</code>, <code>rtmp_url_list</code>, and <code>hls_url_list</code>, which correspond to the stream playing URL of <code>FLV</code>, <code>RTMP</code>, and <code>HLS</code> protocols respectively.</p>\n\n<h3>\n  <a name="callback-for-updates-on-stream-playing-status" href="#callback-for-updates-on-stream-playing-status">\n  </a>\n  Callback for updates on stream playing status\n</h3>\n\n<p>After stream playing starts, if the status changes, the SDK sends out the event notification through the <code>onPlayerStateUpdate</code> callback. To monitor the status of stream playing, listen for this callback.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onPlayerStateUpdate</span><span class="p">:(</span><span class="n">ZegoPlayerState</span><span class="p">)</span><span class="nv">state</span> <span class="nf">errorCode</span><span class="p">:(</span><span class="kt">int</span><span class="p">)</span><span class="nv">errorCode</span> <span class="nf">extendedData</span><span class="p">:(</span><span class="n">NSDictionary</span> <span class="o">*</span><span class="p">)</span><span class="nv">extendedData</span> <span class="nf">streamID</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">streamID</span> <span class="p">{</span>\n        <span class="c1">// In this callback, when the [state] is [ZegoPlayerStateNoPlay] and the [errorCode] is not 0, indicates the stream playing is failed. And the SDK won\'t retry to play the stream. At this time, user can set a corresponding UI to indicate the current state. </span>\n        <span class="c1">// In this callback, when the [state] is [ZegoPlayerStatePlayRequesting] and the [errorCode] is not 0, indicates the stream playing retry is ongoing. But if the stream playing retry still fails after the default reconnection duration, it won\'t try again and will send out a failure notification.</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<p>You can determine the user\'s network status during stream playing based on the <code>state</code> property.</p>\n\n<p>The following table describes the value of the <code>state</code> property and the corresponding user status:</p>\n\n<div class="table-wrapper-paragraph"><table>\n  <colgroup>\n    <col>\n    <col>\n  </colgroup>\n  <tbody>\n<tr>\n    <th>Enumerated value</th>\n    <th>Description</th>\n  </tr>\n  <tr>\n    <td>ZegoPlayerStateNoPlay</td>\n    <td>This state indicates no streams played, which appears before a stream playing. This state also appears if a steady-state exception occurs during the stream playing operation, for example, the AppID and Token are incorrect.</td>\n  </tr>\n  <tr>\n    <td>ZegoPlayerStatePlayRequesting</td>\n    <td>This state indicates a stream playing is being requested, which appears when you perform the stream playing operation successfully. (Generally, the user can set a corresponding UI to indicate the current state.) This state also appears when the SDK automatically tries to recover the operation when stream playing failed due to network errors.</td>\n  </tr>\n  <tr>\n    <td>ZegoPlayerStatePlaying</td>\n    <td>This state indicates a stream is being played, which appears when a stream is played successfully. In this state, users can communicate normally.</td>\n  </tr>\n</tbody>\n</table></div>\n\n<h2>\n  <a name="callback-on-capturing-the-first-frame-of-audio" href="#callback-on-capturing-the-first-frame-of-audio">\n  </a>\n  Callback on capturing the first frame of audio\n</h2>\n\n<p>To receive the event notification when the first frame of audio is captured, listen for the <code>onPublisherCapturedAudioFirstFrame</code> callback.</p>\n\n<p>After stream publishing starts, the SDK sends out the event notification through this callback when the first frame of audio is captured.</p>\n\n<p>When you enable stream publishing or local preview for the first time, the SDK engine starts to capture the audio data of the local device, and the SDK sends out event notification through this callback.<br>\nYou can tell whether the audio data has been captured successfully according to the returned event notification. If no notifications are received, it means the audio device is being used or the device is abnormal.</p>\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">onPublisherCapturedAudioFirstFrame</span> <span class="p">{</span>\n\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="callback-on-receiving-the-first-frame-of-audio" href="#callback-on-receiving-the-first-frame-of-audio">\n  </a>\n  Callback on receiving the first frame of audio\n</h2>\n\n<p>To receive the event notification when the first frame of audio is received, listen for the <code>onPlayerRecvAudioFirstFrame</code> callback.</p>\n\n<p>After stream playing starts, the SDK sends out the event notification through this callback when the first frame of audio is received.<br>\n</p>\n\n<div class="highlight js-code-highlight">\n<pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onPlayerRecvAudioFirstFrame</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">streamID</span> <span class="p">{</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h2>\n  <a name="monitor-the-status-of-the-stream-forwarding-via-cdn" href="#monitor-the-status-of-the-stream-forwarding-via-cdn">\n  </a>\n  Monitor the status of the stream forwarding via CDN\n</h2>\n\n<h3>\n  <a name="callback-for-updates-on-the-status-of-cdn-url" href="#callback-for-updates-on-the-status-of-cdn-url">\n  </a>\n  Callback for updates on the status of CDN URL\n</h3>\n\n<p>To receive event notification when the specified CDN URL changes (adds new URL or removes existing URL), listen for the <code>onPublisherRelayCDNStateUpdate</code> callback.</p>\n\n<p>After the ZEGOCLOUD RTC Server forwards the stream to CDN, the SDK sends out event notification when the status of streams forwarded to CDN changes, for example, the stream forwarding stops or the forwarding operation retries. </p>\n\n<p>You can tell whether the audio and video streams forwarded to CDN are normal according to this callback:</p>\n\n<ul>\n<li>If the returned result of this callback indicates it is abnormal, locate the cause of the audio and video streams forwarded to CDN and perform a disaster recovery operation accordingly.</li>\n<li>If you do not know the cause of the exception, contact ZEGOCLOUD technical support for further analysis.</li>\n</ul>\n\n\n\n<div class="highlight js-code-highlight">\n<pre class="highlight objective_c"><code><span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">onPublisherRelayCDNStateUpdate</span><span class="p">:(</span><span class="n">NSArray</span><span class="o">&lt;</span><span class="n">ZegoStreamRelayCDNInfo</span> <span class="o">*&gt;</span> <span class="o">*</span><span class="p">)</span><span class="nv">infoList</span> <span class="nf">streamID</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">streamID</span> <span class="p">{</span>\n<span class="p">}</span>\n</code></pre>\n<div class="highlight__panel js-actions-panel">\n<div class="highlight__panel-action js-fullscreen-code-action">\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-on"><title>Enter fullscreen mode</title>\n    <path d="M16 3h6v6h-2V5h-4V3zM2 3h6v2H4v4H2V3zm18 16v-4h2v6h-6v-2h4zM4 19h4v2H2v-6h2v4z"></path>\n</svg>\n\n    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewbox="0 0 24 24" class="highlight-action crayons-icon highlight-action--fullscreen-off"><title>Exit fullscreen mode</title>\n    <path d="M18 7h4v2h-6V3h2v4zM8 9H2V7h4V3h2v6zm10 8v4h-2v-6h6v2h-4zM8 15v6H6v-4H2v-2h6z"></path>\n</svg>\n\n</div>\n</div>\n</div>\n\n\n\n<h3>\n  <a name="the-stream-forwarding-attributes-in-details" href="#the-stream-forwarding-attributes-in-details">\n  </a>\n  The stream forwarding attributes in details\n</h3>\n\n<p>The stream forwarding information includes the CDN URL, forwarding status, the cause of stream forwarding status, and when the status changes.</p>\n\n<p>The <code>ZegoStreamRelayCDNInfo</code> object includes stream forwarding attributes. You can find the detailed attribute definitions in this  section:</p>\n\n<div class="table-wrapper-paragraph"><table>\n<thead>\n<tr>\n<th>Parameter</th>\n<th>Description</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>url</td>\n<td>The CDN URL that the streams be published to.</td>\n</tr>\n<tr>\n<td>state</td>\n<td>The status of stream forwarding.</td>\n</tr>\n<tr>\n<td>updateReason</td>\n<td>The cause of stream forwarding status changes.</td>\n</tr>\n<tr>\n<td>stateTime</td>\n<td>When the stream forwarding status changes.</td>\n</tr>\n</tbody>\n</table></div>\n\n<p>The following table describes the value of the <code>state</code> property:</p>\n\n<div class="table-wrapper-paragraph"><table>\n  <colgroup>\n    <col>\n    <col>\n  </colgroup>\n  <tbody>\n<tr>\n    <th>Enumerated value</th>\n    <th>Description</th>\n  </tr>\n  <tr>\n    <td>ZegoStreamRelayCDNStateNoRelay</td>\n    <td>This state indicates no streams forwarded to CDN, which appears before a stream forwarding. This state also appears if an exception lasting for a while, for example, the CDN URL is incorrect.</td>\n  </tr>\n  <tr>\n    <td>ZegoStreamRelayCDNStateRelayRequesting</td>\n    <td>This state indicates a stream forwarding is being requested, which appears when you perform the stream forwarding operation successfully. (Generally, the user can set a corresponding UI to indicate the current state.) This state also appears when the SDK automatically tries to recover the operation when stream forwarding failed due to network errors.</td>\n  </tr>\n  <tr>\n    <td>ZegoStreamRelayCDNStateRelaying</td>\n    <td>This state indicates a stream is being forwarded to CDN, which appears when a stream is forwarded to CDN successfully.</td>\n  </tr>\n</tbody>\n</table></div>\n\n<p>The following table describes the value of the <code>updateReason</code> property:</p>\n\n<div class="table-wrapper-paragraph"><table>\n<thead>\n<tr>\n<th>Enumerated value</th>\n<th>Description</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>ZegoStreamRelayCDNUpdateReasonNone</td>\n<td>None</td>\n</tr>\n<tr>\n<td>ZegoStreamRelayCDNUpdateReasonServerError</td>\n<td>Server error.</td>\n</tr>\n<tr>\n<td>ZegoStreamRelayCDNUpdateReasonHandshakeFailed</td>\n<td>Handshake failed.</td>\n</tr>\n<tr>\n<td>ZegoStreamRelayCDNUpdateReasonAccessPointError</td>\n<td>Access point error.</td>\n</tr>\n<tr>\n<td>ZegoStreamRelayCDNUpdateReasonCreateStreamFailed</td>\n<td>Failed to create a stream.</td>\n</tr>\n<tr>\n<td>ZegoStreamRelayCDNUpdateReasonBadName</td>\n<td>Bad name.</td>\n</tr>\n<tr>\n<td>ZegoStreamRelayCDNUpdateReasonCDNServerDisconnected</td>\n<td>The CDN server initiates a disconnect.</td>\n</tr>\n<tr>\n<td>ZegoStreamRelayCDNUpdateReasonDisconnected</td>\n<td>Disconnected.</td>\n</tr>\n<tr>\n<td>ZegoStreamRelayCDNUpdateReasonMixStreamAllInputStreamClosed</td>\n<td>All input stream mixing sessions closed.</td>\n</tr>\n<tr>\n<td>ZegoStreamRelayCDNUpdateReasonMixStreamAllInputStreamNoData</td>\n<td>No data exists in all input mixed streams.</td>\n</tr>\n<tr>\n<td>ZegoStreamRelayCDNUpdateReasonMixStreamServerInternalError</td>\n<td>Internal error occurred on stream mixing server.</td>\n</tr>\n</tbody>\n</table></div>\n\n',a.body_markdown="![](https://resource.zegocloud.com/content_resource/2022/05/18/16509779206897.jpg)\n\n## Introduction\n\nThe ZEGOCLOUD Express-Video SDK provides the ability to monitor the streaming quality during stream publishing and stream playing. After stream publishing or stream playing is started, the SDK triggers the corresponding streaming quality callback every 3 seconds, and client applications can obtain real-time streaming quality data by listening for these callbacks.\n\n\n## Prerequisites\n\nBefore you monitor the streaming information, make sure you complete the following: \n- Create a project in [ZEGOCLOUD Admin Console](https://console.zegocloud.com?_source=medium&article=5), and get the AppID of your project.\n- The ZEGO Express SDK has been integrated into the project. For details, see [Integration](https://docs.zegocloud.com/article/195?_source=medium&article=5) and [Implementation](https://docs.zegocloud.com/article/10836?_source=medium&article=5).\n\n\n## Monitor the quality of stream publishing \n\nTo monitor the quality of the stream publishing, listen for the `onPublisherQualityUpdate` callback. After stream publishing is started, this callback will be triggered every 3 seconds to provide the stream publishing quality data. \n\nYou can obtain stream publishing quality data through this callback to monitor the health of stream publishing in real time and display the upstreaming network quality on your application's UI. \n\n\n```objc\n// You can focus on specific quality attributes and report them to your business server, or focus on a specific field of an object for giving friendly notes for users.\n// The parameter 'quality' has many attributes. If you do not want to handle every one of them, you can just focus on the 'level' attribute, a comprehensive quality indicator calculated by the SDK based on other quality attributes.\n- (void)onPublisherQualityUpdate:(ZegoPublishStreamQuality *)quality streamID:(NSString *)streamID {\n}\n```\n\n### The stream publishing quality attributes in details\n\n\nThe stream publishing quality includes the audio and video capture frame rate, bitrate, RTT, packet loss rate, and others of capturing and encoding stages of the stream publishing process.\n\nThe `ZegoPublishStreamQuality` object includes quality attributes of different stages of the stream publishing process. You can find the detailed attribute definitions in this section:\n\n#### Quality attributes of audio and video capturing\n\n\nThe following attributes reflect the stream publishing quality of audio and video capturing, which is close to the user's subjective perception of the local preview. \n\n- `audioCaptureFPS`: The audio capture frame rate (fps).\n- `videoCaptureFPS`: The video capture frame rate (fps).\n\n#### Quality attributes of video encoding \n\nThe stream publishing quality attributes of video encoding of the encoding stage is as follow:\n\n- `videoEncodeFPS`: The target output frame rate (fps) of video encoding.\n\n#### Quality attributes of stream transmission\n\nThe stream publishing quality attributes below reflect the quality of stream transmission (sending), which is related to the encoding bitrate and the current network quality. \n\n\n- `audioSendFPS`: The actual audio transmission frame rate (fps). \n- `audioKBPS`: The actual audio transmission bitrate (kbps).\n- `videoSendFPS`: The actual video transmission frame rate (fps).\n- `videoKBPS`: The actual video transmission bitrate (kbps).\n- `rtt`: The rount-trip time (ms) from the client device to the ZEGOCLOUD server.\n- `packetLostRate`: The client-side upstreaming packet loss rate.\n\n#### Quality attributes of the total number of bytes\n\nThe stream publishing quality attributes below reflect the total number of bytes sent.\n\n- `totalSendBytes`: The total number of bytes sent, including audio, video, SEI.\n- `audioSendBytes`: The number of audio bytes sent.\n- `videoSendBytes`: The number of video bytes sent.\n\n#### Quality attributes of encoding information\n\nThe stream publishing quality attributes below reflect the encoding information:\n\n- `videoCodecID`: The video codec.\n- `isHardwareEncoder`: Whether to enable hardware encoding.\n\n#### Quality attributes of published stream quality level\n\nThe parameter `quality` has many attributes. If you do not want to handle every one of them, you can just focus on the `level` attribute, a comprehensive upstreaming network qualityindicator calculated by the `ZegoExpressEngine` based on other quality attributes. \n\nThe following table describes the `level` fields: \n\n|Field|Description|\n|-|-|\n|ZegoStreamQualityLevelExcellent|Streaming quality: Excellent|\n|ZegoStreamQualityLevelGood|Streaming quality: Good|\n|ZegoStreamQualityLevelMedium|Streaming quality: Fair|\n|ZegoStreamQualityLevelBad|Streaming quality: Poor|\n|ZegoStreamQualityLevelDie|Streaming quality: Abnormal|\n\n\n## Monitor the quality of stream playing \n\n\nTo monitor the quality of the stream playing, listen for the `onPlayerQualityUpdate` callback. After stream playing is started, this callback will be triggered every 3 seconds to provide the stream playing quality data. \n\n```objc\n- (void)onPlayerStateUpdate:(ZegoPlayerState)state errorCode:(int)errorCode extendedData:(NSDictionary *)extendedData streamID:(NSString *)streamID {\n     // You can focus on specific quality attributes and report them to your business server, or focus on a specific field of an object for giving friendly notes for users.\n     // The parameter 'quality' has many attributes. If you do not want to handle every one of them, you can just focus on the 'level' attribute, a comprehensive quality indicator calculated by the SDK based on other quality attributes.\n}\n```\n\n### The stream playing quality attributes in details\n\nThe stream playing quality includes the audio and video frame rate, bitrate, delay, packet loss rate, and others of receiving, decoding, and rendering stages of the stream playing process.\n\nThe `ZegoPlayStreamQuality` object includes quality attributes of different stages of the stream playing process. You can find the detailed attribute definitions in this section:\n\n#### Quality attributes of stream receiving\n\n\nThe stream playing quality attributes below reflect the quality of stream receiving, which is related to the quality of stream transmission (sending) and the current network quality. \n\n\n- `audioRecvFPS`: The actual audio receiving frame rate (fps).\n- `audioDejitterFPS`: The audio dejitter frame rate (f/s).\n- `audioKBPS`: The actual audio receiving bitrate (kbps).\n- `audioBreakRate`: The actual received audio break rate (number of breaks / every 10 seconds).\n- `videoRecvFPS`: The actual video receiving frame rate (fps).\n- `videoDejitterFPS`: The video dejitter frame rate (f/s).\n- `videoKBPS`: The actual video receiving bitrate (kbps).\n- `videoBreakRate`: The actual received video break rate (number of breaks / every 10 seconds).\n- `packetLostRate`: The client-side downstreaming packet loss rate, in percentage, 0.0 - 1.0. \n- `rtt`: The round-trip time (ms) from the client device to the ZEGOCLOUD server.\n- `avTimestampDiff`: The difference between the video timestamp and the audio timestamp, used to reflect the synchronization of audio and video, in milliseconds. This value is less than 0 means the number of milliseconds that the video leads the audio, greater than 0 means the number of milliseconds that the video lags the audio, and 0 means no difference. When the absolute value is less than 200, it can basically be regarded as synchronized audio and video, when the absolute value is greater than 200 for 10 consecutive seconds, it can be regarded as abnormal.\n- `peerToPeerDelay`: The delay from peer to peer, in milliseconds.\n- `peerToPeerPacketLostRate`: The packet loss rate from peer to peer, in percentage, 0.0 - 1.0.\n\n#### Quality attributes of stream rendering\n\n\nThe stream playing attributes below reflect the streaming quality at the stream rendering stage, which is close to the viewer's subjective perception. They are affected by the audio/video codec, and the values may be lower than the actual audio/video receiving frame rates.\n\n- `audioRenderFPS`: The audio rendering frame rate (fps). \n- `videoRenderFPS`: The video rendering frame rate (fps).\n- `delay`: The delay after the data is received by the local end, in milliseconds. \n\n#### Quality attributes of the total number of bytes\n\nThe stream publishing quality attributes below reflect the total number of bytes received.\n\n- `totalRecvBytes`: The total number of bytes received, including audio, video, SEI.\n- `audioRecvBytes`: The number of audio bytes received.\n- `videoRecvBytes`: The number of video bytes received\n\n#### Quality attributes of decoding information\n\n\nThe stream playing quality attributes below reflect the decoding information:\n\n- `videoCodecID`: The video codec.\n- `isHardwareDecode`: Whether to enable hardware decoding.\n\n## Monitor the status of stream publishing/playing\n\n\n### Callback for updates on stream publishing status\n\n\nAfter stream publishing starts, if the status changes, the SDK sends out the event notification through the `onPublisherStateUpdate` callback. To monitor the status of stream publishing, listen for this callback.\n\n```objc\n- (void)onPublisherStateUpdate:(ZegoPublisherState)state errorCode:(int)errorCode extendedData:(NSDictionary *)extendedData streamID:(NSString *)streamID {\n        // In this callback, when the [state] is [ZegoPublisherStateNoPublish] and the [errorCode] is not 0, indicates the stream publishing is failed. And the SDK won't retry to publish the stream. At this time, user can set a corresponding UI to indicate the current state.  \n        // In this callback, when the [state] is [ZegoPublisherStatePublishRequesting] and the [errorCode] is not 0, indicates the stream publishing retry is ongoing. But if the stream publishing retry still fails after the default reconnection duration, it won't try again and will send out a failure notification.\n}\n```\n\n\nYou can determine the user's network status during stream publishing based on the `state` property.\n\nThe following table describes the value of the `state` property and the corresponding user status:\n\n\n<table>\n  <colgroup>\n    <col width=\"35%\">\n    <col width=\"65%\">\n  </colgroup>\n  <tbody><tr>\n    <th>Enumerated value</th>\n    <th>Description</th>\n  </tr>\n  <tr>\n    <td>ZegoPublisherStateNoPublish</td>\n    <td>This state indicates no streams published, which appears before a stream publishing. This state also appears if a steady-state exception occurs during the stream publishing operation, for example, the AppID and Token are incorrect, or the stream with the same ID is already published by another user.</td>\n  </tr>\n  <tr>\n    <td>ZegoPublisherStatePublishRequesting</td>\n    <td>This state indicates a stream publishing is being requested, which appears when you perform the stream publishing operation successfully. (Generally, the user can set a corresponding UI to indicate the current state.) This state also appears when the SDK automatically tries to recover the operation when stream publishing failed due to network errors.</td>\n  </tr>\n  <tr>\n    <td>ZegoPublisherStatePublishing</td>\n    <td>This state indicates a stream is being published, which appears when a stream is published successfully. In this state, users can communicate normally.</td>\n  </tr>\n</tbody></table>\n\n\nThe parameter `extendedData` provides extended information for status updates. If you are using the ZEGOCLOUD CDN, the key of this parameter is `flv_url_list`, `rtmp_url_list`, and `hls_url_list`, which correspond to the stream playing URL of `FLV`, `RTMP`, and `HLS` protocols respectively.\n\n\n### Callback for updates on stream playing status\n\n\nAfter stream playing starts, if the status changes, the SDK sends out the event notification through the `onPlayerStateUpdate` callback. To monitor the status of stream playing, listen for this callback.\n\n\n```objc\n- (void)onPlayerStateUpdate:(ZegoPlayerState)state errorCode:(int)errorCode extendedData:(NSDictionary *)extendedData streamID:(NSString *)streamID {\n        // In this callback, when the [state] is [ZegoPlayerStateNoPlay] and the [errorCode] is not 0, indicates the stream playing is failed. And the SDK won't retry to play the stream. At this time, user can set a corresponding UI to indicate the current state. \n        // In this callback, when the [state] is [ZegoPlayerStatePlayRequesting] and the [errorCode] is not 0, indicates the stream playing retry is ongoing. But if the stream playing retry still fails after the default reconnection duration, it won't try again and will send out a failure notification.\n}\n```\n\nYou can determine the user's network status during stream playing based on the `state` property.\n\nThe following table describes the value of the `state` property and the corresponding user status:\n\n<table>\n  <colgroup>\n    <col width=\"35%\">\n    <col width=\"65%\">\n  </colgroup>\n  <tbody><tr>\n    <th>Enumerated value</th>\n    <th>Description</th>\n  </tr>\n  <tr>\n    <td>ZegoPlayerStateNoPlay</td>\n    <td>This state indicates no streams played, which appears before a stream playing. This state also appears if a steady-state exception occurs during the stream playing operation, for example, the AppID and Token are incorrect.</td>\n  </tr>\n  <tr>\n    <td>ZegoPlayerStatePlayRequesting</td>\n    <td>This state indicates a stream playing is being requested, which appears when you perform the stream playing operation successfully. (Generally, the user can set a corresponding UI to indicate the current state.) This state also appears when the SDK automatically tries to recover the operation when stream playing failed due to network errors.</td>\n  </tr>\n  <tr>\n    <td>ZegoPlayerStatePlaying</td>\n    <td>This state indicates a stream is being played, which appears when a stream is played successfully. In this state, users can communicate normally.</td>\n  </tr>\n</tbody></table>\n\n\n\n## Callback on capturing the first frame of audio \n\nTo receive the event notification when the first frame of audio is captured, listen for the `onPublisherCapturedAudioFirstFrame` callback.\n\nAfter stream publishing starts, the SDK sends out the event notification through this callback when the first frame of audio is captured.\n\n<div class='mk-hint'>\n\nWhen you enable stream publishing or local preview for the first time, the SDK engine starts to capture the audio data of the local device, and the SDK sends out event notification through this callback.\nYou can tell whether the audio data has been captured successfully according to the returned event notification. If no notifications are received, it means the audio device is being used or the device is abnormal.\n\n</div>\n\n```objc\n- (void)onPublisherCapturedAudioFirstFrame {\n\n}\n```\n\n## Callback on receiving the first frame of audio\n\n\nTo receive the event notification when the first frame of audio is received, listen for the `onPlayerRecvAudioFirstFrame` callback.\n\nAfter stream playing starts, the SDK sends out the event notification through this callback when the first frame of audio is received.\n\n```objc\n- (void)onPlayerRecvAudioFirstFrame:(NSString *)streamID {\n}\n```\n\n## Monitor the status of the stream forwarding via CDN\n\n### Callback for updates on the status of CDN URL \n\nTo receive event notification when the specified CDN URL changes (adds new URL or removes existing URL), listen for the `onPublisherRelayCDNStateUpdate` callback.\n\nAfter the ZEGOCLOUD RTC Server forwards the stream to CDN, the SDK sends out event notification when the status of streams forwarded to CDN changes, for example, the stream forwarding stops or the forwarding operation retries. \n\n\n<div class='mk-hint'>\n\nYou can tell whether the audio and video streams forwarded to CDN are normal according to this callback:\n- If the returned result of this callback indicates it is abnormal, locate the cause of the audio and video streams forwarded to CDN and perform a disaster recovery operation accordingly.\n- If you do not know the cause of the exception, contact ZEGOCLOUD technical support for further analysis.\n</div>\n\n```objc\n- (void)onPublisherRelayCDNStateUpdate:(NSArray<ZegoStreamRelayCDNInfo *> *)infoList streamID:(NSString *)streamID {\n}\n```\n\n### The stream forwarding attributes in details \n\nThe stream forwarding information includes the CDN URL, forwarding status, the cause of stream forwarding status, and when the status changes.\n\nThe `ZegoStreamRelayCDNInfo` object includes stream forwarding attributes. You can find the detailed attribute definitions in this  section:\n\n\n|Parameter|Description|\n|-|-|\n|url| The CDN URL that the streams be published to. |\n|state|The status of stream forwarding. |\n|updateReason|The cause of stream forwarding status changes.|\n|stateTime|When the stream forwarding status changes.|\n\n\nThe following table describes the value of the `state` property:\n\n<table>\n  <colgroup>\n    <col width=\"44%\">\n    <col width=\"56%\">\n  </colgroup>\n  <tbody><tr>\n    <th>Enumerated value</th>\n    <th>Description</th>\n  </tr>\n  <tr>\n    <td>ZegoStreamRelayCDNStateNoRelay</td>\n    <td>This state indicates no streams forwarded to CDN, which appears before a stream forwarding. This state also appears if an exception lasting for a while, for example, the CDN URL is incorrect.</td>\n  </tr>\n  <tr>\n    <td>ZegoStreamRelayCDNStateRelayRequesting</td>\n    <td>This state indicates a stream forwarding is being requested, which appears when you perform the stream forwarding operation successfully. (Generally, the user can set a corresponding UI to indicate the current state.) This state also appears when the SDK automatically tries to recover the operation when stream forwarding failed due to network errors.</td>\n  </tr>\n  <tr>\n    <td>ZegoStreamRelayCDNStateRelaying</td>\n    <td>This state indicates a stream is being forwarded to CDN, which appears when a stream is forwarded to CDN successfully.</td>\n  </tr>\n</tbody></table>\n\n\n\nThe following table describes the value of the `updateReason` property:\n\n|Enumerated value|Description|\n|-|-|\n|ZegoStreamRelayCDNUpdateReasonNone|None|\n|ZegoStreamRelayCDNUpdateReasonServerError|Server error.|\n|ZegoStreamRelayCDNUpdateReasonHandshakeFailed|Handshake failed.|\n|ZegoStreamRelayCDNUpdateReasonAccessPointError|Access point error.|\n|ZegoStreamRelayCDNUpdateReasonCreateStreamFailed|Failed to create a stream.|\n|ZegoStreamRelayCDNUpdateReasonBadName|Bad name.|\n|ZegoStreamRelayCDNUpdateReasonCDNServerDisconnected| The CDN server initiates a disconnect.|\n|ZegoStreamRelayCDNUpdateReasonDisconnected|Disconnected. |\n|ZegoStreamRelayCDNUpdateReasonMixStreamAllInputStreamClosed| All input stream mixing sessions closed. |\n|ZegoStreamRelayCDNUpdateReasonMixStreamAllInputStreamNoData| No data exists in all input mixed streams. |\n|ZegoStreamRelayCDNUpdateReasonMixStreamServerInternalError|Internal error occurred on stream mixing server. |\n",a.user={name:"ZEGOCLOUD Dev",username:"tanyaqxy_30",twitter_username:"tanyaqxy",github_username:e,website_url:e,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--a3DoOV56--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/843289/930d0d36-37ec-4d5a-8094-ccb0c68fddbc.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--STpktYsr--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/user/profile_image/843289/930d0d36-37ec-4d5a-8094-ccb0c68fddbc.png"},a.organization={name:"ZEGOCLOUD",username:s,slug:s,profile_image:"https://res.cloudinary.com/practicaldev/image/fetch/s--AayPfLXv--/c_fill,f_auto,fl_progressive,h_640,q_auto,w_640/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/5598/9ce42aa7-84ae-4bd7-87c0-f6d5d3b92731.png",profile_image_90:"https://res.cloudinary.com/practicaldev/image/fetch/s--7Tr2V_1T--/c_fill,f_auto,fl_progressive,h_90,q_auto,w_90/https://dev-to-uploads.s3.amazonaws.com/uploads/organization/profile_image/5598/9ce42aa7-84ae-4bd7-87c0-f6d5d3b92731.png"},{layout:"default",data:[{}],fetch:{"data-v-70afb46a:0":{article:a}},error:e,state:{currentArticle:a},serverRendered:!0,routePath:"/tanyaqxy_30/1089735",config:{_app:{basePath:"/nuxtstop/",assetsPath:"/nuxtstop/_nuxt/",cdnURL:e}}}}(null,"2022-05-19T10:00:05Z",{},"https://dev.to/zegocloud/how-to-use-zegocloud-sdk-to-implement-call-quality-monitoring-in-ios-22kl","zegocloud")</script><script src="/nuxtstop/_nuxt/f6e87fb.js" defer></script><script src="/nuxtstop/_nuxt/dc9ce94.js" defer></script><script src="/nuxtstop/_nuxt/6474719.js" defer></script><script src="/nuxtstop/_nuxt/9b75090.js" defer></script><script src="/nuxtstop/_nuxt/18df600.js" defer></script>
+  </body>
+</html>
