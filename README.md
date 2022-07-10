@@ -16,6 +16,7 @@ This project is my first introduction to Nuxt.js as a framework for Vue.js.
 
 ## What I learned
 
+- fetch() is called on server-side when rendering the route, and on client-side when navigating.
 - I learned how to use $fetchState for showing nice placeholders while data is fetching on the client side
   - Thanks to $fetchState.pending provided by the fetch hook we can use this flag to display a placeholder when fetch is being called on client-side.
   - this was done using the vue-content-placeholders package by Michał Sajnóg as a plugin
